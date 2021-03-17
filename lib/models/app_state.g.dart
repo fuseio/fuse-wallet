@@ -14,8 +14,9 @@ _$_AppState _$_$_AppStateFromJson(Map<String, dynamic> json) {
         .fromJson(json['cashWalletState'] as Map<String, dynamic>),
     proWalletState: const ProWalletStateConverter()
         .fromJson(json['proWalletState'] as Map<String, dynamic>),
-    swapState: const SwapStateConverter()
-        .fromJson(json['swapState'] as Map<String, dynamic>),
+    swapState: json['swapState'] == null
+        ? null
+        : SwapState.fromJson(json['swapState']),
   );
 }
 
@@ -26,5 +27,5 @@ Map<String, dynamic> _$_$_AppStateToJson(_$_AppState instance) =>
           const CashWalletStateConverter().toJson(instance.cashWalletState),
       'proWalletState':
           const ProWalletStateConverter().toJson(instance.proWalletState),
-      'swapState': const SwapStateConverter().toJson(instance.swapState),
+      'swapState': instance.swapState?.toJson(),
     };

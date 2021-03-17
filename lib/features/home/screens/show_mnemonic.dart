@@ -48,11 +48,11 @@ class ShowMnemonic extends StatelessWidget {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
                               fontFamily: 'Europa',
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
-                            children: <InlineSpan>[
+                            children: [
                               TextSpan(
                                 text: I18n.of(context).important + ' ',
                               ),
@@ -175,7 +175,7 @@ class ShowMnemonic extends StatelessWidget {
                 Center(
                   child: PrimaryButton(
                     label: I18n.of(context).next_button,
-                    onPressed: () async {
+                    onPressed: () {
                       ExtendedNavigator.named('homeRouter')
                           .push(HomeRoutes.verifyMnemonic);
                     },

@@ -1,3 +1,4 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,7 @@ class TradeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
+                  flex: 1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,37 +87,37 @@ class TradeCard extends StatelessWidget {
                   ),
                 ),
                 Flexible(
-                  child: Container(
-                    child: TextFormField(
-                      autofocus: false,
-                      textAlignVertical: TextAlignVertical.center,
-                      textAlign: TextAlign.end,
-                      onChanged: onChanged,
-                      controller: textEditingController,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: TextInputType.numberWithOptions(
-                        signed: true,
-                        decimal: true,
-                      ),
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: isSwapped
-                            ? Theme.of(context).canvasColor
-                            : Theme.of(context).colorScheme.secondary,
-                        hintText: '0',
-                        labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28),
-                        hintStyle: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28),
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                      ),
+                  flex: 2,
+                  child: AutoSizeTextField(
+                    maxLines: 1,
+                    autofocus: false,
+                    textAlignVertical: TextAlignVertical.center,
+                    textAlign: TextAlign.end,
+                    onChanged: onChanged,
+                    controller: textEditingController,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.numberWithOptions(
+                      signed: true,
+                      decimal: true,
+                    ),
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      fillColor: isSwapped
+                          ? Theme.of(context).canvasColor
+                          : Theme.of(context).colorScheme.secondary,
+                      hintText: '0',
+                      labelStyle: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 28),
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 28),
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
                     ),
                   ),
                 )

@@ -13,20 +13,9 @@ abstract class SwapState implements _$SwapState {
 
   @JsonSerializable()
   factory SwapState({
-    @JsonKey(ignore: true) @Default([]) List<Token> tokensList,
+    @JsonKey(ignore: true) @Default({}) Map<String, Token> tokens,
+    @Default({}) Map<String, String> tokensImages,
   }) = _SwapState;
 
   factory SwapState.fromJson(dynamic json) => _$SwapStateFromJson(json);
-}
-
-class SwapStateConverter
-    implements JsonConverter<SwapState, Map<String, dynamic>> {
-  const SwapStateConverter();
-
-  @override
-  SwapState fromJson(Map<String, dynamic> json) =>
-      json != null ? SwapState.fromJson(json) : SwapState(tokensList: []);
-
-  @override
-  Map<String, dynamic> toJson(SwapState instance) => instance?.toJson();
 }

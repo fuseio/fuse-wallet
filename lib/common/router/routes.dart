@@ -8,8 +8,8 @@ import 'package:fusecash/features/onboard/screens/username_screen.dart';
 import 'package:fusecash/features/onboard/screens/signup_screen.dart';
 import 'package:fusecash/features/onboard/screens/verify_screen.dart';
 import 'package:fusecash/features/screens/pincode_screen.dart';
+import 'package:fusecash/features/screens/on_boarding_screen.dart';
 import 'package:fusecash/features/screens/splash_screen.dart';
-import 'package:fusecash/features/screens/lock_screen.dart';
 import 'package:fusecash/features/screens/send_amount.dart';
 import 'package:fusecash/features/screens/send_review.dart';
 import 'package:fusecash/features/screens/send_success.dart';
@@ -19,11 +19,11 @@ import 'package:fusecash/features/screens/webview_screen.dart';
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
   routes: [
-    MaterialRoute(page: LockScreen, name: 'lockScreen', initial: true),
+    MaterialRoute(page: SplashScreen, initial: true),
     MaterialRoute(page: SecurityScreen, name: 'securityScreen'),
     MaterialRoute(page: PinCodeScreen),
     MaterialRoute(page: RecoveryPage),
-    MaterialRoute(page: SplashScreen),
+    MaterialRoute(page: OnBoardingScreen),
     MaterialRoute(page: SignUpScreen),
     MaterialRoute(page: VerifyScreen),
     MaterialRoute(page: UserNameScreen),

@@ -1,14 +1,17 @@
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/features/onboard/widegts/create_or_restore.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/redux/viewsmodels/backup.dart';
+import 'package:flutter/material.dart';
+import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/onboard/widegts/flare_controller.dart';
-import 'package:fusecash/features/onboard/widegts/on_boarding_pages.dart';
-import 'package:fusecash/redux/viewsmodels/splash.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:fusecash/models/user_state.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/utils/biometric_local_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -16,114 +19,135 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  PageController _pageController;
-  static const _kDuration = Duration(milliseconds: 2000);
-  static const _kCurve = Curves.ease;
-  HouseController _slideController;
-  ValueNotifier<double> notifier;
-
-  void _onScroll() {
-    _slideController.rooms = _pageController.page;
-  }
+  BiometricAuth _biometricType;
+  Flushbar flush;
 
   @override
   void initState() {
     super.initState();
-    _slideController = HouseController(onUpdated: _update);
-
-    _pageController = PageController(
-      initialPage: 0,
-      viewportFraction: 0.9,
-    )..addListener(_onScroll);
+    _checkBiometrical();
   }
 
-  _update() => setState(() {});
+  Future<void> _checkBiometrical() async {
+    _biometricType = await BiometricUtils.getAvailableBiometrics();
+    if (_biometricType != BiometricAuth.none) {
+      setState(() {
+        _biometricType = _biometricType;
+      });
+    }
+  }
 
-  void gotoPage(page) {
-    _pageController.animateToPage(
-      page,
-      duration: _kDuration,
-      curve: _kCurve,
+  onInit(Store<AppState> store) async {
+    String privateKey = store?.state?.userState?.privateKey ?? '';
+    String jwtToken = store?.state?.userState?.jwtToken ?? '';
+    bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
+    if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
+      ExtendedNavigator.root.replace(Routes.splashScreen);
+    } else {
+      UserState userState = store.state.userState;
+      if (userState?.authType != BiometricAuth.none) {
+        store.dispatch(getWalletAddressesCall());
+        store.dispatch(identifyCall());
+        store.dispatch(loadContacts());
+      }
+      if (BiometricAuth.faceID == userState.authType ||
+          BiometricAuth.touchID == userState.authType) {
+        await _showLocalAuthPopup(
+          BiometricUtils.getBiometricString(_biometricType),
+        );
+      } else if (userState?.authType == BiometricAuth.pincode) {
+        ExtendedNavigator.root.replace(Routes.pinCodeScreen);
+      } else {
+        ExtendedNavigator.root.replace(Routes.homeScreen);
+      }
+    }
+  }
+
+  Future<void> _showLocalAuthPopup(String biometric) async {
+    await BiometricUtils.showDefaultPopupCheckBiometricAuth(
+      message: 'Please use $biometric to unlock!',
+      stickyAuth: true,
+      callback: (bool result) {
+        if (result) {
+          ExtendedNavigator.root.replace(Routes.homeScreen);
+        } else {
+          flush = Flushbar<bool>(
+            title: I18n.of(context).auth_failed_title,
+            message: I18n.of(context).auth_failed_message,
+            icon: Icon(
+              Icons.info_outline,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            mainButton: FlatButton(
+              onPressed: () async {
+                flush.dismiss(true);
+              },
+              child: Text(
+                I18n.of(context).try_again,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+          )..show(context).then(
+              (result) async {
+                if (result) {
+                  await _showLocalAuthPopup(
+                    BiometricUtils.getBiometricString(_biometricType),
+                  );
+                }
+              },
+            );
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> welcomeScreens = [
-      WelcomeFrame(
-        title: I18n.of(context).simple,
-        subTitle: I18n.of(context).intro_text_one,
-      ),
-      WelcomeFrame(
-        title: I18n.of(context).useful,
-        subTitle: I18n.of(context).intro_text_two,
-      ),
-      WelcomeFrame(
-        title: I18n.of(context).smart,
-        subTitle: I18n.of(context).intro_text_three,
-      ),
-      CreateWallet()
-    ];
-    return StoreConnector<AppState, SplashViewModel>(
-      onInitialBuild: (viewModel) {
-        Segment.screen(screenName: '/splash-screen');
-      },
+    return StoreConnector<AppState, LockScreenViewModel>(
       distinct: true,
-      converter: SplashViewModel.fromStore,
+      onInit: onInit,
+      converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            centerTitle: true,
+            title: SvgPicture.asset(
+              'assets/images/fusecash.svg',
+              width: 140,
+              // height: 28,
+            ),
+          ),
           body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Theme.of(context).colorScheme.primary,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Expanded(
-                  flex: 18,
-                  child: Container(
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(
-                            bottom: 100,
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: FlareActor(
-                            "assets/images/animation.flr",
-                            alignment: Alignment.center,
-                            fit: BoxFit.contain,
-                            controller: _slideController,
-                          ),
-                        ),
-                        PageView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          controller: _pageController,
-                          itemCount: welcomeScreens.length,
-                          itemBuilder: (_, index) => welcomeScreens[index % 4],
-                        ),
-                        Positioned(
-                          bottom: 15.0,
-                          left: 0.0,
-                          right: 0.0,
-                          child: Container(
-                            padding: EdgeInsets.only(left: 40.0, bottom: 20.0),
-                            child: SmoothPageIndicator(
-                              controller: _pageController,
-                              onDotClicked: gotoPage,
-                              count: welcomeScreens.length,
-                              effect: JumpingDotEffect(
-                                dotWidth: 10.0,
-                                dotHeight: 10.0,
-                                dotColor:
-                                    Theme.of(context).colorScheme.onSurface,
-                                activeDotColor:
-                                    Theme.of(context).colorScheme.primary,
-                              ),
+                Container(
+                  height: MediaQuery.of(context).size.height * .5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'assets/images/splash.png',
+                              width: 85,
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
+                )
               ],
             ),
           ),

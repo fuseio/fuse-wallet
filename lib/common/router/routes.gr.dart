@@ -18,7 +18,7 @@ import '../../features/onboard/screens/signup_screen.dart';
 import '../../features/onboard/screens/username_screen.dart';
 import '../../features/onboard/screens/verify_screen.dart';
 import '../../features/screens/home_screen.dart';
-import '../../features/screens/lock_screen.dart';
+import '../../features/screens/on_boarding_screen.dart';
 import '../../features/screens/pincode_screen.dart';
 import '../../features/screens/send_amount.dart';
 import '../../features/screens/send_review.dart';
@@ -30,11 +30,11 @@ import '../../models/actions/wallet_action.dart';
 import 'route_guards.dart';
 
 class Routes {
-  static const String lockScreen = '/';
+  static const String splashScreen = '/';
   static const String securityScreen = '/security-screen';
   static const String pinCodeScreen = '/pin-code-screen';
   static const String recoveryPage = '/recovery-page';
-  static const String splashScreen = '/splash-screen';
+  static const String onBoardingScreen = '/on-boarding-screen';
   static const String signUpScreen = '/sign-up-screen';
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
@@ -46,11 +46,11 @@ class Routes {
   static const String sendSuccessScreen = '/send-success-screen';
   static const String unknownRouteScreen = '*';
   static const all = <String>{
-    lockScreen,
+    splashScreen,
     securityScreen,
     pinCodeScreen,
     recoveryPage,
-    splashScreen,
+    onBoardingScreen,
     signUpScreen,
     verifyScreen,
     userNameScreen,
@@ -68,11 +68,11 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.lockScreen, page: LockScreen),
+    RouteDef(Routes.splashScreen, page: SplashScreen),
     RouteDef(Routes.securityScreen, page: SecurityScreen),
     RouteDef(Routes.pinCodeScreen, page: PinCodeScreen),
     RouteDef(Routes.recoveryPage, page: RecoveryPage),
-    RouteDef(Routes.splashScreen, page: SplashScreen),
+    RouteDef(Routes.onBoardingScreen, page: OnBoardingScreen),
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
@@ -91,9 +91,9 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    LockScreen: (data) {
+    SplashScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => LockScreen(),
+        builder: (context) => SplashScreen(),
         settings: data,
       );
     },
@@ -115,9 +115,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    SplashScreen: (data) {
+    OnBoardingScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SplashScreen(),
+        builder: (context) => OnBoardingScreen(),
         settings: data,
       );
     },
@@ -222,7 +222,7 @@ class Router extends RouterBase {
 /// *************************************************************************
 
 extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
-  Future<dynamic> pushLockScreen() => push<dynamic>(Routes.lockScreen);
+  Future<dynamic> pushSplashScreen() => push<dynamic>(Routes.splashScreen);
 
   Future<dynamic> pushSecurityScreen() => push<dynamic>(Routes.securityScreen);
 
@@ -230,7 +230,8 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushRecoveryPage() => push<dynamic>(Routes.recoveryPage);
 
-  Future<dynamic> pushSplashScreen() => push<dynamic>(Routes.splashScreen);
+  Future<dynamic> pushOnBoardingScreen() =>
+      push<dynamic>(Routes.onBoardingScreen);
 
   Future<dynamic> pushSignUpScreen() => push<dynamic>(Routes.signUpScreen);
 

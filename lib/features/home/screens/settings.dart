@@ -57,7 +57,8 @@ class SettingsScreen extends StatelessWidget {
                           Divider(),
                           getListTile(I18n.of(context).logout, () {
                             viewModel.logout();
-                            ExtendedNavigator.root.replace(Routes.splashScreen);
+                            ExtendedNavigator.root
+                                .replace(Routes.onBoardingScreen);
                           })
                         ],
                       ),

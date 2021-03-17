@@ -16,12 +16,15 @@ class SwapViewModel extends Equatable {
   static SwapViewModel fromStore(Store<AppState> store) {
     return SwapViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: (store.state.swapState?.tokensList ?? [])
+      tokens: (store.state.swapState?.tokens?.values?.toList() ?? [])
         ..where((Token token) =>
             num.parse(formatValue(token?.amount, token?.decimals,
                     withPrecision: true))
                 .compareTo(0) ==
-            1).toList(),
+            1)
+        ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
+              tokenA?.amount ?? BigInt.zero,
+            )),
     );
   }
 

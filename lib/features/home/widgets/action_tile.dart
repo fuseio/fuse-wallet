@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
@@ -7,6 +8,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/viewsmodels/transfer_tile.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/transfer.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -45,10 +47,14 @@ class ActionTile extends StatelessWidget {
           fiatProcess: (value) => null,
           joinCommunity: (value) =>
               viewModel.communities[value.communityAddress.toLowerCase()],
-          fiatDeposit: (value) => null,
+          fiatDeposit: (value) =>
+              viewModel.communities[defaultCommunityAddress.toLowerCase()],
           bonus: (value) => null,
           send: (value) => null,
           receive: (value) => null,
+        );
+        final bool isCommunityToken = ![false, null].contains(
+          community?.metadata?.isDefaultImage,
         );
         final ImageProvider<dynamic> image = ImageUrl.getActionImage(
           action,
@@ -129,11 +135,8 @@ class ActionTile extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Europa',
-                                      ),
+                                  AutoSizeText.rich(
+                                    TextSpan(
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: action.getAmount(),
@@ -175,9 +178,9 @@ class ActionTile extends StatelessWidget {
                                     : SizedBox.shrink(),
                               )
                             ],
-                          )
+                          ),
                         ],
-                      )
+                      ),
               ],
             ),
           ),
@@ -225,9 +228,7 @@ class ActionTile extends StatelessWidget {
                                   ),
                                 )
                               : SizedBox.shrink(),
-                          community?.metadata?.isDefaultImage != null &&
-                                  community?.metadata?.isDefaultImage == true &&
-                                  action.isJoinCommunity()
+                          isCommunityToken && action.isJoinCommunity()
                               ? Text(
                                   action.map(
                                     createWallet: (value) => '',
@@ -243,6 +244,16 @@ class ActionTile extends StatelessWidget {
                                     send: (value) => value.tokenSymbol,
                                     receive: (value) => value.tokenSymbol,
                                   ),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                )
+                              : SizedBox.shrink(),
+                          isCommunityToken
+                              ? Text(
+                                  symbol,
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,

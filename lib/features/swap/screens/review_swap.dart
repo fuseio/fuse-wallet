@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/models/swap/swap.dart';
-import 'package:fusecash/redux/viewsmodels/review_trade.dart';
+import 'package:fusecash/redux/viewsmodels/review_swap.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -54,6 +54,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         ExtendedNavigator.named('swapRouter').popUntilRoot();
         BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
         navigationBar.onTap(0);
+        ExtendedNavigator.named('homeRouter').popUntilRoot();
         ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
         WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
       },

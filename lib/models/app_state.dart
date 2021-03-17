@@ -18,7 +18,7 @@ abstract class AppState implements _$AppState {
     @UserStateConverter() UserState userState,
     @CashWalletStateConverter() CashWalletState cashWalletState,
     @ProWalletStateConverter() ProWalletState proWalletState,
-    @SwapStateConverter() SwapState swapState,
+    SwapState swapState,
   }) = _AppState;
 
   factory AppState.initial() {

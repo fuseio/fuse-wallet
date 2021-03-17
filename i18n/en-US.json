@@ -171,5 +171,8 @@
     "token": "Token",
     "available": "available",
     "up_to_10": "(up to 10 seconds)",
-    "txn": "Txn"
+    "txn": "Txn",
+    "auth_failed_title": "Authentication failed",
+    "try_again": "Try again",
+    "auth_failed_message": "Please authenticate to continue"
 }

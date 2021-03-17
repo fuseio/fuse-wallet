@@ -16,6 +16,6 @@ class AuthGuard extends RouteGuard {
     if (isAuthenticated) {
       return true;
     }
-    return navigator.root.push(Routes.lockScreen);
+    return navigator.root.push(Routes.splashScreen);
   }
 }

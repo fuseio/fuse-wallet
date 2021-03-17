@@ -6,14 +6,17 @@ class MyScaffold extends StatelessWidget {
     this.title,
     this.body,
     this.automaticallyImplyLeading = true,
+    this.resizeToAvoidBottomInset = true,
   });
   final String title;
   final Widget body;
   final bool automaticallyImplyLeading;
+  final bool resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: AppBar(
         automaticallyImplyLeading: automaticallyImplyLeading,
         backgroundColor: Theme.of(context).canvasColor,

@@ -3,23 +3,25 @@ import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:redux/redux.dart';
 
 final swapReducers = combineReducers<SwapState>([
-  TypedReducer<SwapState, FetchTokenList>(_fetchTokenList),
+  TypedReducer<SwapState, GetSwappableTokensSuccess>(
+      _getSwappableTokensSuccess),
+  TypedReducer<SwapState, GetTokensImagesSuccess>(_getTokensImagesSuccess),
   TypedReducer<SwapState, ResetTokenList>(_resetTokenList),
 ]);
 
-SwapState _resetTokenList(SwapState state, ResetTokenList action) {
-  return SwapState(
-    tokensList: [],
+SwapState _resetTokenList(SwapState state, ResetTokenList action) =>
+    SwapState(tokens: {});
+
+SwapState _getSwappableTokensSuccess(
+    SwapState state, GetSwappableTokensSuccess action) {
+  return (state ?? SwapState())?.copyWith(
+    tokens: action.swappableTokens,
   );
 }
 
-SwapState _fetchTokenList(SwapState state, FetchTokenList action) {
+SwapState _getTokensImagesSuccess(
+    SwapState state, GetTokensImagesSuccess action) {
   return (state ?? SwapState())?.copyWith(
-    tokensList: action.fetchSwapList
-      ..sort(
-        (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
-          tokenA?.amount ?? BigInt.zero,
-        ),
-      ),
+    tokensImages: action.tokensImages,
   );
 }

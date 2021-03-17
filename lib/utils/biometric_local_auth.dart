@@ -2,8 +2,9 @@ import 'package:fusecash/constants/enums.dart';
 import 'package:local_auth/local_auth.dart';
 
 class BiometricUtils {
-  static Future<BiometricAuth> getAvailableBiometrics(
-      {BiometricType type = BiometricType.fingerprint}) async {
+  static Future<BiometricAuth> getAvailableBiometrics({
+    BiometricType type = BiometricType.fingerprint,
+  }) async {
     final List<BiometricType> availableBiometrics =
         await LocalAuthentication().getAvailableBiometrics();
     if (availableBiometrics.contains(BiometricType.face)) {
@@ -14,13 +15,16 @@ class BiometricUtils {
     return BiometricAuth.none;
   }
 
-  static Future<void> showDefaultPopupCheckBiometricAuth(
-      {String message = '',
-      Function(bool) callback,
-      bool stickyAuth = false}) async {
+  static Future<void> showDefaultPopupCheckBiometricAuth({
+    String message = '',
+    Function(bool) callback,
+    bool stickyAuth = false,
+  }) async {
     final localAuth = LocalAuthentication();
     final bool result = await localAuth.authenticateWithBiometrics(
-        localizedReason: message, stickyAuth: stickyAuth);
+      localizedReason: message,
+      stickyAuth: stickyAuth,
+    );
     callback?.call(result);
   }
 

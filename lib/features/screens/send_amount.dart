@@ -352,8 +352,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   : Theme.of(context).colorScheme.secondary,
                               labelColor: hasFund ? null : Color(0xFF797979),
                               label: hasFund
-                                  ? I18n.of(context).continue_with +
-                                      ' $amountText ${selectedToken?.symbol}'
+                                  ? I18n.of(context).next_button
                                   : I18n.of(context).insufficient_fund,
                               onPressed: () {
                                 args.tokenToSend = selectedToken;

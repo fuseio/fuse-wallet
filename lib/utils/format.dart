@@ -12,39 +12,41 @@ final Map<String, num> fees = {
   "TUSD": 1,
 };
 
-String reduce(dynamic formatedValue) {
-  if (formatedValue == null) return '0';
-  Decimal decimalValue = Decimal.parse(formatedValue.toString());
+String reduce(dynamic formattedValue) {
+  if (formattedValue == null) return '0';
+  Decimal decimalValue = Decimal.parse(formattedValue.toString());
   return num.parse(decimalValue.toString()).compareTo(num.parse('0.001')) != 1
       ? decimalValue.toStringAsFixed(1)
       : decimalValue.isInteger
           ? decimalValue.toString()
-          : decimalValue.precision > 9
-              ? decimalValue.toStringAsFixed(2)
-              : decimalValue.toString();
+          : decimalValue.toStringAsFixed(2);
 }
 
 String formatValue(BigInt value, int decimals,
     {int fractionDigits = 2, bool withPrecision = false}) {
   if (value == null || decimals == null) return '0';
-  double formatedValue = value / BigInt.from(pow(10, decimals));
-  if (withPrecision) return formatedValue.toString();
-  return reduce(formatedValue);
+  double formattedValue = value / BigInt.from(pow(10, decimals));
+  if (withPrecision) return formattedValue.toString();
+  return reduce(formattedValue);
 }
 
 String calcValueInDollar(BigInt value, int decimals) {
   if (value == null || decimals == null) return '0';
-  double formatedValue1 = (value / BigInt.from(pow(10, decimals)) / 100);
-  Decimal decimalValue = Decimal.parse(formatedValue1.toString());
+  double formattedValue = (value / BigInt.from(pow(10, decimals)) / 100);
+  Decimal decimalValue = Decimal.parse(formattedValue.toString());
   return decimalValue.toStringAsFixed(1);
 }
 
-String getFiatValue(BigInt value, int decimals, double price,
-    {bool withPrecision = false}) {
+String getFiatValue(
+  BigInt value,
+  int decimals,
+  double price, {
+  bool withPrecision = false,
+}) {
   if (value == null || decimals == null) return '0';
-  double formatedValue = (value / BigInt.from(pow(10, decimals))) * price;
-  if (withPrecision) return formatedValue.toString();
-  return reduce(formatedValue);
+  double formattedValue = (value / BigInt.from(pow(10, decimals))) * price;
+  if (withPrecision) return formattedValue.toString();
+  return reduce(formattedValue);
 }
 
 String formatAddress(String address) {

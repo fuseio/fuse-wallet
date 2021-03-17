@@ -17,9 +17,12 @@ class _$SwapStateTearOff {
   const _$SwapStateTearOff();
 
 // ignore: unused_element
-  _SwapState call({@JsonKey(ignore: true) List<Token> tokensList = const []}) {
+  _SwapState call(
+      {@JsonKey(ignore: true) Map<String, Token> tokens = const {},
+      Map<String, String> tokensImages = const {}}) {
     return _SwapState(
-      tokensList: tokensList,
+      tokens: tokens,
+      tokensImages: tokensImages,
     );
   }
 
@@ -36,7 +39,8 @@ const $SwapState = _$SwapStateTearOff();
 /// @nodoc
 mixin _$SwapState {
   @JsonKey(ignore: true)
-  List<Token> get tokensList;
+  Map<String, Token> get tokens;
+  Map<String, String> get tokensImages;
 
   Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
@@ -47,7 +51,9 @@ mixin _$SwapState {
 abstract class $SwapStateCopyWith<$Res> {
   factory $SwapStateCopyWith(SwapState value, $Res Function(SwapState) then) =
       _$SwapStateCopyWithImpl<$Res>;
-  $Res call({@JsonKey(ignore: true) List<Token> tokensList});
+  $Res call(
+      {@JsonKey(ignore: true) Map<String, Token> tokens,
+      Map<String, String> tokensImages});
 }
 
 /// @nodoc
@@ -60,11 +66,14 @@ class _$SwapStateCopyWithImpl<$Res> implements $SwapStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object tokensList = freezed,
+    Object tokens = freezed,
+    Object tokensImages = freezed,
   }) {
     return _then(_value.copyWith(
-      tokensList:
-          tokensList == freezed ? _value.tokensList : tokensList as List<Token>,
+      tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
+      tokensImages: tokensImages == freezed
+          ? _value.tokensImages
+          : tokensImages as Map<String, String>,
     ));
   }
 }
@@ -75,7 +84,9 @@ abstract class _$SwapStateCopyWith<$Res> implements $SwapStateCopyWith<$Res> {
           _SwapState value, $Res Function(_SwapState) then) =
       __$SwapStateCopyWithImpl<$Res>;
   @override
-  $Res call({@JsonKey(ignore: true) List<Token> tokensList});
+  $Res call(
+      {@JsonKey(ignore: true) Map<String, Token> tokens,
+      Map<String, String> tokensImages});
 }
 
 /// @nodoc
@@ -89,11 +100,14 @@ class __$SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object tokensList = freezed,
+    Object tokens = freezed,
+    Object tokensImages = freezed,
   }) {
     return _then(_SwapState(
-      tokensList:
-          tokensList == freezed ? _value.tokensList : tokensList as List<Token>,
+      tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
+      tokensImages: tokensImages == freezed
+          ? _value.tokensImages
+          : tokensImages as Map<String, String>,
     ));
   }
 }
@@ -102,8 +116,11 @@ class __$SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_SwapState extends _SwapState {
-  _$_SwapState({@JsonKey(ignore: true) this.tokensList = const []})
-      : assert(tokensList != null),
+  _$_SwapState(
+      {@JsonKey(ignore: true) this.tokens = const {},
+      this.tokensImages = const {}})
+      : assert(tokens != null),
+        assert(tokensImages != null),
         super._();
 
   factory _$_SwapState.fromJson(Map<String, dynamic> json) =>
@@ -111,25 +128,32 @@ class _$_SwapState extends _SwapState {
 
   @override
   @JsonKey(ignore: true)
-  final List<Token> tokensList;
+  final Map<String, Token> tokens;
+  @JsonKey(defaultValue: const {})
+  @override
+  final Map<String, String> tokensImages;
 
   @override
   String toString() {
-    return 'SwapState(tokensList: $tokensList)';
+    return 'SwapState(tokens: $tokens, tokensImages: $tokensImages)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _SwapState &&
-            (identical(other.tokensList, tokensList) ||
+            (identical(other.tokens, tokens) ||
+                const DeepCollectionEquality().equals(other.tokens, tokens)) &&
+            (identical(other.tokensImages, tokensImages) ||
                 const DeepCollectionEquality()
-                    .equals(other.tokensList, tokensList)));
+                    .equals(other.tokensImages, tokensImages)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(tokensList);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(tokens) ^
+      const DeepCollectionEquality().hash(tokensImages);
 
   @JsonKey(ignore: true)
   @override
@@ -144,15 +168,18 @@ class _$_SwapState extends _SwapState {
 
 abstract class _SwapState extends SwapState {
   _SwapState._() : super._();
-  factory _SwapState({@JsonKey(ignore: true) List<Token> tokensList}) =
-      _$_SwapState;
+  factory _SwapState(
+      {@JsonKey(ignore: true) Map<String, Token> tokens,
+      Map<String, String> tokensImages}) = _$_SwapState;
 
   factory _SwapState.fromJson(Map<String, dynamic> json) =
       _$_SwapState.fromJson;
 
   @override
   @JsonKey(ignore: true)
-  List<Token> get tokensList;
+  Map<String, Token> get tokens;
+  @override
+  Map<String, String> get tokensImages;
   @override
   @JsonKey(ignore: true)
   _$SwapStateCopyWith<_SwapState> get copyWith;

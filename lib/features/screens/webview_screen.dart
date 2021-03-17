@@ -28,6 +28,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     Segment.screen(screenName: '/web-view-screen');
     return MyScaffold(
       title: widget.title,
+      resizeToAvoidBottomInset: false,
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: widget.url,

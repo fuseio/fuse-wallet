@@ -1149,43 +1149,26 @@ ThunkAction swapHandler(
   VoidCallback sendFailureCallback,
 ) {
   return (Store store) async {
-    UserState userState = store.state.userState;
-    String walletAddress = userState.walletAddress;
     try {
-      final BigInt allowance = await fuseWeb3.getTokenAllowance(
+      String swapData = swapCallParameters.rawTxn['data'].replaceFirst(
+        '0x',
+        '',
+      );
+      String walletAddress = store.state.userState.walletAddress;
+      Map<String, dynamic> response = await api.approveTokenAndCallContract(
+        fuseWeb3,
+        walletAddress,
         swapRequestBody.currencyIn,
         swapCallParameters.rawTxn['to'],
-        owner: walletAddress,
-      );
-      final List<dynamic> items = [];
-      dynamic tokenDetails =
-          await fuseWeb3.getTokenDetails(swapRequestBody.currencyIn);
-      final int decimals = tokenDetails['decimals'].toInt();
-      final BigInt valueOut = toBigInt(swapRequestBody.amountIn, decimals);
-      if (allowance < valueOut) {
-        Map<String, dynamic> signedApprovalData =
-            await fuseWeb3.approveTokenOffChain(
-          walletAddress,
-          swapRequestBody.currencyIn,
-          1000000,
-          spenderContract: swapCallParameters.rawTxn['to'],
-        );
-        items.add(signedApprovalData);
-      }
-      String swapData =
-          swapCallParameters.rawTxn['data'].replaceFirst('0x', '');
-      Map<String, dynamic> signedSwapData = await fuseWeb3.callContractOffChain(
-        walletAddress,
-        swapCallParameters.rawTxn['to'],
-        0,
+        num.parse(swapRequestBody.amountIn),
         swapData,
+        network: 'fuse',
       );
-      items.add(signedSwapData);
-      Map<String, dynamic> response = await api.multiRelay(items);
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];
       log.info('Job $swapJobId for swap');
-    } catch (e) {
+    } catch (error) {
+      log.error('Error in Get swapHandler ${error.toString()}');
       sendFailureCallback();
     }
   };

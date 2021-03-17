@@ -65,18 +65,26 @@ class TokenTile extends StatelessWidget {
                           children: <Widget>[
                             ClipRRect(
                               borderRadius: BorderRadius.circular(50),
-                              child: token.imageUrl != null &&
-                                      token.imageUrl.isNotEmpty
+                              child: (token.imageUrl != null &&
+                                          token.imageUrl.isNotEmpty ||
+                                      viewModel.tokensImages.containsKey(
+                                          token?.address?.toLowerCase()))
                                   ? CachedNetworkImage(
                                       width: symbolWidth,
                                       height: symbolHeight,
-                                      imageUrl: token.imageUrl,
+                                      imageUrl: viewModel.tokensImages
+                                              .containsKey(
+                                                  token?.address?.toLowerCase())
+                                          ? viewModel?.tokensImages[
+                                              token?.address?.toLowerCase()]
+                                          : token?.imageUrl,
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
-                                          Icon(
-                                        Icons.error,
-                                        size: 54,
+                                          DefaultLogo(
+                                        symbol: token?.symbol,
+                                        width: symbolWidth,
+                                        height: symbolHeight,
                                       ),
                                     )
                                   : DefaultLogo(
@@ -85,23 +93,23 @@ class TokenTile extends StatelessWidget {
                                       height: symbolHeight,
                                     ),
                             ),
-                            showPending &&
-                                    token.transactions.list
-                                        .any((transfer) => transfer.isPending())
-                                ? Container(
-                                    width: symbolWidth,
-                                    height: symbolHeight,
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      strokeWidth: 3,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .onSurface),
-                                    ))
-                                : SizedBox.shrink(),
+                            // showPending &&
+                            //         token.transactions.list
+                            //             .any((transfer) => transfer.isPending())
+                            //     ? Container(
+                            //         width: symbolWidth,
+                            //         height: symbolHeight,
+                            //         child: CircularProgressIndicator(
+                            //           backgroundColor: Theme.of(context)
+                            //               .colorScheme
+                            //               .onSurface,
+                            //           strokeWidth: 3,
+                            //           valueColor: AlwaysStoppedAnimation<Color>(
+                            //               Theme.of(context)
+                            //                   .colorScheme
+                            //                   .onSurface),
+                            //         ))
+                            //     : SizedBox.shrink(),
                             isCommunityToken
                                 ? Text(
                                     token.symbol,

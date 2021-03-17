@@ -378,6 +378,12 @@ class I18n implements WidgetsLocalizations {
   String get up_to_10 => "(up to 10 seconds)";
   /// "Txn"
   String get txn => "Txn";
+  /// "Authentication failed"
+  String get auth_failed_title => "Authentication failed";
+  /// "Try again"
+  String get try_again => "Try again";
+  /// "Please authenticate to continue"
+  String get auth_failed_message => "Please authenticate to continue";
 }
 
 class _I18n_en_US extends I18n {

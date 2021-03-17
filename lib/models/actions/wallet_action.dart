@@ -24,8 +24,8 @@ abstract class WalletAction implements _$WalletAction {
     return this.map(
       createWallet: (value) => '',
       fiatProcess: (value) => '',
-      fiatDeposit: (value) => '',
       joinCommunity: (value) => '',
+      fiatDeposit: (value) => formatValue(value?.value, value.tokenDecimal),
       bonus: (value) => formatValue(value?.value, value.tokenDecimal),
       send: (value) => formatValue(value?.value, value.tokenDecimal),
       receive: (value) => formatValue(value?.value, value.tokenDecimal),

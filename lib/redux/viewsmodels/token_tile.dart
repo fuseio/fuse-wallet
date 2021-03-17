@@ -5,15 +5,23 @@ import 'package:fusecash/models/community/community.dart';
 
 class TokenTileViewModel extends Equatable {
   final List<Community> communities;
+  final Map<String, String> tokensImages;
 
-  TokenTileViewModel({this.communities});
+  TokenTileViewModel({
+    this.communities,
+    this.tokensImages,
+  });
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
     return TokenTileViewModel(
+      tokensImages: store.state.swapState.tokensImages,
       communities: store.state.cashWalletState.communities.values.toList(),
     );
   }
 
   @override
-  List<Object> get props => [communities];
+  List<Object> get props => [
+        communities,
+        tokensImages,
+      ];
 }
