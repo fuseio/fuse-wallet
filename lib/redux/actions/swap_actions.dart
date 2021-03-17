@@ -36,7 +36,8 @@ ThunkAction fetchSwapList() {
           await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
       Map data = jsonDecode(response.data);
       Map<String, Token> tokens = Map();
-      Map<String, String> tokensImages = Map.from(swapState.tokensImages);
+      Map<String, String> tokensImages =
+          Map.from(swapState?.tokensImages ?? {});
       for (dynamic token in data['tokens']) {
         final BigInt balance = await fuseWeb3.getTokenBalance(
           token['address'],

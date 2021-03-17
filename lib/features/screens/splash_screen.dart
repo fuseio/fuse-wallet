@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String jwtToken = store?.state?.userState?.jwtToken ?? '';
     bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      ExtendedNavigator.root.replace(Routes.splashScreen);
+      ExtendedNavigator.root.replace(Routes.onBoardingScreen);
     } else {
       UserState userState = store.state.userState;
       if (userState?.authType != BiometricAuth.none) {
