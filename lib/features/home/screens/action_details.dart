@@ -35,6 +35,7 @@ class ActionDetailsScreen extends StatelessWidget {
       bonus: (_) => I18n.of(context).from,
       send: (_) => I18n.of(context).to,
       receive: (value) => I18n.of(context).from,
+      swap: (_) => I18n.of(context).swap,
     );
 
     final String title = action.map(
@@ -45,7 +46,9 @@ class ActionDetailsScreen extends StatelessWidget {
       bonus: (_) => I18n.of(context).bonus,
       send: (_) => I18n.of(context).send,
       receive: (value) => I18n.of(context).receive,
+      swap: (value) => I18n.of(context).swap,
     );
+
     return MyScaffold(
       title: title,
       body: Container(
@@ -147,26 +150,31 @@ class ActionDetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 25, bottom: 25),
-                    child: Divider(
-                      height: 1,
-                    ),
-                  ),
-                  rowItem(
-                    context,
-                    I18n.of(context).address,
-                    formatAddress(accountAddress),
-                    withCopy: true,
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: accountAddress,
+                  [null, ''].contains(accountAddress)
+                      ? SizedBox.shrink()
+                      : Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 25),
+                          child: Divider(
+                            height: 1,
+                          ),
                         ),
-                      );
-                      showCopiedFlushbar(context);
-                    },
-                  ),
+
+                  [null, ''].contains(accountAddress)
+                      ? SizedBox.shrink()
+                      : rowItem(
+                          context,
+                          I18n.of(context).address,
+                          formatAddress(accountAddress),
+                          withCopy: true,
+                          onTap: () {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: accountAddress,
+                              ),
+                            );
+                            showCopiedFlushbar(context);
+                          },
+                        ),
                   Padding(
                     padding: EdgeInsets.only(top: 25, bottom: 25),
                     child: Divider(
@@ -245,6 +253,9 @@ class ActionDetailsScreen extends StatelessWidget {
                   Icon(
                     FaIcon(FontAwesomeIcons.copy).icon,
                     size: 14,
+                  ),
+                  SizedBox(
+                    width: 5,
                   ),
                   Text(
                     value,

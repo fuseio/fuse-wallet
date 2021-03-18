@@ -34,6 +34,8 @@ class WalletActionFactory {
     json['status'] = json['status']?.toUpperCase();
     if (json['name'] == 'createWallet') {
       return CreateWallet.fromJson(json);
+    } else if (json['name'] == 'swapTokens') {
+      return Swap.fromJson(json);
     } else if (json['name'] == 'tokenBonus') {
       return Bonus.fromJson(json);
     } else if (json['name'] == 'joinCommunity') {

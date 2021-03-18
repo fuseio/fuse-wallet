@@ -10,6 +10,7 @@ class ReviewSwapViewModel extends Equatable {
   final Function(
     SwapRequestBody swapRequestBody,
     SwapCallParameters swapCallParameters,
+    TradeInfo tradeInfo,
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback,
   ) swap;
@@ -25,12 +26,14 @@ class ReviewSwapViewModel extends Equatable {
       swap: (
         SwapRequestBody swapRequestBody,
         SwapCallParameters swapCallParameters,
+        TradeInfo tradeInfo,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback,
       ) {
         store.dispatch(swapHandler(
           swapRequestBody,
           swapCallParameters,
+          tradeInfo,
           sendSuccessCallback,
           sendFailureCallback,
         ));

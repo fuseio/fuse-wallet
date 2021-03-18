@@ -384,6 +384,12 @@ class I18n implements WidgetsLocalizations {
   String get try_again => "Try again";
   /// "Please authenticate to continue"
   String get auth_failed_message => "Please authenticate to continue";
+  /// "Swapped"
+  String get swapped => "Swapped";
+  /// "Swapping"
+  String get swapping => "Swapping";
+  /// "for"
+  String get for_text => "for";
 }
 
 class _I18n_en_US extends I18n {

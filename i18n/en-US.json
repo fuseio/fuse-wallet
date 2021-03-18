@@ -174,5 +174,8 @@
     "txn": "Txn",
     "auth_failed_title": "Authentication failed",
     "try_again": "Try again",
-    "auth_failed_message": "Please authenticate to continue"
+    "auth_failed_message": "Please authenticate to continue",
+    "swapped": "Swapped",
+    "swapping": "Swapping",
+    "for_text": "for"
 }

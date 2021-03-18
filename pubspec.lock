@@ -1263,7 +1263,7 @@ packages:
     description:
       path: "."
       ref: next
-      resolved-ref: "911363481f135ff310f829ae7103807357da7c7f"
+      resolved-ref: "7c0462185c0566bcb390eac1e9368b6ff2cac0e6"
       url: "https://github.com/fuseio/wallet_core.git"
     source: git
     version: "0.2.5+1"

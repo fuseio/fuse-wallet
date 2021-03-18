@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/features/swap/widgets/card.dart';
 import 'package:fusecash/models/swap/swap.dart';
@@ -295,7 +296,17 @@ class _SwapScreenState extends State<SwapScreen> {
             return Preloader();
           } else {
             final bool hasFund =
-                (tokenOut != null && tokenOut.amount > BigInt.zero);
+                (Decimal.tryParse(tokenOutController.text) ?? Decimal.zero)
+                        .compareTo(
+                      Decimal.parse(
+                        formatValue(
+                          tokenOut?.amount,
+                          tokenOut?.decimals,
+                          withPrecision: true,
+                        ),
+                      ),
+                    ) <=
+                    0;
             return InkWell(
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,

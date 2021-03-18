@@ -9,6 +9,7 @@ part of 'wallet_action.dart';
 _$CreateWallet _$_$CreateWalletFromJson(Map<String, dynamic> json) {
   return _$CreateWallet(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -19,6 +20,7 @@ _$CreateWallet _$_$CreateWalletFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$CreateWalletToJson(_$CreateWallet instance) =>
     <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -28,6 +30,7 @@ Map<String, dynamic> _$_$CreateWalletToJson(_$CreateWallet instance) =>
 _$FiatProcess _$_$FiatProcessFromJson(Map<String, dynamic> json) {
   return _$FiatProcess(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -45,6 +48,7 @@ _$FiatProcess _$_$FiatProcessFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$FiatProcessToJson(_$FiatProcess instance) =>
     <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -61,6 +65,7 @@ Map<String, dynamic> _$_$FiatProcessToJson(_$FiatProcess instance) =>
 _$FiatDeposit _$_$FiatDepositFromJson(Map<String, dynamic> json) {
   return _$FiatDeposit(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -78,6 +83,7 @@ _$FiatDeposit _$_$FiatDepositFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$FiatDepositToJson(_$FiatDeposit instance) =>
     <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -94,6 +100,7 @@ Map<String, dynamic> _$_$FiatDepositToJson(_$FiatDeposit instance) =>
 _$JoinCommunity _$_$JoinCommunityFromJson(Map<String, dynamic> json) {
   return _$JoinCommunity(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -107,6 +114,7 @@ _$JoinCommunity _$_$JoinCommunityFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$JoinCommunityToJson(_$JoinCommunity instance) =>
     <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -119,6 +127,7 @@ Map<String, dynamic> _$_$JoinCommunityToJson(_$JoinCommunity instance) =>
 _$Bonus _$_$BonusFromJson(Map<String, dynamic> json) {
   return _$Bonus(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -136,6 +145,7 @@ _$Bonus _$_$BonusFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$BonusToJson(_$Bonus instance) => <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -153,6 +163,7 @@ Map<String, dynamic> _$_$BonusToJson(_$Bonus instance) => <String, dynamic>{
 _$Send _$_$SendFromJson(Map<String, dynamic> json) {
   return _$Send(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -169,6 +180,7 @@ _$Send _$_$SendFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$SendToJson(_$Send instance) => <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -185,6 +197,7 @@ Map<String, dynamic> _$_$SendToJson(_$Send instance) => <String, dynamic>{
 _$Receive _$_$ReceiveFromJson(Map<String, dynamic> json) {
   return _$Receive(
     timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
     name: json['name'] as String,
     txHash: json['txHash'] as String,
     status: json['status'] as String,
@@ -201,6 +214,7 @@ _$Receive _$_$ReceiveFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$ReceiveToJson(_$Receive instance) => <String, dynamic>{
       'timestamp': instance.timestamp,
+      '_id': instance.id,
       'name': instance.name,
       'txHash': instance.txHash,
       'status': instance.status,
@@ -212,4 +226,28 @@ Map<String, dynamic> _$_$ReceiveToJson(_$Receive instance) => <String, dynamic>{
       'tokenName': instance.tokenName,
       'tokenSymbol': instance.tokenSymbol,
       'tokenDecimal': instance.tokenDecimal,
+    };
+
+_$Swap _$_$SwapFromJson(Map<String, dynamic> json) {
+  return _$Swap(
+    timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
+    name: json['name'] as String,
+    txHash: json['txHash'] as String,
+    status: json['status'] as String,
+    blockNumber: json['blockNumber'] as int,
+    tradeInfo: json['metadata'] == null
+        ? null
+        : TradeInfo.fromJson(json['metadata'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$_$SwapToJson(_$Swap instance) => <String, dynamic>{
+      'timestamp': instance.timestamp,
+      '_id': instance.id,
+      'name': instance.name,
+      'txHash': instance.txHash,
+      'status': instance.status,
+      'blockNumber': instance.blockNumber,
+      'metadata': instance.tradeInfo?.toJson(),
     };

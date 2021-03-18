@@ -63,12 +63,12 @@ CashWalletState _getActionsSuccess(
   List<WalletAction> list = state?.walletActions?.list ?? [];
   for (WalletAction walletAction in action.walletActions) {
     int savedIndex = list?.indexWhere(
-      (action) => action.txHash == walletAction.txHash,
+      (action) => action.id == walletAction.id,
     );
     if (savedIndex != -1) {
       list[savedIndex] = walletAction;
     } else {
-      if (walletAction.txHash != null) {
+      if (walletAction.id != null) {
         list?.add(walletAction);
       }
     }

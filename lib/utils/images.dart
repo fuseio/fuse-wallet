@@ -85,6 +85,7 @@ class ImageUrl {
       ),
       send: (value) => AssetImage('assets/images/anom.png'),
       receive: (value) => AssetImage('assets/images/anom.png'),
+      swap: (value) => AssetImage('assets/images/swap_logo.png'),
     );
   }
 }

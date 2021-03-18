@@ -1145,6 +1145,7 @@ ThunkAction sendTokenToContactCall(
 ThunkAction swapHandler(
   SwapRequestBody swapRequestBody,
   SwapCallParameters swapCallParameters,
+  TradeInfo tradeInfo,
   VoidCallback sendSuccessCallback,
   VoidCallback sendFailureCallback,
 ) {
@@ -1154,15 +1155,22 @@ ThunkAction swapHandler(
         '0x',
         '',
       );
-      String walletAddress = store.state.userState.walletAddress;
       Map<String, dynamic> response = await api.approveTokenAndCallContract(
         fuseWeb3,
-        walletAddress,
+        swapRequestBody.recipient,
         swapRequestBody.currencyIn,
         swapCallParameters.rawTxn['to'],
         num.parse(swapRequestBody.amountIn),
         swapData,
         network: 'fuse',
+        transactionBody: Map.from(
+          {
+            "to": swapRequestBody.recipient,
+            "status": 'pending',
+            "isSwap": true,
+            "tradeInfo": tradeInfo.toJson()
+          },
+        ),
       );
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];

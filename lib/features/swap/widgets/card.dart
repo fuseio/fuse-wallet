@@ -86,10 +86,20 @@ class TradeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 2,
+                Expanded(
+                  flex: 3,
                   child: AutoSizeTextField(
                     maxLines: 1,
+                    minFontSize: 15,
+                    maxFontSize: 25,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    presetFontSizes: [
+                      25,
+                      20,
+                      15,
+                    ],
                     autofocus: false,
                     textAlignVertical: TextAlignVertical.center,
                     textAlign: TextAlign.end,
@@ -100,20 +110,12 @@ class TradeCard extends StatelessWidget {
                       signed: true,
                       decimal: true,
                     ),
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       fillColor: isSwapped
                           ? Theme.of(context).canvasColor
                           : Theme.of(context).colorScheme.secondary,
                       hintText: '0',
-                      labelStyle: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 28),
-                      hintStyle: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 28),
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
                       errorBorder: InputBorder.none,

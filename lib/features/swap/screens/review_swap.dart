@@ -50,6 +50,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     viewModel.swap(
       widget.swapRequestBody,
       swapCallParameters,
+      widget.tradeInfo,
       () {
         ExtendedNavigator.named('swapRouter').popUntilRoot();
         BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;

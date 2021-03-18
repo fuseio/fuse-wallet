@@ -26,18 +26,8 @@ class ActionTile extends StatelessWidget {
       distinct: true,
       converter: TransferTileViewModel.fromStore,
       builder: (_, viewModel) {
-        final String accountAddress = action.map(
-          createWallet: (value) => null,
-          fiatProcess: (value) => null,
-          joinCommunity: (value) => null,
-          fiatDeposit: (value) => value.from,
-          bonus: (value) => value.from,
-          send: (value) => value.to,
-          receive: (value) => value.from,
-        );
-
         final Contact contact = getContact(
-          accountAddress,
+          action.getSender(),
           viewModel.reverseContacts,
           viewModel.contacts,
           viewModel.countryCode,
@@ -52,6 +42,7 @@ class ActionTile extends StatelessWidget {
           bonus: (value) => null,
           send: (value) => null,
           receive: (value) => null,
+          swap: (value) => null,
         );
         final bool isCommunityToken = ![false, null].contains(
           community?.metadata?.isDefaultImage,
@@ -60,7 +51,7 @@ class ActionTile extends StatelessWidget {
           action,
           contact,
           community,
-          accountAddress,
+          action.getSender(),
         );
         final String displayName = action.map(
           createWallet: (value) => value.getText(),
@@ -68,16 +59,17 @@ class ActionTile extends StatelessWidget {
           joinCommunity: (value) => value.getText(),
           fiatDeposit: (value) => value.getText(),
           bonus: (value) => value.getText(),
+          swap: (value) => value.getText(),
           send: (value) => contact != null
               ? contact.displayName
               : deducePhoneNumber(
-                        accountAddress,
+                        action.getSender(),
                         viewModel.reverseContacts,
                         businesses: community?.businesses,
                       ) !=
                       null
                   ? deducePhoneNumber(
-                      accountAddress,
+                      action.getSender(),
                       viewModel.reverseContacts,
                       businesses: community?.businesses,
                     )
@@ -85,13 +77,13 @@ class ActionTile extends StatelessWidget {
           receive: (value) => contact != null
               ? contact.displayName
               : deducePhoneNumber(
-                        accountAddress,
+                        action.getSender(),
                         viewModel.reverseContacts,
                         businesses: community?.businesses,
                       ) !=
                       null
                   ? deducePhoneNumber(
-                      accountAddress,
+                      action.getSender(),
                       viewModel.reverseContacts,
                       businesses: community?.businesses,
                     )
@@ -107,6 +99,7 @@ class ActionTile extends StatelessWidget {
               '',
           send: (value) => value.tokenSymbol,
           receive: (value) => value.tokenSymbol,
+          swap: (value) => value.tradeInfo.outputToken,
         );
 
         final Widget rightColumn = Flexible(
@@ -243,6 +236,7 @@ class ActionTile extends StatelessWidget {
                                     bonus: (value) => value.tokenSymbol,
                                     send: (value) => value.tokenSymbol,
                                     receive: (value) => value.tokenSymbol,
+                                    swap: (value) => '',
                                   ),
                                   style: TextStyle(
                                     fontSize: 13,
@@ -315,7 +309,7 @@ class ActionTile extends StatelessWidget {
                                     ],
                                   ),
                                 )
-                              : Text(
+                              : AutoSizeText(
                                   displayName,
                                   style: TextStyle(
                                     color: Color(0xFF333333),
@@ -347,7 +341,7 @@ class ActionTile extends StatelessWidget {
           onTap: () {
             if (!action.isGenerateWallet() && !action.isJoinCommunity()) {
               ExtendedNavigator.root.pushActionDetailsScreen(
-                accountAddress: accountAddress,
+                accountAddress: action.getSender(),
                 contact: contact,
                 displayName: displayName,
                 action: action,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/utils/format.dart';
 
 part 'wallet_action.freezed.dart';
@@ -29,6 +30,7 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => formatValue(value?.value, value.tokenDecimal),
       send: (value) => formatValue(value?.value, value.tokenDecimal),
       receive: (value) => formatValue(value?.value, value.tokenDecimal),
+      swap: (value) => reduce(value.tradeInfo.outputAmount),
     );
   }
 
@@ -41,6 +43,7 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => false,
       send: (value) => false,
       receive: (value) => false,
+      swap: (value) => false,
     );
   }
 
@@ -53,6 +56,7 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => true,
       send: (value) => false,
       receive: (value) => false,
+      swap: (value) => false,
     );
   }
 
@@ -65,6 +69,7 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => false,
       send: (value) => false,
       receive: (value) => false,
+      swap: (value) => false,
     );
   }
 
@@ -77,6 +82,7 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => false,
       send: (value) => false,
       receive: (value) => false,
+      swap: (value) => false,
     );
   }
 
@@ -108,6 +114,11 @@ abstract class WalletAction implements _$WalletAction {
         height: 10,
       ),
       receive: (value) => SvgPicture.asset(
+        'assets/images/receive_icon.svg',
+        width: 10,
+        height: 10,
+      ),
+      swap: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
         width: 10,
         height: 10,
@@ -203,12 +214,34 @@ abstract class WalletAction implements _$WalletAction {
           return 'Receive from ${formatAddress(value.from)} pending';
         }
       },
+      swap: (value) {
+        final String text = ' ${reduce(value.tradeInfo.inputAmount)}' +
+            ' ${value.tradeInfo.inputToken} ' +
+            I18n.of(ExtendedNavigator.root.context).for_text +
+            ' ${reduce(value.tradeInfo.outputAmount)} ' +
+            value.tradeInfo.outputToken;
+        return text;
+      },
+    );
+  }
+
+  String getSender() {
+    return this.map(
+      createWallet: (value) => null,
+      fiatProcess: (value) => null,
+      joinCommunity: (value) => null,
+      fiatDeposit: (value) => value.from,
+      bonus: (value) => value.from,
+      send: (value) => value.to,
+      receive: (value) => value.from,
+      swap: (value) => null,
     );
   }
 
   @JsonSerializable()
   const factory WalletAction.createWallet({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -218,6 +251,7 @@ abstract class WalletAction implements _$WalletAction {
   @JsonSerializable()
   const factory WalletAction.fiatProcess({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -234,6 +268,7 @@ abstract class WalletAction implements _$WalletAction {
   @JsonSerializable()
   const factory WalletAction.fiatDeposit({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -250,6 +285,7 @@ abstract class WalletAction implements _$WalletAction {
   @JsonSerializable()
   const factory WalletAction.joinCommunity({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -262,6 +298,7 @@ abstract class WalletAction implements _$WalletAction {
   @JsonSerializable()
   const factory WalletAction.bonus({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -279,6 +316,7 @@ abstract class WalletAction implements _$WalletAction {
   @JsonSerializable()
   const factory WalletAction.send({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -295,6 +333,7 @@ abstract class WalletAction implements _$WalletAction {
   @JsonSerializable()
   const factory WalletAction.receive({
     int timestamp,
+    @JsonKey(name: '_id') String id,
     String name,
     String txHash,
     String status,
@@ -307,4 +346,15 @@ abstract class WalletAction implements _$WalletAction {
     String tokenSymbol,
     int tokenDecimal,
   }) = Receive;
+
+  @JsonSerializable()
+  const factory WalletAction.swap({
+    int timestamp,
+    @JsonKey(name: '_id') String id,
+    String name,
+    String txHash,
+    String status,
+    int blockNumber,
+    @JsonKey(name: 'metadata') TradeInfo tradeInfo,
+  }) = Swap;
 }
