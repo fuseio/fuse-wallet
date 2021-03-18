@@ -970,8 +970,10 @@ ThunkAction transactionFailed(transfer, String failReason) {
   };
 }
 
-ThunkAction joinCommunityCall(
-    {String entitiesListAddress, Community community, Token token}) {
+ThunkAction joinCommunityCall({
+  Community community,
+  Token token,
+}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -980,8 +982,14 @@ ThunkAction joinCommunityCall(
         throw "Web3 is empty";
       }
       String walletAddress = store.state.userState.walletAddress;
+      dynamic communityData =
+          await graph.getCommunityByAddress(community.address);
+      final String entitiesListAddress =
+          communityData["entitiesList"]["address"];
       bool isMember =
           await graph.isCommunityMember(walletAddress, entitiesListAddress);
+      logger.info(
+          'joinCommunityCall isMember - $isMember entitiesListAddress - $entitiesListAddress');
       if (isMember) {
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
@@ -1121,7 +1129,10 @@ Future<Map<String, dynamic>> getCommunityData(
 }
 
 Future<Token> fetchToken(
-    Community community, bool isRopsten, String originNetwork) async {
+  Community community,
+  bool isRopsten,
+  String originNetwork,
+) async {
   if (community.homeTokenAddress != null &&
       community.homeTokenAddress.isNotEmpty) {
     Map tokenInfo =
@@ -1134,26 +1145,21 @@ Future<Token> fetchToken(
       symbol: tokenInfo['symbol'],
       timestamp: 0,
     );
-  } else if (community.isMultiBridge) {
-    dynamic token = await graph.getHomeBridgedToken(
-        community.foreignTokenAddress, isRopsten);
-    return Token.initial().copyWith(
-        originNetwork: originNetwork,
-        address: token['address'].toString(),
-        name: formatTokenName(token["name"]),
-        symbol: token["symbol"],
-        timestamp: 0,
-        decimals: token["decimals"]);
   } else {
-    dynamic token = await graph.getTokenOfCommunity(community.address);
-    final String tokenAddress = token["address"].toString();
-    return Token.initial().copyWith(
-        originNetwork: originNetwork,
-        address: tokenAddress,
-        name: token["name"],
-        symbol: token["symbol"],
-        timestamp: 0,
-        decimals: token["decimals"]);
+    dynamic tokenInfo = await graph.getHomeBridgedToken(
+      community.foreignTokenAddress,
+      isRopsten,
+    );
+    final token = Token.fromJson(tokenInfo).copyWith(
+      originNetwork: originNetwork,
+      address: tokenInfo['address'].toLowerCase(),
+      timestamp: 0,
+      transactions: Transactions.initial(),
+      amount: BigInt.zero,
+      communityAddress: community.address.toLowerCase(),
+      name: formatTokenName(tokenInfo['name']),
+    );
+    return token;
   }
 }
 
@@ -1161,44 +1167,28 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      store.dispatch(SwitchToNewCommunity(communityAddress));
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
-      dynamic community = await graph.getCommunityByAddress(communityAddress);
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress), walletAddress);
-      final bool isMultiBridge = communityData['isMultiBridge'] ?? false;
-      final String description = communityData['description'];
-      final String homeBridgeAddress = communityData['homeBridgeAddress'];
-      final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      final String homeTokenAddress = communityData['homeTokenAddress'];
-      final String foreignTokenAddress = communityData['foreignTokenAddress'];
-      final String bridgeDirection = communityData['bridgeDirection'];
-      final String bridgeType = communityData['bridgeType'];
-      final String webUrl = communityData['webUrl'];
-      final String name = communityData["name"];
-      Community newCommunity = Community.initial().copyWith(
+        checksumEthereumAddress(communityAddress),
+        walletAddress,
+      );
+      Community newCommunity = Community.fromJson(communityData).copyWith(
         address: communityAddress,
-        name: name,
-        bridgeDirection: bridgeDirection,
-        bridgeType: bridgeType,
-        foreignTokenAddress: foreignTokenAddress,
-        homeTokenAddress: homeTokenAddress,
-        webUrl: webUrl,
-        homeBridgeAddress: homeBridgeAddress,
-        foreignBridgeAddress: foreignBridgeAddress,
-        description: description,
-        plugins: Plugins.fromJson(communityData['plugins']),
-        isMultiBridge: isMultiBridge,
-        isClosed: communityData['isClosed'],
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
-      Token communityToken =
-          await fetchToken(newCommunity, isRopsten, originNetwork);
-      newCommunity =
-          newCommunity.copyWith(homeTokenAddress: communityToken.address);
-      store.dispatch(AddCashToken(
-          token: communityToken.copyWith(communityAddress: communityAddress)));
+      Token communityToken = await fetchToken(
+        newCommunity,
+        isRopsten,
+        originNetwork,
+      );
+      if (newCommunity?.homeTokenAddress == null) {
+        newCommunity = newCommunity.copyWith(
+          homeTokenAddress: communityToken.address.toLowerCase(),
+        );
+      }
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
@@ -1209,7 +1199,6 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
             "Token Symbol": communityToken.symbol,
             "Origin Network": originNetwork
           })));
-      final String entitiesListAddress = community["entitiesList"]["address"];
       store.dispatch(fetchCommunityMetadataCall(
           communityAddress, communityData['communityURI'], isRopsten));
       store.dispatch(getBusinessListCall(
@@ -1218,7 +1207,6 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       store.dispatch(joinCommunityCall(
         token: communityToken,
         community: newCommunity,
-        entitiesListAddress: entitiesListAddress,
       ));
     } catch (e, s) {
       logger.severe('ERROR - switchToNewCommunityCall $e');
@@ -1233,54 +1221,46 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      store.dispatch(SwitchCommunityRequested(communityAddress));
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress), walletAddress);
-      final bool isMultiBridge = communityData['isMultiBridge'] ?? false;
-      final String bridgeDirection = communityData['bridgeDirection'];
-      final String bridgeType = communityData['bridgeType'];
-      final String foreignTokenAddress = communityData['foreignTokenAddress'];
-      final String homeBridgeAddress = communityData['homeBridgeAddress'];
-      final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      final String description = communityData['description'];
-      final String name = communityData['name'];
-      final String webUrl = communityData['webUrl'];
-      Community newCommunity = Community.initial().copyWith(
-        address: communityAddress,
-        name: name,
-        bridgeDirection: bridgeDirection,
-        bridgeType: bridgeType,
-        foreignTokenAddress: foreignTokenAddress,
-        webUrl: webUrl,
-        homeBridgeAddress: homeBridgeAddress,
-        foreignBridgeAddress: foreignBridgeAddress,
-        description: description,
-        plugins: Plugins.fromJson(communityData['plugins']),
-        isMultiBridge: isMultiBridge,
-        isClosed: communityData['isClosed'],
+        checksumEthereumAddress(communityAddress),
+        walletAddress,
+      );
+      Community newCommunity = Community.fromJson(communityData).copyWith(
+        address: communityAddress.toLowerCase(),
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
-      Token communityToken =
-          await fetchToken(newCommunity, isRopsten, originNetwork);
-      store.dispatch(AddCashToken(
-          token: communityToken.copyWith(
-              communityAddress: communityAddress.toLowerCase())));
-      newCommunity =
-          newCommunity.copyWith(homeTokenAddress: communityToken?.address);
+      Token communityToken = await fetchToken(
+        newCommunity,
+        isRopsten,
+        originNetwork,
+      );
+      if (newCommunity?.homeTokenAddress == null) {
+        newCommunity = newCommunity.copyWith(
+          homeTokenAddress: communityToken.address,
+        );
+      }
+      store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
+        communityAddress: communityAddress.toLowerCase(),
+        isRopsten: isRopsten,
+      ));
+      store.dispatch(fetchCommunityMetadataCall(
+        communityAddress.toLowerCase(),
+        communityData['communityURI'],
+        isRopsten,
+      ));
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(ErrorAction('Could not switch community'));
       store.dispatch(SwitchCommunityFailed(
-          communityAddress: communityAddress.toLowerCase()));
+        communityAddress: communityAddress.toLowerCase(),
+      ));
     }
   };
 }
@@ -1288,36 +1268,33 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
 ThunkAction refetchCommunityData() {
   return (Store store) async {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    final logger = await AppFactory().getLogger('action');
-    logger.info('refetchCommunityData refetchCommunityData $communityAddress');
     String walletAddress = store.state.userState.walletAddress;
     Community current =
         store.state.cashWalletState.communities[communityAddress.toLowerCase()];
-    if (current != null &&
-        current.name != null &&
-        current.isMember != null &&
-        current.isMember) {
+    if (current != null && current.name != null) {
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress),
-          checksumEthereumAddress(walletAddress));
+        checksumEthereumAddress(communityAddress),
+        checksumEthereumAddress(walletAddress),
+      );
       bool isRopsten = communityData['isRopsten'];
-      final String bridgeDirection =
-          communityData.containsKey('bridgeDirection')
-              ? communityData['bridgeDirection']
-              : null;
-      final String bridgeType = communityData.containsKey('bridgeType')
-          ? communityData['bridgeType']
-          : null;
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
-      store.dispatch(RefreshCommunityData(
+      final String bridgeDirection = communityData['bridgeDirection'] ?? null;
+      final String bridgeType = communityData['bridgeType'] ?? null;
+      store.dispatch(
+        RefreshCommunityData(
           bridgeType: bridgeType,
           bridgeDirection: bridgeDirection,
           communityAddress: communityAddress,
           plugins: Plugins.fromJson(communityData['plugins']),
-          webUrl: communityData['webUrl']));
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
+          webUrl: communityData['webUrl'],
+        ),
+      );
+      store.dispatch(
+        fetchCommunityMetadataCall(
+          communityAddress.toLowerCase(),
+          communityData['communityURI'],
+          isRopsten,
+        ),
+      );
     } else {
       store.dispatch(switchCommunityCall(communityAddress));
     }
@@ -1337,10 +1314,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
           current.name != null &&
           current.isMember != null &&
           current.isMember) {
-        store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExisitingCommunityCall(communityAddress));
       } else {
-        store.dispatch(SwitchToNewCommunity(communityAddress));
         store.dispatch(switchToNewCommunityCall(communityAddress));
       }
     } catch (e, s) {

@@ -40,8 +40,8 @@ class _TransactionTileState extends State<TransactionTile> {
               viewModel.reverseContacts,
               viewModel.contacts,
               viewModel.countryCode);
-          Community community =
-              viewModel.communitiesMap[widget.transfer?.tokenAddress];
+          Community community = viewModel
+              .communitiesMap[widget.transfer?.tokenAddress?.toLowerCase()];
           Token token = widget.token ??
               viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
@@ -52,8 +52,10 @@ class _TransactionTileState extends State<TransactionTile> {
           bool isWalletCreated = 'created' == viewModel.walletStatus;
           bool isZeroAddress = widget.transfer.from == zeroAddress;
           ImageProvider<dynamic> image = getTransferImage(
-              widget.transfer, contact, community,
-              isZeroAddress: isZeroAddress);
+            widget.transfer,
+            contact,
+            community,
+          );
           String displayName = widget.transfer.isJoinBonus()
               ? (widget.transfer.text ?? I18n.of(context).join_bonus)
               : ![null, ''].contains(widget.transfer.receiverName)
@@ -63,8 +65,10 @@ class _TransactionTileState extends State<TransactionTile> {
                       : contact != null
                           ? contact.displayName
                           : deducePhoneNumber(
-                              widget.transfer, viewModel.reverseContacts,
-                              businesses: community?.businesses);
+                              widget.transfer,
+                              viewModel.reverseContacts,
+                              businesses: community?.businesses,
+                            );
           String amount = formatValue(widget.transfer?.value, token?.decimals);
           List<Widget> rightColumn = <Widget>[
             widget.transfer.isGenerateWallet() ||
@@ -359,7 +363,8 @@ class _TransactionTileViewModel extends Equatable {
 
     Map<String, Community> communitiesMap =
         communities.fold(Map(), (previousValue, element) {
-      previousValue.putIfAbsent(element.homeTokenAddress, () => element);
+      previousValue.putIfAbsent(
+          element.homeTokenAddress?.toLowerCase(), () => element);
       return previousValue;
     });
     return _TransactionTileViewModel(

@@ -1,6 +1,25 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supervecina/screens/home/widgets/drawer.dart';
 
+final Map<String, Map<String, String>> donors = Map.from({
+  '0xed0bd7f319cd03539cbd3b5c592cae91a349dbae': {
+    'image': 'wikibank.png',
+    'name': 'Wikibank'
+  },
+  '0x615334c6256cd8dd94eed368cebedcf07a36a5ae': {
+    'image': 'caritas.png',
+    'name': 'Cáritas'
+  },
+  '0xfab6afa92671b319499384435c9df0ff11252b6c': {
+    'image': 'banco_de_alimentos.jpg',
+    'name': 'Banco de Alimentos'
+  },
+  '0xa86696defccd53bbc5b6c80fd6b9824e453cd16d': {
+    'image': 'asociación_barrios.jpeg',
+    'name': 'Asociación Tres Barrios'
+  }
+});
+
 final int intervalSeconds = int.parse(DotEnv().env['INTERVAL_SECONDS']);
 
 String toShortName(networkType) =>

@@ -39,7 +39,8 @@ class CashHeaderViewModel extends Equatable {
     num usdValue = store.state.userState?.totalBalance ?? 0;
     return CashHeaderViewModel(
         community: community,
-        token: store.state.cashWalletState.tokens[community?.homeTokenAddress],
+        token: store.state.cashWalletState
+            .tokens[community?.homeTokenAddress?.toLowerCase()],
         hasErc20Tokens: erc20Tokens.isNotEmpty,
         usdValue: reduce(usdValue),
         walletStatus: store.state.userState.walletStatus,

@@ -117,6 +117,11 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                       width: 250,
                                       child: PinInputTextField(
                                         pinLength: 6,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                          signed: true,
+                                          decimal: true,
+                                        ),
                                         decoration: UnderlineDecoration(
                                             textStyle: TextStyle(
                                                 color: Theme.of(context)

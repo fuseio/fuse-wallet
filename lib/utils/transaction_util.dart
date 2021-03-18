@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:supervecina/models/community/business.dart';
 import 'package:supervecina/models/community/community.dart';
 import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/utils/constans.dart';
 import 'package:supervecina/utils/format.dart';
 import 'package:supervecina/utils/phone.dart';
 
@@ -83,38 +84,42 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
   return null;
 }
 
-String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true,
-    List<Business> businesses,
-    bool getReverseContact = true}) {
+String deducePhoneNumber(
+  Transfer transfer,
+  Map<String, String> reverseContacts, {
+  List<Business> businesses,
+}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (accountAddress == null) {
+    return null;
+  }
+  if (donors.containsKey(accountAddress?.toLowerCase())) {
+    Map<String, String> donor = donors[accountAddress?.toLowerCase()];
+    return donor['name'];
+  }
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
+      (business) => business.account == accountAddress,
+      orElse: () => null,
+    );
     if (business != null) {
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase()) &&
-      getReverseContact) {
+  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];
-  }
-  if (format) {
-    return formatAddress(accountAddress);
   } else {
-    return accountAddress;
+    return formatAddress(accountAddress);
   }
 }
 
 dynamic getTransferImage(
-    Transfer transfer, Contact contact, Community community,
-    {bool isZeroAddress}) {
-  if (isZeroAddress != null && isZeroAddress) {
-    AssetImage(
-      'assets/images/ethereume_icon.png',
-    );
-  }
+  Transfer transfer,
+  Contact contact,
+  Community community,
+) {
+  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+
   if (transfer.isJoinCommunity() &&
       ![null, ''].contains(community?.metadata?.image)) {
     return new NetworkImage(community?.metadata?.getImageUri());
@@ -136,9 +141,13 @@ dynamic getTransferImage(
     return new AssetImage(
       'assets/images/ethereume_icon.png',
     );
+  } else if (donors.containsKey(accountAddress?.toLowerCase())) {
+    Map<String, String> donor = donors[accountAddress?.toLowerCase()];
+    return new AssetImage(
+      'assets/images/${donor['image']}',
+    );
   }
 
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   Business business = community?.businesses?.firstWhere(
       (business) => business.account == accountAddress,
       orElse: () => null);

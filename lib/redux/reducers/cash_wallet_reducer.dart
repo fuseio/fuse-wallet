@@ -148,7 +148,8 @@ CashWalletState _alreadyJoinedCommunity(
   String communityAddress = action.communityAddress.toLowerCase();
   Community current = state.communities[communityAddress] ??
       Community.initial().copyWith(address: communityAddress);
-  if (state.communities.containsKey(communityAddress) && !current.isMember) {
+  if (state.communities.containsKey(communityAddress) &&
+      (current.isMember == null || current.isMember == false)) {
     Community newCommunity = current?.copyWith(isMember: true);
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
