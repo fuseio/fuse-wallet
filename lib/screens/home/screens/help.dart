@@ -25,19 +25,19 @@ class _HelpScreenState extends State<HelpScreen>
   TextStyle hyperlinkText = TextStyle(color: Color.fromARGB(255, 26, 13, 127));
 
   Widget build(BuildContext context) {
-    return MainScaffold(
-      title: 'Help',
-      children: <Widget>[
-        Container(
+    return MainScaffold(title: 'Help', children: <Widget>[
+      Container(
           margin: EdgeInsets.only(left: 15, top: 25, bottom: 0, right: 15),
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Image.asset('assets/images/peepl-skydiving-2-300dpi.jpeg'),
                 Text(
                     'We are in the early stages of building the Peepl Eat Experience, so might be some teething issues, apologies if you are facing some!',
                     style: helpText),
+                SizedBox(height: 10),
                 Text(
                     'We are trying to build Peepl carefully and consciously to help local entrepreneurs and people, bring the power back to local communities.',
                     style: helpText),
@@ -57,8 +57,7 @@ class _HelpScreenState extends State<HelpScreen>
                   text: TextSpan(
                     children: [
                       TextSpan(
-                          text:
-                              "Most UK banks are supported. But if yours isn’t, contact us at ",
+                          text: "If this is the case, please contact us at ",
                           style: helpText),
                       TextSpan(
                           text: "help@itsaboutpeepl.com",
@@ -84,93 +83,9 @@ class _HelpScreenState extends State<HelpScreen>
                   'Where can I see my past orders?',
                   style: helpTitleText,
                 ),
-                RichText(
-                    text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text:
-                          "We don’t currently have a way to show past orders yet, but it’s coming! In the meantime, check ur email inbox for the confirmation message we sent after you first made your order – it will have come from ",
-                      style: helpText,
-                    ),
-                    TextSpan(
-                        text: "help@itsaboutpeepl.com.",
-                        style: hyperlinkText,
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            var url = "mailto:help@itsaboutpeepl.com";
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          }),
-                    TextSpan(
-                        text:
-                            " and we’ll help you top up your wallet with a transfer via your bank’s app or website.",
-                        style: helpText)
-                  ],
-                )),
-                SizedBox(height: 10),
                 Text(
-                  'Where can I see my past orders?',
-                  style: helpTitleText,
-                ),
-                RichText(
-                    text: TextSpan(
-                  children: [
-                Text(
-                    'We are in the early stages of building the Peepl Eat Experience, so might be some teething issues, apologies if you are facing some!',
+                    'Your past orders are shown by heading to ‘orders’ at the top of the ‘Orders’ tab on the app.',
                     style: helpText),
-                Text(
-                    'We are trying to build Peepl carefully and consciously to help local entrepreneurs and people, bring the power back to local communities.',
-                    style: helpText),
-                SizedBox(height: 10),
-                Text(
-                  'How do I pay?',
-                  style: helpTitleText,
-                ),
-                Text(
-                    'We are using Stripe, one of the most trusted payment processors in the world. To top up, just tap “Home”, then the menu icon, then “Top up” to add money to your wallet, straight from your credit or debit card.',
-                    style: helpText),
-                SizedBox(height: 10),
-                Text(
-                    'My card is not accepted or topping up is not working for me.',
-                    style: helpTitleText),
-                RichText(
-                    text: TextSpan(
-                  children: [
-                    TextSpan(
-                        text: "If this is the case, please contact us at ",
-                        style: helpText),
-                    TextSpan(
-                        text: "help@itsaboutpeepl.com",
-                        style: hyperlinkText,
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            var url = "mailto:help@itsaboutpeepl.com";
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          }),
-                    TextSpan(
-                        text:
-                            " and we’ll help you top up your wallet with a transfer via your bank’s app or website.",
-                        style: helpText)
-                  ],
-                )),
-                SizedBox(height: 10),
-                Text('Where can I see my past orders?', style: helpTitleText),
-                RichText(
-                    text: TextSpan(
-                  children: [
-                    TextSpan(
-                        text:
-                            "Your past orders are shown by heading to ‘orders’ at the top of the ‘Orders’ tab on the app.",
-                        style: helpText),
-                  ],
-                )),
                 SizedBox(height: 10),
                 Text("My order hasn't turned up", style: helpTitleText),
                 RichText(
@@ -224,12 +139,18 @@ class _HelpScreenState extends State<HelpScreen>
                 SizedBox(height: 10),
                 Text("What information do you store about me?",
                     style: helpTitleText),
+                Text(
+                    "When you provide your email address, phone number, and delivery address as part of your order, we store those details so that we can send them to the relevant restaurant and our delivery partners for delivery of your order. We also store your Peepl wallet ID, so that can match up your order with your payment.",
+                    style: helpText),
+                Text(
+                    "If you choose to opt-out of marketing communications, we will only store information relevant for individual order delivery such as mentioned above. If you choose to receive marketing communications from us, we currently share this with a third party whilst building the capability to do this without our own app ecosystem.",
+                    style: helpText),
                 RichText(
                     text: TextSpan(
                   children: [
                     TextSpan(
                         text:
-                            "When you provide your email address, phone number, and delivery address as part of your order, we store those details so that we can send them to the restaurant for delivery of your order. We also store your Peepl wallet ID, so that can match up your order with your payment. We don’t share any of that data with anyone else. And we don’t store any other data about you or your device. You can contact us at any time to ask for a copy of all data we hold about you, or to remove all data we hold about you. Just email ",
+                            "You can contact us at any time to ask for a copy of all data we hold about you, or to remove all data we hold about you. Just email ",
                         style: helpText),
                     TextSpan(
                         text: "help@itsaboutpeepl.com.",
@@ -287,21 +208,21 @@ class _HelpScreenState extends State<HelpScreen>
                             throw 'Could not launch $url';
                           }
                         }),
-                  TextSpan(
-                      text: ". You can join our group on Telegram by ",
-                      style: helpText),
-                  TextSpan(
-                      text: "clicking here.",
-                      style: hyperlinkText,
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          var url = "https://t.me/peeplnetwork";
-                          if (await canLaunch(url)) {
-                            await launch(url);
-                          } else {
-                            throw 'Could not launch $url';
-                          }
-                        })
+                  // TextSpan(
+                  //     text: ". You can join our group on Telegram by ",
+                  //     style: helpText),
+                  // TextSpan(
+                  //     text: "clicking here.",
+                  //     style: hyperlinkText,
+                  //     recognizer: TapGestureRecognizer()
+                  //       ..onTap = () async {
+                  //         var url = "https://t.me/peeplnetwork";
+                  //         if (await canLaunch(url)) {
+                  //           await launch(url);
+                  //         } else {
+                  //           throw 'Could not launch $url';
+                  //         }
+                  //       })
                 ])),
                 SizedBox(height: 10),
               ])))
