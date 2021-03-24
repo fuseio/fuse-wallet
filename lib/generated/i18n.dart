@@ -390,6 +390,16 @@ class I18n implements WidgetsLocalizations {
   String get swapping => "Swapping";
   /// "for"
   String get for_text => "for";
+  /// "Your wallet is empty!"
+  String get your_wallet_is_empty => "Your wallet is empty!";
+  /// "Your balance is empty"
+  String get your_balance_is_empty => "Your balance is empty";
+  /// "Top up your account"
+  String get top_up_your_account => "Top up your account";
+  /// "Sell"
+  String get sell => "Sell";
+  /// "You don't have tokens to swap yet"
+  String get no_swap_option => "You don't have tokens to swap yet";
 }
 
 class _I18n_en_US extends I18n {

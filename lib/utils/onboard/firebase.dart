@@ -10,7 +10,7 @@ import 'package:fusecash/utils/onboard/Istrategy.dart';
 
 class FirebaseStrategy implements IOnBoardStrategy {
   final strategy;
-  FirebaseStrategy({this.strategy = OnboardStatergy.firebase});
+  FirebaseStrategy({this.strategy = OnboardStrategy.firebase});
 
   @override
   Future login(store, phoneNumber) async {

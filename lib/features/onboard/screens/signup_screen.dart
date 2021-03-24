@@ -108,8 +108,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           builder: (BuildContext context) => SignUpDialog(),
                         );
                         Segment.track(
-                            eventName:
-                                "Wallet: opened modal - why do we need this");
+                          eventName:
+                              "Wallet: opened modal - why do we need this",
+                        );
                       },
                       child: Center(
                         child: Text(

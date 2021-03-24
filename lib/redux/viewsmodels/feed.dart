@@ -21,20 +21,30 @@ class FeedViewModel extends Equatable {
   });
 
   static FeedViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
+    final String communityAddress =
+        store.state.cashWalletState.communityAddress;
+    final Community community =
         store.state.cashWalletState.communities[communityAddress];
-    Token token =
+    final Token token =
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
+
+    final WalletAction walletAction =
+        store.state.cashWalletState?.walletActions?.list?.firstWhere(
+      (element) => element.name == 'createWallet',
+      orElse: () => null,
+    );
+    final List<WalletAction> walletActions =
+        List.from(store.state.cashWalletState?.walletActions?.list?.reversed) ??
+            [];
     final bool showDepositBanner =
         !(store?.state?.userState?.depositBannerShowed ?? false) &&
             util.isDefaultCommunity(communityAddress) &&
-            token != null;
+            token != null &&
+            (walletAction != null && walletAction.isConfirmed()) &&
+            (walletActions.isNotEmpty && walletActions.length < 2);
     return FeedViewModel(
       showDepositBanner: showDepositBanner,
-      walletActions: List.from(
-              store.state.cashWalletState?.walletActions?.list?.reversed) ??
-          [],
+      walletActions: walletActions,
       startFetching: () {
         store.dispatch(startFetchingCall());
         store.dispatch(startFetchTokensBalances());

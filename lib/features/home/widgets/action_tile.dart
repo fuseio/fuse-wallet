@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -52,6 +53,7 @@ class ActionTile extends StatelessWidget {
           contact,
           community,
           action.getSender(),
+          viewModel.tokensImages,
         );
         final String displayName = action.map(
           createWallet: (value) => value.getText(),
@@ -309,24 +311,84 @@ class ActionTile extends StatelessWidget {
                                     ],
                                   ),
                                 )
-                              : AutoSizeText(
-                                  displayName,
-                                  style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: 16,
-                                  ),
-                                ),
+                              : action.isSwapAction()
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          action.map(
+                                            createWallet: (value) => '',
+                                            fiatProcess: (value) => '',
+                                            joinCommunity: (value) => '',
+                                            fiatDeposit: (value) => '',
+                                            bonus: (value) => '',
+                                            send: (value) => '',
+                                            receive: (value) => '',
+                                            swap: (value) =>
+                                                value.tradeInfo.inputToken,
+                                          ),
+                                          style: TextStyle(
+                                            color: Color(0xFF333333),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Flexible(
+                                          child: SvgPicture.asset(
+                                            'assets/images/swap_arrow.svg',
+                                            width: 19,
+                                            height: 8,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Expanded(
+                                          child: AutoSizeText(
+                                            action.map(
+                                              createWallet: (value) => '',
+                                              fiatProcess: (value) => '',
+                                              joinCommunity: (value) => '',
+                                              fiatDeposit: (value) => '',
+                                              bonus: (value) => '',
+                                              send: (value) => '',
+                                              receive: (value) => '',
+                                              swap: (value) =>
+                                                  value.tradeInfo.outputToken,
+                                            ),
+                                            style: TextStyle(
+                                              color: Color(0xFF333333),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : AutoSizeText(
+                                      displayName,
+                                      style: TextStyle(
+                                        color: Color(0xFF333333),
+                                        fontSize: 16,
+                                      ),
+                                    ),
                           action.isGenerateWallet() && action.isPending()
                               ? Positioned(
                                   bottom: -20,
                                   child: Padding(
-                                      child: Text(
-                                        I18n.of(context).up_to_10,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      I18n.of(context).up_to_10,
+                                      style: TextStyle(
+                                        fontSize: 12,
                                       ),
-                                      padding: EdgeInsets.only(top: 10)))
+                                    ),
+                                  ),
+                                )
                               : SizedBox.shrink()
                         ],
                       ),

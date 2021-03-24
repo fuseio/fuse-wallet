@@ -1,3 +1,4 @@
+import 'package:fusecash/features/home/widgets/deposit_banner.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -13,8 +14,11 @@ class AssetsList extends StatelessWidget {
       converter: TokensListViewModel.fromStore,
       builder: (_, viewModel) => Scaffold(
         body: Column(
+          mainAxisAlignment: viewModel.tokens.isEmpty
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
           children: <Widget>[
-            Expanded(
+            Flexible(
               child: ListView.separated(
                 shrinkWrap: true,
                 primary: false,
@@ -28,6 +32,9 @@ class AssetsList extends StatelessWidget {
                 ),
               ),
             ),
+            viewModel.showDepositBanner
+                ? Expanded(child: DepositBanner())
+                : SizedBox.shrink(),
           ],
         ),
       ),

@@ -14,7 +14,7 @@ enum BiometricAuth {
   none,
 }
 
-enum OnboardStatergy {
+enum OnboardStrategy {
   firebase,
   sms,
   none,

@@ -47,6 +47,19 @@ abstract class WalletAction implements _$WalletAction {
     );
   }
 
+  bool isSwapAction() {
+    return this.map(
+      createWallet: (value) => false,
+      fiatProcess: (value) => false,
+      joinCommunity: (value) => false,
+      fiatDeposit: (value) => false,
+      bonus: (value) => false,
+      send: (value) => false,
+      receive: (value) => false,
+      swap: (value) => true,
+    );
+  }
+
   bool isJoinBonus() {
     return this.map(
       createWallet: (value) => false,
@@ -215,11 +228,9 @@ abstract class WalletAction implements _$WalletAction {
         }
       },
       swap: (value) {
-        final String text = ' ${reduce(value.tradeInfo.inputAmount)}' +
-            ' ${value.tradeInfo.inputToken} ' +
+        final String text = value.tradeInfo.inputToken +
             I18n.of(ExtendedNavigator.root.context).for_text +
-            ' ${reduce(value.tradeInfo.outputAmount)} ' +
-            value.tradeInfo.outputToken;
+            ' ${value.tradeInfo.outputToken}';
         return text;
       },
     );

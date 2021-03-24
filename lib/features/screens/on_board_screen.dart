@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-// import 'package:fusecash/features/onboard/widegts/create_or_restore.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/onboard/widegts/flare_controller.dart';
-import 'package:fusecash/redux/viewsmodels/splash.dart';
 import 'package:fusecash/widgets/welcome_frame.dart';
-// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardScreen extends StatefulWidget {
   @override
@@ -18,25 +12,27 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   PageController _pageController;
   static const _kDuration = Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
-  HouseController _slideController;
-  ValueNotifier<double> notifier;
-
-  void _onScroll() {
-    _slideController.rooms = _pageController.page;
-  }
+  double page = 0;
 
   @override
   void initState() {
-    super.initState();
-    _slideController = HouseController(onUpdated: _update);
-
     _pageController = PageController(
       initialPage: 0,
-      viewportFraction: 0.9,
-    )..addListener(_onScroll);
+    );
+
+    _pageController.addListener(() {
+      setState(() {
+        page = _pageController.page;
+      });
+    });
+    super.initState();
   }
 
-  _update() => setState(() {});
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void gotoPage(page) {
     _pageController.animateToPage(
@@ -65,27 +61,54 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         lottieImagePath: 'assets/lottie/3.json',
       ),
       WelcomeFrame(
-        title: '',
-        subTitle: '',
+        showButtons: true,
         lottieImagePath: 'assets/lottie/4.json',
       ),
       // CreateWallet()
     ];
-    return StoreConnector<AppState, SplashViewModel>(
-      onInitialBuild: (viewModel) {
-        Segment.screen(screenName: '/splash-screen');
-      },
-      distinct: true,
-      converter: SplashViewModel.fromStore,
-      builder: (_, viewModel) {
-        return PageView(
-          // physics: AlwaysScrollableScrollPhysics(),
-          controller: _pageController,
-          children: welcomeScreens,
-          // itemCount: welcomeScreens.length,
-          // itemBuilder: (_, index) => welcomeScreens[index],
-        );
-      },
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Lottie.asset(
+            //   'assets/lottie/title.json',
+            //   frameRate: FrameRate.max,
+            //   repeat: true,
+            // ),
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: welcomeScreens.length,
+                itemBuilder: (_, index) => welcomeScreens[index],
+              ),
+            ),
+            TweenAnimationBuilder(
+              child: Container(
+                padding: EdgeInsets.only(left: 20.0, bottom: 20.0),
+                child: SmoothPageIndicator(
+                  controller: _pageController,
+                  onDotClicked: gotoPage,
+                  count: welcomeScreens.length,
+                  effect: JumpingDotEffect(
+                    dotWidth: 10.0,
+                    dotHeight: 10.0,
+                    dotColor: Theme.of(context).colorScheme.onSurface,
+                    activeDotColor: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+              tween: Tween<double>(begin: 0, end: 1),
+              duration: Duration(milliseconds: 2000),
+              builder: (BuildContext context, double _val, Widget child) =>
+                  Opacity(
+                opacity: _val,
+                child: child,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

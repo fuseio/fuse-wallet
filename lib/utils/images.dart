@@ -60,11 +60,19 @@ class ImageUrl {
     return new AssetImage('assets/images/anom.png');
   }
 
+  static String getTokenByAddress(
+    String address,
+    Map<String, String> tokensImages,
+  ) {
+    return tokensImages[address.toLowerCase()] ?? null;
+  }
+
   static ImageProvider getActionImage(
     WalletAction action,
     Contact contact,
     Community community,
     String accountAddress,
+    Map<String, String> tokensImages,
   ) {
     final bool hasAvatar = contact?.avatar != null && contact.avatar.isNotEmpty;
     if (hasAvatar) {
@@ -75,6 +83,7 @@ class ImageUrl {
         'assets/images/generate_wallet.png',
       ),
       fiatProcess: (value) =>
+          getTokenByAddress(value.tokenAddress, tokensImages) ??
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       joinCommunity: (value) =>
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),

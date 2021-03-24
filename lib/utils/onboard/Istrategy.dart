@@ -1,10 +1,10 @@
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/utils/onboard/firebase.dart';
-import 'package:fusecash/utils/onboard/simaple.dart';
+import 'package:fusecash/utils/onboard/simple.dart';
 import 'package:fusecash/utils/onboard/sms.dart';
 
 abstract class IOnBoardStrategy {
-  final OnboardStatergy strategy;
+  final OnboardStrategy strategy;
 
   Future<dynamic> login(store, phoneNumber);
   Future<dynamic> verify(store, verificationCode, onSuccess);
@@ -21,7 +21,7 @@ class OnBoardStrategyFactory {
     } else if (strategy == 'sms') {
       return SmsStrategy();
     } else {
-      return SimapleStrategy();
+      return SimpleStrategy();
     }
   }
 }

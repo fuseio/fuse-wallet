@@ -73,7 +73,7 @@ class TradeCard extends StatelessWidget {
                                 Icon(Icons.arrow_drop_down)
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                       useMaxWidget != null
@@ -87,7 +87,7 @@ class TradeCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: AutoSizeTextField(
                     maxLines: 1,
                     minFontSize: 15,

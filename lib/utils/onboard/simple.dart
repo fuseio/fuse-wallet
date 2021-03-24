@@ -7,9 +7,9 @@ import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
 
-class SimapleStrategy implements IOnBoardStrategy {
-  final OnboardStatergy strategy;
-  SimapleStrategy({this.strategy = OnboardStatergy.none});
+class SimpleStrategy implements IOnBoardStrategy {
+  final OnboardStrategy strategy;
+  SimpleStrategy({this.strategy = OnboardStrategy.none});
 
   @override
   Future login(store, phoneNumber) async {

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
@@ -12,6 +13,7 @@ class TokenTile extends StatelessWidget {
     Key key,
     this.token,
     this.showPending = true,
+    this.showBalance = true,
     this.onTap,
     this.quate,
     this.symbolHeight = 60.0,
@@ -20,6 +22,7 @@ class TokenTile extends StatelessWidget {
   final Function() onTap;
   final double quate;
   final bool showPending;
+  final bool showBalance;
   final double symbolWidth;
   final double symbolHeight;
   final Token token;
@@ -133,13 +136,16 @@ class TokenTile extends StatelessWidget {
                       verticalDirection: VerticalDirection.down,
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
-                        Text(
-                          token.name,
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 15,
+                        Expanded(
+                          child: AutoSizeText(
+                            token.name,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Color(0xFF333333),
+                              fontSize: 15,
+                            ),
                           ),
-                        ),
+                        )
                         // SizedBox(
                         //   width: 5,
                         // ),
@@ -154,69 +160,71 @@ class TokenTile extends StatelessWidget {
                 ],
               ),
             ),
-            Flexible(
-              flex: 4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Stack(
-                        overflow: Overflow.visible,
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Europa',
-                              ),
-                              children: <TextSpan>[
+            showBalance
+                ? Flexible(
+                    flex: 4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Stack(
+                              overflow: Overflow.visible,
+                              alignment: AlignmentDirectional.bottomEnd,
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Europa',
+                                    ),
+                                    children: <TextSpan>[
+                                      token.priceInfo != null
+                                          ? TextSpan(
+                                              text: '\$' + price,
+                                              style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
+                                              ))
+                                          : TextSpan(
+                                              text: token.getBalance() +
+                                                  ' ' +
+                                                  token.symbol,
+                                              style: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                ),
                                 token.priceInfo != null
-                                    ? TextSpan(
-                                        text: '\$' + price,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ))
-                                    : TextSpan(
-                                        text: token.getBalance() +
-                                            ' ' +
-                                            token.symbol,
-                                        style: TextStyle(
-                                          fontSize: 15.0,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                        ),
-                                      ),
+                                    ? Positioned(
+                                        bottom: -20,
+                                        child: Padding(
+                                            child: Text(
+                                                token.getBalance() +
+                                                    ' ' +
+                                                    token.symbol,
+                                                style: TextStyle(
+                                                    color: Color(0xFF8D8D8D),
+                                                    fontSize: 10)),
+                                            padding: EdgeInsets.only(top: 10)))
+                                    : SizedBox.shrink()
                               ],
-                            ),
-                          ),
-                          token.priceInfo != null
-                              ? Positioned(
-                                  bottom: -20,
-                                  child: Padding(
-                                      child: Text(
-                                          token.getBalance() +
-                                              ' ' +
-                                              token.symbol,
-                                          style: TextStyle(
-                                              color: Color(0xFF8D8D8D),
-                                              fontSize: 10)),
-                                      padding: EdgeInsets.only(top: 10)))
-                              : SizedBox.shrink()
-                        ],
-                      )
-                    ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   )
-                ],
-              ),
-            )
+                : SizedBox.shrink(),
           ],
         ),
       ),

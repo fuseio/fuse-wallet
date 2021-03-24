@@ -21,38 +21,49 @@ class Feed extends StatelessWidget {
             await Future.delayed(Duration(milliseconds: 1000));
             return 'success';
           },
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Container(
-              height: MediaQuery.of(context).size.height * .59,
-              child: Column(
-                children: <Widget>[
-                  viewModel.showDepositBanner
-                      ? DepositBanner()
-                      : SizedBox.shrink(),
-                  Expanded(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: viewModel.walletActions?.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Padding(
-                        padding: EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: Divider(
-                          thickness: 1,
-                          height: 0,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .59,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: viewModel.walletActions?.length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Padding(
+                            padding: EdgeInsets.only(
+                              left: 15,
+                              right: 15,
+                            ),
+                            child: Divider(
+                              thickness: 1,
+                              height: 0,
+                            ),
+                          ),
+                          itemBuilder: (context, index) => ActionTile(
+                            action: viewModel.walletActions[index],
+                          ),
                         ),
                       ),
-                      itemBuilder: (context, index) => ActionTile(
-                        action: viewModel.walletActions[index],
-                      ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              viewModel.showDepositBanner
+                  ? Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: DepositBanner(),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ],
           ),
         );
       },

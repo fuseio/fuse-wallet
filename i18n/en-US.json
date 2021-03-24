@@ -177,5 +177,10 @@
     "auth_failed_message": "Please authenticate to continue",
     "swapped": "Swapped",
     "swapping": "Swapping",
-    "for_text": "for"
+    "for_text": "for",
+    "your_wallet_is_empty": "Your wallet is empty!",
+    "your_balance_is_empty": "Your balance is empty",
+    "top_up_your_account": "Top up your account",
+    "sell": "Sell",
+    "no_swap_option": "You don't have tokens to swap yet"
 }

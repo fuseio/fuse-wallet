@@ -225,16 +225,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                       highlightColor:
                                           Theme.of(context).canvasColor,
                                       onTap: () {
-                                        String maxValue = formatValue(
-                                          selectedToken.amount,
-                                          selectedToken.decimals,
-                                          withPrecision: true,
-                                        );
-                                        if (num.parse(maxValue).compareTo(
+                                        // String maxValue = formatValue(
+                                        //   selectedToken.amount,
+                                        //   selectedToken.decimals,
+                                        //   withPrecision: true,
+                                        // );
+                                        String max = selectedToken.getBalance();
+                                        if (num.parse(max).compareTo(
                                                 (num.tryParse(amountText) ??
                                                     0)) !=
                                             0) {
-                                          _onKeyPress(maxValue, max: true);
+                                          _onKeyPress(max, max: true);
                                         }
                                       },
                                       child: Container(

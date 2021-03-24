@@ -30,8 +30,8 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   void dispose() {
-    super.dispose();
     wordsController.dispose();
+    super.dispose();
   }
 
   @override

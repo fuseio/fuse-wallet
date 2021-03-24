@@ -33,7 +33,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
     _pageController = PageController(
       initialPage: 0,
-      viewportFraction: 0.9,
     )..addListener(_onScroll);
   }
 

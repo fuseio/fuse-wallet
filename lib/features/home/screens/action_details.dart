@@ -35,7 +35,7 @@ class ActionDetailsScreen extends StatelessWidget {
       bonus: (_) => I18n.of(context).from,
       send: (_) => I18n.of(context).to,
       receive: (value) => I18n.of(context).from,
-      swap: (_) => I18n.of(context).swap,
+      swap: (_) => I18n.of(context).sell,
     );
 
     final String title = action.map(
@@ -125,18 +125,35 @@ class ActionDetailsScreen extends StatelessWidget {
                         Text(name),
                         Row(
                           children: <Widget>[
-                            Hero(
-                              child: CircleAvatar(
-                                backgroundColor: Color(0xFFE0E0E0),
-                                radius: 22,
-                                backgroundImage: image,
-                              ),
-                              tag: action.hashCode,
-                            ),
+                            action.isSwapAction()
+                                ? SizedBox.shrink()
+                                : Hero(
+                                    child: CircleAvatar(
+                                      backgroundColor: Color(0xFFE0E0E0),
+                                      radius: 22,
+                                      backgroundImage: image,
+                                    ),
+                                    tag: action.hashCode,
+                                  ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Text(
-                                displayName,
+                                action.isSwapAction()
+                                    ? action.map(
+                                        createWallet: (value) => '',
+                                        fiatProcess: (value) => '',
+                                        joinCommunity: (value) => '',
+                                        fiatDeposit: (value) => '',
+                                        bonus: (value) => '',
+                                        send: (value) => '',
+                                        receive: (value) => '',
+                                        swap: (value) =>
+                                            reduce(
+                                                value.tradeInfo.inputAmount) +
+                                            ' ' +
+                                            value.tradeInfo.inputToken,
+                                      )
+                                    : displayName,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Theme.of(context)
@@ -150,6 +167,34 @@ class ActionDetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  !action.isSwapAction()
+                      ? SizedBox.shrink()
+                      : Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 25),
+                          child: Divider(
+                            height: 1,
+                          ),
+                        ),
+
+                  !action.isSwapAction()
+                      ? SizedBox.shrink()
+                      : rowItem(
+                          context,
+                          I18n.of(context).receive,
+                          action.map(
+                            createWallet: (value) => '',
+                            fiatProcess: (value) => '',
+                            joinCommunity: (value) => '',
+                            fiatDeposit: (value) => '',
+                            bonus: (value) => '',
+                            send: (value) => '',
+                            receive: (value) => '',
+                            swap: (value) =>
+                                reduce(value.tradeInfo.outputAmount) +
+                                ' ' +
+                                value.tradeInfo.outputToken,
+                          ),
+                        ),
                   [null, ''].contains(accountAddress)
                       ? SizedBox.shrink()
                       : Padding(
@@ -175,17 +220,21 @@ class ActionDetailsScreen extends StatelessWidget {
                             showCopiedFlushbar(context);
                           },
                         ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 25, bottom: 25),
-                    child: Divider(
-                      height: 1,
-                    ),
-                  ),
-                  rowItem(
-                    context,
-                    I18n.of(context).amount,
-                    '${action.getAmount()} ${symbol}',
-                  ),
+                  action.isSwapAction()
+                      ? SizedBox.shrink()
+                      : Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 25),
+                          child: Divider(
+                            height: 1,
+                          ),
+                        ),
+                  action.isSwapAction()
+                      ? SizedBox.shrink()
+                      : rowItem(
+                          context,
+                          I18n.of(context).amount,
+                          '${action.getAmount()} ${symbol}',
+                        ),
                   // Padding(
                   //   padding: EdgeInsets.only(top: 25, bottom: 25),
                   //   child: Divider(

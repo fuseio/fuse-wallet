@@ -68,9 +68,7 @@ CashWalletState _getActionsSuccess(
     if (savedIndex != -1) {
       list[savedIndex] = walletAction;
     } else {
-      if (walletAction.id != null) {
-        list?.add(walletAction);
-      }
+      list?.add(walletAction);
     }
   }
   return state.copyWith(

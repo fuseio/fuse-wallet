@@ -24,7 +24,7 @@ class ReceiveScreen extends StatelessWidget {
         },
         converter: ReceiveModel.fromStore,
         builder: (_, viewModel) {
-          final String barcodeData = 'ethereum:${viewModel.walletAddress}';
+          final String barcodeData = 'fuse:${viewModel.walletAddress}';
           return Container(
             height: MediaQuery.of(context).size.height * 0.7,
             child: Column(

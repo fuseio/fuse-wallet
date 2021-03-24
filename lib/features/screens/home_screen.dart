@@ -88,7 +88,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              ReceiveScreen()
+              ReceiveScreen(),
             ],
           ),
           bottomNavigationBar: BottomBar(

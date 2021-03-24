@@ -15,7 +15,9 @@ final Map<String, num> fees = {
 String reduce(dynamic formattedValue) {
   if (formattedValue == null) return '0';
   Decimal decimalValue = Decimal.parse(formattedValue.toString());
-  return num.parse(decimalValue.toString()).compareTo(num.parse('0.001')) != 1
+  return Decimal.parse(decimalValue.toString())
+              .compareTo(Decimal.parse('0.001')) !=
+          1
       ? decimalValue.toStringAsFixed(1)
       : decimalValue.isInteger
           ? decimalValue.toString()

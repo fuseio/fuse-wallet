@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/features/swap/widgets/card.dart';
@@ -19,6 +20,7 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/features/swap/router/swap_router.gr.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 
 class SwapScreen extends StatefulWidget {
   final Token primaryToken;
@@ -129,7 +131,11 @@ class _SwapScreenState extends State<SwapScreen> {
     }
   }
 
-  showBottomMenu(List<Token> tokens, onTap) {
+  showBottomMenu(
+    List<Token> tokens,
+    Function onTap,
+    bool showBalance,
+  ) {
     showModalBottomSheet(
       context: ExtendedNavigator.named('swapRouter').context,
       shape: RoundedRectangleBorder(
@@ -169,24 +175,34 @@ class _SwapScreenState extends State<SwapScreen> {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          ListView.separated(
-                            shrinkWrap: true,
-                            primary: false,
-                            separatorBuilder: (_, int index) => Divider(
-                              height: 0,
-                            ),
-                            itemCount: tokens?.length ?? 0,
-                            itemBuilder: (context, index) => TokenTile(
-                              token: tokens[index],
-                              symbolWidth: 60,
-                              symbolHeight: 60,
-                              showPending: false,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                onTap(tokens[index]);
-                              },
-                            ),
-                          ),
+                          tokens.isEmpty
+                              ? Text(
+                                  I18n.of(context).no_swap_option,
+                                  style: TextStyle(
+                                    color: Color(0xFF979797),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                )
+                              : ListView.separated(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  separatorBuilder: (_, int index) => Divider(
+                                    height: 0,
+                                  ),
+                                  itemCount: tokens?.length ?? 0,
+                                  itemBuilder: (context, index) => TokenTile(
+                                    token: tokens[index],
+                                    symbolWidth: 60,
+                                    symbolHeight: 60,
+                                    showBalance: showBalance,
+                                    showPending: false,
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      onTap(tokens[index]);
+                                    },
+                                  ),
+                                ),
                         ],
                       ),
                     ],
@@ -238,11 +254,12 @@ class _SwapScreenState extends State<SwapScreen> {
         focusColor: Theme.of(context).canvasColor,
         highlightColor: Theme.of(context).canvasColor,
         onTap: () {
-          String max = formatValue(
-            tokenOut.amount,
-            tokenOut.decimals,
-            withPrecision: true,
-          );
+          String max = tokenOut.getBalance();
+          // String max = formatValue(
+          //   tokenOut.amount,
+          //   tokenOut.decimals,
+          //   withPrecision: true,
+          // );
           setState(() {
             tokenOutController.text = max;
           });
@@ -261,6 +278,56 @@ class _SwapScreenState extends State<SwapScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget topUpYourAccount(String url) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            ExtendedNavigator.root.pushWebview(
+              withBack: true,
+              url: '$url&finalUrl=https://fuse.io',
+              title: I18n.of(context).deposit_your_first_dollars,
+            );
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AutoSizeText.rich(
+                TextSpan(
+                  style: TextStyle(
+                    fontSize: 15.0,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: I18n.of(context).your_balance_is_empty + ' ',
+                    ),
+                    TextSpan(
+                      text: I18n.of(context).top_up_your_account,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primaryVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // SizedBox(width: 2),
+              Icon(
+                Icons.arrow_right_outlined,
+                color: Theme.of(context).colorScheme.primaryVariant,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+      ],
     );
   }
 
@@ -295,8 +362,9 @@ class _SwapScreenState extends State<SwapScreen> {
           if (viewModel.tokens.isEmpty) {
             return Preloader();
           } else {
+            List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
             final bool hasFund =
-                (Decimal.tryParse(tokenOutController.text) ?? Decimal.zero)
+                (Decimal.tryParse(tokenOutController.text) ?? Decimal.one)
                         .compareTo(
                       Decimal.parse(
                         formatValue(
@@ -328,8 +396,9 @@ class _SwapScreenState extends State<SwapScreen> {
                                   isSwapped: isSwapped,
                                   onTap: () {
                                     showBottomMenu(
-                                      viewModel.tokens,
+                                      viewModel.payWithTokens,
                                       onTokenOutChanged,
+                                      true,
                                     );
                                   },
                                   onChanged: (value) {
@@ -352,8 +421,9 @@ class _SwapScreenState extends State<SwapScreen> {
                                   isSwapped: !isSwapped,
                                   onTap: () {
                                     showBottomMenu(
-                                      viewModel.tokens,
+                                      viewModel.receiveTokens,
                                       onTokenInChanged,
+                                      false,
                                     );
                                   },
                                   onChanged: (value) {
@@ -380,27 +450,30 @@ class _SwapScreenState extends State<SwapScreen> {
                     ],
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: PrimaryButton(
-                          disabled: isFetchingPrice || !hasFund,
-                          preload: isFetchingPrice,
-                          labelColor: hasFund ? null : Color(0xFF797979),
-                          bgColor: hasFund
-                              ? null
-                              : Theme.of(context).colorScheme.secondary,
-                          label: hasFund
-                              ? I18n.of(context).review_swap
-                              : I18n.of(context).insufficient_fund,
-                          onPressed: () {
-                            ExtendedNavigator.named('swapRouter')
-                                .pushReviewSwapScreen(
-                              rateInfo: rateInfo,
-                              swapRequestBody: swapRequestBody,
-                              tradeInfo: info,
-                            );
-                          },
-                        ),
+                      viewModel.payWithTokens.isEmpty &&
+                              depositPlugins.isNotEmpty
+                          ? topUpYourAccount(depositPlugins[0].widgetUrl)
+                          : SizedBox.shrink(),
+                      PrimaryButton(
+                        disabled: isFetchingPrice || !hasFund,
+                        preload: isFetchingPrice,
+                        labelColor: hasFund ? null : Color(0xFF797979),
+                        bgColor: hasFund
+                            ? null
+                            : Theme.of(context).colorScheme.secondary,
+                        label: hasFund
+                            ? I18n.of(context).review_swap
+                            : I18n.of(context).insufficient_fund,
+                        onPressed: () {
+                          ExtendedNavigator.named('swapRouter')
+                              .pushReviewSwapScreen(
+                            rateInfo: rateInfo,
+                            swapRequestBody: swapRequestBody,
+                            tradeInfo: info,
+                          );
+                        },
                       ),
                       SizedBox(
                         height: 30,

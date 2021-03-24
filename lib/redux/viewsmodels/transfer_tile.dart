@@ -13,12 +13,14 @@ class TransferTileViewModel extends Equatable {
   final Map<String, Token> tokens;
   final Map<String, Community> communitiesMap;
   final Map<String, Community> communities;
+  final Map<String, String> tokensImages;
   TransferTileViewModel({
     this.reverseContacts,
     this.countryCode,
     this.erc20Tokens,
     this.tokens,
     this.contacts,
+    this.tokensImages,
     this.communities,
     this.communitiesMap,
   });
@@ -57,6 +59,7 @@ class TransferTileViewModel extends Equatable {
       erc20Tokens: store.state.proWalletState.erc20Tokens,
       communitiesMap: communitiesMap,
       communities: store.state.cashWalletState.communities,
+      tokensImages: store.state.swapState.tokensImages,
     );
   }
 
@@ -68,6 +71,7 @@ class TransferTileViewModel extends Equatable {
         contacts,
         erc20Tokens,
         tokens,
-        communitiesMap
+        communitiesMap,
+        tokensImages
       ];
 }

@@ -129,6 +129,7 @@ void barcodeScannerHandler(context) async {
   } catch (e) {
     log.error('ERROR - BarcodeScanner');
     Flushbar(
+      duration: Duration(seconds: 2),
       boxShadows: [
         BoxShadow(
           color: Colors.grey[500],

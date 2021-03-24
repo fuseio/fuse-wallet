@@ -13,7 +13,6 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/services.dart';
-// import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
@@ -94,8 +93,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    super.dispose();
     streamSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -128,8 +127,9 @@ class _MyAppState extends State<MyApp> {
                 secondary: Color(0xFFF5F5F5),
                 secondaryVariant: Color(0xFF777777),
                 primary: Color(0xFF38D989),
+                primaryVariant: Color(0xFF23B16A),
                 accentColor: Color(0xFF000000),
-                appBarColor: Theme.of(context).canvasColor,
+                appBarColor: Color(0xFFFFFFFF),
               ),
             ).toTheme,
             child: extendedNav,

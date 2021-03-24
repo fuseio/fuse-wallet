@@ -107,7 +107,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                 selectedWordsNum.join(", "),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 20,
                               fontWeight: FontWeight.normal,
                             ),
                           )
