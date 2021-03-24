@@ -10,6 +10,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/utils/string.dart';
 
 class UserNameScreen extends StatelessWidget {
   final displayNameController = TextEditingController(text: "");
@@ -118,7 +119,8 @@ class UserNameScreen extends StatelessWidget {
                         label: I18n.of(context).next_button,
                         onPressed: () {
                           viewModel.setDisplayName(
-                              displayNameController.text ?? 'Anom');
+                              displayNameController.text.capitalize() ??
+                                  'Anom');
                           ExtendedNavigator.root.pushSecurityScreen();
                         },
                       ),

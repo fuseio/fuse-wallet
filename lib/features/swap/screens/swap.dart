@@ -297,26 +297,27 @@ class _SwapScreenState extends State<SwapScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              AutoSizeText.rich(
-                TextSpan(
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: I18n.of(context).your_balance_is_empty + ' ',
+              Flexible(
+                child: AutoSizeText.rich(
+                  TextSpan(
+                    style: TextStyle(
+                      fontSize: 15.0,
                     ),
-                    TextSpan(
-                      text: I18n.of(context).top_up_your_account,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primaryVariant,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: I18n.of(context).your_balance_is_empty + ' ',
                       ),
-                    ),
-                  ],
+                      TextSpan(
+                        text: I18n.of(context).top_up_your_account,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primaryVariant,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              // SizedBox(width: 2),
               Icon(
                 Icons.arrow_right_outlined,
                 color: Theme.of(context).colorScheme.primaryVariant,
@@ -370,7 +371,7 @@ class _SwapScreenState extends State<SwapScreen> {
                         formatValue(
                           tokenOut?.amount,
                           tokenOut?.decimals,
-                          withPrecision: true,
+                          // withPrecision: true,
                         ),
                       ),
                     ) <=

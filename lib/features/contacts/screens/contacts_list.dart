@@ -177,6 +177,7 @@ class _ContactsListState extends State<ContactsList> {
     // } else
     final String accountAddress = searchController.text != null &&
             searchController.text.isNotEmpty &&
+            searchController.text.length > 1 &&
             searchController.text[1] == 'f'
         ? searchController.text.replaceFirst('f', 'x')
         : searchController.text;

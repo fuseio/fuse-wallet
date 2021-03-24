@@ -85,9 +85,6 @@ class _WelcomeFrameState extends State<WelcomeFrame>
 
     _controller = AnimationController(vsync: this);
 
-    // _controller.addListener(() {
-    //   log.info(_controller.value);
-    // });
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         print('Animation ${cont + 1} completed. ');
@@ -119,19 +116,9 @@ class _WelcomeFrameState extends State<WelcomeFrame>
               flex: 3,
               child: Lottie.asset(
                 widget.lottieImagePath,
-                // frameRate: FrameRate.max,
-                // controller: _controller,
+                frameRate: FrameRate.max,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fitWidth,
-                // width: MediaQuery.of(context).size.width,
-                // fit: BoxFit.cover,
-                // repeat: true,
-                // onLoaded: (LottieComposition composition) {
-                //   // Configure the AnimationController with the duration of the
-                //   // Lottie file and start the animation.
-                //   _controller.duration = composition.duration;
-                //   _controller.forward();
-                // },
               ),
             ),
             Flexible(
@@ -139,7 +126,6 @@ class _WelcomeFrameState extends State<WelcomeFrame>
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisAlignment: !widget.showButtons
                       ? MainAxisAlignment.start
                       : MainAxisAlignment.center,

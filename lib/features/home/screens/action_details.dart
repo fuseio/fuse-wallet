@@ -148,8 +148,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                         send: (value) => '',
                                         receive: (value) => '',
                                         swap: (value) =>
-                                            reduce(
-                                                value.tradeInfo.inputAmount) +
+                                            value.tradeInfo.inputAmount +
                                             ' ' +
                                             value.tradeInfo.inputToken,
                                       )
@@ -190,7 +189,7 @@ class ActionDetailsScreen extends StatelessWidget {
                             send: (value) => '',
                             receive: (value) => '',
                             swap: (value) =>
-                                reduce(value.tradeInfo.outputAmount) +
+                                value.tradeInfo.outputAmount +
                                 ' ' +
                                 value.tradeInfo.outputToken,
                           ),

@@ -14,51 +14,12 @@ class SignUpButtons extends StatefulWidget {
   _SignUpButtonsState createState() => _SignUpButtonsState();
 }
 
-class _SignUpButtonsState extends State<SignUpButtons>
-    with SingleTickerProviderStateMixin {
+class _SignUpButtonsState extends State<SignUpButtons> {
   bool isPrimaryPreloading = false;
   bool isTransparentPreloading = false;
-  double _scale;
-  AnimationController _controller;
-  int cont = 0;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(
-        milliseconds: 1000,
-      ),
-      lowerBound: 0.0,
-      upperBound: 0.05,
-    )..addListener(() {
-        setState(() {});
-      });
-
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        print('Animation _scale ${cont + 1} completed. ');
-        cont++;
-        if (cont < 5) {
-          _controller.reset();
-          _controller.forward();
-        }
-      }
-    });
-
-    _controller.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    // _scale = 1 - _controller.value;
     return StoreConnector<AppState, SplashViewModel>(
       distinct: true,
       converter: SplashViewModel.fromStore,
@@ -68,38 +29,35 @@ class _SignUpButtonsState extends State<SignUpButtons>
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Transform.scale(
-              scale: 1 - _controller.value,
-              child: PrimaryButton(
-                disabled: isPrimaryPreloading,
-                preload: isPrimaryPreloading,
-                label: viewModel.isLoggedOut
-                    ? I18n.of(context).login
-                    : I18n.of(context).create_new_wallet,
-                onPressed: () {
-                  if (viewModel.isLoggedOut) {
-                    viewModel.loginAgain();
-                    if (ExtendedNavigator.root.canPop()) {
-                      ExtendedNavigator.root.popUntilRoot();
-                    }
-                    ExtendedNavigator.root.replace(Routes.homeScreen);
-                  } else {
-                    setState(() {
-                      isPrimaryPreloading = true;
-                    });
-                    viewModel.createLocalAccount(() {
-                      setState(() {
-                        isPrimaryPreloading = false;
-                      });
-                      ExtendedNavigator.root.pushSignUpScreen();
-                    }, () {
-                      setState(() {
-                        isPrimaryPreloading = false;
-                      });
-                    });
+            PrimaryButton(
+              disabled: isPrimaryPreloading,
+              preload: isPrimaryPreloading,
+              label: viewModel.isLoggedOut
+                  ? I18n.of(context).login
+                  : I18n.of(context).create_new_wallet,
+              onPressed: () {
+                if (viewModel.isLoggedOut) {
+                  viewModel.loginAgain();
+                  if (ExtendedNavigator.root.canPop()) {
+                    ExtendedNavigator.root.popUntilRoot();
                   }
-                },
-              ),
+                  ExtendedNavigator.root.replace(Routes.homeScreen);
+                } else {
+                  setState(() {
+                    isPrimaryPreloading = true;
+                  });
+                  viewModel.createLocalAccount(() {
+                    setState(() {
+                      isPrimaryPreloading = false;
+                    });
+                    ExtendedNavigator.root.pushSignUpScreen();
+                  }, () {
+                    setState(() {
+                      isPrimaryPreloading = false;
+                    });
+                  });
+                }
+              },
             ),
             Padding(
               padding: EdgeInsets.only(top: 20),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:number_display/number_display.dart';
 
 class TokenHeader extends StatelessWidget {
   TokenHeader({this.token});
@@ -12,8 +12,13 @@ class TokenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final display = createDisplay(
+      length: 5,
+      decimal: 2,
+    );
+
     final String price = token.priceInfo != null
-        ? reduce(double.parse(token?.priceInfo?.total))
+        ? display(num.parse(token?.priceInfo?.total))
         : '0';
     final bool isFuseToken = ![null, ''].contains(token.originNetwork);
     final String logo = isFuseToken ? 'fuse-network.svg' : 'ether-network.svg';

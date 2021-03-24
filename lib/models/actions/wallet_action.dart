@@ -30,7 +30,7 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => formatValue(value?.value, value.tokenDecimal),
       send: (value) => formatValue(value?.value, value.tokenDecimal),
       receive: (value) => formatValue(value?.value, value.tokenDecimal),
-      swap: (value) => reduce(value.tradeInfo.outputAmount),
+      swap: (value) => value.tradeInfo.outputAmount,
     );
   }
 

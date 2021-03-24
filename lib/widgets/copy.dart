@@ -25,14 +25,6 @@ class CopyToClipboard extends StatelessWidget {
       onTap: () async {
         Clipboard.setData(ClipboardData(text: content));
         showCopiedFlushbar(context);
-        // Scaffold.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: Text(
-        //       I18n.of(context).copied_to_clipboard,
-        //       textAlign: TextAlign.center,
-        //     ),
-        //   ),
-        // );
       },
     );
   }

@@ -6,7 +6,7 @@ import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:number_display/number_display.dart';
 
 class TokenTile extends StatelessWidget {
   TokenTile({
@@ -28,8 +28,13 @@ class TokenTile extends StatelessWidget {
   final Token token;
   @override
   Widget build(BuildContext context) {
+    final display = createDisplay(
+      length: 5,
+      decimal: 2,
+    );
+
     final String price = token.priceInfo != null
-        ? reduce(double.parse(token?.priceInfo?.total))
+        ? display(num.parse(token?.priceInfo?.total))
         : '0';
     // final bool isFuseTxs = token.originNetwork != null;
     return Container(

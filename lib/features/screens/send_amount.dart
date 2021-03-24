@@ -143,7 +143,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                   formatValue(
                     selectedToken?.amount,
                     selectedToken?.decimals,
-                    withPrecision: true,
+                    // withPrecision: true,
                   ),
                 ),
               ) <=
@@ -183,7 +183,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     formatValue(
                       selectedToken?.amount,
                       selectedToken?.decimals,
-                      withPrecision: true,
+                      // withPrecision: true,
                     ),
                   ),
                 ) <=
@@ -231,8 +231,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                         //   withPrecision: true,
                                         // );
                                         String max = selectedToken.getBalance();
-                                        if (num.parse(max).compareTo(
-                                                (num.tryParse(amountText) ??
+                                        if (Decimal.parse(max).compareTo(
+                                                (Decimal.parse(amountText) ??
                                                     0)) !=
                                             0) {
                                           _onKeyPress(max, max: true);

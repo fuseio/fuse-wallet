@@ -46,25 +46,25 @@ void showErrorSnack({
 
 void showCopiedFlushbar(context) {
   Flushbar(
-      duration: Duration(seconds: 2),
-      boxShadows: [
-        BoxShadow(
-          color: Colors.grey[500],
-          offset: Offset(0.5, 0.5),
-          blurRadius: 5,
-        ),
-      ],
-      messageText: Text(
-        I18n.of(context).copied_to_clipboard,
-        textAlign: TextAlign.center,
+    duration: Duration(seconds: 1),
+    boxShadows: [
+      BoxShadow(
+        color: Colors.grey[500],
+        offset: Offset(0.5, 0.5),
+        blurRadius: 5,
       ),
-      backgroundColor: Theme.of(context).bottomAppBarColor,
-      margin: EdgeInsets.only(
-        top: 8,
-        right: 8,
-        left: 8,
-        bottom: 100,
-      ),
-      borderRadius: 8)
-    ..show(context);
+    ],
+    messageText: Text(
+      I18n.of(context).copied_to_clipboard,
+      textAlign: TextAlign.center,
+    ),
+    backgroundColor: Theme.of(context).bottomAppBarColor,
+    margin: EdgeInsets.only(
+      top: 8,
+      right: 8,
+      left: 8,
+      bottom: 100,
+    ),
+    borderRadius: 8,
+  )..show(context);
 }
