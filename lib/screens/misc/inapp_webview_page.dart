@@ -88,31 +88,23 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                 handlerName: "pay",
                 callback: (args) {
                   Map<String, dynamic> paymentDetails = Map.from(args[0]);
-                  sendSuccessCallback(jobId) async {}
-
-                  sendFailureCallback() {}
-
-                  viewModel.sendTokenFromWebView(
-                    paymentDetails['currency'],
-                    paymentDetails['destination'],
-                    paymentDetails['amount'],
-                    paymentDetails['orderId'],
-                    sendSuccessCallback,
-                    sendFailureCallback,
-                  );
-                },
-              );
-
-              webView.addJavaScriptHandler(
-                handlerName: "topup",
-                callback: (args) {
-                  Map<String, dynamic> data = Map.from(args[0]);
-                  num amount = num.parse(data['amount']);
+                  num amount = num.parse(paymentDetails['amount']);
                   if (amount > viewModel.secondaryTokenAmount) {
                     num value = amount - viewModel.secondaryTokenAmount;
                     return _handleStripe(value.toString());
                   } else {
-                    return _handleStripe(amount.toString());
+                    sendSuccessCallback(jobId) async {}
+
+                    sendFailureCallback() {}
+
+                    viewModel.sendTokenFromWebView(
+                      paymentDetails['currency'],
+                      paymentDetails['destination'],
+                      paymentDetails['amount'],
+                      paymentDetails['orderId'],
+                      sendSuccessCallback,
+                      sendFailureCallback,
+                    );
                   }
                 },
               );
