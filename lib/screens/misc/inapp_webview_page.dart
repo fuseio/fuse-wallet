@@ -1,12 +1,13 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:peepl/constans/keys.dart';
-import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/community/community.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/screens/topup/dialogs/card_failed.dart';
+import 'package:peepl/screens/topup/dialogs/minting_dialog.dart';
+import 'package:peepl/utils/format.dart';
 import 'package:peepl/utils/stripe.dart';
 import 'package:peepl/utils/stripe_custom_response.dart';
 import 'package:redux/redux.dart';
@@ -37,68 +38,21 @@ class _WebViewWidgetState extends State<WebViewWidget> {
       currency: 'GBP',
     );
     if (response.ok) {
-      // final BottomNavigationBar navigationBar =
-      //     AppKeys.bottomBarKey.currentWidget;
-      // navigationBar.onTap(0);
-      // ExtendedNavigator.named('homeRouter').popUntilRoot();
-      Flushbar(
-        duration: Duration(seconds: 3),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.grey[500],
-            offset: Offset(0.5, 0.5),
-            blurRadius: 5,
-          ),
-        ],
-        titleText: Text(
-          I18n.of(context).success,
-          style: TextStyle(
-              fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        messageText: Text(
-          "Top up successful! 💸",
-          style: TextStyle(fontSize: 14.0, color: Colors.black),
-        ),
-        backgroundColor: Theme.of(context).bottomAppBarColor,
-        margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
-        borderRadius: 8,
-        icon: SvgPicture.asset(
-          'assets/images/approve_icon.svg',
-          width: 20,
-          height: 20,
-        ),
-      )..show(ExtendedNavigator.named('homeRouter').context);
+      showDialog(
+        context: context,
+        builder: (context) => MintingDialog(amount, false),
+        barrierDismissible: false,
+      );
       return true;
     } else {
-      Flushbar(
-        duration: Duration(seconds: 3),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.grey[500],
-            offset: Offset(0.5, 0.5),
-            blurRadius: 5,
-          ),
-        ],
-        titleText: Text(
-          I18n.of(context).oops,
-          style: TextStyle(
-              fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        messageText: Text(
-          I18n.of(context).something_went_wrong,
-          style: TextStyle(fontSize: 14.0, color: Colors.black),
-        ),
-        backgroundColor: Theme.of(context).bottomAppBarColor,
-        margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
-        borderRadius: 8,
-        icon: SvgPicture.asset(
-          'assets/images/failed_icon.svg',
-          width: 20,
-          height: 20,
-        ),
-      )..show(context);
+      if (!response.msg.contains('Cancelled by user')) {
+        showDialog(
+          context: context,
+          builder: (context) => TopUpFailed(), // TopUpFailed
+        );
+      }
+      return false;
     }
-    return false;
   }
 
   @override
@@ -113,59 +67,65 @@ class _WebViewWidgetState extends State<WebViewWidget> {
             backgroundColor: Theme.of(context).splashColor,
             toolbarHeight: MediaQuery.of(context).size.height / 17,
             leading: Builder(
-              builder: (_) {
-                return IconButton(
-                  icon: Icon(
-                    PlatformIcons(context).back,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    if (webView != null) {
-                      webView.goBack();
-                    }
-                  },
-                );
-              },
+              builder: (_) => IconButton(
+                icon: Icon(
+                  PlatformIcons(context).back,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  if (webView != null) {
+                    webView.goBack();
+                  }
+                },
+              ),
             ),
           ),
           body: InAppWebView(
-              initialUrl: widget.url,
-              onWebViewCreated: (InAppWebViewController controller) {
-                webView = controller;
-                webView.addJavaScriptHandler(
-                  handlerName: "pay",
-                  callback: (args) {
-                    Map<String, dynamic> paymentDetails = Map.from(args[0]);
-                    sendSuccessCallback(jobId) async {}
+            initialUrl: widget.url,
+            onWebViewCreated: (InAppWebViewController controller) {
+              webView = controller;
+              webView.addJavaScriptHandler(
+                handlerName: "pay",
+                callback: (args) {
+                  Map<String, dynamic> paymentDetails = Map.from(args[0]);
+                  sendSuccessCallback(jobId) async {}
 
-                    sendFailureCallback() {}
+                  sendFailureCallback() {}
 
-                    viewModel.sendTokenFromWebView(
-                      paymentDetails['currency'],
-                      paymentDetails['destination'],
-                      paymentDetails['amount'],
-                      paymentDetails['orderId'],
-                      sendSuccessCallback,
-                      sendFailureCallback,
-                    );
-                  },
-                );
+                  viewModel.sendTokenFromWebView(
+                    paymentDetails['currency'],
+                    paymentDetails['destination'],
+                    paymentDetails['amount'],
+                    paymentDetails['orderId'],
+                    sendSuccessCallback,
+                    sendFailureCallback,
+                  );
+                },
+              );
 
-                webView.addJavaScriptHandler(
-                  handlerName: "topup",
-                  callback: (args) {
-                    Map<String, dynamic> data = Map.from(args[0]);
-                    return _handleStripe(data['amount']);
-                  },
-                );
-              }),
+              webView.addJavaScriptHandler(
+                handlerName: "topup",
+                callback: (args) {
+                  Map<String, dynamic> data = Map.from(args[0]);
+                  num amount = num.parse(data['amount']);
+                  if (amount > viewModel.secondaryTokenAmount) {
+                    num value = amount - viewModel.secondaryTokenAmount;
+                    return _handleStripe(value.toString());
+                  } else {
+                    return _handleStripe(amount.toString());
+                  }
+                },
+              );
+            },
+          ),
         );
       },
     );
   }
 }
 
-class InAppWebViewViewModel {
+class InAppWebViewViewModel extends Equatable {
+  final num secondaryTokenAmount;
   final Function(
     String currency,
     String receiverAddress,
@@ -175,12 +135,28 @@ class InAppWebViewViewModel {
     VoidCallback sendFailureCallback,
   ) sendTokenFromWebView;
 
+  @override
+  List<Object> get props => [
+        secondaryTokenAmount,
+      ];
+
   InAppWebViewViewModel({
+    this.secondaryTokenAmount,
     this.sendTokenFromWebView,
   });
 
   static InAppWebViewViewModel fromStore(Store<AppState> store) {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            Community.initial();
+    final Token secondaryToken = store.state.cashWalletState
+        .tokens[community?.secondaryTokenAddress?.toLowerCase()];
     return InAppWebViewViewModel(
+      secondaryTokenAmount: num.parse(formatValue(
+              secondaryToken.amount, secondaryToken.decimals,
+              withPrecision: true)) ??
+          0,
       sendTokenFromWebView: (
         String currency,
         String receiverAddress,

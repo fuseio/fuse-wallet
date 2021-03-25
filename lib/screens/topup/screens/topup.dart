@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:peepl/constans/keys.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/screens/topup/dialogs/card_failed.dart';
+import 'package:peepl/screens/topup/dialogs/minting_dialog.dart';
 import 'package:peepl/services.dart';
 import 'package:peepl/utils/constans.dart';
 import 'package:peepl/utils/stripe.dart';
@@ -22,15 +21,15 @@ import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
 
-class _TopupViewModel extends Equatable {
+class _TopUpViewModel extends Equatable {
   final String walletAddress;
 
-  _TopupViewModel({
+  _TopUpViewModel({
     this.walletAddress,
   });
 
-  static _TopupViewModel fromStore(Store<AppState> store) {
-    return _TopupViewModel(
+  static _TopUpViewModel fromStore(Store<AppState> store) {
+    return _TopUpViewModel(
       walletAddress: store.state.userState.walletAddress,
     );
   }
@@ -131,70 +130,18 @@ class _TopupScreenState extends State<TopupScreen>
       currency: 'GBP',
     );
     if (response.ok) {
-      // final BottomNavigationBar navigationBar =
-      //     AppKeys.bottomBarKey.currentWidget;
-      // navigationBar.onTap(0);
-      // ExtendedNavigator.named('homeRouter').popUntilRoot();
-      // ExtendedNavigator.named('topupRouter').popUntilRoot();
-      Flushbar(
-          duration: Duration(seconds: 3),
-          boxShadows: [
-            BoxShadow(
-              color: Colors.grey[500],
-              offset: Offset(0.5, 0.5),
-              blurRadius: 5,
-            ),
-          ],
-          titleText: Text(
-            I18n.of(context).success,
-            style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-          ),
-          messageText: Text(
-            "Top up successful! 💸",
-            style: TextStyle(fontSize: 14.0, color: Colors.black),
-          ),
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
-          borderRadius: 8,
-          icon: SvgPicture.asset(
-            'assets/images/approve_icon.svg',
-            width: 20,
-            height: 20,
-          ))
-        ..show(ExtendedNavigator.named('homeRouter').context);
+      showDialog(
+        context: context,
+        builder: (context) => MintingDialog(amountText, true),
+        barrierDismissible: false,
+      );
     } else {
-      Flushbar(
-          duration: Duration(seconds: 3),
-          boxShadows: [
-            BoxShadow(
-              color: Colors.grey[500],
-              offset: Offset(0.5, 0.5),
-              blurRadius: 5,
-            ),
-          ],
-          titleText: Text(
-            I18n.of(context).oops,
-            style: TextStyle(
-                fontSize: 16.0,
-                color: Colors.black,
-                fontWeight: FontWeight.bold),
-          ),
-          messageText: Text(
-            I18n.of(context).something_went_wrong,
-            style: TextStyle(fontSize: 14.0, color: Colors.black),
-          ),
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
-          borderRadius: 8,
-          icon: SvgPicture.asset(
-            'assets/images/failed_icon.svg',
-            width: 20,
-            height: 20,
-          ))
-        ..show(context);
+      if (!response.msg.contains('Cancelled by user')) {
+        showDialog(
+          context: context,
+          builder: (context) => TopUpFailed(),
+        );
+      }
     }
   }
 
@@ -237,7 +184,7 @@ class _TopupScreenState extends State<TopupScreen>
 
     return MainScaffold(
       withPadding: true,
-      title: 'Top up using card',
+      title: 'Top up using your debit or credit card',
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height * 0.6,
@@ -312,9 +259,9 @@ class _TopupScreenState extends State<TopupScreen>
               ]),
         )
       ],
-      footer: StoreConnector<AppState, _TopupViewModel>(
+      footer: StoreConnector<AppState, _TopUpViewModel>(
         distinct: true,
-        converter: _TopupViewModel.fromStore,
+        converter: _TopUpViewModel.fromStore,
         builder: (_, viewModel) => Center(
           child: PrimaryButton(
             opacity: 1,
