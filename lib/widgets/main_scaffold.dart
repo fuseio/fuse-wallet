@@ -48,6 +48,7 @@ class MainScaffold extends StatelessWidget {
         title: Container(
           child: Text(title,
               softWrap: true,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: titleFontSize,
