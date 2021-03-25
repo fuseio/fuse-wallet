@@ -27,6 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
   CountryCode countryCode = CountryCode(dialCode: '‎+44', code: 'GB');
+  // CountryCode countryCode = CountryCode(dialCode: '‎+1', code: 'US');
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   _updateCountryCode(_) {
-    Locale myLocale = Localizations.localeOf(context);
+    /* Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
           (Map code) => code['code'] == myLocale.countryCode,
@@ -46,7 +47,10 @@ class _SignupScreenState extends State<SignupScreen> {
               dialCode: localeData['dial_code'], code: localeData['code']);
         });
       }
-    }
+    } */
+    setState(() {
+      countryCode = CountryCode(dialCode: "+44", code: "GB");
+    });
   }
 
   void onPressed(Function(CountryCode, PhoneNumber) signUp) {
