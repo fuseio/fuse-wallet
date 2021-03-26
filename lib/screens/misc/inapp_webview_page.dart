@@ -88,7 +88,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                 handlerName: "pay",
                 callback: (args) {
                   Map<String, dynamic> paymentDetails = Map.from(args[0]);
-                  num amount = num.parse(paymentDetails['amount']);
+                  num amount = paymentDetails['amount'];
                   if (amount > viewModel.secondaryTokenAmount) {
                     num value = amount - viewModel.secondaryTokenAmount;
                     return _handleStripe(value.toString());
