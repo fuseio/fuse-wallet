@@ -20,7 +20,7 @@ class ContactsConfirmationScreen extends StatefulWidget {
 class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Animation<double> scaleAnimatoin;
+  Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override
@@ -35,7 +35,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
 
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    scaleAnimatoin =
+    scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
@@ -52,7 +52,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {
         return ScaleTransition(
-          scale: scaleAnimatoin,
+          scale: scaleAnimation,
           child: AlertDialog(
             contentPadding: EdgeInsets.all(0),
             shape: RoundedRectangleBorder(
@@ -160,10 +160,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             },
                             child: Text(
                               I18n.of(context).skip_button,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface),
+                              style: TextStyle(fontSize: 14),
                             ),
                           ),
                         ),

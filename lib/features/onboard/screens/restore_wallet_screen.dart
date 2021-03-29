@@ -109,6 +109,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
               ],
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 StoreConnector<AppState, RecoveryViewModel>(
                   distinct: true,
@@ -125,6 +126,9 @@ class _RecoveryPageState extends State<RecoveryPage> {
                           });
                           viewModel.generateWalletFromBackup(
                               wordsController.text.toLowerCase(), () {
+                            setState(() {
+                              isPreloading = false;
+                            });
                             ExtendedNavigator.root.pushSignUpScreen();
                           });
                         }
@@ -132,7 +136,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30.0),
+                SizedBox(height: 10.0),
               ],
             )
           ],

@@ -45,26 +45,22 @@ class SearchPanel extends StatelessWidget {
                       contentPadding: EdgeInsets.all(0.0),
                       border: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          // color: Theme.of(context).colorScheme.onSurface,
                           width: 2,
                         ),
                       ),
                       fillColor: Theme.of(context).canvasColor,
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          // color: Theme.of(context).colorScheme.onSurface,
                           width: 2,
                         ),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          // color: Theme.of(context).colorScheme.onSurface,
                           width: 2,
                         ),
                       ),
                       suffixIcon: Icon(
                         Icons.search,
-                        // color: Theme.of(context).colorScheme.onSurface,
                       ),
                       labelText: I18n.of(context).search,
                       labelStyle: TextStyle(

@@ -261,11 +261,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 margin: EdgeInsets.only(
                                     top: 8, right: 8, left: 8, bottom: 120),
                               );
-                              Future.delayed(
-                                  Duration(seconds: Variables.INTERVAL_SECONDS),
-                                  () {
-                                newViewModel.resetErrors();
-                              });
+                              // Future.delayed(
+                              //     Duration(seconds: Variables.INTERVAL_SECONDS),
+                              //     () {
+                              //   newViewModel.resetErrors();
+                              // });
                             }
                           },
                           converter: OnboardViewModel.fromStore,

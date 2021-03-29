@@ -148,9 +148,6 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                             I18n.of(context).invalid_pincode,
                                             style: TextStyle(
                                               fontSize: 20.0,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurface,
                                             ),
                                           ),
                                           backgroundColor: Theme.of(

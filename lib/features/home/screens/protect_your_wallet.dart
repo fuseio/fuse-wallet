@@ -113,10 +113,9 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset('assets/images/pincode.svg',
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface),
+                                  SvgPicture.asset(
+                                    'assets/images/pincode.svg',
+                                  ),
                                   SizedBox(
                                     width: 10,
                                   ),

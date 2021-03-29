@@ -77,31 +77,24 @@ class UserNameScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 20,
-                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                               autofocus: true,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(0.0),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
                                     width: 2,
                                   ),
                                 ),
                                 fillColor: Theme.of(context).canvasColor,
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
                                     width: 2,
                                   ),
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 2,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                               ),

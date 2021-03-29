@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/features/onboard/widegts/sign_up_buttons.dart';
 import 'package:lottie/lottie.dart';
@@ -34,10 +35,12 @@ class ScreenSubTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       curve: Curves.fastOutSlowIn,
-      child: Text(
+      child: AutoSizeText(
         text,
+        maxLines: 3,
+        minFontSize: 25,
+        maxFontSize: 27,
         style: TextStyle(
-          fontSize: 27,
           fontFamily: 'Europa',
           fontWeight: FontWeight.bold,
         ),

@@ -104,302 +104,273 @@ class ActionTile extends StatelessWidget {
           swap: (value) => value.tradeInfo.outputToken,
         );
 
-        final Widget rightColumn = Flexible(
-          flex: 3,
-          child: Container(
-            child: Column(
-              mainAxisAlignment: action.isPending()
-                  ? MainAxisAlignment.start
-                  : MainAxisAlignment.center,
-              crossAxisAlignment: action.isPending()
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.center,
-              children: <Widget>[
-                action.isGenerateWallet() || action.isJoinCommunity()
-                    ? SizedBox.shrink()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Stack(
-                            overflow: Overflow.visible,
-                            alignment: AlignmentDirectional.bottomEnd,
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  AutoSizeText.rich(
-                                    TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: action.getAmount(),
-                                          style: TextStyle(
-                                            color: Color(0xFF696969),
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: ' $symbol ',
-                                          style: TextStyle(
-                                            color: Color(0xFF696969),
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  action.getActionIcon()
-                                ],
-                              ),
-                              Positioned(
-                                bottom: -20,
-                                child: action.isPending()
-                                    ? Padding(
-                                        child: Text(
-                                          I18n.of(context).pending,
-                                          style: TextStyle(
-                                            color: Color(0xFF8D8D8D),
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                        padding: EdgeInsets.only(
-                                          top: 10,
-                                        ),
-                                      )
-                                    : SizedBox.shrink(),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-              ],
-            ),
-          ),
-        );
-
-        return ListTile(
-          contentPadding: EdgeInsets.only(
-            top: 8,
-            bottom: 8,
-            left: 15,
-            right: 15,
-          ),
-          title: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                flex: 11,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    // image widget
-                    Flexible(
-                      flex: 4,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          Hero(
-                            child: CircleAvatar(
-                              backgroundColor: Color(0xFFE0E0E0),
-                              radius: 30,
-                              backgroundImage: image,
-                            ),
-                            tag: action.hashCode,
-                          ),
-                          action.isPending()
-                              ? Container(
-                                  width: 60,
-                                  height: 60,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 3,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      Theme.of(context).colorScheme.onSurface,
-                                    ),
-                                  ),
-                                )
-                              : SizedBox.shrink(),
-                          isCommunityToken && action.isJoinCommunity()
-                              ? Text(
-                                  action.map(
-                                    createWallet: (value) => '',
-                                    fiatProcess: (value) => '',
-                                    joinCommunity: (value) =>
-                                        viewModel
-                                            .tokens[value?.tokenAddress
-                                                ?.toLowerCase()]
-                                            .symbol ??
-                                        '',
-                                    fiatDeposit: (value) => value.tokenSymbol,
-                                    bonus: (value) => value.tokenSymbol,
-                                    send: (value) => value.tokenSymbol,
-                                    receive: (value) => value.tokenSymbol,
-                                    swap: (value) => '',
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                )
-                              : SizedBox.shrink(),
-                          isCommunityToken
-                              ? Text(
-                                  symbol,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                )
-                              : SizedBox.shrink()
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 10.0),
-                    // text widget
-                    Flexible(
-                      flex: 10,
-                      child: Stack(
+        final Widget trailing = Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: action.isPending()
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
+          crossAxisAlignment: action.isPending()
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.center,
+          children: <Widget>[
+            action.isGenerateWallet() || action.isJoinCommunity()
+                ? SizedBox.shrink()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Stack(
                         overflow: Overflow.visible,
-                        alignment: AlignmentDirectional.bottomStart,
+                        alignment: AlignmentDirectional.bottomEnd,
                         children: <Widget>[
-                          action.isJoinCommunity()
-                              ? RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontFamily: 'Europa',
-                                    ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Flexible(
+                                child: AutoSizeText.rich(
+                                  TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: action.isJoinCommunity() &&
-                                                action.isPending()
-                                            ? I18n.of(context).joining
-                                            : I18n.of(context).joined,
+                                        text: action.getAmount(),
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
+                                          color: Color(0xFF696969),
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      action.getText() != null
-                                          ? TextSpan(
-                                              text: ' \‘${action.getText()}\’ ',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurface,
-                                              ),
-                                            )
-                                          : SizedBox.shrink(),
                                       TextSpan(
-                                        text: I18n.of(context).community,
+                                        text: ' $symbol ',
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
+                                          color: Color(0xFF696969),
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.normal,
                                         ),
                                       ),
                                     ],
                                   ),
-                                )
-                              : action.isSwapAction()
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          action.map(
-                                            createWallet: (value) => '',
-                                            fiatProcess: (value) => '',
-                                            joinCommunity: (value) => '',
-                                            fiatDeposit: (value) => '',
-                                            bonus: (value) => '',
-                                            send: (value) => '',
-                                            receive: (value) => '',
-                                            swap: (value) =>
-                                                value.tradeInfo.inputToken,
-                                          ),
-                                          style: TextStyle(
-                                            color: Color(0xFF333333),
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Flexible(
-                                          child: SvgPicture.asset(
-                                            'assets/images/swap_arrow.svg',
-                                            width: 19,
-                                            height: 8,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Expanded(
-                                          child: AutoSizeText(
-                                            action.map(
-                                              createWallet: (value) => '',
-                                              fiatProcess: (value) => '',
-                                              joinCommunity: (value) => '',
-                                              fiatDeposit: (value) => '',
-                                              bonus: (value) => '',
-                                              send: (value) => '',
-                                              receive: (value) => '',
-                                              swap: (value) =>
-                                                  value.tradeInfo.outputToken,
-                                            ),
-                                            style: TextStyle(
-                                              color: Color(0xFF333333),
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : AutoSizeText(
-                                      displayName,
-                                      style: TextStyle(
-                                        color: Color(0xFF333333),
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                          action.isGenerateWallet() && action.isPending()
-                              ? Positioned(
-                                  bottom: -20,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 10),
+                                ),
+                              ),
+                              action.getActionIcon()
+                            ],
+                          ),
+                          Positioned(
+                            bottom: -20,
+                            child: action.isPending()
+                                ? Padding(
                                     child: Text(
-                                      I18n.of(context).up_to_10,
+                                      I18n.of(context).pending,
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        color: Color(0xFF8D8D8D),
+                                        fontSize: 10,
                                       ),
                                     ),
+                                    padding: EdgeInsets.only(
+                                      top: 10,
+                                    ),
+                                  )
+                                : SizedBox.shrink(),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+          ],
+        );
+
+        final Widget leading = Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Hero(
+              child: CircleAvatar(
+                backgroundColor: Color(0xFFE0E0E0),
+                radius: 21.5,
+                backgroundImage: image,
+              ),
+              tag: action.hashCode,
+            ),
+            action.isPending()
+                ? Container(
+                    width: 43,
+                    height: 43,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+            isCommunityToken && action.isJoinCommunity()
+                ? Text(
+                    action.map(
+                      createWallet: (value) => '',
+                      fiatProcess: (value) => '',
+                      joinCommunity: (value) =>
+                          viewModel.tokens[value?.tokenAddress?.toLowerCase()]
+                              .symbol ??
+                          '',
+                      fiatDeposit: (value) => value.tokenSymbol,
+                      bonus: (value) => value.tokenSymbol,
+                      send: (value) => value.tokenSymbol,
+                      receive: (value) => value.tokenSymbol,
+                      swap: (value) => '',
+                    ),
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.left,
+                  )
+                : SizedBox.shrink(),
+            isCommunityToken
+                ? Text(
+                    symbol,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.left,
+                  )
+                : SizedBox.shrink()
+          ],
+        );
+
+        final Widget title = action.isJoinCommunity()
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: AutoSizeText.rich(
+                      TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Europa',
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: action.isJoinCommunity() && action.isPending()
+                                ? I18n.of(context).joining
+                                : I18n.of(context).joined,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          action.getText() != null
+                              ? TextSpan(
+                                  text: ' \‘${action.getText()}\’ ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 )
-                              : SizedBox.shrink()
+                              : SizedBox.shrink(),
+                          TextSpan(
+                            text: I18n.of(context).community,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              )
+            : action.isSwapAction()
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        action.map(
+                          createWallet: (value) => '',
+                          fiatProcess: (value) => '',
+                          joinCommunity: (value) => '',
+                          fiatDeposit: (value) => '',
+                          bonus: (value) => '',
+                          send: (value) => '',
+                          receive: (value) => '',
+                          swap: (value) => value.tradeInfo.inputToken,
+                        ),
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Flexible(
+                        child: SvgPicture.asset(
+                          'assets/images/swap_arrow.svg',
+                          width: 19,
+                          height: 8,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: AutoSizeText(
+                          action.map(
+                            createWallet: (value) => '',
+                            fiatProcess: (value) => '',
+                            joinCommunity: (value) => '',
+                            fiatDeposit: (value) => '',
+                            bonus: (value) => '',
+                            send: (value) => '',
+                            receive: (value) => '',
+                            swap: (value) => value.tradeInfo.outputToken,
+                          ),
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Flexible(
+                        child: AutoSizeText(
+                          displayName,
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+
+        final Widget subtitle = action.isGenerateWallet() && action.isPending()
+            ? Text(
+                I18n.of(context).up_to_10,
+                style: TextStyle(
+                  fontSize: 12,
                 ),
-              ),
-              // rightColumn widget
-              action.isFiatProcessing() ? SizedBox.shrink() : rightColumn
-            ],
+              )
+            : null;
+
+        return ListTile(
+          contentPadding: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+            left: 15,
+            right: 15,
           ),
+          leading: leading,
+          trailing: trailing,
+          title: title,
+          subtitle: subtitle,
           onTap: () {
             if (!action.isGenerateWallet() && !action.isJoinCommunity()) {
               ExtendedNavigator.root.pushActionDetailsScreen(

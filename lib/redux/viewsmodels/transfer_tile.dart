@@ -59,7 +59,7 @@ class TransferTileViewModel extends Equatable {
       erc20Tokens: store.state.proWalletState.erc20Tokens,
       communitiesMap: communitiesMap,
       communities: store.state.cashWalletState.communities,
-      tokensImages: store.state.swapState.tokensImages,
+      tokensImages: store.state.swapState?.tokensImages ?? Map(),
     );
   }
 

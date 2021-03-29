@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/keys.dart';
+import 'package:fusecash/features/home/widgets/balance.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/send.dart';
 
 class CashHeader extends StatelessWidget {
@@ -17,7 +18,6 @@ class CashHeader extends StatelessWidget {
       converter: CashHeaderViewModel.fromStore,
       builder: (_, viewModel) {
         return Container(
-          // height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
@@ -52,11 +52,11 @@ class CashHeader extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                verticalDirection: VerticalDirection.up,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
                         I18n.of(context).balance,
@@ -65,88 +65,13 @@ class CashHeader extends StatelessWidget {
                           fontSize: 13.0,
                         ),
                       ),
-                      SizedBox(
-                        height: 3,
-                      ),
-                      viewModel.hasErc20Tokens
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Europa',
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text:
-                                              '\$${viewModel?.usdValue ?? '0'}',
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ])
-                          : Container(
-                              height: 32,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Europa',
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                      children: viewModel.token == null
-                                          ? <TextSpan>[
-                                              TextSpan(
-                                                text: '0',
-                                                style: TextStyle(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              )
-                                            ]
-                                          : <TextSpan>[
-                                              TextSpan(
-                                                text: formatValue(
-                                                    viewModel.token.amount,
-                                                    viewModel.token.decimals),
-                                                style: TextStyle(
-                                                  fontSize: 32,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: ' ' +
-                                                    viewModel.token?.symbol
-                                                        .toString(),
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.normal,
-                                                  height: 0.0,
-                                                ),
-                                              )
-                                            ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
+                      Balance(),
                     ],
                   ),
                   Container(
                     width: 50,
                     height: 50,
-                    child: GestureDetector(
+                    child: InkWell(
                       child: SvgPicture.asset(
                         'assets/images/scan.svg',
                       ),
@@ -157,7 +82,7 @@ class CashHeader extends StatelessWidget {
                     ),
                   )
                 ],
-              ),
+              )
             ],
           ),
         );

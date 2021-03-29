@@ -22,15 +22,13 @@ void showErrorSnack({
       duration: Duration(seconds: duration),
       titleText: Text(
         title ?? I18n.of(ExtendedNavigator.root.context).transaction_failed,
-        style: TextStyle(
-            fontSize: 16.0,
-            color: Theme.of(context).colorScheme.onSurface,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         message,
         style: TextStyle(
-            fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
+          fontSize: 14.0,
+        ),
       ),
       backgroundColor:
           Theme.of(ExtendedNavigator.root.context).bottomAppBarColor,

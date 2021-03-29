@@ -16,8 +16,8 @@ class TokenTile extends StatelessWidget {
     this.showBalance = true,
     this.onTap,
     this.quate,
-    this.symbolHeight = 60.0,
-    this.symbolWidth = 60.0,
+    this.symbolHeight = 45.0,
+    this.symbolWidth = 45.0,
   }) : super(key: key);
   final Function() onTap;
   final double quate;
@@ -37,202 +37,166 @@ class TokenTile extends StatelessWidget {
         ? display(num.parse(token?.priceInfo?.total))
         : '0';
     // final bool isFuseTxs = token.originNetwork != null;
-    return Container(
-      child: ListTile(
-        onTap: onTap != null ? onTap : null,
-        // : () {
-        //     ExtendedNavigator.of(context)
-        //         .pushTokenScreen(tokenAddress: token.address);
-        //   },
-        contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
-        title: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return StoreConnector<AppState, TokenTileViewModel>(
+      distinct: true,
+      converter: TokenTileViewModel.fromStore,
+      builder: (_, viewModel) {
+        final bool isCommunityToken = viewModel.communities.any((element) =>
+            element?.homeTokenAddress?.toLowerCase() != null &&
+            element?.homeTokenAddress?.toLowerCase() == token?.address &&
+            ![false, null].contains(element.metadata.isDefaultImage));
+        final Widget leading = Stack(
+          alignment: Alignment.center,
           children: <Widget>[
-            Flexible(
-              flex: 8,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: (token.imageUrl != null && token.imageUrl.isNotEmpty ||
+                      viewModel.tokensImages
+                          .containsKey(token?.address?.toLowerCase()))
+                  ? CachedNetworkImage(
+                      width: symbolWidth,
+                      height: symbolHeight,
+                      imageUrl: viewModel.tokensImages
+                              .containsKey(token?.address?.toLowerCase())
+                          ? viewModel
+                              ?.tokensImages[token?.address?.toLowerCase()]
+                          : token?.imageUrl,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => DefaultLogo(
+                        symbol: token?.symbol,
+                        width: symbolWidth,
+                        height: symbolHeight,
+                      ),
+                    )
+                  : DefaultLogo(
+                      symbol: token?.symbol,
+                      width: symbolWidth,
+                      height: symbolHeight,
+                    ),
+            ),
+            // showPending &&
+            //         token.transactions.list
+            //             .any((transfer) => transfer.isPending())
+            //     ? Container(
+            //         width: symbolWidth,
+            //         height: symbolHeight,
+            //         child: CircularProgressIndicator(
+            //           backgroundColor: Theme.of(context)
+            //               .colorScheme
+            //               .onSurface,
+            //           strokeWidth: 3,
+            //           valueColor: AlwaysStoppedAnimation<Color>(
+            //               Theme.of(context)
+            //                   .colorScheme
+            //                   .onSurface),
+            //         ))
+            //     : SizedBox.shrink(),
+            isCommunityToken
+                ? Text(
+                    token.symbol,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.left,
+                  )
+                : SizedBox.shrink()
+          ],
+        );
+
+        final Widget title = Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          verticalDirection: VerticalDirection.down,
+          textBaseline: TextBaseline.alphabetic,
+          children: <Widget>[
+            Expanded(
+              child: AutoSizeText(
+                token.name,
+                maxLines: 1,
+                style: TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 15,
+                ),
+              ),
+            )
+            // SizedBox(
+            //   width: 5,
+            // ),
+            // SvgPicture.asset(
+            //   'assets/images/go_to_pro.svg',
+            //   width: 10,
+            //   height: 10,
+            // )
+          ],
+        );
+        final Widget subtitle = showBalance
+            ? Stack(
+                overflow: Overflow.visible,
+                alignment: AlignmentDirectional.bottomEnd,
                 children: <Widget>[
-                  StoreConnector<AppState, TokenTileViewModel>(
-                    distinct: true,
-                    converter: TokenTileViewModel.fromStore,
-                    builder: (_, viewModel) {
-                      final bool isCommunityToken = viewModel.communities.any(
-                          (element) =>
-                              element?.homeTokenAddress?.toLowerCase() !=
-                                  null &&
-                              element?.homeTokenAddress?.toLowerCase() ==
-                                  token?.address &&
-                              ![false, null]
-                                  .contains(element.metadata.isDefaultImage));
-                      return Flexible(
-                        flex: 4,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: (token.imageUrl != null &&
-                                          token.imageUrl.isNotEmpty ||
-                                      viewModel.tokensImages.containsKey(
-                                          token?.address?.toLowerCase()))
-                                  ? CachedNetworkImage(
-                                      width: symbolWidth,
-                                      height: symbolHeight,
-                                      imageUrl: viewModel.tokensImages
-                                              .containsKey(
-                                                  token?.address?.toLowerCase())
-                                          ? viewModel?.tokensImages[
-                                              token?.address?.toLowerCase()]
-                                          : token?.imageUrl,
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          DefaultLogo(
-                                        symbol: token?.symbol,
-                                        width: symbolWidth,
-                                        height: symbolHeight,
-                                      ),
-                                    )
-                                  : DefaultLogo(
-                                      symbol: token?.symbol,
-                                      width: symbolWidth,
-                                      height: symbolHeight,
-                                    ),
-                            ),
-                            // showPending &&
-                            //         token.transactions.list
-                            //             .any((transfer) => transfer.isPending())
-                            //     ? Container(
-                            //         width: symbolWidth,
-                            //         height: symbolHeight,
-                            //         child: CircularProgressIndicator(
-                            //           backgroundColor: Theme.of(context)
-                            //               .colorScheme
-                            //               .onSurface,
-                            //           strokeWidth: 3,
-                            //           valueColor: AlwaysStoppedAnimation<Color>(
-                            //               Theme.of(context)
-                            //                   .colorScheme
-                            //                   .onSurface),
-                            //         ))
-                            //     : SizedBox.shrink(),
-                            isCommunityToken
-                                ? Text(
-                                    token.symbol,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  )
-                                : SizedBox.shrink()
-                          ],
-                        ),
-                      );
-                    },
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Europa',
+                      ),
+                      children: <TextSpan>[
+                        token.priceInfo != null
+                            ? TextSpan(
+                                text: '\$' + price,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ))
+                            : TextSpan(
+                                text: token.getBalance() + ' ' + token.symbol,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 10.0),
-                  Flexible(
-                    flex: 10,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      verticalDirection: VerticalDirection.down,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: <Widget>[
-                        Expanded(
-                          child: AutoSizeText(
-                            token.name,
-                            maxLines: 1,
-                            style: TextStyle(
-                              color: Color(0xFF333333),
-                              fontSize: 15,
+                  token.priceInfo != null
+                      ? Positioned(
+                          bottom: -20,
+                          child: Padding(
+                            child: Text(
+                              token.getBalance() + ' ' + token.symbol,
+                              style: TextStyle(
+                                color: Color(0xFF8D8D8D),
+                                fontSize: 10,
+                              ),
                             ),
+                            padding: EdgeInsets.only(top: 10),
                           ),
                         )
-                        // SizedBox(
-                        //   width: 5,
-                        // ),
-                        // SvgPicture.asset(
-                        //   'assets/images/go_to_pro.svg',
-                        //   width: 10,
-                        //   height: 10,
-                        // )
-                      ],
-                    ),
-                  ),
+                      : SizedBox.shrink()
                 ],
-              ),
-            ),
-            showBalance
-                ? Flexible(
-                    flex: 4,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Stack(
-                              overflow: Overflow.visible,
-                              alignment: AlignmentDirectional.bottomEnd,
-                              children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontFamily: 'Europa',
-                                    ),
-                                    children: <TextSpan>[
-                                      token.priceInfo != null
-                                          ? TextSpan(
-                                              text: '\$' + price,
-                                              style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurface,
-                                              ))
-                                          : TextSpan(
-                                              text: token.getBalance() +
-                                                  ' ' +
-                                                  token.symbol,
-                                              style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurface,
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                ),
-                                token.priceInfo != null
-                                    ? Positioned(
-                                        bottom: -20,
-                                        child: Padding(
-                                            child: Text(
-                                                token.getBalance() +
-                                                    ' ' +
-                                                    token.symbol,
-                                                style: TextStyle(
-                                                    color: Color(0xFF8D8D8D),
-                                                    fontSize: 10)),
-                                            padding: EdgeInsets.only(top: 10)))
-                                    : SizedBox.shrink()
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                : SizedBox.shrink(),
-          ],
-        ),
-      ),
+              )
+            : SizedBox.shrink();
+
+        return ListTile(
+          leading: leading,
+          onTap: onTap != null ? onTap : null,
+          // : () {
+          //     ExtendedNavigator.of(context)
+          //         .pushTokenScreen(tokenAddress: token.address);
+          //   },
+          contentPadding: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+            left: 15,
+            right: 15,
+          ),
+          title: title,
+          trailing: subtitle,
+        );
+      },
     );
   }
 }

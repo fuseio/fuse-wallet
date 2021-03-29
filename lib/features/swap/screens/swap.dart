@@ -254,12 +254,12 @@ class _SwapScreenState extends State<SwapScreen> {
         focusColor: Theme.of(context).canvasColor,
         highlightColor: Theme.of(context).canvasColor,
         onTap: () {
-          String max = tokenOut.getBalance();
-          // String max = formatValue(
-          //   tokenOut.amount,
-          //   tokenOut.decimals,
-          //   withPrecision: true,
-          // );
+          // String max = tokenOut.getBalance();
+          String max = formatValue(
+            tokenOut.amount,
+            tokenOut.decimals,
+            withPrecision: true,
+          );
           setState(() {
             tokenOutController.text = max;
           });
@@ -371,7 +371,7 @@ class _SwapScreenState extends State<SwapScreen> {
                         formatValue(
                           tokenOut?.amount,
                           tokenOut?.decimals,
-                          // withPrecision: true,
+                          withPrecision: true,
                         ),
                       ),
                     ) <=

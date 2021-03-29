@@ -23,37 +23,31 @@ class Feed extends StatelessWidget {
           },
           child: Stack(
             children: [
-              SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * .59,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: viewModel.walletActions?.length,
-                          separatorBuilder: (BuildContext context, int index) =>
-                              Padding(
-                            padding: EdgeInsets.only(
-                              left: 15,
-                              right: 15,
-                            ),
-                            child: Divider(
-                              thickness: 1,
-                              height: 0,
-                            ),
-                          ),
-                          itemBuilder: (context, index) => ActionTile(
-                            action: viewModel.walletActions[index],
-                          ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: viewModel.walletActions?.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Padding(
+                        padding: EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                        ),
+                        child: Divider(
+                          thickness: 1,
+                          height: 0,
                         ),
                       ),
-                    ],
+                      itemBuilder: (context, index) => ActionTile(
+                        action: viewModel.walletActions[index],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               viewModel.showDepositBanner
                   ? Positioned.fill(

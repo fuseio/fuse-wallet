@@ -139,15 +139,13 @@ void barcodeScannerHandler(context) async {
       ],
       titleText: Text(
         I18n.of(context).error,
-        style: TextStyle(
-            fontSize: 16.0,
-            color: Theme.of(context).colorScheme.onSurface,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         I18n.of(context).invalid_qa_code,
         style: TextStyle(
-            fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
+          fontSize: 14.0,
+        ),
       ),
       backgroundColor: Theme.of(context).bottomAppBarColor,
       margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),

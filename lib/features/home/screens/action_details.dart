@@ -7,6 +7,7 @@ import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/snackbars.dart';
+import 'package:number_display/number_display.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
   final String accountAddress;
@@ -147,10 +148,16 @@ class ActionDetailsScreen extends StatelessWidget {
                                         bonus: (value) => '',
                                         send: (value) => '',
                                         receive: (value) => '',
-                                        swap: (value) =>
-                                            value.tradeInfo.inputAmount +
-                                            ' ' +
-                                            value.tradeInfo.inputToken,
+                                        swap: (value) {
+                                          final display = createDisplay(
+                                            length: 5,
+                                            decimal: 2,
+                                          );
+                                          return display(num.parse(value
+                                                  .tradeInfo.inputAmount)) +
+                                              ' ' +
+                                              value.tradeInfo.inputToken;
+                                        },
                                       )
                                     : displayName,
                                 overflow: TextOverflow.ellipsis,

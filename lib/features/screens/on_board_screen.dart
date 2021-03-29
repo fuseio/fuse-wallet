@@ -64,7 +64,6 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         showButtons: true,
         lottieImagePath: 'assets/lottie/4.json',
       ),
-      // CreateWallet()
     ];
     return Scaffold(
       body: SafeArea(

@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -205,11 +206,18 @@ ThunkAction verifyHandler(String verificationCode) {
       };
       await onBoardStrategy.verify(store, verificationCode, onSuccess);
     } catch (error, s) {
-      store.dispatch(
-          SetIsVerifyRequest(isLoading: false, message: error.message));
+      store.dispatch(SetIsVerifyRequest(
+        isLoading: false,
+        message: error ??
+            I18n.of(ExtendedNavigator.root.context).something_went_wrong,
+      ));
       await Sentry.captureException(error, stackTrace: s);
-      store.dispatch(segmentTrackCall("ERROR in VerifyRequest",
-          properties: Map.from({"error": error.toString()})));
+      store.dispatch(segmentTrackCall(
+        "ERROR in VerifyRequest",
+        properties: Map.from({
+          "error": error.toString(),
+        }),
+      ));
     }
   };
 }

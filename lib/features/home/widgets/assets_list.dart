@@ -23,9 +23,15 @@ class AssetsList extends StatelessWidget {
                 shrinkWrap: true,
                 primary: false,
                 itemCount: viewModel.tokens?.length,
-                separatorBuilder: (BuildContext context, int index) => Divider(
-                  thickness: 1,
-                  height: 0,
+                separatorBuilder: (BuildContext context, int index) => Padding(
+                  padding: EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                  ),
+                  child: Divider(
+                    thickness: 1,
+                    height: 0,
+                  ),
                 ),
                 itemBuilder: (context, index) => TokenTile(
                   token: viewModel.tokens[index],

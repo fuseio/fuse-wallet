@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:number_display/number_display.dart';
 
 part 'wallet_action.freezed.dart';
 part 'wallet_action.g.dart';
@@ -30,7 +31,13 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => formatValue(value?.value, value.tokenDecimal),
       send: (value) => formatValue(value?.value, value.tokenDecimal),
       receive: (value) => formatValue(value?.value, value.tokenDecimal),
-      swap: (value) => value.tradeInfo.outputAmount,
+      swap: (value) {
+        final display = createDisplay(
+          length: 5,
+          decimal: 2,
+        );
+        return display(num.parse(value.tradeInfo.outputAmount));
+      },
     );
   }
 
@@ -103,8 +110,7 @@ abstract class WalletAction implements _$WalletAction {
     if (this.isFailed()) {
       return SvgPicture.asset(
         'assets/images/failed_icon.svg',
-        width: 10,
-        height: 10,
+        height: 9,
       );
     }
     return this.map(
@@ -113,28 +119,23 @@ abstract class WalletAction implements _$WalletAction {
       joinCommunity: (value) => null,
       fiatDeposit: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        width: 10,
-        height: 10,
+        height: 9,
       ),
       bonus: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        width: 10,
-        height: 10,
+        height: 9,
       ),
       send: (value) => SvgPicture.asset(
         'assets/images/send_icon.svg',
-        width: 10,
-        height: 10,
+        height: 9,
       ),
       receive: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        width: 10,
-        height: 10,
+        height: 9,
       ),
       swap: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        width: 10,
-        height: 10,
+        height: 9,
       ),
     );
   }

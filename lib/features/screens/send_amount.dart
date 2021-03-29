@@ -143,7 +143,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                   formatValue(
                     selectedToken?.amount,
                     selectedToken?.decimals,
-                    // withPrecision: true,
+                    withPrecision: true,
                   ),
                 ),
               ) <=
@@ -183,7 +183,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     formatValue(
                       selectedToken?.amount,
                       selectedToken?.decimals,
-                      // withPrecision: true,
+                      withPrecision: true,
                     ),
                   ),
                 ) <=
@@ -225,12 +225,12 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                       highlightColor:
                                           Theme.of(context).canvasColor,
                                       onTap: () {
-                                        // String maxValue = formatValue(
-                                        //   selectedToken.amount,
-                                        //   selectedToken.decimals,
-                                        //   withPrecision: true,
-                                        // );
-                                        String max = selectedToken.getBalance();
+                                        String max = formatValue(
+                                          selectedToken.amount,
+                                          selectedToken.decimals,
+                                          withPrecision: true,
+                                        );
+                                        // String max = selectedToken.getBalance();
                                         if (Decimal.parse(max).compareTo(
                                                 (Decimal.parse(amountText) ??
                                                     0)) !=
