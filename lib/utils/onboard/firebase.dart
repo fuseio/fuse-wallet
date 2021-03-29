@@ -31,6 +31,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
         token,
         accountAddress,
         identifier,
+        appName: 'fusecash',
       );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       store.dispatch(SetIsLoginRequest(isLoading: false));
@@ -73,11 +74,12 @@ class FirebaseStrategy implements IOnBoardStrategy {
     };
 
     await firebaseAuth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        codeAutoRetrievalTimeout: (String verificationId) {},
-        codeSent: codeSent,
-        verificationCompleted: verificationCompleted,
-        verificationFailed: verificationFailed);
+      phoneNumber: phoneNumber,
+      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeSent: codeSent,
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+    );
   }
 
   @override
@@ -104,6 +106,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       token,
       accountAddress,
       identifier,
+      appName: 'fusecash',
     );
     onSuccess(jwtToken);
   }
