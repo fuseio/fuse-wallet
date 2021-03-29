@@ -25,7 +25,8 @@ class SwapViewModel extends Equatable {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddress];
-    final List<Token> tokens = store.state.swapState?.tokens?.values?.toList();
+    final List<Token> tokens =
+        store.state.swapState?.tokens?.values?.toList() ?? [];
     return SwapViewModel(
       plugins: community?.plugins ?? Plugins(),
       payWithTokens:

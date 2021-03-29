@@ -15,50 +15,43 @@ class Feed extends StatelessWidget {
         viewModel.startFetching();
       },
       builder: (_, viewModel) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            viewModel.refreshFeed();
-            await Future.delayed(Duration(milliseconds: 1000));
-            return 'success';
-          },
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: viewModel.walletActions?.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Padding(
-                        padding: EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: Divider(
-                          thickness: 1,
-                          height: 0,
-                        ),
+        return Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: viewModel.walletActions?.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Padding(
+                      padding: EdgeInsets.only(
+                        left: 15,
+                        right: 15,
                       ),
-                      itemBuilder: (context, index) => ActionTile(
-                        action: viewModel.walletActions[index],
+                      child: Divider(
+                        thickness: 1,
+                        height: 0,
                       ),
                     ),
+                    itemBuilder: (context, index) => ActionTile(
+                      action: viewModel.walletActions[index],
+                    ),
                   ),
-                ],
-              ),
-              viewModel.showDepositBanner
-                  ? Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: DepositBanner(),
-                      ),
-                    )
-                  : SizedBox.shrink(),
-            ],
-          ),
+                ),
+              ],
+            ),
+            viewModel.showDepositBanner
+                ? Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: DepositBanner(),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ],
         );
       },
     );

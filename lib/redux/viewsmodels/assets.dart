@@ -57,18 +57,18 @@ class TokensListViewModel extends Equatable {
     final List<WalletAction> walletActions =
         List.from(store.state.cashWalletState?.walletActions?.list?.reversed) ??
             [];
-    final bool showDepositBanner =
-        !(store?.state?.userState?.depositBannerShowed ?? false) &&
-            util.isDefaultCommunity(communityAddress) &&
-            token != null &&
-            (walletAction != null && walletAction.isConfirmed()) &&
-            (walletActions.isNotEmpty && walletActions.length < 2);
+    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
+        (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
+            ?.compareTo(tokenA?.amount ?? BigInt.zero));
+    final bool showDepositBanner = token != null &&
+        (walletAction != null && walletAction.isConfirmed()) &&
+        (walletActions.isNotEmpty && walletActions.length < 2) &&
+        tokens != null &&
+        tokens.isEmpty;
     return TokensListViewModel(
       showDepositBanner: showDepositBanner,
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
-          (tokenB?.amount ?? BigInt.zero)
-              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+      tokens: tokens,
     );
   }
 
