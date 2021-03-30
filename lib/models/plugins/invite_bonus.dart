@@ -1,17 +1,31 @@
-import 'plugin_base.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/plugins/plugin_base.dart';
 
-class InviteBonusPlugin extends Plugin {
-  String amount;
-  final String type = 'inviteBonus';
+part 'invite_bonus.freezed.dart';
+part 'invite_bonus.g.dart';
 
-  InviteBonusPlugin({name, isActive, this.amount})
-      : super(name: name, isActive: isActive);
+@immutable
+@freezed
+abstract class InviteBonusPlugin with _$InviteBonusPlugin {
+  @Implements(Plugin)
+  @JsonSerializable()
+  factory InviteBonusPlugin({
+    @Default('inviteBonus') String type,
+    String amount,
+    String name,
+    bool isActive,
+  }) = _InviteBonusPlugin;
+
+  factory InviteBonusPlugin.fromJson(dynamic json) =>
+      _$InviteBonusPluginFromJson(json);
+}
+
+class InviteBonusPluginConverter
+    implements JsonConverter<InviteBonusPlugin, Map<String, dynamic>> {
+  const InviteBonusPluginConverter();
 
   @override
-  dynamic toJson() =>
-      {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
-
-  static InviteBonusPlugin fromJson(dynamic json) => json != null
+  InviteBonusPlugin fromJson(Map<String, dynamic> json) => json != null
       ? InviteBonusPlugin(
           name: json['name'],
           amount: json.containsKey('inviteInfo')
@@ -20,4 +34,7 @@ class InviteBonusPlugin extends Plugin {
           isActive: json["isActive"] ?? false,
         )
       : null;
+
+  @override
+  Map<String, dynamic> toJson(InviteBonusPlugin instance) => instance?.toJson();
 }

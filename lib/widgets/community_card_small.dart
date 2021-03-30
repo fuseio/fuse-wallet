@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
-class CommunityCardScreen extends StatefulWidget {
-  CommunityCardScreen(
+class CommunityCard extends StatelessWidget {
+  CommunityCard(
       {Key key, this.title, this.community, this.token, this.switchCommunity})
       : super(key: key);
 
@@ -15,22 +15,12 @@ class CommunityCardScreen extends StatefulWidget {
   final String title;
 
   @override
-  _CommunityCardScreenState createState() => _CommunityCardScreenState();
-}
-
-class _CommunityCardScreenState extends State<CommunityCardScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return InkWell(
-        focusColor: Theme.of(context).splashColor,
-        highlightColor: Theme.of(context).splashColor,
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: () {
-          widget.switchCommunity(widget?.community?.address);
+          switchCommunity(community?.address);
           Navigator.of(context).pop();
         },
         child: Container(
@@ -64,8 +54,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                           child: CachedNetworkImage(
                             width: 50,
                             height: 50,
-                            imageUrl:
-                                widget?.community?.metadata?.getImageUri(),
+                            imageUrl: community?.metadata?.getImageUri(),
                             placeholder: (context, url) =>
                                 CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -85,16 +74,15 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(widget?.community?.name ?? '',
+                            Text(community?.name ?? '',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Theme.of(context).primaryColor,
                                 )),
                             SizedBox(
                               width: 3,
                             ),
-                            widget?.token != null
-                                ? Text('Token: ${widget?.token?.symbol}',
+                            token != null
+                                ? Text('Token: ${token?.symbol}',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Theme.of(context)

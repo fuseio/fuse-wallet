@@ -64,7 +64,7 @@ class FiatProcess extends Transaction {
   }
 
   @override
-  bool isFiatProccesing() => true;
+  bool isFiatProcessing() => true;
 
   @override
   String getText() {

@@ -6,8 +6,8 @@ part of 'business_metadata.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
-  return BusinessMetadata(
+_$_BusinessMetadata _$_$_BusinessMetadataFromJson(Map<String, dynamic> json) {
+  return _$_BusinessMetadata(
     address: json['address'] as String ?? '',
     description: json['description'] as String ?? '',
     image: json['image'] as String ?? '',
@@ -15,17 +15,20 @@ BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
     type: json['type'] as String ?? '',
     phoneNumber: json['phoneNumber'] as String ?? '',
     website: json['website'] as String ?? '',
-    latLng:
-        (json['latLng'] as List)?.map((e) => (e as num)?.toDouble())?.toList(),
+    latLng: (json['latLng'] as List)
+            ?.map((e) => (e as num)?.toDouble())
+            ?.toList() ??
+        [],
   );
 }
 
-Map<String, dynamic> _$BusinessMetadataToJson(BusinessMetadata instance) =>
+Map<String, dynamic> _$_$_BusinessMetadataToJson(
+        _$_BusinessMetadata instance) =>
     <String, dynamic>{
       'address': instance.address,
-      'coverPhoto': instance.coverPhoto,
       'description': instance.description,
       'image': instance.image,
+      'coverPhoto': instance.coverPhoto,
       'type': instance.type,
       'phoneNumber': instance.phoneNumber,
       'website': instance.website,

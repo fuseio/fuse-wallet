@@ -5,7 +5,7 @@ import 'package:country_code_picker/country_codes.dart';
 
 class LanguageSelector extends StatefulWidget {
   @override
-  _LanguageSelectorState createState() => new _LanguageSelectorState();
+  _LanguageSelectorState createState() => _LanguageSelectorState();
 }
 
 class _LanguageSelectorState extends State<LanguageSelector> {
@@ -26,16 +26,16 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     Locale currentLocal = Localizations.localeOf(context);
     return I18n.delegate.supportedLocales.map((local) {
       bool isSelected = currentLocal == local;
-      Map code = codes.firstWhere((code) => code['code'] == local.countryCode, orElse: () => null);
+      Map code = codes.firstWhere((code) => code['code'] == local.countryCode,
+          orElse: () => null);
       String name = code['name'] ?? local.countryCode;
-      return new ListTile(
+      return ListTile(
           contentPadding:
               EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),
-          title: new Text(
+          title: Text(
             name,
-            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
-          trailing: isSelected ? new Icon(Icons.check, color: Colors.green) : null,
+          trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
           selected: isSelected,
           onTap: () {
             I18n.onLocaleChanged(local);
@@ -47,16 +47,19 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   Widget _buildTiles(BuildContext context) {
-    return new ExpansionTile(
-      key: new Key(_key.toString()),
+    return ExpansionTile(
+      key: Key(_key.toString()),
       initiallyExpanded: false,
-      title: new Row(
+      title: Row(
         children: [
           Padding(
             padding: EdgeInsets.only(top: 5, bottom: 5, left: 15),
-            child: new Text(I18n.of(context).language,
-                style: TextStyle(
-                    fontSize: 16, color: Theme.of(context).primaryColor)),
+            child: Text(
+              I18n.of(context).language,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
           )
         ],
       ),
@@ -67,7 +70,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   _collapse() {
     int newKey;
     do {
-      _key = new Random().nextInt(10000);
+      _key = Random().nextInt(10000);
     } while (newKey == _key);
   }
 }

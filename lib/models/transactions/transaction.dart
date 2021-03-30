@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
@@ -23,7 +23,7 @@ class Transaction extends Equatable {
 
   String getText() => text;
 
-  bool isFiatProccesing() => false;
+  bool isFiatProcessing() => false;
 
   @override
   List<Object> get props => [txHash, status, timestamp, failReason, jobId];
@@ -75,7 +75,8 @@ class Transaction extends Equatable {
   bool isConfirmed() => this.status == 'CONFIRMED';
 
   bool isJoinBonus() =>
-      this.from != null && funderAddresses.containsValue(this.from);
+      this.from != null &&
+      this.from?.toLowerCase() == env['FUNDER_ADDRESS'].toLowerCase();
   bool isGenerateWallet() =>
       this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');

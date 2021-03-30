@@ -1,5 +1,6 @@
 import 'dart:core';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,7 +16,7 @@ class NetworkExplainedScreen extends StatefulWidget {
 class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Animation<double> scaleAnimatoin;
+  Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override
@@ -24,7 +25,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
 
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    scaleAnimatoin =
+    scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
@@ -43,7 +44,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-        scale: scaleAnimatoin,
+        scale: scaleAnimation,
         child: AlertDialog(
             contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             shape: RoundedRectangleBorder(
@@ -70,7 +71,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              '''This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network''',
+                              '''This page shows your assets on the ${widget.network == 'fuse' ? widget.network.capitalize() : 'Ethereum'} network''',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 15,
@@ -92,9 +93,11 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                                   'What is the difference between Ethereum and Fuse?',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
                                 ),
                                 Text(
                                   '''
@@ -110,16 +113,15 @@ On Fuse you can send assets for free to anybody and on Ethereum you can trade th
                             ),
                             SizedBox(height: 30.0),
                             Center(
-                                child: PrimaryButton(
-                              fontSize: 15,
-                              width: 100,
-                              preload: isPreloading,
-                              labelFontWeight: FontWeight.normal,
-                              label: "Ok",
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                              },
-                            )),
+                              child: PrimaryButton(
+                                width: 100,
+                                preload: isPreloading,
+                                label: I18n.of(context).ok,
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),

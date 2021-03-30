@@ -6,22 +6,26 @@ part of 'app_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AppState _$AppStateFromJson(Map<String, dynamic> json) {
-  return AppState(
-    userState: json['userState'] == null
+_$_AppState _$_$_AppStateFromJson(Map<String, dynamic> json) {
+  return _$_AppState(
+    userState: const UserStateConverter()
+        .fromJson(json['userState'] as Map<String, dynamic>),
+    cashWalletState: const CashWalletStateConverter()
+        .fromJson(json['cashWalletState'] as Map<String, dynamic>),
+    proWalletState: const ProWalletStateConverter()
+        .fromJson(json['proWalletState'] as Map<String, dynamic>),
+    swapState: json['swapState'] == null
         ? null
-        : UserState.fromJson(json['userState'] as Map<String, dynamic>),
-    cashWalletState: json['cashWalletState'] == null
-        ? null
-        : CashWalletState.fromJson(
-            json['cashWalletState'] as Map<String, dynamic>),
-    proWalletState: AppState._proStateFromJson(
-        json['proWalletState'] as Map<String, dynamic>),
+        : SwapState.fromJson(json['swapState']),
   );
 }
 
-Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
-      'userState': instance.userState?.toJson(),
-      'cashWalletState': instance.cashWalletState?.toJson(),
-      'proWalletState': instance.proWalletState?.toJson(),
+Map<String, dynamic> _$_$_AppStateToJson(_$_AppState instance) =>
+    <String, dynamic>{
+      'userState': const UserStateConverter().toJson(instance.userState),
+      'cashWalletState':
+          const CashWalletStateConverter().toJson(instance.cashWalletState),
+      'proWalletState':
+          const ProWalletStateConverter().toJson(instance.proWalletState),
+      'swapState': instance.swapState?.toJson(),
     };

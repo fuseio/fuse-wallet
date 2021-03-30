@@ -1,13 +1,21 @@
-import 'deposit_base.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/plugins/plugin_base.dart';
 
-class TransakPlugin extends DepositPlugin {
-  TransakPlugin({name, isActive, widgetUrl}) : super(name, isActive, widgetUrl);
+part 'transak.freezed.dart';
+part 'transak.g.dart';
 
-  static TransakPlugin fromJson(dynamic json) => json != null
-      ? TransakPlugin(
-          name: json['name'],
-          widgetUrl: json['widgetUrl'],
-          isActive: json["isActive"] ?? false,
-        )
-      : null;
+@immutable
+@freezed
+abstract class TransakPlugin with _$TransakPlugin {
+  @Implements(Plugin)
+  @JsonSerializable()
+  factory TransakPlugin({
+    String name,
+    String widgetUrl,
+    @Default('deposit') String type,
+    @Default(false) bool isActive,
+  }) = _TransakPlugin;
+
+  factory TransakPlugin.fromJson(Map<String, dynamic> json) =>
+      _$TransakPluginFromJson(json);
 }

@@ -6,48 +6,58 @@ part of 'community.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Community _$CommunityFromJson(Map<String, dynamic> json) {
-  return Community(
+_$_Community _$_$_CommunityFromJson(Map<String, dynamic> json) {
+  return _$_Community(
     name: json['name'] as String,
-    bridgeType: json['bridgeType'] as String,
-    bridgeDirection: json['bridgeDirection'] as String,
-    isMultiBridge: json['isMultiBridge'] as bool ?? false,
-    isClosed: json['isClosed'] as bool ?? true,
-    isMember: json['isMember'] as bool ?? false,
     address: json['address'] as String,
-    plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
+    isMultiBridge: json['isMultiBridge'] as bool ?? false,
+    isClosed: json['isClosed'] as bool ?? false,
+    isMember: json['isMember'] as bool ?? false,
     homeTokenAddress: json['homeTokenAddress'] as String,
-    businesses: (json['businesses'] as List)
-            ?.map((e) =>
-                e == null ? null : Business.fromJson(e as Map<String, dynamic>))
-            ?.toList() ??
-        [],
     metadata: json['metadata'] == null
         ? null
         : CommunityMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    homeBridgeAddress: json['homeBridgeAddress'] as String,
     webUrl: json['webUrl'] as String,
+    bridgeType: json['bridgeType'] as String,
+    bridgeDirection: json['bridgeDirection'] as String,
+    homeBridgeAddress: json['homeBridgeAddress'] as String,
     foreignBridgeAddress: json['foreignBridgeAddress'] as String,
     foreignTokenAddress: json['foreignTokenAddress'] as String,
+    plugins: pluginsFromJson(json['plugins']),
+    businesses: (json['businesses'] as List)
+        ?.map((e) =>
+            e == null ? null : Business.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     description: json['description'] as String,
   );
 }
 
-Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
-      'name': instance.name,
-      'address': instance.address,
-      'homeBridgeAddress': instance.homeBridgeAddress,
-      'foreignBridgeAddress': instance.foreignBridgeAddress,
-      'isMember': instance.isMember,
-      'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
-      'homeTokenAddress': instance.homeTokenAddress,
-      'plugins': instance.plugins?.toJson(),
-      'metadata': instance.metadata?.toJson(),
-      'isClosed': instance.isClosed,
-      'webUrl': instance.webUrl,
-      'foreignTokenAddress': instance.foreignTokenAddress,
-      'description': instance.description,
-      'bridgeType': instance.bridgeType,
-      'bridgeDirection': instance.bridgeDirection,
-      'isMultiBridge': instance.isMultiBridge,
-    };
+Map<String, dynamic> _$_$_CommunityToJson(_$_Community instance) {
+  final val = <String, dynamic>{
+    'name': instance.name,
+    'address': instance.address,
+    'isMultiBridge': instance.isMultiBridge,
+    'isClosed': instance.isClosed,
+    'isMember': instance.isMember,
+    'homeTokenAddress': instance.homeTokenAddress,
+    'metadata': instance.metadata?.toJson(),
+    'webUrl': instance.webUrl,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bridgeType', instance.bridgeType);
+  writeNotNull('bridgeDirection', instance.bridgeDirection);
+  writeNotNull('homeBridgeAddress', instance.homeBridgeAddress);
+  writeNotNull('foreignBridgeAddress', instance.foreignBridgeAddress);
+  writeNotNull('foreignTokenAddress', instance.foreignTokenAddress);
+  writeNotNull('plugins', instance.plugins?.toJson());
+  writeNotNull(
+      'businesses', instance.businesses?.map((e) => e?.toJson())?.toList());
+  val['description'] = instance.description;
+  return val;
+}

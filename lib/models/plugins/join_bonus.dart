@@ -1,16 +1,31 @@
-import 'plugin_base.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/plugins/plugin_base.dart';
 
-class JoinBonusPlugin extends Plugin {
-  String amount;
-  final String type = 'joinBonus';
+part 'join_bonus.freezed.dart';
+part 'join_bonus.g.dart';
 
-  JoinBonusPlugin({name, isActive, this.amount})
-      : super(name: name, isActive: isActive);
+@immutable
+@freezed
+abstract class JoinBonusPlugin with _$JoinBonusPlugin {
+  @Implements(Plugin)
+  @JsonSerializable()
+  factory JoinBonusPlugin({
+    @Default('joinBonus') String type,
+    String amount,
+    String name,
+    bool isActive,
+  }) = _JoinBonusPlugin;
 
-  dynamic toJson() =>
-      {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
+  factory JoinBonusPlugin.fromJson(dynamic json) =>
+      _$JoinBonusPluginFromJson(json);
+}
 
-  static JoinBonusPlugin fromJson(dynamic json) => json != null
+class JoinBonusPluginConverter
+    implements JsonConverter<JoinBonusPlugin, Map<String, dynamic>> {
+  const JoinBonusPluginConverter();
+
+  @override
+  JoinBonusPlugin fromJson(Map<String, dynamic> json) => json != null
       ? JoinBonusPlugin(
           name: json['name'],
           amount: json.containsKey('joinInfo')
@@ -19,4 +34,7 @@ class JoinBonusPlugin extends Plugin {
           isActive: json["isActive"] ?? false,
         )
       : null;
+
+  @override
+  Map<String, dynamic> toJson(JoinBonusPlugin instance) => instance?.toJson();
 }

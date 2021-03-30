@@ -1,66 +1,40 @@
-import 'package:fusecash/utils/transaction_util.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/utils/images.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'community_metadata.freezed.dart';
 part 'community_metadata.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class CommunityMetadata {
-  @JsonKey(defaultValue: '')
-  final String image;
-  @JsonKey(defaultValue: '')
-  final String coverPhoto;
-  @JsonKey(defaultValue: false)
-  final bool isDefaultImage;
-  @JsonKey(defaultValue: '')
-  final String imageUri;
-  @JsonKey(defaultValue: '')
-  final String coverPhotoUri;
-
-  CommunityMetadata({
-    this.isDefaultImage,
-    this.image,
-    this.coverPhoto,
-    this.coverPhotoUri,
-    this.imageUri,
-  });
-
-  CommunityMetadata copyWith({
+@immutable
+@freezed
+abstract class CommunityMetadata implements _$CommunityMetadata {
+  @JsonSerializable()
+  factory CommunityMetadata({
     bool isDefaultImage,
-    String coverPhoto,
     String image,
+    String coverPhoto,
     String coverPhotoUri,
     String imageUri,
-  }) =>
-      CommunityMetadata(
-        image: image,
-        imageUri: imageUri,
-        coverPhoto: coverPhoto,
-        coverPhotoUri: coverPhotoUri,
-        isDefaultImage: isDefaultImage,
-      );
+  }) = _CommunityMetadata;
+
+  const CommunityMetadata._();
 
   String getImageUri() {
     if (![null, ''].contains(imageUri)) {
       return imageUri;
-    } else if (![null, ''].contains(image)) {
-      return getIPFSImageUrl(image);
+    } else {
+      return ImageUrl.getLink(image);
     }
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }
 
   String getCoverPhotoUri() {
     if (![null, ''].contains(coverPhotoUri)) {
       return coverPhotoUri;
-    } else if (![null, ''].contains(coverPhoto)) {
-      return getIPFSImageUrl(coverPhoto);
+    } else {
+      return ImageUrl.getLink(coverPhoto);
     }
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }
-
-  factory CommunityMetadata.initial() => CommunityMetadata();
 
   factory CommunityMetadata.fromJson(Map<String, dynamic> json) =>
       _$CommunityMetadataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CommunityMetadataToJson(this);
 }

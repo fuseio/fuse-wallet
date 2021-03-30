@@ -20,12 +20,10 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
-  TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
   TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
-  TypedReducer<UserState, SetIsoCode>(_setIsoCode),
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
   TypedReducer<UserState, ReceiveBackupDialogShowed>(
       _receiveBackupDialogShowed),
@@ -33,21 +31,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
   TypedReducer<UserState, UpdateTotalBalance>(_updateTotalBalance),
-  TypedReducer<UserState, CreateAccountWalletRequest>(
-      _createAccountWalletRequest),
-  TypedReducer<UserState, CreateAccountWalletSuccess>(
-      _createAccountWalletSuccess),
 ]);
-
-UserState _createAccountWalletRequest(
-    UserState state, CreateAccountWalletRequest action) {
-  return state.copyWith(walletStatus: 'requested');
-}
-
-UserState _createAccountWalletSuccess(
-    UserState state, CreateAccountWalletSuccess action) {
-  return state.copyWith(walletStatus: 'deploying');
-}
 
 UserState _updateCurrency(UserState state, UpdateCurrency action) {
   return state.copyWith(currency: action.currency);
@@ -72,26 +56,18 @@ UserState _homeBackupDialogShowed(
 }
 
 UserState _setSecurityType(UserState state, SetSecurityType action) {
-  return state.copyWith(authType: action.biometricAuth);
-}
-
-UserState _setIsoCode(UserState state, SetIsoCode action) {
   return state.copyWith(
-      normalizedPhoneNumber: action.normalizedPhoneNumber,
-      isoCode: action.countryCode.code,
-      countryCode: action.countryCode.dialCode);
+    authType: action.biometricAuth,
+  );
 }
 
 UserState _getWalletAddressesSuccess(
     UserState state, GetWalletAddressesSuccess action) {
   return state.copyWith(
-      backup: action.backup,
-      networks: action.networks,
-      walletAddress: action.walletAddress,
-      transferManagerAddress: action.transferManagerAddress,
-      communityManagerAddress: action.communityManagerAddress,
-      daiPointsManagerAddress: action.daiPointsManagerAddress,
-      walletStatus: 'created');
+    backup: action.backup,
+    networks: action.networks,
+    walletAddress: action.walletAddress,
+  );
 }
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
@@ -103,30 +79,33 @@ UserState _reLoginUser(UserState state, ReLogin action) {
 }
 
 UserState _createNewWalletSuccess(
-    UserState state, CreateLocalAccountSuccess action) {
-  UserState newState = UserState.initial();
-  return newState.copyWith(
-      isLoggedOut: false,
-      mnemonic: action.mnemonic,
-      privateKey: action.privateKey,
-      accountAddress: action.accountAddress);
+    UserState state, CreateLocalAccountSuccess action,) {
+  return UserState(
+    isLoggedOut: false,
+    mnemonic: action.mnemonic,
+    privateKey: action.privateKey,
+    accountAddress: action.accountAddress,
+  );
 }
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
-      countryCode: action.countryCode.dialCode,
-      isoCode: action.countryCode.code,
-      normalizedPhoneNumber: action.normalizedPhoneNumber,
-      phoneNumber: action.phoneNumber,
-      loginRequestSuccess: true);
+    countryCode: action.countryCode.dialCode,
+    isoCode: action.countryCode.code,
+    phoneNumber: action.phoneNumber,
+  );
 }
 
 UserState _setVerificationId(UserState state, SetVerificationId action) {
-  return state.copyWith(verificationId: action.verificationId);
+  return state.copyWith(
+    verificationId: action.verificationId,
+  );
 }
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
-  return state.copyWith(jwtToken: action.jwtToken, loginVerifySuccess: true);
+  return state.copyWith(
+    jwtToken: action.jwtToken,
+  );
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
@@ -151,16 +130,22 @@ UserState _setUserAvatar(UserState state, SetUserAvatar action) {
 }
 
 UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
-  Map<String, String> reverseContacts =
-      Map<String, String>.from(state.reverseContacts);
-  Iterable<MapEntry<String, String>> entries = action.newContacts.map((entry) =>
-      new MapEntry(entry['walletAddress'].toString().toLowerCase(),
-          entry['phoneNumber']));
+  Map<String, String> reverseContacts = Map<String, String>.from(
+    state.reverseContacts,
+  );
+  Iterable<MapEntry<String, String>> entries = action.newContacts.map(
+    (entry) => new MapEntry(
+      entry['walletAddress'].toString().toLowerCase(),
+      entry['phoneNumber'],
+    ),
+  );
   reverseContacts.addEntries(entries);
   List<String> syncedContacts = List<String>.from(state.syncedContacts);
   syncedContacts.addAll(action.contacts);
   return state.copyWith(
-      reverseContacts: reverseContacts, syncedContacts: syncedContacts);
+    reverseContacts: reverseContacts,
+    syncedContacts: syncedContacts,
+  );
 }
 
 UserState _saveContacts(UserState state, SaveContacts action) {
@@ -175,22 +160,22 @@ UserState _setCredentials(UserState state, SetCredentials action) {
   return state.copyWith(credentials: action.credentials);
 }
 
-UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
-  return state.copyWith(displayBalance: action.displayBalance);
-}
-
 UserState _justInstalled(UserState state, JustInstalled action) {
   return state.copyWith(installedAt: action.installedAt);
 }
 
 UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
   return state.copyWith(
-      isLoginRequest: action.isLoading, signupException: action.message);
+    isLoginRequest: action.isLoading,
+    signupErrorMessage: action.message,
+  );
 }
 
 UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
   return state.copyWith(
-      isVerifyRequest: action.isLoading, verifyException: action.message);
+    isVerifyRequest: action.isLoading,
+    verifyErrorMessage: action.message,
+  );
 }
 
 UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {

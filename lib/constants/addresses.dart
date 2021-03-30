@@ -1,0 +1,11 @@
+class Addresses {
+  Addresses._();
+
+  static const String ZERO_ADDRESS =
+      '0x0000000000000000000000000000000000000000';
+  static const String FEE_ADDRESS =
+      '0x77D886e98133D99130179bdb41CE052a43d32c2F';
+  // TOTLE SMART CONTRACT
+  static const String TOTLE_APPROVAL_CONTRACT_ADDRESS =
+      '0x74758AcFcE059f503a7E6B0fC2c8737600f9F2c4';
+}

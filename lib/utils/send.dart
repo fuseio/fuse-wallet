@@ -4,18 +4,22 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 
 Future<Map> fetchWalletByPhone(
-    String phone, String countryCode, String isoCode) async {
+  String phone,
+  String countryCode,
+  String isoCode,
+) async {
   try {
     PhoneNumber phoneNumber = await phoneNumberUtil.parse(phone);
     Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
@@ -29,8 +33,10 @@ Future<Map> fetchWalletByPhone(
     String formatted = formatPhoneNumber(phone, countryCode);
     bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
     if (isValid) {
-      PhoneNumber phoneNumber =
-          await phoneNumberUtil.parse(formatted, regionCode: isoCode);
+      PhoneNumber phoneNumber = await phoneNumberUtil.parse(
+        formatted,
+        regionCode: isoCode,
+      );
       Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
@@ -38,7 +44,7 @@ Future<Map> fetchWalletByPhone(
         'walletAddress': walletAddress,
       };
     } else {
-      throw '[ERROR] Fetch Wallet By Phone - $e';
+      throw 'Phone number isnt valid - $e';
     }
   }
 }
@@ -51,11 +57,15 @@ void _openLoadingDialog(BuildContext context) {
   );
 }
 
-void sendToContact(BuildContext context, String displayName, String phone,
-    {ImageProvider avatar,
-    String address,
-    String countryCode,
-    String isoCode}) async {
+void sendToContact(
+  BuildContext context,
+  String displayName,
+  String phone, {
+  ImageProvider avatar,
+  String address,
+  String countryCode,
+  String isoCode,
+}) async {
   if (address != null && address.isNotEmpty) {
     ExtendedNavigator.root.pushSendAmountScreen(
         pageArgs: SendAmountArguments(
@@ -67,11 +77,13 @@ void sendToContact(BuildContext context, String displayName, String phone,
     Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     Navigator.of(context).pop();
     ExtendedNavigator.root.pushSendAmountScreen(
-        pageArgs: SendAmountArguments(
-            phoneNumber: res['phoneNumber'],
-            accountAddress: res['walletAddress'],
-            name: displayName,
-            avatar: avatar));
+      pageArgs: SendAmountArguments(
+        phoneNumber: res['phoneNumber'],
+        accountAddress: res['walletAddress'],
+        name: displayName,
+        avatar: avatar,
+      ),
+    );
   } catch (e) {
     Navigator.of(context).pop();
     throw '$e';
@@ -80,11 +92,15 @@ void sendToContact(BuildContext context, String displayName, String phone,
 
 void sendToPastedAddress(accountAddress) {
   ExtendedNavigator.root.pushSendAmountScreen(
-      pageArgs: SendAmountArguments(
-          accountAddress: accountAddress, name: formatAddress(accountAddress)));
+    pageArgs: SendAmountArguments(
+      accountAddress: accountAddress,
+      avatar: AssetImage('assets/images/anom.png'),
+      name: formatAddress(accountAddress),
+    ),
+  );
 }
 
-void bracodeScannerHandler(context) async {
+void barcodeScannerHandler(context) async {
   try {
     PermissionStatus permission = await Permission.camera.request();
     if (permission == PermissionStatus.granted) {
@@ -93,9 +109,11 @@ void bracodeScannerHandler(context) async {
       final bool hasColon = rawData.contains(':');
       if (hasColon) {
         List<String> parts = scanResult.rawContent.split(':');
-        bool expression = parts.length == 2 && (parts[0] == 'fuse' || parts[0] == 'ethereum');
+        bool expression =
+            parts.length == 2 && (parts[0] == 'fuse' || parts[0] == 'ethereum');
         if (expression) {
-          final String accountAddress = parts[0] == 'fuse' ? parts[1].replaceFirst('f', 'x') : parts[1];
+          final String accountAddress =
+              parts[0] == 'fuse' ? parts[1].replaceFirst('f', 'x') : parts[1];
           if (isValidEthereumAddress(accountAddress)) {
             sendToPastedAddress(accountAddress);
           } else {
@@ -106,12 +124,12 @@ void bracodeScannerHandler(context) async {
         }
       } else if (isValidEthereumAddress(rawData)) {
         sendToPastedAddress(scanResult.rawContent);
-      } else {
-        throw 'ERROR';
       }
     }
   } catch (e) {
+    log.error('ERROR - BarcodeScanner');
     Flushbar(
+      duration: Duration(seconds: 2),
       boxShadows: [
         BoxShadow(
           color: Colors.grey[500],
@@ -121,12 +139,13 @@ void bracodeScannerHandler(context) async {
       ],
       titleText: Text(
         I18n.of(context).error,
-        style: TextStyle(
-            fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         I18n.of(context).invalid_qa_code,
-        style: TextStyle(fontSize: 14.0, color: Colors.black),
+        style: TextStyle(
+          fontSize: 14.0,
+        ),
       ),
       backgroundColor: Theme.of(context).bottomAppBarColor,
       margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),

@@ -5,9 +5,6 @@ PODS:
     - MTBBarcodeScanner
     - SwiftProtobuf
   - Branch (0.36.0)
-  - connectivity (0.0.1):
-    - Flutter
-    - Reachability
   - contacts_service (0.2.2):
     - Flutter
   - device_info (0.0.1):
@@ -66,7 +63,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.7)
     - Protobuf (>= 3.9.2, ~> 3.9)
   - Flutter (1.0.0)
-  - flutter_branch_sdk (1.2.0):
+  - flutter_branch_sdk (1.3.2):
     - Branch (~> 0.36.0)
     - Flutter
   - flutter_secure_storage (3.3.1):
@@ -129,19 +126,24 @@ PODS:
     - Flutter
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
   - PhoneNumberKit/PhoneNumberKitCore (3.3.1)
-  - PromisesObjC (1.2.11)
-  - Protobuf (3.13.0)
-  - Reachability (3.2)
+  - PromisesObjC (1.2.12)
+  - Protobuf (3.14.0)
   - SAMKeychain (1.5.3)
   - Segment-Branch (0.1.24):
     - Analytics
     - Branch (~> 0.36.0)
+  - Sentry (6.1.4):
+    - Sentry/Core (= 6.1.4)
+  - Sentry/Core (6.1.4)
+  - sentry_flutter (0.0.1):
+    - Flutter
+    - Sentry (~> 6.1.4)
   - share (0.0.1):
     - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
-  - SwiftProtobuf (1.13.0)
+  - SwiftProtobuf (1.15.0)
   - url_launcher (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -149,7 +151,6 @@ PODS:
 
 DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
-  - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -167,6 +168,7 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - phone_number (from `.symlinks/plugins/phone_number/ios`)
+  - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -193,16 +195,14 @@ SPEC REPOS:
     - PhoneNumberKit
     - PromisesObjC
     - Protobuf
-    - Reachability
     - SAMKeychain
     - Segment-Branch
+    - Sentry
     - SwiftProtobuf
 
 EXTERNAL SOURCES:
   barcode_scan:
     :path: ".symlinks/plugins/barcode_scan/ios"
-  connectivity:
-    :path: ".symlinks/plugins/connectivity/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   device_info:
@@ -237,6 +237,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
   phone_number:
     :path: ".symlinks/plugins/phone_number/ios"
+  sentry_flutter:
+    :path: ".symlinks/plugins/sentry_flutter/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   sqflite:
@@ -250,7 +252,6 @@ SPEC CHECKSUMS:
   Analytics: ebdc0c3ed93684d10c898f57886e0ce7fbecc240
   barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
   Branch: 8aebcb7a6465f19f9f4d315acced369ae078d3f2
-  connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
@@ -264,7 +265,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: bd3ffc24367f901a43c063b36c640b345a4a5dd1
   FirebaseMessaging: 5eca4ef173de76253352511aafef774caa1cba2a
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_branch_sdk: e112bc8cc622f6682099823ce4bc1520fb8d55db
+  flutter_branch_sdk: ecbe8c173d747c9f8d18a74e72de96cc9159375f
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: 0357d36d6b066d5d255cda46d2f217b55110af95
   flutter_udid: c9d59b0a440e137882faa5cf53a3501e906fb8c2
@@ -283,17 +284,18 @@ SPEC CHECKSUMS:
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
   phone_number: 0c59d1ce0ceaf822e4507d9b60b2300754e8633e
   PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   Segment-Branch: 5e91faad404e1af9998f5a2bbd44522a0f071786
+  Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
+  sentry_flutter: 8b2b2e1c0101ef562106b5d272d3c0c741512c01
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
-  SwiftProtobuf: fd4693388a96c8c2df35d3b063272b0e7c499d00
+  SwiftProtobuf: 3320217e9d8fb75f36b40282e78c482640fd75dd
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 8dddaa4dd1f10e82efa97f9bfa129e26ac9d1a60
 
 COCOAPODS: 1.10.1

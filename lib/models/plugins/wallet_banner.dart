@@ -1,22 +1,32 @@
-import 'plugin_base.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/plugins/plugin_base.dart';
 
-class WalletBannerPlugin extends Plugin {
-  String link;
-  String walletBannerHash;
-  final String type = 'walletBanner';
+part 'wallet_banner.freezed.dart';
+part 'wallet_banner.g.dart';
 
-  WalletBannerPlugin({name, isActive, this.link, this.walletBannerHash})
-      : super(name: name, isActive: isActive);
+@immutable
+@freezed
+abstract class WalletBannerPlugin with _$WalletBannerPlugin {
+  @Implements(Plugin)
+  @JsonSerializable()
+  factory WalletBannerPlugin({
+    @Default('walletBanner') String type,
+    String walletBannerHash,
+    String name,
+    String link,
+    bool isActive,
+  }) = _WalletBannerPlugin;
 
-  dynamic toJson() => {
-        'name': name,
-        'isActive': isActive,
-        'type': type,
-        'walletBannerHash': walletBannerHash,
-        'link': link
-      };
+  factory WalletBannerPlugin.fromJson(dynamic json) =>
+      _$WalletBannerPluginFromJson(json);
+}
 
-  static WalletBannerPlugin fromJson(dynamic json) => json != null
+class WalletBannerPluginConverter
+    implements JsonConverter<WalletBannerPlugin, Map<String, dynamic>> {
+  const WalletBannerPluginConverter();
+
+  @override
+  WalletBannerPlugin fromJson(Map<String, dynamic> json) => json != null
       ? WalletBannerPlugin(
           name: json['name'],
           walletBannerHash: json['walletBannerHash'],
@@ -24,4 +34,8 @@ class WalletBannerPlugin extends Plugin {
           isActive: json["isActive"] ?? false,
         )
       : null;
+
+  @override
+  Map<String, dynamic> toJson(WalletBannerPlugin instance) =>
+      instance?.toJson();
 }

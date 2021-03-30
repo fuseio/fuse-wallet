@@ -19,9 +19,10 @@ class Transactions {
       Map<String, Transaction> invites,
       num blockNumber}) {
     return Transactions(
-        list: list ?? this.list,
-        invites: invites ?? this.invites,
-        blockNumber: blockNumber ?? this.blockNumber);
+      list: list ?? this.list,
+      invites: invites ?? this.invites,
+      blockNumber: blockNumber ?? this.blockNumber,
+    );
   }
 
   factory Transactions.initial() {
@@ -29,20 +30,11 @@ class Transactions {
   }
 
   static List<Transaction> _listFromJson(Map<String, dynamic> list) =>
-      List<Transaction>.from(
-        list['list'].map(
-          (transaction) => TransactionFactory.fromJson(transaction),
-        ),
-      );
-
+      List<Transaction>.from(list['list']
+          .map((transaction) => TransactionFactory.fromJson(transaction)));
   static Map<String, dynamic> _listToJson(List<Transaction> list) =>
-      new Map.from({
-        'list': list
-            .map(
-              (transaction) => transaction.toJson(),
-            )
-            .toList(),
-      });
+      new Map.from(
+          {'list': list.map((transaction) => transaction.toJson()).toList()});
 
   factory Transactions.fromJson(Map<String, dynamic> json) =>
       _$TransactionsFromJson(json);

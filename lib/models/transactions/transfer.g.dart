@@ -27,7 +27,6 @@ Transfer _$TransferFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
-      'tokenAddress': instance.tokenAddress,
       'txHash': instance.txHash,
       'timestamp': instance.timestamp,
       'type': instance.type,
@@ -35,11 +34,12 @@ Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
       'text': instance.text,
       'blockNumber': instance.blockNumber,
       'jobId': instance.jobId,
+      'isSwap': instance.isSwap,
+      'failReason': instance.failReason,
       'to': instance.to,
       'from': instance.from,
       'value': instance.value?.toString(),
-      'isSwap': instance.isSwap,
-      'failReason': instance.failReason,
+      'tokenAddress': instance.tokenAddress,
       'receiverName': instance.receiverName,
       'note': instance.note,
     };

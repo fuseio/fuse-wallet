@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
-  <g id="Group_3794" data-name="Group 3794" transform="translate(-168.557 -232.76)">
-    <path id="icons8-box-important_2_" data-name="icons8-box-important (2)" d="M19.5,2A17.5,17.5,0,1,0,37,19.5,17.5,17.5,0,0,0,19.5,2Zm.875,26.25h-1.75a.875.875,0,0,1-.875-.875v-1.75a.875.875,0,0,1,.875-.875h1.75a.875.875,0,0,1,.875.875v1.75A.875.875,0,0,1,20.375,28.25Zm-.875-7h0a1.751,1.751,0,0,1-1.75-1.75v-7a1.751,1.751,0,0,1,1.75-1.75h0a1.751,1.751,0,0,1,1.75,1.75v7A1.751,1.751,0,0,1,19.5,21.25Z" transform="translate(166.557 230.76)" fill="#ff635c"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g transform="translate(-257 -198)"><g transform="translate(33 -52)"><circle cx="9" cy="9" r="9" transform="translate(225 251)" fill="none" stroke="red" stroke-width="2"/><rect width="2.353" height="7.058" transform="translate(232.824 258.824)"/><rect width="2.353" height="2.353" transform="translate(232.824 254.671)"/></g></g></svg>

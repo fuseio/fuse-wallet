@@ -6,7 +6,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key key,
     @required this.child,
     this.height = 350.0,
-    this.backgroundColor: Colors.black,
+    this.backgroundColor: Colors.white,
   }) : super(key: key);
 
   final double height;
@@ -23,7 +23,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       value: _overlayStyle,
       sized: false,
       child: Container(
-        color: Theme.of(context).splashColor,
+        color: Theme.of(context).canvasColor,
         child: child,
       ),
     );
