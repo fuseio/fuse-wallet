@@ -80,7 +80,7 @@ class _TopUpSuccessState extends State<TopUpSuccess>
                 ),
                 SizedBox(height: 20.0),
                 Text(
-                  'You can now go ahead and enjoy one of the Peepl Eat Experiences this weekend 😋🎶�',
+                  'You can now go ahead and enjoy one of the Peepl Eat Experiences this weekend 😋',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,

@@ -108,12 +108,18 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                 callback: (args) {
                   Map<String, dynamic> data = Map.from(args[0]);
                   num amount = num.parse(data['amount']);
-                  if (amount > viewModel.secondaryTokenAmount) {
+
+                  if (amount > 100) {
+                    return false;
+                  }
+                  return _handleStripe(amount.toString());
+
+                  /* if (amount > viewModel.secondaryTokenAmount) {
                     num value = amount - viewModel.secondaryTokenAmount;
                     return _handleStripe(value.toString());
                   } else {
                     return _handleStripe(amount.toString());
-                  }
+                  } */
                 },
               );
             },
