@@ -6,7 +6,6 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class FeedViewModel extends Equatable {
   final List<WalletAction> walletActions;

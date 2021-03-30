@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -43,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
       // ExtendedNavigator.root.replace(Routes.onBoardingScreen);
-      ExtendedNavigator.root.replace(Routes.onBoardScreen);
+      ExtendedNavigator.root.replace(Routes.onBoardingScreen);
     } else {
       UserState userState = store.state.userState;
       if (userState?.authType != BiometricAuth.none) {
@@ -110,19 +109,30 @@ class _SplashScreenState extends State<SplashScreen> {
       converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            centerTitle: true,
-            title: SvgPicture.asset(
-              'assets/images/fusecash.svg',
-              width: 140,
-              // height: 28,
-            ),
-          ),
+          // appBar: AppBar(
+          //   backgroundColor: Theme.of(context).primaryColor,
+          //   centerTitle: true,
+          //   title: SvgPicture.asset(
+          //     'assets/images/fusecash.svg',
+          //     width: 140,
+          //     // height: 28,
+          //   ),
+          // ),
           body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFB1FDC0),
+                  Color(0xFFE6FD99),
+                  Color(0xFFFEFD86)
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: Theme.of(context).colorScheme.primary,
+            // color: Theme.of(context).colorScheme.primary,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -140,8 +150,9 @@ class _SplashScreenState extends State<SplashScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Image.asset(
-                              'assets/images/splash.png',
-                              width: 85,
+                              'assets/images/pincode_logo.png',
+                              width: 71,
+                              height: 61,
                             ),
                           ],
                         ),

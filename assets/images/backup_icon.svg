@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><g transform="translate(-23 -198)"><g transform="translate(0 -58)"><g transform="translate(23 256)" fill="#fff" stroke="#000" stroke-width="1.5"><rect width="20" height="20" rx="4" stroke="none"/><rect x="0.75" y="0.75" width="18.5" height="18.5" rx="3.25" fill="none"/></g><g transform="translate(-2306.219 -621.927)"><path d="M2346.708,887.961l-2.839-2.768-2.839,2.766h2.108a4.158,4.158,0,0,1-.646,2.191c-.028.045-.047.095-.077.139s-.078.088-.113.136a4.193,4.193,0,0,1-3.4,1.684,4.272,4.272,0,0,1-1.338-.218c-.06-.02-.123-.033-.181-.056-.073-.028-.143-.064-.214-.1a4.2,4.2,0,0,1,1.763-8.023v-1.5a5.711,5.711,0,1,0,5.71,5.745Z"/><path d="M2339.676,888.722h-3.222v-1h2.222v-2.48h1Z"/></g></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_2276" data-name="Group 2276" transform="translate(-23 -253)">
+    <g id="Group_2273" data-name="Group 2273">
+      <circle id="Ellipse_356" data-name="Ellipse 356" cx="10" cy="10" r="10" transform="translate(23 253)" fill="#d0d0d0"/>
+      <path id="icons8-edit_1_" data-name="icons8-edit (1)" d="M11.994,2a.581.581,0,0,0-.413.171l-1,1L12.919,5.5l1-1a.583.583,0,0,0,0-.825L12.406,2.171A.581.581,0,0,0,11.994,2ZM9.71,4.042,3,10.752v2.334H5.334l6.71-6.71Z" transform="translate(24.914 255)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

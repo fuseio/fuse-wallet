@@ -16,6 +16,7 @@ class ActionDetailsScreen extends StatelessWidget {
   final Contact contact;
   final WalletAction action;
   final String symbol;
+  final Color secondaryVariant = Color(0xFF777777);
 
   ActionDetailsScreen({
     this.action,
@@ -112,6 +113,7 @@ class ActionDetailsScreen extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(top: 25.0, bottom: 25),
+              color: Theme.of(context).colorScheme.secondary,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -162,9 +164,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                     : displayName,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryVariant,
+                                  color: Color(0xFF777777),
                                 ),
                               ),
                             )
@@ -315,7 +315,7 @@ class ActionDetailsScreen extends StatelessWidget {
                   Text(
                     value,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondaryVariant,
+                      color: secondaryVariant,
                     ),
                   )
                 ],
@@ -336,7 +336,7 @@ class ActionDetailsScreen extends StatelessWidget {
             Text(
               value,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.secondaryVariant,
+                color: secondaryVariant,
               ),
             )
           ],

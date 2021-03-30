@@ -85,9 +85,7 @@ class CommunityCard extends StatelessWidget {
                                 ? Text('Token: ${token?.symbol}',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
+                                      color: Color(0xFF808080),
                                     ))
                                 : SizedBox.shrink(),
                           ],
@@ -100,7 +98,7 @@ class CommunityCard extends StatelessWidget {
                           'assets/images/go_to_pro.svg',
                           width: 10,
                           height: 10,
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: Color(0xFF808080),
                         ),
                         SizedBox(
                           width: 10,

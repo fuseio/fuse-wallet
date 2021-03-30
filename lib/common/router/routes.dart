@@ -9,7 +9,6 @@ import 'package:fusecash/features/onboard/screens/signup_screen.dart';
 import 'package:fusecash/features/onboard/screens/verify_screen.dart';
 import 'package:fusecash/features/screens/on_board_screen.dart';
 import 'package:fusecash/features/screens/pincode_screen.dart';
-import 'package:fusecash/features/screens/on_boarding_screen.dart';
 import 'package:fusecash/features/screens/splash_screen.dart';
 import 'package:fusecash/features/screens/send_amount.dart';
 import 'package:fusecash/features/screens/send_review.dart';
@@ -25,7 +24,6 @@ import 'package:fusecash/features/screens/webview_screen.dart';
     MaterialRoute(page: PinCodeScreen),
     MaterialRoute(page: RecoveryPage),
     MaterialRoute(page: OnBoardingScreen),
-    MaterialRoute(page: OnBoardScreen),
     MaterialRoute(page: SignUpScreen),
     MaterialRoute(page: VerifyScreen),
     MaterialRoute(page: UserNameScreen),

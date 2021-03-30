@@ -24,6 +24,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     with TickerProviderStateMixin {
   AnimationController controller;
   final transferNoteController = TextEditingController(text: "");
+  final Color secondaryVariant = Color(0xFF777777);
   Animation<double> offset;
   bool isPreloading = false;
   var squareScaleA = 1.0;
@@ -232,15 +233,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             right: 40,
                           ),
                           decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                color: Color(0xFFDDDDDD),
-                              ),
-                              bottom: BorderSide(
-                                color: Color(0xFFDDDDDD),
-                              ),
-                            ),
-                            color: Theme.of(context).backgroundColor,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -296,9 +289,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                                         ": ${formatAddress(args.accountAddress)}",
                                                     style: TextStyle(
                                                       fontSize: 13,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondaryVariant,
+                                                      color: secondaryVariant,
                                                     ),
                                                   )
                                           ]
@@ -308,9 +299,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                                   ": ${formatAddress(args.accountAddress)}",
                                               style: TextStyle(
                                                 fontSize: 13,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondaryVariant,
+                                                color: secondaryVariant,
                                               ),
                                             )
                                           ],
@@ -334,9 +323,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondaryVariant,
+                                      color: secondaryVariant,
                                     ),
                                   ),
                                   SizedBox(

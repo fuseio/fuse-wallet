@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>173415370451-7b7eijml6jvnoicd7e4htsitcq17ohld.apps.googleusercontent.com</string>
+	<string>863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.173415370451-7b7eijml6jvnoicd7e4htsitcq17ohld</string>
+	<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>863692183597-0colm33bu1u8hbtacstdpv33pvdjsr8a.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCrjgCktupLfvsEqkZOJXmkJoy6nUZEcL4</string>
+	<string>AIzaSyC1DHZQFPrNZo-dgm68PSaABIeGIc16nbY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>173415370451</string>
+	<string>863692183597</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.cash</string>
+	<string>io.fuse.fusecash</string>
 	<key>PROJECT_ID</key>
-	<string>fusecash-41b1e</string>
+	<string>fuse-2-0</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fusecash-41b1e.appspot.com</string>
+	<string>fuse-2-0.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:173415370451:ios:d4cc5cf747ec65b2660e26</string>
+	<string>1:863692183597:ios:91186a513b10fab59b80a4</string>
+	<key>DATABASE_URL</key>
+	<string>https://fuse-2-0.firebaseio.com</string>
 </dict>
 </plist>

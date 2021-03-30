@@ -27,26 +27,27 @@ class Word extends StatelessWidget {
         border: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.onSurface,
-            width: 2,
+            width: 1,
           ),
         ),
         fillColor: Theme.of(context).canvasColor,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.onSurface,
-            width: 2,
+            width: 1,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.onSurface,
-            width: 2,
+            width: 1,
           ),
         ),
         labelStyle: TextStyle(
           color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
+      cursorColor: Theme.of(context).colorScheme.onSurface,
       validator: (String value) {
         if (mnemonic[wordIndex - 1] != value.trim()) {
           return I18n.of(context).word_not_match;

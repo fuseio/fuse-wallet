@@ -152,16 +152,16 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                                (widget?.community?.isClosed != null &&
-                                            widget.community.isClosed
-                                        ? 'Closed'
-                                        : 'Open') +
-                                    ' community',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                )),
+                              (widget?.community?.isClosed != null &&
+                                          widget.community.isClosed
+                                      ? 'Closed'
+                                      : 'Open') +
+                                  ' community',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF808080),
+                              ),
+                            ),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,

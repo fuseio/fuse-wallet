@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/keys.dart';
+import 'package:fusecash/features/buy/router/buy_router.gr.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/features/screens/receive_screen.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
-import 'package:fusecash/features/swap/router/swap_router.gr.dart';
+import 'package:fusecash/features/screens/webview_screen.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
@@ -60,7 +62,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           drawerEnableOpenDragGesture: false,
           body: IndexedStack(
             index: currentIndex,
-            children: <Widget>[
+            children: [
               ExtendedNavigator(
                 router: HomeRouter(),
                 name: 'homeRouter',
@@ -80,14 +82,20 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              ExtendedNavigator(
-                router: SwapRouter(),
-                name: 'swapRouter',
-                observers: [
-                  SegmentObserver(),
-                  SentryNavigatorObserver(),
-                ],
-              ),
+              !['', null].contains(vm.community.webUrl)
+                  ? WebViewScreen(
+                      url: vm.community.webUrl,
+                      withBack: false,
+                      title: I18n.of(context).community_webpage,
+                    )
+                  : ExtendedNavigator(
+                      router: BuyRouter(),
+                      name: 'buyRouter',
+                      observers: [
+                        SegmentObserver(),
+                        SentryNavigatorObserver(),
+                      ],
+                    ),
               ReceiveScreen(),
             ],
           ),
@@ -105,9 +113,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     builder: (_) => ContactsConfirmationScreen(),
                   ),
                 );
-              }
-              if (index == 2) {
-                vm.getSwapList();
               }
               if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
                 Future.delayed(Duration.zero, () {

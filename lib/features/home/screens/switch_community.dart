@@ -9,8 +9,8 @@ import 'package:fusecash/redux/viewsmodels/switch_community.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/community_card.dart';
 import 'package:fusecash/widgets/community_card_small.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 
 class SwitchCommunityScreen extends StatelessWidget {
   Widget scanQRButton(BuildContext context, Function switchCommunity) {
@@ -67,64 +67,59 @@ class SwitchCommunityScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(
-        converter: SwitchCommunityViewModel.fromStore,
-        builder: (_, viewModel) {
-          return MainScaffold(
-            title: I18n.of(context).switch_community,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
+      converter: SwitchCommunityViewModel.fromStore,
+      builder: (_, viewModel) {
+        return MyScaffold(
+          title: I18n.of(context).switch_community,
+          body: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(left: 15, top: 20),
+                    child: Text(I18n.of(context).current_community,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 15.0, fontWeight: FontWeight.normal))),
+                viewModel.tokens.containsKey(
+                        viewModel.currentCommunity.homeTokenAddress)
+                    ? SelectedCommunityCard(
+                        community: viewModel.currentCommunity,
+                        token: viewModel.tokens[
+                            viewModel.currentCommunity.homeTokenAddress],
+                        switchCommunity: viewModel.switchCommunity,
+                      )
+                    : SizedBox.shrink(),
+                Center(
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          top: 20, bottom: 20, right: 40, left: 40),
+                      child: scanQRButton(context, viewModel.switchCommunity)),
+                ),
+                viewModel.communities.length > 1
+                    ? Container(
                         padding: EdgeInsets.only(left: 15, top: 20),
-                        child: Text(I18n.of(context).current_community,
+                        child: Text(I18n.of(context).my_communities,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.normal))),
-                    viewModel.tokens.containsKey(
-                            viewModel.currentCommunity.homeTokenAddress)
-                        ? SelectedCommunityCard(
-                            community: viewModel.currentCommunity,
-                            token: viewModel.tokens[
-                                viewModel.currentCommunity.homeTokenAddress],
-                            switchCommunity: viewModel.switchCommunity,
-                          )
-                        : SizedBox.shrink(),
-                    Center(
-                      child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 20, bottom: 20, right: 40, left: 40),
-                          child:
-                              scanQRButton(context, viewModel.switchCommunity)),
-                    ),
-                    viewModel.communities.length > 1
-                        ? Container(
-                            padding: EdgeInsets.only(left: 15, top: 20),
-                            child: Text(I18n.of(context).my_communities,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.normal)))
-                        : SizedBox.shrink(),
-                    ...viewModel.communities.values
-                        .where((Community community) =>
-                            community.address !=
-                            viewModel.currentCommunity.address)
-                        .map((Community community) {
-                      return CommunityCard(
-                          token: viewModel.tokens[community.homeTokenAddress],
-                          community: community,
-                          switchCommunity: viewModel.switchCommunity);
-                    }).toList()
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
+                                fontSize: 15.0, fontWeight: FontWeight.normal)))
+                    : SizedBox.shrink(),
+                ...viewModel.communities.values
+                    .where((Community community) =>
+                        community.address != viewModel.currentCommunity.address)
+                    .map((Community community) {
+                  return CommunityCard(
+                      token: viewModel.tokens[community.homeTokenAddress],
+                      community: community,
+                      switchCommunity: viewModel.switchCommunity);
+                }).toList()
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

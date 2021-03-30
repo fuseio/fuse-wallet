@@ -1,6 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <g id="Group_4217" data-name="Group 4217" transform="translate(2685 -736)">
-    <rect id="Rectangle_1947" data-name="Rectangle 1947" width="20" height="20" rx="4" transform="translate(-2685 736)" fill="#38d989"/>
-    <path id="icons8-home" d="M8.868,3.295,3.727,8.742v5.71H7.534V10.645h2.538v3.807h3.807V8.742Z" transform="translate(-2683.802 736.654)" fill="#fff"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="17.182" viewBox="0 0 20 17.182">
+  <path id="icons8-home" d="M11,2.1l-10,9H3.727v8.182H9.182V13.827h3.636v5.455h5.455V11.1H21Z" transform="translate(-1 -2.1)"/>
 </svg>

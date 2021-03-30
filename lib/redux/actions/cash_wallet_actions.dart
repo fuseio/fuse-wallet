@@ -863,21 +863,18 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
-      if (communityAddress.toLowerCase() !=
-          defaultCommunityAddress.toLowerCase()) {
-        store.dispatch(
-          getBusinessListCall(
-            communityAddress: communityAddress,
-            isRopsten: isRopsten,
-          ),
-        );
-        store.dispatch(
-          joinCommunityCall(
-            token: communityToken,
-            community: newCommunity,
-          ),
-        );
-      }
+      store.dispatch(
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
+        ),
+      );
+      store.dispatch(
+        joinCommunityCall(
+          token: communityToken,
+          community: newCommunity,
+        ),
+      );
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
       store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
@@ -911,15 +908,12 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
           homeTokenAddress: communityToken.address,
         ),
       ));
-      if (communityAddress.toLowerCase() !=
-          defaultCommunityAddress.toLowerCase()) {
-        store.dispatch(
-          getBusinessListCall(
-            communityAddress: communityAddress,
-            isRopsten: isRopsten,
-          ),
-        );
-      }
+      store.dispatch(
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
+        ),
+      );
       store.dispatch(
         fetchCommunityMetadataCall(
           communityAddress,
@@ -1085,19 +1079,24 @@ ThunkAction getTokenTransfersListCall(Token token) {
 
 ThunkAction getWalletActionsCall() {
   return (Store store) async {
-    String walletAddress = store.state.userState.walletAddress;
-    WalletActions walletActions = store.state.cashWalletState.walletActions;
-    Map<String, dynamic> response = await api.getActionsByWalletAddress(
-      walletAddress,
-      updatedAt: walletActions?.updatedAt ?? 0,
-    );
-    Iterable<dynamic> docs = response['docs'] ?? [];
-    List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
-    if (actions.isNotEmpty) {
-      store.dispatch(GetActionsSuccess(
-        walletActions: actions,
-        updateAt: actions.last.timestamp,
-      ));
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      WalletActions walletActions = store.state.cashWalletState.walletActions;
+      Map<String, dynamic> response = await api.getActionsByWalletAddress(
+        walletAddress,
+        updatedAt: walletActions?.updatedAt ?? 0,
+      );
+      log.info(response.toString());
+      Iterable<dynamic> docs = response['docs'] ?? [];
+      List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
+      if (actions.isNotEmpty) {
+        store.dispatch(GetActionsSuccess(
+          walletActions: actions,
+          updateAt: actions.last.timestamp,
+        ));
+      }
+    } catch (e) {
+      log.error('ERROR - getWalletActionsCall ${e.toString()}');
     }
   };
 }

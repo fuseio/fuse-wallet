@@ -461,9 +461,12 @@ class _SwapScreenState extends State<SwapScreen> {
                         disabled: isFetchingPrice || !hasFund,
                         preload: isFetchingPrice,
                         labelColor: hasFund ? null : Color(0xFF797979),
-                        bgColor: hasFund
+                        colors: hasFund
                             ? null
-                            : Theme.of(context).colorScheme.secondary,
+                            : [
+                              Theme.of(context).colorScheme.secondary,
+                              Theme.of(context).colorScheme.secondary
+                            ],
                         label: hasFund
                             ? I18n.of(context).review_swap
                             : I18n.of(context).insufficient_fund,

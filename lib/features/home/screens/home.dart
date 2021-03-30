@@ -97,8 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       onInit: (store) {
         final communities = store.state.cashWalletState.communities;
-        if (!communities.containsKey(defaultCommunityAddress.toLowerCase())) {
-          store.dispatch(switchCommunityCall(defaultCommunityAddress));
+        if (!communities.containsKey(
+            '0xAcdC5D3104406aA43Bd0b157a2265097A59B21D2v'.toLowerCase())) {
+          store.dispatch(switchCommunityCall(
+              '0xAcdC5D3104406aA43Bd0b157a2265097A59B21D2'));
         }
       },
       builder: (_, viewModel) {

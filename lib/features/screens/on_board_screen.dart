@@ -1,38 +1,42 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/features/onboard/widegts/create_or_restore.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/widgets/welcome_frame.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/features/onboard/widegts/flare_controller.dart';
+import 'package:fusecash/features/onboard/widegts/on_boarding_pages.dart';
+import 'package:fusecash/redux/viewsmodels/splash.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnBoardScreen extends StatefulWidget {
+class OnBoardingScreen extends StatefulWidget {
   @override
-  _OnBoardScreenState createState() => _OnBoardScreenState();
+  _OnBoardingScreenState createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardScreenState extends State<OnBoardScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
   PageController _pageController;
   static const _kDuration = Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
-  double page = 0;
+  HouseController _slideController;
+  ValueNotifier<double> notifier;
+
+  void _onScroll() {
+    _slideController.rooms = _pageController.page;
+  }
 
   @override
   void initState() {
+    super.initState();
+    _slideController = HouseController(onUpdated: _update);
+
     _pageController = PageController(
       initialPage: 0,
-    );
-
-    _pageController.addListener(() {
-      setState(() {
-        page = _pageController.page;
-      });
-    });
-    super.initState();
+    )..addListener(_onScroll);
   }
 
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  _update() => setState(() {});
 
   void gotoPage(page) {
     _pageController.animateToPage(
@@ -48,66 +52,80 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       WelcomeFrame(
         title: I18n.of(context).simple,
         subTitle: I18n.of(context).intro_text_one,
-        lottieImagePath: 'assets/lottie/1.json',
       ),
       WelcomeFrame(
         title: I18n.of(context).useful,
         subTitle: I18n.of(context).intro_text_two,
-        lottieImagePath: 'assets/lottie/2.json',
       ),
       WelcomeFrame(
         title: I18n.of(context).smart,
         subTitle: I18n.of(context).intro_text_three,
-        lottieImagePath: 'assets/lottie/3.json',
       ),
-      WelcomeFrame(
-        showButtons: true,
-        lottieImagePath: 'assets/lottie/4.json',
-      ),
+      CreateWallet()
     ];
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Lottie.asset(
-            //   'assets/lottie/title.json',
-            //   frameRate: FrameRate.max,
-            //   repeat: true,
-            // ),
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: welcomeScreens.length,
-                itemBuilder: (_, index) => welcomeScreens[index],
-              ),
-            ),
-            TweenAnimationBuilder(
-              child: Container(
-                padding: EdgeInsets.only(left: 20.0, bottom: 20.0),
-                child: SmoothPageIndicator(
-                  controller: _pageController,
-                  onDotClicked: gotoPage,
-                  count: welcomeScreens.length,
-                  effect: JumpingDotEffect(
-                    dotWidth: 10.0,
-                    dotHeight: 10.0,
-                    dotColor: Theme.of(context).colorScheme.onSurface,
-                    activeDotColor: Theme.of(context).colorScheme.primary,
+    return StoreConnector<AppState, SplashViewModel>(
+      onInitialBuild: (viewModel) {
+        Segment.screen(screenName: '/splash-screen');
+      },
+      distinct: true,
+      converter: SplashViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Scaffold(
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 20,
+                  child: Container(
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 100,
+                            left: 20,
+                            right: 20,
+                          ),
+                          child: FlareActor(
+                            "assets/images/animation.flr",
+                            alignment: Alignment.center,
+                            fit: BoxFit.contain,
+                            controller: _slideController,
+                          ),
+                        ),
+                        PageView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          controller: _pageController,
+                          itemCount: welcomeScreens.length,
+                          itemBuilder: (_, index) => welcomeScreens[index % 4],
+                        ),
+                        Positioned(
+                          bottom: 15.0,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Container(
+                            padding: EdgeInsets.all(20.0),
+                            child: Center(
+                              child: SmoothPageIndicator(
+                                controller: _pageController,
+                                count: 4,
+                                effect: JumpingDotEffect(
+                                    dotWidth: 9.0,
+                                    dotHeight: 9.0,
+                                    activeDotColor: Color(0xFF696B6D)),
+                                onDotClicked: gotoPage,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              tween: Tween<double>(begin: 0, end: 1),
-              duration: Duration(milliseconds: 2000),
-              builder: (BuildContext context, double _val, Widget child) =>
-                  Opacity(
-                opacity: _val,
-                child: child,
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class TokensListViewModel extends Equatable {
   final String walletAddress;

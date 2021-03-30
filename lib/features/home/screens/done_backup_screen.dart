@@ -28,8 +28,8 @@ class DoneBackup extends StatelessWidget {
                     SizedBox(
                       height: 50,
                     ),
-                    SvgPicture.asset(
-                      'assets/images/wallet_protect.svg',
+                    Image.asset(
+                      'assets/images/wallet_protect.png',
                       fit: BoxFit.cover,
                       height: 85,
                     ),

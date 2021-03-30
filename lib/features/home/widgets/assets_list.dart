@@ -41,14 +41,14 @@ class AssetsList extends StatelessWidget {
                 ),
               ],
             ),
-            viewModel.showDepositBanner
-                ? Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: DepositBanner(),
-                    ),
-                  )
-                : SizedBox.shrink(),
+            // viewModel.showDepositBanner
+            //     ? Positioned.fill(
+            //         child: Align(
+            //           alignment: Alignment.center,
+            //           child: DepositBanner(),
+            //         ),
+            //       )
+            //     : SizedBox.shrink(),
           ],
         ),
       ),

@@ -76,6 +76,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     List<Widget> plugins = [];
     List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
     if (depositPlugins.isNotEmpty) {
+      plugins.add(Divider(
+        color: Color(0xFFE8E8E8),
+      ));
       plugins.add(ListTile(
         contentPadding: EdgeInsets.only(
           top: 5,
@@ -120,10 +123,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
     return [
-      // getListTile(I18n.of(context).switch_community, () {
-      //   ExtendedNavigator.root.pop();
-      //   ExtendedNavigator.named('homeRouter').pushSwitchCommunityScreen();
-      // }, icon: 'switch_icon.svg'),
+      getListTile(I18n.of(context).switch_community, () {
+        ExtendedNavigator.root.pop();
+        ExtendedNavigator.named('homeRouter').pushSwitchCommunityScreen();
+      }, icon: 'switch_icon.svg'),
       getListTile(I18n.of(context).backup_wallet, () {
         ExtendedNavigator.root.pop();
         ExtendedNavigator.named('homeRouter').pushShowMnemonic();
@@ -144,19 +147,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   Widget drawerHeader(DrawerViewModel viewModel) {
-    return Container(
-      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+    return DrawerHeader(
       decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.secondary,
         border: Border(
           bottom: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface,
-            width: 2,
+            color: Color(0xFFE8E8E8),
           ),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           InkWell(
             focusColor: Theme.of(context).canvasColor,
@@ -254,8 +256,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   child: ListView(
                     children: <Widget>[
                       drawerHeader(viewModel),
-                      ...pluginsItems(viewModel),
                       ...menuItem(viewModel),
+                      ...pluginsItems(viewModel),
                     ],
                   ),
                 )

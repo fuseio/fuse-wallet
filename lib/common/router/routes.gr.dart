@@ -19,7 +19,6 @@ import '../../features/onboard/screens/username_screen.dart';
 import '../../features/onboard/screens/verify_screen.dart';
 import '../../features/screens/home_screen.dart';
 import '../../features/screens/on_board_screen.dart';
-import '../../features/screens/on_boarding_screen.dart';
 import '../../features/screens/pincode_screen.dart';
 import '../../features/screens/send_amount.dart';
 import '../../features/screens/send_review.dart';
@@ -36,7 +35,6 @@ class Routes {
   static const String pinCodeScreen = '/pin-code-screen';
   static const String recoveryPage = '/recovery-page';
   static const String onBoardingScreen = '/on-boarding-screen';
-  static const String onBoardScreen = '/on-board-screen';
   static const String signUpScreen = '/sign-up-screen';
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
@@ -53,7 +51,6 @@ class Routes {
     pinCodeScreen,
     recoveryPage,
     onBoardingScreen,
-    onBoardScreen,
     signUpScreen,
     verifyScreen,
     userNameScreen,
@@ -76,7 +73,6 @@ class Router extends RouterBase {
     RouteDef(Routes.pinCodeScreen, page: PinCodeScreen),
     RouteDef(Routes.recoveryPage, page: RecoveryPage),
     RouteDef(Routes.onBoardingScreen, page: OnBoardingScreen),
-    RouteDef(Routes.onBoardScreen, page: OnBoardScreen),
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
@@ -122,12 +118,6 @@ class Router extends RouterBase {
     OnBoardingScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => OnBoardingScreen(),
-        settings: data,
-      );
-    },
-    OnBoardScreen: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => OnBoardScreen(),
         settings: data,
       );
     },
@@ -242,8 +232,6 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushOnBoardingScreen() =>
       push<dynamic>(Routes.onBoardingScreen);
-
-  Future<dynamic> pushOnBoardScreen() => push<dynamic>(Routes.onBoardScreen);
 
   Future<dynamic> pushSignUpScreen() => push<dynamic>(Routes.signUpScreen);
 

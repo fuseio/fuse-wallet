@@ -126,8 +126,8 @@ class _MyAppState extends State<MyApp> {
               colors: FlexSchemeColor.from(
                 secondary: Color(0xFFF5F5F5),
                 secondaryVariant: Color(0xFF777777),
-                primary: Color(0xFF38D989),
-                primaryVariant: Color(0xFF23B16A),
+                primary: Color(0xFFB1FDC0),
+                primaryVariant: Color(0xFFFEFD86),
                 accentColor: Color(0xFF000000),
                 appBarColor: Color(0xFFFFFFFF),
               ),

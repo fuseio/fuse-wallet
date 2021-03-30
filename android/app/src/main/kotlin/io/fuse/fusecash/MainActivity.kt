@@ -1,4 +1,4 @@
-package io.fuse.cash
+package io.fuse.fusecash
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterFragmentActivity

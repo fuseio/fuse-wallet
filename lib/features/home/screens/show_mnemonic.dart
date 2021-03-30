@@ -58,6 +58,9 @@ class ShowMnemonic extends StatelessWidget {
                               ),
                               TextSpan(
                                 text: I18n.of(context).write_words,
+                                style: TextStyle(
+                                  color: Color(0xFF777777),
+                                ),
                               )
                             ],
                           ),
@@ -81,14 +84,10 @@ class ShowMnemonic extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       left: 10, right: 10, top: 10, bottom: 10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
+                                    color: Color(0xFFF7F7F7),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15.0),
                                     ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
                                   ),
                                   child: Column(
                                     children: <Widget>[
@@ -147,7 +146,7 @@ class ShowMnemonic extends StatelessWidget {
                                                 content: viewModel.user.mnemonic
                                                     .join(" "),
                                               ),
-                                              const SizedBox(width: 4.0),
+                                              SizedBox(width: 4.0),
                                               Icon(
                                                 Icons.content_copy,
                                                 size: 16,

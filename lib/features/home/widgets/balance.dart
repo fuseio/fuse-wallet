@@ -42,11 +42,15 @@ class Balance extends StatelessWidget {
                         ]
                       : <TextSpan>[
                           TextSpan(
-                            text: viewModel.token?.symbol.toString(),
+                            text: viewModel.token.getBalance(),
                           ),
                           TextSpan(
-                            text: viewModel.token.getBalance(),
-                          )
+                            text: ' ' + viewModel.token?.symbol.toString(),
+                            style: TextStyle(
+                              fontSize: 8,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
                         ],
                 ),
                 minFontSize: 30,

@@ -1,37 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
   <defs>
     <clipPath id="clip-path">
-      <path id="Path_4276" data-name="Path 4276" d="M3199.172,399.062a.668.668,0,0,0-.669.669v8.748l-2.586-2.586a.669.669,0,0,0-.946,0l-.058.058a.669.669,0,0,0,0,.946l3.786,3.786a.669.669,0,0,0,.946,0l3.782-3.786a.669.669,0,0,0,0-.946l-.054-.058a.669.669,0,0,0-.946,0l-2.586,2.586v-8.748A.67.67,0,0,0,3199.172,399.062Z" fill="none"/>
+      <path id="Path_1783" data-name="Path 1783" d="M0,4.547a.683.683,0,0,0,.683.683H9.611L6.972,7.869a.682.682,0,0,0,0,.966l.059.059a.682.682,0,0,0,.966,0L11.861,5.03a.682.682,0,0,0,0-.966L8,.2a.682.682,0,0,0-.966,0L6.972.259a.682.682,0,0,0,0,.966L9.611,3.864H.683A.683.683,0,0,0,0,4.547Z" fill="#fff"/>
     </clipPath>
     <clipPath id="clip-path-2">
-      <rect id="Rectangle_1954" data-name="Rectangle 1954" width="2532.48" height="1325.135" transform="translate(1812.351 -50.681)" fill="none"/>
+      <path id="Path_1782" data-name="Path 1782" d="M0,2584.85H1352.538V0H0Z" fill="#fff"/>
     </clipPath>
   </defs>
-  <g id="Group_4250" data-name="Group 4250" transform="translate(2586 -1001)">
-    <g id="Group_4248" data-name="Group 4248">
-      <g id="Rectangle_1954-2" data-name="Rectangle 1954" transform="translate(-5775.172 606.03)">
-        <g id="Group_4231" data-name="Group 4231">
-          <rect id="Rectangle_1953" data-name="Rectangle 1953" width="20" height="20" rx="4" transform="translate(3189.172 394.97)" fill="#fff"/>
-        </g>
-        <g id="Group_4232" data-name="Group 4232">
-          <path id="Path_4273" data-name="Path 4273" d="M3205.172,414.97h-12a4,4,0,0,1-4-4v-12a4,4,0,0,1,4-4h12a4,4,0,0,1,4,4v12A4,4,0,0,1,3205.172,414.97Zm-12-18.5a2.5,2.5,0,0,0-2.5,2.5v12a2.5,2.5,0,0,0,2.5,2.5h12a2.5,2.5,0,0,0,2.5-2.5v-12a2.5,2.5,0,0,0-2.5-2.5Z"/>
-        </g>
-      </g>
-      <g id="Group_4236" data-name="Group 4236" transform="translate(-5775.172 606.03)">
-        <g id="Group_4236-2" data-name="Group 4236">
-          <g id="Group_4235" data-name="Group 4235" clip-path="url(#clip-path)">
-            <g id="Group_1951-2" data-name="Group 1951-2">
-              <g id="Group_4234" data-name="Group 4234">
-                <g id="Group_4233" data-name="Group 4233" clip-path="url(#clip-path-2)">
-                  <g id="Group_1950-2" data-name="Group 1950-2">
-                    <g id="Path_1781-2" data-name="Path 1781-2">
-                      <path id="Path_4275" data-name="Path 4275" d="M3191.374,395.716h15.6v18.509h-15.6Z"/>
-                    </g>
-                  </g>
-                </g>
-              </g>
-            </g>
-          </g>
+  <g id="Group_2332" data-name="Group 2332" transform="translate(-279 -736)">
+    <circle id="Ellipse_363" data-name="Ellipse 363" cx="10" cy="10" r="10" transform="translate(299 756) rotate(180)" fill="#c4c4c4"/>
+    <g id="Group_2329" data-name="Group 2329" transform="translate(293.575 739.744) rotate(90)">
+      <g id="Group_1951" data-name="Group 1951" transform="translate(0 0)" clip-path="url(#clip-path)">
+        <g id="Group_1950" data-name="Group 1950" transform="translate(-459.043 -1164.802)" clip-path="url(#clip-path-2)">
+          <path id="Path_1781" data-name="Path 1781" d="M0,15.925V0H18.892V15.925Z" transform="translate(455.628 1161.387)" fill="#fff"/>
         </g>
       </g>
     </g>

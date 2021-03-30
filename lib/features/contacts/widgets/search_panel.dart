@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:fusecash/widgets/scan_address.dart';
 import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
@@ -45,18 +44,18 @@ class SearchPanel extends StatelessWidget {
                       contentPadding: EdgeInsets.all(0.0),
                       border: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 2,
+                          width: 1,
                         ),
                       ),
                       fillColor: Theme.of(context).canvasColor,
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 2,
+                          width: 1,
                         ),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 2,
+                          width: 1,
                         ),
                       ),
                       suffixIcon: Icon(
@@ -71,21 +70,10 @@ class SearchPanel extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                width: 45,
-                height: 45,
-                child: GestureDetector(
-                  child: SvgPicture.asset(
-                    'assets/images/scan_black.svg',
-                    width: 25.0,
-                  ),
-                  onTap: () {
-                    barcodeScannerHandler(
-                      ExtendedNavigator.named('contactsRouter').context,
-                    );
-                  },
-                ),
-              )
+              AddressScanner(
+                heroTag: 'search',
+                context: ExtendedNavigator.named('contactsRouter').context,
+              ),
             ],
           ),
         ),

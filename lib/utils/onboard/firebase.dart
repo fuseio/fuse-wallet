@@ -31,7 +31,6 @@ class FirebaseStrategy implements IOnBoardStrategy {
         token,
         accountAddress,
         identifier,
-        appName: 'fusecash',
       );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       store.dispatch(SetIsLoginRequest(isLoading: false));
@@ -106,7 +105,6 @@ class FirebaseStrategy implements IOnBoardStrategy {
       token,
       accountAddress,
       identifier,
-      appName: 'fusecash',
     );
     onSuccess(jwtToken);
   }

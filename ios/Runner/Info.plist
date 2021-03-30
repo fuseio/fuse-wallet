@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>fuse.cash</string>
+	<string>Fuse wallet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -35,7 +35,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.173415370451-7b7eijml6jvnoicd7e4htsitcq17ohld</string>
+				<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
 			</array>
 		</dict>
 	</array>
@@ -96,7 +96,5 @@
 	<array>
 		<string>itms</string>
 	</array>
-	<key>UIStatusBarHidden</key>
-	<false/>
 </dict>
 </plist>

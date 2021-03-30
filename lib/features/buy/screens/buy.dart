@@ -32,37 +32,16 @@ class BuyScreen extends StatelessWidget {
           title: I18n.of(context).buy,
           body: Container(
             child: Column(
-              children: [
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    BusinessesListView(),
-                  ]),
-                ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                banner(context, viewModel),
+                businessList(context, viewModel),
               ],
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class BusinessesListView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, BuyViewModel>(
-      distinct: true,
-      converter: BuyViewModel.fromStore,
-      builder: (_, vm) => Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            banner(context, vm),
-            businessList(context, vm),
-          ],
-        ),
-      ),
     );
   }
 

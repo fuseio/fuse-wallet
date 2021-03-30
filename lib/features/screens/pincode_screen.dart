@@ -42,19 +42,30 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            'assets/images/fusecash.svg',
-            width: 143,
-            height: 28,
-          ),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Theme.of(context).primaryColor,
+        //   centerTitle: true,
+        //   title: SvgPicture.asset(
+        //     'assets/images/fusecash.svg',
+        //     width: 143,
+        //     height: 28,
+        //   ),
+        // ),
         body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFB1FDC0),
+                Color(0xFFE6FD99),
+                Color(0xFFFEFD86),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: Theme.of(context).colorScheme.primary,
+          // color: Theme.of(context).colorScheme.primary,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -74,7 +85,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
-                              color: Theme.of(context).canvasColor,
+                              // color: Theme.of(context).canvasColor,
                             ),
                           ),
                           SizedBox(
@@ -87,8 +98,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                               child: Container(
                                 width: 250,
                                 child: PinCodeTextField(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
+                                  backgroundColor: Colors.transparent,
                                   length: 6,
                                   showCursor: false,
                                   autoFocus: true,
@@ -107,7 +117,6 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                           : null,
                                   textStyle: TextStyle(
                                     fontSize: 20,
-                                    color: Theme.of(context).canvasColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   pinTheme: PinTheme(
@@ -115,19 +124,13 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                     borderWidth: 4,
                                     fieldWidth: 35,
                                     shape: PinCodeFieldShape.underline,
-                                    inactiveColor:
-                                        Theme.of(context).canvasColor,
-                                    inactiveFillColor:
-                                        Theme.of(context).primaryColor,
-                                    selectedFillColor:
-                                        Theme.of(context).primaryColor,
-                                    disabledColor:
-                                        Theme.of(context).primaryColor,
-                                    selectedColor:
-                                        Theme.of(context).canvasColor,
-                                    activeColor: Theme.of(context).canvasColor,
-                                    activeFillColor:
-                                        Theme.of(context).primaryColor,
+                                    inactiveColor: Colors.black,
+                                    selectedColor: Colors.black,
+                                    activeColor: Colors.black,
+                                    inactiveFillColor: Colors.transparent,
+                                    selectedFillColor: Colors.transparent,
+                                    disabledColor: Colors.transparent,
+                                    activeFillColor: Colors.transparent,
                                   ),
                                   onCompleted: (value) {
                                     if (viewModel.pincode == value) {

@@ -1,13 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:fusecash/widgets/scan_address.dart';
 
 class CashHeader extends StatelessWidget {
   @override
@@ -19,7 +18,14 @@ class CashHeader extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.primaryVariant,
+                Theme.of(context).colorScheme.primary,
+              ],
+            ),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
@@ -67,18 +73,9 @@ class CashHeader extends StatelessWidget {
                       Balance(),
                     ],
                   ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    child: InkWell(
-                      child: SvgPicture.asset(
-                        'assets/images/scan.svg',
-                      ),
-                      onTap: () {
-                        barcodeScannerHandler(
-                            ExtendedNavigator.named('homeRouter').context);
-                      },
-                    ),
+                  AddressScanner(
+                    heroTag: 'cash_header',
+                    context: ExtendedNavigator.named('homeRouter').context,
                   )
                 ],
               )

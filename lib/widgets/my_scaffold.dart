@@ -19,7 +19,10 @@ class MyScaffold extends StatelessWidget {
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: AppBar(
         automaticallyImplyLeading: automaticallyImplyLeading,
-        backgroundColor: Theme.of(context).canvasColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        // color: Theme.of(context)
+        //                                   .colorScheme
+        //                                   .secondary,
         centerTitle: true,
         title: Container(
           child: Text(
@@ -32,15 +35,15 @@ class MyScaffold extends StatelessWidget {
             softWrap: true,
           ),
         ),
-        bottom: PreferredSize(
-          child: Container(
-            color: Theme.of(context).colorScheme.onSurface,
-            height: 2.0,
-          ),
-          preferredSize: Size.fromHeight(
-            4.0,
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   child: Container(
+        //     color: Theme.of(context).colorScheme.onSurface,
+        //     height: 2.0,
+        //   ),
+        //   preferredSize: Size.fromHeight(
+        //     4.0,
+        //   ),
+        // ),
       ),
       body: body,
     );
