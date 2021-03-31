@@ -163,7 +163,12 @@ class _TopupScreenState extends State<TopupScreen>
         if (amountText == "0") {
           amountText = "";
         }
-        amountText = amountText + key.text;
+        if (!(num.parse(amountText + key.text) > 100)) {
+          // Don't allow topping up more than £100
+          amountText = amountText + key.text;
+        }
+
+        // TODO: Disallow decimals greater than 2 places (i.e. 25.0192)
       } else if (key.keyType == VirtualKeyboardKeyType.Action) {
         switch (key.action) {
           case VirtualKeyboardKeyAction.Backspace:
@@ -184,7 +189,7 @@ class _TopupScreenState extends State<TopupScreen>
 
     return MainScaffold(
       withPadding: true,
-      title: 'Top up using your debit or credit card',
+      title: 'Top up using your card',
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height * 0.6,
