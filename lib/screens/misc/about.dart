@@ -62,7 +62,7 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          // TODO - link to privacy policy
+                          launchUrl('https://itsaboutpeepl.com/privacy');
                         },
                         child: Text(
                           I18n.of(context).legal,
@@ -80,7 +80,7 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          launchUrl('mailto:leon@roostnow.co.uk');
+                          launchUrl('mailto:help@itsaboutpeepl.com');
                         },
                         child: Text(
                           I18n.of(context).contact_us,

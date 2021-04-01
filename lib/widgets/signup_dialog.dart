@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'dart:core';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:peepl/widgets/primary_button.dart';
+
+launchUrl(url) async {
+  if (await canLaunch(url)) {
+    await launch(url, forceSafariVC: false);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();
@@ -77,21 +85,16 @@ class SignupDialogState extends State<SignupDialog>
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.normal)),
-                    // SizedBox(height: 20.0),
-                    // Text(I18n.of(context).for_more_info,
-                    //     style: TextStyle(
-                    //         color: Theme.of(context).colorScheme.secondary,
-                    //         fontSize: 18,
-                    //         fontWeight: FontWeight.normal)),
-                    // InkWell(
-                    //     onTap: () {
-                    //       // TODO - link to privacy policy
-                    //     },
-                    //     child: Text(I18n.of(context).privacy,
-                    //         style: TextStyle(
-                    //             color: Color(0xFF0076FF),
-                    //             fontSize: 18,
-                    //             fontWeight: FontWeight.normal))),
+                    SizedBox(height: 20.0),
+                    InkWell(
+                        onTap: () {
+                          launchUrl('https://itsaboutpeepl.com/privacy');
+                        },
+                        child: Text(I18n.of(context).privacy,
+                            style: TextStyle(
+                                color: Color(0xFF0076FF),
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal))),
                     SizedBox(height: 40.0),
                     Center(
                         child: PrimaryButton(
