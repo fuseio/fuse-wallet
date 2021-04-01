@@ -55,6 +55,34 @@ class _HelpScreenState extends State<HelpScreen>
                 'We are trying to build Peepl carefully and consciously to help local entrepreneurs and people, bring the power back to local communities.',
                 style: helpText
               ),
+              paragraphMarginTop,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'There are answers to some common questions below. For anything else, email us at',
+                      style: helpText
+                    ),
+                    TextSpan(
+                      text: "help@itsaboutpeepl.com",
+                      style: hyperlinkText,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          var url = "mailto:help@itsaboutpeepl.com";
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        }
+                    ),
+                    TextSpan(
+                      text: ".",
+                      style: helpText
+                    )
+                  ]
+                )
+              ),
 
               sectionMarginTop,
               Text(
@@ -148,6 +176,28 @@ class _HelpScreenState extends State<HelpScreen>
 
               sectionMarginTop,
               Text(
+                'What is this PPL thing in my wallet?',
+                style: helpTitleText,
+              ),
+              paragraphMarginTop,
+              Text(
+                'PPL are reward points – your local restaurants’ way of saying thank you for spending locally. Right now you can only collect PPL, but eventually you’ll be able to spend them within the app, at a rate of 1000 PPL per £1.',
+                style: helpText
+              ),
+
+              sectionMarginTop,
+              Text(
+                'Do you treat your riders fairly?',
+                style: helpTitleText,
+              ),
+              paragraphMarginTop,
+              Text(
+                'We’re partnered with Agile Liverpool for zero-carbon delivery. Our riders are all on proper working contracts, being paid above the standard living wage in the UK. We feel very strongly that this should be the case for all delivery riders and other individuals with similar working situations.',
+                style: helpText
+              ),
+
+              sectionMarginTop,
+              Text(
                 "Who are you?",
                 style: helpTitleText
               ),
@@ -190,6 +240,30 @@ class _HelpScreenState extends State<HelpScreen>
               Text(
                 "If you choose to opt-out of marketing communications, we will only store information relevant for individual order delivery such as mentioned above. If you choose to receive marketing communications from us, we currently share this with a third party whilst building the capability to do this without our own app ecosystem.",
                 style: helpText
+              ),
+              paragraphMarginTop,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Your personal information may be shared with trusted third parties, such as Stripe (in order to process your card payment when topping up your wallet), Twilio (in order to send SMS delivery notifications), and Mailchimp (in order to send email confirmations). ",
+                      style: helpText
+                    ),
+                    TextSpan(
+                      text: "You can read more about how we protect your personal information here.",
+                      style: hyperlinkText,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () async {
+                          var url = "https://itsaboutpeepl.com/privacy";
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        }
+                    ),
+                  ],
+                )
               ),
               paragraphMarginTop,
               RichText(
