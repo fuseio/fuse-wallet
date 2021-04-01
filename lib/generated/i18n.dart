@@ -350,12 +350,12 @@ class I18n implements WidgetsLocalizations {
   String get gallery => "Gallery";
   /// "For more information: "
   String get for_more_info => "For more information: ";
-  /// "Fuse.io/privacy"
-  String get privacy => "Fuse.io/privacy";
-  /// "Roost will never share this information with 3rd party."
-  String get will_never_share => "Roost will never share this information with 3rd party.";
-  /// "The roost stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
-  String get stores_private => "The roost stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.";
+  /// "Read our full privacy policy"
+  String get privacy => "Read our full privacy policy";
+  /// "Peepl will never share this information with 3rd party."
+  String get will_never_share => "Peepl will never share this information with 3rd party.";
+  /// "When you’re setting up the Peepl app, we use your phone number to verify your identity. It is stored securely in a third-party service called Firebase, and can’t be tied to any other information about you."
+  String get stores_private => "When you’re setting up the Peepl app, we use your phone number to verify your identity. It is stored securely in a third-party service called Firebase, and can’t be tied to any other information about you.";
   /// "Top up"
   String get topup => "Top up";
   /// "Order"
