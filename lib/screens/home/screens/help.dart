@@ -30,6 +30,10 @@ class _HelpScreenState extends State<HelpScreen>
     fontFamily: 'Europa',
   );
 
+  SizedBox paragraphMarginTop = SizedBox(height: 10);
+
+  SizedBox sectionMarginTop = SizedBox(height: 30);
+
   Widget build(BuildContext context) {
     return MainScaffold(title: 'Help', children: <Widget>[
       Container(
@@ -46,27 +50,29 @@ class _HelpScreenState extends State<HelpScreen>
                 'We are in the early stages of building the Peepl Eat Experience, so might be some teething issues, apologies if you are facing some!',
                 style: helpText
               ),
-              SizedBox(height: 10),
+              paragraphMarginTop,
               Text(
                 'We are trying to build Peepl carefully and consciously to help local entrepreneurs and people, bring the power back to local communities.',
                 style: helpText
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 'How do I pay?',
                 style: helpTitleText,
               ),
+              paragraphMarginTop,
               Text(
                 'We are using Stripe, one of the most trusted payment processors in the world. To top up, just tap “Home”, then the menu icon, then “Top up” to add money to your wallet, straight from your credit or debit card.',
                 style: helpText
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 'My card is not accepted or topping up is not working for me.',
                 style: helpTitleText
               ),
+              paragraphMarginTop,
               RichText(
                 text: TextSpan(
                   children: [
@@ -94,21 +100,24 @@ class _HelpScreenState extends State<HelpScreen>
                   ],
                 ),
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 'Where can I see my past orders?',
                 style: helpTitleText,
               ),
+              paragraphMarginTop,
               Text(
                 'Your past orders are shown by heading to ‘orders’ at the top of the ‘Orders’ tab on the app.',
-                style: helpText),
-              SizedBox(height: 10),
+                style: helpText
+              ),
 
+              sectionMarginTop,
               Text(
                 "My order hasn't turned up",
                 style: helpTitleText
               ),
+              paragraphMarginTop,
               RichText(
                 text: TextSpan(
                   children: [
@@ -136,12 +145,13 @@ class _HelpScreenState extends State<HelpScreen>
                   ],
                 )
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 "Who are you?",
                 style: helpTitleText
               ),
+              paragraphMarginTop,
               RichText(
                 text: TextSpan(
                   children: [
@@ -165,20 +175,23 @@ class _HelpScreenState extends State<HelpScreen>
                   ],
                 )
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 "What information do you store about me?",
                 style: helpTitleText
               ),
+              paragraphMarginTop,
               Text(
                 "When you provide your email address, phone number, and delivery address as part of your order, we store those details so that we can send them to the relevant restaurant and our delivery partners for delivery of your order. We also store your Peepl wallet ID, so that can match up your order with your payment.",
                 style: helpText
               ),
+              paragraphMarginTop,
               Text(
                 "If you choose to opt-out of marketing communications, we will only store information relevant for individual order delivery such as mentioned above. If you choose to receive marketing communications from us, we currently share this with a third party whilst building the capability to do this without our own app ecosystem.",
                 style: helpText
               ),
+              paragraphMarginTop,
               RichText(
                 text: TextSpan(
                   children: [
@@ -202,12 +215,13 @@ class _HelpScreenState extends State<HelpScreen>
                   ],
                 )
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 "Can I list my own business on Peepl?",
                 style: helpTitleText
               ),
+              paragraphMarginTop,
               RichText(
                 text: TextSpan(
                   children: [
@@ -231,13 +245,13 @@ class _HelpScreenState extends State<HelpScreen>
                   ]
                 )
               ),
-              SizedBox(height: 10),
 
+              sectionMarginTop,
               Text(
                 "Something doesn't seem right, how can I send you feedback?",
                 style: helpTitleText
               ),
-              SizedBox(height: 10),
+              paragraphMarginTop,
               RichText(
                 text: TextSpan(
                   children: [
@@ -258,6 +272,7 @@ class _HelpScreenState extends State<HelpScreen>
                           }
                         }
                     ),
+                    // paragraphMarginTop,
                     // TextSpan(
                     //     text: ". You can join our group on Telegram by ",
                     //     style: helpText),
@@ -276,7 +291,8 @@ class _HelpScreenState extends State<HelpScreen>
                   ]
                 )
               ),
-              SizedBox(height: 10),
+
+              sectionMarginTop,
 
             ]
           )
