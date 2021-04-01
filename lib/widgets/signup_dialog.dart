@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:peepl/widgets/primary_button.dart';
 
+// TODO: Move launchUrl function into shared file
 launchUrl(url) async {
   if (await canLaunch(url)) {
     await launch(url, forceSafariVC: false);
