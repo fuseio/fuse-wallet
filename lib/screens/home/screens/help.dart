@@ -13,7 +13,7 @@ class _HelpScreenState extends State<HelpScreen>
     with SingleTickerProviderStateMixin {
   TextStyle helpTitleText = TextStyle(
     color: Colors.black,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
   );
   TextStyle helpText = TextStyle(
@@ -180,7 +180,7 @@ class _HelpScreenState extends State<HelpScreen>
                       style: hyperlinkText,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
-                          var url = "mailto:help@itsaboutpeepl.com. ";
+                          var url = "mailto:help@itsaboutpeepl.com";
                           if (await canLaunch(url)) {
                             await launch(url);
                           } else {
