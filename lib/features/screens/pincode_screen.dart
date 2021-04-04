@@ -83,9 +83,8 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                           Text(
                             I18n.of(context).enter_pincode,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
                               fontSize: 25,
-                              // color: Theme.of(context).canvasColor,
+                              color: Color(0xFF575757),
                             ),
                           ),
                           SizedBox(
@@ -118,15 +117,16 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                   textStyle: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
+                                    color: Color(0xFF575757),
                                   ),
                                   pinTheme: PinTheme(
                                     borderRadius: BorderRadius.circular(5),
                                     borderWidth: 4,
                                     fieldWidth: 35,
                                     shape: PinCodeFieldShape.underline,
-                                    inactiveColor: Colors.black,
-                                    selectedColor: Colors.black,
-                                    activeColor: Colors.black,
+                                    inactiveColor: Color(0xFF575757),
+                                    selectedColor: Color(0xFF575757),
+                                    activeColor: Color(0xFF575757),
                                     inactiveFillColor: Colors.transparent,
                                     selectedFillColor: Colors.transparent,
                                     disabledColor: Colors.transparent,
