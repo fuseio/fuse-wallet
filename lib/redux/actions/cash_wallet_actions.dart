@@ -114,8 +114,10 @@ class RefreshCommunityData {
   final String bridgeType;
   final String bridgeDirection;
   final String webUrl;
+  final String secondaryTokenAddress;
   RefreshCommunityData({
     this.bridgeDirection,
+    this.secondaryTokenAddress,
     this.bridgeType,
     this.plugins,
     this.communityAddress,
@@ -1146,16 +1148,17 @@ ThunkAction fetchCommunityMetadataCall(
 }
 
 ThunkAction fetchSecondaryTokenCall(
-    String tokenAddress, String communityAddress) {
+  String tokenAddress,
+  String communityAddress,
+) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       dynamic tokenInfo = await fuseExplorerApi.getTokenInfo(tokenAddress);
       CashWalletState cashWalletState = store.state.cashWalletState;
-      final Community community = cashWalletState.communities[communityAddress];
       final Map<String, Token> tokens = cashWalletState.tokens;
-      Token secondaryToken = tokens.containsKey(community.secondaryTokenAddress)
-          ? tokens[community.secondaryTokenAddress]
+      Token secondaryToken = tokens.containsKey(tokenAddress)
+          ? tokens[tokenAddress]
           : Token.initial();
       Token secondary = secondaryToken.copyWith(
         communityAddress: communityAddress,
@@ -1264,9 +1267,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       );
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(
-        community: newCommunity.copyWith(
-          homeTokenAddress: communityToken.address,
-        ),
+        community: newCommunity,
       ));
       store.dispatch(
         segmentTrackCall(
@@ -1338,9 +1339,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       );
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(
-        community: newCommunity.copyWith(
-          homeTokenAddress: communityToken.address,
-        ),
+        community: newCommunity,
       ));
       if (![null, ''].contains(newCommunity?.secondaryTokenAddress)) {
         store.dispatch(
@@ -1395,13 +1394,6 @@ ThunkAction refetchCommunityData() {
       bool isRopsten = communityData['isRopsten'];
       final String bridgeDirection = communityData['bridgeDirection'];
       final String bridgeType = communityData['bridgeType'];
-      store.dispatch(
-        fetchCommunityMetadataCall(
-          communityAddress.toLowerCase(),
-          communityData['communityURI'],
-          isRopsten,
-        ),
-      );
       store.dispatch(
         RefreshCommunityData(
           bridgeType: bridgeType,

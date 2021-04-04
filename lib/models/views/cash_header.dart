@@ -40,18 +40,31 @@ class CashHeaderViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
     num usdValue = store.state.userState?.totalBalance ?? 0;
+
+    final Token token = store.state.cashWalletState.tokens
+            .containsKey(community?.homeTokenAddress?.toLowerCase())
+        ? store.state.cashWalletState
+            .tokens[community?.homeTokenAddress?.toLowerCase()]
+        : store.state.cashWalletState.tokens[community?.homeTokenAddress];
+
+    final Token secondaryToken = store.state.cashWalletState.tokens
+            .containsKey(community?.secondaryTokenAddress?.toLowerCase())
+        ? store.state.cashWalletState
+            .tokens[community?.secondaryTokenAddress?.toLowerCase()]
+        : store.state.cashWalletState.tokens[community?.secondaryTokenAddress];
+
     return CashHeaderViewModel(
-        community: community,
-        token: store.state.cashWalletState.tokens[community?.homeTokenAddress],
-        secondaryToken: store.state.cashWalletState
-            .tokens[community?.secondaryTokenAddress?.toLowerCase()],
-        hasErc20Tokens: erc20Tokens.isNotEmpty,
-        usdValue: reduce(usdValue),
-        walletStatus: store.state.userState.walletStatus,
-        firstName: () {
-          String fullName = store.state.userState.displayName ?? '';
-          return fullName.split(' ')[0];
-        });
+      community: community,
+      token: token,
+      secondaryToken: secondaryToken,
+      hasErc20Tokens: erc20Tokens.isNotEmpty,
+      usdValue: reduce(usdValue),
+      walletStatus: store.state.userState.walletStatus,
+      firstName: () {
+        String fullName = store.state.userState.displayName ?? '';
+        return fullName.split(' ')[0];
+      },
+    );
   }
 
   @override

@@ -113,6 +113,7 @@ CashWalletState _refreshCommunityData(
     state.communities,
   );
   newOne[communityAddress] = current?.copyWith(
+    secondaryTokenAddress: action.secondaryTokenAddress,
     plugins: action.plugins,
     webUrl: action.webUrl,
   );
