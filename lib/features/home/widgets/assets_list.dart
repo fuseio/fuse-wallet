@@ -1,4 +1,3 @@
-import 'package:fusecash/features/home/widgets/deposit_banner.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

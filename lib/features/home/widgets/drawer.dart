@@ -254,6 +254,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Expanded(
                   flex: 5,
                   child: ListView(
+                    padding: EdgeInsets.all(0),
                     children: <Widget>[
                       drawerHeader(viewModel),
                       ...menuItem(viewModel),

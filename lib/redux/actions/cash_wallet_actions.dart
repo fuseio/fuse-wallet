@@ -1086,7 +1086,6 @@ ThunkAction getWalletActionsCall() {
         walletAddress,
         updatedAt: walletActions?.updatedAt ?? 0,
       );
-      log.info(response.toString());
       Iterable<dynamic> docs = response['docs'] ?? [];
       List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
       if (actions.isNotEmpty) {

@@ -1,6 +1,5 @@
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/features/home/widgets/action_tile.dart';
-import 'package:fusecash/features/home/widgets/deposit_banner.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/redux/viewsmodels/feed.dart';

@@ -160,7 +160,10 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             },
                             child: Text(
                               I18n.of(context).skip_button,
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                             ),
                           ),
                         ),
