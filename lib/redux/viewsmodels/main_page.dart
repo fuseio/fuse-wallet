@@ -4,6 +4,7 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
+import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomeScreenViewModel extends Equatable {
   final Community community;
@@ -12,10 +13,12 @@ class HomeScreenViewModel extends Equatable {
   final bool isBackupDialogShowed;
   final Function setShowDialog;
   final Function getSwapList;
+  final bool isDefaultCommunity;
 
   HomeScreenViewModel({
     this.isContactsSynced,
     this.community,
+    this.isDefaultCommunity,
     this.backup,
     this.isBackupDialogShowed,
     this.setShowDialog,
@@ -31,6 +34,7 @@ class HomeScreenViewModel extends Equatable {
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
       backup: store.state.userState.backup,
+      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
       isBackupDialogShowed:
           store.state.userState?.receiveBackupDialogShowed ?? false,
       setShowDialog: () {
@@ -49,5 +53,6 @@ class HomeScreenViewModel extends Equatable {
         isContactsSynced,
         backup,
         isContactsSynced,
+        isDefaultCommunity,
       ];
 }

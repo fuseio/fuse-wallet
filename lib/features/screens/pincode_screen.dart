@@ -76,6 +76,21 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(
+                      height: 100,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset('assets/images/pincode_logo.png',
+                              width: 71, height: 61),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

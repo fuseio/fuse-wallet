@@ -99,8 +99,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 width: 20,
               ),
               Text(
-                I18n.of(context).top_up,
+                I18n.of(context).top_up_your_account,
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
@@ -112,7 +113,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           dynamic url =
               depositPlugins[0].widgetUrl + '&finalUrl=https://fuse.io';
           ExtendedNavigator.root.pushWebview(
-              withBack: true, url: url, title: I18n.of(context).top_up);
+            withBack: true,
+            url: url,
+            title: I18n.of(context).top_up,
+          );
           Segment.track(eventName: 'User clicked on top up');
         },
       ));

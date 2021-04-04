@@ -4,6 +4,7 @@ import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/features/buy/router/buy_router.gr.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
+import 'package:fusecash/features/screens/fuse_studio_explained.dart';
 import 'package:fusecash/features/screens/receive_screen.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
@@ -82,12 +83,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              !['', null].contains(vm.community.webUrl)
-                  ? WebViewScreen(
-                      url: vm.community.webUrl,
-                      withBack: false,
-                      title: I18n.of(context).community_webpage,
-                    )
+              vm.isDefaultCommunity
+                  ? FusePointsExplainedScreen()
                   : ExtendedNavigator(
                       router: BuyRouter(),
                       name: 'buyRouter',

@@ -262,6 +262,8 @@ class I18n implements WidgetsLocalizations {
   String get no => "No";
   /// "Fuse Volts"
   String get fuse_volts => "Fuse Volts";
+  /// "Fuse Studio"
+  String get studio => "Fuse Studio";
   /// "Back up now"
   String get back_up_now => "Back up now";
   /// "Recommended"
