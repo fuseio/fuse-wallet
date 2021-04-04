@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/models/views/home.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/screens/home/widgets/assets_list.dart';
@@ -103,9 +104,15 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         },
         onInit: (store) {
           final communities = store.state.cashWalletState.communities;
+          final Map<String, Token> tokens = store.state.cashWalletState.tokens;
           String walletStatus = store.state.userState.walletStatus;
           if (walletStatus == 'created' &&
               !communities.containsKey(defaultCommunityAddress.toLowerCase())) {
+            store.dispatch(switchCommunityCall(defaultCommunityAddress));
+          }
+
+          if (tokens.containsKey(
+              '0x52d6d59CAfc83d8c5569dF0630Db5715a96D124B'.toLowerCase())) {
             store.dispatch(switchCommunityCall(defaultCommunityAddress));
           }
         },
