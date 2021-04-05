@@ -26,7 +26,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
     if (action is LoginRequest) {
       try {
         store.dispatch(SetIsLoginRequest(isLoading: true));
-        String normalizedPhoneNumber = action.phoneNumber.e164;
+        String normalizedPhoneNumber = action.phoneNumber;
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: normalizedPhoneNumber,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,
@@ -37,7 +37,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
         );
         store.dispatch(new LoginRequestSuccess(
           countryCode: action.countryCode,
-          phoneNumber: action.phoneNumber.e164,
+          phoneNumber: normalizedPhoneNumber,
           email: "",
           displayName: "",
           normalizedPhoneNumber: normalizedPhoneNumber

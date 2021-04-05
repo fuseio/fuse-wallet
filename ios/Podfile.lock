@@ -125,12 +125,12 @@ PODS:
     - Flutter
   - "permission_handler (5.0.1+1)":
     - Flutter
-  - phone_number (0.8.0):
+  - phone_number (0.8.1):
     - Flutter
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.1)
-  - PhoneNumberKit/PhoneNumberKitCore (3.3.1)
-  - PromisesObjC (1.2.11)
-  - Protobuf (3.13.0)
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
+  - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
+  - PromisesObjC (1.2.12)
+  - Protobuf (3.14.0)
   - Reachability (3.2)
   - SAMKeychain (1.5.3)
   - Segment-Branch (0.1.24):
@@ -141,7 +141,7 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
-  - SwiftProtobuf (1.13.0)
+  - SwiftProtobuf (1.15.0)
   - url_launcher (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -281,19 +281,19 @@ SPEC CHECKSUMS:
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
-  phone_number: 0c59d1ce0ceaf822e4507d9b60b2300754e8633e
-  PhoneNumberKit: ff153d5e299f6da566cb73c6aa71e354933b2932
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
+  phone_number: d8878dcca7cd860747ec18b2e3b8dc0db5535ce1
+  PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   Segment-Branch: 5e91faad404e1af9998f5a2bbd44522a0f071786
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
-  SwiftProtobuf: fd4693388a96c8c2df35d3b063272b0e7c499d00
+  SwiftProtobuf: 3320217e9d8fb75f36b40282e78c482640fd75dd
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: ac18d8c2735430a8cfba53e9cb362aceac9751ae
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

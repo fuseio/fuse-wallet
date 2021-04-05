@@ -89,7 +89,7 @@ class ReLogin {
 
 class LoginRequest {
   final CountryCode countryCode;
-  final PhoneNumber phoneNumber;
+  final String phoneNumber;
   final PhoneCodeSent codeSent;
   final PhoneVerificationCompleted verificationCompleted;
   final PhoneVerificationFailed verificationFailed;

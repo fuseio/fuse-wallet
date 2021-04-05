@@ -6,15 +6,12 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-// import 'package:country_code_picker/country_codes.dart';
-import 'package:curadai/services.dart';
 import 'package:curadai/utils/constans.dart';
 import 'package:curadai/widgets/main_scaffold.dart';
 import 'package:curadai/widgets/primary_button.dart';
 import 'package:curadai/widgets/signup_dialog.dart';
 import 'package:curadai/models/views/onboard.dart';
 import 'package:curadai/widgets/snackbars.dart';
-import 'package:phone_number/phone_number.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -30,36 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
-  }
-
-  // _updateCountryCode(_) {
-  //   Locale myLocale = Localizations.localeOf(context);
-  //   if (myLocale.countryCode != null) {
-  //     Map localeData = codes.firstWhere(
-  //         (Map code) => code['code'] == myLocale.countryCode,
-  //         orElse: () => null);
-  //     if (mounted && localeData != null) {
-  //       setState(() {
-  //         countryCode = CountryCode(
-  //             dialCode: localeData['dial_code'], code: localeData['code']);
-  //       });
-  //     }
-  //   }
-  // }
-
-  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
-    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
-    phoneNumberUtil.parse(phoneNumber).then((value) {
-      signUp(countryCode, value);
-    }, onError: (e) {
-      transactionFailedSnack(I18n.of(context).invalid_number,
-          title: I18n.of(context).something_went_wrong,
-          duration: Duration(seconds: 3),
-          context: context,
-          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
-    });
   }
 
   @override
@@ -218,7 +186,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             fontSize: 16,
                             labelFontWeight: FontWeight.normal,
                             onPressed: () {
-                              onPressed(viewModel.signUp);
+                              final String phoneNumber =
+                                  '${countryCode.dialCode}${phoneController.text}';
+                              viewModel.signUp(countryCode, phoneNumber);
                             },
                             preload: viewModel.isLoginRequest,
                           ),
