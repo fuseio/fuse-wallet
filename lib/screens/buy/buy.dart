@@ -143,7 +143,7 @@ class BusinessesListView extends StatelessWidget {
             fontWeight: FontWeight.normal),
       ),
       subtitle: Text(
-        business.metadata.description ?? '',
+        truncateWithEllipsis(70, business.metadata.details) ?? '',
         style: TextStyle(
             color: Theme.of(context).accentColor,
             fontSize: 12,
@@ -181,6 +181,12 @@ class BusinessesListView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String truncateWithEllipsis(int cutoff, String myString) {
+    return (myString.length <= cutoff)
+        ? myString
+        : '${myString.substring(0, cutoff)}...';
   }
 
   @override

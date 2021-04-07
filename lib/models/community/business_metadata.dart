@@ -24,6 +24,8 @@ class BusinessMetadata {
   @JsonKey(defaultValue: '')
   final String description;
   @JsonKey(defaultValue: '')
+  final String details;
+  @JsonKey(defaultValue: '')
   final String image;
   @JsonKey(defaultValue: '')
   final String type;
@@ -40,6 +42,7 @@ class BusinessMetadata {
   BusinessMetadata({
     this.address,
     this.description,
+    this.details,
     this.image,
     this.coverPhoto,
     this.type,
@@ -52,6 +55,7 @@ class BusinessMetadata {
     String address,
     String coverPhoto,
     String description,
+    String details,
     String image,
     String type,
     String phoneNumber,
@@ -62,6 +66,7 @@ class BusinessMetadata {
       address: address ?? this.address,
       coverPhoto: coverPhoto ?? this.coverPhoto,
       description: description ?? this.description,
+      details: details ?? this.details,
       image: image ?? this.image,
       type: type ?? this.type,
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -74,6 +79,7 @@ class BusinessMetadata {
         address: '',
         coverPhoto: '',
         description: '',
+        details: '',
         image: '',
         type: '',
         phoneNumber: '',

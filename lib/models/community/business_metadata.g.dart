@@ -10,6 +10,7 @@ BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
   return BusinessMetadata(
     address: json['address'] as String ?? '',
     description: json['description'] as String ?? '',
+    details: json['details'] as String ?? '',
     image: json['image'] as String ?? '',
     coverPhoto: json['coverPhoto'] as String ?? '',
     type: json['type'] as String ?? '',
@@ -25,6 +26,7 @@ Map<String, dynamic> _$BusinessMetadataToJson(BusinessMetadata instance) =>
       'address': instance.address,
       'coverPhoto': instance.coverPhoto,
       'description': instance.description,
+      'details': instance.details,
       'image': instance.image,
       'type': instance.type,
       'phoneNumber': instance.phoneNumber,
