@@ -74,11 +74,19 @@ class _BusinessPageState extends State<BusinessPage> {
                               top: 60,
                               left: 20,
                               child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Icon(PlatformIcons(context).back),
-                              )),
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: RawMaterialButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    elevation: 2.0,
+                                    fillColor: Colors.white,
+                                    child: Icon(PlatformIcons(context).back),
+                                    padding: EdgeInsets.all(10.0),
+                                    shape: CircleBorder(),
+                                  ))),
                         ],
                       ),
                     ),

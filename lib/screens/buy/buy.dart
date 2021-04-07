@@ -166,8 +166,8 @@ class BusinessesListView extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/go.png',
                   fit: BoxFit.fill,
-                  width: 25,
-                  height: 25,
+                  width: 30,
+                  height: 30,
                 )),
             onTap: () {
               ExtendedNavigator.root.pushSendAmountScreen(

@@ -222,8 +222,8 @@ class I18n implements WidgetsLocalizations {
   String get backup_wallet => "Backup";
   /// "Top-up your account"
   String get top_up => "Top-up your account";
-  /// "Buy"
-  String get buy => "Buy";
+  /// "Say thanks with PPL tokens"
+  String get buy => "Say thanks with PPL tokens";
   /// "Map"
   String get map => "Map";
   /// "Approved"
