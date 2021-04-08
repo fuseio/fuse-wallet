@@ -112,8 +112,13 @@ String deducePhoneNumber(
 
 dynamic getTransferImage(
     Transfer transfer, Contact contact, Community community,
-    {bool isZeroAddress}) {
+    {bool isZeroAddress, bool isPeeplReward}) {
   if (isZeroAddress != null && isZeroAddress) {
+    return new NetworkImage(
+      'https://ipfs-proxy.fuse.io/api/image/QmSao9HW9CgLCApHnNnBfNhCtZx6SoCe3LcDAXavjbYifj',
+    );
+  }
+  if (isPeeplReward != null && isPeeplReward) {
     return new NetworkImage(
       'https://ipfs-proxy.fuse.io/api/image/QmSao9HW9CgLCApHnNnBfNhCtZx6SoCe3LcDAXavjbYifj',
     );

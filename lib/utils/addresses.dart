@@ -5,6 +5,8 @@ final String foreignNetwork =
 
 final String zeroAddress = "0x0000000000000000000000000000000000000000";
 
+final String rewardAddress = "0x29249e06e8D3e4933cc403AB73136e698a08c38b";
+
 final String defaultCommunityAddress =
     DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
 

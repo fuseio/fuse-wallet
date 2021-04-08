@@ -44,11 +44,9 @@ class _TransactionTileState extends State<TransactionTile> {
           Token token = widget.token ??
               viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           ImageProvider<dynamic> image = getTransferImage(
-            widget.transfer,
-            contact,
-            community,
-            isZeroAddress: widget.transfer.isZeroAddress(),
-          );
+              widget.transfer, contact, community,
+              isZeroAddress: widget.transfer.isZeroAddress(),
+              isPeeplReward: widget.transfer.isPeeplReward());
           String amount = formatValue(widget.transfer?.value, token?.decimals);
           String displayName = widget.transfer.getText() != null
               ? widget.transfer.getText()

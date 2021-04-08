@@ -80,6 +80,9 @@ class Transaction extends Equatable {
   bool isGenerateWallet() =>
       this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
+  bool isPeeplReward() =>
+      this.from != null &&
+      rewardAddress.toLowerCase() == this.from.toLowerCase();
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);

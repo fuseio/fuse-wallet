@@ -79,7 +79,10 @@ class Transfer extends Transaction {
       return I18n.of(ExtendedNavigator.root.context).join_bonus ?? text;
     }
     if (this.isZeroAddress()) {
-      return 'Peepl account';
+      return 'GBPx Top-up';
+    }
+    if (this.isPeeplReward()) {
+      return 'Peepl Reward';
     }
     return receiverName ?? text;
   }
