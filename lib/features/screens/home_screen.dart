@@ -7,6 +7,7 @@ import 'package:fusecash/features/screens/receive_screen.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
 import 'package:fusecash/features/swap/router/swap_router.gr.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
@@ -52,6 +53,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return new StoreConnector<AppState, HomeScreenViewModel>(
       distinct: true,
       converter: HomeScreenViewModel.fromStore,
+      onInit: (store) {
+        store.dispatch(updateTokensPrices());
+      },
       builder: (_, vm) {
         return Scaffold(
           key: AppKeys.homePageKey,
