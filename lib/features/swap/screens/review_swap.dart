@@ -41,7 +41,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
       isPreloading = true;
     });
     SwapCallParameters swapCallParameters =
-        await swapService.swapCallParameters(
+        await fuseSwapService.swapCallParameters(
       widget.swapRequestBody.currencyIn,
       widget.swapRequestBody.currencyOut,
       widget.swapRequestBody.amountIn,
@@ -69,6 +69,9 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
 
   Widget infoCard() {
     return Container(
+      margin: EdgeInsets.only(
+        top: 20,
+      ),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -263,36 +266,37 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                infoCard(),
-                SizedBox(
-                  height: 100,
-                ),
-                extraInfo(),
-              ],
+            Container(
+              height: MediaQuery.of(context).size.height * .5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  infoCard(),
+                  extraInfo(),
+                ],
+              ),
             ),
-            Column(
-              children: [
-                StoreConnector<AppState, ReviewSwapViewModel>(
-                  distinct: true,
-                  converter: ReviewSwapViewModel.fromStore,
-                  builder: (_, viewModel) => Center(
-                    child: PrimaryButton(
-                      label: I18n.of(context).swap,
-                      disabled: isPreloading,
-                      preload: isPreloading,
-                      onPressed: () => _onPress(viewModel),
+            Container(
+              height: MediaQuery.of(context).size.height * .2,
+              child: Column(
+                children: [
+                  StoreConnector<AppState, ReviewSwapViewModel>(
+                    distinct: true,
+                    converter: ReviewSwapViewModel.fromStore,
+                    builder: (_, viewModel) => Center(
+                      child: PrimaryButton(
+                        label: I18n.of(context).swap,
+                        disabled: isPreloading,
+                        preload: isPreloading,
+                        onPressed: () => _onPress(viewModel),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-              ],
+                  SizedBox(
+                    height: 40,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -3,8 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
@@ -12,7 +10,7 @@ import 'package:redux/redux.dart';
 class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
   final Function(List<Contact>) syncContacts;
-  final Transactions transactions;
+  // final Transactions transactions;
   final Map<String, String> reverseContacts;
   final String countryCode;
   final String isoCode;
@@ -25,7 +23,7 @@ class ContactsViewModel extends Equatable {
   ContactsViewModel(
       {this.contacts,
       this.syncContacts,
-      this.transactions,
+      // this.transactions,
       this.reverseContacts,
       this.countryCode,
       this.community,
@@ -36,17 +34,17 @@ class ContactsViewModel extends Equatable {
       this.idenyifyCall});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddres];
-    Token token =
-        store.state.cashWalletState.tokens[community?.homeTokenAddress];
+        store.state.cashWalletState.communities[communityAddress];
+    // Token token =
+    //     store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return ContactsViewModel(
         isoCode: store.state.userState.isoCode,
         businesses: community?.businesses ?? [],
         contacts: store.state.userState?.contacts ?? [],
         community: community,
-        transactions: token?.transactions,
+        // transactions: token?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
         countryCode: store.state.userState.countryCode,
         syncContacts: (List<Contact> contacts) {
@@ -66,7 +64,7 @@ class ContactsViewModel extends Equatable {
   @override
   List<Object> get props => [
         contacts,
-        transactions,
+        // transactions,
         reverseContacts,
         countryCode,
         businesses,

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/utils/format.dart';
 // import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -125,7 +124,6 @@ class Explorer {
         "address": response.data['result']["contractAddress"],
         'decimals': int.parse(response.data['result']['decimals'])
       }).copyWith(
-        transactions: Transactions.initial(),
         timestamp: 0,
         amount: BigInt.zero,
       );
@@ -147,9 +145,8 @@ class Explorer {
             "address": token['contractAddress'].toLowerCase(),
             "decimals": int.parse(token['decimals']),
             "name": formatTokenName(token["name"]),
-            "symbol": token['symbol']
+            "symbol": token['symbol'],
           }).copyWith(
-            transactions: Transactions.initial(),
             timestamp: 0,
           ),
         );

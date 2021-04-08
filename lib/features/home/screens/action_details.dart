@@ -7,7 +7,7 @@ import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/snackbars.dart';
-import 'package:number_display/number_display.dart';
+import 'package:intl/intl.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
   final String accountAddress;
@@ -28,7 +28,10 @@ class ActionDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime dateTime =
+        DateTime.fromMillisecondsSinceEpoch(action.timestamp);
     final String name = action.map(
+      depositYourFirstDollar: (value) => '',
       createWallet: (_) => '',
       fiatProcess: (_) => '',
       joinCommunity: (_) => '',
@@ -40,6 +43,7 @@ class ActionDetailsScreen extends StatelessWidget {
     );
 
     final String title = action.map(
+      depositYourFirstDollar: (value) => '',
       createWallet: (_) => '',
       fiatProcess: (_) => '',
       joinCommunity: (_) => '',
@@ -141,6 +145,7 @@ class ActionDetailsScreen extends StatelessWidget {
                               child: Text(
                                 action.isSwapAction()
                                     ? action.map(
+                                        depositYourFirstDollar: (value) => '',
                                         createWallet: (value) => '',
                                         fiatProcess: (value) => '',
                                         joinCommunity: (value) => '',
@@ -149,10 +154,6 @@ class ActionDetailsScreen extends StatelessWidget {
                                         send: (value) => '',
                                         receive: (value) => '',
                                         swap: (value) {
-                                          final display = createDisplay(
-                                            length: 5,
-                                            decimal: 2,
-                                          );
                                           return display(num.parse(value
                                                   .tradeInfo.inputAmount)) +
                                               ' ' +
@@ -188,6 +189,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           context,
                           I18n.of(context).receive,
                           action.map(
+                            depositYourFirstDollar: (value) => '',
                             createWallet: (value) => '',
                             fiatProcess: (value) => '',
                             joinCommunity: (value) => '',
@@ -271,6 +273,23 @@ class ActionDetailsScreen extends StatelessWidget {
                                 ClipboardData(text: action?.txHash));
                             showCopiedFlushbar(context);
                           },
+                        ),
+                  [null, ''].contains(action.timestamp)
+                      ? SizedBox.shrink()
+                      : Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 25),
+                          child: Divider(
+                            color: Theme.of(context).dividerColor,
+                            height: 1,
+                          ),
+                        ),
+                  [null, ''].contains(action.timestamp)
+                      ? SizedBox.shrink()
+                      : rowItem(
+                          context,
+                          I18n.of(context).date_and_time,
+                          DateFormat('dd.MM.yy - hh:mm aaa').format(dateTime),
+                          // DateFormat.yMd().add_jm().format(dateTime),
                         )
                 ],
               ),

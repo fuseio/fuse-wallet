@@ -67,7 +67,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         builder: (_, viewModel) {
           return Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.all(20),
@@ -134,7 +134,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 50.0),
+                      SizedBox(height: 30.0),
                       Center(
                         child: PrimaryButton(
                           label: I18n.of(context).next_button,

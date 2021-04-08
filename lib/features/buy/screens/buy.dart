@@ -6,6 +6,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/features/buy/router/buy_router.gr.dart';
@@ -78,7 +79,10 @@ class BusinessesListView extends StatelessWidget {
               highlightColor: Theme.of(context).canvasColor,
               onTap: () {
                 ExtendedNavigator.root.pushWebview(
-                    withBack: true, url: vm.walletBanner.link, title: '');
+                  title: '',
+                  withBack: true,
+                  url: vm.walletBanner.link,
+                );
               },
               child: CachedNetworkImage(
                 imageUrl: ImageUrl.getLink(vm.walletBanner.walletBannerHash),
@@ -118,7 +122,6 @@ class BusinessesListView extends StatelessWidget {
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
                     shrinkWrap: true,
-                    physics: ScrollPhysics(),
                     itemCount: vm.businesses?.length ?? 0,
                     itemBuilder: (context, index) => businessTile(
                       context,
@@ -134,7 +137,11 @@ class BusinessesListView extends StatelessWidget {
   }
 
   ListTile businessTile(
-      context, Business business, String communityAddres, token) {
+    context,
+    Business business,
+    String communityAddress,
+    Token token,
+  ) {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(

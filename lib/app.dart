@@ -18,6 +18,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
@@ -132,7 +133,19 @@ class _MyAppState extends State<MyApp> {
                 appBarColor: Color(0xFFFFFFFF),
               ),
             ).toTheme,
-            child: extendedNav,
+            child: ResponsiveWrapper.builder(
+              extendedNav,
+              maxWidth: 1200,
+              minWidth: 450,
+              defaultScale: true,
+              breakpoints: [
+                ResponsiveBreakpoint.resize(480, name: MOBILE),
+                ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+                ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+                ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+              ],
+            ),
           ),
         ),
         localizationsDelegates: [

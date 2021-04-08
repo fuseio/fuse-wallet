@@ -26,6 +26,8 @@ WalletAction _$WalletActionFromJson(Map<String, dynamic> json) {
       return Receive.fromJson(json);
     case 'swap':
       return Swap.fromJson(json);
+    case 'depositYourFirstDollar':
+      return DepositYourFirstDollar.fromJson(json);
 
     default:
       throw FallThroughError();
@@ -261,6 +263,26 @@ class _$WalletActionTearOff {
   }
 
 // ignore: unused_element
+  DepositYourFirstDollar depositYourFirstDollar(
+      {int timestamp,
+      @JsonKey(name: '_id') String id,
+      String name,
+      String txHash,
+      String status,
+      int blockNumber,
+      String tokenAddress}) {
+    return DepositYourFirstDollar(
+      timestamp: timestamp,
+      id: id,
+      name: name,
+      txHash: txHash,
+      status: status,
+      blockNumber: blockNumber,
+      tokenAddress: tokenAddress,
+    );
+  }
+
+// ignore: unused_element
   WalletAction fromJson(Map<String, Object> json) {
     return WalletAction.fromJson(json);
   }
@@ -381,6 +403,15 @@ mixin _$WalletAction {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
@@ -475,6 +506,14 @@ mixin _$WalletAction {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -487,6 +526,7 @@ mixin _$WalletAction {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
@@ -498,6 +538,7 @@ mixin _$WalletAction {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   });
   Map<String, dynamic> toJson();
@@ -767,6 +808,15 @@ class _$CreateWallet extends CreateWallet {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -776,6 +826,7 @@ class _$CreateWallet extends CreateWallet {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return createWallet(timestamp, id, name, txHash, status, blockNumber);
   }
 
@@ -873,6 +924,14 @@ class _$CreateWallet extends CreateWallet {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -893,6 +952,7 @@ class _$CreateWallet extends CreateWallet {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -902,6 +962,7 @@ class _$CreateWallet extends CreateWallet {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return createWallet(this);
   }
 
@@ -916,6 +977,7 @@ class _$CreateWallet extends CreateWallet {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1252,6 +1314,15 @@ class _$FiatProcess extends FiatProcess {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -1261,6 +1332,7 @@ class _$FiatProcess extends FiatProcess {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return fiatProcess(timestamp, id, name, txHash, status, blockNumber,
         tokenAddress, from, to, value, tokenName, tokenSymbol, tokenDecimal);
   }
@@ -1359,6 +1431,14 @@ class _$FiatProcess extends FiatProcess {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1380,6 +1460,7 @@ class _$FiatProcess extends FiatProcess {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -1389,6 +1470,7 @@ class _$FiatProcess extends FiatProcess {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return fiatProcess(this);
   }
 
@@ -1403,6 +1485,7 @@ class _$FiatProcess extends FiatProcess {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1753,6 +1836,15 @@ class _$FiatDeposit extends FiatDeposit {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -1762,6 +1854,7 @@ class _$FiatDeposit extends FiatDeposit {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return fiatDeposit(timestamp, id, name, txHash, status, blockNumber,
         tokenAddress, from, to, value, tokenSymbol, tokenName, tokenDecimal);
   }
@@ -1860,6 +1953,14 @@ class _$FiatDeposit extends FiatDeposit {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -1881,6 +1982,7 @@ class _$FiatDeposit extends FiatDeposit {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -1890,6 +1992,7 @@ class _$FiatDeposit extends FiatDeposit {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return fiatDeposit(this);
   }
 
@@ -1904,6 +2007,7 @@ class _$FiatDeposit extends FiatDeposit {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -2219,6 +2323,15 @@ class _$JoinCommunity extends JoinCommunity {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -2228,6 +2341,7 @@ class _$JoinCommunity extends JoinCommunity {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return joinCommunity(timestamp, id, name, txHash, status, blockNumber,
         communityAddress, tokenAddress, communityName);
   }
@@ -2326,6 +2440,14 @@ class _$JoinCommunity extends JoinCommunity {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -2347,6 +2469,7 @@ class _$JoinCommunity extends JoinCommunity {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -2356,6 +2479,7 @@ class _$JoinCommunity extends JoinCommunity {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return joinCommunity(this);
   }
 
@@ -2370,6 +2494,7 @@ class _$JoinCommunity extends JoinCommunity {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -2719,6 +2844,15 @@ class _$Bonus extends Bonus {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -2728,6 +2862,7 @@ class _$Bonus extends Bonus {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return bonus(timestamp, id, name, txHash, status, blockNumber, tokenAddress,
         from, to, value, tokenName, tokenSymbol, tokenDecimal, bonusType);
   }
@@ -2826,6 +2961,14 @@ class _$Bonus extends Bonus {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -2860,6 +3003,7 @@ class _$Bonus extends Bonus {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -2869,6 +3013,7 @@ class _$Bonus extends Bonus {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return bonus(this);
   }
 
@@ -2883,6 +3028,7 @@ class _$Bonus extends Bonus {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -3230,6 +3376,15 @@ class _$Send extends Send {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -3239,6 +3394,7 @@ class _$Send extends Send {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return send(timestamp, id, name, txHash, status, blockNumber, tokenAddress,
         from, to, value, tokenName, tokenSymbol, tokenDecimal);
   }
@@ -3337,6 +3493,14 @@ class _$Send extends Send {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -3358,6 +3522,7 @@ class _$Send extends Send {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -3367,6 +3532,7 @@ class _$Send extends Send {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return send(this);
   }
 
@@ -3381,6 +3547,7 @@ class _$Send extends Send {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -3727,6 +3894,15 @@ class _$Receive extends Receive {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -3736,6 +3912,7 @@ class _$Receive extends Receive {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return receive(timestamp, id, name, txHash, status, blockNumber,
         tokenAddress, from, to, value, tokenName, tokenSymbol, tokenDecimal);
   }
@@ -3834,6 +4011,14 @@ class _$Receive extends Receive {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -3855,6 +4040,7 @@ class _$Receive extends Receive {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -3864,6 +4050,7 @@ class _$Receive extends Receive {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return receive(this);
   }
 
@@ -3878,6 +4065,7 @@ class _$Receive extends Receive {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -4176,6 +4364,15 @@ class _$Swap extends Swap {
             String status,
             int blockNumber,
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -4185,6 +4382,7 @@ class _$Swap extends Swap {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return swap(timestamp, id, name, txHash, status, blockNumber, tradeInfo);
   }
 
@@ -4282,6 +4480,14 @@ class _$Swap extends Swap {
         String status,
         int blockNumber,
         @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -4302,6 +4508,7 @@ class _$Swap extends Swap {
     @required TResult send(Send value),
     @required TResult receive(Receive value),
     @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
   }) {
     assert(createWallet != null);
     assert(fiatProcess != null);
@@ -4311,6 +4518,7 @@ class _$Swap extends Swap {
     assert(send != null);
     assert(receive != null);
     assert(swap != null);
+    assert(depositYourFirstDollar != null);
     return swap(this);
   }
 
@@ -4325,6 +4533,7 @@ class _$Swap extends Swap {
     TResult send(Send value),
     TResult receive(Receive value),
     TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -4371,4 +4580,458 @@ abstract class Swap extends WalletAction {
   @override
   @JsonKey(ignore: true)
   $SwapCopyWith<Swap> get copyWith;
+}
+
+/// @nodoc
+abstract class $DepositYourFirstDollarCopyWith<$Res>
+    implements $WalletActionCopyWith<$Res> {
+  factory $DepositYourFirstDollarCopyWith(DepositYourFirstDollar value,
+          $Res Function(DepositYourFirstDollar) then) =
+      _$DepositYourFirstDollarCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int timestamp,
+      @JsonKey(name: '_id') String id,
+      String name,
+      String txHash,
+      String status,
+      int blockNumber,
+      String tokenAddress});
+}
+
+/// @nodoc
+class _$DepositYourFirstDollarCopyWithImpl<$Res>
+    extends _$WalletActionCopyWithImpl<$Res>
+    implements $DepositYourFirstDollarCopyWith<$Res> {
+  _$DepositYourFirstDollarCopyWithImpl(DepositYourFirstDollar _value,
+      $Res Function(DepositYourFirstDollar) _then)
+      : super(_value, (v) => _then(v as DepositYourFirstDollar));
+
+  @override
+  DepositYourFirstDollar get _value => super._value as DepositYourFirstDollar;
+
+  @override
+  $Res call({
+    Object timestamp = freezed,
+    Object id = freezed,
+    Object name = freezed,
+    Object txHash = freezed,
+    Object status = freezed,
+    Object blockNumber = freezed,
+    Object tokenAddress = freezed,
+  }) {
+    return _then(DepositYourFirstDollar(
+      timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
+      id: id == freezed ? _value.id : id as String,
+      name: name == freezed ? _value.name : name as String,
+      txHash: txHash == freezed ? _value.txHash : txHash as String,
+      status: status == freezed ? _value.status : status as String,
+      blockNumber:
+          blockNumber == freezed ? _value.blockNumber : blockNumber as int,
+      tokenAddress: tokenAddress == freezed
+          ? _value.tokenAddress
+          : tokenAddress as String,
+    ));
+  }
+}
+
+@JsonSerializable()
+
+/// @nodoc
+class _$DepositYourFirstDollar extends DepositYourFirstDollar {
+  const _$DepositYourFirstDollar(
+      {this.timestamp,
+      @JsonKey(name: '_id') this.id,
+      this.name,
+      this.txHash,
+      this.status,
+      this.blockNumber,
+      this.tokenAddress})
+      : super._();
+
+  factory _$DepositYourFirstDollar.fromJson(Map<String, dynamic> json) =>
+      _$_$DepositYourFirstDollarFromJson(json);
+
+  @override
+  final int timestamp;
+  @override
+  @JsonKey(name: '_id')
+  final String id;
+  @override
+  final String name;
+  @override
+  final String txHash;
+  @override
+  final String status;
+  @override
+  final int blockNumber;
+  @override
+  final String tokenAddress;
+
+  @override
+  String toString() {
+    return 'WalletAction.depositYourFirstDollar(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is DepositYourFirstDollar &&
+            (identical(other.timestamp, timestamp) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestamp, timestamp)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.txHash, txHash) ||
+                const DeepCollectionEquality().equals(other.txHash, txHash)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.blockNumber, blockNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.blockNumber, blockNumber)) &&
+            (identical(other.tokenAddress, tokenAddress) ||
+                const DeepCollectionEquality()
+                    .equals(other.tokenAddress, tokenAddress)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(timestamp) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(txHash) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(blockNumber) ^
+      const DeepCollectionEquality().hash(tokenAddress);
+
+  @JsonKey(ignore: true)
+  @override
+  $DepositYourFirstDollarCopyWith<DepositYourFirstDollar> get copyWith =>
+      _$DepositYourFirstDollarCopyWithImpl<DepositYourFirstDollar>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object>({
+    @required
+        TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
+            String name, String txHash, String status, int blockNumber),
+    @required
+        TResult fiatProcess(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal),
+    @required
+        TResult fiatDeposit(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenSymbol,
+            String tokenName,
+            int tokenDecimal),
+    @required
+        TResult joinCommunity(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String communityAddress,
+            String tokenAddress,
+            String communityName),
+    @required
+        TResult bonus(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal,
+            String bonusType),
+    @required
+        TResult send(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal),
+    @required
+        TResult receive(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal),
+    @required
+        TResult swap(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    @required
+        TResult depositYourFirstDollar(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String txHash,
+            String status,
+            int blockNumber,
+            String tokenAddress),
+  }) {
+    assert(createWallet != null);
+    assert(fiatProcess != null);
+    assert(fiatDeposit != null);
+    assert(joinCommunity != null);
+    assert(bonus != null);
+    assert(send != null);
+    assert(receive != null);
+    assert(swap != null);
+    assert(depositYourFirstDollar != null);
+    return depositYourFirstDollar(
+        timestamp, id, name, txHash, status, blockNumber, tokenAddress);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object>({
+    TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
+        String name, String txHash, String status, int blockNumber),
+    TResult fiatProcess(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress,
+        String from,
+        String to,
+        BigInt value,
+        String tokenName,
+        String tokenSymbol,
+        int tokenDecimal),
+    TResult fiatDeposit(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress,
+        String from,
+        String to,
+        BigInt value,
+        String tokenSymbol,
+        String tokenName,
+        int tokenDecimal),
+    TResult joinCommunity(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String communityAddress,
+        String tokenAddress,
+        String communityName),
+    TResult bonus(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress,
+        String from,
+        String to,
+        BigInt value,
+        String tokenName,
+        String tokenSymbol,
+        int tokenDecimal,
+        String bonusType),
+    TResult send(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress,
+        String from,
+        String to,
+        BigInt value,
+        String tokenName,
+        String tokenSymbol,
+        int tokenDecimal),
+    TResult receive(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress,
+        String from,
+        String to,
+        BigInt value,
+        String tokenName,
+        String tokenSymbol,
+        int tokenDecimal),
+    TResult swap(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        @JsonKey(name: 'metadata') TradeInfo tradeInfo),
+    TResult depositYourFirstDollar(
+        int timestamp,
+        @JsonKey(name: '_id') String id,
+        String name,
+        String txHash,
+        String status,
+        int blockNumber,
+        String tokenAddress),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (depositYourFirstDollar != null) {
+      return depositYourFirstDollar(
+          timestamp, id, name, txHash, status, blockNumber, tokenAddress);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object>({
+    @required TResult createWallet(CreateWallet value),
+    @required TResult fiatProcess(FiatProcess value),
+    @required TResult fiatDeposit(FiatDeposit value),
+    @required TResult joinCommunity(JoinCommunity value),
+    @required TResult bonus(Bonus value),
+    @required TResult send(Send value),
+    @required TResult receive(Receive value),
+    @required TResult swap(Swap value),
+    @required TResult depositYourFirstDollar(DepositYourFirstDollar value),
+  }) {
+    assert(createWallet != null);
+    assert(fiatProcess != null);
+    assert(fiatDeposit != null);
+    assert(joinCommunity != null);
+    assert(bonus != null);
+    assert(send != null);
+    assert(receive != null);
+    assert(swap != null);
+    assert(depositYourFirstDollar != null);
+    return depositYourFirstDollar(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object>({
+    TResult createWallet(CreateWallet value),
+    TResult fiatProcess(FiatProcess value),
+    TResult fiatDeposit(FiatDeposit value),
+    TResult joinCommunity(JoinCommunity value),
+    TResult bonus(Bonus value),
+    TResult send(Send value),
+    TResult receive(Receive value),
+    TResult swap(Swap value),
+    TResult depositYourFirstDollar(DepositYourFirstDollar value),
+    @required TResult orElse(),
+  }) {
+    assert(orElse != null);
+    if (depositYourFirstDollar != null) {
+      return depositYourFirstDollar(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$DepositYourFirstDollarToJson(this)
+      ..['runtimeType'] = 'depositYourFirstDollar';
+  }
+}
+
+abstract class DepositYourFirstDollar extends WalletAction {
+  const DepositYourFirstDollar._() : super._();
+  const factory DepositYourFirstDollar(
+      {int timestamp,
+      @JsonKey(name: '_id') String id,
+      String name,
+      String txHash,
+      String status,
+      int blockNumber,
+      String tokenAddress}) = _$DepositYourFirstDollar;
+
+  factory DepositYourFirstDollar.fromJson(Map<String, dynamic> json) =
+      _$DepositYourFirstDollar.fromJson;
+
+  @override
+  int get timestamp;
+  @override
+  @JsonKey(name: '_id')
+  String get id;
+  @override
+  String get name;
+  @override
+  String get txHash;
+  @override
+  String get status;
+  @override
+  int get blockNumber;
+  String get tokenAddress;
+  @override
+  @JsonKey(ignore: true)
+  $DepositYourFirstDollarCopyWith<DepositYourFirstDollar> get copyWith;
 }

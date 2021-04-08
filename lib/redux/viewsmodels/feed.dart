@@ -6,7 +6,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+// import 'package:fusecash/utils/addresses.dart' as util;
 
 class FeedViewModel extends Equatable {
   final List<WalletAction> walletActions;
@@ -42,8 +42,7 @@ class FeedViewModel extends Equatable {
       orElse: () => null,
     );
     final List<WalletAction> walletActions =
-        List.from(store.state.cashWalletState?.walletActions?.list?.reversed) ??
-            [];
+        List.from(store.state.cashWalletState?.walletActions?.list) ?? [];
     final bool showDepositBanner = token != null &&
         (walletAction != null && walletAction.isConfirmed()) &&
         (walletActions.isNotEmpty && walletActions.length < 2) &&
@@ -51,7 +50,15 @@ class FeedViewModel extends Equatable {
         tokens.isEmpty;
     return FeedViewModel(
       showDepositBanner: showDepositBanner,
-      walletActions: walletActions,
+      walletActions: showDepositBanner
+          ? [
+              ...walletActions,
+              WalletAction.depositYourFirstDollar(
+                tokenAddress: token?.address,
+                timestamp: walletActions[0].timestamp,
+              ),
+            ]
+          : walletActions,
       startFetching: () {
         store.dispatch(startFetchingCall());
         store.dispatch(startFetchTokensBalances());

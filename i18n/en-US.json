@@ -182,5 +182,9 @@
     "your_balance_is_empty": "Your balance is empty",
     "top_up_your_account": "Top up your account",
     "sell": "Sell",
-    "no_swap_option": "You don't have tokens to swap yet"
+    "no_swap_option": "You don't have tokens to swap yet",
+    "your_balance": "Your balance",
+    "price": "Price",
+    "activity": "Activity",
+    "date_and_time": "Date & Time"
 }

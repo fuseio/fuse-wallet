@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/pro_wallet_state.dart';
+import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
@@ -330,24 +330,29 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       String countryCode = store.state.userState.countryCode;
       String isoCode = store.state.userState.isoCode;
       for (Contact contact in contacts) {
-        Future<List<String>> phones =
-            Future.wait(contact.phones.map((Item phone) async {
-          String value = clearNotNumbersAndPlusSymbol(phone.value);
-          try {
-            PhoneNumber phoneNumber = await phoneNumberUtil.parse(value);
-            return phoneNumber.e164;
-          } catch (e) {
-            String formatted = formatPhoneNumber(value, countryCode);
-            bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
-            if (isValid) {
-              String phoneNum =
-                  await phoneNumberUtil.format(formatted, isoCode);
-              PhoneNumber phoneNumber = await phoneNumberUtil.parse(phoneNum);
-              return phoneNumber.e164;
-            }
-            return '';
-          }
-        }));
+        Future<List<String>> phones = Future.wait(
+          contact.phones.map(
+            (Item phone) async {
+              String value = clearNotNumbersAndPlusSymbol(phone.value);
+              try {
+                PhoneNumber phoneNumber = await phoneNumberUtil.parse(value);
+                return phoneNumber.e164;
+              } catch (e) {
+                String formatted = formatPhoneNumber(value, countryCode);
+                bool isValid =
+                    await phoneNumberUtil.validate(formatted, isoCode);
+                if (isValid) {
+                  String phoneNum =
+                      await phoneNumberUtil.format(formatted, isoCode);
+                  PhoneNumber phoneNumber =
+                      await phoneNumberUtil.parse(phoneNum);
+                  return phoneNumber.e164;
+                }
+                return '';
+              }
+            },
+          ),
+        );
         List<String> result = await phones;
         result = result.toSet().toList()
           ..removeWhere((element) => element == '');
@@ -463,21 +468,22 @@ ThunkAction loadContacts() {
 ThunkAction updateTotalBalance() {
   return (Store store) async {
     try {
-      ProWalletState proWalletState = store.state.proWalletState;
+      CashWalletState cashWalletState = store.state.cashWalletState;
       num combiner(num previousValue, Token token) => token?.priceInfo != null
           ? previousValue +
               num.parse(Decimal.parse(token?.priceInfo?.total).toString())
           : previousValue + 0;
-      List<Token> foreignTokens = List<Token>.from(
-              proWalletState.erc20Tokens?.values ?? Iterable.empty())
-          .where((Token token) =>
-              num.parse(formatValue(token.amount, token.decimals,
-                      withPrecision: true))
-                  .compareTo(0) ==
-              1)
-          .toList();
-      List<Token> allTokens = [...foreignTokens];
-      num value = allTokens.fold<num>(0, combiner);
+
+      List<Token> homeTokens =
+          List<Token>.from(cashWalletState.tokens?.values ?? Iterable.empty())
+              .where((Token token) =>
+                  num.parse(formatValue(token.amount, token.decimals,
+                          withPrecision: true))
+                      .compareTo(0) ==
+                  1)
+              .toList();
+
+      num value = homeTokens.fold<num>(0, combiner);
       store.dispatch(UpdateTotalBalance(totalBalance: value));
     } catch (e, s) {
       log.error('ERROR while update total balance $e');
@@ -508,7 +514,7 @@ ThunkAction setupWalletCall(walletData) {
           store.dispatch(startListenToTransferEvents());
           store.dispatch(startFetchBalancesOnForeign());
           store.dispatch(fetchTokensBalances());
-          store.dispatch(startFetchTransferEventsCall());
+          // store.dispatch(startFetchTransferEventsCall());
           store.dispatch(startFetchTokensLatestPrices());
         });
       }

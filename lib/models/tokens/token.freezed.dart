@@ -28,9 +28,9 @@ class _$TokenTearOff {
       @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
-      String originNetwork}) {
+      String originNetwork,
+      @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions}) {
     return _Token(
       address: address,
       name: name,
@@ -42,9 +42,9 @@ class _$TokenTearOff {
       subtitle: subtitle,
       timestamp: timestamp,
       priceInfo: priceInfo,
-      transactions: transactions,
       communityAddress: communityAddress,
       originNetwork: originNetwork,
+      walletActions: walletActions,
     );
   }
 
@@ -71,10 +71,10 @@ mixin _$Token {
   String get subtitle;
   int get timestamp;
   Price get priceInfo;
-  @JsonKey(fromJson: transactionsFromJson)
-  Transactions get transactions;
   String get communityAddress;
   String get originNetwork;
+  @JsonKey(fromJson: walletActionsFromJson)
+  WalletActions get walletActions;
 
   Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
@@ -96,11 +96,12 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
-      String originNetwork});
+      String originNetwork,
+      @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
 
   $PriceCopyWith<$Res> get priceInfo;
+  $WalletActionsCopyWith<$Res> get walletActions;
 }
 
 /// @nodoc
@@ -123,9 +124,9 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     Object subtitle = freezed,
     Object timestamp = freezed,
     Object priceInfo = freezed,
-    Object transactions = freezed,
     Object communityAddress = freezed,
     Object originNetwork = freezed,
+    Object walletActions = freezed,
   }) {
     return _then(_value.copyWith(
       address: address == freezed ? _value.address : address as String,
@@ -138,15 +139,15 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
       priceInfo: priceInfo == freezed ? _value.priceInfo : priceInfo as Price,
-      transactions: transactions == freezed
-          ? _value.transactions
-          : transactions as Transactions,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress as String,
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
           : originNetwork as String,
+      walletActions: walletActions == freezed
+          ? _value.walletActions
+          : walletActions as WalletActions,
     ));
   }
 
@@ -157,6 +158,16 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     }
     return $PriceCopyWith<$Res>(_value.priceInfo, (value) {
       return _then(_value.copyWith(priceInfo: value));
+    });
+  }
+
+  @override
+  $WalletActionsCopyWith<$Res> get walletActions {
+    if (_value.walletActions == null) {
+      return null;
+    }
+    return $WalletActionsCopyWith<$Res>(_value.walletActions, (value) {
+      return _then(_value.copyWith(walletActions: value));
     });
   }
 }
@@ -177,12 +188,14 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
-      String originNetwork});
+      String originNetwork,
+      @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
 
   @override
   $PriceCopyWith<$Res> get priceInfo;
+  @override
+  $WalletActionsCopyWith<$Res> get walletActions;
 }
 
 /// @nodoc
@@ -206,9 +219,9 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
     Object subtitle = freezed,
     Object timestamp = freezed,
     Object priceInfo = freezed,
-    Object transactions = freezed,
     Object communityAddress = freezed,
     Object originNetwork = freezed,
+    Object walletActions = freezed,
   }) {
     return _then(_Token(
       address: address == freezed ? _value.address : address as String,
@@ -221,15 +234,15 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
       priceInfo: priceInfo == freezed ? _value.priceInfo : priceInfo as Price,
-      transactions: transactions == freezed
-          ? _value.transactions
-          : transactions as Transactions,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress as String,
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
           : originNetwork as String,
+      walletActions: walletActions == freezed
+          ? _value.walletActions
+          : walletActions as WalletActions,
     ));
   }
 }
@@ -249,9 +262,9 @@ class _$_Token extends _Token {
       @JsonKey(ignore: true) this.subtitle,
       this.timestamp,
       this.priceInfo,
-      @JsonKey(fromJson: transactionsFromJson) this.transactions,
       this.communityAddress,
-      this.originNetwork})
+      this.originNetwork,
+      @JsonKey(fromJson: walletActionsFromJson) this.walletActions})
       : assert(isNative != null),
         super._();
 
@@ -281,16 +294,16 @@ class _$_Token extends _Token {
   @override
   final Price priceInfo;
   @override
-  @JsonKey(fromJson: transactionsFromJson)
-  final Transactions transactions;
-  @override
   final String communityAddress;
   @override
   final String originNetwork;
+  @override
+  @JsonKey(fromJson: walletActionsFromJson)
+  final WalletActions walletActions;
 
   @override
   String toString() {
-    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, transactions: $transactions, communityAddress: $communityAddress, originNetwork: $originNetwork)';
+    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, walletActions: $walletActions)';
   }
 
   @override
@@ -324,15 +337,15 @@ class _$_Token extends _Token {
             (identical(other.priceInfo, priceInfo) ||
                 const DeepCollectionEquality()
                     .equals(other.priceInfo, priceInfo)) &&
-            (identical(other.transactions, transactions) ||
-                const DeepCollectionEquality()
-                    .equals(other.transactions, transactions)) &&
             (identical(other.communityAddress, communityAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.communityAddress, communityAddress)) &&
             (identical(other.originNetwork, originNetwork) ||
                 const DeepCollectionEquality()
-                    .equals(other.originNetwork, originNetwork)));
+                    .equals(other.originNetwork, originNetwork)) &&
+            (identical(other.walletActions, walletActions) ||
+                const DeepCollectionEquality()
+                    .equals(other.walletActions, walletActions)));
   }
 
   @override
@@ -348,9 +361,9 @@ class _$_Token extends _Token {
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(timestamp) ^
       const DeepCollectionEquality().hash(priceInfo) ^
-      const DeepCollectionEquality().hash(transactions) ^
       const DeepCollectionEquality().hash(communityAddress) ^
-      const DeepCollectionEquality().hash(originNetwork);
+      const DeepCollectionEquality().hash(originNetwork) ^
+      const DeepCollectionEquality().hash(walletActions);
 
   @JsonKey(ignore: true)
   @override
@@ -373,12 +386,14 @@ abstract class _Token extends Token {
       String imageUrl,
       int decimals,
       BigInt amount,
-      @JsonKey(ignore: true) String subtitle,
+      @JsonKey(ignore: true)
+          String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
-      String originNetwork}) = _$_Token;
+      String originNetwork,
+      @JsonKey(fromJson: walletActionsFromJson)
+          WalletActions walletActions}) = _$_Token;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$_Token.fromJson;
 
@@ -404,12 +419,12 @@ abstract class _Token extends Token {
   @override
   Price get priceInfo;
   @override
-  @JsonKey(fromJson: transactionsFromJson)
-  Transactions get transactions;
-  @override
   String get communityAddress;
   @override
   String get originNetwork;
+  @override
+  @JsonKey(fromJson: walletActionsFromJson)
+  WalletActions get walletActions;
   @override
   @JsonKey(ignore: true)
   _$TokenCopyWith<_Token> get copyWith;

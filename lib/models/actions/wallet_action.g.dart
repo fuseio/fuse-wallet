@@ -251,3 +251,28 @@ Map<String, dynamic> _$_$SwapToJson(_$Swap instance) => <String, dynamic>{
       'blockNumber': instance.blockNumber,
       'metadata': instance.tradeInfo?.toJson(),
     };
+
+_$DepositYourFirstDollar _$_$DepositYourFirstDollarFromJson(
+    Map<String, dynamic> json) {
+  return _$DepositYourFirstDollar(
+    timestamp: json['timestamp'] as int,
+    id: json['_id'] as String,
+    name: json['name'] as String,
+    txHash: json['txHash'] as String,
+    status: json['status'] as String,
+    blockNumber: json['blockNumber'] as int,
+    tokenAddress: json['tokenAddress'] as String,
+  );
+}
+
+Map<String, dynamic> _$_$DepositYourFirstDollarToJson(
+        _$DepositYourFirstDollar instance) =>
+    <String, dynamic>{
+      'timestamp': instance.timestamp,
+      '_id': instance.id,
+      'name': instance.name,
+      'txHash': instance.txHash,
+      'status': instance.status,
+      'blockNumber': instance.blockNumber,
+      'tokenAddress': instance.tokenAddress,
+    };

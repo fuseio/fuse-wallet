@@ -9,18 +9,18 @@ import 'package:firebase_auth/firebase_auth.dart' as _i8;
 import 'package:firebase_core/firebase_core.dart' as _i7;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:logger/logger.dart' as _i11;
-import 'package:package_info/package_info.dart' as _i13;
-import 'package:phone_number/phone_number.dart' as _i14;
+import 'package:logger/logger.dart' as _i12;
+import 'package:package_info/package_info.dart' as _i14;
+import 'package:phone_number/phone_number.dart' as _i15;
 import 'package:wallet_core/wallet_core.dart' as _i3;
 
 import '../../services/apis/exchange.dart' as _i5;
 import '../../services/apis/explorer.dart' as _i6;
 import '../../services/apis/funder.dart' as _i9;
-import '../../services/apis/market.dart' as _i12;
-import '../../services/apis/swap.dart' as _i15;
+import '../../services/apis/fuseswap.dart' as _i10;
+import '../../services/apis/market.dart' as _i13;
 import '../../utils/log/log_it.dart' as _i16;
-import '../../utils/onboard/Istrategy.dart' as _i10;
+import '../../utils/onboard/Istrategy.dart' as _i11;
 import '../network/services.dart' as _i17;
 import '../network/web3.dart' as _i24;
 import 'dio.dart' as _i18;
@@ -54,17 +54,18 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i8.FirebaseAuth>(
       () => firebaseInjectableModule.firebaseAuth);
   gh.lazySingleton<_i9.Funder>(() => _i9.Funder(get<_i4.Dio>()));
+  gh.lazySingleton<_i10.FuseSwapService>(
+      () => _i10.FuseSwapService(get<_i4.Dio>()));
   gh.lazySingleton<_i3.Graph>(() => servicesModule.graph);
-  gh.lazySingleton<_i10.IOnBoardStrategy>(
+  gh.lazySingleton<_i11.IOnBoardStrategy>(
       () => onBoardStrategy.onBoardStrategy);
-  gh.lazySingleton<_i11.Logger>(() => loggerDi.logger);
-  gh.lazySingleton<_i12.Market>(() => _i12.Market(get<_i4.Dio>()));
-  await gh.factoryAsync<_i13.PackageInfo>(() => packageInfoDi.packageInfo,
+  gh.lazySingleton<_i12.Logger>(() => loggerDi.logger);
+  gh.lazySingleton<_i13.Market>(() => _i13.Market(get<_i4.Dio>()));
+  await gh.factoryAsync<_i14.PackageInfo>(() => packageInfoDi.packageInfo,
       preResolve: true);
-  gh.lazySingleton<_i14.PhoneNumberUtil>(() => phone.phoneNumberUtil);
+  gh.lazySingleton<_i15.PhoneNumberUtil>(() => phone.phoneNumberUtil);
   gh.factory<String>(() => web3Di.defaultCommunityAddress,
       instanceName: 'defaultCommunityAddress');
-  gh.lazySingleton<_i15.SwapService>(() => _i15.SwapService(get<_i4.Dio>()));
   gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>, dynamic>(
       (walletModules, _) => web3Di.fuseWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
@@ -73,7 +74,7 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       (walletModules, _) => web3Di.ethereumWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
       instanceName: 'ethereumWeb3');
-  gh.lazySingleton<_i16.LogIt>(() => _i16.LogIt(get<_i11.Logger>()));
+  gh.lazySingleton<_i16.LogIt>(() => _i16.LogIt(get<_i12.Logger>()));
   return get;
 }
 

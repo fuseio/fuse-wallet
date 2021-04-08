@@ -18,6 +18,7 @@ import '../../features/onboard/screens/signup_screen.dart';
 import '../../features/onboard/screens/username_screen.dart';
 import '../../features/onboard/screens/verify_screen.dart';
 import '../../features/screens/home_screen.dart';
+import '../../features/screens/inappwebview_screen.dart';
 import '../../features/screens/on_board_screen.dart';
 import '../../features/screens/on_boarding_screen.dart';
 import '../../features/screens/pincode_screen.dart';
@@ -27,7 +28,11 @@ import '../../features/screens/send_success.dart';
 import '../../features/screens/splash_screen.dart';
 import '../../features/screens/unknown_route.dart';
 import '../../features/screens/webview_screen.dart';
+import '../../features/swap/screens/review_swap.dart';
+import '../../features/swap/screens/swap.dart';
 import '../../models/actions/wallet_action.dart';
+import '../../models/swap/swap.dart';
+import '../../models/tokens/token.dart';
 import 'route_guards.dart';
 
 class Routes {
@@ -40,12 +45,15 @@ class Routes {
   static const String signUpScreen = '/sign-up-screen';
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
+  static const String inAppWebview = '/inapp-web-view-screen';
   static const String webview = '/web-view-screen';
   static const String homeScreen = '/main-home-screen';
   static const String actionDetailsScreen = '/action-details-screen';
   static const String sendAmountScreen = '/send-amount-screen';
   static const String sendReviewScreen = '/send-review-screen';
   static const String sendSuccessScreen = '/send-success-screen';
+  static const String swapScreen = '/swap-screen';
+  static const String reviewSwapScreen = '/review-swap-screen';
   static const String unknownRouteScreen = '*';
   static const all = <String>{
     splashScreen,
@@ -57,12 +65,15 @@ class Routes {
     signUpScreen,
     verifyScreen,
     userNameScreen,
+    inAppWebview,
     webview,
     homeScreen,
     actionDetailsScreen,
     sendAmountScreen,
     sendReviewScreen,
     sendSuccessScreen,
+    swapScreen,
+    reviewSwapScreen,
     unknownRouteScreen,
   };
 }
@@ -80,6 +91,7 @@ class Router extends RouterBase {
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
+    RouteDef(Routes.inAppWebview, page: InappWebViewScreen),
     RouteDef(Routes.webview, page: WebViewScreen),
     RouteDef(Routes.homeScreen, page: MainHomeScreen, guards: [AuthGuard]),
     RouteDef(Routes.actionDetailsScreen,
@@ -90,6 +102,9 @@ class Router extends RouterBase {
         page: SendReviewScreen, guards: [AuthGuard]),
     RouteDef(Routes.sendSuccessScreen,
         page: SendSuccessScreen, guards: [AuthGuard]),
+    RouteDef(Routes.swapScreen, page: SwapScreen, guards: [AuthGuard]),
+    RouteDef(Routes.reviewSwapScreen,
+        page: ReviewSwapScreen, guards: [AuthGuard]),
     RouteDef(Routes.unknownRouteScreen, page: UnknownRouteScreen),
   ];
   @override
@@ -150,6 +165,20 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => UserNameScreen(),
         settings: data,
+      );
+    },
+    InappWebViewScreen: (data) {
+      final args = data.getArgs<InappWebViewScreenArguments>(
+        orElse: () => InappWebViewScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => InappWebViewScreen(
+          url: args.url,
+          title: args.title,
+          withBack: args.withBack,
+        ),
+        settings: data,
+        fullscreenDialog: true,
       );
     },
     WebViewScreen: (data) {
@@ -218,6 +247,31 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    SwapScreen: (data) {
+      final args = data.getArgs<SwapScreenArguments>(
+        orElse: () => SwapScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SwapScreen(
+          key: args.key,
+          primaryToken: args.primaryToken,
+        ),
+        settings: data,
+      );
+    },
+    ReviewSwapScreen: (data) {
+      final args = data.getArgs<ReviewSwapScreenArguments>(
+        orElse: () => ReviewSwapScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ReviewSwapScreen(
+          tradeInfo: args.tradeInfo,
+          rateInfo: args.rateInfo,
+          swapRequestBody: args.swapRequestBody,
+        ),
+        settings: data,
+      );
+    },
     UnknownRouteScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => UnknownRouteScreen(),
@@ -256,6 +310,17 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushUserNameScreen() => push<dynamic>(Routes.userNameScreen);
+
+  Future<dynamic> pushInAppWebview({
+    String url,
+    String title,
+    bool withBack = false,
+  }) =>
+      push<dynamic>(
+        Routes.inAppWebview,
+        arguments: InappWebViewScreenArguments(
+            url: url, title: title, withBack: withBack),
+      );
 
   Future<dynamic> pushWebview({
     String url,
@@ -319,6 +384,28 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
         onReject: onReject,
       );
 
+  Future<dynamic> pushSwapScreen(
+          {Key key, Token primaryToken, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.swapScreen,
+        arguments: SwapScreenArguments(key: key, primaryToken: primaryToken),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushReviewSwapScreen(
+          {TradeInfo tradeInfo,
+          TradeInfo rateInfo,
+          SwapRequestBody swapRequestBody,
+          OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.reviewSwapScreen,
+        arguments: ReviewSwapScreenArguments(
+            tradeInfo: tradeInfo,
+            rateInfo: rateInfo,
+            swapRequestBody: swapRequestBody),
+        onReject: onReject,
+      );
+
   Future<dynamic> pushUnknownRouteScreen() =>
       push<dynamic>(Routes.unknownRouteScreen);
 }
@@ -331,6 +418,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 class VerifyScreenArguments {
   final String verificationId;
   VerifyScreenArguments({this.verificationId});
+}
+
+/// InappWebViewScreen arguments holder class
+class InappWebViewScreenArguments {
+  final String url;
+  final String title;
+  final bool withBack;
+  InappWebViewScreenArguments({this.url, this.title, this.withBack = false});
 }
 
 /// WebViewScreen arguments holder class
@@ -380,4 +475,20 @@ class SendReviewScreenArguments {
 class SendSuccessScreenArguments {
   final SendAmountArguments pageArgs;
   SendSuccessScreenArguments({this.pageArgs});
+}
+
+/// SwapScreen arguments holder class
+class SwapScreenArguments {
+  final Key key;
+  final Token primaryToken;
+  SwapScreenArguments({this.key, this.primaryToken});
+}
+
+/// ReviewSwapScreen arguments holder class
+class ReviewSwapScreenArguments {
+  final TradeInfo tradeInfo;
+  final TradeInfo rateInfo;
+  final SwapRequestBody swapRequestBody;
+  ReviewSwapScreenArguments(
+      {this.tradeInfo, this.rateInfo, this.swapRequestBody});
 }

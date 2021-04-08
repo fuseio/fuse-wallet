@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:number_display/number_display.dart';
 
 part 'wallet_action.freezed.dart';
 part 'wallet_action.g.dart';
@@ -24,6 +23,7 @@ abstract class WalletAction implements _$WalletAction {
 
   String getAmount() {
     return this.map(
+      depositYourFirstDollar: (value) => '',
       createWallet: (value) => '',
       fiatProcess: (value) => '',
       joinCommunity: (value) => '',
@@ -31,18 +31,13 @@ abstract class WalletAction implements _$WalletAction {
       bonus: (value) => formatValue(value?.value, value.tokenDecimal),
       send: (value) => formatValue(value?.value, value.tokenDecimal),
       receive: (value) => formatValue(value?.value, value.tokenDecimal),
-      swap: (value) {
-        final display = createDisplay(
-          length: 5,
-          decimal: 2,
-        );
-        return display(num.parse(value.tradeInfo.outputAmount));
-      },
+      swap: (value) => display(num.parse(value.tradeInfo.outputAmount)),
     );
   }
 
   bool isGenerateWallet() {
     return this.map(
+      depositYourFirstDollar: (value) => false,
       createWallet: (value) => true,
       fiatProcess: (value) => false,
       joinCommunity: (value) => false,
@@ -56,6 +51,7 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isSwapAction() {
     return this.map(
+      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => false,
       joinCommunity: (value) => false,
@@ -69,6 +65,7 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isJoinBonus() {
     return this.map(
+      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => false,
       joinCommunity: (value) => false,
@@ -82,6 +79,7 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isJoinCommunity() {
     return this.map(
+      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => false,
       joinCommunity: (value) => true,
@@ -95,8 +93,23 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isFiatProcessing() {
     return this.map(
+      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => true,
+      joinCommunity: (value) => false,
+      fiatDeposit: (value) => false,
+      bonus: (value) => false,
+      send: (value) => false,
+      receive: (value) => false,
+      swap: (value) => false,
+    );
+  }
+
+  bool isDepositYourFirstDollar() {
+    return this.map(
+      depositYourFirstDollar: (value) => true,
+      createWallet: (value) => false,
+      fiatProcess: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
       bonus: (value) => false,
@@ -114,6 +127,7 @@ abstract class WalletAction implements _$WalletAction {
       );
     }
     return this.map(
+      depositYourFirstDollar: (value) => null,
       createWallet: (value) => null,
       fiatProcess: (value) => null,
       joinCommunity: (value) => null,
@@ -173,6 +187,10 @@ abstract class WalletAction implements _$WalletAction {
 
   String getText() {
     return this.map(
+      depositYourFirstDollar: (value) {
+        return I18n.of(ExtendedNavigator.root.context)
+            .deposit_your_first_dollars;
+      },
       createWallet: (value) {
         if (value.isFailed()) {
           return I18n.of(ExtendedNavigator.root.context).generate_wallet_failed;
@@ -247,6 +265,7 @@ abstract class WalletAction implements _$WalletAction {
       send: (value) => value.to,
       receive: (value) => value.from,
       swap: (value) => null,
+      depositYourFirstDollar: (value) => null,
     );
   }
 
@@ -369,4 +388,15 @@ abstract class WalletAction implements _$WalletAction {
     int blockNumber,
     @JsonKey(name: 'metadata') TradeInfo tradeInfo,
   }) = Swap;
+
+  @JsonSerializable()
+  const factory WalletAction.depositYourFirstDollar({
+    int timestamp,
+    @JsonKey(name: '_id') String id,
+    String name,
+    String txHash,
+    String status,
+    int blockNumber,
+    String tokenAddress,
+  }) = DepositYourFirstDollar;
 }

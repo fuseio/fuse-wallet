@@ -123,12 +123,14 @@ class SendAmountViewModel extends Equatable {
                 .compareTo(0) ==
             1)
         .toList();
-    return SendAmountViewModel(
-      tokens: [...homeTokens, ...foreignTokens]..sort(
-          (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
-            tokenA?.amount ?? BigInt.zero,
-          ),
+
+    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
+        (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
+          tokenA?.amount ?? BigInt.zero,
         ),
+      );
+    return SendAmountViewModel(
+      tokens: tokens ?? [],
       communities: communities,
       sendToContact: (
         Token token,

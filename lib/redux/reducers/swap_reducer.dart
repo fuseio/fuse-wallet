@@ -10,7 +10,7 @@ final swapReducers = combineReducers<SwapState>([
 ]);
 
 SwapState _resetTokenList(SwapState state, ResetTokenList action) =>
-    SwapState(tokens: {});
+    state.copyWith(tokens: {});
 
 SwapState _getSwappableTokensSuccess(
     SwapState state, GetSwappableTokensSuccess action) {
@@ -21,7 +21,21 @@ SwapState _getSwappableTokensSuccess(
 
 SwapState _getTokensImagesSuccess(
     SwapState state, GetTokensImagesSuccess action) {
+  Map<String, String> newOne = Map();
+  for (String tokenAddress in action.tokensImages.keys) {
+    if (!state.tokensImages.containsKey(tokenAddress)) {
+      newOne[tokenAddress] = action.tokensImages[tokenAddress];
+    } else if (state.tokensImages.containsKey(tokenAddress) &&
+        state.tokensImages[tokenAddress] != action.tokensImages[tokenAddress]) {
+      newOne[tokenAddress] = action.tokensImages[tokenAddress];
+    }
+  }
+  if (newOne.isEmpty) {
+    return state;
+  }
+  Map<String, String> tokensImages =
+      Map<String, String>.from(state.tokensImages)..addAll(newOne);
   return (state ?? SwapState())?.copyWith(
-    tokensImages: action.tokensImages,
+    tokensImages: tokensImages,
   );
 }
