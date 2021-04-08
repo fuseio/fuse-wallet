@@ -52,9 +52,7 @@ class _TopUpSuccessState extends State<TopUpSuccess>
           title: Text(
             "💸 Success!",
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           content: Container(
             padding: EdgeInsets.all(10),
@@ -86,7 +84,9 @@ class _TopUpSuccessState extends State<TopUpSuccess>
                     fontSize: 20,
                   ),
                 ),
-                SizedBox(height: 20.0),
+                widget.showOrderNow
+                    ? SizedBox(height: 20.0)
+                    : SizedBox.shrink(),
                 widget.showOrderNow
                     ? Center(
                         child: PrimaryButton(
