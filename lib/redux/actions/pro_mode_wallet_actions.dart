@@ -7,8 +7,8 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+// import 'package:fusecash/models/transactions/transaction.dart';
+// import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
@@ -25,25 +25,25 @@ class UpdateEtherBalance {
   UpdateEtherBalance({this.balance});
 }
 
-class GetTokenTransfersEventsListSuccess {
-  List<Transfer> tokenTransfers;
-  String tokenAddress;
-  GetTokenTransfersEventsListSuccess({this.tokenTransfers, this.tokenAddress});
-}
+// class GetTokenTransfersEventsListSuccess {
+//   List<Transfer> tokenTransfers;
+//   String tokenAddress;
+//   GetTokenTransfersEventsListSuccess({this.tokenTransfers, this.tokenAddress});
+// }
 
-class ReplaceProTransaction {
-  final String tokenAddress;
-  final Transaction transaction;
-  final Transaction transactionToReplace;
-  ReplaceProTransaction(
-      {this.tokenAddress, this.transaction, this.transactionToReplace});
-}
+// class ReplaceProTransaction {
+//   final String tokenAddress;
+//   final Transaction transaction;
+//   final Transaction transactionToReplace;
+//   ReplaceProTransaction(
+//       {this.tokenAddress, this.transaction, this.transactionToReplace});
+// }
 
-class AddProTransaction {
-  final String tokenAddress;
-  final Transaction transaction;
-  AddProTransaction({this.transaction, this.tokenAddress});
-}
+// class AddProTransaction {
+//   final String tokenAddress;
+//   final Transaction transaction;
+//   AddProTransaction({this.transaction, this.tokenAddress});
+// }
 
 class UpdateToken {
   Token tokenToUpdate;
@@ -367,68 +367,68 @@ ThunkAction getEtherBalance() {
   };
 }
 
-ThunkAction startFetchTransferEventsCall() {
-  return (Store store) async {
-    bool isFetchTransferEvents =
-        store.state.proWalletState?.isFetchTransferEvents ?? false;
+// ThunkAction startFetchTransferEventsCall() {
+//   return (Store store) async {
+//     bool isFetchTransferEvents =
+//         store.state.proWalletState?.isFetchTransferEvents ?? false;
 
-    if (!isFetchTransferEvents) {
-      log.info('Timer start - startFetchTransferEventsCall');
-      new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
-          (Timer timer) async {
-        if (store.state.userState.walletAddress == '') {
-          store.dispatch(SetIsFetchTransferEvents(isFetching: false));
-          log.error('Timer stopped - startFetchTransferEventsCall');
-          timer.cancel();
-          return;
-        }
-        ProWalletState proWalletState = store.state.proWalletState;
-        List<String> tokenAddresses =
-            List<String>.from(proWalletState.erc20Tokens.keys);
-        for (String tokenAddress in tokenAddresses) {
-          store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
-        }
-      });
-      store.dispatch(SetIsFetchTransferEvents(isFetching: true));
-    }
-  };
-}
+//     if (!isFetchTransferEvents) {
+//       log.info('Timer start - startFetchTransferEventsCall');
+//       new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
+//           (Timer timer) async {
+//         if (store.state.userState.walletAddress == '') {
+//           store.dispatch(SetIsFetchTransferEvents(isFetching: false));
+//           log.error('Timer stopped - startFetchTransferEventsCall');
+//           timer.cancel();
+//           return;
+//         }
+//         ProWalletState proWalletState = store.state.proWalletState;
+//         List<String> tokenAddresses =
+//             List<String>.from(proWalletState.erc20Tokens.keys);
+//         for (String tokenAddress in tokenAddresses) {
+//           // store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
+//         }
+//       });
+//       store.dispatch(SetIsFetchTransferEvents(isFetching: true));
+//     }
+//   };
+// }
 
-ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
-  return (Store store) async {
-    try {
-      Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
-      String walletAddress = store.state.userState.walletAddress;
-      List<dynamic> tokensTransferEvents = await api.getWalletTransactions(
-          walletAddress.toLowerCase(),
-          tokenAddress: token.address.toLowerCase());
-      if (tokensTransferEvents.isNotEmpty) {
-        List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
-            .map((json) => Transfer.fromJson(json))
-            .toList());
-        for (Transfer transfer in transfers) {
-          if (transfer.status != null && transfer.status != 'DROPPED') {
-            store.dispatch(AddProTransaction(
-                tokenAddress: tokenAddress, transaction: transfer));
-          }
-        }
-      }
-    } catch (e) {
-      log.error(
-          'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
-    }
-  };
-}
+// ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
+//   return (Store store) async {
+//     try {
+//       Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
+//       String walletAddress = store.state.userState.walletAddress;
+//       List<dynamic> tokensTransferEvents = await api.getWalletTransactions(
+//           walletAddress.toLowerCase(),
+//           tokenAddress: token.address.toLowerCase());
+//       if (tokensTransferEvents.isNotEmpty) {
+//         List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
+//             .map((json) => Transfer.fromJson(json))
+//             .toList());
+//         for (Transfer transfer in transfers) {
+//           if (transfer.status != null && transfer.status != 'DROPPED') {
+//             store.dispatch(AddProTransaction(
+//                 tokenAddress: tokenAddress, transaction: transfer));
+//           }
+//         }
+//       }
+//     } catch (e) {
+//       log.error(
+//           'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
+//     }
+//   };
+// }
 
 ThunkAction sendErc20TokenCall(
-    Token token,
-    String receiverAddress,
-    num tokensAmount,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-    {String receiverName,
-    String transferNote,
-    Transfer inviteTransfer}) {
+  Token token,
+  String receiverAddress,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback, {
+  String receiverName,
+  String transferNote,
+}) {
   return (Store store) async {
     try {
       UserState userState = store.state.userState;

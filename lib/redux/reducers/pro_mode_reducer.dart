@@ -1,8 +1,8 @@
 import 'dart:math';
 
+import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -40,8 +40,9 @@ final proWalletReducers = combineReducers<ProWalletState>([
 ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
   for (String tokenAddress in newOne.keys) {
-    newOne[tokenAddress] =
-        newOne[tokenAddress].copyWith(transactions: Transactions());
+    newOne[tokenAddress] = newOne[tokenAddress].copyWith(
+      walletActions: WalletActions.initial(),
+    );
   }
   return state.copyWith(erc20Tokens: newOne);
 }

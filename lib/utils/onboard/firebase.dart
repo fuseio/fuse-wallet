@@ -7,6 +7,7 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
+import 'package:sentry_flutter/sentry_flutter.dart' show Sentry;
 
 class FirebaseStrategy implements IOnBoardStrategy {
   final strategy;
@@ -42,9 +43,16 @@ class FirebaseStrategy implements IOnBoardStrategy {
 
     final PhoneVerificationFailed verificationFailed = (
       FirebaseAuthException authException,
-    ) {
+    ) async {
       log.info(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+      store.dispatch(
+        SetIsLoginRequest(
+          isLoading: false,
+          message: authException.message,
+        ),
+      );
+
       store.dispatch(
         SetIsVerifyRequest(
           isLoading: false,
@@ -58,6 +66,10 @@ class FirebaseStrategy implements IOnBoardStrategy {
             {"error": authException.message},
           ),
         ),
+      );
+      await Sentry.captureException(
+        authException,
+        stackTrace: authException.message,
       );
     };
 

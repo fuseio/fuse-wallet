@@ -3,7 +3,6 @@ import 'package:fusecash/features/home/screens/done_backup_screen.dart';
 import 'package:fusecash/features/home/screens/show_mnemonic.dart';
 import 'package:fusecash/features/home/screens/verify_mnemonic.dart';
 import 'package:fusecash/features/home/screens/home.dart';
-import 'package:fusecash/features/home/screens/token_screen.dart';
 import 'package:fusecash/features/home/screens/about_screen.dart';
 import 'package:fusecash/features/home/screens/protect_your_wallet.dart';
 import 'package:fusecash/features/home/screens/settings.dart';
@@ -18,7 +17,6 @@ import 'package:fusecash/features/home/screens/profile.dart';
       initial: true,
       page: HomeScreen,
     ),
-    MaterialRoute(page: TokenScreen),
     MaterialRoute(page: AboutScreen),
     MaterialRoute(page: ShowMnemonic),
     MaterialRoute(page: VerifyMnemonic),

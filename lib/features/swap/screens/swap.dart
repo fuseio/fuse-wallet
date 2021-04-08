@@ -14,12 +14,12 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/features/swap/router/swap_router.gr.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 
 class SwapScreen extends StatefulWidget {
@@ -59,6 +59,7 @@ class _SwapScreenState extends State<SwapScreen> {
   void onTokenOutChanged(Token token) {
     setState(() {
       tokenOut = token;
+      tokenOutController.text = '';
       swapRequestBody = swapRequestBody.copyWith(
         currencyIn: token.address,
       );
@@ -74,6 +75,7 @@ class _SwapScreenState extends State<SwapScreen> {
   void onTokenInChanged(Token token) {
     setState(() {
       tokenIn = token;
+      tokenInController.text = '';
       swapRequestBody = swapRequestBody.copyWith(
         currencyOut: token.address,
       );
@@ -105,18 +107,23 @@ class _SwapScreenState extends State<SwapScreen> {
             amountIn: value,
           );
         });
-        TradeInfo tradeInfo = await swapService.trade(
-          swapRequestBody.currencyIn,
-          swapRequestBody.currencyOut,
-          swapRequestBody.amountIn,
-          swapRequestBody.recipient,
-        );
-        TradeInfo rate = await swapService.trade(
-          swapRequestBody.currencyIn,
-          swapRequestBody.currencyOut,
-          '1',
-          swapRequestBody.recipient,
-        );
+        Future<List<TradeInfo>> swapInfo = Future.wait([
+          fuseSwapService.trade(
+            swapRequestBody.currencyIn,
+            swapRequestBody.currencyOut,
+            swapRequestBody.amountIn,
+            swapRequestBody.recipient,
+          ),
+          fuseSwapService.trade(
+            swapRequestBody.currencyIn,
+            swapRequestBody.currencyOut,
+            '1',
+            swapRequestBody.recipient,
+          ),
+        ]);
+        List<TradeInfo> result = await swapInfo;
+        final TradeInfo tradeInfo = result[0];
+        final TradeInfo rate = result[1];
         setState(() {
           rateInfo = rate;
           info = tradeInfo;
@@ -254,7 +261,6 @@ class _SwapScreenState extends State<SwapScreen> {
         focusColor: Theme.of(context).canvasColor,
         highlightColor: Theme.of(context).canvasColor,
         onTap: () {
-          // String max = tokenOut.getBalance();
           String max = formatValue(
             tokenOut.amount,
             tokenOut.decimals,
@@ -287,10 +293,9 @@ class _SwapScreenState extends State<SwapScreen> {
       children: [
         InkWell(
           onTap: () {
-            ExtendedNavigator.root.pushWebview(
+            openDepositWebview(
               withBack: true,
-              url: '$url&finalUrl=https://fuse.io',
-              title: I18n.of(context).deposit_your_first_dollars,
+              url: url,
             );
           },
           child: Row(
@@ -342,19 +347,42 @@ class _SwapScreenState extends State<SwapScreen> {
         onInit: (store) {
           store.dispatch(fetchSwapList());
         },
-        onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel.tokens != newViewModel.tokens) {
+        onInitialBuild: (viewModel) {
+          if (viewModel.tokens.isNotEmpty) {
+            final Token payWith = widget.primaryToken ?? viewModel.tokens[0];
+            final Token receiveToken = viewModel.tokens
+                .firstWhere((element) => element.address != payWith.address);
             setState(() {
               tokenOutController.text = '';
               tokenInController.text = '';
               info = null;
               rateInfo = null;
-              tokenOut = newViewModel.tokens[0];
-              tokenIn = newViewModel.tokens[1];
+              tokenOut = payWith;
+              tokenIn = receiveToken;
+              swapRequestBody = swapRequestBody.copyWith(
+                recipient: viewModel.walletAddress,
+                currencyOut: receiveToken.address,
+                currencyIn: payWith.address,
+              );
+            });
+          }
+        },
+        onWillChange: (previousViewModel, newViewModel) {
+          if (previousViewModel.tokens != newViewModel.tokens) {
+            final Token payWith = widget.primaryToken ?? newViewModel.tokens[0];
+            final Token receiveToken = newViewModel.tokens
+                .firstWhere((element) => element.address != payWith.address);
+            setState(() {
+              tokenOutController.text = '';
+              tokenInController.text = '';
+              info = null;
+              rateInfo = null;
+              tokenOut = payWith;
+              tokenIn = receiveToken;
               swapRequestBody = swapRequestBody.copyWith(
                 recipient: newViewModel.walletAddress,
-                currencyOut: newViewModel.tokens[1].address,
-                currencyIn: newViewModel.tokens[0].address,
+                currencyOut: receiveToken.address,
+                currencyIn: payWith.address,
               );
             });
           }
@@ -366,16 +394,17 @@ class _SwapScreenState extends State<SwapScreen> {
             List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
             final bool hasFund =
                 (Decimal.tryParse(tokenOutController.text) ?? Decimal.one)
-                        .compareTo(
-                      Decimal.parse(
-                        formatValue(
-                          tokenOut?.amount,
-                          tokenOut?.decimals,
-                          withPrecision: true,
-                        ),
-                      ),
-                    ) <=
-                    0;
+                            .compareTo(
+                          Decimal.parse(
+                            formatValue(
+                              tokenOut?.amount,
+                              tokenOut?.decimals,
+                              withPrecision: true,
+                            ),
+                          ),
+                        ) <=
+                        0 &&
+                    viewModel.payWithTokens.isNotEmpty;
             return InkWell(
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,
@@ -394,7 +423,6 @@ class _SwapScreenState extends State<SwapScreen> {
                             Column(
                               children: [
                                 TradeCard(
-                                  isSwapped: isSwapped,
                                   onTap: () {
                                     showBottomMenu(
                                       viewModel.payWithTokens,
@@ -413,13 +441,13 @@ class _SwapScreenState extends State<SwapScreen> {
                                       ),
                                     );
                                   },
+                                  isSwapped: isSwapped,
                                   useMaxWidget: maxButton(),
                                   textEditingController: tokenOutController,
                                   token: tokenOut,
                                   title: I18n.of(context).pay_with,
                                 ),
                                 TradeCard(
-                                  isSwapped: !isSwapped,
                                   onTap: () {
                                     showBottomMenu(
                                       viewModel.receiveTokens,
@@ -438,6 +466,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                       ),
                                     );
                                   },
+                                  isSwapped: !isSwapped,
                                   textEditingController: tokenInController,
                                   token: tokenIn,
                                   title: I18n.of(context).receive,
@@ -471,8 +500,7 @@ class _SwapScreenState extends State<SwapScreen> {
                             ? I18n.of(context).review_swap
                             : I18n.of(context).insufficient_fund,
                         onPressed: () {
-                          ExtendedNavigator.named('swapRouter')
-                              .pushReviewSwapScreen(
+                          ExtendedNavigator.root.pushReviewSwapScreen(
                             rateInfo: rateInfo,
                             swapRequestBody: swapRequestBody,
                             tradeInfo: info,

@@ -20,10 +20,10 @@ _$_Token _$_$_TokenFromJson(Map<String, dynamic> json) {
     priceInfo: json['priceInfo'] == null
         ? null
         : Price.fromJson(json['priceInfo'] as Map<String, dynamic>),
-    transactions:
-        transactionsFromJson(json['transactions'] as Map<String, dynamic>),
     communityAddress: json['communityAddress'] as String,
     originNetwork: json['originNetwork'] as String,
+    walletActions:
+        walletActionsFromJson(json['walletActions'] as Map<String, dynamic>),
   );
 }
 
@@ -37,7 +37,7 @@ Map<String, dynamic> _$_$_TokenToJson(_$_Token instance) => <String, dynamic>{
       'amount': instance.amount?.toString(),
       'timestamp': instance.timestamp,
       'priceInfo': instance.priceInfo?.toJson(),
-      'transactions': instance.transactions?.toJson(),
       'communityAddress': instance.communityAddress,
       'originNetwork': instance.originNetwork,
+      'walletActions': instance.walletActions?.toJson(),
     };

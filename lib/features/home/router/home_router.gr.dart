@@ -17,12 +17,10 @@ import '../screens/protect_your_wallet.dart';
 import '../screens/settings.dart';
 import '../screens/show_mnemonic.dart';
 import '../screens/switch_community.dart';
-import '../screens/token_screen.dart';
 import '../screens/verify_mnemonic.dart';
 
 class HomeRoutes {
   static const String homeScreen = '/';
-  static const String tokenScreen = '/token-screen';
   static const String aboutScreen = '/about-screen';
   static const String showMnemonic = '/show-mnemonic';
   static const String verifyMnemonic = '/verify-mnemonic';
@@ -33,7 +31,6 @@ class HomeRoutes {
   static const String profileScreen = '/profile-screen';
   static const all = <String>{
     homeScreen,
-    tokenScreen,
     aboutScreen,
     showMnemonic,
     verifyMnemonic,
@@ -50,7 +47,6 @@ class HomeRouter extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(HomeRoutes.homeScreen, page: HomeScreen),
-    RouteDef(HomeRoutes.tokenScreen, page: TokenScreen),
     RouteDef(HomeRoutes.aboutScreen, page: AboutScreen),
     RouteDef(HomeRoutes.showMnemonic, page: ShowMnemonic),
     RouteDef(HomeRoutes.verifyMnemonic, page: VerifyMnemonic),
@@ -69,18 +65,6 @@ class HomeRouter extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => HomeScreen(key: args.key),
-        settings: data,
-      );
-    },
-    TokenScreen: (data) {
-      final args = data.getArgs<TokenScreenArguments>(
-        orElse: () => TokenScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => TokenScreen(
-          key: args.key,
-          tokenAddress: args.tokenAddress,
-        ),
         settings: data,
       );
     },
@@ -151,15 +135,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
         arguments: HomeScreenArguments(key: key),
       );
 
-  Future<dynamic> pushTokenScreen({
-    Key key,
-    String tokenAddress,
-  }) =>
-      push<dynamic>(
-        HomeRoutes.tokenScreen,
-        arguments: TokenScreenArguments(key: key, tokenAddress: tokenAddress),
-      );
-
   Future<dynamic> pushAboutScreen() => push<dynamic>(HomeRoutes.aboutScreen);
 
   Future<dynamic> pushShowMnemonic() => push<dynamic>(HomeRoutes.showMnemonic);
@@ -195,13 +170,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 class HomeScreenArguments {
   final Key key;
   HomeScreenArguments({this.key});
-}
-
-/// TokenScreen arguments holder class
-class TokenScreenArguments {
-  final Key key;
-  final String tokenAddress;
-  TokenScreenArguments({this.key, this.tokenAddress});
 }
 
 /// ProfileScreen arguments holder class

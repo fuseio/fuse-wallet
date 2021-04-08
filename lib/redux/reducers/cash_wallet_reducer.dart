@@ -3,8 +3,6 @@ import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -12,7 +10,11 @@ import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, UpdateTokenPrice>(_updateTokenPrice),
   TypedReducer<CashWalletState, GetActionsSuccess>(_getActionsSuccess),
+  TypedReducer<CashWalletState, GetActionsSuccess>(_getActionsSuccess),
+  TypedReducer<CashWalletState, GetTokenWalletActionsSuccess>(
+      _getTokenWalletActionsSuccess),
   TypedReducer<CashWalletState, AddCashTokens>(_addCashTokens),
   TypedReducer<CashWalletState, AddCashToken>(_addCashToken),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
@@ -29,8 +31,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
-  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(
-      _getTokenTransfersListSuccess),
+  // TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(
+  //     _getTokenTransfersListSuccess),
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
   TypedReducer<CashWalletState, SwitchToNewCommunity>(_switchToNewCommunity),
@@ -55,6 +57,45 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   // TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
   TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances)
 ]);
+
+CashWalletState _updateTokenPrice(
+  CashWalletState state,
+  UpdateTokenPrice action,
+) {
+  Token token = state.tokens[action.tokenAddress];
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[token.address] = token.copyWith(priceInfo: action.price);
+  return state.copyWith(tokens: newOne);
+}
+
+CashWalletState _getTokenWalletActionsSuccess(
+  CashWalletState state,
+  GetTokenWalletActionsSuccess action,
+) {
+  Token token = state.tokens[action.token.address];
+  List<WalletAction> walletActions = token.walletActions.list ?? [];
+  for (WalletAction walletAction in action.walletActions) {
+    int savedIndex = walletActions?.indexWhere(
+      (action) => action.id == walletAction.id,
+    );
+    if (savedIndex != -1) {
+      walletActions[savedIndex] = walletAction;
+    } else {
+      walletActions?.add(walletAction);
+    }
+  }
+
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[token.address] = token.copyWith(
+    walletActions: WalletActions().copyWith(
+      list: walletActions,
+      updatedAt: action.updateAt + 1,
+    ),
+  );
+  return state.copyWith(
+    tokens: newOne,
+  );
+}
 
 CashWalletState _getActionsSuccess(
   CashWalletState state,
@@ -116,7 +157,9 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
         newOne.containsKey(checksumEthereumAddress(tokenAddress))
             ? newOne[checksumEthereumAddress(tokenAddress)]
             : newOne[tokenAddress];
-    tokens[tokenAddress] = token.copyWith(transactions: Transactions.initial());
+    tokens[tokenAddress] = token.copyWith(
+      walletActions: WalletActions.initial(),
+    );
   }
   return state.copyWith(tokens: tokens, walletActions: WalletActions.initial());
 }
@@ -232,34 +275,35 @@ CashWalletState _fetchingBusinessListFailed(
   return state.copyWith(isCommunityBusinessesFetched: false);
 }
 
-CashWalletState _getTokenTransfersListSuccess(
-    CashWalletState state, GetTokenTransfersListSuccess action) {
-  final String tokenAddress = action.tokenAddress;
-  if (action.tokenTransfers.isEmpty) {
-    return state;
-  } else {
-    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
-            0,
-            (max, e) =>
-                (e.blockNumber ?? 0) > max ? (e.blockNumber ?? 0) : max) +
-        1;
-    Token currentToken = state.tokens[tokenAddress].copyWith();
-    for (Transaction tx in action.tokenTransfers.reversed) {
-      int savedIndex = currentToken?.transactions?.list?.indexWhere(
-        (t) => t.txHash == tx.txHash,
-      );
-      if (savedIndex != -1) {
-        currentToken?.transactions?.list[savedIndex] = tx.copyWith();
-      } else {
-        currentToken?.transactions?.list?.add(tx);
-      }
-    }
-    Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-    newOne[tokenAddress] = currentToken
-      ..transactions.copyWith(blockNumber: maxBlockNumber);
-    return state.copyWith(tokens: newOne);
-  }
-}
+// CashWalletState _getTokenTransfersListSuccess(
+//     CashWalletState state, GetTokenTransfersListSuccess action) {
+//   return state;
+// final String tokenAddress = action.tokenAddress;
+// if (action.tokenTransfers.isEmpty) {
+//   return state;
+// } else {
+//   dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
+//           0,
+//           (max, e) =>
+//               (e.blockNumber ?? 0) > max ? (e.blockNumber ?? 0) : max) +
+//       1;
+//   Token currentToken = state.tokens[tokenAddress].copyWith();
+//   for (Transaction tx in action.tokenTransfers.reversed) {
+//     int savedIndex = currentToken?.transactions?.list?.indexWhere(
+//       (t) => t.txHash == tx.txHash,
+//     );
+//     if (savedIndex != -1) {
+//       currentToken?.transactions?.list[savedIndex] = tx.copyWith();
+//     } else {
+//       currentToken?.transactions?.list?.add(tx);
+//     }
+//   }
+//   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+//   newOne[tokenAddress] = currentToken
+//     ..transactions.copyWith(blockNumber: maxBlockNumber);
+//   return state.copyWith(tokens: newOne);
+// }
+// }
 
 CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {

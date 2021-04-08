@@ -1,46 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
-
-Widget deduceTransferIcon(Transaction transfer) {
-  if (transfer.isFailed()) {
-    return SvgPicture.asset(
-      'assets/images/failed_icon.svg',
-      width: 10,
-      height: 10,
-    );
-  }
-  if (transfer.isSwap != null && transfer.isSwap) {
-    return SvgPicture.asset(
-      'assets/images/trade_icon.svg',
-      width: 10,
-      height: 10,
-    );
-  }
-  if (transfer.type == 'SEND') {
-    return SvgPicture.asset(
-      'assets/images/send_icon.svg',
-      width: 10,
-      height: 10,
-    );
-  } else if (transfer.type == 'RECEIVE') {
-    return SvgPicture.asset(
-      'assets/images/receive_icon.svg',
-      width: 10,
-      height: 10,
-    );
-  } else {
-    return SvgPicture.asset(
-      'assets/images/receive_icon.svg',
-      width: 10,
-      height: 10,
-    );
-  }
-}
 
 Contact getContact(
   String accountAddress,

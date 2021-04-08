@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/services/apis/explorer.dart';
-import 'package:fusecash/services/apis/swap.dart';
+import 'package:fusecash/services/apis/fuseswap.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -22,7 +22,7 @@ final Explorer ethereumExplorerApi = getIt<Explorer>(
 
 final API api = getIt<API>();
 
-final SwapService swapService = getIt<SwapService>();
+final FuseSwapService fuseSwapService = getIt<FuseSwapService>();
 
 final Graph graph = getIt<Graph>();
 

@@ -3,7 +3,6 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:number_display/number_display.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/addresses.dart' as util;
@@ -39,13 +38,9 @@ class BalanceViewModel extends Equatable {
         ? store.state.cashWalletState.tokens[community?.homeTokenAddress]
             ?.copyWith(symbol: '\$')
         : store.state.cashWalletState.tokens[community?.homeTokenAddress];
-    final display = createDisplay(
-      length: 5,
-      decimal: 2,
-    );
     return BalanceViewModel(
       token: token,
-      hasErc20Tokens: erc20Tokens.isNotEmpty,
+      hasErc20Tokens: erc20Tokens.isEmpty,
       usdValue: display(usdValue),
     );
   }

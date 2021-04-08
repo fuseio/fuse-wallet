@@ -1,6 +1,5 @@
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/utils/string.dart';
 
 final Token fuseToken = Token(
@@ -13,7 +12,6 @@ final Token fuseToken = Token(
   originNetwork: 'fuse',
   isNative: true,
   timestamp: 0,
-  transactions: Transactions.initial(),
   amount: BigInt.zero,
 );
 

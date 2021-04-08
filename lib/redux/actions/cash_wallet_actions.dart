@@ -15,11 +15,8 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/swap/swap.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/factory.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
@@ -33,13 +30,23 @@ import 'package:fusecash/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 
 class AddCashTokens {
-  Map<String, Token> tokens;
+  final Map<String, Token> tokens;
   AddCashTokens({this.tokens});
 }
 
 class AddCashToken {
-  Token token;
+  final Token token;
   AddCashToken({this.token});
+}
+
+class UpdateTokenPrice {
+  final Price price;
+  final String tokenAddress;
+
+  UpdateTokenPrice({
+    this.price,
+    this.tokenAddress,
+  });
 }
 
 class SetDefaultCommunity {
@@ -140,16 +147,27 @@ class GetBusinessListSuccess {
   GetBusinessListSuccess({this.businessList, this.communityAddress});
 }
 
-class GetTokenTransfersListSuccess {
-  final String tokenAddress;
-  final List<Transaction> tokenTransfers;
-  GetTokenTransfersListSuccess({this.tokenAddress, this.tokenTransfers});
-}
+// class GetTokenTransfersListSuccess {
+//   final String tokenAddress;
+//   final List<Transaction> tokenTransfers;
+//   GetTokenTransfersListSuccess({this.tokenAddress, this.tokenTransfers});
+// }
 
 class GetActionsSuccess {
   final List<WalletAction> walletActions;
   final num updateAt;
   GetActionsSuccess({this.updateAt, this.walletActions});
+}
+
+class GetTokenWalletActionsSuccess {
+  final Token token;
+  final List<WalletAction> walletActions;
+  final num updateAt;
+  GetTokenWalletActionsSuccess({
+    this.updateAt,
+    this.walletActions,
+    this.token,
+  });
 }
 
 class StartBalanceFetchingSuccess {
@@ -526,6 +544,9 @@ ThunkAction fetchListOfTokensByAddress() {
     if (newTokens.isNotEmpty) {
       log.info('newTokens newTokens ${newTokens.length}');
       store.dispatch(AddCashTokens(tokens: newTokens));
+      newTokens.forEach((key, value) {
+        store.dispatch(getTokenPriceCall(value));
+      });
     }
   };
 }
@@ -619,7 +640,6 @@ ThunkAction sendTokenCall(
   VoidCallback sendFailureCallback, {
   String receiverName,
   String transferNote,
-  Transfer inviteTransfer,
 }) {
   return (Store store) async {
     try {
@@ -809,7 +829,6 @@ Future<Token> fetchToken(
       originNetwork: originNetwork,
       address: tokenInfo['address'].toLowerCase(),
       timestamp: 0,
-      transactions: Transactions.initial(),
       amount: BigInt.zero,
       communityAddress: community.address.toLowerCase(),
       name: formatTokenName(tokenInfo['name']),
@@ -921,6 +940,7 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
+      store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToExistingCommunityCall $e');
       await Sentry.captureException(e, stackTrace: s);
@@ -1013,29 +1033,32 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
           await graph.getCommunityBusinesses(communityAddress);
       if (communityEntities != null) {
         List<dynamic> entities = List.from(communityEntities);
-        Future<List<Business>> businesses =
-            Future.wait(entities.map((dynamic entity) async {
-          try {
-            dynamic metadata = await api.getEntityMetadata(
-                communityAddress, entity['address'],
-                isRopsten: isOriginRopsten);
-            return Business(
-              account: entity['address'],
-              name: metadata['name'] ?? '',
-              metadata: BusinessMetadata.fromJson(
-                metadata ?? {},
-              ),
-            );
-          } catch (e) {
-            return Business(
-              account: entity['address'],
-              name: formatAddress(entity['address']),
-              metadata: BusinessMetadata().copyWith(
-                address: entity['address'],
-              ),
-            );
-          }
-        }));
+        Future<List<Business>> businesses = Future.wait(
+          entities.map(
+            (dynamic entity) async {
+              try {
+                dynamic metadata = await api.getEntityMetadata(
+                    communityAddress, entity['address'],
+                    isRopsten: isOriginRopsten);
+                return Business(
+                  account: entity['address'],
+                  name: metadata['name'] ?? '',
+                  metadata: BusinessMetadata.fromJson(
+                    metadata ?? {},
+                  ),
+                );
+              } catch (e) {
+                return Business(
+                  account: entity['address'],
+                  name: formatAddress(entity['address']),
+                  metadata: BusinessMetadata().copyWith(
+                    address: entity['address'],
+                  ),
+                );
+              }
+            },
+          ),
+        );
         List<Business> result = await businesses;
         result..toList();
         store.dispatch(GetBusinessListSuccess(
@@ -1049,53 +1072,66 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
   };
 }
 
-ThunkAction getTokenTransfersListCall(Token token) {
+ThunkAction getWalletActionsCall() {
   return (Store store) async {
-    try {
-      String walletAddress = store.state.userState.walletAddress;
-      String tokenAddress = token?.address;
-      num lastBlockNumber = token?.transactions?.blockNumber ?? 0;
-      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
-        walletAddress,
-        tokenAddress,
-        startblock: lastBlockNumber,
-      );
-      List<Transaction> transfers = List<Transaction>.from(
-        tokensTransferEvents.map(
-          (transaction) => TransactionFactory.fromJson(transaction),
-        ),
-      );
-      if (transfers.isNotEmpty) {
-        store.dispatch(GetTokenTransfersListSuccess(
-          tokenTransfers: transfers,
-          tokenAddress: tokenAddress,
-        ));
-      }
-    } catch (e) {
-      log.error('ERROR - getTokenTransfersListCall $e');
+    String walletAddress = store.state.userState.walletAddress;
+    WalletActions walletActions = store.state.cashWalletState.walletActions;
+    Map<String, dynamic> response = await api.getActionsByWalletAddress(
+      walletAddress,
+      updatedAt: walletActions?.updatedAt ?? 0,
+    );
+    Iterable<dynamic> docs = response['docs'] ?? [];
+    List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
+    if (actions.isNotEmpty) {
+      store.dispatch(GetActionsSuccess(
+        walletActions: actions,
+        updateAt: actions.last.timestamp,
+      ));
+      store.dispatch(updateTotalBalance());
     }
   };
 }
 
-ThunkAction getWalletActionsCall() {
+ThunkAction getTokenPriceCall(Token token) {
   return (Store store) async {
-    try {
-      String walletAddress = store.state.userState.walletAddress;
-      WalletActions walletActions = store.state.cashWalletState.walletActions;
-      Map<String, dynamic> response = await api.getActionsByWalletAddress(
-        walletAddress,
-        updatedAt: walletActions?.updatedAt ?? 0,
+    void Function(Price) onDone = (Price priceInfo) {
+      log.info('Fetch token price for ${token.toString()}');
+      store.dispatch(
+        UpdateTokenPrice(
+          price: priceInfo,
+          tokenAddress: token.address,
+        ),
       );
-      Iterable<dynamic> docs = response['docs'] ?? [];
-      List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
-      if (actions.isNotEmpty) {
-        store.dispatch(GetActionsSuccess(
-          walletActions: actions,
-          updateAt: actions.last.timestamp,
-        ));
-      }
-    } catch (e) {
-      log.error('ERROR - getWalletActionsCall ${e.toString()}');
+    };
+    void Function(Object error, StackTrace stackTrace) onError =
+        (Object error, StackTrace stackTrace) {
+      log.error('Fetch token price error for - ${token.name} - $error ');
+    };
+    log.info('fetching price of token ${token.name} ${token.address}');
+    await token.fetchTokenLatestPrice(
+      onDone: onDone,
+      onError: onError,
+    );
+    store.dispatch(updateTotalBalance());
+  };
+}
+
+ThunkAction getTokenWalletActionsCall(Token token) {
+  return (Store store) async {
+    String walletAddress = store.state.userState.walletAddress;
+    Map<String, dynamic> response = await api.getActionsByWalletAddress(
+      walletAddress,
+      updatedAt: token.walletActions?.updatedAt ?? 0,
+      tokenAddress: token?.address,
+    );
+    Iterable<dynamic> docs = response['docs'] ?? [];
+    List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
+    if (actions.isNotEmpty) {
+      store.dispatch(GetTokenWalletActionsSuccess(
+        walletActions: actions,
+        updateAt: actions.last.timestamp,
+        token: token,
+      ));
     }
   };
 }
@@ -1166,9 +1202,12 @@ ThunkAction swapHandler(
             "to": swapRequestBody.recipient,
             "status": 'pending',
             "isSwap": true,
-            "tradeInfo": tradeInfo.toJson()
+            "tradeInfo": tradeInfo.toJson(),
           },
         ),
+        txMetadata: {
+          "currencyOut": swapRequestBody.currencyOut,
+        },
       );
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];
@@ -1191,11 +1230,14 @@ ThunkAction getFuseBalance() {
         address: walletAddress,
       );
       if (balance.getInWei.compareTo(fuseBalance) != 0) {
-        store.dispatch(AddCashToken(
-          token: fuseToken.copyWith(
-            amount: balance.getInWei,
+        store.dispatch(
+          AddCashToken(
+            token: fuseToken.copyWith(
+              amount: balance.getInWei,
+            ),
           ),
-        ));
+        );
+        store.dispatch(getTokenPriceCall(fuseToken));
       }
     } catch (error) {
       log.error('Error in Get Fuse Balance ${error.toString()}');

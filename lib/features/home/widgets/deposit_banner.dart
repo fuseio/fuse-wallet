@@ -1,10 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/utils/webview.dart';
 
 class DepositBanner extends StatelessWidget {
   @override
@@ -27,15 +27,9 @@ class DepositBanner extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      I18n.of(context).your_wallet_is_empty,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Stack(
-                      overflow: Overflow.visible,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           I18n.of(context).deposit_your_first_dollars,
@@ -45,32 +39,33 @@ class DepositBanner extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Positioned(
-                          right: -20,
-                          top: 8,
-                          child: Icon(
-                            Icons.arrow_right_outlined,
-                            color: Theme.of(context).colorScheme.primaryVariant,
-                          ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        SvgPicture.asset(
+                          'assets/images/arrow_right_outlined.svg',
                         ),
                       ],
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Image.asset(
                   'assets/images/empty_state.png',
-                  width: 250,
+                  height: MediaQuery.of(context).size.height * .2,
+                  // width: 250,
                 )
               ],
             ),
             onTap: () {
               if (depositPlugins.isNotEmpty) {
-                dynamic url = depositPlugins[0].widgetUrl;
+                String url = depositPlugins[0].widgetUrl;
                 viewModel.setDepositBanner();
-                ExtendedNavigator.root.pushWebview(
+                openDepositWebview(
                   withBack: true,
-                  url: '$url&finalUrl=https://fuse.io',
-                  title: I18n.of(context).deposit_your_first_dollars,
+                  url: url,
                 );
               }
             },

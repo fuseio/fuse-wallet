@@ -402,6 +402,14 @@ class I18n implements WidgetsLocalizations {
   String get sell => "Sell";
   /// "You don't have tokens to swap yet"
   String get no_swap_option => "You don't have tokens to swap yet";
+  /// "Your balance"
+  String get your_balance => "Your balance";
+  /// "Price"
+  String get price => "Price";
+  /// "Activity"
+  String get activity => "Activity";
+  /// "Date & Time"
+  String get date_and_time => "Date & Time";
 }
 
 class _I18n_en_US extends I18n {

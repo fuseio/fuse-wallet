@@ -19,7 +19,7 @@ class Balance extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
+                  AutoSizeText(
                     '\$${viewModel?.usdValue ?? '0'}',
                     style: TextStyle(
                       fontSize: 30,

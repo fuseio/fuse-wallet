@@ -31,7 +31,7 @@ class UserNameScreen extends StatelessWidget {
         builder: (_, viewModel) {
           return Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
@@ -67,13 +67,12 @@ class UserNameScreen extends StatelessWidget {
                               fontSize: 16,
                             ),
                           ),
-                          SizedBox(height: 30.0),
+                          SizedBox(height: 10.0),
                           Container(
                             width: 255,
                             color: Theme.of(context).canvasColor,
                             child: TextFormField(
                               controller: displayNameController,
-                              keyboardType: TextInputType.text,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 20,
@@ -99,12 +98,13 @@ class UserNameScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     )
                   ],
                 ),
+                SizedBox(height: 30.0),
                 Column(
                   children: [
                     Center(

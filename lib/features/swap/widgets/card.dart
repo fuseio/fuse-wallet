@@ -78,7 +78,7 @@ class TradeCard extends StatelessWidget {
                       ),
                       useMaxWidget != null
                           ? Text(
-                              token.getBalance() +
+                              (token?.getBalance() ?? '0') +
                                   ' ' +
                                   I18n.of(context).available,
                             )

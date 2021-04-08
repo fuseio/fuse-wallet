@@ -166,28 +166,31 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
-        if ([null, ''].contains(args.tokenToSend)) {
-          setState(() {
-            selectedToken = viewModel.tokens[0];
-          });
-        } else {
-          setState(() {
-            selectedToken = args.tokenToSend;
-          });
+        if (viewModel.tokens.isNotEmpty) {
+          if ([null, ''].contains(args.tokenToSend)) {
+            setState(() {
+              selectedToken = viewModel.tokens[0];
+            });
+          } else {
+            setState(() {
+              selectedToken = args.tokenToSend;
+            });
+          }
         }
       },
       builder: (_, viewModel) {
         final bool hasFund =
             (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
-                  Decimal.parse(
-                    formatValue(
-                      selectedToken?.amount,
-                      selectedToken?.decimals,
-                      withPrecision: true,
-                    ),
-                  ),
-                ) <=
-                0;
+                      Decimal.parse(
+                        formatValue(
+                          selectedToken?.amount,
+                          selectedToken?.decimals,
+                          withPrecision: true,
+                        ),
+                      ),
+                    ) <=
+                    0 &&
+                viewModel.tokens.isNotEmpty;
 
         if (!hasFund) {
           controller.forward();
@@ -271,7 +274,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                         maxLines: 1,
                                       ),
                                     ),
-                                    !args.useBridge
+                                    !args.useBridge &&
+                                            viewModel.tokens.isNotEmpty
                                         ? InkWell(
                                             focusColor:
                                                 Theme.of(context).canvasColor,

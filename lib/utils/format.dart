@@ -3,6 +3,11 @@ import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:number_display/number_display.dart';
 
+final Display display = createDisplay(
+  length: 5,
+  decimal: 2,
+);
+
 final Map<String, num> fees = {
   "DZAR": 17,
   "DAI": 1,
@@ -23,18 +28,7 @@ String formatValue(
   Decimal formattedValue =
       Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
-  final display = createDisplay(
-    length: 5,
-    decimal: 2,
-  );
-  return display(formattedValue.toDouble());
-}
-
-String calcValueInDollar(BigInt value, int decimals) {
-  if (value == null || decimals == null) return '0';
-  double formattedValue = (value / BigInt.from(pow(10, decimals)) / 100);
-  Decimal decimalValue = Decimal.parse(formattedValue.toString());
-  return decimalValue.toStringAsFixed(1);
+  return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
 String getFiatValue(
@@ -46,10 +40,6 @@ String getFiatValue(
   if (value == null || decimals == null) return '0';
   double formattedValue = (value / BigInt.from(pow(10, decimals))) * price;
   if (withPrecision) return formattedValue.toString();
-  final display = createDisplay(
-    length: 5,
-    decimal: 2,
-  );
   return display(formattedValue);
 }
 

@@ -10,11 +10,13 @@ class TokensListViewModel extends Equatable {
   final String walletAddress;
   final List<Token> tokens;
   final bool showDepositBanner;
+  // final List<WalletAction> walletActions;
 
   TokensListViewModel({
     this.walletAddress,
     this.tokens,
     this.showDepositBanner,
+    // this.walletActions,
   });
 
   static TokensListViewModel fromStore(Store<AppState> store) {
@@ -54,8 +56,7 @@ class TokensListViewModel extends Equatable {
                     : null))
         .toList();
     final List<WalletAction> walletActions =
-        List.from(store.state.cashWalletState?.walletActions?.list?.reversed) ??
-            [];
+        List.from(store.state.cashWalletState?.walletActions?.list) ?? [];
     final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
         (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
             ?.compareTo(tokenA?.amount ?? BigInt.zero));
@@ -65,6 +66,7 @@ class TokensListViewModel extends Equatable {
         tokens != null &&
         tokens.isEmpty;
     return TokensListViewModel(
+      // walletActions: walletActions,
       showDepositBanner: showDepositBanner,
       walletAddress: store.state.userState.walletAddress,
       tokens: tokens,
@@ -72,5 +74,9 @@ class TokensListViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [walletAddress, tokens];
+  List<Object> get props => [
+        walletAddress,
+        tokens,
+        // walletActions,
+      ];
 }
