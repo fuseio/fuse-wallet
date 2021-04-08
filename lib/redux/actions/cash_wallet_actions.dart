@@ -544,8 +544,8 @@ ThunkAction fetchListOfTokensByAddress() {
     if (newTokens.isNotEmpty) {
       log.info('newTokens newTokens ${newTokens.length}');
       store.dispatch(AddCashTokens(tokens: newTokens));
-      newTokens.forEach((key, value) {
-        store.dispatch(getTokenPriceCall(value));
+      Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
+        store.dispatch(updateTokensPrices());
       });
     }
   };
@@ -1088,6 +1088,15 @@ ThunkAction getWalletActionsCall() {
         updateAt: actions.last.timestamp,
       ));
       store.dispatch(updateTotalBalance());
+    }
+  };
+}
+
+ThunkAction updateTokensPrices() {
+  return (Store store) async {
+    Map<String, Token> tokens = store.state.cashWalletState.tokens;
+    for (Token token in tokens.values) {
+      store.dispatch(getTokenPriceCall(token));
     }
   };
 }
