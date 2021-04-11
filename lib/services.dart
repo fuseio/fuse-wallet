@@ -1,29 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
+import 'package:fusecash/common/di/di.dart';
+import 'package:fusecash/constants/urls.dart';
+import 'package:fusecash/services/apis/explorer.dart';
+import 'package:fusecash/services/apis/fuseswap.dart';
+import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
 
-final Exchange exchangeApi = Exchange();
+Web3 fuseWeb3;
+Web3 ethereumWeb3;
 
-final Client client = Client();
+final Explorer fuseExplorerApi = getIt<Explorer>(
+  param1: UrlConstants.FUSE_EXPLORER_URL,
+);
 
-final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final Explorer ethereumExplorerApi = getIt<Explorer>(
+  param1: UrlConstants.FUSE_EXPLORER_URL,
+  param2: env['ETHERSCAN_API_KEY'],
+);
 
-final API api = API(
-    base: DotEnv().env['API_BASE_URL'],
-    funderBase: DotEnv().env['FUNDER_BASE_URL']);
+final API api = getIt<API>();
 
-final Graph graph = Graph(
-    url: DotEnv().env['GRAPH_BASE_URL'], subGraph: DotEnv().env['SUB_GRAPH']);
+final FuseSwapService fuseSwapService = getIt<FuseSwapService>();
 
-final ExplorerApi ethereumExplorerApi = ExplorerApi(
-    base: DotEnv().env['ETHERSCAN_BASE_URL'],
-    apiKey: DotEnv().env['ETHERSCAN_API_KEY']);
+final Graph graph = getIt<Graph>();
 
-final ExplorerApi fuseExplorerApi =
-    ExplorerApi(base: DotEnv().env['FUSE_RPC_URL']);
+final FirebaseAuth firebaseAuth = getIt<FirebaseAuth>();
 
-final MarketApi marketApi = MarketApi();
+final PhoneNumberUtil phoneNumberUtil = getIt<PhoneNumberUtil>();
 
-final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil();
+final IOnBoardStrategy onBoardStrategy = getIt<IOnBoardStrategy>();

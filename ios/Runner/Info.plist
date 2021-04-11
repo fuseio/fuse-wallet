@@ -45,8 +45,6 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need microphone access for uploading videos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library.</string>
 	<key>NSAppleMusicUsageDescription</key>
@@ -96,7 +94,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-    <string>itms</string>
+		<string>itms</string>
 	</array>
 </dict>
 </plist>

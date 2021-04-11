@@ -5,10 +5,14 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
-class CommunitySelectedCardScreen extends StatefulWidget {
-  CommunitySelectedCardScreen(
-      {Key key, this.title, this.community, this.token, this.switchCommunity})
-      : super(key: key);
+class SelectedCommunityCard extends StatefulWidget {
+  SelectedCommunityCard({
+    Key key,
+    this.title,
+    this.community,
+    this.token,
+    this.switchCommunity,
+  }) : super(key: key);
 
   final Community community;
   final Token token;
@@ -19,7 +23,7 @@ class CommunitySelectedCardScreen extends StatefulWidget {
   _CommunityCardScreenState createState() => _CommunityCardScreenState();
 }
 
-class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
+class _CommunityCardScreenState extends State<SelectedCommunityCard> {
   @override
   void initState() {
     super.initState();
@@ -28,6 +32,8 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: () {
           widget.switchCommunity(widget?.community?.address);
           Navigator.of(context).pop();
@@ -82,7 +88,8 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
                           width: 70,
                           height: 70,
                           decoration: BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
+                              color: Theme.of(context).canvasColor,
+                              shape: BoxShape.circle),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -139,23 +146,22 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
                       Text(widget?.community?.name ?? '',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Theme.of(context).primaryColor,
                           )),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                                (widget?.community?.isClosed != null &&
-                                            widget.community.isClosed
-                                        ? 'Closed'
-                                        : 'Open') +
-                                    ' community',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                )),
+                              (widget?.community?.isClosed != null &&
+                                          widget.community.isClosed
+                                      ? 'Closed'
+                                      : 'Open') +
+                                  ' community',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF808080),
+                              ),
+                            ),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,7 +172,6 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
                                   ),
                                   Text(I18n.of(context).selected,
                                       style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.bold)),
                                 ])
                           ])

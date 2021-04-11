@@ -1,114 +1,65 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/price.dart';
-import 'package:fusecash/models/tokens/base.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/actions/actions.dart';
+import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
+part 'token.freezed.dart';
 part 'token.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class Token extends ERC20Token {
-  final String imageUrl;
-  final String communityAddress;
-  final String originNetwork;
-  final int timestamp;
-  final Price priceInfo;
-  @JsonKey(fromJson: _transactionsFromJson)
-  final Transactions transactions;
-  @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
-  final List<Job> jobs;
-  @JsonKey(ignore: true)
-  final String subtitle;
+@immutable
+@freezed
+abstract class Token implements _$Token {
+  const Token._();
 
-  @override
-  toString() => 'Token info - $name $symbol $address';
+  @JsonSerializable()
+  factory Token({
+    String address,
+    String name,
+    @Default(false) bool isNative,
+    String symbol,
+    String imageUrl,
+    int decimals,
+    BigInt amount,
+    @JsonKey(ignore: true) String subtitle,
+    int timestamp,
+    Price priceInfo,
+    String communityAddress,
+    String originNetwork,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
+  }) = _Token;
 
-  @override
-  List<Object> get props =>
-      [amount, name, symbol, transactions?.list, communityAddress];
+  String getBalance() => formatValue(amount, decimals);
 
-  static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
-      json == null ? Transactions.initial() : Transactions.fromJson(json);
-
-  static List<Job> _jobsFromJson(Map<String, dynamic> json) => json == null
-      ? List<Job>()
-      : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
-
-  static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
-      new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
-
-  Token(
-      {String address,
-      String name,
-      String symbol,
-      int decimals,
-      BigInt amount,
-      this.priceInfo,
-      this.imageUrl,
-      this.subtitle,
-      this.timestamp = 0,
-      this.transactions,
-      this.jobs,
-      this.communityAddress,
-      this.originNetwork})
-      : super(
-            address: address,
-            name: name,
-            symbol: symbol,
-            decimals: decimals,
-            amount: amount);
-
-  Token copyWith(
-      {String address,
-      String name,
-      String symbol,
-      String imageUrl,
-      int decimals,
-      BigInt amount,
-      String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String originNetwork,
-      Transactions transactions,
-      List<Job> jobs,
-      String communityAddress}) {
-    return Token(
-        priceInfo: priceInfo ?? this.priceInfo,
-        subtitle: subtitle,
-        address: address ?? this.address,
-        name: name ?? this.name,
-        originNetwork: originNetwork ?? this.originNetwork,
-        symbol: symbol ?? this.symbol,
-        imageUrl: imageUrl ?? this.imageUrl,
-        decimals: decimals ?? this.decimals,
-        amount: amount ?? this.amount,
-        timestamp: timestamp ?? this.timestamp,
-        transactions: transactions ?? this.transactions,
-        communityAddress: communityAddress ?? this.communityAddress,
-        jobs: jobs ?? this.jobs);
-  }
-
-  @override
-  Future<dynamic> fetchTokenBalance(String accountAddress,
-      {void Function(BigInt) onDone, Function onError}) async {
+  Future<dynamic> fetchTokenBalance(
+    String accountAddress, {
+    Function(BigInt) onDone,
+    Function onError,
+  }) async {
     if ([null, ''].contains(accountAddress) ||
         [null, ''].contains(this.address)) return;
-    if (originNetwork == null) {
+    if (this.isNative != null && this.isNative == true) {
+      Web3 web3 = this.originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
       try {
-        final BigInt balance = await ethereumExplorerApi
-            .getTokenBalanceByAccountAddress(this.address, accountAddress);
-        if (this.amount?.compareTo(balance) != 0) {
-          onDone(balance);
+        EtherAmount balance = await web3.getBalance(
+          address: accountAddress,
+        );
+        if (this.amount?.compareTo(balance.getInWei) != 0) {
+          onDone(balance.getInWei);
         }
       } catch (e, s) {
         onError(e, s);
       }
     } else {
       try {
-        final BigInt balance = await fuseExplorerApi
-            .getTokenBalanceByAccountAddress(this.address, accountAddress);
+        Web3 web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
+        final BigInt balance = await web3.getTokenBalance(
+          this.address,
+          address: accountAddress,
+        );
         if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
@@ -118,47 +69,26 @@ class Token extends ERC20Token {
     }
   }
 
-  Future<dynamic> fetchTokenLastestPrice(
-      {String currency = 'usd',
-      void Function(Price) onDone,
-      Function onError}) async {
-    // final logger = await AppFactory().getLogger('action');
+  Future<dynamic> fetchTokenLatestPrice({
+    String currency = 'usd',
+    void Function(Price) onDone,
+    Function onError,
+  }) async {
     try {
-      final Map<String, dynamic> response =
-          await marketApi.getCurrentPriceOfTokens(this.address, currency);
-      double price = response[this.address.toLowerCase()][currency];
-      String quote = response[this.address.toLowerCase()][currency].toString();
-      String total =
-          getFiatValue(this.amount, this.decimals, price, withPrecision: true);
-      if (this.priceInfo == null) {
-        Price priceInfo = Price(currency: currency, quote: quote, total: total);
-        onDone(priceInfo);
-      } else {
-        Price priceInfo = this
-            .priceInfo
-            .copyWith(quote: quote, currency: currency, total: total);
-        onDone(priceInfo);
-      }
+      Price price = await fuseSwapService.price(this.address);
+      String total = getFiatValue(
+        this.amount,
+        this.decimals,
+        double.parse(price.quote),
+        withPrecision: true,
+      );
+      onDone(price.copyWith(
+        total: total,
+      ));
     } catch (e, s) {
       onError(e, s);
     }
   }
 
-  factory Token.initial() {
-    return new Token(
-        address: '',
-        imageUrl: null,
-        name: '',
-        amount: BigInt.zero,
-        decimals: 0,
-        symbol: '',
-        timestamp: 0,
-        transactions: Transactions.initial(),
-        jobs: new List<Job>());
-  }
-
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$TokenToJson(this);
 }

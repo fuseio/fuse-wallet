@@ -32,12 +32,12 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  /// "Use the wallet to send money \n to friends without fees or friction"
-  String get intro_text_one => "Use the wallet to send money \n to friends without fees or friction";
-  /// "Pay and get paid using crypto \n and see where you can shop nearby"
-  String get intro_text_two => "Pay and get paid using crypto \n and see where you can shop nearby";
-  /// "Hold Ethereum assets and access \n decentralized finance with a few taps"
-  String get intro_text_three => "Hold Ethereum assets and access \n decentralized finance with a few taps";
+  /// "Use the wallet to send money to friends without fees or friction"
+  String get intro_text_one => "Use the wallet to send money to friends without fees or friction";
+  /// "Pay and get paid using crypto and see where you can shop nearby"
+  String get intro_text_two => "Pay and get paid using crypto and see where you can shop nearby";
+  /// "Hold Ethereum assets and access decentralized finance with a few taps"
+  String get intro_text_three => "Hold Ethereum assets and access decentralized finance with a few taps";
   /// "Hello"
   String get hi => "Hello";
   /// "Language"
@@ -84,10 +84,12 @@ class I18n implements WidgetsLocalizations {
   String get pay => "PAY";
   /// "No businesses found"
   String get no_businesses => "No businesses found";
-  /// "Generating wallet"
-  String get generating_wallet => "Generating wallet";
-  /// "Generated wallet"
-  String get generated_wallet => "Generated wallet";
+  /// "Generating fuse wallet"
+  String get generating_wallet => "Generating fuse wallet";
+  /// "Welcome to Fuse wallet"
+  String get generated_wallet => "Welcome to Fuse wallet";
+  /// "Generate wallet failed"
+  String get generate_wallet_failed => "Generate wallet failed";
   /// "PENDING"
   String get pending => "PENDING";
   /// "FAILED"
@@ -106,6 +108,10 @@ class I18n implements WidgetsLocalizations {
   String get address => "Address";
   /// "Amount"
   String get amount => "Amount";
+  /// "You got a"
+  String get you_got_a => "You got a";
+  /// "bonus"
+  String get bonus => "bonus";
   /// "You got a join bonus!"
   String get join_bonus => "You got a join bonus!";
   /// "Joining Community"
@@ -210,8 +216,8 @@ class I18n implements WidgetsLocalizations {
   String get protect_wallet => "Protect your wallet";
   /// "Backup"
   String get backup_wallet => "Backup";
-  /// "Top-up your account"
-  String get top_up => "Top-up your account";
+  /// "Top up"
+  String get top_up => "Top up";
   /// "Buy"
   String get buy => "Buy";
   /// "Map"
@@ -230,8 +236,6 @@ class I18n implements WidgetsLocalizations {
   String get settings => "Settings";
   /// "Home"
   String get home => "Home";
-  /// "Trade"
-  String get trade => "Trade";
   /// "Assets and contracts"
   String get assets_and_contracts => "Assets and contracts";
   /// "Sent to your Ethereum wallet"
@@ -242,8 +246,8 @@ class I18n implements WidgetsLocalizations {
   String get received_from_ethereum => "Received from Ethereum";
   /// "No funds available"
   String get no_funds_available => "No funds available";
-  /// "Review trade"
-  String get review_trade => "Review trade";
+  /// "Review swap"
+  String get review_swap => "Review swap";
   /// "Use max"
   String get use_max => "Use max";
   /// "Send to an address"
@@ -258,6 +262,8 @@ class I18n implements WidgetsLocalizations {
   String get no => "No";
   /// "Fuse Volts"
   String get fuse_volts => "Fuse Volts";
+  /// "Fuse Studio"
+  String get studio => "Fuse Studio";
   /// "Back up now"
   String get back_up_now => "Back up now";
   /// "Recommended"
@@ -348,6 +354,62 @@ class I18n implements WidgetsLocalizations {
   String get invalid_qa_code => "Invalid QA Code";
   /// "Error"
   String get error => "Error";
+  /// "(up to 10 seconds)"
+  String get ten_seconds => "(up to 10 seconds)";
+  /// "Initializing your wallet on Fuse"
+  String get initializing_wallet => "Initializing your wallet on Fuse";
+  /// "Feed"
+  String get feed => "Feed";
+  /// "Wallet"
+  String get wallet => "Wallet";
+  /// "Send"
+  String get send => "Send";
+  /// "Network Fee"
+  String get network_fee => "Network Fee";
+  /// "Rate"
+  String get rate => "Rate";
+  /// "Free"
+  String get free => "Free";
+  /// "Slippage"
+  String get slippage => "Slippage";
+  /// "Token"
+  String get token => "Token";
+  /// "available"
+  String get available => "available";
+  /// "(up to 10 seconds)"
+  String get up_to_10 => "(up to 10 seconds)";
+  /// "Txn"
+  String get txn => "Txn";
+  /// "Authentication failed"
+  String get auth_failed_title => "Authentication failed";
+  /// "Try again"
+  String get try_again => "Try again";
+  /// "Please authenticate to continue"
+  String get auth_failed_message => "Please authenticate to continue";
+  /// "Swapped"
+  String get swapped => "Swapped";
+  /// "Swapping"
+  String get swapping => "Swapping";
+  /// "for"
+  String get for_text => "for";
+  /// "Your wallet is empty!"
+  String get your_wallet_is_empty => "Your wallet is empty!";
+  /// "Your balance is empty"
+  String get your_balance_is_empty => "Your balance is empty";
+  /// "Top up your account"
+  String get top_up_your_account => "Top up your account";
+  /// "Sell"
+  String get sell => "Sell";
+  /// "You don't have tokens to swap yet"
+  String get no_swap_option => "You don't have tokens to swap yet";
+  /// "Your balance"
+  String get your_balance => "Your balance";
+  /// "Price"
+  String get price => "Price";
+  /// "Activity"
+  String get activity => "Activity";
+  /// "Date & Time"
+  String get date_and_time => "Date & Time";
 }
 
 class _I18n_en_US extends I18n {
@@ -657,9 +719,6 @@ class _I18n_he_IL extends I18n {
   /// "בית"
   @override
   String get home => "בית";
-  /// "מסחר"
-  @override
-  String get trade => "מסחר";
   /// "נכסים"
   @override
   String get assets_and_contracts => "נכסים";
@@ -675,9 +734,6 @@ class _I18n_he_IL extends I18n {
   /// "אין יתרה מספקת"
   @override
   String get no_funds_available => "אין יתרה מספקת";
-  /// "Review trade"
-  @override
-  String get review_trade => "Review trade";
   /// "Use max"
   @override
   String get use_max => "Use max";
@@ -1118,9 +1174,6 @@ class _I18n_es_ES extends I18n {
   /// "Inicio"
   @override
   String get home => "Inicio";
-  /// "Comercio"
-  @override
-  String get trade => "Comercio";
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
@@ -1653,9 +1706,6 @@ class _I18n_it_IT extends I18n {
   /// "Casa"
   @override
   String get home => "Casa";
-  /// "Commercio"
-  @override
-  String get trade => "Commercio";
   /// "Attività e contratti"
   @override
   String get assets_and_contracts => "Attività e contratti";
@@ -1946,9 +1996,6 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Kalakalan"
-  @override
-  String get trade => "Kalakalan";
   /// "Assets at mga kontrata"
   @override
   String get assets_and_contracts => "Assets at mga kontrata";
@@ -2242,9 +2289,6 @@ class _I18n_id_ID extends I18n {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Perdagangan"
-  @override
-  String get trade => "Perdagangan";
   /// "Aset dan kontrak"
   @override
   String get assets_and_contracts => "Aset dan kontrak";
@@ -2547,9 +2591,6 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Hogar"
   @override
   String get home => "Hogar";
-  /// "Comercio"
-  @override
-  String get trade => "Comercio";
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
@@ -2861,9 +2902,6 @@ class _I18n_de_DE extends I18n {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Handeln"
-  @override
-  String get trade => "Handeln";
   /// "Anlagen und Verträge"
   @override
   String get assets_and_contracts => "Anlagen und Verträge";
@@ -2879,9 +2917,6 @@ class _I18n_de_DE extends I18n {
   /// "Keine Mittel verfügbar"
   @override
   String get no_funds_available => "Keine Mittel verfügbar";
-  /// "Handel überprüfen"
-  @override
-  String get review_trade => "Handel überprüfen";
   /// "Alles verwendend"
   @override
   String get use_max => "Alles verwendend";
@@ -3271,9 +3306,6 @@ class _I18n_nl_NL extends I18n {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Handel"
-  @override
-  String get trade => "Handel";
   /// "Bezittingen en contracten"
   @override
   String get assets_and_contracts => "Bezittingen en contracten";
@@ -3289,9 +3321,6 @@ class _I18n_nl_NL extends I18n {
   /// "Geen geld beschikbaar"
   @override
   String get no_funds_available => "Geen geld beschikbaar";
-  /// "Controleer handelstransactie"
-  @override
-  String get review_trade => "Controleer handelstransactie";
   /// "Gebruik alles"
   @override
   String get use_max => "Gebruik alles";
@@ -3648,9 +3677,6 @@ class _I18n_sr_RS extends I18n {
   /// "Главна"
   @override
   String get home => "Главна";
-  /// "Тргуј"
-  @override
-  String get trade => "Тргуј";
   /// "Средства и уговори"
   @override
   String get assets_and_contracts => "Средства и уговори";
@@ -3666,9 +3692,6 @@ class _I18n_sr_RS extends I18n {
   /// "Нема средстава"
   @override
   String get no_funds_available => "Нема средстава";
-  /// "Review trade"
-  @override
-  String get review_trade => "Review trade";
   /// "Користи максимално"
   @override
   String get use_max => "Користи максимално";

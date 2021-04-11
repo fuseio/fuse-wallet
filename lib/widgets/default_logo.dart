@@ -4,18 +4,23 @@ class DefaultLogo extends StatelessWidget {
   final String symbol;
   final double width;
   final double height;
-  const DefaultLogo({this.height, this.width, this.symbol});
+
+  const DefaultLogo({
+    this.height,
+    this.width,
+    this.symbol,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 60,
-        height: 60,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).canvasColor,
             shape: BoxShape.circle,
-            border:
-                Border.all(color: Theme.of(context).primaryColor, width: 2)),
+            border: Border.all(
+                color: Theme.of(context).colorScheme.onSurface, width: 2)),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,

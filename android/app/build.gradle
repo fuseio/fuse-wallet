@@ -80,7 +80,9 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'junit:junit:4.12'

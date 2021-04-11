@@ -1,75 +1,49 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
+import 'package:fusecash/constants/addresses.dart';
+import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/jobs/swap_token_job.dart';
-import 'package:fusecash/models/pro/price.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
+import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+// import 'package:fusecash/models/transactions/transaction.dart';
+// import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/images.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
-import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
+import 'package:fusecash/utils/log/log.dart';
 
-Future<bool> approvalCallback() async {
-  return true;
-}
-
-class UpdateEtherBalabnce {
+class UpdateEtherBalance {
   final BigInt balance;
-  UpdateEtherBalabnce({this.balance});
+  UpdateEtherBalance({this.balance});
 }
 
-class AddProJob {
-  final String tokenAddress;
-  final Job job;
-  AddProJob({this.job, this.tokenAddress});
-}
+// class GetTokenTransfersEventsListSuccess {
+//   List<Transfer> tokenTransfers;
+//   String tokenAddress;
+//   GetTokenTransfersEventsListSuccess({this.tokenTransfers, this.tokenAddress});
+// }
 
-class GetTokenTransfersEventsListSuccess {
-  List<Transfer> tokenTransfers;
-  String tokenAddress;
-  GetTokenTransfersEventsListSuccess({this.tokenTransfers, this.tokenAddress});
-}
+// class ReplaceProTransaction {
+//   final String tokenAddress;
+//   final Transaction transaction;
+//   final Transaction transactionToReplace;
+//   ReplaceProTransaction(
+//       {this.tokenAddress, this.transaction, this.transactionToReplace});
+// }
 
-class ReplaceProTransaction {
-  final String tokenAddress;
-  final Transaction transaction;
-  final Transaction transactionToReplace;
-  ReplaceProTransaction(
-      {this.tokenAddress, this.transaction, this.transactionToReplace});
-}
-
-class ProJobDone {
-  final String tokenAddress;
-  final Job job;
-  ProJobDone({this.tokenAddress, this.job});
-}
-
-class AddProTransaction {
-  final String tokenAddress;
-  final Transaction transaction;
-  AddProTransaction({this.transaction, this.tokenAddress});
-}
-
-class UpadteBlockNumber {
-  final num blockNumber;
-  UpadteBlockNumber({this.blockNumber});
-}
+// class AddProTransaction {
+//   final String tokenAddress;
+//   final Transaction transaction;
+//   AddProTransaction({this.transaction, this.tokenAddress});
+// }
 
 class UpdateToken {
   Token tokenToUpdate;
@@ -100,9 +74,9 @@ class ClearTokenList {
   ClearTokenList();
 }
 
-class SetIsFetchTokensLastestPrices {
+class SetIsFetchTokensLatestPrices {
   final bool isFetching;
-  SetIsFetchTokensLastestPrices({this.isFetching});
+  SetIsFetchTokensLatestPrices({this.isFetching});
 }
 
 class SetIsFetchNewTokens {
@@ -110,72 +84,45 @@ class SetIsFetchNewTokens {
   SetIsFetchNewTokens({this.isFetching});
 }
 
-class InitWeb3ProModeSuccess {
-  final wallet_core.Web3 web3;
-  InitWeb3ProModeSuccess({this.web3});
-}
-
 class SetIsFetchTokensBalances {
   final bool isFetching;
   SetIsFetchTokensBalances({this.isFetching});
 }
 
-ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
-  return (Store store) async {
-    Transfer failedTx = transfer.copyWith(status: 'FAILED');
-    store.dispatch(new ReplaceProTransaction(
-        tokenAddress: tokenAddrees,
-        transactionToReplace: failedTx,
-        transaction: transfer));
-  };
-}
+// ThunkAction proTransactionFailed(String tokenAddress, transfer) {
+//   return (Store store) async {
+//     Transfer failedTx = transfer.copyWith(status: 'FAILED');
+//     store.dispatch(new ReplaceProTransaction(
+//         tokenAddress: tokenAddress,
+//         transactionToReplace: failedTx,
+//         transaction: transfer));
+//   };
+// }
 
-ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
-  return (Store store) async {
-    Transfer confirmedTx = transfer.copyWith(
-        status: 'CONFIRMED',
-        txHash: txHash,
-        timestamp: DateTime.now().millisecondsSinceEpoch);
-    store.dispatch(new ReplaceProTransaction(
-        tokenAddress: tokenAddrees,
-        transaction: transfer,
-        transactionToReplace: confirmedTx));
-  };
-}
-
-ThunkAction initWeb3ProMode(
-    {String privateKey,
-    String communityManagerAddress,
-    String transferManagerAddress,
-    String dAIPointsManagerAddress}) {
-  return (Store store) async {
-    UserState userState = store.state.userState;
-    String pk = privateKey ?? userState.privateKey;
-    wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
-        networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
-        transferManagerAddress:
-            transferManagerAddress ?? userState.transferManagerAddress,
-        daiPointsManagerAddress:
-            dAIPointsManagerAddress ?? userState.daiPointsManagerAddress,
-        communityManagerAddress:
-            communityManagerAddress ?? userState.communityManagerAddress,
-        url: DotEnv().env['FOREIGN_PROVIDER_URL']);
-    web3.setCredentials(pk);
-    store.dispatch(new InitWeb3ProModeSuccess(web3: web3));
-  };
-}
+// ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddress, transfer) {
+//   return (Store store) async {
+//     Transfer confirmedTx = transfer.copyWith(
+//         status: 'CONFIRMED',
+//         txHash: txHash,
+//         timestamp: DateTime.now().millisecondsSinceEpoch);
+//     store.dispatch(new ReplaceProTransaction(
+//         tokenAddress: tokenAddress,
+//         transaction: transfer,
+//         transactionToReplace: confirmedTx));
+//   };
+// }
 
 ThunkAction startListenToTransferEvents() {
   return (Store store) async {
     bool isListenToTransferEvents =
         store.state.proWalletState?.isListenToTransferEvents ?? false;
-    final logger = await AppFactory().getLogger('action');
+
     if (!isListenToTransferEvents) {
-      logger.info('Timer start - startListenToTransferEvents');
-      new Timer.periodic(Duration(seconds: intervalSeconds),
+      log.info('Timer start - startListenToTransferEvents');
+      new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
           (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
-          logger.severe('Timer stopped - startListenToTransferEvents');
+          log.error('Timer stopped - startListenToTransferEvents');
           timer.cancel();
           return;
         }
@@ -194,7 +141,7 @@ ThunkAction startListenToTransferEvents() {
             tokenAddresses
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
-            logger.info('tokenAddresses ${tokenAddresses.length}');
+            log.info('tokenAddresses ${tokenAddresses.length}');
             if (tokenAddresses.isNotEmpty) {
               store.dispatch(addTokens(contractAddresses: tokenAddresses));
               store.dispatch(startFetchBalancesOnForeign());
@@ -202,8 +149,7 @@ ThunkAction startListenToTransferEvents() {
             timer.cancel();
           }
         } catch (error) {
-          logger.severe(
-              'Error in startListenToTransferEvents ${error.toString()}');
+          log.error('Error in startListenToTransferEvents ${error.toString()}');
         }
       });
       store.dispatch(new SetIsListenToTransferEvents(isFetching: true));
@@ -213,16 +159,15 @@ ThunkAction startListenToTransferEvents() {
 
 ThunkAction fetchTokensBalances() {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     bool isFetchTokensBalances =
         store.state.proWalletState?.isFetchTokensBalances ?? false;
     if (!isFetchTokensBalances) {
-      logger.info('Timer start - fetchTokensBalances');
-      new Timer.periodic(Duration(seconds: intervalSeconds),
+      log.info('Timer start - fetchTokensBalances');
+      new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
           (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           timer.cancel();
-          logger.severe('Timer stopped - fetchTokensBalances');
+          log.error('Timer stopped - fetchTokensBalances');
           store.dispatch(SetIsFetchTokensBalances(isFetching: false));
           return;
         }
@@ -231,7 +176,7 @@ ThunkAction fetchTokensBalances() {
         for (Token token in proWalletState.erc20Tokens.values) {
           Function fetchTokenBalance = () async {
             void Function(BigInt) onDone = (BigInt balance) {
-              logger.info('${token.name} balance updated');
+              log.info('${token.name} balance updated');
               Token tokenToUpdate =
                   store.state.proWalletState.erc20Tokens[token.address];
               store.dispatch(UpdateToken(
@@ -239,14 +184,14 @@ ThunkAction fetchTokensBalances() {
                       amount: balance,
                       timestamp: DateTime.now().millisecondsSinceEpoch)));
               store.dispatch(updateTotalBalance());
-              Future.delayed(Duration(seconds: intervalSeconds), () {
+              Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
                 store.dispatch(fetchTokensLatestPrice());
               });
               store.dispatch(ClearTokenList());
             };
             void Function(Object error, StackTrace stackTrace) onError =
                 (Object error, StackTrace stackTrace) {
-              logger.severe(
+              log.error(
                   'Error in fetchTokenBalance for - ${token.name} $error');
             };
             await token.fetchTokenBalance(walletAddress,
@@ -260,24 +205,24 @@ ThunkAction fetchTokensBalances() {
   };
 }
 
-ThunkAction startFetchTokensLastestPrices() {
+ThunkAction startFetchTokensLatestPrices() {
   return (Store store) async {
-    bool isFetchTokensLastestPrice =
-        store.state.proWalletState?.isFetchTokensLastestPrice ?? false;
-    final logger = await AppFactory().getLogger('action');
-    logger.info('Timer start - startFetchTokensLastestPrices');
-    if (!isFetchTokensLastestPrice) {
-      new Timer.periodic(Duration(minutes: intervalSeconds),
+    bool isFetchTokensLatestPrice =
+        store.state.proWalletState?.isFetchTokensLatestPrice ?? false;
+
+    log.info('Timer start - startFetchTokensLatestPrices');
+    if (!isFetchTokensLatestPrice) {
+      new Timer.periodic(Duration(minutes: Variables.INTERVAL_SECONDS),
           (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
-          store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
-          logger.severe('Timer stopped - startFetchTokensLastestPrices');
+          store.dispatch(SetIsFetchTokensLatestPrices(isFetching: false));
+          log.error('Timer stopped - startFetchTokensLatestPrices');
           timer.cancel();
           return;
         }
         store.dispatch(fetchTokensLatestPrice());
       });
-      store.dispatch(SetIsFetchTokensLastestPrices(isFetching: true));
+      store.dispatch(SetIsFetchTokensLatestPrices(isFetching: true));
     }
     store.dispatch(fetchTokensLatestPrice());
   };
@@ -285,12 +230,11 @@ ThunkAction startFetchTokensLastestPrices() {
 
 ThunkAction fetchTokensLatestPrice() {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     ProWalletState proWalletState = store.state.proWalletState;
     for (Token token in proWalletState.erc20Tokens.values) {
-      Function fetchTokenLastestPrice = () async {
+      Function fetchTokenLatestPrice = () async {
         void Function(Price) onDone = (Price priceInfo) {
-          logger.info('${token.name} price updated');
+          log.info('${token.name} price updated');
           Token tokenToUpdate =
               store.state.proWalletState.erc20Tokens[token.address];
           store.dispatch(UpdateToken(
@@ -300,29 +244,28 @@ ThunkAction fetchTokensLatestPrice() {
         };
         void Function(Object error, StackTrace stackTrace) onError =
             (Object error, StackTrace stackTrace) {
-          logger.severe(
-              'Error in fetchTokenLastestPrice for - ${token.name} $error');
+          log.error(
+              'Error in fetchTokenLatestPrice for - ${token.name} $error');
         };
-        logger.info('fetching price of token ${token.name} ${token.address}');
-        await token.fetchTokenLastestPrice(onDone: onDone, onError: onError);
+        log.info('fetching price of token ${token.name} ${token.address}');
+        await token.fetchTokenLatestPrice(onDone: onDone, onError: onError);
       };
-      await Future.delayed(Duration(milliseconds: 500), fetchTokenLastestPrice);
+      await Future.delayed(Duration(milliseconds: 500), fetchTokenLatestPrice);
     }
   };
 }
 
 ThunkAction startFetchBalancesOnForeign() {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     bool isFetchNewTokens =
         store.state.proWalletState?.isFetchNewTokens ?? false;
     if (!isFetchNewTokens) {
-      logger.info('Timer start - startFetchBalancesOnForeign');
-      new Timer.periodic(Duration(seconds: intervalSeconds),
+      log.info('Timer start - startFetchBalancesOnForeign');
+      new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
           (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchNewTokens(isFetching: false));
-          logger.severe('Timer stopped - startFetchBalancesOnForeign');
+          log.error('Timer stopped - startFetchBalancesOnForeign');
           timer.cancel();
           return;
         }
@@ -348,263 +291,181 @@ ThunkAction startFetchBalancesOnForeign() {
 
 ThunkAction addTokens({List<String> contractAddresses = const []}) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     try {
       List<String> tokenAddresses = []..addAll(contractAddresses);
       for (String address in tokenAddresses) {
         store.dispatch(fetchTokenByAddress(address));
       }
     } catch (error) {
-      logger.severe('Error in getBalancesOnForeign ${error.toString()}');
+      log.error('Error in getBalancesOnForeign ${error.toString()}');
     }
   };
 }
 
 ThunkAction fetchTokenByAddress(String tokenAddress) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    logger.info('new token to add $tokenAddress');
-    ProWalletState proWalletState = store.state.proWalletState;
-    wallet_core.Web3 web3 = proWalletState.web3;
-    if (web3 == null) {
-      throw "Web3 is empty";
-    }
-    if (exchangableTokens.containsKey(checksumEthereumAddress(tokenAddress))) {
-      Token newToken = exchangableTokens[checksumEthereumAddress(tokenAddress)];
-      logger.info('ADDED - new token $tokenAddress');
+    List<Community> communities =
+        store.state.cashWalletState.communities.values.toList();
+    Community community = communities.firstWhere(
+        (Community element) =>
+            tokenAddress?.toLowerCase() ==
+            element?.foreignTokenAddress?.toLowerCase(),
+        orElse: () => null);
+    if (community != null) {
+      Token token =
+          store.state.cashWalletState.tokens[community?.homeTokenAddress];
+      Token newToken = Token(
+        address: tokenAddress,
+        name: token.name,
+        symbol: token.symbol,
+        decimals: token.decimals,
+        timestamp: 0,
+        amount: BigInt.zero,
+        originNetwork: null,
+        imageUrl: ImageUrl.getLink(
+          community.metadata.imageUri,
+        ),
+      );
+      log.info('ADDED - new token $tokenAddress');
       store.dispatch(AddNewToken(
-          token: newToken.copyWith(
-        address: tokenAddress.toLowerCase(),
-      )));
+          token: newToken.copyWith(address: tokenAddress.toLowerCase())));
     } else {
       try {
-        List<Community> communities =
-            store.state.cashWalletState.communities.values.toList();
-        Community community = communities.firstWhere(
-            (Community element) =>
-                tokenAddress?.toLowerCase() ==
-                element?.foreignTokenAddress?.toLowerCase(),
-            orElse: () => null);
-        if (community != null) {
-          Token token =
-              store.state.cashWalletState.tokens[community?.homeTokenAddress];
-          Token newToken = Token.initial().copyWith(
-              address: tokenAddress,
-              name: token.name,
-              symbol: token.symbol,
-              decimals: token.decimals,
-              timestamp: 0,
-              amount: BigInt.zero,
-              originNetwork: null,
-              imageUrl: community.metadata.getImageUri());
-          logger.info('ADDED - new token $tokenAddress');
-          store.dispatch(AddNewToken(
-              token: newToken.copyWith(address: tokenAddress.toLowerCase())));
-          return;
-        }
-        dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
+        dynamic tokenDetails = await ethereumWeb3.getTokenDetails(tokenAddress);
         final int decimals = tokenDetails['decimals'].toInt();
-        Token newToken = Token.initial().copyWith(
-          timestamp: 0,
-          amount: BigInt.zero,
+        Token newToken = Token(
           address: tokenAddress.toLowerCase(),
           name: tokenDetails['name'],
           decimals: decimals,
           symbol: tokenDetails['symbol'],
         );
-        logger.info('ADDED - new token $tokenAddress');
+        log.info('ADDED - new token $tokenAddress');
         store.dispatch(AddNewToken(
             token: newToken.copyWith(address: tokenAddress.toLowerCase())));
       } catch (e) {
-        logger.severe('Error while get Token Details for $tokenAddress $e');
+        log.error('Error while get Token Details for $tokenAddress $e');
       }
     }
   };
 }
 
-ThunkAction getEtherBalabnce() {
+ThunkAction getEtherBalance() {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     try {
       BigInt etherBalance =
           store.state.proWalletState.etherBalance ?? BigInt.zero;
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
-      EtherAmount balance = await web3.getBalance();
+      String walletAddress = store.state.userState.walletAddress;
+      EtherAmount balance = await ethereumWeb3.getBalance(
+        address: walletAddress,
+      );
       if (etherBalance.compareTo(balance.getInWei) != 0) {
-        store.dispatch(UpdateEtherBalabnce(balance: balance.getInWei));
+        store.dispatch(UpdateEtherBalance(balance: balance.getInWei));
       }
     } catch (error) {
-      logger.severe('Error in Get Ether Balabnce ${error.toString()}');
+      log.error('Error in Get Ether Balance ${error.toString()}');
     }
   };
 }
 
-ThunkAction startFetchTransferEventsCall() {
-  return (Store store) async {
-    bool isFetchTransferEvents =
-        store.state.proWalletState?.isFetchTransferEvents ?? false;
-    final logger = await AppFactory().getLogger('action');
-    if (!isFetchTransferEvents) {
-      logger.info('Timer start - startFetchTransferEventsCall');
-      new Timer.periodic(Duration(seconds: intervalSeconds),
-          (Timer timer) async {
-        if (store.state.userState.walletAddress == '') {
-          store.dispatch(SetIsFetchTransferEvents(isFetching: false));
-          logger.severe('Timer stopped - startFetchTransferEventsCall');
-          timer.cancel();
-          return;
-        }
-        ProWalletState proWalletState = store.state.proWalletState;
-        List<String> tokenAddresses =
-            List<String>.from(proWalletState.erc20Tokens.keys);
-        for (String tokenAddress in tokenAddresses) {
-          store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
-        }
-      });
-      store.dispatch(SetIsFetchTransferEvents(isFetching: true));
-    }
-  };
-}
-
-// ThunkAction getTokenTransferEventsByAccountAddressEtherscan(
-//     String tokenAddress) {
+// ThunkAction startFetchTransferEventsCall() {
 //   return (Store store) async {
-//     final logger = await AppFactory().getLogger('action');
-//     try {
-//       Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
-//       String walletAddress = store.state.userState.walletAddress;
-//       dynamic tokensTransferEvents = await ethereumExplorerApi
-//           .getTokenTransferEventsByAccountAddress(tokenAddress, walletAddress,
-//               startblock: token.transactions?.blockNumber ?? 0);
-//       if (tokensTransferEvents.isNotEmpty) {
-//         List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
-//             .map((json) => Transfer.fromJson(json))
-//             .toList());
-//         int combiner(int max, dynamic transferEvent) =>
-//             (int.parse(transferEvent['blockNumber'].toString()) > max
-//                 ? int.parse(transferEvent['blockNumber'].toString())
-//                 : max) +
-//             1;
-//         int maxBlockNumber = tokensTransferEvents.fold<int>(0, combiner);
-//         logger.info(
-//             'maxBlockNumber maxBlockNumber maxBlockNumber maxBlockNumber $maxBlockNumber');
-//         Token tokenToUpdate = token.copyWith(
-//             transactions: token.transactions
-//                 .copyWith(blockNumber: maxBlockNumber, list: transfers));
-//         store.dispatch(UpdateToken(tokenToUpdate: tokenToUpdate));
-//       }
-//     } catch (e) {
-//       logger.severe(
-//           'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
-//       store.dispatch(new ErrorAction(e.toString()));
+//     bool isFetchTransferEvents =
+//         store.state.proWalletState?.isFetchTransferEvents ?? false;
+
+//     if (!isFetchTransferEvents) {
+//       log.info('Timer start - startFetchTransferEventsCall');
+//       new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
+//           (Timer timer) async {
+//         if (store.state.userState.walletAddress == '') {
+//           store.dispatch(SetIsFetchTransferEvents(isFetching: false));
+//           log.error('Timer stopped - startFetchTransferEventsCall');
+//           timer.cancel();
+//           return;
+//         }
+//         ProWalletState proWalletState = store.state.proWalletState;
+//         List<String> tokenAddresses =
+//             List<String>.from(proWalletState.erc20Tokens.keys);
+//         for (String tokenAddress in tokenAddresses) {
+//           // store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
+//         }
+//       });
+//       store.dispatch(SetIsFetchTransferEvents(isFetching: true));
 //     }
 //   };
 // }
 
-ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
-      String walletAddress = store.state.userState.walletAddress;
-      List<dynamic> tokensTransferEvents = await api.getWalletTransactions(
-          walletAddress.toLowerCase(),
-          tokenAddress: token.address.toLowerCase());
-      if (tokensTransferEvents.isNotEmpty) {
-        List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
-            .map((json) => Transfer.fromJson(json))
-            .toList());
-        for (Transfer transfer in transfers) {
-          if (transfer.status != null && transfer.status != 'DROPPED') {
-            store.dispatch(AddProTransaction(
-                tokenAddress: tokenAddress, transaction: transfer));
-          }
-        }
-      }
-    } catch (e) {
-      logger.severe(
-          'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
-      store.dispatch(new ErrorAction(e.toString()));
-    }
-  };
-}
+// ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
+//   return (Store store) async {
+//     try {
+//       Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
+//       String walletAddress = store.state.userState.walletAddress;
+//       List<dynamic> tokensTransferEvents = await api.getWalletTransactions(
+//           walletAddress.toLowerCase(),
+//           tokenAddress: token.address.toLowerCase());
+//       if (tokensTransferEvents.isNotEmpty) {
+//         List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
+//             .map((json) => Transfer.fromJson(json))
+//             .toList());
+//         for (Transfer transfer in transfers) {
+//           if (transfer.status != null && transfer.status != 'DROPPED') {
+//             store.dispatch(AddProTransaction(
+//                 tokenAddress: tokenAddress, transaction: transfer));
+//           }
+//         }
+//       }
+//     } catch (e) {
+//       log.error(
+//           'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
+//     }
+//   };
+// }
 
 ThunkAction sendErc20TokenCall(
-    Token token,
-    String receiverAddress,
-    num tokensAmount,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-    {String receiverName,
-    String transferNote,
-    Transfer inviteTransfer}) {
+  Token token,
+  String receiverAddress,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback, {
+  String receiverName,
+  String transferNote,
+}) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     try {
       UserState userState = store.state.userState;
       String walletAddress = userState.walletAddress;
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
-      logger.info(
+      log.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
-      Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
-          walletAddress, token.address, tokensAmount,
-          network: foreignNetwork);
-      Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
-          walletAddress, token.address, receiverAddress, tokensAmount,
-          network: foreignNetwork);
       num feeAmount = fees[token.symbol] ?? 1;
-      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, token.address, feeReceiverAddress, feeAmount,
-          network: foreignNetwork);
-      dynamic approveTrasfer = await api
-          .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
+      Map<String, dynamic> approveTokenData =
+          await ethereumWeb3.approveTokenOffChain(
+        walletAddress,
+        token.address,
+        tokensAmount,
+        network: foreignNetwork,
+      );
+      Map<String, dynamic> transferTokenData =
+          await ethereumWeb3.transferTokenOffChain(
+        walletAddress,
+        token.address,
+        receiverAddress,
+        tokensAmount,
+        network: foreignNetwork,
+      );
+      Map<String, dynamic> feeTransferData =
+          await ethereumWeb3.transferTokenOffChain(
+        walletAddress,
+        token.address,
+        Addresses.FEE_ADDRESS,
+        feeAmount,
+        network: foreignNetwork,
+      );
+      dynamic approveTransfer = await api
+          .multiRelay([approveTokenData, transferTokenData, feeTransferData]);
       sendSuccessCallback();
-      dynamic approveJobId = approveTrasfer['job']['_id'];
-      logger.info(
-          'Job $approveJobId for sending token sent to the relay service');
-
-      Transfer transfer = new Transfer(
-          from: walletAddress,
-          to: receiverAddress,
-          tokenAddress: token.address,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          value: toBigInt(feeAmount + tokensAmount, token.decimals),
-          type: 'SEND',
-          note: transferNote,
-          receiverName: receiverName,
-          status: 'PENDING',
-          jobId: approveJobId);
-
-      if (inviteTransfer != null) {
-        store.dispatch(new ReplaceProTransaction(
-            tokenAddress: token.address,
-            transaction: inviteTransfer,
-            transactionToReplace: transfer));
-      } else {
-        store.dispatch(new AddProTransaction(
-            transaction: transfer, tokenAddress: token.address));
-      }
-      approveTrasfer['job']['arguments'] = {
-        'receiverAddress': receiverAddress,
-        'tokensAmount': tokensAmount,
-        'network': foreignNetwork,
-        'jobType': 'approveToken',
-        'tokenAddress': token.address,
-        'transfer': transfer
-      };
-
-      Job job = JobFactory.create(approveTrasfer['job']);
-      store.dispatch(AddProJob(job: job, tokenAddress: token.address));
-      store.dispatch(startProcessingTokensJobsCall());
+      dynamic approveJobId = approveTransfer['job']['_id'];
+      log.info('Job $approveJobId for sending token sent to the relay service');
     } catch (e) {
-      logger.severe('ERROR - sendErc20TokenCall $e');
-      store.dispatch(new ErrorAction(e.toString()));
+      log.error('ERROR - sendErc20TokenCall $e');
       sendFailureCallback();
     }
   };
@@ -619,131 +480,72 @@ ThunkAction sendTokenToHomeMultiBridge(
     {String receiverName,
     String transferNote}) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     try {
       UserState userState = store.state.userState;
       String walletAddress = userState.walletAddress;
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
       String tokenAddress = token?.address;
-      BigInt value = toBigInt(tokensAmount, token.decimals);
       dynamic response;
       num feeAmount = 20;
-      logger.info(
+      log.info(
           'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-      List trasnferData = await web3.transferTokenToHome(walletAddress,
+      List transferData = await ethereumWeb3.transferTokenToHome(walletAddress,
           receiverAddress, tokenAddress, tokensAmount, token.decimals,
           network: token.originNetwork);
-      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
-      response = await api.multiRelay([...trasnferData, feeTrasnferData]);
+      Map<String, dynamic> feeTransferData =
+          await ethereumWeb3.transferTokenOffChain(
+        walletAddress,
+        tokenAddress,
+        Addresses.FEE_ADDRESS,
+        feeAmount,
+      );
+      response = await api.multiRelay([...transferData, feeTransferData]);
 
       dynamic jobId = response['job']['_id'];
-      logger.info('Job $jobId for sending token sent to the relay service');
+      log.info('Job $jobId for sending token sent to the relay service');
 
       sendSuccessCallback();
-      Transfer transfer = Transfer(
-          from: walletAddress,
-          to: receiverAddress,
-          tokenAddress: tokenAddress,
-          value: value,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          type: 'SEND',
-          note: transferNote,
-          receiverName: receiverName,
-          status: 'PENDING',
-          jobId: jobId);
-
-      store.dispatch(
-          AddProTransaction(transaction: transfer, tokenAddress: tokenAddress));
-
-      response['job']['arguments'] = {
-        'receiverAddress': receiverAddress,
-        'tokensAmount': tokensAmount,
-        'network': token.originNetwork,
-        'jobType': 'approveToken',
-        'tokenAddress': tokenAddress,
-        'transfer': transfer
-      };
-      Job job = JobFactory.create(response['job']);
-      store.dispatch(AddProJob(job: job, tokenAddress: tokenAddress));
     } catch (e) {
-      logger.severe('ERROR - sendTokenCall $e');
+      log.error('ERROR - sendTokenCall $e');
       sendFailureCallback();
-      store.dispatch(ErrorAction('Could not send token'));
     }
   };
 }
 
 ThunkAction inviteAndSendCall(
-    Token token,
-    String name,
-    String contactPhoneNumber,
-    num tokensAmount,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-    {String receiverName = ''}) {
+  Token token,
+  String name,
+  String contactPhoneNumber,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback, {
+  String receiverName = '',
+}) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     try {
       String senderName = store.state.userState.displayName;
-      dynamic response = await api.invite(contactPhoneNumber,
-          communityAddress: store.state.cashWalletState.communityAddress,
-          name: senderName,
-          amount: tokensAmount.toString(),
-          symbol: token.symbol);
-      sendSuccessCallback();
-
-      BigInt value = toBigInt(tokensAmount, token.decimals);
-      String walletAddress = store.state.userState.walletAddress;
-
-      Transfer inviteTransfer = new Transfer(
-          from: walletAddress,
-          to: '',
-          tokenAddress: token?.address,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          value: value,
-          type: 'SEND',
+      dynamic response = await api.invite(
+        contactPhoneNumber,
+        communityAddress: defaultCommunityAddress,
+        name: senderName,
+        amount: tokensAmount.toString(),
+        symbol: token.symbol,
+      );
+      final String receiverAddress = response['job']['data']["walletAddress"];
+      store.dispatch(
+        sendErc20TokenCall(
+          token,
+          receiverAddress,
+          tokensAmount,
+          sendSuccessCallback,
+          sendFailureCallback,
           receiverName: receiverName,
-          status: 'PENDING',
-          jobId: response['job']['_id']);
-      store.dispatch(AddProTransaction(
-          transaction: inviteTransfer, tokenAddress: token.address));
-
-      response['job']['arguments'] = {
-        'tokensAmount': tokensAmount,
-        'tokenAddress': token.address,
-        'receiverName': receiverName,
-        'sendSuccessCallback': () => {},
-        'sendFailureCallback': sendFailureCallback,
-        'inviteTransfer': inviteTransfer
-      };
-
-      Job job = JobFactory.create(response['job']);
-      store.dispatch(AddProJob(job: job, tokenAddress: token.address));
-      store.dispatch(startProcessingTokensJobsCall());
+        ),
+      );
+      sendSuccessCallback();
+      store.dispatch(loadContacts());
     } catch (e) {
-      logger.severe('ERROR - inviteAndSendCall $e');
+      log.error('ERROR - inviteAndSendCall $e');
     }
-  };
-}
-
-ThunkAction inviteProAndSendSuccessCall(
-    Job job,
-    num tokensAmount,
-    String receiverName,
-    Transfer inviteTransfer,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback) {
-  return (Store store) async {
-    ProWalletState proWalletState = store.state.proWalletState;
-    Token token = proWalletState.erc20Tokens[inviteTransfer.tokenAddress];
-    String receiverAddress = job.data["walletAddress"];
-    store.dispatch(sendErc20TokenCall(token, receiverAddress, tokensAmount,
-        sendSuccessCallback, sendFailureCallback,
-        receiverName: receiverName, inviteTransfer: inviteTransfer));
   };
 }
 
@@ -757,166 +559,24 @@ ThunkAction sendErc20TokenToContactCall(
     {String receiverName,
     String transferNote}) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
     try {
-      logger.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
+      log.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
       Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
-      logger.info("wallet $wallet");
+      log.info("wallet $wallet");
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       if (walletAddress == null || walletAddress.isEmpty) {
-        logger.info("inviting contact $contactPhoneNumber");
+        log.info("inviting contact $contactPhoneNumber");
         store.dispatch(inviteAndSendCall(token, name, contactPhoneNumber,
             tokensAmount, sendSuccessCallback, sendFailureCallback,
             receiverName: receiverName));
         return;
       }
-      logger.info("sending to contact walletAddress $walletAddress");
+      log.info("sending to contact walletAddress $walletAddress");
       store.dispatch(sendErc20TokenCall(token, walletAddress, tokensAmount,
           sendSuccessCallback, sendFailureCallback,
           receiverName: receiverName, transferNote: transferNote));
     } catch (e) {
-      logger.severe('ERROR - sendTokenToContactCall $e');
-      store.dispatch(new ErrorAction('Could not send token to contact'));
-    }
-  };
-}
-
-ThunkAction startProcessingTokensJobsCall() {
-  return (Store store) async {
-    bool isProcessingTokensJobs =
-        store.state.proWalletState?.isProcessingTokensJobs ?? false;
-    final logger = await AppFactory().getLogger('action');
-    if (!isProcessingTokensJobs) {
-      logger.info('Timer start - startProcessingTokensJobsCall');
-      new Timer.periodic(Duration(seconds: intervalSeconds),
-          (Timer timer) async {
-        if (store.state.userState.walletAddress == '') {
-          store.dispatch(SetIsProcessingTokensJobs(isFetching: false));
-          logger.severe('Timer stopped - startProcessingTokensJobsCall');
-          timer.cancel();
-          return;
-        }
-        store.dispatch(processingTokenJobsCall(timer));
-      });
-      store.dispatch(SetIsProcessingTokensJobs(isFetching: true));
-    }
-  };
-}
-
-ThunkAction processingTokenJobsCall(Timer timer) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('Job');
-    String walletAddress = store.state.userState.walletAddress;
-    ProWalletState proWalletState = store.state.proWalletState;
-    List<String> tokenAddresses =
-        List<String>.from(proWalletState.erc20Tokens.keys);
-    for (String tokenAddress in tokenAddresses) {
-      List<Job> jobs = proWalletState.erc20Tokens[tokenAddress]?.jobs ?? [];
-      for (Job job in jobs) {
-        if (job.status != 'DONE' && job.status != 'FAILED') {
-          String currentWalletAddress = store.state.userState.walletAddress;
-          bool isJobProcessValid() {
-            if (currentWalletAddress != walletAddress) {
-              logger.severe('Timer stopped - startProcessingTokensJobsCall');
-              timer.cancel();
-              return false;
-            }
-            if (job.status == 'DONE') {
-              return false;
-            }
-            return true;
-          }
-
-          try {
-            await job.perform(store, isJobProcessValid);
-          } catch (e) {
-            logger.severe('failed perform ${job.name}');
-          }
-        }
-      }
-    }
-  };
-}
-
-ThunkAction swapHandler(
-    Token fromToken,
-    Token toToken,
-    String tokenAddress,
-    num tokensAmount,
-    num tokensAmountIn,
-    String swapContractAddress,
-    String swapData,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('Job');
-    UserState userState = store.state.userState;
-    String walletAddress = userState.walletAddress;
-    wallet_core.Web3 web3 = store.state.proWalletState.web3;
-    if (web3 == null) {
-      throw "Web3 is empty";
-    }
-    try {
-      final String spenderContract =
-          DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
-
-      num feeAmount = fees[fromToken.symbol] ?? 0;
-      Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(
-          walletAddress, tokenAddress, tokensAmount,
-          spenderContract: spenderContract, network: foreignNetwork);
-      Map<String, dynamic> signedSwapData = await web3.callContractOffChain(
-          walletAddress,
-          swapContractAddress,
-          0,
-          swapData.replaceFirst('0x', ''),
-          network: foreignNetwork);
-      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
-
-      Map<String, dynamic> response = await api
-          .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
-      sendSuccessCallback();
-      String swapJobId = response['job']['_id'];
-      logger.info('Job $swapJobId for swap');
-      Transfer transfer = new Transfer(
-        from: walletAddress,
-        to: walletAddress,
-        tokenAddress: fromToken.address,
-        value: toBigInt(tokensAmount + feeAmount, fromToken.decimals),
-        type: 'SEND',
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        note: '',
-        status: 'PENDING',
-        jobId: swapJobId,
-      );
-
-      Transfer transferIn = new Transfer(
-          from: walletAddress,
-          to: walletAddress,
-          tokenAddress: toToken.address,
-          value: toBigInt(tokensAmountIn, toToken.decimals),
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          type: 'RECEIVE',
-          status: 'PENDING',
-          jobId: swapJobId);
-      store.dispatch(new AddProTransaction(
-          transaction: transfer, tokenAddress: fromToken.address));
-
-      response['job']['arguments'] = {
-        'name': 'swapToken',
-        'transfer': transfer.copyWith(),
-        'fromToken': fromToken.copyWith(),
-        'toToken': toToken.copyWith(),
-        'transferIn': transferIn.copyWith()
-      };
-      response['job']['jobType'] = 'swapToken';
-      SwapTokenJob swapTokenJob = JobFactory.create(response['job']);
-      store.dispatch(
-          AddProJob(job: swapTokenJob, tokenAddress: fromToken.address));
-    } catch (e) {
-      logger.severe('ERROR - api.totleSwap $e');
-      store.dispatch(new ErrorAction(e.toString()));
-      sendFailureCallback();
+      log.error('ERROR - sendTokenToContactCall $e');
     }
   };
 }
