@@ -39,6 +39,10 @@ You can download the beta version of our app from the [Google Play](https://play
       git clone https://github.com/fuseio/fuse-wallet.git
       cd fuse-wallet
 
+### Configuring the environment
+
+1. Make a copy of `.env_example` named `.env` - `cd environment && cp .env_example .env`
+
 - For Android development, create a file at `./android/key.properties`, [as described here](https://flutter.dev/docs/deployment/android), containing the keystore path and passwords, as set up earlier.
 - Run the app.
 
