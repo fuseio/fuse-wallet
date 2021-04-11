@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -115,6 +118,7 @@ class _MyAppState extends State<MyApp> {
         title: Strings.APP_NAME,
         builder: ExtendedNavigator.builder(
           observers: [
+            FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
             SegmentObserver(),
             SentryNavigatorObserver(),
           ],

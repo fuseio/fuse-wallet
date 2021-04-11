@@ -1,5 +1,8 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/features/buy/router/buy_router.gr.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
@@ -72,6 +75,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 router: HomeRouter(),
                 name: 'homeRouter',
                 observers: [
+                  FirebaseAnalyticsObserver(
+                      analytics: getIt<FirebaseAnalytics>()),
                   SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
@@ -83,6 +88,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     ? ContactsRoutes.contactsList
                     : ContactsRoutes.emptyContacts,
                 observers: [
+                  FirebaseAnalyticsObserver(
+                      analytics: getIt<FirebaseAnalytics>()),
                   SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
@@ -93,6 +100,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       router: BuyRouter(),
                       name: 'buyRouter',
                       observers: [
+                        FirebaseAnalyticsObserver(
+                            analytics: getIt<FirebaseAnalytics>()),
                         SegmentObserver(),
                         SentryNavigatorObserver(),
                       ],
