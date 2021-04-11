@@ -296,7 +296,7 @@ class ActionTile extends StatelessWidget {
                                         Theme.of(context).colorScheme.onSurface,
                                   ),
                                 )
-                              : SizedBox.shrink(),
+                              : TextSpan(text: ''),
                           TextSpan(
                             text: I18n.of(context).community,
                             style: TextStyle(

@@ -82,9 +82,11 @@ class TokenTile extends StatelessWidget {
   final double symbolHeight;
   final Token token;
 
-  showBottomMenu(TokenTileViewModel viewModel, context) {
-    final bool hasPriceInfo =
-        ![null, '', '0', 0].contains(token.priceInfo.quote);
+  showBottomMenu(
+    TokenTileViewModel viewModel,
+    BuildContext context,
+    bool hasPriceInfo,
+  ) {
     final bool isSwappable = viewModel.tokensImages.containsKey(token.address);
     showModalBottomSheet(
       isScrollControlled: true,
@@ -291,6 +293,8 @@ class TokenTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasPriceInfo =
+        ![null, '', '0', 0].contains(token?.priceInfo?.quote);
     final String price = token.priceInfo != null
         ? display(num.parse(token?.priceInfo?.total))
         : '0';
@@ -407,7 +411,7 @@ class TokenTile extends StatelessWidget {
                         fontFamily: 'Europa',
                       ),
                       children: <TextSpan>[
-                        token.priceInfo != null
+                        hasPriceInfo
                             ? TextSpan(
                                 text: '\$' + price,
                                 style: TextStyle(
@@ -426,7 +430,7 @@ class TokenTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  token.priceInfo != null
+                  hasPriceInfo
                       ? Positioned(
                           bottom: -20,
                           child: Padding(
@@ -452,7 +456,7 @@ class TokenTile extends StatelessWidget {
               : () {
                   viewModel.fetchTokenPrice(token);
                   viewModel.fetchTokenAction(token);
-                  showBottomMenu(viewModel, context);
+                  showBottomMenu(viewModel, context, hasPriceInfo);
                 },
           contentPadding: EdgeInsets.only(
             top: 10,
