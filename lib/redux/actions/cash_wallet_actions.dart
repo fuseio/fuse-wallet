@@ -894,6 +894,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           community: newCommunity,
         ),
       );
+      store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
       store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
