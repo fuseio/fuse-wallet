@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/urls.dart';
-import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
@@ -30,7 +29,6 @@ ThunkAction fetchSwapList() {
   return (Store store) async {
     try {
       final dio = getIt<Dio>();
-      SwapState swapState = store.state.swapState;
       String address = store.state.userState.walletAddress;
       Response<String> response =
           await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);

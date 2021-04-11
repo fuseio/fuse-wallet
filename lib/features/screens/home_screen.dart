@@ -8,8 +8,6 @@ import 'package:fusecash/features/screens/fuse_studio_explained.dart';
 import 'package:fusecash/features/screens/receive_screen.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
-import 'package:fusecash/features/screens/webview_screen.dart';
-import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
