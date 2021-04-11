@@ -11,6 +11,7 @@ import 'package:fusecash/redux/viewsmodels/drawer.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/webview.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 
 class DrawerWidget extends StatefulWidget {
   @override
@@ -111,11 +112,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         onTap: () async {
           ExtendedNavigator.root.pop();
           String url = depositPlugins[0].widgetUrl;
-          openDepositWebview(
-            withBack: true,
-            url: url,
-            title: I18n.of(context).top_up,
-          );
+          if (viewModel.isFuseDollarCommunity) {
+            openDepositWebview(
+              withBack: true,
+              url: url,
+              title: I18n.of(context).top_up,
+            );
+          } else {
+            ExtendedNavigator.root.pushWebview(
+              withBack: true,
+              url: url,
+              title: I18n.of(context).top_up,
+            );
+          }
           Segment.track(eventName: 'User clicked on top up');
         },
       ));

@@ -31,6 +31,10 @@ class WalletActionFactory {
         json.containsKey('data') ? Map.from({...json, ...json['data']}) : json;
     json['timestamp'] =
         DateTime.parse(json['updatedAt']).millisecondsSinceEpoch;
+    json['value'] =
+        json.containsKey('value') && [null, '', 'NaN'].contains(json['value'])
+            ? '0'
+            : json['value'];
     json['status'] = json['status']?.toUpperCase();
     if (json['name'] == 'createWallet') {
       return CreateWallet.fromJson(json);

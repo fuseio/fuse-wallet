@@ -130,7 +130,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                           ? I18n.of(context).invalid_pincode
                                           : null,
                                   textStyle: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                     color: Color(0xFF575757),
                                   ),

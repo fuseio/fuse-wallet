@@ -44,20 +44,12 @@ class FeedViewModel extends Equatable {
         List.from(store.state.cashWalletState?.walletActions?.list) ?? [];
     final bool showDepositBanner = token != null &&
         (walletAction != null && walletAction.isConfirmed()) &&
-        (walletActions.isNotEmpty && walletActions.length < 2) &&
+        (walletActions.isNotEmpty && walletActions.length < 3) &&
         tokens != null &&
         tokens.isEmpty;
     return FeedViewModel(
       showDepositBanner: showDepositBanner,
-      walletActions: showDepositBanner
-          ? [
-              ...walletActions,
-              WalletAction.depositYourFirstDollar(
-                tokenAddress: token?.address,
-                timestamp: walletActions[0].timestamp,
-              ),
-            ]
-          : walletActions,
+      walletActions: walletActions,
       startFetching: () {
         store.dispatch(startFetchingCall());
         store.dispatch(startFetchTokensBalances());

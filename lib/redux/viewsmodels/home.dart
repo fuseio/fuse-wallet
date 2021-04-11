@@ -5,21 +5,18 @@ import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
   final Function(bool initial) onReceiveBranchData;
   final Function() refreshFeed;
   final bool showTabs;
-  final bool showDepositBanner;
 
   HomeViewModel({
     this.onReceiveBranchData,
     this.tokens,
     this.refreshFeed,
     this.showTabs,
-    this.showDepositBanner,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -57,21 +54,12 @@ class HomeViewModel extends Equatable {
     final String walletAddress = store.state.userState.walletAddress;
     final Map<String, Community> communities =
         store.state.cashWalletState.communities;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress];
-    Token token =
-        store.state.cashWalletState.tokens[community?.homeTokenAddress];
     final bool showTabs =
         tokens.any((element) => element.originNetwork == null) ||
             communities.length > 1 ||
             tokens.length > 1;
-    final bool showDepositBanner =
-        !(store?.state?.userState?.depositBannerShowed ?? false) &&
-            util.isDefaultCommunity(communityAddress) &&
-            token != null;
     return HomeViewModel(
       tokens: tokens,
-      showDepositBanner: showDepositBanner,
       showTabs: showTabs,
       onReceiveBranchData: (initial) {
         if (!isCommunityLoading && isCommunityFetched && isBranchDataReceived) {
@@ -100,7 +88,6 @@ class HomeViewModel extends Equatable {
 
   @override
   List<Object> get props => [
-        showDepositBanner,
         showTabs,
         tokens,
       ];
