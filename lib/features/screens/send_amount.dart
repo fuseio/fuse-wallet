@@ -42,7 +42,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   @override
   void initState() {
     super.initState();
-    Segment.screen(screenName: '/send-amount-screen');
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
@@ -166,6 +165,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
+        Segment.screen(screenName: '/send-amount-screen');
         if (viewModel.tokens.isNotEmpty) {
           if ([null, ''].contains(args.tokenToSend)) {
             setState(() {
