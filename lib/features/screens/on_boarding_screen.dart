@@ -28,6 +28,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/splash-screen');
     super.initState();
     _slideController = HouseController(onUpdated: _update);
 
@@ -64,9 +65,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       CreateWallet()
     ];
     return StoreConnector<AppState, SplashViewModel>(
-      onInitialBuild: (viewModel) {
-        Segment.screen(screenName: '/splash-screen');
-      },
       distinct: true,
       converter: SplashViewModel.fromStore,
       builder: (_, viewModel) {

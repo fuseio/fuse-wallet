@@ -32,13 +32,13 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/choose-lock-method-screen');
     _checkBiometrical();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/choose-lock-method-screen');
     return MyScaffold(
       title: I18n.of(context).protect_wallet,
       body: Container(

@@ -7,7 +7,6 @@ import 'package:fusecash/features/onboard/screens/restore_wallet_screen.dart';
 import 'package:fusecash/features/onboard/screens/username_screen.dart';
 import 'package:fusecash/features/onboard/screens/signup_screen.dart';
 import 'package:fusecash/features/onboard/screens/verify_screen.dart';
-import 'package:fusecash/features/screens/inappwebview_screen.dart';
 import 'package:fusecash/features/screens/on_board_screen.dart';
 import 'package:fusecash/features/screens/pincode_screen.dart';
 import 'package:fusecash/features/screens/on_boarding_screen.dart';
@@ -32,8 +31,6 @@ import 'package:fusecash/features/swap/screens/swap.dart';
     MaterialRoute(page: SignUpScreen),
     MaterialRoute(page: VerifyScreen),
     MaterialRoute(page: UserNameScreen),
-    MaterialRoute(
-        page: InappWebViewScreen, name: 'inAppWebview', fullscreenDialog: true),
     MaterialRoute(page: WebViewScreen, name: 'webview', fullscreenDialog: true),
     MaterialRoute(
         guards: [AuthGuard], page: MainHomeScreen, name: 'homeScreen'),

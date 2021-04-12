@@ -18,7 +18,6 @@ import '../../features/onboard/screens/signup_screen.dart';
 import '../../features/onboard/screens/username_screen.dart';
 import '../../features/onboard/screens/verify_screen.dart';
 import '../../features/screens/home_screen.dart';
-import '../../features/screens/inappwebview_screen.dart';
 import '../../features/screens/on_board_screen.dart';
 import '../../features/screens/on_boarding_screen.dart';
 import '../../features/screens/pincode_screen.dart';
@@ -45,7 +44,6 @@ class Routes {
   static const String signUpScreen = '/sign-up-screen';
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
-  static const String inAppWebview = '/inapp-web-view-screen';
   static const String webview = '/web-view-screen';
   static const String homeScreen = '/main-home-screen';
   static const String actionDetailsScreen = '/action-details-screen';
@@ -65,7 +63,6 @@ class Routes {
     signUpScreen,
     verifyScreen,
     userNameScreen,
-    inAppWebview,
     webview,
     homeScreen,
     actionDetailsScreen,
@@ -91,7 +88,6 @@ class Router extends RouterBase {
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
-    RouteDef(Routes.inAppWebview, page: InappWebViewScreen),
     RouteDef(Routes.webview, page: WebViewScreen),
     RouteDef(Routes.homeScreen, page: MainHomeScreen, guards: [AuthGuard]),
     RouteDef(Routes.actionDetailsScreen,
@@ -165,20 +161,6 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => UserNameScreen(),
         settings: data,
-      );
-    },
-    InappWebViewScreen: (data) {
-      final args = data.getArgs<InappWebViewScreenArguments>(
-        orElse: () => InappWebViewScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => InappWebViewScreen(
-          url: args.url,
-          title: args.title,
-          withBack: args.withBack,
-        ),
-        settings: data,
-        fullscreenDialog: true,
       );
     },
     WebViewScreen: (data) {
@@ -311,17 +293,6 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushUserNameScreen() => push<dynamic>(Routes.userNameScreen);
 
-  Future<dynamic> pushInAppWebview({
-    String url,
-    String title,
-    bool withBack = false,
-  }) =>
-      push<dynamic>(
-        Routes.inAppWebview,
-        arguments: InappWebViewScreenArguments(
-            url: url, title: title, withBack: withBack),
-      );
-
   Future<dynamic> pushWebview({
     String url,
     String title,
@@ -418,14 +389,6 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 class VerifyScreenArguments {
   final String verificationId;
   VerifyScreenArguments({this.verificationId});
-}
-
-/// InappWebViewScreen arguments holder class
-class InappWebViewScreenArguments {
-  final String url;
-  final String title;
-  final bool withBack;
-  InappWebViewScreenArguments({this.url, this.title, this.withBack = false});
 }
 
 /// WebViewScreen arguments holder class

@@ -9,6 +9,12 @@ The Fuse Wallet built upon the [wallet-core SDK](https://github.com/fuseio/walle
 - The [graphql API](https://graph.fuse.io/subgraphs/name/fuseio/fuse/graphql) (provided by [theraph's node](https://thegraph.com/)) provides a convenient API for reading from the network. More info about the API can be found [here](https://github.com/fuseio/fuse-graph)
 - The relayer service for fee abstraction
 - The [fuse-studio](https://github.com/fuseio/fuse-studio) backend API for business logic and data
+- Redux for state management (https://pub.dev/packages/flutter_redux)
+- Dio for fetching APIs (https://pub.dev/packages/dio)
+- GetIt/Injectable for Dependecy Injection (DI) (https://pub.dev/packages/get_It and https://pub.dev/packages/injectable)
+- auto_route for routing (https://pub.dev/packages/auto_route)
+- Multi language support (i18n)(https://github.com/esskar/vscode-flutter-i18n-json)
+- Logging using [logger](https://pub.dev/packages/logger "logger") (lib/utils/log)
 
 ## Smart Contracts
 

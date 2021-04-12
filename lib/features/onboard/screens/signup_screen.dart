@@ -27,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/signup-screen');
     WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
@@ -69,7 +70,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/signup-screen');
     return MyScaffold(
       resizeToAvoidBottomInset: false,
       title: I18n.of(context).sign_up,
