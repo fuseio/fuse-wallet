@@ -52,6 +52,14 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
+            <intent-filter android:autoVerify="true">
+                <data android:host="io.fuse.fusecash" android:scheme="rampnetwork" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
 
         </activity>
         <!-- Branch init -->

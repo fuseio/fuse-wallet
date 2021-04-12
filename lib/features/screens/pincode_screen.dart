@@ -23,6 +23,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/pincode-screen');
     super.initState();
   }
 
@@ -35,7 +36,6 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/pincode-screen');
     return WillPopScope(
       onWillPop: () async {
         ExtendedNavigator.root.pop<bool>(false);

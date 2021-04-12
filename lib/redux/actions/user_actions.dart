@@ -236,21 +236,6 @@ ThunkAction backupWalletCall() {
   };
 }
 
-// ThunkAction backupSuccessCall(Transfer transfer) {
-//   return (Store store) async {
-//     Transfer confirmedTx = transfer.copyWith(
-//         status: 'CONFIRMED', timestamp: DateTime.now().millisecondsSinceEpoch);
-//     store.dispatch(ReplaceTransaction(
-//         transactionToReplace: confirmedTx,
-//         transaction: transfer,
-//         tokenAddress: transfer.tokenAddress));
-//     store.dispatch(BackupSuccess());
-//     store.dispatch(segmentIdentifyCall(
-//         Map<String, dynamic>.from({'Wallet backed up success': true})));
-//     store.dispatch(segmentTrackCall('Wallet: backup success'));
-//   };
-// }
-
 ThunkAction restoreWalletCall(
     List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {

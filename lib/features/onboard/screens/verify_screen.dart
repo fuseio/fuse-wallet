@@ -26,6 +26,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/verify-phone-number-screen');
     super.initState();
   }
 
@@ -37,7 +38,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/verify-phone-number-screen');
     return MyScaffold(
       title: I18n.of(context).sign_up,
       body: StoreConnector<AppState, OnboardViewModel>(

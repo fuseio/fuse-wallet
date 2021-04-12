@@ -25,6 +25,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/restore-wallet-screen');
     super.initState();
   }
 
@@ -36,7 +37,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/restore-wallet-screen');
     return MyScaffold(
       title: I18n.of(context).restore_from_backup,
       body: Container(

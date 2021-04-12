@@ -19,13 +19,15 @@ class WebViewScreen extends StatefulWidget {
 class _WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
+    Segment.screen(screenName: '/web-view-screen', properties: {
+      "url": widget.url,
+    });
     super.initState();
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/web-view-screen');
     return MyScaffold(
       title: widget.title,
       resizeToAvoidBottomInset: !Platform.isIOS,

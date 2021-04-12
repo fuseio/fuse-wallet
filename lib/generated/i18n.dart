@@ -410,6 +410,10 @@ class I18n implements WidgetsLocalizations {
   String get activity => "Activity";
   /// "Date & Time"
   String get date_and_time => "Date & Time";
+  /// "Sending money to ${name} will automatically invite them to Fuse and let them redeem the funds you sent"
+  String invite_text(String name) => "Sending money to ${name} will automatically invite them to Fuse and let them redeem the funds you sent";
+  /// "friend"
+  String get friend => "friend";
 }
 
 class _I18n_en_US extends I18n {
@@ -752,9 +756,6 @@ class _I18n_he_IL extends I18n {
   /// "לא"
   @override
   String get no => "לא";
-  /// "Fuse Volts"
-  @override
-  String get fuse_volts => "Fuse Volts";
   /// "בצע גיבוי"
   @override
   String get back_up_now => "בצע גיבוי";
@@ -3339,9 +3340,6 @@ class _I18n_nl_NL extends I18n {
   /// "Nee"
   @override
   String get no => "Nee";
-  /// "Fuse Volts"
-  @override
-  String get fuse_volts => "Fuse Volts";
   /// "Maak nu een back-up"
   @override
   String get back_up_now => "Maak nu een back-up";
@@ -3710,9 +3708,6 @@ class _I18n_sr_RS extends I18n {
   /// "Не"
   @override
   String get no => "Не";
-  /// "Fuse Volts"
-  @override
-  String get fuse_volts => "Fuse Volts";
   /// "Направи резервну копију"
   @override
   String get back_up_now => "Направи резервну копију";

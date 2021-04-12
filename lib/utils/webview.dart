@@ -1,27 +1,23 @@
-import 'dart:io';
-
-import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 
 void openDepositWebview({
   String url,
   bool withBack,
   String title,
 }) {
-  if (Platform.isIOS) {
-    ExtendedNavigator.root.pushWebview(
-      withBack: withBack,
-      url: '$url&finalUrl=https://fuse.io',
-      title: title ??
-          I18n.of(ExtendedNavigator.root.context).deposit_your_first_dollars,
-    );
-  } else {
-    ExtendedNavigator.root.pushInAppWebview(
-      withBack: withBack,
-      url: '$url&finalUrl=https://fuse.io',
-      title: title ??
-          I18n.of(ExtendedNavigator.root.context).deposit_your_first_dollars,
-    );
-  }
+  FlutterWebBrowser.openWebPage(
+    url: '$url&finalUrl=https://fuse.io',
+    customTabsOptions: CustomTabsOptions(
+      colorScheme: CustomTabsColorScheme.light,
+      addDefaultShareMenuItem: true,
+      instantAppsEnabled: true,
+      showTitle: true,
+      urlBarHidingEnabled: true,
+    ),
+    safariVCOptions: SafariViewControllerOptions(
+      barCollapsingEnabled: true,
+      dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+      modalPresentationCapturesStatusBarAppearance: true,
+    ),
+  );
 }
