@@ -140,7 +140,7 @@ class _MyAppState extends State<MyApp> {
             child: ResponsiveWrapper.builder(
               extendedNav,
               maxWidth: 1200,
-              minWidth: 450,
+              minWidth: 400,
               defaultScale: true,
               breakpoints: [
                 ResponsiveBreakpoint.resize(480, name: MOBILE),

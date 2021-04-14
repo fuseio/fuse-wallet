@@ -29,19 +29,13 @@ class CashHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              InkWell(
-                focusColor: Theme.of(context).canvasColor,
-                highlightColor: Theme.of(context).canvasColor,
-                onTap: () {
-                  AppKeys.homePageKey.currentState.openDrawer();
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(top: 35, right: 35),
-                  child: Image.asset(
-                    'assets/images/menu.png',
-                    width: 20,
-                  ),
+              IconButton(
+                padding: EdgeInsets.only(top: 35, right: 35),
+                icon: Image.asset(
+                  'assets/images/menu.png',
+                  // width: 10,
                 ),
+                onPressed: AppKeys.homePageKey.currentState.openDrawer,
               ),
               Text(
                 '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',

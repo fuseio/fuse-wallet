@@ -1,4 +1,5 @@
 import 'package:fusecash/constants/addresses.dart';
+import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/string.dart';
 
@@ -13,6 +14,19 @@ final Token fuseToken = Token(
   isNative: true,
   timestamp: 0,
   amount: BigInt.zero,
+  walletActions: WalletActions.initial(),
+);
+
+final Token fuseDollarToken = Token(
+  name: 'Fuse Dollar',
+  symbol: 'fUSD',
+  imageUrl: "https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-dollar.png",
+  decimals: 18,
+  address: Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+  originNetwork: 'fuse',
+  timestamp: 0,
+  amount: BigInt.zero,
+  walletActions: WalletActions.initial(),
 );
 
 String toShortName(networkType) =>

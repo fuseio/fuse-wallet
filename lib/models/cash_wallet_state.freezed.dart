@@ -19,6 +19,7 @@ class _$CashWalletStateTearOff {
 // ignore: unused_element
   _CashWalletState call(
       {String communityAddress,
+      bool isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens = const {},
       @JsonKey(fromJson: communitiesFromJson)
@@ -45,6 +46,7 @@ class _$CashWalletStateTearOff {
           bool isFetchingBalances}) {
     return _CashWalletState(
       communityAddress: communityAddress,
+      isDepositBanner: isDepositBanner,
       tokens: tokens,
       communities: communities,
       walletActions: walletActions,
@@ -73,6 +75,7 @@ const $CashWalletState = _$CashWalletStateTearOff();
 /// @nodoc
 mixin _$CashWalletState {
   String get communityAddress;
+  bool get isDepositBanner;
   @JsonKey(fromJson: tokensFromJson)
   Map<String, Token> get tokens;
   @JsonKey(fromJson: communitiesFromJson)
@@ -110,6 +113,7 @@ abstract class $CashWalletStateCopyWith<$Res> {
       _$CashWalletStateCopyWithImpl<$Res>;
   $Res call(
       {String communityAddress,
+      bool isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
       @JsonKey(fromJson: communitiesFromJson)
@@ -150,6 +154,7 @@ class _$CashWalletStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object communityAddress = freezed,
+    Object isDepositBanner = freezed,
     Object tokens = freezed,
     Object communities = freezed,
     Object walletActions = freezed,
@@ -167,6 +172,9 @@ class _$CashWalletStateCopyWithImpl<$Res>
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress as String,
+      isDepositBanner: isDepositBanner == freezed
+          ? _value.isDepositBanner
+          : isDepositBanner as bool,
       tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
       communities: communities == freezed
           ? _value.communities
@@ -224,6 +232,7 @@ abstract class _$CashWalletStateCopyWith<$Res>
   @override
   $Res call(
       {String communityAddress,
+      bool isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
       @JsonKey(fromJson: communitiesFromJson)
@@ -267,6 +276,7 @@ class __$CashWalletStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object communityAddress = freezed,
+    Object isDepositBanner = freezed,
     Object tokens = freezed,
     Object communities = freezed,
     Object walletActions = freezed,
@@ -284,6 +294,9 @@ class __$CashWalletStateCopyWithImpl<$Res>
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress as String,
+      isDepositBanner: isDepositBanner == freezed
+          ? _value.isDepositBanner
+          : isDepositBanner as bool,
       tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
       communities: communities == freezed
           ? _value.communities
@@ -328,6 +341,7 @@ class __$CashWalletStateCopyWithImpl<$Res>
 class _$_CashWalletState extends _CashWalletState {
   _$_CashWalletState(
       {this.communityAddress,
+      this.isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson) this.tokens = const {},
       @JsonKey(fromJson: communitiesFromJson) this.communities = const {},
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions,
@@ -340,7 +354,8 @@ class _$_CashWalletState extends _CashWalletState {
       @JsonKey(ignore: true) this.isCommunityBusinessesFetched = false,
       @JsonKey(ignore: true) this.isJobProcessingStarted = false,
       @JsonKey(ignore: true) this.isFetchingBalances})
-      : assert(tokens != null),
+      : assert(isDepositBanner != null),
+        assert(tokens != null),
         assert(communities != null),
         assert(isCommunityLoading != null),
         assert(isCommunityFetched != null),
@@ -356,6 +371,9 @@ class _$_CashWalletState extends _CashWalletState {
 
   @override
   final String communityAddress;
+  @JsonKey(defaultValue: true)
+  @override
+  final bool isDepositBanner;
   @override
   @JsonKey(fromJson: tokensFromJson)
   final Map<String, Token> tokens;
@@ -395,7 +413,7 @@ class _$_CashWalletState extends _CashWalletState {
 
   @override
   String toString() {
-    return 'CashWalletState(communityAddress: $communityAddress, tokens: $tokens, communities: $communities, walletActions: $walletActions, branchAddress: $branchAddress, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted, isFetchingBalances: $isFetchingBalances)';
+    return 'CashWalletState(communityAddress: $communityAddress, isDepositBanner: $isDepositBanner, tokens: $tokens, communities: $communities, walletActions: $walletActions, branchAddress: $branchAddress, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted, isFetchingBalances: $isFetchingBalances)';
   }
 
   @override
@@ -405,6 +423,9 @@ class _$_CashWalletState extends _CashWalletState {
             (identical(other.communityAddress, communityAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.communityAddress, communityAddress)) &&
+            (identical(other.isDepositBanner, isDepositBanner) ||
+                const DeepCollectionEquality()
+                    .equals(other.isDepositBanner, isDepositBanner)) &&
             (identical(other.tokens, tokens) ||
                 const DeepCollectionEquality().equals(other.tokens, tokens)) &&
             (identical(other.communities, communities) ||
@@ -450,6 +471,7 @@ class _$_CashWalletState extends _CashWalletState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(communityAddress) ^
+      const DeepCollectionEquality().hash(isDepositBanner) ^
       const DeepCollectionEquality().hash(tokens) ^
       const DeepCollectionEquality().hash(communities) ^
       const DeepCollectionEquality().hash(walletActions) ^
@@ -478,6 +500,7 @@ abstract class _CashWalletState extends CashWalletState {
   _CashWalletState._() : super._();
   factory _CashWalletState(
       {String communityAddress,
+      bool isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
       @JsonKey(fromJson: communitiesFromJson)
@@ -508,6 +531,8 @@ abstract class _CashWalletState extends CashWalletState {
 
   @override
   String get communityAddress;
+  @override
+  bool get isDepositBanner;
   @override
   @JsonKey(fromJson: tokensFromJson)
   Map<String, Token> get tokens;

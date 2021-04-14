@@ -35,7 +35,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: widget.url,
         onPageStarted: (String url) {
-          if (url.contains('https://fuse.io/')) {
+          if (url.contains('https://fuse.cash/')) {
             ExtendedNavigator.root.popUntilRoot();
           }
         },

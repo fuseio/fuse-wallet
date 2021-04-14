@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/features/contacts/send_amount_arguments.dart';
+import 'package:fusecash/features/contacts/widgets/empty_state.dart';
+import 'package:fusecash/features/contacts/widgets/recent_contacts.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
@@ -12,7 +15,6 @@ import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
 import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/features/contacts/widgets/list_header.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';
-import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/send.dart';
 import "package:ethereum_address/ethereum_address.dart";
@@ -20,6 +22,8 @@ import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
+  final SendFlowArguments pageArgs;
+  ContactsList({this.pageArgs});
   @override
   _ContactsListState createState() => _ContactsListState();
 }
@@ -31,8 +35,8 @@ class _ContactsListState extends State<ContactsList> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/contacts-screen');
     super.initState();
-    refreshContacts();
   }
 
   @override
@@ -40,7 +44,12 @@ class _ContactsListState extends State<ContactsList> {
     return new StoreConnector<AppState, ContactsViewModel>(
       distinct: true,
       onInitialBuild: (viewModel) {
-        Segment.screen(screenName: '/contacts-screen');
+        refreshContacts(viewModel.contacts);
+      },
+      onWillChange: (previousViewModel, newViewModel) {
+        if (previousViewModel.contacts != newViewModel.contacts) {
+          refreshContacts(newViewModel.contacts);
+        }
       },
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {
@@ -75,8 +84,7 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  Future<void> refreshContacts() async {
-    List<Contact> contacts = await Contacts.getContacts();
+  Future<void> refreshContacts(List<Contact> contacts) async {
     if (mounted) {
       setState(() {
         _contacts = contacts;
@@ -145,6 +153,7 @@ class _ContactsListState extends State<ContactsList> {
                 ExtendedNavigator.named('contactsRouter').context,
                 user.displayName,
                 phone.value,
+                tokenToSend: widget.pageArgs.tokenToSend,
                 isoCode: viewModel.isoCode,
                 countryCode: viewModel.countryCode,
                 avatar: user.avatar != null && user.avatar.isNotEmpty
@@ -172,9 +181,6 @@ class _ContactsListState extends State<ContactsList> {
       searchController: searchController,
     ));
 
-    // if (searchController.text.isEmpty) {
-    // listItems.add(RecentContacts());
-    // } else
     final String accountAddress = searchController.text != null &&
             searchController.text.isNotEmpty &&
             searchController.text.length > 1 &&
@@ -186,25 +192,39 @@ class _ContactsListState extends State<ContactsList> {
         SendToAccount(
           accountAddress: accountAddress,
           resetSearch: resetSearch,
+          token: widget?.pageArgs?.tokenToSend,
         ),
       );
-    }
-
-    Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
-    for (Contact c in filteredUsers) {
-      String groupName = c.displayName[0];
-      if (!groups.containsKey(groupName)) {
-        groups[groupName] = new List<Contact>();
+    } else {
+      Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
+      for (Contact c in filteredUsers) {
+        String groupName = c.displayName[0];
+        if (!groups.containsKey(groupName)) {
+          groups[groupName] = new List<Contact>();
+        }
+        groups[groupName].add(c);
       }
-      groups[groupName].add(c);
-    }
 
-    List<String> titles = groups.keys.toList()..sort();
-
-    for (String title in titles) {
-      List<Contact> group = groups[title];
-      listItems.add(ListHeader(title: title));
-      listItems.add(listBody(viewModel, group));
+      if (groups.isEmpty) {
+        listItems.add(SliverList(
+          delegate: SliverChildListDelegate([
+            EmptyState(),
+          ]),
+        ));
+      } else {
+        List<String> titles = groups.keys.toList()..sort();
+        for (String title in titles) {
+          List<Contact> group = groups[title];
+          listItems.add(ListHeader(title: title));
+          listItems.add(listBody(viewModel, group));
+        }
+        listItems.insert(
+          1,
+          RecentContacts(
+            token: widget?.pageArgs?.tokenToSend,
+          ),
+        );
+      }
     }
 
     return listItems;

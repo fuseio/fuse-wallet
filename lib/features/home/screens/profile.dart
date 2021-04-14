@@ -10,6 +10,7 @@ import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
@@ -262,7 +263,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     BuildContext context,
     void Function(ImageSource source) callback,
   ) =>
-      showModalBottomSheet(
+      showBarModalBottomSheet(
+        useRootNavigator: true,
         context: context,
         builder: (context) => BottomSheet(
           onClosing: () {},
@@ -284,11 +286,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.pop(context);
                     }),
                 ListTile(
-                    title: Text(I18n.of(context).gallery),
-                    onTap: () {
-                      callback(ImageSource.gallery);
-                      Navigator.pop(context);
-                    }),
+                  title: Text(I18n.of(context).gallery),
+                  onTap: () {
+                    callback(ImageSource.gallery);
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           ),

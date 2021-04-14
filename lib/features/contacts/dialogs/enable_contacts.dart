@@ -1,12 +1,9 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
-import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'dart:core';
@@ -123,6 +120,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             child: PrimaryButton(
                           preload: isPreloading,
                           disabled: isPreloading,
+                          fontSize: 18,
                           label: I18n.of(context).enable_contacts_access,
                           onPressed: () async {
                             setState(() {
@@ -130,22 +128,18 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             });
                             bool permission = await Contacts.getPermissions();
                             if (permission) {
-                              List<Contact> contacts =
-                                  await Contacts.getContacts();
-                              viewModel.syncContacts(contacts);
+                              viewModel.syncContacts();
                               viewModel.trackCall(
                                   "Wallet: Contacts Permission Granted");
-                              viewModel.idenyifyCall(Map.from(
+                              viewModel.identifyCall(Map.from(
                                   {"Contacts Permission Granted": true}));
                             } else {
                               viewModel.trackCall(
                                   "Wallet: Contacts Permission Rejected");
-                              viewModel.idenyifyCall(Map.from(
+                              viewModel.identifyCall(Map.from(
                                   {"Contacts Permission Granted": false}));
                             }
                             Navigator.of(context).pop();
-                            ExtendedNavigator.named('contactsRouter')
-                                .replace(ContactsRoutes.contactsList);
                             setState(() {
                               isPreloading = false;
                             });
@@ -160,7 +154,10 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             },
                             child: Text(
                               I18n.of(context).skip_button,
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                             ),
                           ),
                         ),

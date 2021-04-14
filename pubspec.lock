@@ -834,7 +834,7 @@ packages:
     source: hosted
     version: "0.9.7"
   modal_bottom_sheet:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: modal_bottom_sheet
       url: "https://pub.dartlang.org"
@@ -861,13 +861,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.0"
-  numeric_keyboard:
-    dependency: "direct main"
-    description:
-      name: numeric_keyboard
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   octo_image:
     dependency: transitive
     description:

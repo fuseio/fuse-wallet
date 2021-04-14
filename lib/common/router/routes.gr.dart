@@ -10,6 +10,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/contacts/screens/contacts_list.dart';
 import '../../features/contacts/send_amount_arguments.dart';
 import '../../features/home/screens/action_details.dart';
 import '../../features/onboard/screens/restore_wallet_screen.dart';
@@ -52,6 +53,7 @@ class Routes {
   static const String sendSuccessScreen = '/send-success-screen';
   static const String swapScreen = '/swap-screen';
   static const String reviewSwapScreen = '/review-swap-screen';
+  static const String contactsList = '/contacts-list';
   static const String unknownRouteScreen = '*';
   static const all = <String>{
     splashScreen,
@@ -71,6 +73,7 @@ class Routes {
     sendSuccessScreen,
     swapScreen,
     reviewSwapScreen,
+    contactsList,
     unknownRouteScreen,
   };
 }
@@ -101,6 +104,7 @@ class Router extends RouterBase {
     RouteDef(Routes.swapScreen, page: SwapScreen, guards: [AuthGuard]),
     RouteDef(Routes.reviewSwapScreen,
         page: ReviewSwapScreen, guards: [AuthGuard]),
+    RouteDef(Routes.contactsList, page: ContactsList, guards: [AuthGuard]),
     RouteDef(Routes.unknownRouteScreen, page: UnknownRouteScreen),
   ];
   @override
@@ -254,6 +258,15 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    ContactsList: (data) {
+      final args = data.getArgs<ContactsListArguments>(
+        orElse: () => ContactsListArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ContactsList(pageArgs: args.pageArgs),
+        settings: data,
+      );
+    },
     UnknownRouteScreen: (data) {
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => UnknownRouteScreen(),
@@ -332,7 +345,7 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushSendAmountScreen(
-          {SendAmountArguments pageArgs, OnNavigationRejected onReject}) =>
+          {SendFlowArguments pageArgs, OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.sendAmountScreen,
         arguments: SendAmountScreenArguments(pageArgs: pageArgs),
@@ -340,7 +353,7 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushSendReviewScreen(
-          {SendAmountArguments pageArgs, OnNavigationRejected onReject}) =>
+          {SendFlowArguments pageArgs, OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.sendReviewScreen,
         arguments: SendReviewScreenArguments(pageArgs: pageArgs),
@@ -348,7 +361,7 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushSendSuccessScreen(
-          {SendAmountArguments pageArgs, OnNavigationRejected onReject}) =>
+          {SendFlowArguments pageArgs, OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.sendSuccessScreen,
         arguments: SendSuccessScreenArguments(pageArgs: pageArgs),
@@ -374,6 +387,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
             tradeInfo: tradeInfo,
             rateInfo: rateInfo,
             swapRequestBody: swapRequestBody),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushContactsList(
+          {SendFlowArguments pageArgs, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.contactsList,
+        arguments: ContactsListArguments(pageArgs: pageArgs),
         onReject: onReject,
       );
 
@@ -424,19 +445,19 @@ class ActionDetailsScreenArguments {
 
 /// SendAmountScreen arguments holder class
 class SendAmountScreenArguments {
-  final SendAmountArguments pageArgs;
+  final SendFlowArguments pageArgs;
   SendAmountScreenArguments({this.pageArgs});
 }
 
 /// SendReviewScreen arguments holder class
 class SendReviewScreenArguments {
-  final SendAmountArguments pageArgs;
+  final SendFlowArguments pageArgs;
   SendReviewScreenArguments({this.pageArgs});
 }
 
 /// SendSuccessScreen arguments holder class
 class SendSuccessScreenArguments {
-  final SendAmountArguments pageArgs;
+  final SendFlowArguments pageArgs;
   SendSuccessScreenArguments({this.pageArgs});
 }
 
@@ -454,4 +475,10 @@ class ReviewSwapScreenArguments {
   final SwapRequestBody swapRequestBody;
   ReviewSwapScreenArguments(
       {this.tradeInfo, this.rateInfo, this.swapRequestBody});
+}
+
+/// ContactsList arguments holder class
+class ContactsListArguments {
+  final SendFlowArguments pageArgs;
+  ContactsListArguments({this.pageArgs});
 }

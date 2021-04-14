@@ -9,66 +9,56 @@ import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
-  final Function(List<Contact>) syncContacts;
-  // final Transactions transactions;
+  final Function() syncContacts;
   final Map<String, String> reverseContacts;
   final String countryCode;
   final String isoCode;
   final Function() syncContactsRejected;
   final List<Business> businesses;
   final Function(String eventName) trackCall;
-  final Function(Map<String, dynamic> traits) idenyifyCall;
+  final Function(Map<String, dynamic> traits) identifyCall;
   final Community community;
 
-  ContactsViewModel(
-      {this.contacts,
-      this.syncContacts,
-      // this.transactions,
-      this.reverseContacts,
-      this.countryCode,
-      this.community,
-      this.isoCode,
-      this.businesses,
-      this.syncContactsRejected,
-      this.trackCall,
-      this.idenyifyCall});
+  ContactsViewModel({
+    this.contacts,
+    this.syncContacts,
+    this.reverseContacts,
+    this.countryCode,
+    this.community,
+    this.isoCode,
+    this.businesses,
+    this.syncContactsRejected,
+    this.trackCall,
+    this.identifyCall,
+  });
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddress];
-    // Token token =
-    //     store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return ContactsViewModel(
-        isoCode: store.state.userState.isoCode,
-        businesses: community?.businesses ?? [],
-        contacts: store.state.userState?.contacts ?? [],
-        community: community,
-        // transactions: token?.transactions,
-        reverseContacts: store.state.userState.reverseContacts,
-        countryCode: store.state.userState.countryCode,
-        syncContacts: (List<Contact> contacts) {
-          store.dispatch(syncContactsCall(contacts));
-        },
-        syncContactsRejected: () {
-          store.dispatch(new SyncContactsRejected());
-        },
-        trackCall: (String eventName) {
-          store.dispatch(segmentTrackCall(eventName));
-        },
-        idenyifyCall: (Map<String, dynamic> traits) {
-          store.dispatch(segmentIdentifyCall(traits));
-        });
+      isoCode: store.state.userState.isoCode,
+      businesses: community?.businesses ?? [],
+      contacts: store.state.userState?.contacts ?? [],
+      community: community,
+      reverseContacts: store.state.userState.reverseContacts,
+      countryCode: store.state.userState.countryCode,
+      syncContacts: () {
+        store.dispatch(syncContactsCall());
+      },
+      syncContactsRejected: () {
+        store.dispatch(new SyncContactsRejected());
+      },
+      trackCall: (String eventName) {
+        store.dispatch(segmentTrackCall(eventName));
+      },
+      identifyCall: (Map<String, dynamic> traits) {
+        store.dispatch(segmentIdentifyCall(traits));
+      },
+    );
   }
 
   @override
-  List<Object> get props => [
-        contacts,
-        // transactions,
-        reverseContacts,
-        countryCode,
-        businesses,
-        isoCode,
-        community
-      ];
+  List<Object> get props =>
+      [contacts, reverseContacts, countryCode, businesses, isoCode, community];
 }

@@ -10,14 +10,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/contacts_list.dart';
-import '../screens/empty_contacts.dart';
+import '../send_amount_arguments.dart';
 
 class ContactsRoutes {
-  static const String contactsList = '/contacts-list';
-  static const String emptyContacts = '/';
+  static const String contactsList = '/';
   static const all = <String>{
     contactsList,
-    emptyContacts,
   };
 }
 
@@ -26,22 +24,28 @@ class ContactsRouter extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(ContactsRoutes.contactsList, page: ContactsList),
-    RouteDef(ContactsRoutes.emptyContacts, page: EmptyContacts),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
     ContactsList: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => ContactsList(),
-        settings: data,
+      final args = data.getArgs<ContactsListArguments>(
+        orElse: () => ContactsListArguments(),
       );
-    },
-    EmptyContacts: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => EmptyContacts(),
+        builder: (context) => ContactsList(pageArgs: args.pageArgs),
         settings: data,
       );
     },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// ContactsList arguments holder class
+class ContactsListArguments {
+  final SendFlowArguments pageArgs;
+  ContactsListArguments({this.pageArgs});
 }

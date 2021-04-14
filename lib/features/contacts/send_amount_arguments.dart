@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
-class SendAmountArguments {
+class SendFlowArguments {
   String name;
   final bool isMultiBridge;
   String phoneNumber;
@@ -13,7 +13,7 @@ class SendAmountArguments {
   Token tokenToSend;
   final bool useBridge;
 
-  SendAmountArguments({
+  SendFlowArguments({
     this.sendType,
     this.useBridge = false,
     this.tokenToSend,

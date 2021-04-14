@@ -21,6 +21,7 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SwapScreen extends StatefulWidget {
   final Token primaryToken;
@@ -143,8 +144,9 @@ class _SwapScreenState extends State<SwapScreen> {
     Function onTap,
     bool showBalance,
   ) {
-    showModalBottomSheet(
-      context: ExtendedNavigator.named('swapRouter').context,
+    showBarModalBottomSheet(
+      useRootNavigator: true,
+      context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0),
@@ -160,6 +162,7 @@ class _SwapScreenState extends State<SwapScreen> {
           color: Theme.of(context).canvasColor,
         ),
         child: CustomScrollView(
+          shrinkWrap: true,
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildListDelegate(

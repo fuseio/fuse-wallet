@@ -12,13 +12,14 @@ import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/numbers.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendAmountScreen extends StatefulWidget {
-  final SendAmountArguments pageArgs;
+  final SendFlowArguments pageArgs;
   SendAmountScreen({this.pageArgs});
   @override
   _SendAmountScreenState createState() => _SendAmountScreenState();
@@ -50,7 +51,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   }
 
   showBottomMenu(SendAmountViewModel viewModel) {
-    showModalBottomSheet(
+    showBarModalBottomSheet(
+      useRootNavigator: true,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -67,6 +69,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           color: Theme.of(context).canvasColor,
         ),
         child: CustomScrollView(
+          shrinkWrap: true,
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildListDelegate(
@@ -88,10 +91,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
+                        children: [
                           ListView.separated(
                             shrinkWrap: true,
-                            primary: false,
                             padding: EdgeInsets.only(top: 20, bottom: 20),
                             separatorBuilder: (_, int index) => Divider(
                               height: 0,
@@ -117,7 +119,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                   ),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -131,8 +133,12 @@ class _SendAmountScreenState extends State<SendAmountScreen>
       if (amountText.length == 0) return;
       amountText = amountText.substring(0, amountText.length - 1);
     } else {
-      String newAmount = amountText + value;
-      amountText = newAmount;
+      if (amountText == '0' && value == '0') {
+        amountText = '0';
+      } else {
+        String newAmount = amountText + value;
+        amountText = newAmount;
+      }
     }
     setState(() {});
     try {
@@ -159,22 +165,24 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = this.widget.pageArgs;
+    final SendFlowArguments args = this.widget.pageArgs;
     String title =
         "${I18n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
         Segment.screen(screenName: '/send-amount-screen');
-        if (viewModel.tokens.isNotEmpty) {
-          if ([null, ''].contains(args.tokenToSend)) {
-            setState(() {
-              selectedToken = viewModel.tokens[0];
-            });
-          } else {
-            setState(() {
-              selectedToken = args.tokenToSend;
-            });
+        if (args.tokenToSend != null) {
+          setState(() {
+            selectedToken = args.tokenToSend;
+          });
+        } else {
+          if (viewModel.tokens.isNotEmpty) {
+            if ([null, ''].contains(args.tokenToSend)) {
+              setState(() {
+                selectedToken = viewModel.tokens[0];
+              });
+            }
           }
         }
       },
@@ -204,12 +212,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.7,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
+                          SizedBox(
+                            height: 30,
+                          ),
                           Column(
                             children: <Widget>[
                               Container(
@@ -223,11 +233,38 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                       style:
                                           TextStyle(color: Color(0xFF898989)),
                                     ),
-                                    InkWell(
-                                      focusColor: Theme.of(context).canvasColor,
-                                      highlightColor:
-                                          Theme.of(context).canvasColor,
-                                      onTap: () {
+                                    OutlineButton(
+                                      focusColor: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      hoverColor: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      highlightedBorderColor: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      padding: EdgeInsets.all(0),
+                                      textColor: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                        width: 1.0,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0),
+                                      ),
+                                      child: Text(
+                                        I18n.of(context).use_max,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onPressed: () {
                                         String max = formatValue(
                                           selectedToken.amount,
                                           selectedToken.decimals,
@@ -241,20 +278,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                           _onKeyPress(max, max: true);
                                         }
                                       },
-                                      child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 3, horizontal: 15),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                          ),
-                                          child: Text(
-                                            I18n.of(context).use_max,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -289,12 +313,13 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                                     horizontal: 15,
                                                     vertical: 5),
                                                 decoration: BoxDecoration(
-                                                    shape: BoxShape.rectangle,
-                                                    color: Theme.of(context)
-                                                        .backgroundColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
+                                                  shape: BoxShape.rectangle,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                ),
                                                 child: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
@@ -303,11 +328,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                                       selectedToken?.symbol ??
                                                           '',
                                                       style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Color(
-                                                              0xFF808080)),
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       width: 10,
@@ -325,8 +349,11 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 20),
+                                padding: EdgeInsets.only(
+                                  left: 40,
+                                  top: 40,
+                                  right: 40,
+                                ),
                                 child: Divider(
                                   thickness: 1.5,
                                 ),
@@ -339,10 +366,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             rightButtonFn: () {
                               _onKeyPress('', back: true);
                             },
-                            rightIcon: Icon(
-                              Icons.backspace,
-                              color: Color(0xFF292929),
+                            rightIcon: SvgPicture.asset(
+                              'assets/images/backspace.svg',
+                              width: 28,
                             ),
+                            // rightIcon: Icon(
+                            //   Icons.backspace,
+                            //   color: Color(0xFF292929),
+                            // ),
                             leftButtonFn: () {
                               if (amountText.contains('.')) return;
                               _onKeyPress('.');

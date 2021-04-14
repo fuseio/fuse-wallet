@@ -113,7 +113,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                 ),
                                 onTap: () {
                                   ExtendedNavigator.root.pushSendAmountScreen(
-                                      pageArgs: SendAmountArguments(
+                                      pageArgs: SendFlowArguments(
                                           tokenToSend: widget.token,
                                           isMultiBridge:
                                               widget.community.isMultiBridge,

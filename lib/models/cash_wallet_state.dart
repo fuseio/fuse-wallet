@@ -23,6 +23,7 @@ Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens == null
   ..addAll(Map.from(
     {
       Addresses.ZERO_ADDRESS: fuseToken.copyWith(),
+      Addresses.FUSE_DOLLAR_TOKEN_ADDRESS: fuseDollarToken.copyWith(),
     },
   ));
 
@@ -54,6 +55,7 @@ abstract class CashWalletState implements _$CashWalletState {
   @JsonSerializable()
   factory CashWalletState({
     String communityAddress,
+    @Default(true) bool isDepositBanner,
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @JsonKey(fromJson: communitiesFromJson)
     @Default({})

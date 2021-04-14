@@ -57,6 +57,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       distinct: true,
       converter: HomeScreenViewModel.fromStore,
       onInit: (store) {
+        store.dispatch(startFetchingCall());
+        store.dispatch(startFetchTokensBalances());
         store.dispatch(updateTokensPrices());
       },
       builder: (_, vm) {
@@ -81,9 +83,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               ExtendedNavigator(
                 router: ContactsRouter(),
                 name: 'contactsRouter',
-                initialRoute: vm.isContactsSynced != null && vm.isContactsSynced
-                    ? ContactsRoutes.contactsList
-                    : ContactsRoutes.emptyContacts,
                 observers: [
                   FirebaseAnalyticsObserver(
                       analytics: getIt<FirebaseAnalytics>()),

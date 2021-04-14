@@ -1,23 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
   final Function(bool initial) onReceiveBranchData;
-  final Function() refreshFeed;
   final bool showTabs;
   final bool showDepositBanner;
 
   HomeViewModel({
     this.onReceiveBranchData,
     this.tokens,
-    this.refreshFeed,
     this.showTabs,
     this.showDepositBanner,
   });
@@ -57,18 +55,27 @@ class HomeViewModel extends Equatable {
     final String walletAddress = store.state.userState.walletAddress;
     final Map<String, Community> communities =
         store.state.cashWalletState.communities;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress];
-    Token token =
-        store.state.cashWalletState.tokens[community?.homeTokenAddress];
+
     final bool showTabs =
         tokens.any((element) => element.originNetwork == null) ||
             communities.length > 1 ||
             tokens.length > 1;
+    final List<WalletAction> walletActions =
+        List.from(store.state.cashWalletState?.walletActions?.list) ?? [];
+    final WalletAction walletAction =
+        store.state.cashWalletState?.walletActions?.list?.firstWhere(
+      (element) => element.name == 'createWallet',
+      orElse: () => null,
+    );
+    final bool isDepositBanner =
+        [true, null].contains(store.state?.cashWalletState?.isDepositBanner);
     final bool showDepositBanner =
-        !(store?.state?.userState?.depositBannerShowed ?? false) &&
-            util.isDefaultCommunity(communityAddress) &&
-            token != null;
+        (walletAction != null && walletAction.isConfirmed()) &&
+            (walletActions.isNotEmpty && walletActions.length < 2) &&
+            tokens != null &&
+            tokens.isEmpty &&
+            isDepositBanner;
+
     return HomeViewModel(
       tokens: tokens,
       showDepositBanner: showDepositBanner,
@@ -90,10 +97,6 @@ class HomeViewModel extends Equatable {
             store.dispatch(refetchCommunityData());
           }
         }
-      },
-      refreshFeed: () {
-        store.dispatch(fetchListOfTokensByAddress());
-        store.dispatch(ResetTokenTxs());
       },
     );
   }

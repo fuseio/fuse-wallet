@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/utils/webview.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 
 class DepositBanner extends StatelessWidget {
   @override
@@ -14,62 +15,102 @@ class DepositBanner extends StatelessWidget {
       converter: TopUpViewModel.fromStore,
       builder: (_, viewModel) {
         List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          child: InkWell(
-            focusColor: Theme.of(context).canvasColor,
-            highlightColor: Theme.of(context).canvasColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          I18n.of(context).deposit_your_first_dollars,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primaryVariant,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        SvgPicture.asset(
-                          'assets/images/arrow_right_outlined.svg',
-                        ),
-                      ],
+        return Column(
+          children: [
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.only(
+                left: 15,
+              ),
+              height: 70,
+              width: MediaQuery.of(context).size.width * .95,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/images/deposit_banner.png',
+                  ),
+                ),
+                border: Border.all(color: Color(0xFFE0E0E0), width: 2),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12.0),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: InkWell(
+                      focusColor: Theme.of(context).canvasColor,
+                      highlightColor: Theme.of(context).canvasColor,
+                      onTap: () {
+                        if (depositPlugins.isNotEmpty) {
+                          dynamic url = depositPlugins[0].widgetUrl;
+                          viewModel.setDepositBanner();
+                          ExtendedNavigator.root.pushWebview(
+                            withBack: true,
+                            url: '$url&finalUrl=https://fuse.cash',
+                            title: I18n.of(context).deposit_your_first_dollars,
+                          );
+                        }
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                I18n.of(context).deposit_your,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    I18n.of(context).first_dollars,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  SvgPicture.asset(
+                                    'assets/images/deposit_arrow.svg',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Image.asset(
-                  'assets/images/empty_state.png',
-                  height: MediaQuery.of(context).size.height * .2,
-                  // width: 250,
-                )
-              ],
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Dismiss',
+                      style: TextStyle(
+                        fontSize: 9,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    textColor: Theme.of(context).colorScheme.onSurface,
+                    hoverColor: Theme.of(context).canvasColor,
+                    focusColor: Theme.of(context).canvasColor,
+                    onPressed: viewModel.dismiss,
+                  ),
+                ],
+              ),
             ),
-            onTap: () {
-              if (depositPlugins.isNotEmpty) {
-                String url = depositPlugins[0].widgetUrl;
-                viewModel.setDepositBanner();
-                openDepositWebview(
-                  withBack: true,
-                  url: url,
-                );
-              }
-            },
-          ),
+            SizedBox(height: 7),
+          ],
         );
       },
     );
