@@ -14,7 +14,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendReviewScreen extends StatefulWidget {
-  final SendAmountArguments pageArgs;
+  final SendFlowArguments pageArgs;
   SendReviewScreen({this.pageArgs});
   @override
   _SendReviewScreenState createState() => _SendReviewScreenState();
@@ -52,7 +52,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
 
   void send(
     SendAmountViewModel viewModel,
-    SendAmountArguments args,
+    SendFlowArguments args,
     String transferNote,
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback,
@@ -129,7 +129,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = this.widget.pageArgs;
+    final SendFlowArguments args = this.widget.pageArgs;
     return MyScaffold(
       title: I18n.of(context).review_transfer,
       body: StoreConnector<AppState, SendAmountViewModel>(

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 // import 'package:fusecash/features/home/widgets/price_line_chart.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -12,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class Button extends StatelessWidget {
   const Button({
@@ -88,8 +89,8 @@ class TokenTile extends StatelessWidget {
     bool hasPriceInfo,
   ) {
     final bool isSwappable = viewModel.tokensImages.containsKey(token.address);
-    showModalBottomSheet(
-      isScrollControlled: true,
+    showBarModalBottomSheet(
+      useRootNavigator: true,
       context: ExtendedNavigator.named('homeRouter').context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -99,192 +100,181 @@ class TokenTile extends StatelessWidget {
       ),
       builder: (_) => FractionallySizedBox(
         heightFactor: 0.9,
-        child: Container(
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
+        child: SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
+              ),
+              color: Theme.of(context).canvasColor,
             ),
-            color: Theme.of(context).canvasColor,
-          ),
-          child: CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: (token.imageUrl != null &&
+                                  token.imageUrl.isNotEmpty ||
+                              viewModel.tokensImages
+                                  .containsKey(token?.address?.toLowerCase()))
+                          ? CachedNetworkImage(
+                              width: 35,
+                              height: 35,
+                              imageUrl: viewModel.tokensImages.containsKey(
+                                      token?.address?.toLowerCase())
+                                  ? viewModel?.tokensImages[
+                                      token?.address?.toLowerCase()]
+                                  : token?.imageUrl,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => DefaultLogo(
+                                symbol: token?.symbol,
+                                width: 35,
+                                height: 35,
+                              ),
+                            )
+                          : DefaultLogo(
+                              symbol: token?.symbol,
+                              width: symbolWidth,
+                              height: symbolHeight,
+                            ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      token.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Europa',
+                        fontSize: 30,
+                      ),
+                      softWrap: true,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: hasPriceInfo
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.start,
+                  children: [
+                    !hasPriceInfo
+                        ? SizedBox.shrink()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                I18n.of(context).price,
+                                style: TextStyle(
+                                  fontFamily: 'Europa',
+                                  fontSize: 13,
+                                ),
+                                softWrap: true,
+                              ),
+                              Text(
+                                '\$${display(num.parse(token.priceInfo.quote))}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Europa',
+                                  fontSize: 25,
+                                ),
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: (token.imageUrl != null &&
-                                          token.imageUrl.isNotEmpty ||
-                                      viewModel.tokensImages.containsKey(
-                                          token?.address?.toLowerCase()))
-                                  ? CachedNetworkImage(
-                                      width: 35,
-                                      height: 35,
-                                      imageUrl: viewModel.tokensImages
-                                              .containsKey(
-                                                  token?.address?.toLowerCase())
-                                          ? viewModel?.tokensImages[
-                                              token?.address?.toLowerCase()]
-                                          : token?.imageUrl,
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          DefaultLogo(
-                                        symbol: token?.symbol,
-                                        width: 35,
-                                        height: 35,
-                                      ),
-                                    )
-                                  : DefaultLogo(
-                                      symbol: token?.symbol,
-                                      width: symbolWidth,
-                                      height: symbolHeight,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              token.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Europa',
-                                fontSize: 30,
-                              ),
-                              softWrap: true,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
+                        Text(
+                          I18n.of(context).your_balance,
+                          style: TextStyle(
+                            fontFamily: 'Europa',
+                            fontSize: 13,
+                          ),
+                          softWrap: true,
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: hasPriceInfo
-                              ? MainAxisAlignment.spaceBetween
-                              : MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          verticalDirection: VerticalDirection.down,
+                          textBaseline: TextBaseline.alphabetic,
                           children: [
                             !hasPriceInfo
                                 ? SizedBox.shrink()
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        I18n.of(context).price,
-                                        style: TextStyle(
-                                          fontFamily: 'Europa',
-                                          fontSize: 13,
-                                        ),
-                                        softWrap: true,
-                                      ),
-                                      Text(
-                                        '\$${display(num.parse(token.priceInfo.quote))}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Europa',
-                                          fontSize: 25,
-                                        ),
-                                        softWrap: true,
-                                      ),
-                                    ],
-                                  ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  I18n.of(context).your_balance,
-                                  style: TextStyle(
-                                    fontFamily: 'Europa',
-                                    fontSize: 13,
-                                  ),
-                                  softWrap: true,
-                                ),
-                                Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.baseline,
-                                  verticalDirection: VerticalDirection.down,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    !hasPriceInfo
-                                        ? SizedBox.shrink()
-                                        : Text(
-                                            '\$${display(num.parse(token.priceInfo.total))} ',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 25,
-                                            ),
-                                          ),
-                                    Text(
-                                      token.getBalance() + ' ${token.symbol}',
-                                      style: TextStyle(
-                                        fontSize: hasPriceInfo ? 13 : 25,
-                                        fontWeight: hasPriceInfo
-                                            ? FontWeight.normal
-                                            : FontWeight.bold,
-                                      ),
+                                : Text(
+                                    '\$${display(num.parse(token.priceInfo.total))} ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: isSwappable
-                              ? MainAxisAlignment.spaceBetween
-                              : MainAxisAlignment.start,
-                          children: [
-                            isSwappable
-                                ? Button(
-                                    text: I18n.of(context).swap,
-                                    icon: 'swap_action',
-                                    onPressed: () {
-                                      ExtendedNavigator.root.pushSwapScreen(
-                                        primaryToken: token,
-                                      );
-                                    },
-                                  )
-                                : SizedBox.shrink(),
-                            Button(
-                              text: I18n.of(context).send_button,
-                              icon: 'send_action',
-                              onPressed: () {
-                                ExtendedNavigator.root.pushSendAmountScreen(
-                                  pageArgs: SendAmountArguments(
-                                    tokenToSend: token,
                                   ),
-                                );
-                              },
+                            Text(
+                              token.getBalance() + ' ${token.symbol}',
+                              style: TextStyle(
+                                fontSize: hasPriceInfo ? 13 : 25,
+                                fontWeight: hasPriceInfo
+                                    ? FontWeight.normal
+                                    : FontWeight.bold,
+                              ),
                             ),
                           ],
-                        ),
-                        // SizedBox(
-                        //   height: 20,
-                        // ),
-                        // Container(
-                        //   child: SimpleLineChart.withRandomData(),
-                        //   height: 200,
-                        // ),
-                        TokenActivities(
-                          tokenAddress: token.address,
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: isSwappable
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.start,
+                  children: [
+                    isSwappable
+                        ? Button(
+                            text: I18n.of(context).swap,
+                            icon: 'swap_action',
+                            onPressed: () {
+                              ExtendedNavigator.root.pushSwapScreen(
+                                primaryToken: token,
+                              );
+                            },
+                          )
+                        : SizedBox.shrink(),
+                    Button(
+                      text: I18n.of(context).send_button,
+                      icon: 'send_action',
+                      onPressed: () {
+                        ExtendedNavigator.root.pushContactsList(
+                          pageArgs: SendFlowArguments(
+                            tokenToSend: token,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // Container(
+                //   child: SimpleLineChart.withRandomData(),
+                //   height: 200,
+                // ),
+                TokenActivities(
+                  tokenAddress: token.address,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -65,11 +66,17 @@ void sendToContact(
   String address,
   String countryCode,
   String isoCode,
+  Token tokenToSend,
 }) async {
   if (address != null && address.isNotEmpty) {
     ExtendedNavigator.root.pushSendAmountScreen(
-        pageArgs: SendAmountArguments(
-            accountAddress: address, name: displayName, avatar: avatar));
+      pageArgs: SendFlowArguments(
+        accountAddress: address,
+        name: displayName,
+        avatar: avatar,
+        tokenToSend: tokenToSend,
+      ),
+    );
     return;
   }
   try {
@@ -77,11 +84,12 @@ void sendToContact(
     Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     Navigator.of(context).pop();
     ExtendedNavigator.root.pushSendAmountScreen(
-      pageArgs: SendAmountArguments(
+      pageArgs: SendFlowArguments(
         phoneNumber: res['phoneNumber'],
         accountAddress: res['walletAddress'],
         name: displayName,
         avatar: avatar,
+        tokenToSend: tokenToSend,
       ),
     );
   } catch (e) {
@@ -90,12 +98,16 @@ void sendToContact(
   }
 }
 
-void sendToPastedAddress(accountAddress) {
+void sendToPastedAddress(
+  accountAddress, {
+  Token token,
+}) {
   ExtendedNavigator.root.pushSendAmountScreen(
-    pageArgs: SendAmountArguments(
+    pageArgs: SendFlowArguments(
       accountAddress: accountAddress,
       avatar: AssetImage('assets/images/anom.png'),
       name: formatAddress(accountAddress),
+      tokenToSend: token,
     ),
   );
 }

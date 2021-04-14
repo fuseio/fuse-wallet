@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
-// import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-// import 'package:fusecash/models/transactions/transaction.dart';
 
 class ImageUrl {
   static bool _isIpfsHash(String hash) => hash != null && hash.length == 46;
@@ -18,6 +16,15 @@ class ImageUrl {
       return getS3ImageUrl(hash);
     }
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  }
+
+  static ImageProvider getContactImage(
+    Contact contact,
+  ) {
+    if (contact?.avatar != null && contact.avatar.isNotEmpty) {
+      return new MemoryImage(contact.avatar);
+    }
+    return new AssetImage('assets/images/anom.png');
   }
 
   static String getIPFSImageUrl(String image) {

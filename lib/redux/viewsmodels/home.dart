@@ -9,13 +9,11 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
   final Function(bool initial) onReceiveBranchData;
-  final Function() refreshFeed;
   final bool showTabs;
 
   HomeViewModel({
     this.onReceiveBranchData,
     this.tokens,
-    this.refreshFeed,
     this.showTabs,
   });
 
@@ -78,10 +76,6 @@ class HomeViewModel extends Equatable {
             store.dispatch(refetchCommunityData());
           }
         }
-      },
-      refreshFeed: () {
-        store.dispatch(fetchListOfTokensByAddress());
-        store.dispatch(ResetTokenTxs());
       },
     );
   }

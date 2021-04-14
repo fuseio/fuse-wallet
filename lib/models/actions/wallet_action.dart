@@ -269,6 +269,20 @@ abstract class WalletAction implements _$WalletAction {
     );
   }
 
+  String getRecipient() {
+    return this.map(
+      createWallet: (value) => null,
+      fiatProcess: (value) => null,
+      joinCommunity: (value) => null,
+      fiatDeposit: (value) => value.to,
+      bonus: (value) => value.to,
+      send: (value) => value.to,
+      receive: (value) => value.to,
+      swap: (value) => null,
+      depositYourFirstDollar: (value) => null,
+    );
+  }
+
   @JsonSerializable()
   const factory WalletAction.createWallet({
     int timestamp,

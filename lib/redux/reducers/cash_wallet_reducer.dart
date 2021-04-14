@@ -7,6 +7,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
@@ -55,7 +56,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, FetchingBusinessListFailed>(
       _fetchingBusinessListFailed),
   // TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
-  TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances)
+  TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances),
 ]);
 
 CashWalletState _updateTokenPrice(
@@ -107,7 +108,8 @@ CashWalletState _getActionsSuccess(
       (action) => action.id == walletAction.id,
     );
     if (savedIndex != -1) {
-      list[savedIndex] = walletAction;
+      log.info(savedIndex);
+      list[savedIndex] = walletAction.copyWith();
     } else {
       list?.add(walletAction);
     }
@@ -158,10 +160,16 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
             ? newOne[checksumEthereumAddress(tokenAddress)]
             : newOne[tokenAddress];
     tokens[tokenAddress] = token.copyWith(
-      walletActions: WalletActions.initial(),
+      walletActions: token.walletActions.copyWith(
+        updatedAt: 0,
+      ),
     );
   }
-  return state.copyWith(tokens: tokens, walletActions: WalletActions.initial());
+  return state.copyWith(
+      tokens: tokens,
+      walletActions: state.walletActions.copyWith(
+        updatedAt: 0,
+      ));
 }
 
 CashWalletState _refreshCommunityData(

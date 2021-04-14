@@ -11,33 +11,31 @@ class AssetsList extends StatelessWidget {
     return StoreConnector<AppState, TokensListViewModel>(
       distinct: true,
       converter: TokensListViewModel.fromStore,
-      builder: (_, viewModel) => Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Flexible(
-              child: ListView.separated(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: viewModel.tokens?.length,
-                separatorBuilder: (BuildContext context, int index) => Padding(
-                  padding: EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                  ),
-                  child: Divider(
-                    thickness: 1,
-                    height: 0,
-                  ),
-                ),
-                itemBuilder: (context, index) => TokenTile(
-                  token: viewModel.tokens[index],
-                ),
+      builder: (_, viewModel) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            viewModel.refreshFeed();
+            await Future.delayed(Duration(milliseconds: 1000));
+            return 'success';
+          },
+          child: ListView.separated(
+            itemCount: viewModel.tokens?.length,
+            separatorBuilder: (BuildContext context, int index) => Padding(
+              padding: EdgeInsets.only(
+                left: 15,
+                right: 15,
+              ),
+              child: Divider(
+                thickness: 1,
+                height: 0,
               ),
             ),
-          ],
-        ),
-      ),
+            itemBuilder: (context, index) => TokenTile(
+              token: viewModel?.tokens[index],
+            ),
+          ),
+        );
+      },
     );
   }
 }

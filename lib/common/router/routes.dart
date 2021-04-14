@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:fusecash/common/router/route_guards.dart';
+import 'package:fusecash/features/contacts/screens/contacts_list.dart';
 import 'package:fusecash/features/home/screens/action_details.dart';
 import 'package:fusecash/features/screens/home_screen.dart';
 import 'package:fusecash/features/onboard/screens/security_screen.dart';
@@ -38,6 +39,10 @@ import 'package:fusecash/features/swap/screens/swap.dart';
     MaterialRoute(guards: [AuthGuard], page: SendSuccessScreen),
     MaterialRoute(guards: [AuthGuard], page: SwapScreen),
     MaterialRoute(guards: [AuthGuard], page: ReviewSwapScreen),
+    MaterialRoute(
+      page: ContactsList,
+      guards: [AuthGuard],
+    ),
     AdaptiveRoute(path: '*', page: UnknownRouteScreen)
   ],
 )

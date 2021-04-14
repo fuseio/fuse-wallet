@@ -23,7 +23,7 @@ class TokenActivities extends StatelessWidget {
       builder: (_, viewModel) {
         final token = viewModel.tokens
             .firstWhere((element) => element.address == tokenAddress);
-        final hasActivity = token.walletActions.list.isNotEmpty;
+        final bool hasActivity = token.walletActions?.list?.isNotEmpty ?? false;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

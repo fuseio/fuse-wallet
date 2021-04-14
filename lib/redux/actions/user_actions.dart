@@ -306,9 +306,10 @@ ThunkAction reLoginCall() {
   };
 }
 
-ThunkAction syncContactsCall(List<Contact> contacts) {
+ThunkAction syncContactsCall() {
   return (Store store) async {
     try {
+      List<Contact> contacts = await Contacts.getContacts();
       store.dispatch(SaveContacts(contacts));
       List<String> syncedContacts = store.state.userState.syncedContacts;
       List<String> newPhones = List<String>();
@@ -438,10 +439,7 @@ ThunkAction loadContacts() {
     try {
       bool isPermitted = await Contacts.checkPermissions();
       if (isPermitted) {
-        log.info('Start - load contacts');
-        List<Contact> contacts = await Contacts.getContacts();
-        log.info('Done - load contacts');
-        store.dispatch(syncContactsCall(contacts));
+        store.dispatch(syncContactsCall());
       }
     } catch (e, s) {
       log.error('ERROR - load contacts $e');

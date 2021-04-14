@@ -236,7 +236,7 @@ class _TopupScreenState extends State<TopupScreen>
                 ExtendedNavigator.root.pushWebview(
                   withBack: true,
                   url:
-                      '$url&fiatCurrency=${selectedToken?.value}&fiatValue=$amountText&finalUrl=https://fuse.io',
+                      '$url&fiatCurrency=${selectedToken?.value}&fiatValue=$amountText&finalUrl=https://fuse.cash',
                   title: I18n.of(context).deposit_your_first_dollars,
                 );
               },

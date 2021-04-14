@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/widgets/scan_address.dart';
+import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
@@ -70,9 +71,24 @@ class SearchPanel extends StatelessWidget {
                   ),
                 ),
               ),
-              AddressScanner(
-                heroTag: 'search',
-                context: ExtendedNavigator.named('contactsRouter').context,
+              Container(
+                width: 45,
+                height: 45,
+                child: FloatingActionButton(
+                  heroTag: 'search',
+                  backgroundColor: Color(0xFF292929),
+                  elevation: 0,
+                  child: Image.asset(
+                    'assets/images/scan.png',
+                    width: 25.0,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  onPressed: () {
+                    barcodeScannerHandler(
+                      ExtendedNavigator.named('contactsRouter').context,
+                    );
+                  },
+                ),
               ),
             ],
           ),

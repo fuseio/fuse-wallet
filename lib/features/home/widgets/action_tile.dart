@@ -130,7 +130,13 @@ class ActionTile extends StatelessWidget {
             action.isGenerateWallet() ||
                     action.isJoinCommunity() ||
                     action.isDepositYourFirstDollar()
-                ? SizedBox.shrink()
+                ? Text(
+                    DateFormat.jm().format(dateTime),
+                    style: TextStyle(
+                      color: Color(0xFF8D8D8D),
+                      fontSize: 10,
+                    ),
+                  )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
@@ -368,6 +374,7 @@ class ActionTile extends StatelessWidget {
                     ],
                   )
                 : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
                         child: AutoSizeText(

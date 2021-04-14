@@ -222,6 +222,8 @@ class SetIsFetchingBalances {
   SetIsFetchingBalances({this.isFetching});
 }
 
+class SetShowDepositBanner {}
+
 ThunkAction enablePushNotifications() {
   return (Store store) async {
     try {

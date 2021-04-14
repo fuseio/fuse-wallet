@@ -10,7 +10,7 @@ import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
-  final SendAmountArguments pageArgs;
+  final SendFlowArguments pageArgs;
   SendSuccessScreen({this.pageArgs});
   @override
   _SendSuccessScreenState createState() => _SendSuccessScreenState();
@@ -33,7 +33,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = this.widget.pageArgs;
+    final SendFlowArguments args = this.widget.pageArgs;
     return MyScaffold(
       title: I18n.of(context).success,
       body: Container(

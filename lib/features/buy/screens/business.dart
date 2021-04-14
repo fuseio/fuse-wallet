@@ -316,7 +316,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               ),
                               onPressed: () {
                                 ExtendedNavigator.root.pushSendAmountScreen(
-                                  pageArgs: SendAmountArguments(
+                                  pageArgs: SendFlowArguments(
                                     tokenToSend: widget.token,
                                     name: widget.business.name ?? '',
                                     accountAddress: widget.business.account,
