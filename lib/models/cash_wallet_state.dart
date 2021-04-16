@@ -20,12 +20,14 @@ Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens == null
     ? Map<String, Token>()
     : tokens
         .map((k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)))
-  ..addAll(Map.from(
-    {
-      Addresses.ZERO_ADDRESS: fuseToken.copyWith(),
-      Addresses.FUSE_DOLLAR_TOKEN_ADDRESS: fuseDollarToken.copyWith(),
-    },
-  ));
+  ..putIfAbsent(
+    Addresses.ZERO_ADDRESS,
+    () => fuseToken.copyWith(),
+  )
+  ..putIfAbsent(
+    Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+    () => fuseDollarToken.copyWith(),
+  );
 
 Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
   if (list == null) {

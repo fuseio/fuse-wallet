@@ -153,7 +153,7 @@ class _ContactsListState extends State<ContactsList> {
                 ExtendedNavigator.named('contactsRouter').context,
                 user.displayName,
                 phone.value,
-                tokenToSend: widget.pageArgs.tokenToSend,
+                tokenToSend: widget?.pageArgs?.tokenToSend,
                 isoCode: viewModel.isoCode,
                 countryCode: viewModel.countryCode,
                 avatar: user.avatar != null && user.avatar.isNotEmpty
