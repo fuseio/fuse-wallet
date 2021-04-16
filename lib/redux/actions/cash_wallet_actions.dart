@@ -1096,7 +1096,9 @@ ThunkAction getWalletActionsCall() {
         walletActions: actions,
         updateAt: actions.last.timestamp,
       ));
-      store.dispatch(updateTotalBalance());
+      Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
+        store.dispatch(updateTotalBalance());
+      });
     }
   };
 }
