@@ -233,51 +233,56 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                       style:
                                           TextStyle(color: Color(0xFF898989)),
                                     ),
-                                    OutlineButton(
-                                      focusColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      hoverColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      highlightedBorderColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      padding: EdgeInsets.all(0),
-                                      textColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      borderSide: BorderSide(
-                                        color: Theme.of(context)
+                                    ButtonTheme(
+                                      minWidth: 68,
+                                      height: 28,
+                                      child: OutlineButton(
+                                        focusColor: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
-                                        width: 1.0,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                      ),
-                                      child: Text(
-                                        I18n.of(context).use_max,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
+                                        hoverColor: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                        highlightedBorderColor:
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                        padding: EdgeInsets.all(0),
+                                        textColor: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                          width: 2.0,
                                         ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
+                                        ),
+                                        child: Text(
+                                          I18n.of(context).use_max,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0),
+                                        ),
+                                        onPressed: () {
+                                          String max = formatValue(
+                                            selectedToken.amount,
+                                            selectedToken.decimals,
+                                            withPrecision: true,
+                                          );
+                                          // String max = selectedToken.getBalance();
+                                          if (Decimal.parse(max).compareTo(
+                                                  (Decimal.parse(amountText) ??
+                                                      0)) !=
+                                              0) {
+                                            _onKeyPress(max, max: true);
+                                          }
+                                        },
                                       ),
-                                      onPressed: () {
-                                        String max = formatValue(
-                                          selectedToken.amount,
-                                          selectedToken.decimals,
-                                          withPrecision: true,
-                                        );
-                                        // String max = selectedToken.getBalance();
-                                        if (Decimal.parse(max).compareTo(
-                                                (Decimal.parse(amountText) ??
-                                                    0)) !=
-                                            0) {
-                                          _onKeyPress(max, max: true);
-                                        }
-                                      },
                                     ),
                                   ],
                                 ),

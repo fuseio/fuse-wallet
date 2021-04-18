@@ -267,8 +267,13 @@ ThunkAction enablePushNotifications() {
           switchOnPush(message);
         },
       );
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - Enable push notifications: $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR - Enable push notifications',
+      );
     }
   };
 }
@@ -417,7 +422,11 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       }
     } catch (e, s) {
       log.error('ERROR - createAccountWalletCall $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'Error in Create Account Wallet Call',
+      );
     }
   };
 }
@@ -472,6 +481,11 @@ ThunkAction getTokenBalanceCall(Token token) {
         Object e,
         StackTrace s,
       ) async {
+        await Sentry.captureException(
+          e,
+          stackTrace: e,
+          hint: 'Error - fetch token balance ${token.name} $e',
+        );
         log.error('Error - fetch token balance ${token.name} $e');
       };
       await token.fetchTokenBalance(
@@ -479,8 +493,12 @@ ThunkAction getTokenBalanceCall(Token token) {
         onDone: onDone,
         onError: onError,
       );
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - getTokenBalanceCall $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+      );
     }
   };
 }
@@ -516,8 +534,13 @@ ThunkAction inviteAndSendCall(
       );
       sendSuccessCallback();
       store.dispatch(loadContacts());
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - inviteAndSendCall $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to invite user & send',
+      );
     }
   };
 }
@@ -627,9 +650,14 @@ ThunkAction sendNativeTokenCall(
       log.info('Job $jobId for sending native token sent to the relay service');
 
       sendSuccessCallback();
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - sendNativeTokenCall ${e.toString()}');
       sendFailureCallback();
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to send native token',
+      );
     }
   };
 }
@@ -702,9 +730,14 @@ ThunkAction sendTokenCall(
 
         sendSuccessCallback();
       }
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - sendTokenCall ${e.toString()}');
       sendFailureCallback();
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to send token',
+      );
     }
   };
 }
@@ -737,8 +770,13 @@ ThunkAction joinCommunityCall({
           communityName: community.name,
         );
       }
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - joinCommunityCall ${e.toString()}');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to join community',
+      );
     }
   };
 }
@@ -772,7 +810,12 @@ ThunkAction fetchCommunityMetadataCall(
           communityAddress: communityAddress.toLowerCase()));
     } catch (e, s) {
       log.error('ERROR - fetchCommunityMetadataCall $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint:
+            'ERROR while trying to fetch community metadata for $communityAddress',
+      );
     }
   };
 }
@@ -900,7 +943,11 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
       store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to switch to community $communityAddress',
+      );
     }
   };
 }
@@ -946,9 +993,14 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
       store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToExistingCommunityCall $e');
-      await Sentry.captureException(e, stackTrace: s);
       store.dispatch(SwitchCommunityFailed(
-          communityAddress: communityAddress.toLowerCase()));
+        communityAddress: communityAddress.toLowerCase(),
+      ));
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to switch to community $communityAddress',
+      );
     }
   };
 }
@@ -1010,9 +1062,14 @@ ThunkAction switchCommunityCall(String communityAddress) {
       }
     } catch (e, s) {
       log.info('ERROR - switchCommunityCall $e');
-      await Sentry.captureException(e, stackTrace: s);
-      store.dispatch(SwitchCommunityFailed(
-          communityAddress: communityAddress.toLowerCase()));
+      store.dispatch(
+        SwitchCommunityFailed(communityAddress: communityAddress.toLowerCase()),
+      );
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while trying to switch to community $communityAddress',
+      );
     }
   };
 }
@@ -1068,9 +1125,15 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
             businessList: result, communityAddress: communityAddress));
         store.dispatch(FetchingBusinessListSuccess());
       }
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint:
+            'ERROR while trying to fetch community businesses $communityAddress',
+      );
     }
   };
 }

@@ -99,7 +99,7 @@ class TokenTile extends StatelessWidget {
         ),
       ),
       builder: (_) => FractionallySizedBox(
-        heightFactor: 0.9,
+        heightFactor: 0.975,
         child: SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Container(
@@ -169,66 +169,70 @@ class TokenTile extends StatelessWidget {
                   children: [
                     !hasPriceInfo
                         ? SizedBox.shrink()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        : Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  I18n.of(context).price,
+                                  style: TextStyle(
+                                    fontFamily: 'Europa',
+                                    fontSize: 13,
+                                  ),
+                                  softWrap: true,
+                                ),
+                                Text(
+                                  '\$${display(num.parse(token.priceInfo.quote))}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Europa',
+                                    fontSize: 25,
+                                  ),
+                                  softWrap: true,
+                                ),
+                              ],
+                            ),
+                          ),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            I18n.of(context).your_balance,
+                            style: TextStyle(
+                              fontFamily: 'Europa',
+                              fontSize: 13,
+                            ),
+                            softWrap: true,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            verticalDirection: VerticalDirection.down,
+                            textBaseline: TextBaseline.alphabetic,
                             children: [
+                              !hasPriceInfo
+                                  ? SizedBox.shrink()
+                                  : Text(
+                                      '\$${token.getFiatBalance()} ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                      ),
+                                    ),
                               Text(
-                                I18n.of(context).price,
+                                token.getBalance() + ' ${token.symbol}',
                                 style: TextStyle(
-                                  fontFamily: 'Europa',
-                                  fontSize: 13,
+                                  fontSize: hasPriceInfo ? 13 : 25,
+                                  fontWeight: hasPriceInfo
+                                      ? FontWeight.normal
+                                      : FontWeight.bold,
                                 ),
-                                softWrap: true,
-                              ),
-                              Text(
-                                '\$${display(num.parse(token.priceInfo.quote))}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Europa',
-                                  fontSize: 25,
-                                ),
-                                softWrap: true,
                               ),
                             ],
                           ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          I18n.of(context).your_balance,
-                          style: TextStyle(
-                            fontFamily: 'Europa',
-                            fontSize: 13,
-                          ),
-                          softWrap: true,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          verticalDirection: VerticalDirection.down,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            !hasPriceInfo
-                                ? SizedBox.shrink()
-                                : Text(
-                                    '\$${display(num.parse(token.priceInfo.total))} ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
-                                    ),
-                                  ),
-                            Text(
-                              token.getBalance() + ' ${token.symbol}',
-                              style: TextStyle(
-                                fontSize: hasPriceInfo ? 13 : 25,
-                                fontWeight: hasPriceInfo
-                                    ? FontWeight.normal
-                                    : FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
                 SizedBox(
@@ -285,9 +289,7 @@ class TokenTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool hasPriceInfo =
         ![null, '', '0', 0].contains(token?.priceInfo?.quote);
-    final String price = token.priceInfo != null
-        ? display(num.parse(token?.priceInfo?.total))
-        : '0';
+    final String price = token.priceInfo != null ? token.getFiatBalance() : '0';
     // final bool isFuseTxs = token.originNetwork != null;
     return StoreConnector<AppState, TokenTileViewModel>(
       distinct: true,

@@ -35,12 +35,14 @@ String getFiatValue(
   BigInt value,
   int decimals,
   double price, {
+  int fractionDigits = 2,
   bool withPrecision = false,
 }) {
   if (value == null || decimals == null) return '0';
-  double formattedValue = (value / BigInt.from(pow(10, decimals))) * price;
+  Decimal formattedValue = Decimal.parse(
+      ((value / BigInt.from(pow(10, decimals))) * price).toString());
   if (withPrecision) return formattedValue.toString();
-  return display(formattedValue);
+  return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
 String formatAddress(String address) {
