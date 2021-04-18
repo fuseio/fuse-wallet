@@ -30,8 +30,8 @@ class BottomBar extends StatelessWidget {
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset(
             'assets/images/$imgSvg\_selected.svg',
-            width: 25,
-            height: 25,
+            width: 26,
+            height: 26,
           ),
         ),
         label: title,

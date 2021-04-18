@@ -1,11 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/utils/webview.dart';
 
 class DepositBanner extends StatelessWidget {
   @override
@@ -20,13 +19,14 @@ class DepositBanner extends StatelessWidget {
             SizedBox(height: 20),
             Container(
               padding: EdgeInsets.only(
-                left: 15,
+                left: 25,
               ),
-              height: 70,
+              height: 80,
               width: MediaQuery.of(context).size.width * .95,
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 image: DecorationImage(
+                  fit: BoxFit.scaleDown,
                   image: AssetImage(
                     'assets/images/deposit_banner.png',
                   ),
@@ -49,9 +49,9 @@ class DepositBanner extends StatelessWidget {
                         if (depositPlugins.isNotEmpty) {
                           dynamic url = depositPlugins[0].widgetUrl;
                           viewModel.setDepositBanner();
-                          ExtendedNavigator.root.pushWebview(
+                          openDepositWebview(
                             withBack: true,
-                            url: '$url&finalUrl=https://fuse.cash',
+                            url: url,
                             title: I18n.of(context).deposit_your_first_dollars,
                           );
                         }
@@ -95,9 +95,11 @@ class DepositBanner extends StatelessWidget {
                   ),
                   FlatButton(
                     child: Text(
-                      'Dismiss',
+                      I18n.of(context).dismiss,
                       style: TextStyle(
-                        fontSize: 9,
+                        fontSize: 14,
+                        fontFamily: 'Europa',
+                        letterSpacing: 0,
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),

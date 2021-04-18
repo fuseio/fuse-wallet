@@ -414,6 +414,8 @@ class I18n implements WidgetsLocalizations {
   String invite_text(String name) => "Sending money to ${name} will automatically invite them to Fuse and let them redeem the funds you sent";
   /// "friend"
   String get friend => "friend";
+  /// "Dismiss"
+  String get dismiss => "Dismiss";
 }
 
 class _I18n_en_US extends I18n {

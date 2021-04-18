@@ -69,11 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        body: TabBarView(
-          children: [
-            Feed(),
-            AssetsList(),
-          ],
+        body: Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: TabBarView(
+            children: [
+              Feed(),
+              AssetsList(),
+            ],
+          ),
         ),
       ),
     );
@@ -107,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: AlignmentDirectional.topCenter,
                   children: [
                     Positioned.fill(
-                      top: viewModel.showDepositBanner ? 90 : 0,
+                      top: 100,
                       child: body(),
                     ),
                     Positioned(

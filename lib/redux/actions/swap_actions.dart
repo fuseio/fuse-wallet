@@ -8,6 +8,7 @@ import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class GetSwappableTokensSuccess {
   final Map<String, Token> swappableTokens;
@@ -67,8 +68,13 @@ ThunkAction fetchSwapList() {
           tokensImages: tokensImages,
         ));
       }
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - fetchTokenList $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR - fetchTokenList $e',
+      );
     }
   };
 }

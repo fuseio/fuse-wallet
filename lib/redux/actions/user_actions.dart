@@ -183,7 +183,11 @@ ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
     } catch (e, s) {
       store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
       log.error('ERROR - LoginRequest $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR in Login Request',
+      );
       store.dispatch(
         segmentTrackCall(
           "ERROR in LoginRequest",
@@ -211,7 +215,11 @@ ThunkAction verifyHandler(String verificationCode) {
         message: error ??
             I18n.of(ExtendedNavigator.root.context).something_went_wrong,
       ));
-      await Sentry.captureException(error, stackTrace: s);
+      await Sentry.captureException(
+        error,
+        stackTrace: s,
+        hint: 'Error while phone number verification',
+      );
       store.dispatch(segmentTrackCall(
         "ERROR in VerifyRequest",
         properties: Map.from({
@@ -237,7 +245,9 @@ ThunkAction backupWalletCall() {
 }
 
 ThunkAction restoreWalletCall(
-    List<String> _mnemonic, VoidCallback successCallback) {
+  List<String> _mnemonic,
+  VoidCallback successCallback,
+) {
   return (Store store) async {
     try {
       log.info('restore wallet');
@@ -253,8 +263,13 @@ ThunkAction restoreWalletCall(
       store.dispatch(setDefaultCommunity());
       store.dispatch(segmentTrackCall("Wallet: restored mnemonic"));
       successCallback();
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - restoreWalletCall $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR in restore wallet',
+      );
     }
   };
 }
@@ -268,7 +283,9 @@ ThunkAction setDeviceId() {
 }
 
 ThunkAction createLocalAccountCall(
-    VoidCallback successCallback, VoidCallback errorCallback) {
+  VoidCallback successCallback,
+  VoidCallback errorCallback,
+) {
   return (Store store) async {
     try {
       log.info('create wallet');
@@ -286,7 +303,11 @@ ThunkAction createLocalAccountCall(
       successCallback();
     } catch (e, s) {
       log.error('ERROR - createLocalAccountCall $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR while generate mnemonic',
+      );
       errorCallback();
     }
   };
@@ -366,8 +387,13 @@ ThunkAction syncContactsCall() {
           partial = newPhones.take(limit).toList();
         }
       }
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - syncContactsCall $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR sync contacts',
+      );
     }
   };
 }
@@ -443,7 +469,11 @@ ThunkAction loadContacts() {
       }
     } catch (e, s) {
       log.error('ERROR - load contacts $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR check Contacts Permissions',
+      );
     }
   };
 }
@@ -454,7 +484,7 @@ ThunkAction updateTotalBalance() {
       CashWalletState cashWalletState = store.state.cashWalletState;
       num combiner(num previousValue, Token token) => token?.priceInfo != null
           ? previousValue +
-              num.parse(Decimal.parse(token?.priceInfo?.total).toString())
+              num.parse(Decimal.parse(token?.getFiatBalance()).toString())
           : previousValue + 0;
 
       List<Token> homeTokens =
@@ -503,7 +533,11 @@ ThunkAction setupWalletCall(walletData) {
       }
     } catch (e, s) {
       log.error('ERROR - setupWalletCall $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR - setupWalletCall $e',
+      );
     }
   };
 }
@@ -515,7 +549,11 @@ ThunkAction getWalletAddressesCall() {
       store.dispatch(setupWalletCall(walletData));
     } catch (e, s) {
       log.error('ERROR - getWalletAddressCall $e');
-      await Sentry.captureException(e, stackTrace: s);
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR - getWalletAddressCall $e',
+      );
     }
   };
 }
@@ -530,7 +568,9 @@ ThunkAction updateDisplayNameCall(String displayName) {
       store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
         "Display Name": displayName,
       })));
-    } catch (e) {}
+    } catch (e, s) {
+      await Sentry.captureException(e, stackTrace: s);
+    }
   };
 }
 
@@ -544,6 +584,8 @@ ThunkAction updateUserAvatarCall(ImageSource source) {
       await api.updateAvatar(accountAddress, uploadResponse['hash']);
       store.dispatch(SetUserAvatar(uploadResponse['uri']));
       store.dispatch(segmentTrackCall("User avatar updated"));
-    } catch (e) {}
+    } catch (e, s) {
+      await Sentry.captureException(e, stackTrace: s);
+    }
   };
 }

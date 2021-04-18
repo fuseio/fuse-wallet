@@ -70,7 +70,9 @@ class FirebaseStrategy implements IOnBoardStrategy {
       );
       await Sentry.captureException(
         authException,
-        stackTrace: authException.message,
+        stackTrace: authException.stackTrace,
+        hint:
+            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}',
       );
     };
 

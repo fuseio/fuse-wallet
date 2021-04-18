@@ -186,12 +186,15 @@ class _SwapScreenState extends State<SwapScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           tokens.isEmpty
-                              ? Text(
-                                  I18n.of(context).no_swap_option,
-                                  style: TextStyle(
-                                    color: Color(0xFF979797),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.normal,
+                              ? Padding(
+                                  padding: EdgeInsets.only(bottom: 30),
+                                  child: Text(
+                                    I18n.of(context).no_swap_option,
+                                    style: TextStyle(
+                                      color: Color(0xFF979797),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
                                 )
                               : ListView.separated(
