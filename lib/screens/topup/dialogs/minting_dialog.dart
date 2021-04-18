@@ -19,9 +19,13 @@ class _MintingDialogViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
+    final Token token = store.state.cashWalletState.tokens
+            .containsKey(community?.secondaryTokenAddress?.toLowerCase())
+        ? store.state.cashWalletState
+            .tokens[community?.secondaryTokenAddress?.toLowerCase()]
+        : store.state.cashWalletState.tokens[community?.secondaryTokenAddress];
     return _MintingDialogViewModel(
-      secondaryToken: store.state.cashWalletState
-          .tokens[community?.secondaryTokenAddress?.toLowerCase()],
+      secondaryToken: token,
     );
   }
 

@@ -156,13 +156,19 @@ class InAppWebViewViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
-    final Token secondaryToken = store.state.cashWalletState
-        .tokens[community?.secondaryTokenAddress?.toLowerCase()];
+    final Token token = store.state.cashWalletState.tokens
+            .containsKey(community?.secondaryTokenAddress?.toLowerCase())
+        ? store.state.cashWalletState
+            .tokens[community?.secondaryTokenAddress?.toLowerCase()]
+        : store.state.cashWalletState.tokens[community?.secondaryTokenAddress];
+    final num secondaryTokenAmount = num.parse(formatValue(
+          token?.amount,
+          token?.decimals,
+          withPrecision: true,
+        )) ??
+        0;
     return InAppWebViewViewModel(
-      secondaryTokenAmount: num.parse(formatValue(
-              secondaryToken.amount, secondaryToken.decimals,
-              withPrecision: true)) ??
-          0,
+      secondaryTokenAmount: secondaryTokenAmount,
       sendTokenFromWebView: (
         String currency,
         String receiverAddress,
