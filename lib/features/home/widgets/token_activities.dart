@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/home/widgets/action_tile.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -25,30 +26,38 @@ class TokenActivities extends StatelessWidget {
             .firstWhere((element) => element.address == tokenAddress);
         final bool hasActivity = token.walletActions?.list?.isNotEmpty ?? false;
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: !hasActivity
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
+          mainAxisAlignment:
+              !hasActivity ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: <Widget>[
             !hasActivity
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: 40,
                         ),
-                        Image.asset(
-                          'assets/images/no-activity.png',
-                          fit: BoxFit.cover,
-                          height: 100,
+                        Text(
+                          I18n.of(context).no_activity,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text(I18n.of(context).no_activity,
-                            style: TextStyle(
-                                color: Color(0xFF979797),
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.normal))
+                        SvgPicture.asset(
+                          'assets/images/no-activity.svg',
+                          fit: BoxFit.cover,
+                          height: 100,
+                        ),
                       ],
                     ),
                   )
@@ -62,29 +71,25 @@ class TokenActivities extends StatelessWidget {
                       ),
                     ),
                   ),
-            !hasActivity
-                ? SizedBox.shrink()
-                : GroupedListView<WalletAction, DateTime>(
-                    shrinkWrap: true,
-                    elements: token.walletActions?.list ?? [],
-                    groupBy: (element) {
-                      final DateTime dateTime =
-                          DateTime.fromMillisecondsSinceEpoch(
-                              element.timestamp);
-                      return DateTime(
-                          dateTime.year, dateTime.month, dateTime.day);
-                    },
-                    groupSeparatorBuilder: (DateTime date) =>
-                        Text(DateFormat.yMMMd().format(date)),
-                    itemBuilder: (context, WalletAction element) => ActionTile(
-                      action: element,
-                      contentPadding: EdgeInsets.only(
-                        top: 10,
-                        bottom: 10,
-                      ),
-                    ),
-                    order: GroupedListOrder.DESC,
-                  ),
+            GroupedListView<WalletAction, DateTime>(
+              shrinkWrap: true,
+              elements: token.walletActions?.list ?? [],
+              groupBy: (element) {
+                final DateTime dateTime =
+                    DateTime.fromMillisecondsSinceEpoch(element.timestamp);
+                return DateTime(dateTime.year, dateTime.month, dateTime.day);
+              },
+              groupSeparatorBuilder: (DateTime date) =>
+                  Text(DateFormat.yMMMd().format(date)),
+              itemBuilder: (context, WalletAction element) => ActionTile(
+                action: element,
+                contentPadding: EdgeInsets.only(
+                  top: 10,
+                  bottom: 10,
+                ),
+              ),
+              order: GroupedListOrder.DESC,
+            ),
           ],
         );
       },
