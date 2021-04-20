@@ -42,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
     String jwtToken = store?.state?.userState?.jwtToken ?? '';
     bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      // ExtendedNavigator.root.replace(Routes.onBoardingScreen);
       ExtendedNavigator.root.replace(Routes.onBoardScreen);
     } else {
       UserState userState = store.state.userState;

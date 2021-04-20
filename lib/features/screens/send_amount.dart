@@ -417,9 +417,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   : I18n.of(context).insufficient_fund,
                               onPressed: () {
                                 args.tokenToSend = selectedToken;
-                                log.info(amountText);
-                                log.info(num.parse(amountText));
-                                log.info(double.parse(amountText));
                                 args.amount = double.parse(amountText);
                                 ExtendedNavigator.root
                                     .pushSendReviewScreen(pageArgs: args);

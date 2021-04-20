@@ -59,8 +59,6 @@ class SettingsScreen extends StatelessWidget {
                             viewModel.logout();
                             ExtendedNavigator.root
                                 .replace(Routes.onBoardScreen);
-                            // ExtendedNavigator.root
-                            //     .replace(Routes.onBoardingScreen);
                           })
                         ],
                       ),
