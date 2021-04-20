@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -14,10 +13,6 @@ import 'package:fusecash/utils/string.dart';
 
 class UserNameScreen extends StatelessWidget {
   final displayNameController = TextEditingController(text: "");
-  onInit(store) {
-    final String accountAddress = store.state.userState.accountAddress;
-    store.dispatch(createAccountWalletCall(accountAddress));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +21,6 @@ class UserNameScreen extends StatelessWidget {
       title: I18n.of(context).sign_up,
       body: StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
-        onInit: onInit,
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(

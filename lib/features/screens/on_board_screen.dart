@@ -80,6 +80,8 @@ class _OnBoardScreenState extends State<OnBoardScreen>
 
   @override
   void dispose() {
+    _titleController.dispose();
+    _lottieController.dispose();
     _pageController.dispose();
     super.dispose();
   }
