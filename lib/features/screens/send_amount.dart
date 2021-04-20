@@ -11,6 +11,7 @@ import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/numbers.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -142,8 +143,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     }
     setState(() {});
     try {
-      final bool hasFund =
-          (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
+      final bool hasFund = amountText != null &&
+          amountText != '' &&
+          amountText != '0' &&
+          (Decimal.tryParse(amountText)).compareTo(
                 Decimal.parse(
                   formatValue(
                     selectedToken?.amount,
@@ -187,18 +190,20 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final bool hasFund =
+        final bool hasFund = amountText != null &&
+            amountText != '' &&
+            amountText != '0' &&
             (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
-                      Decimal.parse(
-                        formatValue(
-                          selectedToken?.amount,
-                          selectedToken?.decimals,
-                          withPrecision: true,
-                        ),
-                      ),
-                    ) <=
-                    0 &&
-                viewModel.tokens.isNotEmpty;
+                  Decimal.parse(
+                    formatValue(
+                      selectedToken?.amount,
+                      selectedToken?.decimals,
+                      withPrecision: true,
+                    ),
+                  ),
+                ) <=
+                0 &&
+            viewModel.tokens.isNotEmpty;
 
         if (!hasFund) {
           controller.forward();
@@ -412,7 +417,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   : I18n.of(context).insufficient_fund,
                               onPressed: () {
                                 args.tokenToSend = selectedToken;
-                                args.amount = num.parse(amountText);
+                                log.info(amountText);
+                                log.info(num.parse(amountText));
+                                log.info(double.parse(amountText));
+                                args.amount = double.parse(amountText);
                                 ExtendedNavigator.root
                                     .pushSendReviewScreen(pageArgs: args);
                               },

@@ -23,7 +23,11 @@ import 'package:fusecash/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
   final SendFlowArguments pageArgs;
-  ContactsList({this.pageArgs});
+  final bool automaticallyImplyLeading;
+  ContactsList({
+    this.pageArgs,
+    this.automaticallyImplyLeading = false,
+  });
   @override
   _ContactsListState createState() => _ContactsListState();
 }
@@ -55,7 +59,7 @@ class _ContactsListState extends State<ContactsList> {
       builder: (_, viewModel) {
         return _contacts != null
             ? MyScaffold(
-                automaticallyImplyLeading: false,
+                automaticallyImplyLeading: widget.automaticallyImplyLeading,
                 title: I18n.of(context).send_to,
                 body: InkWell(
                   focusColor: Theme.of(context).canvasColor,
@@ -135,8 +139,7 @@ class _ContactsListState extends State<ContactsList> {
     List<Widget> listItems = List();
     for (Contact user in group) {
       Iterable<Item> phones = user.phones
-          .map((e) => Item(
-              label: e.label, value: clearNotNumbersAndPlusSymbol(e.value)))
+          .map((e) => Item(value: clearNotNumbersAndPlusSymbol(e.value)))
           .toSet()
           .toList();
       for (Item phone in phones) {

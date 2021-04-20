@@ -21,14 +21,16 @@ class Button extends StatelessWidget {
     this.onPressed,
     this.text,
     this.icon,
+    this.width,
   }) : super(key: key);
   final void Function() onPressed;
   final String text;
   final String icon;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * .425,
+      width: width ?? MediaQuery.of(context).size.width * .425,
       child: FlatButton(
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
@@ -257,8 +259,12 @@ class TokenTile extends StatelessWidget {
                     Button(
                       text: I18n.of(context).send_button,
                       icon: 'send_action',
+                      width: isSwappable
+                          ? null
+                          : MediaQuery.of(context).size.width * .9,
                       onPressed: () {
                         ExtendedNavigator.root.pushContactsList(
+                          automaticallyImplyLeading: true,
                           pageArgs: SendFlowArguments(
                             tokenToSend: token,
                           ),

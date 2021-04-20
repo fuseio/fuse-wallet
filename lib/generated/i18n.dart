@@ -394,8 +394,8 @@ class I18n implements WidgetsLocalizations {
   String get for_text => "for";
   /// "Your wallet is empty!"
   String get your_wallet_is_empty => "Your wallet is empty!";
-  /// "Your balance is empty"
-  String get your_balance_is_empty => "Your balance is empty";
+  /// "You have no balance"
+  String get your_balance_is_empty => "You have no balance";
   /// "Top up your account"
   String get top_up_your_account => "Top up your account";
   /// "Sell"
@@ -416,6 +416,8 @@ class I18n implements WidgetsLocalizations {
   String get friend => "friend";
   /// "Dismiss"
   String get dismiss => "Dismiss";
+  /// "That's it! Let's start"
+  String get lets_start => "That's it! Let's start";
 }
 
 class _I18n_en_US extends I18n {
@@ -3066,9 +3068,9 @@ class _I18n_nl_NL extends I18n {
   /// "Geweldig, je hebt een back-up gemaakt van je geheime woorden. Bewaar je geheime woorden op een veilige plaats en deel deze informatie nooit."
   @override
   String get wallet_protected_text => "Geweldig, je hebt een back-up gemaakt van je geheime woorden. Bewaar je geheime woorden op een veilige plaats en deel deze informatie nooit.";
-  /// "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je acount niet herstellen zonder deze informatie."
+  /// "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je account niet herstellen zonder deze informatie."
   @override
-  String get write_words => "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je acount niet herstellen zonder deze informatie.";
+  String get write_words => "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je account niet herstellen zonder deze informatie.";
   /// "Schrijf de volgende woorden op \n"
   @override
   String get write_word => "Schrijf de volgende woorden op \n";

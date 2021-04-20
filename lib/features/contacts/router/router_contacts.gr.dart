@@ -33,7 +33,10 @@ class ContactsRouter extends RouterBase {
         orElse: () => ContactsListArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ContactsList(pageArgs: args.pageArgs),
+        builder: (context) => ContactsList(
+          pageArgs: args.pageArgs,
+          automaticallyImplyLeading: args.automaticallyImplyLeading,
+        ),
         settings: data,
       );
     },
@@ -47,5 +50,7 @@ class ContactsRouter extends RouterBase {
 /// ContactsList arguments holder class
 class ContactsListArguments {
   final SendFlowArguments pageArgs;
-  ContactsListArguments({this.pageArgs});
+  final bool automaticallyImplyLeading;
+  ContactsListArguments(
+      {this.pageArgs, this.automaticallyImplyLeading = false});
 }

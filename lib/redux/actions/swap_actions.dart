@@ -36,14 +36,13 @@ ThunkAction fetchSwapList() {
       Map data = jsonDecode(response.data);
       Map<String, Token> tokens = Map();
       Map<String, String> tokensImages = Map();
-      for (dynamic token in data['tokens']) {
+      for (Map token in data['tokens']) {
         final BigInt balance = await fuseWeb3.getTokenBalance(
           token['address'],
           address: address,
         );
-        tokens.putIfAbsent(
-          token['address'].toLowerCase(),
-          () => Token.fromJson({
+        if (!token.containsKey('isDeprecated')) {
+          final Token newToken = Token.fromJson({
             "originNetwork": 'mainnet',
             "amount": balance.toString(),
             "address": token['address'].toLowerCase(),
@@ -51,12 +50,16 @@ ThunkAction fetchSwapList() {
             "name": formatTokenName(token["name"]),
             "symbol": token['symbol'],
             "imageUrl": token['logoURI'],
-          }),
-        );
-        tokensImages.putIfAbsent(
-          token['address'].toLowerCase(),
-          () => token['logoURI'],
-        );
+          });
+          tokens.putIfAbsent(
+            token['address'].toLowerCase(),
+            () => newToken,
+          );
+          tokensImages.putIfAbsent(
+            token['address'].toLowerCase(),
+            () => token['logoURI'],
+          );
+        }
       }
 
       store.dispatch(GetSwappableTokensSuccess(

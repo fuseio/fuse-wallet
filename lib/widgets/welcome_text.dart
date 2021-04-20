@@ -1,39 +1,46 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/widgets/show_up.dart';
 
-class WelcomeFrame extends StatelessWidget {
-  const WelcomeFrame({
+class WelcomeTitle extends StatelessWidget {
+  const WelcomeTitle({
     Key key,
     this.title,
+    this.delay = 500,
     this.subTitle,
   }) : super(key: key);
-
+  final int delay;
   final String title;
   final String subTitle;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 80, left: 20, right: 20),
+    return Padding(
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(bottom: 30.0),
+          ShowUp(
+            delay: delay,
             child: Text(
               title,
               style: TextStyle(fontSize: 18, color: Color(0xFF808080)),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
+          ShowUp(
+            delay: delay + 50,
+            child: AutoSizeText(
               subTitle,
+              maxLines: 3,
+              minFontSize: 25,
+              maxFontSize: 27,
               style: TextStyle(
-                fontSize: 27,
+                fontFamily: 'Europa',
                 fontWeight: FontWeight.bold,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

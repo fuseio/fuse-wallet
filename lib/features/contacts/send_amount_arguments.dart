@@ -7,7 +7,7 @@ class SendFlowArguments {
   final bool isMultiBridge;
   String phoneNumber;
   String accountAddress;
-  num amount;
+  double amount;
   ImageProvider avatar;
   SendType sendType;
   Token tokenToSend;

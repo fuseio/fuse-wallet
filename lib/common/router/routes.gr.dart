@@ -20,7 +20,6 @@ import '../../features/onboard/screens/username_screen.dart';
 import '../../features/onboard/screens/verify_screen.dart';
 import '../../features/screens/home_screen.dart';
 import '../../features/screens/on_board_screen.dart';
-import '../../features/screens/on_boarding_screen.dart';
 import '../../features/screens/pincode_screen.dart';
 import '../../features/screens/send_amount.dart';
 import '../../features/screens/send_review.dart';
@@ -40,7 +39,6 @@ class Routes {
   static const String securityScreen = '/security-screen';
   static const String pinCodeScreen = '/pin-code-screen';
   static const String recoveryPage = '/recovery-page';
-  static const String onBoardingScreen = '/on-boarding-screen';
   static const String onBoardScreen = '/on-board-screen';
   static const String signUpScreen = '/sign-up-screen';
   static const String verifyScreen = '/verify-screen';
@@ -60,7 +58,6 @@ class Routes {
     securityScreen,
     pinCodeScreen,
     recoveryPage,
-    onBoardingScreen,
     onBoardScreen,
     signUpScreen,
     verifyScreen,
@@ -86,7 +83,6 @@ class Router extends RouterBase {
     RouteDef(Routes.securityScreen, page: SecurityScreen),
     RouteDef(Routes.pinCodeScreen, page: PinCodeScreen),
     RouteDef(Routes.recoveryPage, page: RecoveryPage),
-    RouteDef(Routes.onBoardingScreen, page: OnBoardingScreen),
     RouteDef(Routes.onBoardScreen, page: OnBoardScreen),
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
@@ -131,12 +127,6 @@ class Router extends RouterBase {
     RecoveryPage: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => RecoveryPage(),
-        settings: data,
-      );
-    },
-    OnBoardingScreen: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => OnBoardingScreen(),
         settings: data,
       );
     },
@@ -263,7 +253,10 @@ class Router extends RouterBase {
         orElse: () => ContactsListArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ContactsList(pageArgs: args.pageArgs),
+        builder: (context) => ContactsList(
+          pageArgs: args.pageArgs,
+          automaticallyImplyLeading: args.automaticallyImplyLeading,
+        ),
         settings: data,
       );
     },
@@ -288,9 +281,6 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushPinCodeScreen() => push<dynamic>(Routes.pinCodeScreen);
 
   Future<dynamic> pushRecoveryPage() => push<dynamic>(Routes.recoveryPage);
-
-  Future<dynamic> pushOnBoardingScreen() =>
-      push<dynamic>(Routes.onBoardingScreen);
 
   Future<dynamic> pushOnBoardScreen() => push<dynamic>(Routes.onBoardScreen);
 
@@ -391,10 +381,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushContactsList(
-          {SendFlowArguments pageArgs, OnNavigationRejected onReject}) =>
+          {SendFlowArguments pageArgs,
+          bool automaticallyImplyLeading = false,
+          OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.contactsList,
-        arguments: ContactsListArguments(pageArgs: pageArgs),
+        arguments: ContactsListArguments(
+            pageArgs: pageArgs,
+            automaticallyImplyLeading: automaticallyImplyLeading),
         onReject: onReject,
       );
 
@@ -480,5 +474,7 @@ class ReviewSwapScreenArguments {
 /// ContactsList arguments holder class
 class ContactsListArguments {
   final SendFlowArguments pageArgs;
-  ContactsListArguments({this.pageArgs});
+  final bool automaticallyImplyLeading;
+  ContactsListArguments(
+      {this.pageArgs, this.automaticallyImplyLeading = false});
 }

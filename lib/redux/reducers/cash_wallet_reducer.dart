@@ -7,12 +7,10 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, UpdateTokenPrice>(_updateTokenPrice),
-  TypedReducer<CashWalletState, GetActionsSuccess>(_getActionsSuccess),
   TypedReducer<CashWalletState, GetActionsSuccess>(_getActionsSuccess),
   TypedReducer<CashWalletState, GetTokenWalletActionsSuccess>(
       _getTokenWalletActionsSuccess),
@@ -109,7 +107,6 @@ CashWalletState _getActionsSuccess(
       (action) => action.id == walletAction.id,
     );
     if (savedIndex != -1) {
-      log.info(savedIndex);
       list[savedIndex] = walletAction.copyWith();
     } else {
       list?.add(walletAction);
