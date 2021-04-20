@@ -210,22 +210,18 @@ class TokenTile extends StatelessWidget {
                             verticalDirection: VerticalDirection.down,
                             textBaseline: TextBaseline.alphabetic,
                             children: [
-                              !hasPriceInfo
-                                  ? SizedBox.shrink()
-                                  : Text(
-                                      '\$${token.getFiatBalance()} ',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                      ),
-                                    ),
                               Text(
-                                token.getBalance() + ' ${token.symbol}',
+                                token.getBalance(),
                                 style: TextStyle(
-                                  fontSize: hasPriceInfo ? 13 : 25,
-                                  fontWeight: hasPriceInfo
-                                      ? FontWeight.normal
-                                      : FontWeight.bold,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                ),
+                              ),
+                              Text(
+                                ' ${token.symbol}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
                                 ),
                               ),
                             ],
