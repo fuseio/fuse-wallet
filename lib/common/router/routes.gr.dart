@@ -253,7 +253,10 @@ class Router extends RouterBase {
         orElse: () => ContactsListArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ContactsList(pageArgs: args.pageArgs),
+        builder: (context) => ContactsList(
+          pageArgs: args.pageArgs,
+          automaticallyImplyLeading: args.automaticallyImplyLeading,
+        ),
         settings: data,
       );
     },
@@ -379,10 +382,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushContactsList(
-          {SendFlowArguments pageArgs, OnNavigationRejected onReject}) =>
+          {SendFlowArguments pageArgs,
+          bool automaticallyImplyLeading = false,
+          OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.contactsList,
-        arguments: ContactsListArguments(pageArgs: pageArgs),
+        arguments: ContactsListArguments(
+            pageArgs: pageArgs,
+            automaticallyImplyLeading: automaticallyImplyLeading),
         onReject: onReject,
       );
 
@@ -468,5 +475,7 @@ class ReviewSwapScreenArguments {
 /// ContactsList arguments holder class
 class ContactsListArguments {
   final SendFlowArguments pageArgs;
-  ContactsListArguments({this.pageArgs});
+  final bool automaticallyImplyLeading;
+  ContactsListArguments(
+      {this.pageArgs, this.automaticallyImplyLeading = false});
 }

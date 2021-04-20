@@ -398,19 +398,19 @@ class _SwapScreenState extends State<SwapScreen> {
             return Preloader();
           } else {
             List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-            final bool hasFund =
-                (Decimal.tryParse(tokenOutController.text) ?? Decimal.one)
-                            .compareTo(
-                          Decimal.parse(
-                            formatValue(
-                              tokenOut?.amount,
-                              tokenOut?.decimals,
-                              withPrecision: true,
-                            ),
-                          ),
-                        ) <=
-                        0 &&
-                    viewModel.payWithTokens.isNotEmpty;
+            final bool hasFund = tokenOutController.text != null &&
+                tokenOutController.text != '' &&
+                (Decimal.parse(tokenOutController.text)).compareTo(
+                      Decimal.parse(
+                        formatValue(
+                          tokenOut?.amount,
+                          tokenOut?.decimals,
+                          withPrecision: true,
+                        ),
+                      ),
+                    ) <=
+                    0 &&
+                viewModel.payWithTokens.isNotEmpty;
             return InkWell(
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,

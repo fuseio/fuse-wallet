@@ -162,7 +162,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(left: 30, right: 30),
+          padding: EdgeInsets.only(left: 30, right: 30, top: 30),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -266,37 +266,31 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * .5,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  infoCard(),
-                  extraInfo(),
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                infoCard(),
+                extraInfo(),
+              ],
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * .2,
-              child: Column(
-                children: [
-                  StoreConnector<AppState, ReviewSwapViewModel>(
-                    distinct: true,
-                    converter: ReviewSwapViewModel.fromStore,
-                    builder: (_, viewModel) => Center(
-                      child: PrimaryButton(
-                        label: I18n.of(context).swap,
-                        disabled: isPreloading,
-                        preload: isPreloading,
-                        onPressed: () => _onPress(viewModel),
-                      ),
+            Column(
+              children: [
+                StoreConnector<AppState, ReviewSwapViewModel>(
+                  distinct: true,
+                  converter: ReviewSwapViewModel.fromStore,
+                  builder: (_, viewModel) => Center(
+                    child: PrimaryButton(
+                      label: I18n.of(context).swap,
+                      disabled: isPreloading,
+                      preload: isPreloading,
+                      onPressed: () => _onPress(viewModel),
                     ),
                   ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+              ],
             ),
           ],
         ),

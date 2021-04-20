@@ -182,7 +182,7 @@
     "swapping": "Swapping",
     "for_text": "for",
     "your_wallet_is_empty": "Your wallet is empty!",
-    "your_balance_is_empty": "Your balance is empty",
+    "your_balance_is_empty": "You have no balance",
     "top_up_your_account": "Top up your account",
     "sell": "Sell",
     "no_swap_option": "You don't have tokens to swap yet",
@@ -192,5 +192,6 @@
     "date_and_time": "Date & Time",
     "invite_text": "Sending money to {name} will automatically invite them to Fuse and let them redeem the funds you sent",
     "friend": "friend",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "lets_start": "That's it! Let's start"
 }

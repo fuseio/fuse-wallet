@@ -142,8 +142,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     }
     setState(() {});
     try {
-      final bool hasFund =
-          (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
+      final bool hasFund = amountText != null &&
+          amountText != '' &&
+          amountText != '0' &&
+          (Decimal.tryParse(amountText)).compareTo(
                 Decimal.parse(
                   formatValue(
                     selectedToken?.amount,
@@ -187,18 +189,20 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final bool hasFund =
+        final bool hasFund = amountText != null &&
+            amountText != '' &&
+            amountText != '0' &&
             (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
-                      Decimal.parse(
-                        formatValue(
-                          selectedToken?.amount,
-                          selectedToken?.decimals,
-                          withPrecision: true,
-                        ),
-                      ),
-                    ) <=
-                    0 &&
-                viewModel.tokens.isNotEmpty;
+                  Decimal.parse(
+                    formatValue(
+                      selectedToken?.amount,
+                      selectedToken?.decimals,
+                      withPrecision: true,
+                    ),
+                  ),
+                ) <=
+                0 &&
+            viewModel.tokens.isNotEmpty;
 
         if (!hasFund) {
           controller.forward();
@@ -415,7 +419,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   : I18n.of(context).insufficient_fund,
                               onPressed: () {
                                 args.tokenToSend = selectedToken;
-                                args.amount = num.parse(amountText);
+                                args.amount = double.parse(amountText);
                                 ExtendedNavigator.root
                                     .pushSendReviewScreen(pageArgs: args);
                               },

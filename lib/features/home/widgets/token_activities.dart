@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/home/widgets/action_tile.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
