@@ -44,10 +44,11 @@ class OnboardViewModel extends Equatable {
       this.resetErrors});
 
   static OnboardViewModel fromStore(Store<AppState> store) {
+    final String accountAddress = store.state.userState.accountAddress;
     return OnboardViewModel(
         countryCode: store.state.userState.countryCode,
         phoneNumber: store.state.userState.phoneNumber,
-        accountAddress: store.state.userState.accountAddress,
+        accountAddress: accountAddress,
         verificationId: store.state.userState.verificationId,
         credentials: store.state.userState.credentials,
         isVerifyRequest: store.state.userState.isVerifyRequest,
@@ -66,6 +67,7 @@ class OnboardViewModel extends Equatable {
         setDisplayName: (String displayName) {
           store.dispatch(SetDisplayName(displayName));
           store.dispatch(segmentTrackCall("Wallet: display name added"));
+          store.dispatch(createAccountWalletCall(accountAddress));
         },
         setSecurityType: (biometricAuth) {
           store.dispatch(SetSecurityType(biometricAuth: biometricAuth));
