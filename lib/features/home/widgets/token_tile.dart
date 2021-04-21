@@ -317,8 +317,9 @@ class TokenTile extends StatelessWidget {
                   ? CachedNetworkImage(
                       width: symbolWidth,
                       height: symbolHeight,
-                      imageUrl: viewModel?.tokensImages
-                              ?.containsKey(token?.address?.toLowerCase())
+                      imageUrl: (viewModel?.tokensImages?.containsKey(
+                                  token?.address?.toLowerCase()) ??
+                              false)
                           ? viewModel
                               ?.tokensImages[token?.address?.toLowerCase()]
                           : token?.imageUrl,
