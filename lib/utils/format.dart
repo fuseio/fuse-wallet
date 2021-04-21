@@ -4,7 +4,6 @@ import 'package:decimal/decimal.dart';
 import 'package:number_display/number_display.dart';
 
 final Display display = createDisplay(
-  length: 5,
   decimal: 2,
 );
 
@@ -21,26 +20,28 @@ final Map<String, num> fees = {
 String formatValue(
   BigInt value,
   int decimals, {
+  int fractionDigits = 2,
   bool withPrecision = false,
 }) {
   if (value == null || decimals == null) return '0';
   Decimal formattedValue =
       Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
-  return display(num.parse(formattedValue.toString()));
+  return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
 String getFiatValue(
   BigInt value,
   int decimals,
   double price, {
+  int fractionDigits = 2,
   bool withPrecision = false,
 }) {
   if (value == null || decimals == null) return '0';
   Decimal formattedValue = Decimal.parse(
       ((value / BigInt.from(pow(10, decimals))) * price).toString());
   if (withPrecision) return formattedValue.toString();
-  return display(num.parse(formattedValue.toString()));
+  return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
 String formatAddress(String address) {

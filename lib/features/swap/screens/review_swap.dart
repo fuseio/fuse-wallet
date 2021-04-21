@@ -9,6 +9,7 @@ import 'package:fusecash/redux/viewsmodels/review_swap.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +100,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${widget.tradeInfo.inputAmount} ',
+                      text: '${display(num.parse(widget.tradeInfo.inputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -135,7 +136,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${widget.tradeInfo.outputAmount} ',
+                      text: '${display(num.parse(widget.tradeInfo.outputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -159,41 +160,40 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   }
 
   Widget extraInfo() {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.only(left: 30, right: 30, top: 30),
       children: [
-        Container(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 30),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text(
-                I18n.of(context).network_fee,
-                style: TextStyle(fontSize: 16),
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/approve_icon.svg',
-                    width: 13,
-                    height: 13,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(
+              I18n.of(context).network_fee,
+              style: TextStyle(fontSize: 16),
+            ),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/images/approve_icon.svg',
+                  width: 13,
+                  height: 13,
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                Text(
+                  I18n.of(context).free,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    I18n.of(context).free,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
+                )
+              ],
+            )
+          ],
         ),
         Padding(
           padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -201,32 +201,29 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             height: 1,
           ),
         ),
-        Container(
-          padding: EdgeInsets.only(left: 30, right: 30),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text(
-                I18n.of(context).rate,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(
+              I18n.of(context).rate,
+              style: TextStyle(
+                fontSize: 16,
               ),
-              AutoSizeText(
-                widget.rateInfo.inputAmount +
-                    widget.rateInfo.inputToken +
-                    '=' +
-                    widget.rateInfo.outputAmount +
-                    widget.rateInfo.outputToken,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-                maxLines: 1,
-              )
-            ],
-          ),
+            ),
+            AutoSizeText(
+              display(num.parse(widget.rateInfo.inputAmount)) +
+                  widget.rateInfo.inputToken +
+                  '=' +
+                  display(num.parse(widget.rateInfo.outputAmount)) +
+                  widget.rateInfo.outputToken,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              maxLines: 1,
+            )
+          ],
         ),
         Padding(
           padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -234,25 +231,22 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             height: 1,
           ),
         ),
-        Container(
-          padding: EdgeInsets.only(left: 30, right: 30),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Text(
-                I18n.of(context).slippage,
-                style: TextStyle(fontSize: 16),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(
+              I18n.of(context).slippage,
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              '0.50%',
+              style: TextStyle(
+                fontSize: 16,
               ),
-              Text(
-                '0.50%',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

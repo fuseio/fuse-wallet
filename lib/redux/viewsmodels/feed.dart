@@ -20,9 +20,7 @@ class FeedViewModel extends Equatable {
     return FeedViewModel(
       walletActions: walletActions,
       refreshFeed: () {
-        store.dispatch(fetchListOfTokensByAddress());
-        store.dispatch(ResetTokenTxs());
-        store.dispatch(updateTokensPrices());
+        store.dispatch(refresh());
       },
     );
   }

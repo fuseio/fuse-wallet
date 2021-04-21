@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:injectable/injectable.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -70,7 +69,6 @@ class FuseSwapService {
     String currency = 'usd',
   }) async {
     Response response = await dio.get('/price/$tokenAddress');
-    log.info(response.toString());
     return Price(
       currency: currency,
       quote: (response.data['data']['price'] ?? 0).toString(),

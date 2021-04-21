@@ -35,7 +35,6 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
     email: json['email'] as String ?? '',
     verificationId: json['verificationId'] as String ?? '',
     identifier: json['identifier'] as String ?? '',
-    totalBalance: json['totalBalance'] as num ?? 0,
     syncedContacts:
         (json['syncedContacts'] as List)?.map((e) => e as String)?.toList() ??
             [],
@@ -72,7 +71,6 @@ Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
       'email': instance.email,
       'verificationId': instance.verificationId,
       'identifier': instance.identifier,
-      'totalBalance': instance.totalBalance,
       'syncedContacts': instance.syncedContacts,
       'reverseContacts': instance.reverseContacts,
       'currency': instance.currency,

@@ -30,16 +30,12 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, DepositBannerShowed>(_depositBannerShowed),
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
-  TypedReducer<UserState, UpdateTotalBalance>(_updateTotalBalance),
 ]);
 
 UserState _updateCurrency(UserState state, UpdateCurrency action) {
   return state.copyWith(currency: action.currency);
 }
 
-UserState _updateTotalBalance(UserState state, UpdateTotalBalance action) {
-  return state.copyWith(totalBalance: action.totalBalance);
-}
 
 UserState _receiveBackupDialogShowed(
     UserState state, ReceiveBackupDialogShowed action) {

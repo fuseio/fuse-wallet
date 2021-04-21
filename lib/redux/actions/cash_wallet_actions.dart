@@ -76,16 +76,6 @@ class GetTokenBalanceSuccess {
   GetTokenBalanceSuccess({this.tokenBalance, this.tokenAddress});
 }
 
-class AlreadyJoinedCommunity {
-  final String communityAddress;
-  AlreadyJoinedCommunity(this.communityAddress);
-}
-
-class JoinCommunity {
-  final Map community;
-  JoinCommunity({this.community});
-}
-
 class SwitchCommunityRequested {
   final String communityAddress;
   SwitchCommunityRequested(this.communityAddress);
@@ -307,10 +297,10 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
     try {
       UserState userState = store.state.userState;
       String fullPhoneNumber = store.state.userState.phoneNumber;
-      log.info('Identify - $fullPhoneNumber');
       traits = traits ?? new Map<String, dynamic>();
       DateTime installedAt = userState.installedAt;
       if (installedAt == null) {
+        log.info('Identify - $fullPhoneNumber');
         installedAt = DateTime.now().toUtc();
         store.dispatch(new JustInstalled(installedAt));
       }
@@ -560,14 +550,14 @@ ThunkAction fetchListOfTokensByAddress() {
                         withPrecision: true))
                     .compareTo(0) ==
                 1) {
-          log.info('newToken newToken ${element.name}');
+          log.info('New token added ${element.name}');
           previousValue[element.address] = element;
         }
         return previousValue;
       },
     ));
     if (newTokens.isNotEmpty) {
-      log.info('newTokens newTokens ${newTokens.length}');
+      // log.info('newTokens newTokens ${newTokens.length}');
       store.dispatch(AddCashTokens(tokens: newTokens));
       Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
         store.dispatch(updateTokensPrices());
@@ -742,45 +732,6 @@ ThunkAction sendTokenCall(
   };
 }
 
-ThunkAction joinCommunityCall({
-  Community community,
-  Token token,
-}) {
-  return (Store store) async {
-    try {
-      String walletAddress = store.state.userState.walletAddress;
-      dynamic communityData = await graph.getCommunityByAddress(
-        community.address,
-      );
-      String entitiesListAddress = communityData["entitiesList"]["address"];
-      bool isMember = await graph.isCommunityMember(
-        walletAddress,
-        entitiesListAddress,
-      );
-      log.info('isCommunityMember - $isMember');
-      if (isMember) {
-        store.dispatch(AlreadyJoinedCommunity(community.address));
-      } else {
-        await api.joinCommunity(
-          fuseWeb3,
-          walletAddress,
-          community.address,
-          tokenAddress: token.address,
-          originNetwork: token.originNetwork,
-          communityName: community.name,
-        );
-      }
-    } catch (e, s) {
-      log.error('ERROR - joinCommunityCall ${e.toString()}');
-      await Sentry.captureException(
-        e,
-        stackTrace: s,
-        hint: 'ERROR while trying to join community',
-      );
-    }
-  };
-}
-
 ThunkAction fetchCommunityMetadataCall(
   String communityAddress,
   String communityURI,
@@ -927,21 +878,15 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
-      if (communityAddress.toLowerCase() !=
-          defaultCommunityAddress.toLowerCase()) {
-        store.dispatch(
-          getBusinessListCall(
-            communityAddress: communityAddress,
-            isRopsten: isRopsten,
-          ),
-        );
-        store.dispatch(
-          joinCommunityCall(
-            token: communityToken,
-            community: newCommunity,
-          ),
-        );
-      }
+      // if (communityAddress.toLowerCase() !=
+      //     defaultCommunityAddress.toLowerCase()) {
+      //   store.dispatch(
+      //     getBusinessListCall(
+      //       communityAddress: communityAddress,
+      //       isRopsten: isRopsten,
+      //     ),
+      //   );
+      // }
       store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
@@ -1014,7 +959,7 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
 ThunkAction refetchCommunityData() {
   return (Store store) async {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    log.info('refetchCommunityData refetchCommunityData $communityAddress');
+    // log.info('refetchCommunityData refetchCommunityData $communityAddress');
     String walletAddress = store.state.userState.walletAddress;
     Community current =
         store.state.cashWalletState.communities[communityAddress.toLowerCase()];
@@ -1159,9 +1104,6 @@ ThunkAction getWalletActionsCall() {
         walletActions: actions,
         updateAt: actions.last.timestamp,
       ));
-      Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
-        store.dispatch(updateTotalBalance());
-      });
     }
   };
 }
@@ -1178,7 +1120,7 @@ ThunkAction updateTokensPrices() {
 ThunkAction getTokenPriceCall(Token token) {
   return (Store store) async {
     void Function(Price) onDone = (Price priceInfo) {
-      log.info('Fetch token price for ${token.toString()}');
+      // log.info('Fetch token price for ${token.toString()}');
       store.dispatch(
         UpdateTokenPrice(
           price: priceInfo,
@@ -1190,12 +1132,11 @@ ThunkAction getTokenPriceCall(Token token) {
         (Object error, StackTrace stackTrace) {
       log.error('Fetch token price error for - ${token.name} - $error ');
     };
-    log.info('fetching price of token ${token.name} ${token.address}');
+    // log.info('fetching price of token ${token.name} ${token.address}');
     await token.fetchTokenLatestPrice(
       onDone: onDone,
       onError: onError,
     );
-    store.dispatch(updateTotalBalance());
   };
 }
 
@@ -1325,5 +1266,15 @@ ThunkAction getFuseBalance() {
     } catch (error) {
       log.error('Error in Get Fuse Balance ${error.toString()}');
     }
+  };
+}
+
+ThunkAction refresh() {
+  return (Store store) async {
+    store.dispatch(ResetTokenTxs());
+    store.dispatch(fetchListOfTokensByAddress());
+    store.dispatch(startFetchingCall());
+    store.dispatch(startFetchTokensBalances());
+    store.dispatch(updateTokensPrices());
   };
 }

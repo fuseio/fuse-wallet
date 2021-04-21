@@ -44,7 +44,6 @@ abstract class UserState implements _$UserState {
     @Default('') String email,
     @Default('') String verificationId,
     @Default('') String identifier,
-    @Default(0) num totalBalance,
     @Default([]) List<String> syncedContacts,
     @Default({}) Map<String, String> reverseContacts,
     @JsonKey(ignore: true) dynamic signupErrorMessage,
@@ -72,7 +71,6 @@ abstract class UserState implements _$UserState {
         receiveBackupDialogShowed: false,
         homeBackupDialogShowed: false,
         currency: 'usd',
-        totalBalance: 0,
       );
 
   factory UserState.fromJson(dynamic json) => _$UserStateFromJson(json);

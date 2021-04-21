@@ -40,7 +40,6 @@ class _$UserStateTearOff {
       String email = '',
       String verificationId = '',
       String identifier = '',
-      num totalBalance = 0,
       List<String> syncedContacts = const [],
       Map<String, String> reverseContacts = const {},
       @JsonKey(ignore: true)
@@ -82,7 +81,6 @@ class _$UserStateTearOff {
       email: email,
       verificationId: verificationId,
       identifier: identifier,
-      totalBalance: totalBalance,
       syncedContacts: syncedContacts,
       reverseContacts: reverseContacts,
       signupErrorMessage: signupErrorMessage,
@@ -129,8 +127,7 @@ mixin _$UserState {
   String get avatarUrl;
   String get email;
   String get verificationId;
-  String get identifier;
-  num get totalBalance;
+  String get identifier; // @Default(0) num totalBalance,
   List<String> get syncedContacts;
   Map<String, String> get reverseContacts;
   @JsonKey(ignore: true)
@@ -182,7 +179,6 @@ abstract class $UserStateCopyWith<$Res> {
       String email,
       String verificationId,
       String identifier,
-      num totalBalance,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
       @JsonKey(ignore: true)
@@ -235,7 +231,6 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object email = freezed,
     Object verificationId = freezed,
     Object identifier = freezed,
-    Object totalBalance = freezed,
     Object syncedContacts = freezed,
     Object reverseContacts = freezed,
     Object signupErrorMessage = freezed,
@@ -293,8 +288,6 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
           : verificationId as String,
       identifier:
           identifier == freezed ? _value.identifier : identifier as String,
-      totalBalance:
-          totalBalance == freezed ? _value.totalBalance : totalBalance as num,
       syncedContacts: syncedContacts == freezed
           ? _value.syncedContacts
           : syncedContacts as List<String>,
@@ -354,7 +347,6 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       String email,
       String verificationId,
       String identifier,
-      num totalBalance,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
       @JsonKey(ignore: true)
@@ -408,7 +400,6 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object email = freezed,
     Object verificationId = freezed,
     Object identifier = freezed,
-    Object totalBalance = freezed,
     Object syncedContacts = freezed,
     Object reverseContacts = freezed,
     Object signupErrorMessage = freezed,
@@ -466,8 +457,6 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
           : verificationId as String,
       identifier:
           identifier == freezed ? _value.identifier : identifier as String,
-      totalBalance:
-          totalBalance == freezed ? _value.totalBalance : totalBalance as num,
       syncedContacts: syncedContacts == freezed
           ? _value.syncedContacts
           : syncedContacts as List<String>,
@@ -525,7 +514,6 @@ class _$_UserState extends _UserState {
       this.email = '',
       this.verificationId = '',
       this.identifier = '',
-      this.totalBalance = 0,
       this.syncedContacts = const [],
       this.reverseContacts = const {},
       @JsonKey(ignore: true)
@@ -560,7 +548,6 @@ class _$_UserState extends _UserState {
         assert(email != null),
         assert(verificationId != null),
         assert(identifier != null),
-        assert(totalBalance != null),
         assert(syncedContacts != null),
         assert(reverseContacts != null),
         assert(currency != null),
@@ -632,11 +619,8 @@ class _$_UserState extends _UserState {
   @JsonKey(defaultValue: '')
   @override
   final String identifier;
-  @JsonKey(defaultValue: 0)
-  @override
-  final num totalBalance;
   @JsonKey(defaultValue: const [])
-  @override
+  @override // @Default(0) num totalBalance,
   final List<String> syncedContacts;
   @JsonKey(defaultValue: const {})
   @override
@@ -668,7 +652,7 @@ class _$_UserState extends _UserState {
 
   @override
   String toString() {
-    return 'UserState(isContactsSynced: $isContactsSynced, installedAt: $installedAt, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, totalBalance: $totalBalance, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, contacts: $contacts, credentials: $credentials)';
+    return 'UserState(isContactsSynced: $isContactsSynced, installedAt: $installedAt, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, contacts: $contacts, credentials: $credentials)';
   }
 
   @override
@@ -738,7 +722,6 @@ class _$_UserState extends _UserState {
                 const DeepCollectionEquality()
                     .equals(other.verificationId, verificationId)) &&
             (identical(other.identifier, identifier) || const DeepCollectionEquality().equals(other.identifier, identifier)) &&
-            (identical(other.totalBalance, totalBalance) || const DeepCollectionEquality().equals(other.totalBalance, totalBalance)) &&
             (identical(other.syncedContacts, syncedContacts) || const DeepCollectionEquality().equals(other.syncedContacts, syncedContacts)) &&
             (identical(other.reverseContacts, reverseContacts) || const DeepCollectionEquality().equals(other.reverseContacts, reverseContacts)) &&
             (identical(other.signupErrorMessage, signupErrorMessage) || const DeepCollectionEquality().equals(other.signupErrorMessage, signupErrorMessage)) &&
@@ -776,7 +759,6 @@ class _$_UserState extends _UserState {
       const DeepCollectionEquality().hash(email) ^
       const DeepCollectionEquality().hash(verificationId) ^
       const DeepCollectionEquality().hash(identifier) ^
-      const DeepCollectionEquality().hash(totalBalance) ^
       const DeepCollectionEquality().hash(syncedContacts) ^
       const DeepCollectionEquality().hash(reverseContacts) ^
       const DeepCollectionEquality().hash(signupErrorMessage) ^
@@ -824,7 +806,6 @@ abstract class _UserState extends UserState {
       String email,
       String verificationId,
       String identifier,
-      num totalBalance,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
       @JsonKey(ignore: true)
@@ -891,9 +872,7 @@ abstract class _UserState extends UserState {
   String get verificationId;
   @override
   String get identifier;
-  @override
-  num get totalBalance;
-  @override
+  @override // @Default(0) num totalBalance,
   List<String> get syncedContacts;
   @override
   Map<String, String> get reverseContacts;

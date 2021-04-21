@@ -11,7 +11,6 @@ import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/numbers.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -166,6 +165,46 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     }
   }
 
+  Widget useMax() {
+    return ButtonTheme(
+      minWidth: 68,
+      height: 28,
+      child: OutlineButton(
+        focusColor: Theme.of(context).colorScheme.onSurface,
+        hoverColor: Theme.of(context).colorScheme.onSurface,
+        highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
+        padding: EdgeInsets.all(0),
+        textColor: Theme.of(context).colorScheme.onSurface,
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2.0,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6.0),
+        ),
+        child: Text(
+          I18n.of(context).use_max,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0,
+          ),
+        ),
+        onPressed: () {
+          String max = formatValue(
+            selectedToken.amount,
+            selectedToken.decimals,
+            withPrecision: true,
+          );
+          if (Decimal.parse(max).compareTo((Decimal.parse(amountText) ?? 0)) !=
+              0) {
+            _onKeyPress(max, max: true);
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final SendFlowArguments args = this.widget.pageArgs;
@@ -190,20 +229,18 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final bool hasFund = amountText != null &&
-            amountText != '' &&
-            amountText != '0' &&
+        final bool hasFund =
             (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
-                  Decimal.parse(
-                    formatValue(
-                      selectedToken?.amount,
-                      selectedToken?.decimals,
-                      withPrecision: true,
-                    ),
-                  ),
-                ) <=
-                0 &&
-            viewModel.tokens.isNotEmpty;
+                      Decimal.parse(
+                        formatValue(
+                          selectedToken?.amount,
+                          selectedToken?.decimals,
+                          withPrecision: true,
+                        ),
+                      ),
+                    ) <=
+                    0 &&
+                viewModel.tokens.isNotEmpty;
 
         if (!hasFund) {
           controller.forward();
@@ -235,60 +272,13 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   children: <Widget>[
                                     Text(
                                       I18n.of(context).how_much,
-                                      style:
-                                          TextStyle(color: Color(0xFF898989)),
-                                    ),
-                                    ButtonTheme(
-                                      minWidth: 68,
-                                      height: 28,
-                                      child: OutlineButton(
-                                        focusColor: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                        hoverColor: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                        highlightedBorderColor:
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                        padding: EdgeInsets.all(0),
-                                        textColor: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                        borderSide: BorderSide(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                          width: 2.0,
+                                      style: TextStyle(
+                                        color: Color(
+                                          0xFF898989,
                                         ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6.0),
-                                        ),
-                                        child: Text(
-                                          I18n.of(context).use_max,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0),
-                                        ),
-                                        onPressed: () {
-                                          String max = formatValue(
-                                            selectedToken.amount,
-                                            selectedToken.decimals,
-                                            withPrecision: true,
-                                          );
-                                          // String max = selectedToken.getBalance();
-                                          if (Decimal.parse(max).compareTo(
-                                                  (Decimal.parse(amountText) ??
-                                                      0)) !=
-                                              0) {
-                                            _onKeyPress(max, max: true);
-                                          }
-                                        },
                                       ),
                                     ),
+                                    useMax(),
                                   ],
                                 ),
                               ),
@@ -380,10 +370,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               'assets/images/backspace.svg',
                               width: 28,
                             ),
-                            // rightIcon: Icon(
-                            //   Icons.backspace,
-                            //   color: Color(0xFF292929),
-                            // ),
                             leftButtonFn: () {
                               if (amountText.contains('.')) return;
                               _onKeyPress('.');

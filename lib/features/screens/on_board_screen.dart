@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/onboard/widegts/sign_up_buttons.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/widgets/welcome_text.dart';
@@ -15,6 +16,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
   PageController _pageController;
   AnimationController _lottieController;
   AnimationController _titleController;
+  Animation<Offset> _offset;
   static const _kDuration = Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
   double page = 0;
@@ -27,9 +29,18 @@ class _OnBoardScreenState extends State<OnBoardScreen>
       initialPage: 0,
     );
 
-    _titleController = AnimationController(vsync: this, duration: _kDuration);
+    _titleController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
 
     _lottieController = AnimationController(vsync: this);
+
+    _offset =
+        Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(0.0, 12.0)).animate(
+      CurvedAnimation(
+        parent: _titleController,
+        curve: Curves.ease,
+      ),
+    );
 
     _lottieController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -44,7 +55,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
             _lottieController.forward(from: .5);
           } else {
             _lottieController.reset();
-            _lottieController.forward(from: 0);
+            _lottieController.forward();
           }
         }
       }
@@ -96,7 +107,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> welcomeScreens = [
+    final List<Widget> welcomeScreens = [
       WelcomeTitle(
         title: I18n.of(context).simple,
         subTitle: I18n.of(context).intro_text_one,
@@ -118,14 +129,16 @@ class _OnBoardScreenState extends State<OnBoardScreen>
         child: Stack(
           children: [
             AnimatedPositioned(
-              top: animate ? 120 : 0,
+              top: animate ? 120 : 10,
               width: MediaQuery.of(context).size.width,
-              duration: Duration(seconds: 1),
-              curve: Curves.fastOutSlowIn,
-              child: Lottie.asset(
-                'assets/lottie/title.json',
-                frameRate: FrameRate.max,
-                controller: _titleController,
+              duration: Duration(milliseconds: 1000),
+              curve: Curves.ease,
+              child: SlideTransition(
+                position: _offset,
+                child: SvgPicture.asset(
+                  'assets/images/fuse-logo-title.svg',
+                  width: 130,
+                ),
               ),
             ),
             Container(
