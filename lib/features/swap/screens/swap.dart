@@ -14,6 +14,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
@@ -63,12 +64,14 @@ class _SwapScreenState extends State<SwapScreen> {
       tokenOutController.text = '';
       swapRequestBody = swapRequestBody.copyWith(
         currencyIn: token.address,
+        amountIn: '0',
       );
     });
     getTradeInfo(
       swapRequestBody.amountIn,
       (info) => setState(() {
-        tokenOutController.text = info.outputAmount;
+        tokenOutController.text =
+            display(num.tryParse(info.outputAmount) ?? '0');
       }),
     );
   }
@@ -84,7 +87,8 @@ class _SwapScreenState extends State<SwapScreen> {
     getTradeInfo(
       swapRequestBody.amountIn,
       (info) => setState(() {
-        tokenInController.text = info.outputAmount;
+        tokenInController.text =
+            display(num.tryParse(info.outputAmount) ?? '0');
       }),
     );
   }
@@ -98,6 +102,11 @@ class _SwapScreenState extends State<SwapScreen> {
         isFetchingPrice = false;
         tokenOutController.text = '';
         tokenInController.text = '';
+        rateInfo = null;
+        info = null;
+        swapRequestBody = swapRequestBody.copyWith(
+          amountIn: '0',
+        );
       });
     };
     try {
@@ -124,6 +133,9 @@ class _SwapScreenState extends State<SwapScreen> {
         ]);
         List<TradeInfo> result = await swapInfo;
         final TradeInfo tradeInfo = result[0];
+        log.info('amountIn: ${swapRequestBody.amountIn}');
+        log.info(
+            'tradeInfo: inputAmount - ${tradeInfo.inputAmount} outputAmount - ${tradeInfo.outputAmount}');
         final TradeInfo rate = result[1];
         setState(() {
           rateInfo = rate;
@@ -273,12 +285,13 @@ class _SwapScreenState extends State<SwapScreen> {
             withPrecision: true,
           );
           setState(() {
-            tokenOutController.text = max;
+            tokenOutController.text = display(num.tryParse(max) ?? '0');
           });
           getTradeInfo(
             max,
             (info) => setState(() {
-              tokenInController.text = info.outputAmount;
+              tokenInController.text =
+                  display(num.tryParse(info.outputAmount) ?? '0');
             }),
           );
         },
@@ -369,6 +382,7 @@ class _SwapScreenState extends State<SwapScreen> {
                 recipient: viewModel.walletAddress,
                 currencyOut: receiveToken.address,
                 currencyIn: payWith.address,
+                amountIn: '0',
               );
             });
           }
@@ -389,6 +403,7 @@ class _SwapScreenState extends State<SwapScreen> {
                 recipient: newViewModel.walletAddress,
                 currencyOut: receiveToken.address,
                 currencyIn: payWith.address,
+                amountIn: '0',
               );
             });
           }
@@ -398,8 +413,8 @@ class _SwapScreenState extends State<SwapScreen> {
             return Preloader();
           } else {
             List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-            final bool hasFund = tokenOutController.text != null &&
-                tokenOutController.text != '' &&
+            final bool hasFund = rateInfo != null &&
+                info != null &&
                 (Decimal.parse(tokenOutController.text)).compareTo(
                       Decimal.parse(
                         formatValue(
@@ -411,6 +426,7 @@ class _SwapScreenState extends State<SwapScreen> {
                     ) <=
                     0 &&
                 viewModel.payWithTokens.isNotEmpty;
+
             return InkWell(
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,

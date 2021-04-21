@@ -3,19 +3,15 @@ import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
@@ -36,10 +32,6 @@ class UpdateCurrency {
   UpdateCurrency({this.currency});
 }
 
-class UpdateTotalBalance {
-  final num totalBalance;
-  UpdateTotalBalance({this.totalBalance});
-}
 
 class HomeBackupDialogShowed {
   HomeBackupDialogShowed();
@@ -474,33 +466,6 @@ ThunkAction loadContacts() {
         stackTrace: s,
         hint: 'ERROR check Contacts Permissions',
       );
-    }
-  };
-}
-
-ThunkAction updateTotalBalance() {
-  return (Store store) async {
-    try {
-      CashWalletState cashWalletState = store.state.cashWalletState;
-      num combiner(num previousValue, Token token) => token?.priceInfo != null
-          ? previousValue +
-              num.parse(Decimal.parse(token?.getFiatBalance()).toString())
-          : previousValue + 0;
-
-      List<Token> homeTokens =
-          List<Token>.from(cashWalletState.tokens?.values ?? Iterable.empty())
-              .where((Token token) =>
-                  num.parse(formatValue(token.amount, token.decimals,
-                          withPrecision: true))
-                      .compareTo(0) ==
-                  1)
-              .toList();
-
-      num value = homeTokens.fold<num>(0, combiner);
-      store.dispatch(UpdateTotalBalance(totalBalance: value));
-    } catch (e, s) {
-      log.error('ERROR while update total balance $e');
-      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }

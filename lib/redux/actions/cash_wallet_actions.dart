@@ -81,11 +81,6 @@ class AlreadyJoinedCommunity {
   AlreadyJoinedCommunity(this.communityAddress);
 }
 
-class JoinCommunity {
-  final Map community;
-  JoinCommunity({this.community});
-}
-
 class SwitchCommunityRequested {
   final String communityAddress;
   SwitchCommunityRequested(this.communityAddress);
@@ -307,10 +302,10 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
     try {
       UserState userState = store.state.userState;
       String fullPhoneNumber = store.state.userState.phoneNumber;
-      log.info('Identify - $fullPhoneNumber');
       traits = traits ?? new Map<String, dynamic>();
       DateTime installedAt = userState.installedAt;
       if (installedAt == null) {
+        log.info('Identify - $fullPhoneNumber');
         installedAt = DateTime.now().toUtc();
         store.dispatch(new JustInstalled(installedAt));
       }
@@ -560,14 +555,14 @@ ThunkAction fetchListOfTokensByAddress() {
                         withPrecision: true))
                     .compareTo(0) ==
                 1) {
-          log.info('newToken newToken ${element.name}');
+          log.info('New token added ${element.name}');
           previousValue[element.address] = element;
         }
         return previousValue;
       },
     ));
     if (newTokens.isNotEmpty) {
-      log.info('newTokens newTokens ${newTokens.length}');
+      // log.info('newTokens newTokens ${newTokens.length}');
       store.dispatch(AddCashTokens(tokens: newTokens));
       Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
         store.dispatch(updateTokensPrices());
@@ -1008,7 +1003,7 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
 ThunkAction refetchCommunityData() {
   return (Store store) async {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    log.info('refetchCommunityData refetchCommunityData $communityAddress');
+    // log.info('refetchCommunityData refetchCommunityData $communityAddress');
     String walletAddress = store.state.userState.walletAddress;
     Community current =
         store.state.cashWalletState.communities[communityAddress.toLowerCase()];
@@ -1154,7 +1149,6 @@ ThunkAction getWalletActionsCall() {
           walletActions: actions,
           updateAt: actions.last.timestamp,
         ));
-        store.dispatch(updateTotalBalance());
       }
     } catch (e) {
       log.error('ERROR - getWalletActionsCall ${e.toString()}');
@@ -1174,7 +1168,7 @@ ThunkAction updateTokensPrices() {
 ThunkAction getTokenPriceCall(Token token) {
   return (Store store) async {
     void Function(Price) onDone = (Price priceInfo) {
-      log.info('Fetch token price for ${token.toString()}');
+      // log.info('Fetch token price for ${token.toString()}');
       store.dispatch(
         UpdateTokenPrice(
           price: priceInfo,
@@ -1186,12 +1180,11 @@ ThunkAction getTokenPriceCall(Token token) {
         (Object error, StackTrace stackTrace) {
       log.error('Fetch token price error for - ${token.name} - $error ');
     };
-    log.info('fetching price of token ${token.name} ${token.address}');
+    // log.info('fetching price of token ${token.name} ${token.address}');
     await token.fetchTokenLatestPrice(
       onDone: onDone,
       onError: onError,
     );
-    store.dispatch(updateTotalBalance());
   };
 }
 
@@ -1321,5 +1314,15 @@ ThunkAction getFuseBalance() {
     } catch (error) {
       log.error('Error in Get Fuse Balance ${error.toString()}');
     }
+  };
+}
+
+ThunkAction refresh() {
+  return (Store store) async {
+    store.dispatch(ResetTokenTxs());
+    store.dispatch(fetchListOfTokensByAddress());
+    store.dispatch(startFetchingCall());
+    store.dispatch(startFetchTokensBalances());
+    store.dispatch(updateTokensPrices());
   };
 }

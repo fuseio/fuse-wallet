@@ -183,7 +183,6 @@ ThunkAction fetchTokensBalances() {
                   tokenToUpdate: tokenToUpdate.copyWith(
                       amount: balance,
                       timestamp: DateTime.now().millisecondsSinceEpoch)));
-              store.dispatch(updateTotalBalance());
               Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
                 store.dispatch(fetchTokensLatestPrice());
               });
@@ -239,7 +238,6 @@ ThunkAction fetchTokensLatestPrice() {
               store.state.proWalletState.erc20Tokens[token.address];
           store.dispatch(UpdateToken(
               tokenToUpdate: tokenToUpdate.copyWith(priceInfo: priceInfo)));
-          store.dispatch(updateTotalBalance());
           store.dispatch(ClearTokenList());
         };
         void Function(Object error, StackTrace stackTrace) onError =
@@ -247,7 +245,7 @@ ThunkAction fetchTokensLatestPrice() {
           log.error(
               'Error in fetchTokenLatestPrice for - ${token.name} $error');
         };
-        log.info('fetching price of token ${token.name} ${token.address}');
+        // log.info('fetching price of token ${token.name} ${token.address}');
         await token.fetchTokenLatestPrice(onDone: onDone, onError: onError);
       };
       await Future.delayed(Duration(milliseconds: 500), fetchTokenLatestPrice);

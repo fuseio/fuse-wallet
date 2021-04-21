@@ -30,8 +30,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
-  // TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(
-  //     _getTokenTransfersListSuccess),
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
   TypedReducer<CashWalletState, SwitchToNewCommunity>(_switchToNewCommunity),
@@ -42,18 +40,14 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _branchCommunityToUpdate),
   TypedReducer<CashWalletState, SetIsTransfersFetching>(
       _setIsTransfersFetching),
-  // TypedReducer<CashWalletState, InviteSendSuccess>(_inviteSendSuccess),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
-  // TypedReducer<CashWalletState, ReplaceTransaction>(_replaceTransfer),
-  // TypedReducer<CashWalletState, AddTransaction>(_addTransaction),
   TypedReducer<CashWalletState, StartFetchingBusinessList>(
       _startFetchingBusinessList),
   TypedReducer<CashWalletState, FetchingBusinessListSuccess>(
       _fetchingBusinessListSuccess),
   TypedReducer<CashWalletState, FetchingBusinessListFailed>(
       _fetchingBusinessListFailed),
-  // TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
   TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances),
 ]);
 
@@ -163,10 +157,11 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
     );
   }
   return state.copyWith(
-      tokens: tokens,
-      walletActions: state.walletActions.copyWith(
-        updatedAt: 0,
-      ));
+    tokens: tokens,
+    walletActions: state.walletActions.copyWith(
+      updatedAt: 0,
+    ),
+  );
 }
 
 CashWalletState _refreshCommunityData(

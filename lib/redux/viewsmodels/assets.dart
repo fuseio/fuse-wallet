@@ -61,9 +61,7 @@ class TokensListViewModel extends Equatable {
       walletAddress: store.state.userState.walletAddress,
       tokens: tokens ?? [],
       refreshFeed: () {
-        store.dispatch(fetchListOfTokensByAddress());
-        store.dispatch(ResetTokenTxs());
-        store.dispatch(updateTokensPrices());
+        store.dispatch(refresh());
       },
     );
   }

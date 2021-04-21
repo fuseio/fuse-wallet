@@ -90,7 +90,8 @@ class TokenTile extends StatelessWidget {
     BuildContext context,
     bool hasPriceInfo,
   ) {
-    final bool isSwappable = viewModel.tokensImages.containsKey(token.address);
+    final bool isSwappable =
+        viewModel?.tokensImages?.containsKey(token.address) ?? false;
     showBarModalBottomSheet(
       useRootNavigator: true,
       context: ExtendedNavigator.named('homeRouter').context,
@@ -310,13 +311,15 @@ class TokenTile extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: (token.imageUrl != null && token.imageUrl.isNotEmpty ||
-                      viewModel.tokensImages
-                          .containsKey(token?.address?.toLowerCase()))
+                      (viewModel?.tokensImages
+                              ?.containsKey(token?.address?.toLowerCase()) ??
+                          false))
                   ? CachedNetworkImage(
                       width: symbolWidth,
                       height: symbolHeight,
-                      imageUrl: viewModel.tokensImages
-                              .containsKey(token?.address?.toLowerCase())
+                      imageUrl: (viewModel?.tokensImages?.containsKey(
+                                  token?.address?.toLowerCase()) ??
+                              false)
                           ? viewModel
                               ?.tokensImages[token?.address?.toLowerCase()]
                           : token?.imageUrl,
@@ -334,23 +337,6 @@ class TokenTile extends StatelessWidget {
                       height: symbolHeight,
                     ),
             ),
-            // showPending &&
-            //         token.transactions.list
-            //             .any((transfer) => transfer.isPending())
-            //     ? Container(
-            //         width: symbolWidth,
-            //         height: symbolHeight,
-            //         child: CircularProgressIndicator(
-            //           backgroundColor: Theme.of(context)
-            //               .colorScheme
-            //               .onSurface,
-            //           strokeWidth: 3,
-            //           valueColor: AlwaysStoppedAnimation<Color>(
-            //               Theme.of(context)
-            //                   .colorScheme
-            //                   .onSurface),
-            //         ))
-            //     : SizedBox.shrink(),
             isCommunityToken
                 ? Text(
                     token.symbol,
