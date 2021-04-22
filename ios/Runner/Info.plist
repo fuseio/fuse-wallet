@@ -85,9 +85,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>branch_app_domain</key>
-	<string>fuseio.app.link</string>
+	<string>app.fuse.cash</string>
 	<key>branch_key</key>
-	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
+	<string>key_live_ei3pINZQchWGN7VDrB1njgcfzshiwvmX</string>
 	<key>com.claimsforce.segment.WRITE_KEY</key>
 	<string>KzFIKc0VjOnnhoVclBFzyvoaeCpJOOiS</string>
 	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>

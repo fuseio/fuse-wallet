@@ -6,11 +6,10 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:app.fuse.io</string>
-		<string>applinks:fuseio.app.link</string>
-		<string>applinks:fuseio-alternate.app.link</string>
-		<string>applinks:fuseio.test-app.link</string>
-		<string>applinks:fuseio-alternate.test-app.link</string>
+		<string>applinks:app.fuse.cash</string>
+		<string>applinks:rkno4.test-app.link</string>
+		<string>applinks:rkno4-alternate.test-app.link</string>
+		<string>applinks:rkno4-alternate.app.link</string>
 	</array>
 </dict>
 </plist>
