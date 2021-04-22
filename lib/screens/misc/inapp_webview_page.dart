@@ -109,7 +109,9 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                   Map<String, dynamic> data = Map.from(args[0]);
                   num amount = num.parse(data['amount']);
 
-                  if (amount > 100) {
+                  // TODO: Remove eventually
+                  if (amount > 250) {
+                    // TODO: Add error message for large top up
                     return false;
                   }
                   return _handleStripe(amount.toString());
