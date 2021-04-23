@@ -163,7 +163,7 @@ class _TopupScreenState extends State<TopupScreen>
         if (amountText == "0") {
           amountText = "";
         }
-        if (!(num.parse(amountText + key.text) > 100)) {
+        if (!(num.parse(amountText + key.text) > 250)) {
           // Don't allow topping up more than £100
           amountText = amountText + key.text;
         }
