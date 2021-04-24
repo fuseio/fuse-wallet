@@ -31,7 +31,6 @@ class ActionDetailsScreen extends StatelessWidget {
     final DateTime dateTime =
         DateTime.fromMillisecondsSinceEpoch(action.timestamp);
     final String name = action.map(
-      depositYourFirstDollar: (value) => '',
       createWallet: (_) => '',
       fiatProcess: (_) => '',
       joinCommunity: (_) => '',
@@ -43,7 +42,6 @@ class ActionDetailsScreen extends StatelessWidget {
     );
 
     final String title = action.map(
-      depositYourFirstDollar: (value) => '',
       createWallet: (_) => '',
       fiatProcess: (_) => '',
       joinCommunity: (_) => '',
@@ -145,7 +143,6 @@ class ActionDetailsScreen extends StatelessWidget {
                               child: Text(
                                 action.isSwapAction()
                                     ? action.map(
-                                        depositYourFirstDollar: (value) => '',
                                         createWallet: (value) => '',
                                         fiatProcess: (value) => '',
                                         joinCommunity: (value) => '',
@@ -189,7 +186,6 @@ class ActionDetailsScreen extends StatelessWidget {
                           context,
                           I18n.of(context).receive,
                           action.map(
-                            depositYourFirstDollar: (value) => '',
                             createWallet: (value) => '',
                             fiatProcess: (value) => '',
                             joinCommunity: (value) => '',
@@ -198,7 +194,8 @@ class ActionDetailsScreen extends StatelessWidget {
                             send: (value) => '',
                             receive: (value) => '',
                             swap: (value) =>
-                                value.tradeInfo.outputAmount +
+                                display(
+                                    num.parse(value.tradeInfo.outputAmount)) +
                                 ' ' +
                                 value.tradeInfo.outputToken,
                           ),

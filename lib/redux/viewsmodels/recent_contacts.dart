@@ -32,7 +32,6 @@ class RecentContactsViewModel extends Equatable {
                         send: (value) => true,
                         receive: (value) => false,
                         swap: (value) => false,
-                        depositYourFirstDollar: (value) => false,
                       ) &&
                       t.isConfirmed(),
                 )

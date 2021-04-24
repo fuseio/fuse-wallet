@@ -127,7 +127,7 @@ mixin _$UserState {
   String get avatarUrl;
   String get email;
   String get verificationId;
-  String get identifier; // @Default(0) num totalBalance,
+  String get identifier;
   List<String> get syncedContacts;
   Map<String, String> get reverseContacts;
   @JsonKey(ignore: true)
@@ -620,7 +620,7 @@ class _$_UserState extends _UserState {
   @override
   final String identifier;
   @JsonKey(defaultValue: const [])
-  @override // @Default(0) num totalBalance,
+  @override
   final List<String> syncedContacts;
   @JsonKey(defaultValue: const {})
   @override
@@ -872,7 +872,7 @@ abstract class _UserState extends UserState {
   String get verificationId;
   @override
   String get identifier;
-  @override // @Default(0) num totalBalance,
+  @override
   List<String> get syncedContacts;
   @override
   Map<String, String> get reverseContacts;

@@ -69,7 +69,7 @@ class Button extends StatelessWidget {
 class TokenTile extends StatelessWidget {
   TokenTile({
     Key key,
-    this.token,
+    this.tokenAddress,
     this.showPending = true,
     this.showBalance = true,
     this.onTap,
@@ -83,15 +83,16 @@ class TokenTile extends StatelessWidget {
   final bool showBalance;
   final double symbolWidth;
   final double symbolHeight;
-  final Token token;
+  final String tokenAddress;
 
   showBottomMenu(
     TokenTileViewModel viewModel,
     BuildContext context,
+    Token token,
     bool hasPriceInfo,
   ) {
     final bool isSwappable =
-        viewModel?.tokensImages?.containsKey(token.address) ?? false;
+        viewModel?.tokensImages?.containsKey(tokenAddress) ?? false;
     showBarModalBottomSheet(
       useRootNavigator: true,
       context: ExtendedNavigator.named('homeRouter').context,
@@ -290,21 +291,23 @@ class TokenTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasPriceInfo =
-        ![null, '', '0', 0].contains(token?.priceInfo?.quote);
-    final String price = token.priceInfo != null ? token.getFiatBalance() : '0';
-    // final bool isFuseTxs = token.originNetwork != null;
     return StoreConnector<AppState, TokenTileViewModel>(
       distinct: true,
       converter: TokenTileViewModel.fromStore,
       onWillChange: (previousViewModel, newViewModel) {},
       builder: (_, viewModel) {
+        final Token token = viewModel.tokens[tokenAddress];
+        final bool hasPriceInfo =
+            ![null, '', '0', 0].contains(token?.priceInfo?.quote);
+        final String price =
+            token.priceInfo != null ? token.getFiatBalance() : '0';
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
               element?.homeTokenAddress?.toLowerCase() != null &&
               element?.homeTokenAddress?.toLowerCase() == token?.address &&
               ![false, null].contains(element.metadata.isDefaultImage),
         );
+
         final Widget leading = Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -436,7 +439,12 @@ class TokenTile extends StatelessWidget {
               : () {
                   viewModel.fetchTokenPrice(token);
                   viewModel.fetchTokenAction(token);
-                  showBottomMenu(viewModel, context, hasPriceInfo);
+                  showBottomMenu(
+                    viewModel,
+                    context,
+                    token,
+                    hasPriceInfo,
+                  );
                 },
           contentPadding: EdgeInsets.only(
             top: 10,

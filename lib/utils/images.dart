@@ -86,11 +86,6 @@ class ImageUrl {
       return new MemoryImage(contact.avatar);
     }
     return action.map(
-      depositYourFirstDollar: (value) => getTokenByAddress(
-                  value.tokenAddress, tokensImages) !=
-              null
-          ? NetworkImage(getTokenByAddress(value.tokenAddress, tokensImages))
-          : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       createWallet: (value) => AssetImage(
         'assets/images/generate_wallet.png',
       ),

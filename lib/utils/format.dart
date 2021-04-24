@@ -1,11 +1,29 @@
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:number_display/number_display.dart';
 
 final Display display = createDisplay(
   decimal: 2,
 );
+
+String calcPrice(
+  BigInt value,
+  int decimals,
+  Price priceInfo,
+) {
+  final bool hasPriceInfo = ![null, '', '0', 0].contains(priceInfo?.quote);
+  if (hasPriceInfo) {
+    return getFiatValue(
+      value,
+      decimals,
+      double.parse(priceInfo.quote),
+    );
+  } else {
+    return formatValue(value, decimals);
+  }
+}
 
 final Map<String, num> fees = {
   "DZAR": 17,

@@ -11,77 +11,7 @@ import 'package:fusecash/features/home/widgets/feed.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget body() {
-    return DefaultTabController(
-      length: 2,
-      initialIndex: 0,
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 70,
-          backgroundColor: Theme.of(context).canvasColor,
-          bottom: PreferredSize(
-            preferredSize: Size(
-              MediaQuery.of(context).size.width * .8,
-              70,
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 30, right: 30),
-              child: TabBar(
-                indicatorColor: Theme.of(context).canvasColor,
-                unselectedLabelStyle: TextStyle(
-                  fontFamily: 'Europa',
-                  fontSize: 17,
-                ),
-                unselectedLabelColor: Color(0xFFA2A2A2),
-                labelStyle: TextStyle(
-                  fontFamily: 'Europa',
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50), // Creates border
-                  color: Color(0xFFF4F4F4),
-                ),
-                tabs: [
-                  Tab(
-                    text: I18n.of(context).feed,
-                  ),
-                  Tab(
-                    text: I18n.of(context).wallet,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(top: 10),
-          child: TabBarView(
-            children: [
-              Feed(),
-              AssetsList(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, HomeViewModel>(
@@ -100,6 +30,59 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
       builder: (_, viewModel) {
+        final Widget body = DefaultTabController(
+          length: 2,
+          initialIndex: 0,
+          child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 70,
+              backgroundColor: Theme.of(context).canvasColor,
+              bottom: PreferredSize(
+                preferredSize: Size(
+                  MediaQuery.of(context).size.width * .8,
+                  70,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 30, right: 30),
+                  child: TabBar(
+                    indicatorColor: Theme.of(context).canvasColor,
+                    unselectedLabelStyle: TextStyle(
+                      fontFamily: 'Europa',
+                      fontSize: 17,
+                    ),
+                    unselectedLabelColor: Color(0xFFA2A2A2),
+                    labelStyle: TextStyle(
+                      fontFamily: 'Europa',
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50), // Creates border
+                      color: Color(0xFFF4F4F4),
+                    ),
+                    tabs: [
+                      Tab(
+                        text: I18n.of(context).feed,
+                      ),
+                      Tab(
+                        text: I18n.of(context).wallet,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            body: Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: TabBarView(
+                children: [
+                  Feed(),
+                  Wallet(),
+                ],
+              ),
+            ),
+          ),
+        );
         return Scaffold(
           appBar: MyAppBar(
             height: 182,
@@ -111,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Positioned.fill(
                       top: 100,
-                      child: body(),
+                      child: body,
                     ),
                     Positioned(
                       top: 0,
@@ -122,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 )
-              : body(),
+              : body,
         );
       },
     );

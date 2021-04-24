@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/swap/swap.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/utils/format.dart';
 
 part 'wallet_action.freezed.dart';
@@ -21,23 +22,23 @@ abstract class WalletAction implements _$WalletAction {
   bool isConfirmed() =>
       this.status == 'CONFIRMED' || this.status == 'SUCCEEDED';
 
-  String getAmount() {
+  String getAmount({Price priceInfo}) {
     return this.map(
-      depositYourFirstDollar: (value) => '',
       createWallet: (value) => '',
       fiatProcess: (value) => '',
       joinCommunity: (value) => '',
-      fiatDeposit: (value) => formatValue(value?.value, value.tokenDecimal),
-      bonus: (value) => formatValue(value?.value, value.tokenDecimal),
-      send: (value) => formatValue(value?.value, value.tokenDecimal),
-      receive: (value) => formatValue(value?.value, value.tokenDecimal),
+      fiatDeposit: (value) =>
+          calcPrice(value?.value, value.tokenDecimal, priceInfo),
+      bonus: (value) => calcPrice(value?.value, value.tokenDecimal, priceInfo),
+      send: (value) => calcPrice(value?.value, value.tokenDecimal, priceInfo),
+      receive: (value) =>
+          calcPrice(value?.value, value.tokenDecimal, priceInfo),
       swap: (value) => display(num.parse(value.tradeInfo.outputAmount)),
     );
   }
 
   bool isGenerateWallet() {
     return this.map(
-      depositYourFirstDollar: (value) => false,
       createWallet: (value) => true,
       fiatProcess: (value) => false,
       joinCommunity: (value) => false,
@@ -51,7 +52,6 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isSwapAction() {
     return this.map(
-      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => false,
       joinCommunity: (value) => false,
@@ -65,7 +65,6 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isJoinBonus() {
     return this.map(
-      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => false,
       joinCommunity: (value) => false,
@@ -79,7 +78,6 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isJoinCommunity() {
     return this.map(
-      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => false,
       joinCommunity: (value) => true,
@@ -93,23 +91,8 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isFiatProcessing() {
     return this.map(
-      depositYourFirstDollar: (value) => false,
       createWallet: (value) => false,
       fiatProcess: (value) => true,
-      joinCommunity: (value) => false,
-      fiatDeposit: (value) => false,
-      bonus: (value) => false,
-      send: (value) => false,
-      receive: (value) => false,
-      swap: (value) => false,
-    );
-  }
-
-  bool isDepositYourFirstDollar() {
-    return this.map(
-      depositYourFirstDollar: (value) => true,
-      createWallet: (value) => false,
-      fiatProcess: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
       bonus: (value) => false,
@@ -127,29 +110,28 @@ abstract class WalletAction implements _$WalletAction {
       );
     }
     return this.map(
-      depositYourFirstDollar: (value) => null,
       createWallet: (value) => null,
       fiatProcess: (value) => null,
       joinCommunity: (value) => null,
       fiatDeposit: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        height: 9,
+        height: 14,
       ),
       bonus: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        height: 9,
+        height: 14,
       ),
       send: (value) => SvgPicture.asset(
         'assets/images/send_icon.svg',
-        height: 9,
+        height: 14,
       ),
       receive: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        height: 9,
+        height: 14,
       ),
       swap: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
-        height: 9,
+        height: 14,
       ),
     );
   }
@@ -187,10 +169,6 @@ abstract class WalletAction implements _$WalletAction {
 
   String getText() {
     return this.map(
-      depositYourFirstDollar: (value) {
-        return I18n.of(ExtendedNavigator.root.context)
-            .deposit_your_first_dollars;
-      },
       createWallet: (value) {
         if (value.isFailed()) {
           return I18n.of(ExtendedNavigator.root.context).generate_wallet_failed;
@@ -265,7 +243,6 @@ abstract class WalletAction implements _$WalletAction {
       send: (value) => value.to,
       receive: (value) => value.from,
       swap: (value) => null,
-      depositYourFirstDollar: (value) => null,
     );
   }
 
@@ -279,7 +256,6 @@ abstract class WalletAction implements _$WalletAction {
       send: (value) => value.to,
       receive: (value) => value.to,
       swap: (value) => null,
-      depositYourFirstDollar: (value) => null,
     );
   }
 
@@ -402,15 +378,4 @@ abstract class WalletAction implements _$WalletAction {
     int blockNumber,
     @JsonKey(name: 'metadata') TradeInfo tradeInfo,
   }) = Swap;
-
-  @JsonSerializable()
-  const factory WalletAction.depositYourFirstDollar({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String tokenAddress,
-  }) = DepositYourFirstDollar;
 }

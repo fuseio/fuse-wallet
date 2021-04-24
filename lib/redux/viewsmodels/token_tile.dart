@@ -1,6 +1,8 @@
+import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
@@ -10,16 +12,48 @@ class TokenTileViewModel extends Equatable {
   final Map<String, String> tokensImages;
   final Function(Token token) fetchTokenAction;
   final Function(Token token) fetchTokenPrice;
+  final Map<String, Token> tokens;
 
   TokenTileViewModel({
     this.communities,
     this.tokensImages,
     this.fetchTokenAction,
     this.fetchTokenPrice,
+    this.tokens,
   });
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
+    // List<Token> foreignTokens = List<Token>.from(
+    //         store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+    //     .where((Token token) =>
+    //         num.parse(formatValue(token.amount, token.decimals,
+    //                 withPrecision: true))
+    //             .compareTo(0) ==
+    //         1)
+    //     .toList();
+
+    List<Token> homeTokens =
+        store.state.cashWalletState.tokens.values.where((Token token) {
+      if ([
+        Addresses.ZERO_ADDRESS,
+        Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+      ].contains(token.address)) {
+        return true;
+      } else if (num.parse(formatValue(token.amount, token.decimals,
+                  withPrecision: true))
+              .compareTo(0) ==
+          1) {
+        return true;
+      }
+      return false;
+    }).toList();
+    Map<String, Token> tokens =
+        [...homeTokens].fold(Map(), (previousValue, element) {
+      previousValue.putIfAbsent(element?.address?.toLowerCase(), () => element);
+      return previousValue;
+    });
     return TokenTileViewModel(
+      tokens: tokens,
       tokensImages: store.state.swapState.tokensImages,
       communities: store.state.cashWalletState.communities.values.toList(),
       fetchTokenAction: (Token token) {
@@ -34,6 +68,7 @@ class TokenTileViewModel extends Equatable {
   @override
   List<Object> get props => [
         communities,
+        tokens,
         tokensImages,
       ];
 }

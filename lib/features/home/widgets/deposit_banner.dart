@@ -93,21 +93,23 @@ class DepositBanner extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    child: Text(
-                      I18n.of(context).dismiss,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Europa',
-                        letterSpacing: 0,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                    textColor: Theme.of(context).colorScheme.onSurface,
-                    hoverColor: Theme.of(context).canvasColor,
-                    focusColor: Theme.of(context).canvasColor,
-                    onPressed: viewModel.dismiss,
-                  ),
+                  viewModel.showDismiss
+                      ? FlatButton(
+                          child: Text(
+                            I18n.of(context).dismiss,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'Europa',
+                              letterSpacing: 0,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          textColor: Theme.of(context).colorScheme.onSurface,
+                          hoverColor: Theme.of(context).canvasColor,
+                          focusColor: Theme.of(context).canvasColor,
+                          onPressed: viewModel.dismiss,
+                        )
+                      : SizedBox.shrink(),
                 ],
               ),
             ),

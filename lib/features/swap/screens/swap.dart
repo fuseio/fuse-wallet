@@ -217,7 +217,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                   ),
                                   itemCount: tokens?.length ?? 0,
                                   itemBuilder: (context, index) => TokenTile(
-                                    token: tokens[index],
+                                    tokenAddress: tokens[index].address,
                                     symbolWidth: 60,
                                     symbolHeight: 60,
                                     showBalance: showBalance,
@@ -415,7 +415,7 @@ class _SwapScreenState extends State<SwapScreen> {
             List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
             final bool hasFund = rateInfo != null &&
                 info != null &&
-                (Decimal.parse(tokenOutController.text)).compareTo(
+                (Decimal.parse(swapRequestBody?.amountIn)).compareTo(
                       Decimal.parse(
                         formatValue(
                           tokenOut?.amount,

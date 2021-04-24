@@ -221,12 +221,14 @@ class _ContactsListState extends State<ContactsList> {
           listItems.add(ListHeader(title: title));
           listItems.add(listBody(viewModel, group));
         }
-        listItems.insert(
-          1,
-          RecentContacts(
-            token: widget?.pageArgs?.tokenToSend,
-          ),
-        );
+        if (searchController.text.isEmpty) {
+          listItems.insert(
+            1,
+            RecentContacts(
+              token: widget?.pageArgs?.tokenToSend,
+            ),
+          );
+        }
       }
     }
 

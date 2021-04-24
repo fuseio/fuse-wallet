@@ -100,7 +100,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             ),
                             itemCount: viewModel.tokens?.length ?? 0,
                             itemBuilder: (context, index) => TokenTile(
-                              token: viewModel.tokens[index],
+                              tokenAddress: viewModel.tokens[index].address,
                               symbolWidth: 60,
                               symbolHeight: 60,
                               showPending: false,

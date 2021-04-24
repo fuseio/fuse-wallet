@@ -5,7 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/assets.dart';
 
-class AssetsList extends StatelessWidget {
+class Wallet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, TokensListViewModel>(
@@ -31,7 +31,7 @@ class AssetsList extends StatelessWidget {
               ),
             ),
             itemBuilder: (context, index) => TokenTile(
-              token: viewModel?.tokens[index],
+              tokenAddress: viewModel?.tokens[index].address,
             ),
           ),
         );

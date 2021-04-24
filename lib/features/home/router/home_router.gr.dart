@@ -60,11 +60,8 @@ class HomeRouter extends RouterBase {
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
     HomeScreen: (data) {
-      final args = data.getArgs<HomeScreenArguments>(
-        orElse: () => HomeScreenArguments(),
-      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HomeScreen(key: args.key),
+        builder: (context) => HomeScreen(),
         settings: data,
       );
     },
@@ -127,13 +124,7 @@ class HomeRouter extends RouterBase {
 /// *************************************************************************
 
 extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
-  Future<dynamic> pushHomeScreen({
-    Key key,
-  }) =>
-      push<dynamic>(
-        HomeRoutes.homeScreen,
-        arguments: HomeScreenArguments(key: key),
-      );
+  Future<dynamic> pushHomeScreen() => push<dynamic>(HomeRoutes.homeScreen);
 
   Future<dynamic> pushAboutScreen() => push<dynamic>(HomeRoutes.aboutScreen);
 
@@ -165,12 +156,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
-
-/// HomeScreen arguments holder class
-class HomeScreenArguments {
-  final Key key;
-  HomeScreenArguments({this.key});
-}
 
 /// ProfileScreen arguments holder class
 class ProfileScreenArguments {

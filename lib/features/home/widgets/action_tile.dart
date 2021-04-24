@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/transfer_tile.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/constants.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/transfer.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/utils/webview.dart';
 import 'package:intl/intl.dart';
 
 class ActionTile extends StatelessWidget {
@@ -45,7 +47,6 @@ class ActionTile extends StatelessWidget {
           viewModel.countryCode,
         );
         final Community community = action.map(
-          depositYourFirstDollar: (value) => null,
           createWallet: (value) => null,
           fiatProcess: (value) => null,
           joinCommunity: (value) =>
@@ -67,8 +68,26 @@ class ActionTile extends StatelessWidget {
           action.getSender(),
           viewModel.tokensImages,
         );
+
+        final Token token = action.map(
+          createWallet: (value) => null,
+          fiatProcess: (value) => null,
+          joinCommunity: (value) => null,
+          fiatDeposit: (value) =>
+              viewModel?.tokens[fuseDollarToken.address.toLowerCase()] ?? null,
+          bonus: (value) =>
+              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+          send: (value) =>
+              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+          receive: (value) =>
+              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+          swap: (value) => viewModel?.tokens?.values?.firstWhere(
+              (element) => element.symbol == value.tradeInfo.outputToken,
+              orElse: () => null),
+        );
+        final bool hasPriceInfo =
+            ![null, '', '0', 0].contains(token?.priceInfo?.quote);
         final String displayName = action.map(
-          depositYourFirstDollar: (value) => value.getText(),
           createWallet: (value) => value.getText(),
           fiatProcess: (value) => value.getText(),
           joinCommunity: (value) => value.getText(),
@@ -105,14 +124,11 @@ class ActionTile extends StatelessWidget {
                   : action.getText(),
         );
         final String symbol = action.map(
-          depositYourFirstDollar: (value) => '',
           createWallet: (value) => '',
           fiatProcess: (value) => '',
           joinCommunity: (value) => '',
           fiatDeposit: (value) => value.tokenSymbol,
-          bonus: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()]?.symbol ??
-              '',
+          bonus: (value) => token?.symbol,
           send: (value) => value.tokenSymbol,
           receive: (value) => value.tokenSymbol,
           swap: (value) => value.tradeInfo.outputToken,
@@ -127,9 +143,7 @@ class ActionTile extends StatelessWidget {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.center,
           children: <Widget>[
-            action.isGenerateWallet() ||
-                    action.isJoinCommunity() ||
-                    action.isDepositYourFirstDollar()
+            action.isGenerateWallet() || action.isJoinCommunity()
                 ? Text(
                     DateFormat.jm().format(dateTime),
                     style: TextStyle(
@@ -156,24 +170,30 @@ class ActionTile extends StatelessWidget {
                                   TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: action.getAmount(),
+                                        text: hasPriceInfo
+                                            ? '\$' +
+                                                action.getAmount(
+                                                  priceInfo: token?.priceInfo,
+                                                )
+                                            : action.getAmount(),
                                         style: TextStyle(
-                                          color: Color(0xFF696969),
                                           fontSize: 15.0,
-                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      TextSpan(
-                                        text: ' $symbol ',
-                                        style: TextStyle(
-                                          color: Color(0xFF696969),
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
+                                      hasPriceInfo
+                                          ? TextSpan(text: '')
+                                          : TextSpan(
+                                              text: ' $symbol',
+                                              style: TextStyle(
+                                                fontSize: 15.0,
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
+                              ),
+                              SizedBox(
+                                width: 2.5,
                               ),
                               action.getActionIcon()
                             ],
@@ -193,18 +213,7 @@ class ActionTile extends StatelessWidget {
                                       top: 10,
                                     ),
                                   )
-                                : Padding(
-                                    child: Text(
-                                      DateFormat.yMMMMd().format(dateTime),
-                                      style: TextStyle(
-                                        color: Color(0xFF8D8D8D),
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      top: 10,
-                                    ),
-                                  ),
+                                : SizedBox.shrink(),
                           )
                         ],
                       ),
@@ -239,7 +248,6 @@ class ActionTile extends StatelessWidget {
             isCommunityToken && action.isJoinCommunity()
                 ? Text(
                     action.map(
-                      depositYourFirstDollar: (value) => '',
                       createWallet: (value) => '',
                       fiatProcess: (value) => '',
                       joinCommunity: (value) =>
@@ -323,8 +331,14 @@ class ActionTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
+                        I18n.of(context).swap + ' ',
+                        style: TextStyle(
+                          color: Color(0xFF333333),
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
                         action.map(
-                          depositYourFirstDollar: (value) => '',
                           createWallet: (value) => '',
                           fiatProcess: (value) => '',
                           joinCommunity: (value) => '',
@@ -355,7 +369,6 @@ class ActionTile extends StatelessWidget {
                       Expanded(
                         child: AutoSizeText(
                           action.map(
-                            depositYourFirstDollar: (value) => '',
                             createWallet: (value) => '',
                             fiatProcess: (value) => '',
                             joinCommunity: (value) => '',
@@ -381,25 +394,9 @@ class ActionTile extends StatelessWidget {
                           displayName,
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: action.isDepositYourFirstDollar()
-                                ? FontWeight.bold
-                                : null,
                           ),
                         ),
                       ),
-                      action.isDepositYourFirstDollar()
-                          ? Row(
-                              children: [
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                SvgPicture.asset(
-                                  'assets/images/arrow_right_outlined.svg',
-                                  color: Colors.black,
-                                )
-                              ],
-                            )
-                          : SizedBox.shrink(),
                     ],
                   );
 
@@ -410,7 +407,38 @@ class ActionTile extends StatelessWidget {
                   fontSize: 12,
                 ),
               )
-            : null;
+            : action.isSwapAction()
+                ? AutoSizeText(
+                    action.map(
+                          createWallet: (value) => '',
+                          fiatProcess: (value) => '',
+                          joinCommunity: (value) => '',
+                          fiatDeposit: (value) => '',
+                          bonus: (value) => '',
+                          send: (value) => '',
+                          receive: (value) => '',
+                          swap: (value) =>
+                              display(num.parse(value.tradeInfo.inputAmount)) +
+                              ' ' +
+                              value.tradeInfo.inputToken,
+                        ) +
+                        ' ${I18n.of(context).to.toLowerCase()} ' +
+                        action.map(
+                          createWallet: (value) => '',
+                          fiatProcess: (value) => '',
+                          joinCommunity: (value) => '',
+                          fiatDeposit: (value) => '',
+                          bonus: (value) => '',
+                          send: (value) => '',
+                          receive: (value) => '',
+                          swap: (value) =>
+                              display(num.parse(value.tradeInfo.outputAmount)) +
+                              ' ' +
+                              value.tradeInfo.outputToken,
+                        ),
+                    maxLines: 1,
+                  )
+                : null;
 
         return ListTile(
           contentPadding: contentPadding,
@@ -419,19 +447,7 @@ class ActionTile extends StatelessWidget {
           title: title,
           subtitle: subtitle,
           onTap: () {
-            List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-            if (action.isDepositYourFirstDollar()) {
-              if (depositPlugins.isNotEmpty) {
-                String url = depositPlugins[0].widgetUrl;
-                openDepositWebview(
-                  withBack: true,
-                  url: url,
-                );
-              }
-            }
-            if (!action.isGenerateWallet() &&
-                !action.isJoinCommunity() &&
-                !action.isDepositYourFirstDollar()) {
+            if (!action.isGenerateWallet() && !action.isJoinCommunity()) {
               ExtendedNavigator.root.pushActionDetailsScreen(
                 accountAddress: action.getSender(),
                 contact: contact,
