@@ -56,8 +56,10 @@ class Button extends StatelessWidget {
             AutoSizeText(
               text,
               style: TextStyle(
+                fontSize: 20,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
+              maxLines: 1,
             )
           ],
         ),
