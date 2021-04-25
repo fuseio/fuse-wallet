@@ -6,6 +6,7 @@ import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
+import 'package:fusecash/features/screens/account_screen.dart';
 import 'package:fusecash/features/screens/receive_screen.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
@@ -101,6 +102,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 ],
               ),
               ReceiveScreen(),
+              // AccountScreen(),
             ],
           ),
           bottomNavigationBar: BottomBar(

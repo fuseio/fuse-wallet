@@ -154,7 +154,7 @@ class _SwapScreenState extends State<SwapScreen> {
   showBottomMenu(
     List<Token> tokens,
     Function onTap,
-    bool showBalance,
+    bool showCurrentPrice,
   ) {
     showBarModalBottomSheet(
       useRootNavigator: true,
@@ -217,11 +217,10 @@ class _SwapScreenState extends State<SwapScreen> {
                                   ),
                                   itemCount: tokens?.length ?? 0,
                                   itemBuilder: (context, index) => TokenTile(
-                                    tokenAddress: tokens[index].address,
+                                    token: tokens[index],
                                     symbolWidth: 60,
                                     symbolHeight: 60,
-                                    showBalance: showBalance,
-                                    showPending: false,
+                                    showCurrentPrice: showCurrentPrice,
                                     onTap: () {
                                       Navigator.of(context).pop();
                                       onTap(tokens[index]);
@@ -449,7 +448,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                     showBottomMenu(
                                       viewModel.payWithTokens,
                                       onTokenOutChanged,
-                                      true,
+                                      false,
                                     );
                                   },
                                   onChanged: (value) {
@@ -474,7 +473,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                     showBottomMenu(
                                       viewModel.receiveTokens,
                                       onTokenInChanged,
-                                      false,
+                                      true,
                                     );
                                   },
                                   onChanged: (value) {

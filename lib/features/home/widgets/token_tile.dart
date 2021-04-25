@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,10 +53,9 @@ class Button extends StatelessWidget {
             SizedBox(
               width: 5,
             ),
-            Text(
+            AutoSizeText(
               text,
               style: TextStyle(
-                fontSize: 20,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             )
@@ -69,30 +69,27 @@ class Button extends StatelessWidget {
 class TokenTile extends StatelessWidget {
   TokenTile({
     Key key,
-    this.tokenAddress,
-    this.showPending = true,
+    this.token,
     this.showBalance = true,
+    this.showCurrentPrice = false,
     this.onTap,
-    this.quate,
     this.symbolHeight = 45.0,
     this.symbolWidth = 45.0,
   }) : super(key: key);
   final Function() onTap;
-  final double quate;
-  final bool showPending;
   final bool showBalance;
+  final bool showCurrentPrice;
   final double symbolWidth;
   final double symbolHeight;
-  final String tokenAddress;
+  final Token token;
 
   showBottomMenu(
     TokenTileViewModel viewModel,
     BuildContext context,
-    Token token,
     bool hasPriceInfo,
   ) {
     final bool isSwappable =
-        viewModel?.tokensImages?.containsKey(tokenAddress) ?? false;
+        viewModel?.tokensImages?.containsKey(token.address) ?? false;
     showBarModalBottomSheet(
       useRootNavigator: true,
       context: ExtendedNavigator.named('homeRouter').context,
@@ -296,18 +293,17 @@ class TokenTile extends StatelessWidget {
       converter: TokenTileViewModel.fromStore,
       onWillChange: (previousViewModel, newViewModel) {},
       builder: (_, viewModel) {
-        final Token token = viewModel.tokens[tokenAddress];
         final bool hasPriceInfo =
             ![null, '', '0', 0].contains(token?.priceInfo?.quote);
-        final String price =
-            token.priceInfo != null ? token.getFiatBalance() : '0';
+        final String price = !showCurrentPrice
+            ? token?.getFiatBalance()
+            : display(num.tryParse(token?.priceInfo?.quote) ?? 0);
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
               element?.homeTokenAddress?.toLowerCase() != null &&
               element?.homeTokenAddress?.toLowerCase() == token?.address &&
               ![false, null].contains(element.metadata.isDefaultImage),
         );
-
         final Widget leading = Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -384,9 +380,9 @@ class TokenTile extends StatelessWidget {
           ],
         );
         final Widget trailing = showBalance
-            ? Stack(
-                overflow: Overflow.visible,
-                alignment: AlignmentDirectional.bottomEnd,
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RichText(
                     text: TextSpan(
@@ -401,7 +397,8 @@ class TokenTile extends StatelessWidget {
                                   fontSize: 15.0,
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
-                                ))
+                                ),
+                              )
                             : TextSpan(
                                 text: token.getBalance() + ' ' + token.symbol,
                                 style: TextStyle(
@@ -413,18 +410,15 @@ class TokenTile extends StatelessWidget {
                       ],
                     ),
                   ),
-                  hasPriceInfo
-                      ? Positioned(
-                          bottom: -20,
-                          child: Padding(
-                            child: Text(
-                              token.getBalance() + ' ' + token.symbol,
-                              style: TextStyle(
-                                color: Color(0xFF8D8D8D),
-                                fontSize: 10,
-                              ),
+                  hasPriceInfo && !showCurrentPrice
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            token.getBalance() + ' ' + token.symbol,
+                            style: TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 10,
                             ),
-                            padding: EdgeInsets.only(top: 10),
                           ),
                         )
                       : SizedBox.shrink()
@@ -439,12 +433,7 @@ class TokenTile extends StatelessWidget {
               : () {
                   viewModel.fetchTokenPrice(token);
                   viewModel.fetchTokenAction(token);
-                  showBottomMenu(
-                    viewModel,
-                    context,
-                    token,
-                    hasPriceInfo,
-                  );
+                  showBottomMenu(viewModel, context, hasPriceInfo);
                 },
           contentPadding: EdgeInsets.only(
             top: 10,

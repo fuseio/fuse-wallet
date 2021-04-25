@@ -5,7 +5,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/home.dart';
-import 'package:fusecash/features/home/widgets/assets_list.dart';
+import 'package:fusecash/features/home/widgets/wallet.dart';
 import 'package:fusecash/features/home/widgets/cash_header.dart';
 import 'package:fusecash/features/home/widgets/feed.dart';
 import 'package:fusecash/utils/addresses.dart';

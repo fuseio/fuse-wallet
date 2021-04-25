@@ -22,7 +22,7 @@ class HomeScreenViewModel extends Equatable {
   static HomeScreenViewModel fromStore(Store<AppState> store) {
     return HomeScreenViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
-      backup: store.state.userState.backup,
+      backup: store.state.userState?.backup ?? false,
       isBackupDialogShowed:
           store.state.userState?.receiveBackupDialogShowed ?? false,
       setShowDialog: () {

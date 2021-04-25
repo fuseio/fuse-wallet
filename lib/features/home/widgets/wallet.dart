@@ -31,7 +31,7 @@ class Wallet extends StatelessWidget {
               ),
             ),
             itemBuilder: (context, index) => TokenTile(
-              tokenAddress: viewModel?.tokens[index].address,
+              token: viewModel?.tokens[index],
             ),
           ),
         );

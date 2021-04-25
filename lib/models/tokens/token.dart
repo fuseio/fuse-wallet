@@ -36,7 +36,7 @@ abstract class Token implements _$Token {
   String getFiatBalance() => getFiatValue(
         amount,
         decimals,
-        double.parse(priceInfo.quote),
+        double.parse(priceInfo?.quote),
       );
 
   Future<dynamic> fetchTokenBalance(

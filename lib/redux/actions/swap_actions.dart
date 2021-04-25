@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/urls.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
@@ -42,7 +43,7 @@ ThunkAction fetchSwapList() {
           address: address,
         );
         if (!token.containsKey('isDeprecated')) {
-          final Token newToken = Token.fromJson({
+          Token newToken = Token.fromJson({
             "originNetwork": 'mainnet',
             "amount": balance.toString(),
             "address": token['address'].toLowerCase(),
@@ -51,6 +52,17 @@ ThunkAction fetchSwapList() {
             "symbol": token['symbol'],
             "imageUrl": token['logoURI'],
           });
+          await newToken.fetchTokenLatestPrice(
+            onDone: (Price priceInfo) {
+              newToken = newToken.copyWith(
+                priceInfo: priceInfo,
+              );
+            },
+            onError: (Object error, StackTrace stackTrace) {
+              log.error(
+                  'Fetch token price error for - ${newToken.name} - $error ');
+            },
+          );
           tokens.putIfAbsent(
             token['address'].toLowerCase(),
             () => newToken,
