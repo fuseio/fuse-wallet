@@ -60,7 +60,6 @@ class UserNameScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20, color: Colors.black),
                           controller: displayNameController,
-                          keyboardType: TextInputType.text,
                           autofocus: true,
                           cursorColor: Color(0xFFC6C6C6),
                           decoration: InputDecoration(
