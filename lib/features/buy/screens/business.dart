@@ -212,8 +212,13 @@ class _BusinessPageState extends State<BusinessPage> {
                                               child: Text(widget.business
                                                   .metadata.phoneNumber),
                                               onTap: () {
+                                                final Uri _phoneLaunchUri = Uri(
+                                                  scheme: 'tel',
+                                                  path: widget.business.metadata
+                                                      .phoneNumber,
+                                                );
                                                 launchUrl(
-                                                    'tel:${widget.business.metadata.phoneNumber}');
+                                                    _phoneLaunchUri.toString());
                                               },
                                             )
                                           ],

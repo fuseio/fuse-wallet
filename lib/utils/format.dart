@@ -70,9 +70,9 @@ String getFiatValue(
   return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
-String formatAddress(String address) {
+String formatAddress(String address, [int endIndex = 6]) {
   if (address == null || address.isEmpty) return '';
-  return '${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}';
+  return '${address.substring(0, endIndex)}...${address.substring(address.length - 4, address.length)}';
 }
 
 BigInt toBigInt(dynamic value, int decimals) {

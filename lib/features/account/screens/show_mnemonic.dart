@@ -3,13 +3,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/account/router/router.gr.dart';
 
 class ShowMnemonic extends StatelessWidget {
   Widget wordWidget(
@@ -175,10 +175,8 @@ class ShowMnemonic extends StatelessWidget {
                 Center(
                   child: PrimaryButton(
                     label: I18n.of(context).next_button,
-                    onPressed: () {
-                      ExtendedNavigator.named('homeRouter')
-                          .push(HomeRoutes.verifyMnemonic);
-                    },
+                    onPressed: ExtendedNavigator.named('accountRouter')
+                        .pushVerifyMnemonic,
                   ),
                 ),
                 SizedBox(

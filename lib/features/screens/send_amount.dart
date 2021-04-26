@@ -12,7 +12,7 @@ import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/numbers.dart';
+import 'package:fusecash/widgets/numeric_keyboard.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fusecash/models/app_state.dart';

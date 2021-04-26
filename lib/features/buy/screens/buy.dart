@@ -9,7 +9,7 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/features/buy/router/buy_router.gr.dart';
+import 'package:fusecash/features/buy/router/router.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/images.dart';

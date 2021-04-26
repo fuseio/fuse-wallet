@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/features/swap/screens/swap.dart';
+import 'package:fusecash/features/home/screens/home.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
-  routesClassName: "SwapRoutes",
+  routesClassName: "HomeRoutes",
   routes: <AutoRoute>[
     MaterialRoute(
       initial: true,
-      page: SwapScreen,
-      name: 'swapScreen',
+      page: HomeScreen,
+      name: 'homeScreen',
     ),
   ],
 )
-class $SwapRouter {}
+class $HomeRouter {}

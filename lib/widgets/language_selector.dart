@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:country_code_picker/country_codes.dart';
 
@@ -19,7 +20,27 @@ class _LanguageSelectorState extends State<LanguageSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildTiles(context);
+    return ExpansionTile(
+      tilePadding: EdgeInsets.zero,
+      title: Row(
+        children: <Widget>[
+          SvgPicture.asset(
+            'assets/images/language.svg',
+            width: 13,
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            I18n.of(context).language,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+      children: _languageItems(context),
+    );
   }
 
   List<Widget> _languageItems(context) {
@@ -30,41 +51,23 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           orElse: () => null);
       String name = code['name'] ?? local.countryCode;
       return ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),
-          title: Text(
-            name,
-          ),
-          trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
-          selected: isSelected,
-          onTap: () {
-            I18n.onLocaleChanged(local);
-            setState(() {
-              _collapse();
-            });
+        contentPadding: EdgeInsets.only(
+          top: 5,
+          bottom: 5,
+        ),
+        title: Text(
+          name,
+        ),
+        trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
+        selected: isSelected,
+        onTap: () {
+          I18n.onLocaleChanged(local);
+          setState(() {
+            _collapse();
           });
+        },
+      );
     }).toList();
-  }
-
-  Widget _buildTiles(BuildContext context) {
-    return ExpansionTile(
-      key: Key(_key.toString()),
-      initiallyExpanded: false,
-      title: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 5, bottom: 5, left: 15),
-            child: Text(
-              I18n.of(context).language,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          )
-        ],
-      ),
-      children: _languageItems(context),
-    );
   }
 
   _collapse() {

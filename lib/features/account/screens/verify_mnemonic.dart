@@ -4,9 +4,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/account/router/router.gr.dart';
 
 class Word extends StatelessWidget {
   Word({
@@ -153,8 +153,8 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                         label: I18n.of(context).next_button,
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
-                            ExtendedNavigator.named('homeRouter')
-                                .push(HomeRoutes.doneBackup);
+                            ExtendedNavigator.named('accountRouter')
+                                .pushDoneBackup();
                           }
                         },
                       )),

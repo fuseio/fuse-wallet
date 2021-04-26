@@ -124,8 +124,8 @@ class I18n implements WidgetsLocalizations {
   String get community => "community";
   /// "About"
   String get about => "About";
-  /// "Version"
-  String get version => "Version";
+  /// "App version"
+  String get version => "App version";
   /// "Legal"
   String get legal => "Legal";
   /// "Pincode"
@@ -418,6 +418,16 @@ class I18n implements WidgetsLocalizations {
   String get dismiss => "Dismiss";
   /// "That's it! Let's start"
   String get lets_start => "That's it! Let's start";
+  /// "Rate us in the store"
+  String get rate_us => "Rate us in the store";
+  /// "Social"
+  String get social => "Social";
+  /// "Invite a friend"
+  String get invite_friend => "Invite a friend";
+  /// "Follow us on twitter"
+  String get follow_us_on_twitter => "Follow us on twitter";
+  /// "Hey, your friend shared with you the fuse.cash wallet: "
+  String get invite_friend_text => "Hey, your friend shared with you the fuse.cash wallet: ";
 }
 
 class _I18n_en_US extends I18n {

@@ -3,7 +3,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/features/home/screens/set_up_pincode.dart';
+import 'package:fusecash/features/screens/set_up_pincode.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';

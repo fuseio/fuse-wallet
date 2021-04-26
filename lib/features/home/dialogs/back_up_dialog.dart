@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
+import 'package:fusecash/features/account/router/router.gr.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';

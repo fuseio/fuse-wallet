@@ -9,65 +9,55 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/about_screen.dart';
+import '../screens/account_screen.dart';
 import '../screens/done_backup_screen.dart';
-import '../screens/home.dart';
 import '../screens/profile.dart';
 import '../screens/protect_your_wallet.dart';
 import '../screens/settings.dart';
 import '../screens/show_mnemonic.dart';
-import '../screens/switch_community.dart';
+import '../screens/social_screen.dart';
 import '../screens/verify_mnemonic.dart';
 
-class HomeRoutes {
-  static const String homeScreen = '/';
-  static const String aboutScreen = '/about-screen';
+class AccountRoutes {
+  static const String accountScreen = '/';
   static const String showMnemonic = '/show-mnemonic';
   static const String verifyMnemonic = '/verify-mnemonic';
   static const String doneBackup = '/done-backup';
   static const String settingsScreen = '/settings-screen';
-  static const String switchCommunityScreen = '/switch-community-screen';
   static const String protectYourWallet = '/protect-your-wallet';
   static const String profileScreen = '/profile-screen';
+  static const String socialScreen = '/social-screen';
   static const all = <String>{
-    homeScreen,
-    aboutScreen,
+    accountScreen,
     showMnemonic,
     verifyMnemonic,
     doneBackup,
     settingsScreen,
-    switchCommunityScreen,
     protectYourWallet,
     profileScreen,
+    socialScreen,
   };
 }
 
-class HomeRouter extends RouterBase {
+class AccountRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(HomeRoutes.homeScreen, page: HomeScreen),
-    RouteDef(HomeRoutes.aboutScreen, page: AboutScreen),
-    RouteDef(HomeRoutes.showMnemonic, page: ShowMnemonic),
-    RouteDef(HomeRoutes.verifyMnemonic, page: VerifyMnemonic),
-    RouteDef(HomeRoutes.doneBackup, page: DoneBackup),
-    RouteDef(HomeRoutes.settingsScreen, page: SettingsScreen),
-    RouteDef(HomeRoutes.switchCommunityScreen, page: SwitchCommunityScreen),
-    RouteDef(HomeRoutes.protectYourWallet, page: ProtectYourWallet),
-    RouteDef(HomeRoutes.profileScreen, page: ProfileScreen),
+    RouteDef(AccountRoutes.accountScreen, page: AccountScreen),
+    RouteDef(AccountRoutes.showMnemonic, page: ShowMnemonic),
+    RouteDef(AccountRoutes.verifyMnemonic, page: VerifyMnemonic),
+    RouteDef(AccountRoutes.doneBackup, page: DoneBackup),
+    RouteDef(AccountRoutes.settingsScreen, page: SettingsScreen),
+    RouteDef(AccountRoutes.protectYourWallet, page: ProtectYourWallet),
+    RouteDef(AccountRoutes.profileScreen, page: ProfileScreen),
+    RouteDef(AccountRoutes.socialScreen, page: SocialScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    HomeScreen: (data) {
+    AccountScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HomeScreen(),
-        settings: data,
-      );
-    },
-    AboutScreen: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => AboutScreen(),
+        builder: (context) => AccountScreen(),
         settings: data,
       );
     },
@@ -95,12 +85,6 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
-    SwitchCommunityScreen: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => SwitchCommunityScreen(),
-        settings: data,
-      );
-    },
     ProtectYourWallet: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ProtectYourWallet(),
@@ -116,6 +100,12 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
+    SocialScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SocialScreen(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -123,34 +113,34 @@ class HomeRouter extends RouterBase {
 /// Navigation helper methods extension
 /// *************************************************************************
 
-extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
-  Future<dynamic> pushHomeScreen() => push<dynamic>(HomeRoutes.homeScreen);
+extension AccountRouterExtendedNavigatorStateX on ExtendedNavigatorState {
+  Future<dynamic> pushAccountScreen() =>
+      push<dynamic>(AccountRoutes.accountScreen);
 
-  Future<dynamic> pushAboutScreen() => push<dynamic>(HomeRoutes.aboutScreen);
-
-  Future<dynamic> pushShowMnemonic() => push<dynamic>(HomeRoutes.showMnemonic);
+  Future<dynamic> pushShowMnemonic() =>
+      push<dynamic>(AccountRoutes.showMnemonic);
 
   Future<dynamic> pushVerifyMnemonic() =>
-      push<dynamic>(HomeRoutes.verifyMnemonic);
+      push<dynamic>(AccountRoutes.verifyMnemonic);
 
-  Future<dynamic> pushDoneBackup() => push<dynamic>(HomeRoutes.doneBackup);
+  Future<dynamic> pushDoneBackup() => push<dynamic>(AccountRoutes.doneBackup);
 
   Future<dynamic> pushSettingsScreen() =>
-      push<dynamic>(HomeRoutes.settingsScreen);
-
-  Future<dynamic> pushSwitchCommunityScreen() =>
-      push<dynamic>(HomeRoutes.switchCommunityScreen);
+      push<dynamic>(AccountRoutes.settingsScreen);
 
   Future<dynamic> pushProtectYourWallet() =>
-      push<dynamic>(HomeRoutes.protectYourWallet);
+      push<dynamic>(AccountRoutes.protectYourWallet);
 
   Future<dynamic> pushProfileScreen({
     Key key,
   }) =>
       push<dynamic>(
-        HomeRoutes.profileScreen,
+        AccountRoutes.profileScreen,
         arguments: ProfileScreenArguments(key: key),
       );
+
+  Future<dynamic> pushSocialScreen() =>
+      push<dynamic>(AccountRoutes.socialScreen);
 }
 
 /// ************************************************************************

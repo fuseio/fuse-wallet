@@ -45,7 +45,7 @@
     "joined": "Joined",
     "community": "community",
     "about": "About",
-    "version": "Version",
+    "version": "App version",
     "legal": "Legal",
     "pincode": "Pincode",
     "enter_pincode": "Enter your Pincode:",
@@ -191,5 +191,10 @@
     "invite_text": "Sending money to {name} will automatically invite them to Fuse and let them redeem the funds you sent",
     "friend": "friend",
     "dismiss": "Dismiss",
-    "lets_start": "That's it! Let's start"
+    "lets_start": "That's it! Let's start",
+    "rate_us": "Rate us in the store",
+    "social": "Social",
+    "invite_friend": "Invite a friend",
+    "follow_us_on_twitter": "Follow us on twitter",
+    "invite_friend_text": "Hey, your friend shared with you the fuse.cash wallet: "
 }

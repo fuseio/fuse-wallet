@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
@@ -27,55 +26,51 @@ class CashHeader extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              IconButton(
-                padding: EdgeInsets.only(top: 35, right: 35),
-                icon: Image.asset(
-                  'assets/images/menu.png',
-                  // width: 10,
-                ),
-                onPressed: AppKeys.homePageKey.currentState.openDrawer,
-              ),
-              Text(
-                '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
-                style: TextStyle(
-                  fontSize: 25,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        I18n.of(context).balance,
-                        style: TextStyle(
-                          color: Color(0xFF454545),
-                          fontSize: 13.0,
-                        ),
-                      ),
-                      Balance(),
-                    ],
+              Flexible(
+                child: Text(
+                  '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
+                  style: TextStyle(
+                    fontSize: 25,
                   ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    child: InkWell(
-                      child: SvgPicture.asset(
-                        'assets/images/scan.svg',
-                      ),
-                      onTap: () {
-                        barcodeScannerHandler(
-                            ExtendedNavigator.named('homeRouter').context);
-                      },
+                ),
+              ),
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          I18n.of(context).balance,
+                          style: TextStyle(
+                            color: Color(0xFF454545),
+                            fontSize: 13.0,
+                          ),
+                        ),
+                        Balance(),
+                      ],
                     ),
-                  )
-                ],
-              )
+                    Container(
+                      width: 50,
+                      height: 50,
+                      child: InkWell(
+                        child: SvgPicture.asset(
+                          'assets/images/scan.svg',
+                        ),
+                        onTap: () {
+                          barcodeScannerHandler(
+                              ExtendedNavigator.named('homeRouter').context);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         );

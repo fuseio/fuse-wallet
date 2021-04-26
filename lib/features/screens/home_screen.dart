@@ -3,13 +3,10 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
-import 'package:fusecash/constants/keys.dart';
+import 'package:fusecash/features/account/router/router.gr.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
-import 'package:fusecash/features/screens/account_screen.dart';
-import 'package:fusecash/features/screens/receive_screen.dart';
-import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/features/home/widgets/drawer.dart';
+import 'package:fusecash/features/home/router/router.gr.dart';
+import 'package:fusecash/features/contacts/router/router.gr.dart';
 import 'package:fusecash/features/swap/router/swap_router.gr.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
@@ -64,10 +61,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       },
       builder: (_, vm) {
         return Scaffold(
-          key: AppKeys.homePageKey,
-          drawer: DrawerWidget(),
-          drawerEdgeDragWidth: 0,
-          drawerEnableOpenDragGesture: false,
           body: IndexedStack(
             index: currentIndex,
             children: <Widget>[
@@ -101,8 +94,17 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              ReceiveScreen(),
-              // AccountScreen(),
+              // ReceiveScreen(),
+              ExtendedNavigator(
+                router: AccountRouter(),
+                name: 'accountRouter',
+                observers: [
+                  FirebaseAnalyticsObserver(
+                      analytics: getIt<FirebaseAnalytics>()),
+                  SegmentObserver(),
+                  SentryNavigatorObserver(),
+                ],
+              ),
             ],
           ),
           bottomNavigationBar: BottomBar(

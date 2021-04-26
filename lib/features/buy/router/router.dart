@@ -4,10 +4,14 @@ import 'package:fusecash/features/buy/screens/buy.dart';
 import 'package:fusecash/features/buy/screens/map.dart';
 
 @MaterialAutoRouter(
-  generateNavigationHelperExtension: true,
   routesClassName: "BusinessesRoutes",
+  generateNavigationHelperExtension: true,
   routes: <AutoRoute>[
-    MaterialRoute(initial: true, page: BuyScreen),
+    MaterialRoute(
+      initial: true,
+      page: BuyScreen,
+      name: 'buyScreen',
+    ),
     MaterialRoute(page: BusinessPage),
     MaterialRoute(page: MapScreen),
   ],

@@ -44,6 +44,23 @@ class ContactsRouter extends RouterBase {
 }
 
 /// ************************************************************************
+/// Navigation helper methods extension
+/// *************************************************************************
+
+extension ContactsRouterExtendedNavigatorStateX on ExtendedNavigatorState {
+  Future<dynamic> pushContactsList({
+    SendFlowArguments pageArgs,
+    bool automaticallyImplyLeading = false,
+  }) =>
+      push<dynamic>(
+        ContactsRoutes.contactsList,
+        arguments: ContactsListArguments(
+            pageArgs: pageArgs,
+            automaticallyImplyLeading: automaticallyImplyLeading),
+      );
+}
+
+/// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
 

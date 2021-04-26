@@ -157,6 +157,8 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
   - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
+  - rate_my_app (0.7.1):
+    - Flutter
   - SAMKeychain (1.5.3)
   - Segment-Branch (0.1.24):
     - Analytics
@@ -168,6 +170,8 @@ PODS:
     - Flutter
     - Sentry (~> 6.1.4)
   - share (0.0.1):
+    - Flutter
+  - shared_preferences (0.0.1):
     - Flutter
   - sqflite (0.0.2):
     - Flutter
@@ -199,8 +203,10 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - phone_number (from `.symlinks/plugins/phone_number/ios`)
+  - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -274,10 +280,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
   phone_number:
     :path: ".symlinks/plugins/phone_number/ios"
+  rate_my_app:
+    :path: ".symlinks/plugins/rate_my_app/ios"
   sentry_flutter:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
@@ -327,11 +337,13 @@ SPEC CHECKSUMS:
   PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
+  rate_my_app: 3b64dd0876bd286001595ee2e69193e757c4d77c
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   Segment-Branch: 5e91faad404e1af9998f5a2bbd44522a0f071786
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   sentry_flutter: 8b2b2e1c0101ef562106b5d272d3c0c741512c01
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftProtobuf: 3320217e9d8fb75f36b40282e78c482640fd75dd
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
