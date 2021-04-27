@@ -1,5 +1,5 @@
 name: supervecina
-version: 1.1.46+181
+version: 1.1.47+182
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
