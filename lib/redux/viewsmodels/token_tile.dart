@@ -20,7 +20,7 @@ class TokenTileViewModel extends Equatable {
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
     return TokenTileViewModel(
-      tokensImages: store.state.swapState.tokensImages,
+      tokensImages: store.state.swapState?.tokensImages ?? Map(),
       communities: store.state.cashWalletState.communities.values.toList(),
       fetchTokenAction: (Token token) {
         store.dispatch(getTokenWalletActionsCall(token));

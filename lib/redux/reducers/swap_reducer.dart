@@ -9,8 +9,11 @@ final swapReducers = combineReducers<SwapState>([
   TypedReducer<SwapState, ResetTokenList>(_resetTokenList),
 ]);
 
-SwapState _resetTokenList(SwapState state, ResetTokenList action) =>
-    state.copyWith(tokens: {});
+SwapState _resetTokenList(SwapState state, ResetTokenList action) {
+  return (state ?? SwapState())?.copyWith(
+    tokens: {},
+  );
+}
 
 SwapState _getSwappableTokensSuccess(
     SwapState state, GetSwappableTokensSuccess action) {

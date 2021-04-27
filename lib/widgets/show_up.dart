@@ -31,10 +31,10 @@ class _ShowUpState extends State<ShowUp> with TickerProviderStateMixin {
     _animOffset = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, 0.35))
         .animate(curve);
 
-    if (widget.delay == null) {
+    if (widget?.delay == null) {
       _animController.forward();
     } else {
-      Timer(Duration(milliseconds: widget.delay), () {
+      Timer(Duration(milliseconds: widget?.delay), () {
         _animController.forward();
       });
     }
