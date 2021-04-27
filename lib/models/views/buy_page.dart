@@ -60,7 +60,7 @@ class BannerViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
     return BannerViewModel(
-      walletBanner: community.plugins.walletBanner,
+      walletBanner: community?.plugins?.walletBanner,
     );
   }
 }
