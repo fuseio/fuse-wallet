@@ -25,7 +25,6 @@ class RecentContactsViewModel extends Equatable {
                   (t) =>
                       t.map(
                         createWallet: (value) => false,
-                        fiatProcess: (value) => false,
                         fiatDeposit: (value) => false,
                         joinCommunity: (value) => false,
                         bonus: (value) => false,

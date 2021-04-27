@@ -25,7 +25,6 @@ abstract class WalletAction implements _$WalletAction {
   String getAmount({Price priceInfo}) {
     return this.map(
       createWallet: (value) => '',
-      fiatProcess: (value) => '',
       joinCommunity: (value) => '',
       fiatDeposit: (value) =>
           calcPrice(value?.value, value.tokenDecimal, priceInfo),
@@ -40,7 +39,6 @@ abstract class WalletAction implements _$WalletAction {
   bool isGenerateWallet() {
     return this.map(
       createWallet: (value) => true,
-      fiatProcess: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
       bonus: (value) => false,
@@ -53,7 +51,6 @@ abstract class WalletAction implements _$WalletAction {
   bool isSwapAction() {
     return this.map(
       createWallet: (value) => false,
-      fiatProcess: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
       bonus: (value) => false,
@@ -66,7 +63,6 @@ abstract class WalletAction implements _$WalletAction {
   bool isJoinBonus() {
     return this.map(
       createWallet: (value) => false,
-      fiatProcess: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
       bonus: (value) => true,
@@ -79,21 +75,7 @@ abstract class WalletAction implements _$WalletAction {
   bool isJoinCommunity() {
     return this.map(
       createWallet: (value) => false,
-      fiatProcess: (value) => false,
       joinCommunity: (value) => true,
-      fiatDeposit: (value) => false,
-      bonus: (value) => false,
-      send: (value) => false,
-      receive: (value) => false,
-      swap: (value) => false,
-    );
-  }
-
-  bool isFiatProcessing() {
-    return this.map(
-      createWallet: (value) => false,
-      fiatProcess: (value) => true,
-      joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
       bonus: (value) => false,
       send: (value) => false,
@@ -111,7 +93,6 @@ abstract class WalletAction implements _$WalletAction {
     }
     return this.map(
       createWallet: (value) => null,
-      fiatProcess: (value) => null,
       joinCommunity: (value) => null,
       fiatDeposit: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
@@ -178,28 +159,19 @@ abstract class WalletAction implements _$WalletAction {
           return I18n.of(ExtendedNavigator.root.context).generating_wallet;
         }
       },
-      fiatProcess: (value) {
-        if (value.isFailed()) {
-          return 'Payment failed';
-        } else if (value.isConfirmed()) {
-          return 'Payment Done';
-        } else {
-          return 'Waiting for payment';
-        }
-      },
       joinCommunity: (value) => value.communityName,
       fiatDeposit: (value) {
         if (value.isFailed()) {
-          return 'fUSD - deposit failed';
+          return 'fUSD - ${I18n.of(ExtendedNavigator.root.context).deposit_failed}';
         } else if (value.isConfirmed()) {
-          return 'fUSD - deposit';
+          return 'fUSD - ${I18n.of(ExtendedNavigator.root.context).deposit}';
         } else {
-          return 'Waiting for your deposit to arrive';
+          return I18n.of(ExtendedNavigator.root.context).waiting_for_deposit;
         }
       },
       bonus: (value) {
         if (value.isFailed()) {
-          return 'Receiving ${value.bonusType} ${I18n.of(ExtendedNavigator.root.context).bonus} failed';
+          return '${I18n.of(ExtendedNavigator.root.context).receiving} ${value.bonusType} ${I18n.of(ExtendedNavigator.root.context).bonus} failed';
         } else if (value.isConfirmed()) {
           return '${I18n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I18n.of(ExtendedNavigator.root.context).bonus}';
         } else {
@@ -208,20 +180,20 @@ abstract class WalletAction implements _$WalletAction {
       },
       send: (value) {
         if (value.isFailed()) {
-          return 'Send to ${formatAddress(value.to)} failed';
+          return '${I18n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I18n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
         } else if (value.isConfirmed()) {
-          return 'Send to ${formatAddress(value.to)} success';
+          return '${I18n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         } else {
-          return 'Send to ${formatAddress(value.to)} pending';
+          return '${I18n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         }
       },
       receive: (value) {
         if (value.isFailed()) {
-          return 'Receive from ${formatAddress(value.from)} failed';
+          return '${I18n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)}  ${I18n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
         } else if (value.isConfirmed()) {
-          return 'Receive from ${formatAddress(value.from)} success';
+          return '${I18n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         } else {
-          return 'Receive from ${formatAddress(value.from)} pending';
+          return '${I18n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         }
       },
       swap: (value) {
@@ -236,7 +208,6 @@ abstract class WalletAction implements _$WalletAction {
   String getSender() {
     return this.map(
       createWallet: (value) => null,
-      fiatProcess: (value) => null,
       joinCommunity: (value) => null,
       fiatDeposit: (value) => value.from,
       bonus: (value) => value.from,
@@ -249,7 +220,6 @@ abstract class WalletAction implements _$WalletAction {
   String getRecipient() {
     return this.map(
       createWallet: (value) => null,
-      fiatProcess: (value) => null,
       joinCommunity: (value) => null,
       fiatDeposit: (value) => value.to,
       bonus: (value) => value.to,
@@ -268,23 +238,6 @@ abstract class WalletAction implements _$WalletAction {
     String status,
     int blockNumber,
   }) = CreateWallet;
-
-  @JsonSerializable()
-  const factory WalletAction.fiatProcess({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String tokenAddress,
-    String from,
-    String to,
-    BigInt value,
-    String tokenName,
-    String tokenSymbol,
-    int tokenDecimal,
-  }) = FiatProcess;
 
   @JsonSerializable()
   const factory WalletAction.fiatDeposit({

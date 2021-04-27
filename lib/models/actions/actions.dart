@@ -46,8 +46,6 @@ class WalletActionFactory {
       return JoinCommunity.fromJson(json);
     } else if (json['name'] == 'sendTokens') {
       return Send.fromJson(json);
-    } else if (json['name'] == 'fiat-processing') {
-      return FiatProcess.fromJson(json);
     } else if (json['name'] == 'fiat-deposit') {
       return FiatDeposit.fromJson(json);
     } else if (json['name'] == 'receiveTokens') {

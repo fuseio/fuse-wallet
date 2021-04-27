@@ -89,11 +89,6 @@ class ImageUrl {
       createWallet: (value) => AssetImage(
         'assets/images/generate_wallet.png',
       ),
-      fiatProcess: (value) => getTokenByAddress(
-                  value.tokenAddress, tokensImages) !=
-              null
-          ? NetworkImage(getTokenByAddress(value.tokenAddress, tokensImages))
-          : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       joinCommunity: (value) =>
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       fiatDeposit: (value) => getTokenByAddress(

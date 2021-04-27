@@ -196,5 +196,12 @@
     "social": "Social",
     "invite_friend": "Invite a friend",
     "follow_us_on_twitter": "Follow us on twitter",
-    "invite_friend_text": "Hey, your friend shared with you the fuse.cash wallet: "
+    "invite_friend_text": "Hey, your friend shared with you the fuse.cash wallet: ",
+    "deposit_failed": "deposit failed",
+    "deposit": "deposit",
+    "receiving": "Receiving",
+    "sent_to": "Send to",
+    "receive_from": "Receive from",
+    "waiting_for_deposit": "Waiting for your deposit to arrive",
+    "please_choose_security": "Please choose how you prefer to unlock the wallet"
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/di/package_info.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -59,76 +58,146 @@ class _AccountScreenState extends State<AccountScreen> {
         converter: AccountViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            padding: EdgeInsets.all(20),
-            child: ListView(
-              children: [
-                Avatar(),
-                MenuTile(
-                  label: I18n.of(context).settings,
-                  menuIcon: 'settings_icon.svg',
-                  onTap: ExtendedNavigator.named('accountRouter')
-                      .pushSettingsScreen,
-                  trailing: SvgPicture.asset(
-                    'assets/images/go_to_pro.svg',
-                    width: 10,
-                    height: 10,
-                  ),
-                ),
-                MenuTile(
-                  label: I18n.of(context).protect_wallet,
-                  menuIcon: 'protect_wallet.svg',
-                  onTap: ExtendedNavigator.named('accountRouter')
-                      .pushProtectYourWallet,
-                  trailing: SvgPicture.asset(
-                    'assets/images/go_to_pro.svg',
-                    width: 10,
-                    height: 10,
-                  ),
-                ),
-                ...pluginsItems(viewModel),
-                Divider(),
-                MenuTile(
-                  label: I18n.of(context).social,
-                  menuIcon: 'social_icon.svg',
-                  onTap:
-                      ExtendedNavigator.named('accountRouter').pushSocialScreen,
-                ),
-                MenuTile(
-                  label: I18n.of(context).contact_us,
-                  menuIcon: 'contact_us_icon.svg',
-                  onTap: () {
-                    final Uri _emailLaunchUri = Uri(
-                      scheme: 'mailto',
-                      path: 'hello@fuse.io',
-                    );
-                    launchUrl(_emailLaunchUri.toString());
-                  },
-                ),
-                MenuTile(
-                  label: I18n.of(context).invite_friend,
-                  menuIcon: 'invite_friend_icon.svg',
-                  onTap: () {
-                    Share.share(
-                      '${I18n.of(context).invite_friend_text} https://app.fuse.cash/NXzV6y1HLfb',
-                    );
-                  },
-                ),
-                Divider(),
-                MenuTile(
-                  label: I18n.of(context).legal,
-                  menuIcon: 'legal_icon.svg',
-                  onTap: () {},
-                ),
-                MenuTile(
-                  label: I18n.of(context).version,
-                  trailing: Text(
-                    "${packageInfo.version} ${(packageInfo.buildNumber)}",
-                    style: TextStyle(color: Color(0xFF7E7E7E)),
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+            ),
+            child: CustomScrollView(
+              slivers: [
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Avatar(),
+                      Column(
+                        children: [
+                          MenuTile(
+                            label: I18n.of(context).settings,
+                            menuIcon: 'settings_icon.svg',
+                            onTap: ExtendedNavigator.named('accountRouter')
+                                .pushSettingsScreen,
+                            trailing: SvgPicture.asset(
+                              'assets/images/go_to_pro.svg',
+                              width: 10,
+                              height: 10,
+                            ),
+                          ),
+                          MenuTile(
+                            label: I18n.of(context).protect_wallet,
+                            menuIcon: 'protect_wallet.svg',
+                            onTap: ExtendedNavigator.named('accountRouter')
+                                .pushProtectYourWallet,
+                            trailing: SvgPicture.asset(
+                              'assets/images/go_to_pro.svg',
+                              width: 10,
+                              height: 10,
+                            ),
+                          ),
+                          ...pluginsItems(viewModel),
+                          // Divider(),
+                          MenuTile(
+                            label: I18n.of(context).social,
+                            menuIcon: 'social_icon.svg',
+                            onTap: ExtendedNavigator.named('accountRouter')
+                                .pushSocialScreen,
+                          ),
+                          MenuTile(
+                            label: I18n.of(context).contact_us,
+                            menuIcon: 'contact_us_icon.svg',
+                            onTap: () {
+                              final Uri _emailLaunchUri = Uri(
+                                scheme: 'mailto',
+                                path: 'hello@fuse.io',
+                              );
+                              launchUrl(_emailLaunchUri.toString());
+                            },
+                          ),
+                          MenuTile(
+                            label: I18n.of(context).invite_friend,
+                            menuIcon: 'invite_friend_icon.svg',
+                            onTap: () {
+                              Share.share(
+                                '${I18n.of(context).invite_friend_text} https://app.fuse.cash/NXzV6y1HLfb',
+                              );
+                            },
+                          ),
+                          // Divider(),
+                          MenuTile(
+                            label: I18n.of(context).legal,
+                            menuIcon: 'legal_icon.svg',
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           );
+          // return Container(
+          //   padding: EdgeInsets.all(20),
+          //   child: ListView(
+          //     children: [
+          //       Avatar(),
+          //       MenuTile(
+          //         label: I18n.of(context).settings,
+          //         menuIcon: 'settings_icon.svg',
+          //         onTap: ExtendedNavigator.named('accountRouter')
+          //             .pushSettingsScreen,
+          //         trailing: SvgPicture.asset(
+          //           'assets/images/go_to_pro.svg',
+          //           width: 10,
+          //           height: 10,
+          //         ),
+          //       ),
+          //       MenuTile(
+          //         label: I18n.of(context).protect_wallet,
+          //         menuIcon: 'protect_wallet.svg',
+          //         onTap: ExtendedNavigator.named('accountRouter')
+          //             .pushProtectYourWallet,
+          //         trailing: SvgPicture.asset(
+          //           'assets/images/go_to_pro.svg',
+          //           width: 10,
+          //           height: 10,
+          //         ),
+          //       ),
+          //       ...pluginsItems(viewModel),
+          //       // Divider(),
+          //       MenuTile(
+          //         label: I18n.of(context).social,
+          //         menuIcon: 'social_icon.svg',
+          //         onTap:
+          //             ExtendedNavigator.named('accountRouter').pushSocialScreen,
+          //       ),
+          //       MenuTile(
+          //         label: I18n.of(context).contact_us,
+          //         menuIcon: 'contact_us_icon.svg',
+          //         onTap: () {
+          //           final Uri _emailLaunchUri = Uri(
+          //             scheme: 'mailto',
+          //             path: 'hello@fuse.io',
+          //           );
+          //           launchUrl(_emailLaunchUri.toString());
+          //         },
+          //       ),
+          //       MenuTile(
+          //         label: I18n.of(context).invite_friend,
+          //         menuIcon: 'invite_friend_icon.svg',
+          //         onTap: () {
+          //           Share.share(
+          //             '${I18n.of(context).invite_friend_text} https://app.fuse.cash/NXzV6y1HLfb',
+          //           );
+          //         },
+          //       ),
+          //       // Divider(),
+          //       MenuTile(
+          //         label: I18n.of(context).legal,
+          //         menuIcon: 'legal_icon.svg',
+          //         onTap: () {},
+          //       ),
+          //     ],
+          //   ),
+          // );
         },
       ),
     );

@@ -66,34 +66,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Stack(
                                       children: [
                                         Positioned.fill(
-                                            child: ![
-                                          null,
-                                          ''
-                                        ].contains(viewModel.avatarUrl)
-                                                ? CachedNetworkImage(
-                                                    imageUrl:
-                                                        viewModel.avatarUrl,
-                                                    placeholder: (context,
-                                                            url) =>
-                                                        CircularProgressIndicator(),
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        Image.asset(
-                                                            'assets/images/anom.png',
-                                                            width: 40,
-                                                            height: 40),
-                                                    imageBuilder: (context,
-                                                            imageProvider) =>
-                                                        Image(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  )
-                                                : CircleAvatar(
-                                                    backgroundImage: new AssetImage(
-                                                        'assets/images/anom.png'),
-                                                    radius: 30,
-                                                  )),
+                                          child: CachedNetworkImage(
+                                            width: 60,
+                                            height: 60,
+                                            imageUrl: viewModel.avatarUrl,
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                  'assets/images/anom.png'),
+                                              radius: 30,
+                                            ),
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Image(
+                                              image: imageProvider,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
                                         Positioned.directional(
                                             textDirection: TextDirection.ltr,
                                             bottom: 0,

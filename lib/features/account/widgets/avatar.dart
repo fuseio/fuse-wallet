@@ -18,90 +18,95 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AccountViewModel>(
-        distinct: true,
-        converter: AccountViewModel.fromStore,
-        builder: (_, viewModel) {
-          return Column(
-            children: [
-              GestureDetector(
-                onTap:
-                    ExtendedNavigator.named('accountRouter').pushProfileScreen,
-                child: SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Container(
-                      color: Colors.grey[400],
-                      child: CachedNetworkImage(
-                        imageUrl: viewModel?.avatarUrl,
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => CircleAvatar(
-                          backgroundImage: AssetImage('assets/images/anom.png'),
-                          radius: 30,
-                        ),
-                        imageBuilder: (context, imageProvider) => Image(
-                          image: imageProvider,
-                          fit: BoxFit.fill,
-                        ),
+      distinct: true,
+      converter: AccountViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+          ),
+          child: InkWell(
+            onTap: ExtendedNavigator.named('accountRouter').pushProfileScreen,
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    color: Colors.grey[400],
+                    child: CachedNetworkImage(
+                      width: 60,
+                      height: 60,
+                      imageUrl: viewModel?.avatarUrl,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/anom.png'),
+                        radius: 30,
+                      ),
+                      imageBuilder: (context, imageProvider) => Image(
+                        image: imageProvider,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    viewModel?.displayName ?? '',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      viewModel?.displayName ?? '',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 2),
-                  Icon(
-                    Icons.edit,
-                    size: 20,
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Button(
-                    text: formatAddress(viewModel.walletAddress, 3),
-                    icon: 'copy',
-                    iconHeight: 12,
-                    onPressed: () {
-                      Clipboard.setData(
-                        ClipboardData(text: viewModel?.walletAddress),
-                      );
-                      showCopiedFlushbar(context);
-                    },
-                  ),
-                  Button(
-                    text: I18n.of(context).receive,
-                    icon: 'receiveIcon',
-                    iconHeight: 12,
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => ReceiveDialog(
-                          'fuse:${viewModel?.walletAddress}',
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
-          );
-        });
+                    SizedBox(width: 2),
+                    Icon(
+                      Icons.edit,
+                      size: 20,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Button(
+                        text: formatAddress(viewModel.walletAddress, 4),
+                        icon: 'copy',
+                        onPressed: () {
+                          Clipboard.setData(
+                            ClipboardData(text: viewModel?.walletAddress),
+                          );
+                          showCopiedFlushbar(context);
+                        },
+                      ),
+                    ),
+                    Flexible(
+                      child: Button(
+                        text: I18n.of(context).receive,
+                        icon: 'receiveIcon',
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => ReceiveDialog(
+                              'fuse:${viewModel?.walletAddress}',
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

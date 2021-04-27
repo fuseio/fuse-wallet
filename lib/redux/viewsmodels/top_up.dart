@@ -44,7 +44,6 @@ class TopUpViewModel extends Equatable {
                     element is Swap ||
                     element.map(
                       createWallet: (value) => false,
-                      fiatProcess: (value) => false,
                       fiatDeposit: (value) => true,
                       joinCommunity: (value) => false,
                       bonus: (value) => false,

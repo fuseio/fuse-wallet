@@ -428,6 +428,20 @@ class I18n implements WidgetsLocalizations {
   String get follow_us_on_twitter => "Follow us on twitter";
   /// "Hey, your friend shared with you the fuse.cash wallet: "
   String get invite_friend_text => "Hey, your friend shared with you the fuse.cash wallet: ";
+  /// "deposit failed"
+  String get deposit_failed => "deposit failed";
+  /// "deposit"
+  String get deposit => "deposit";
+  /// "Receiving"
+  String get receiving => "Receiving";
+  /// "Send to"
+  String get sent_to => "Send to";
+  /// "Receive from"
+  String get receive_from => "Receive from";
+  /// "Waiting for your deposit to arrive"
+  String get waiting_for_deposit => "Waiting for your deposit to arrive";
+  /// "Please choose how you prefer to unlock the wallet"
+  String get please_choose_security => "Please choose how you prefer to unlock the wallet";
 }
 
 class _I18n_en_US extends I18n {

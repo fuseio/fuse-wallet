@@ -37,7 +37,6 @@ class ActionDetailsScreen extends StatelessWidget {
         DateTime.fromMillisecondsSinceEpoch(action.timestamp);
     final String name = action.map(
       createWallet: (_) => '',
-      fiatProcess: (_) => '',
       joinCommunity: (_) => '',
       fiatDeposit: (_) => I18n.of(context).from,
       bonus: (_) => I18n.of(context).from,
@@ -48,7 +47,6 @@ class ActionDetailsScreen extends StatelessWidget {
 
     final String title = action.map(
       createWallet: (_) => '',
-      fiatProcess: (_) => '',
       joinCommunity: (_) => '',
       fiatDeposit: (_) => '',
       bonus: (_) => I18n.of(context).bonus,
@@ -63,7 +61,6 @@ class ActionDetailsScreen extends StatelessWidget {
       builder: (_, viewModel) {
         final Token token = action.map(
           createWallet: (value) => null,
-          fiatProcess: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
               viewModel?.tokens[fuseDollarToken.address.toLowerCase()] ?? null,
@@ -177,7 +174,6 @@ class ActionDetailsScreen extends StatelessWidget {
                                     action.isSwapAction()
                                         ? action.map(
                                             createWallet: (value) => '',
-                                            fiatProcess: (value) => '',
                                             joinCommunity: (value) => '',
                                             fiatDeposit: (value) => '',
                                             bonus: (value) => '',
@@ -230,7 +226,6 @@ class ActionDetailsScreen extends StatelessWidget {
                               I18n.of(context).receive,
                               action.map(
                                 createWallet: (value) => '',
-                                fiatProcess: (value) => '',
                                 joinCommunity: (value) => '',
                                 fiatDeposit: (value) => '',
                                 bonus: (value) => '',

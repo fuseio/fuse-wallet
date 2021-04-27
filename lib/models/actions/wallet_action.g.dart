@@ -27,41 +27,6 @@ Map<String, dynamic> _$_$CreateWalletToJson(_$CreateWallet instance) =>
       'blockNumber': instance.blockNumber,
     };
 
-_$FiatProcess _$_$FiatProcessFromJson(Map<String, dynamic> json) {
-  return _$FiatProcess(
-    timestamp: json['timestamp'] as int,
-    id: json['_id'] as String,
-    name: json['name'] as String,
-    txHash: json['txHash'] as String,
-    status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
-    tokenAddress: json['tokenAddress'] as String,
-    from: json['from'] as String,
-    to: json['to'] as String,
-    value: json['value'] == null ? null : BigInt.parse(json['value'] as String),
-    tokenName: json['tokenName'] as String,
-    tokenSymbol: json['tokenSymbol'] as String,
-    tokenDecimal: json['tokenDecimal'] as int,
-  );
-}
-
-Map<String, dynamic> _$_$FiatProcessToJson(_$FiatProcess instance) =>
-    <String, dynamic>{
-      'timestamp': instance.timestamp,
-      '_id': instance.id,
-      'name': instance.name,
-      'txHash': instance.txHash,
-      'status': instance.status,
-      'blockNumber': instance.blockNumber,
-      'tokenAddress': instance.tokenAddress,
-      'from': instance.from,
-      'to': instance.to,
-      'value': instance.value?.toString(),
-      'tokenName': instance.tokenName,
-      'tokenSymbol': instance.tokenSymbol,
-      'tokenDecimal': instance.tokenDecimal,
-    };
-
 _$FiatDeposit _$_$FiatDepositFromJson(Map<String, dynamic> json) {
   return _$FiatDeposit(
     timestamp: json['timestamp'] as int,

@@ -27,7 +27,6 @@ class MenuTile extends StatelessWidget {
         children: <Widget>[
           SvgPicture.asset(
             'assets/images/$menuIcon',
-            width: 15,
           ),
           SizedBox(
             width: 20,

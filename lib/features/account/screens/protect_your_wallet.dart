@@ -3,10 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/features/screens/set_up_pincode.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/redux/viewsmodels/security.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -40,9 +39,9 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I18n.of(context).protect_wallet,
-      body: StoreConnector<AppState, _SecurityViewModel>(
+      body: StoreConnector<AppState, SecurityViewModel>(
         distinct: true,
-        converter: _SecurityViewModel.fromStore,
+        converter: SecurityViewModel.fromStore,
         builder: (_, viewModel) {
           final isBiometric = viewModel.authType == BiometricAuth.faceID ||
               viewModel.authType == BiometricAuth.touchID;
@@ -52,6 +51,25 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
               shrinkWrap: true,
               primary: false,
               children: <Widget>[
+                MenuTile(
+                  label: I18n.of(context).back_up,
+                  menuIcon: 'backup_icon.svg',
+                  onTap:
+                      ExtendedNavigator.named('accountRouter').pushShowMnemonic,
+                  trailing: SvgPicture.asset(
+                    viewModel.isBackup
+                        ? 'assets/images/go_to_pro.svg'
+                        : 'assets/images/back_up_icon.svg',
+                  ),
+                ),
+                Divider(),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 20,
+                    bottom: 20,
+                  ),
+                  child: Text(I18n.of(context).please_choose_security),
+                ),
                 MenuTile(
                   label: BiometricUtils.getBiometricString(
                     _biometricType,
@@ -101,38 +119,11 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                     );
                   },
                 ),
-                Divider(),
-                MenuTile(
-                  label: I18n.of(context).back_up,
-                  menuIcon: 'backup_icon.svg',
-                  onTap:
-                      ExtendedNavigator.named('accountRouter').pushShowMnemonic,
-                  trailing: SvgPicture.asset(
-                    'assets/images/go_to_pro.svg',
-                    width: 10,
-                    height: 10,
-                  ),
-                ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-}
-
-class _SecurityViewModel {
-  final Function(BiometricAuth) setSecurityType;
-  final BiometricAuth authType;
-  _SecurityViewModel({this.setSecurityType, this.authType});
-
-  static _SecurityViewModel fromStore(Store<AppState> store) {
-    return _SecurityViewModel(
-      authType: store.state.userState.authType,
-      setSecurityType: (biometricAuth) {
-        store.dispatch(SetSecurityType(biometricAuth: biometricAuth));
-      },
     );
   }
 }

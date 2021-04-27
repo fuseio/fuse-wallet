@@ -48,7 +48,6 @@ class ActionTile extends StatelessWidget {
         );
         final Community community = action.map(
           createWallet: (value) => null,
-          fiatProcess: (value) => null,
           joinCommunity: (value) =>
               viewModel.communities[value.communityAddress.toLowerCase()],
           fiatDeposit: (value) =>
@@ -71,7 +70,6 @@ class ActionTile extends StatelessWidget {
 
         final Token token = action.map(
           createWallet: (value) => null,
-          fiatProcess: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
               viewModel?.tokens[fuseDollarToken.address.toLowerCase()] ?? null,
@@ -89,7 +87,6 @@ class ActionTile extends StatelessWidget {
             ![null, '', '0', 0].contains(token?.priceInfo?.quote);
         final String displayName = action.map(
           createWallet: (value) => value.getText(),
-          fiatProcess: (value) => value.getText(),
           joinCommunity: (value) => value.getText(),
           fiatDeposit: (value) => value.getText(),
           bonus: (value) => value.getText(),
@@ -125,7 +122,6 @@ class ActionTile extends StatelessWidget {
         );
         final String symbol = action.map(
           createWallet: (value) => '',
-          fiatProcess: (value) => '',
           joinCommunity: (value) => '',
           fiatDeposit: (value) => value.tokenSymbol,
           bonus: (value) => token?.symbol,
@@ -249,7 +245,6 @@ class ActionTile extends StatelessWidget {
                 ? Text(
                     action.map(
                       createWallet: (value) => '',
-                      fiatProcess: (value) => '',
                       joinCommunity: (value) =>
                           viewModel.tokens[value?.tokenAddress?.toLowerCase()]
                               .symbol ??
@@ -340,7 +335,6 @@ class ActionTile extends StatelessWidget {
                       Text(
                         action.map(
                           createWallet: (value) => '',
-                          fiatProcess: (value) => '',
                           joinCommunity: (value) => '',
                           fiatDeposit: (value) => '',
                           bonus: (value) => '',
@@ -370,7 +364,6 @@ class ActionTile extends StatelessWidget {
                         child: AutoSizeText(
                           action.map(
                             createWallet: (value) => '',
-                            fiatProcess: (value) => '',
                             joinCommunity: (value) => '',
                             fiatDeposit: (value) => '',
                             bonus: (value) => '',
@@ -411,7 +404,6 @@ class ActionTile extends StatelessWidget {
                 ? AutoSizeText(
                     action.map(
                           createWallet: (value) => '',
-                          fiatProcess: (value) => '',
                           joinCommunity: (value) => '',
                           fiatDeposit: (value) => '',
                           bonus: (value) => '',
@@ -425,7 +417,6 @@ class ActionTile extends StatelessWidget {
                         ' ${I18n.of(context).to.toLowerCase()} ' +
                         action.map(
                           createWallet: (value) => '',
-                          fiatProcess: (value) => '',
                           joinCommunity: (value) => '',
                           fiatDeposit: (value) => '',
                           bonus: (value) => '',

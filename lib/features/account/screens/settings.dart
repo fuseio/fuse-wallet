@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/common/di/package_info.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -31,6 +32,15 @@ class SettingsScreen extends StatelessWidget {
                     viewModel.logout();
                     ExtendedNavigator.root.replace(Routes.onBoardScreen);
                   },
+                ),
+                Divider(),
+                MenuTile(
+                  label: I18n.of(context).version,
+                  menuIcon: 'app_version.svg',
+                  trailing: Text(
+                    "${packageInfo.version} ${(packageInfo.buildNumber)}",
+                    style: TextStyle(color: Color(0xFF7E7E7E)),
+                  ),
                 ),
               ],
             ),

@@ -23,14 +23,10 @@ class Button extends StatelessWidget {
     this.text,
     this.icon,
     this.width,
-    this.iconHeight = 14,
-    this.iconWidth = 14,
   }) : super(key: key);
   final void Function() onPressed;
   final String text;
   final String icon;
-  final double iconHeight;
-  final double iconWidth;
   final double width;
   @override
   Widget build(BuildContext context) {
@@ -49,34 +45,29 @@ class Button extends StatelessWidget {
         padding: EdgeInsets.all(15.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Flexible(
-              child: SvgPicture.asset(
-                'assets/images/$icon.svg',
-                height: iconHeight,
-                width: iconWidth,
-              ),
+            SvgPicture.asset(
+              'assets/images/$icon.svg',
             ),
             SizedBox(
-              width: 5,
+              width: 10,
             ),
-            Expanded(
-              flex: 4,
+            Flexible(
               child: AutoSizeText(
                 text,
                 style: TextStyle(
+                  letterSpacing: 0.3,
                   // fontSize: 20,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 maxLines: 1,
                 presetFontSizes: [
-                  // 20,
+                  20,
                   17,
                   // 15,
                   // 12,
                 ],
-                // maxFontSize: 20,
-                // minFontSize: 15,
               ),
             )
           ],

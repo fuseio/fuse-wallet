@@ -12,8 +12,6 @@ WalletAction _$WalletActionFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType'] as String) {
     case 'createWallet':
       return CreateWallet.fromJson(json);
-    case 'fiatProcess':
-      return FiatProcess.fromJson(json);
     case 'fiatDeposit':
       return FiatDeposit.fromJson(json);
     case 'joinCommunity':
@@ -51,38 +49,6 @@ class _$WalletActionTearOff {
       txHash: txHash,
       status: status,
       blockNumber: blockNumber,
-    );
-  }
-
-// ignore: unused_element
-  FiatProcess fiatProcess(
-      {int timestamp,
-      @JsonKey(name: '_id') String id,
-      String name,
-      String txHash,
-      String status,
-      int blockNumber,
-      String tokenAddress,
-      String from,
-      String to,
-      BigInt value,
-      String tokenName,
-      String tokenSymbol,
-      int tokenDecimal}) {
-    return FiatProcess(
-      timestamp: timestamp,
-      id: id,
-      name: name,
-      txHash: txHash,
-      status: status,
-      blockNumber: blockNumber,
-      tokenAddress: tokenAddress,
-      from: from,
-      to: to,
-      value: value,
-      tokenName: tokenName,
-      tokenSymbol: tokenSymbol,
-      tokenDecimal: tokenDecimal,
     );
   }
 
@@ -286,21 +252,6 @@ mixin _$WalletAction {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -386,20 +337,6 @@ mixin _$WalletAction {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -480,7 +417,6 @@ mixin _$WalletAction {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -491,7 +427,6 @@ mixin _$WalletAction {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -672,21 +607,6 @@ class _$CreateWallet extends CreateWallet {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -769,7 +689,6 @@ class _$CreateWallet extends CreateWallet {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -784,20 +703,6 @@ class _$CreateWallet extends CreateWallet {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -886,7 +791,6 @@ class _$CreateWallet extends CreateWallet {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -895,7 +799,6 @@ class _$CreateWallet extends CreateWallet {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -909,7 +812,6 @@ class _$CreateWallet extends CreateWallet {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -960,507 +862,6 @@ abstract class CreateWallet extends WalletAction {
   @override
   @JsonKey(ignore: true)
   $CreateWalletCopyWith<CreateWallet> get copyWith;
-}
-
-/// @nodoc
-abstract class $FiatProcessCopyWith<$Res>
-    implements $WalletActionCopyWith<$Res> {
-  factory $FiatProcessCopyWith(
-          FiatProcess value, $Res Function(FiatProcess) then) =
-      _$FiatProcessCopyWithImpl<$Res>;
-  @override
-  $Res call(
-      {int timestamp,
-      @JsonKey(name: '_id') String id,
-      String name,
-      String txHash,
-      String status,
-      int blockNumber,
-      String tokenAddress,
-      String from,
-      String to,
-      BigInt value,
-      String tokenName,
-      String tokenSymbol,
-      int tokenDecimal});
-}
-
-/// @nodoc
-class _$FiatProcessCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
-    implements $FiatProcessCopyWith<$Res> {
-  _$FiatProcessCopyWithImpl(
-      FiatProcess _value, $Res Function(FiatProcess) _then)
-      : super(_value, (v) => _then(v as FiatProcess));
-
-  @override
-  FiatProcess get _value => super._value as FiatProcess;
-
-  @override
-  $Res call({
-    Object timestamp = freezed,
-    Object id = freezed,
-    Object name = freezed,
-    Object txHash = freezed,
-    Object status = freezed,
-    Object blockNumber = freezed,
-    Object tokenAddress = freezed,
-    Object from = freezed,
-    Object to = freezed,
-    Object value = freezed,
-    Object tokenName = freezed,
-    Object tokenSymbol = freezed,
-    Object tokenDecimal = freezed,
-  }) {
-    return _then(FiatProcess(
-      timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
-      id: id == freezed ? _value.id : id as String,
-      name: name == freezed ? _value.name : name as String,
-      txHash: txHash == freezed ? _value.txHash : txHash as String,
-      status: status == freezed ? _value.status : status as String,
-      blockNumber:
-          blockNumber == freezed ? _value.blockNumber : blockNumber as int,
-      tokenAddress: tokenAddress == freezed
-          ? _value.tokenAddress
-          : tokenAddress as String,
-      from: from == freezed ? _value.from : from as String,
-      to: to == freezed ? _value.to : to as String,
-      value: value == freezed ? _value.value : value as BigInt,
-      tokenName: tokenName == freezed ? _value.tokenName : tokenName as String,
-      tokenSymbol:
-          tokenSymbol == freezed ? _value.tokenSymbol : tokenSymbol as String,
-      tokenDecimal:
-          tokenDecimal == freezed ? _value.tokenDecimal : tokenDecimal as int,
-    ));
-  }
-}
-
-@JsonSerializable()
-
-/// @nodoc
-class _$FiatProcess extends FiatProcess {
-  const _$FiatProcess(
-      {this.timestamp,
-      @JsonKey(name: '_id') this.id,
-      this.name,
-      this.txHash,
-      this.status,
-      this.blockNumber,
-      this.tokenAddress,
-      this.from,
-      this.to,
-      this.value,
-      this.tokenName,
-      this.tokenSymbol,
-      this.tokenDecimal})
-      : super._();
-
-  factory _$FiatProcess.fromJson(Map<String, dynamic> json) =>
-      _$_$FiatProcessFromJson(json);
-
-  @override
-  final int timestamp;
-  @override
-  @JsonKey(name: '_id')
-  final String id;
-  @override
-  final String name;
-  @override
-  final String txHash;
-  @override
-  final String status;
-  @override
-  final int blockNumber;
-  @override
-  final String tokenAddress;
-  @override
-  final String from;
-  @override
-  final String to;
-  @override
-  final BigInt value;
-  @override
-  final String tokenName;
-  @override
-  final String tokenSymbol;
-  @override
-  final int tokenDecimal;
-
-  @override
-  String toString() {
-    return 'WalletAction.fiatProcess(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress, from: $from, to: $to, value: $value, tokenName: $tokenName, tokenSymbol: $tokenSymbol, tokenDecimal: $tokenDecimal)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is FiatProcess &&
-            (identical(other.timestamp, timestamp) ||
-                const DeepCollectionEquality()
-                    .equals(other.timestamp, timestamp)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.txHash, txHash) ||
-                const DeepCollectionEquality().equals(other.txHash, txHash)) &&
-            (identical(other.status, status) ||
-                const DeepCollectionEquality().equals(other.status, status)) &&
-            (identical(other.blockNumber, blockNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.blockNumber, blockNumber)) &&
-            (identical(other.tokenAddress, tokenAddress) ||
-                const DeepCollectionEquality()
-                    .equals(other.tokenAddress, tokenAddress)) &&
-            (identical(other.from, from) ||
-                const DeepCollectionEquality().equals(other.from, from)) &&
-            (identical(other.to, to) ||
-                const DeepCollectionEquality().equals(other.to, to)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)) &&
-            (identical(other.tokenName, tokenName) ||
-                const DeepCollectionEquality()
-                    .equals(other.tokenName, tokenName)) &&
-            (identical(other.tokenSymbol, tokenSymbol) ||
-                const DeepCollectionEquality()
-                    .equals(other.tokenSymbol, tokenSymbol)) &&
-            (identical(other.tokenDecimal, tokenDecimal) ||
-                const DeepCollectionEquality()
-                    .equals(other.tokenDecimal, tokenDecimal)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(timestamp) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(txHash) ^
-      const DeepCollectionEquality().hash(status) ^
-      const DeepCollectionEquality().hash(blockNumber) ^
-      const DeepCollectionEquality().hash(tokenAddress) ^
-      const DeepCollectionEquality().hash(from) ^
-      const DeepCollectionEquality().hash(to) ^
-      const DeepCollectionEquality().hash(value) ^
-      const DeepCollectionEquality().hash(tokenName) ^
-      const DeepCollectionEquality().hash(tokenSymbol) ^
-      const DeepCollectionEquality().hash(tokenDecimal);
-
-  @JsonKey(ignore: true)
-  @override
-  $FiatProcessCopyWith<FiatProcess> get copyWith =>
-      _$FiatProcessCopyWithImpl<FiatProcess>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required
-        TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String txHash, String status, int blockNumber),
-    @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
-        TResult fiatDeposit(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenSymbol,
-            String tokenName,
-            int tokenDecimal),
-    @required
-        TResult joinCommunity(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String communityAddress,
-            String tokenAddress,
-            String communityName),
-    @required
-        TResult bonus(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal,
-            String bonusType),
-    @required
-        TResult send(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
-        TResult receive(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
-        TResult swap(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            @JsonKey(name: 'metadata') TradeInfo tradeInfo),
-  }) {
-    assert(createWallet != null);
-    assert(fiatProcess != null);
-    assert(fiatDeposit != null);
-    assert(joinCommunity != null);
-    assert(bonus != null);
-    assert(send != null);
-    assert(receive != null);
-    assert(swap != null);
-    return fiatProcess(timestamp, id, name, txHash, status, blockNumber,
-        tokenAddress, from, to, value, tokenName, tokenSymbol, tokenDecimal);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
-        String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
-    TResult fiatDeposit(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenSymbol,
-        String tokenName,
-        int tokenDecimal),
-    TResult joinCommunity(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String communityAddress,
-        String tokenAddress,
-        String communityName),
-    TResult bonus(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal,
-        String bonusType),
-    TResult send(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
-    TResult receive(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
-    TResult swap(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        @JsonKey(name: 'metadata') TradeInfo tradeInfo),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (fiatProcess != null) {
-      return fiatProcess(timestamp, id, name, txHash, status, blockNumber,
-          tokenAddress, from, to, value, tokenName, tokenSymbol, tokenDecimal);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
-    @required TResult fiatDeposit(FiatDeposit value),
-    @required TResult joinCommunity(JoinCommunity value),
-    @required TResult bonus(Bonus value),
-    @required TResult send(Send value),
-    @required TResult receive(Receive value),
-    @required TResult swap(Swap value),
-  }) {
-    assert(createWallet != null);
-    assert(fiatProcess != null);
-    assert(fiatDeposit != null);
-    assert(joinCommunity != null);
-    assert(bonus != null);
-    assert(send != null);
-    assert(receive != null);
-    assert(swap != null);
-    return fiatProcess(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
-    TResult fiatDeposit(FiatDeposit value),
-    TResult joinCommunity(JoinCommunity value),
-    TResult bonus(Bonus value),
-    TResult send(Send value),
-    TResult receive(Receive value),
-    TResult swap(Swap value),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (fiatProcess != null) {
-      return fiatProcess(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$_$FiatProcessToJson(this)..['runtimeType'] = 'fiatProcess';
-  }
-}
-
-abstract class FiatProcess extends WalletAction {
-  const FiatProcess._() : super._();
-  const factory FiatProcess(
-      {int timestamp,
-      @JsonKey(name: '_id') String id,
-      String name,
-      String txHash,
-      String status,
-      int blockNumber,
-      String tokenAddress,
-      String from,
-      String to,
-      BigInt value,
-      String tokenName,
-      String tokenSymbol,
-      int tokenDecimal}) = _$FiatProcess;
-
-  factory FiatProcess.fromJson(Map<String, dynamic> json) =
-      _$FiatProcess.fromJson;
-
-  @override
-  int get timestamp;
-  @override
-  @JsonKey(name: '_id')
-  String get id;
-  @override
-  String get name;
-  @override
-  String get txHash;
-  @override
-  String get status;
-  @override
-  int get blockNumber;
-  String get tokenAddress;
-  String get from;
-  String get to;
-  BigInt get value;
-  String get tokenName;
-  String get tokenSymbol;
-  int get tokenDecimal;
-  @override
-  @JsonKey(ignore: true)
-  $FiatProcessCopyWith<FiatProcess> get copyWith;
 }
 
 /// @nodoc
@@ -1658,21 +1059,6 @@ class _$FiatDeposit extends FiatDeposit {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -1755,7 +1141,6 @@ class _$FiatDeposit extends FiatDeposit {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -1771,20 +1156,6 @@ class _$FiatDeposit extends FiatDeposit {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -1874,7 +1245,6 @@ class _$FiatDeposit extends FiatDeposit {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -1883,7 +1253,6 @@ class _$FiatDeposit extends FiatDeposit {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -1897,7 +1266,6 @@ class _$FiatDeposit extends FiatDeposit {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -2124,21 +1492,6 @@ class _$JoinCommunity extends JoinCommunity {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -2221,7 +1574,6 @@ class _$JoinCommunity extends JoinCommunity {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -2237,20 +1589,6 @@ class _$JoinCommunity extends JoinCommunity {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -2340,7 +1678,6 @@ class _$JoinCommunity extends JoinCommunity {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -2349,7 +1686,6 @@ class _$JoinCommunity extends JoinCommunity {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -2363,7 +1699,6 @@ class _$JoinCommunity extends JoinCommunity {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -2624,21 +1959,6 @@ class _$Bonus extends Bonus {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -2721,7 +2041,6 @@ class _$Bonus extends Bonus {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -2737,20 +2056,6 @@ class _$Bonus extends Bonus {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -2853,7 +2158,6 @@ class _$Bonus extends Bonus {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -2862,7 +2166,6 @@ class _$Bonus extends Bonus {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -2876,7 +2179,6 @@ class _$Bonus extends Bonus {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -3135,21 +2437,6 @@ class _$Send extends Send {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -3232,7 +2519,6 @@ class _$Send extends Send {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -3248,20 +2534,6 @@ class _$Send extends Send {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -3351,7 +2623,6 @@ class _$Send extends Send {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -3360,7 +2631,6 @@ class _$Send extends Send {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -3374,7 +2644,6 @@ class _$Send extends Send {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -3632,21 +2901,6 @@ class _$Receive extends Receive {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -3729,7 +2983,6 @@ class _$Receive extends Receive {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -3745,20 +2998,6 @@ class _$Receive extends Receive {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -3848,7 +3087,6 @@ class _$Receive extends Receive {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -3857,7 +3095,6 @@ class _$Receive extends Receive {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -3871,7 +3108,6 @@ class _$Receive extends Receive {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
@@ -4081,21 +3317,6 @@ class _$Swap extends Swap {
         TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
             String name, String txHash, String status, int blockNumber),
     @required
-        TResult fiatProcess(
-            int timestamp,
-            @JsonKey(name: '_id') String id,
-            String name,
-            String txHash,
-            String status,
-            int blockNumber,
-            String tokenAddress,
-            String from,
-            String to,
-            BigInt value,
-            String tokenName,
-            String tokenSymbol,
-            int tokenDecimal),
-    @required
         TResult fiatDeposit(
             int timestamp,
             @JsonKey(name: '_id') String id,
@@ -4178,7 +3399,6 @@ class _$Swap extends Swap {
             @JsonKey(name: 'metadata') TradeInfo tradeInfo),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -4193,20 +3413,6 @@ class _$Swap extends Swap {
   TResult maybeWhen<TResult extends Object>({
     TResult createWallet(int timestamp, @JsonKey(name: '_id') String id,
         String name, String txHash, String status, int blockNumber),
-    TResult fiatProcess(
-        int timestamp,
-        @JsonKey(name: '_id') String id,
-        String name,
-        String txHash,
-        String status,
-        int blockNumber,
-        String tokenAddress,
-        String from,
-        String to,
-        BigInt value,
-        String tokenName,
-        String tokenSymbol,
-        int tokenDecimal),
     TResult fiatDeposit(
         int timestamp,
         @JsonKey(name: '_id') String id,
@@ -4295,7 +3501,6 @@ class _$Swap extends Swap {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult createWallet(CreateWallet value),
-    @required TResult fiatProcess(FiatProcess value),
     @required TResult fiatDeposit(FiatDeposit value),
     @required TResult joinCommunity(JoinCommunity value),
     @required TResult bonus(Bonus value),
@@ -4304,7 +3509,6 @@ class _$Swap extends Swap {
     @required TResult swap(Swap value),
   }) {
     assert(createWallet != null);
-    assert(fiatProcess != null);
     assert(fiatDeposit != null);
     assert(joinCommunity != null);
     assert(bonus != null);
@@ -4318,7 +3522,6 @@ class _$Swap extends Swap {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult createWallet(CreateWallet value),
-    TResult fiatProcess(FiatProcess value),
     TResult fiatDeposit(FiatDeposit value),
     TResult joinCommunity(JoinCommunity value),
     TResult bonus(Bonus value),
