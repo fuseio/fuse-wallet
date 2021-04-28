@@ -32,7 +32,11 @@ abstract class Token implements _$Token {
     @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
   }) = _Token;
 
-  String getBalance() => formatValue(amount, decimals);
+  String getBalance([withPrecision = false]) => formatValue(
+        amount,
+        decimals,
+        withPrecision: withPrecision,
+      );
   String getFiatBalance() => getFiatValue(
         amount,
         decimals,

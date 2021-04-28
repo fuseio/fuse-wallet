@@ -130,31 +130,22 @@ class TokenTile extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: (token.imageUrl != null &&
-                                  token.imageUrl.isNotEmpty ||
-                              viewModel.tokensImages
-                                  .containsKey(token?.address?.toLowerCase()))
-                          ? CachedNetworkImage(
-                              width: 35,
-                              height: 35,
-                              imageUrl: viewModel.tokensImages.containsKey(
-                                      token?.address?.toLowerCase())
-                                  ? viewModel?.tokensImages[
-                                      token?.address?.toLowerCase()]
-                                  : token?.imageUrl,
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => DefaultLogo(
-                                symbol: token?.symbol,
-                                width: 35,
-                                height: 35,
-                              ),
-                            )
-                          : DefaultLogo(
-                              symbol: token?.symbol,
-                              width: symbolWidth,
-                              height: symbolHeight,
-                            ),
+                      child: CachedNetworkImage(
+                        width: 35,
+                        height: 35,
+                        imageUrl: viewModel.tokensImages
+                                .containsKey(token?.address?.toLowerCase())
+                            ? viewModel
+                                ?.tokensImages[token?.address?.toLowerCase()]
+                            : token?.imageUrl,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => DefaultLogo(
+                          symbol: token?.symbol,
+                          width: symbolWidth,
+                          height: symbolHeight,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       width: 10,
@@ -302,7 +293,6 @@ class TokenTile extends StatelessWidget {
     return StoreConnector<AppState, TokenTileViewModel>(
       distinct: true,
       converter: TokenTileViewModel.fromStore,
-      onWillChange: (previousViewModel, newViewModel) {},
       builder: (_, viewModel) {
         final bool hasPriceInfo =
             ![null, '', '0', 0].contains(token?.priceInfo?.quote);
@@ -313,7 +303,7 @@ class TokenTile extends StatelessWidget {
           (element) =>
               element?.homeTokenAddress?.toLowerCase() != null &&
               element?.homeTokenAddress?.toLowerCase() == token?.address &&
-              ![false, null].contains(element.metadata.isDefaultImage),
+              ![false, null].contains(element?.metadata?.isDefaultImage),
         );
         final Widget leading = Stack(
           alignment: Alignment.center,

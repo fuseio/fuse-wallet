@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/features/screens/webview_screen.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'dart:core';
 
@@ -95,7 +96,17 @@ class SignUpDialogState extends State<SignUpDialog>
                     focusColor: Theme.of(context).canvasColor,
                     highlightColor: Theme.of(context).canvasColor,
                     onTap: () {
-                      // TODO - link to privacy policy
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WebViewScreen(
+                            title: I18n.of(context).legal,
+                            withBack: true,
+                            url: 'https://fuse.cash/privacy',
+                          ),
+                          fullscreenDialog: true,
+                        ),
+                      );
                     },
                     child: Text(
                       I18n.of(context).privacy,

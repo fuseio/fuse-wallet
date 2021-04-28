@@ -46,8 +46,8 @@ class Feed extends StatelessWidget {
               padding: EdgeInsets.only(
                 left: 15,
                 right: 15,
-                top: 40,
-                bottom: 20,
+                top: 20,
+                bottom: 10,
               ),
               child: Text(
                 DateFormat.yMMMd().format(date),
