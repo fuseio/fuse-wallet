@@ -8,6 +8,7 @@ import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/redux/viewsmodels/swap.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -118,17 +119,9 @@ class _SwapScreenState extends State<SwapScreen> {
           );
         });
         Future<List<TradeInfo>> swapInfo = Future.wait([
+          fuseSwapService.trade(swapRequestBody),
           fuseSwapService.trade(
-            swapRequestBody.currencyIn,
-            swapRequestBody.currencyOut,
-            swapRequestBody.amountIn,
-            swapRequestBody.recipient,
-          ),
-          fuseSwapService.trade(
-            swapRequestBody.currencyIn,
-            swapRequestBody.currencyOut,
-            '1',
-            swapRequestBody.recipient,
+            swapRequestBody..copyWith(amountIn: '1').toJson(),
           ),
         ]);
         List<TradeInfo> result = await swapInfo;
@@ -367,9 +360,11 @@ class _SwapScreenState extends State<SwapScreen> {
         },
         onInitialBuild: (viewModel) {
           if (viewModel.tokens.isNotEmpty) {
-            final Token payWith = widget.primaryToken ?? viewModel.tokens[0];
-            final Token receiveToken = viewModel.tokens
-                .firstWhere((element) => element.address != payWith.address);
+            final Token payWith = widget.primaryToken ??
+                viewModel.tokens.firstWhere(
+                    (element) => element.address == fuseDollarToken.address);
+            final Token receiveToken = viewModel.tokens.firstWhere((element) =>
+                element.symbol == 'USDC' && element.address != payWith.address);
             setState(() {
               tokenOutController.text = '';
               tokenInController.text = '';
@@ -388,9 +383,13 @@ class _SwapScreenState extends State<SwapScreen> {
         },
         onWillChange: (previousViewModel, newViewModel) {
           if (previousViewModel.tokens != newViewModel.tokens) {
-            final Token payWith = widget.primaryToken ?? newViewModel.tokens[0];
-            final Token receiveToken = newViewModel.tokens
-                .firstWhere((element) => element.address != payWith.address);
+            final Token payWith = widget.primaryToken ??
+                newViewModel.tokens.firstWhere(
+                    (element) => element.address == fuseDollarToken.address);
+            final Token receiveToken = newViewModel.tokens.firstWhere(
+                (element) =>
+                    element.symbol == 'USDC' &&
+                    element.address != payWith.address);
             setState(() {
               tokenOutController.text = '';
               tokenInController.text = '';

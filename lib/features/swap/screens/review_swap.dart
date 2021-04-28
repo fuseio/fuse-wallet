@@ -43,10 +43,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     });
     SwapCallParameters swapCallParameters =
         await fuseSwapService.swapCallParameters(
-      widget.swapRequestBody.currencyIn,
-      widget.swapRequestBody.currencyOut,
-      widget.swapRequestBody.amountIn,
-      widget.swapRequestBody.recipient,
+      widget.swapRequestBody,
     );
     viewModel.swap(
       widget.swapRequestBody,
@@ -100,7 +97,8 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${display(num.parse(widget.tradeInfo.inputAmount))} ',
+                      text:
+                          '${display(num.parse(widget.tradeInfo.inputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -136,7 +134,8 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${display(num.parse(widget.tradeInfo.outputAmount))} ',
+                      text:
+                          '${display(num.parse(widget.tradeInfo.outputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,

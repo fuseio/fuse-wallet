@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:injectable/injectable.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -12,7 +13,7 @@ class FuseSwapService {
   final Dio dio;
 
   FuseSwapService(this.dio) {
-    dio.options.baseUrl = UrlConstants.FUSESWAP_SERVICE_API; //'${}/swap';
+    dio.options.baseUrl = UrlConstants.FUSESWAP_SERVICE_API;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
     // if (kDebugMode) {
@@ -28,39 +29,23 @@ class FuseSwapService {
   }
 
   Future<SwapCallParameters> swapCallParameters(
-    String currencyIn,
-    String currencyOut,
-    String amountIn,
-    String recipient,
+    SwapRequestBody swapRequestBody,
   ) async {
-    Map body = Map.from({
-      'currencyIn': currencyIn,
-      'currencyOut': currencyOut,
-      'amountIn': amountIn,
-      'recipient': recipient,
-    });
-
     Response response = await dio.post(
       '/swap/swapcallparameters',
-      data: body,
+      data: swapRequestBody.toJson(),
     );
+    log.info(response.data);
     return SwapCallParameters.fromJson(response.data);
   }
 
   Future<TradeInfo> trade(
-    String currencyIn,
-    String currencyOut,
-    String amountIn,
-    String recipient,
+    SwapRequestBody swapRequestBody,
   ) async {
-    Map body = Map.from({
-      'currencyIn': currencyIn,
-      'currencyOut': currencyOut,
-      'amountIn': amountIn,
-      'recipient': recipient,
-    });
-
-    Response response = await dio.post('/swap/trade', data: body);
+    Response response = await dio.post(
+      '/swap/trade',
+      data: swapRequestBody.toJson(),
+    );
     return TradeInfo.fromJson(response.data['data']['info']);
   }
 
