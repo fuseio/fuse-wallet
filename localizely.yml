@@ -1,5 +1,5 @@
 config_version: 1.0 # Required. Only 1.0 available
-project_id: c776c33e-f428-4c91-87e1-a6a18c1554fe # Required. Your project ID from: https://app.localizely.com/projects
+project_id: 059fb9dd-4449-4e79-92ef-4d786cf38e5a
 file_type: flutter_arb # Required. Available values : android_xml, ios_strings, ios_stringsdict, java_properties, rails_yaml, flutter_arb, dotnet_resx, json
 upload: # Required.
   files: # Required. List of files for upload to Localizely. Usually, it is just one file used for the main locale
