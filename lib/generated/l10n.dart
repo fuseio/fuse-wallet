@@ -345,16 +345,6 @@ class S {
     );
   }
 
-  /// `Create wallet`
-  String get create__wallet {
-    return Intl.message(
-      'Create wallet',
-      name: 'create__wallet',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Create a new wallet`
   String get create_new_wallet {
     return Intl.message(
@@ -370,6 +360,16 @@ class S {
     return Intl.message(
       'Create your passcode',
       name: 'create_passcode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create wallet`
+  String get create__wallet {
+    return Intl.message(
+      'Create wallet',
+      name: 'create__wallet',
       desc: '',
       args: [],
     );
@@ -695,21 +695,21 @@ class S {
     );
   }
 
-  /// `Generate wallet failed`
-  String get generate_wallet_failed {
-    return Intl.message(
-      'Generate wallet failed',
-      name: 'generate_wallet_failed',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Welcome to Fuse wallet`
   String get generated_wallet {
     return Intl.message(
       'Welcome to Fuse wallet',
       name: 'generated_wallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate wallet failed`
+  String get generate_wallet_failed {
+    return Intl.message(
+      'Generate wallet failed',
+      name: 'generate_wallet_failed',
       desc: '',
       args: [],
     );
@@ -1245,6 +1245,16 @@ class S {
     );
   }
 
+  /// `Please choose how you prefer to unlock the wallet`
+  String get please_choose_security {
+    return Intl.message(
+      'Please choose how you prefer to unlock the wallet',
+      name: 'please_choose_security',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Price`
   String get price {
     return Intl.message(
@@ -1295,16 +1305,6 @@ class S {
     );
   }
 
-  /// `Re-type your passcode`
-  String get re_type_passcode {
-    return Intl.message(
-      'Re-type your passcode',
-      name: 're_type_passcode',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Receive`
   String get receive {
     return Intl.message(
@@ -1315,21 +1315,21 @@ class S {
     );
   }
 
-  /// `Receive from`
-  String get receive_from {
-    return Intl.message(
-      'Receive from',
-      name: 'receive_from',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Received from Ethereum`
   String get received_from_ethereum {
     return Intl.message(
       'Received from Ethereum',
       name: 'received_from_ethereum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receive from`
+  String get receive_from {
+    return Intl.message(
+      'Receive from',
+      name: 'receive_from',
       desc: '',
       args: [],
     );
@@ -1410,6 +1410,16 @@ class S {
     return Intl.message(
       'This is a 12 word phrase you were given when you created your previous wallet',
       name: 'restore_words',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-type your passcode`
+  String get re_type_passcode {
+    return Intl.message(
+      'Re-type your passcode',
+      name: 're_type_passcode',
       desc: '',
       args: [],
     );
@@ -1515,6 +1525,16 @@ class S {
     );
   }
 
+  /// `Sent to your Ethereum wallet`
+  String get sending_to_ethereum {
+    return Intl.message(
+      'Sent to your Ethereum wallet',
+      name: 'sending_to_ethereum',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send to`
   String get send_to {
     return Intl.message(
@@ -1530,16 +1550,6 @@ class S {
     return Intl.message(
       'Send to an address',
       name: 'send_to_address',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sent to your Ethereum wallet`
-  String get sending_to_ethereum {
-    return Intl.message(
-      'Sent to your Ethereum wallet',
-      name: 'sending_to_ethereum',
       desc: '',
       args: [],
     );
@@ -1765,21 +1775,21 @@ class S {
     );
   }
 
-  /// `To protect your money and wallet go now to the settings and back up your wallet in few easy steps`
-  String get to_protect {
-    return Intl.message(
-      'To protect your money and wallet go now to the settings and back up your wallet in few easy steps',
-      name: 'to_protect',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Token`
   String get token {
     return Intl.message(
       'Token',
       name: 'token',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To protect your money and wallet go now to the settings and back up your wallet in few easy steps`
+  String get to_protect {
+    return Intl.message(
+      'To protect your money and wallet go now to the settings and back up your wallet in few easy steps',
+      name: 'to_protect',
       desc: '',
       args: [],
     );
@@ -1885,21 +1895,21 @@ class S {
     );
   }
 
-  /// `Use max`
-  String get use_max {
-    return Intl.message(
-      'Use max',
-      name: 'use_max',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Useful`
   String get useful {
     return Intl.message(
       'Useful',
       name: 'useful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use max`
+  String get use_max {
+    return Intl.message(
+      'Use max',
+      name: 'use_max',
       desc: '',
       args: [],
     );
@@ -2112,6 +2122,16 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en', countryCode: 'US'),
+      Locale.fromSubtags(languageCode: 'de', countryCode: 'DE'),
+      Locale.fromSubtags(languageCode: 'en', countryCode: 'PH'),
+      Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
+      Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
+      Locale.fromSubtags(languageCode: 'he', countryCode: 'IL'),
+      Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
+      Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),
+      Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
+      Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
+      Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
     ];
   }
 

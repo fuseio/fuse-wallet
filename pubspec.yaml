@@ -117,5 +117,7 @@ flutter:
   uses-material-design: true
   generate: true
 flutter_intl:
-  main_locale: en_US
   enabled: true
+  main_locale: en_US
+  localizely:
+    project_id: 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

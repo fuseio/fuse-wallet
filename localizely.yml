@@ -16,10 +16,29 @@ upload: # Required.
     #   - updated
 download: # Required.
   files: # Required. List of files for download from Localizely.
-    - file: l10n/intl_en.arb # Required. Path to the translation file
-      locale_code: en # Required. Locale code for the file. Examples: en, de-DE, zh-Hans-CN
-    - file: l10n/intl_de.arb # Required. Path to the translation file
-      locale_code: de # Required. Locale code for the file. Examples: en, de-DE, zh-Hans-CN
+    - file: l10n/intl_de_DE.arb
+      locale_code: de-DE
+    - file: l10n/intl_en_PH.arb
+      locale_code: en-PH
+    - file: l10n/intl_en_US.arb
+      locale_code: en-US
+    - file: l10n/intl_es_ES.arb
+      locale_code: es-ES
+    - file: l10n/intl_es_MX.arb
+      locale_code: es-MX
+    - file: l10n/intl_il_IL.arb
+      locale_code: il-IL
+    - file: l10n/intl_id_ID.arb
+      locale_code: id-ID
+    - file: l10n/intl_it_IT.arb
+      locale_code: it-IT
+    - file: l10n/intl_nl_NL.arb
+      locale_code: nl-NL
+    - file: l10n/intl_pt_BR.arb
+      locale_code: pt-BR
+    - file: l10n/intl_ru_RU.arb
+      locale_code: ru-RU
+
   params:
     export_empty_as: main # Optional, default: empty. How you would like empty translations to be exported. Allowed values are `empty` to keep empty, `main` to replace with the main language value, or `skip` to omit.
     # exclude_tags: # Optional. List of tags to be excluded from the download. If not set, all string keys will be considered for download.
