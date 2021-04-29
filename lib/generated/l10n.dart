@@ -805,10 +805,10 @@ class I10n {
     );
   }
 
-  /// `Deposit /$ and swap to other currencies with little to no fees`
+  /// `Deposit$ and swap to other currencies with little to no fees`
   String get intro_text_two {
     return Intl.message(
-      'Deposit /\$ and swap to other currencies with little to no fees',
+      'Deposit\$ and swap to other currencies with little to no fees',
       name: 'intro_text_two',
       desc: '',
       args: [],

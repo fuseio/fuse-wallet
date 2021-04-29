@@ -20,8 +20,6 @@ download: # Required.
       locale_code: de-DE
     - file: l10n/intl_en_PH.arb
       locale_code: en-PH
-    - file: l10n/intl_en_US.arb
-      locale_code: en-US
     - file: l10n/intl_es_ES.arb
       locale_code: es-ES
     - file: l10n/intl_es_MX.arb
