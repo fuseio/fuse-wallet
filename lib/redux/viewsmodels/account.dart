@@ -9,12 +9,14 @@ class AccountViewModel extends Equatable {
   final String avatarUrl;
   final String displayName;
   final Plugins plugins;
+  final bool isBackup;
 
   AccountViewModel({
     this.plugins,
     this.walletAddress,
     this.avatarUrl,
     this.displayName,
+    this.isBackup,
   });
 
   static AccountViewModel fromStore(Store<AppState> store) {
@@ -22,6 +24,7 @@ class AccountViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddress];
     return AccountViewModel(
+      isBackup: store.state.userState.backup ?? false,
       plugins: community?.plugins ?? Plugins(),
       displayName: store.state.userState.displayName,
       avatarUrl: store.state.userState.avatarUrl,
@@ -35,5 +38,7 @@ class AccountViewModel extends Equatable {
         walletAddress,
         avatarUrl,
         displayName,
+        isBackup,
+        plugins,
       ];
 }

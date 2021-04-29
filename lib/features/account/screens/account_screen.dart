@@ -26,7 +26,7 @@ class _AccountScreenState extends State<AccountScreen> {
   void initState() {
     Segment.screen(screenName: '/account-screen');
     super.initState();
-  }
+  } 
 
   List<Widget> pluginsItems(AccountViewModel viewModel) {
     List<Widget> plugins = [];
@@ -91,14 +91,36 @@ class _AccountScreenState extends State<AccountScreen> {
                               menuIcon: 'protect_wallet.svg',
                               onTap: ExtendedNavigator.named('accountRouter')
                                   .pushProtectYourWallet,
-                              trailing: SvgPicture.asset(
-                                'assets/images/go_to_pro.svg',
-                                width: 10,
-                                height: 10,
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  !viewModel.isBackup
+                                      ? Flexible(
+                                          child: SvgPicture.asset(
+                                            'assets/images/back_up_icon.svg',
+                                          ),
+                                        )
+                                      : SizedBox.shrink(),
+                                  !viewModel.isBackup
+                                      ? Flexible(
+                                          child: SizedBox(
+                                            width: 10,
+                                          ),
+                                        )
+                                      : SizedBox.shrink(),
+                                  Flexible(
+                                    child: SvgPicture.asset(
+                                      'assets/images/go_to_pro.svg',
+                                      width: 10,
+                                      height: 10,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             ...pluginsItems(viewModel),
-                            // Divider(),
                             MenuTile(
                               label: I18n.of(context).social,
                               menuIcon: 'social_icon.svg',
@@ -125,7 +147,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                 );
                               },
                             ),
-                            // Divider(),
                             MenuTile(
                               label: I18n.of(context).legal,
                               menuIcon: 'legal_icon.svg',

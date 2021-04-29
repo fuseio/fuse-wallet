@@ -24,9 +24,11 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       tilePadding: EdgeInsets.zero,
       title: Row(
         children: <Widget>[
-          SvgPicture.asset(
-            'assets/images/language.svg',
-            width: 13,
+          Flexible(
+            child: SvgPicture.asset(
+              'assets/images/language.svg',
+              width: 13,
+            ),
           ),
           SizedBox(
             width: 20,
