@@ -115,3 +115,7 @@ flutter:
         - asset: assets/fonts/europa-bold-webfont.ttf
           weight: 900
   uses-material-design: true
+  generate: true
+flutter_intl:
+  main_locale: en_US
+  enabled: true

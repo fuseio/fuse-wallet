@@ -154,6 +154,7 @@ class _MyAppState extends State<MyApp> {
         ),
         localizationsDelegates: [
           i18n,
+          // S.delegate,
           CountryLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
