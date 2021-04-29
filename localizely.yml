@@ -3,8 +3,8 @@ project_id: 059fb9dd-4449-4e79-92ef-4d786cf38e5a
 file_type: flutter_arb # Required. Available values : android_xml, ios_strings, ios_stringsdict, java_properties, rails_yaml, flutter_arb, dotnet_resx, json
 upload: # Required.
   files: # Required. List of files for upload to Localizely. Usually, it is just one file used for the main locale
-    - file: lib/l10n/intl_en_US.arb # Required. Path to the translation file
-      locale_code: en # Required. Locale code for the file. Examples: en, de-DE, zh-Hans-CN
+    - file: lib/l10n/intl_en_US.arb
+      locale_code: en-US
   params: # Optional.
     overwrite: true # Optional, default: false. If the translation in a given language should be overwritten with modified translation from uploading file.
     reviewed: false # Optional, default: false. If uploading translations, that are added, should be marked as Reviewed. For uploading translations that are only modified it will have effect only if overwrite is set to true.
