@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -70,7 +70,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            I18n.of(context).enter_pincode,
+                            I10n.of(context).enter_pincode,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
@@ -103,7 +103,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                   validator: (String value) =>
                                       value.length != 6 &&
                                               value == viewModel.pincode
-                                          ? I18n.of(context).invalid_pincode
+                                          ? I10n.of(context).invalid_pincode
                                           : null,
                                   textStyle: TextStyle(
                                     fontSize: 30,
@@ -145,7 +145,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                           ],
                                           duration: Duration(seconds: 3),
                                           messageText: Text(
-                                            I18n.of(context).invalid_pincode,
+                                            I10n.of(context).invalid_pincode,
                                             style: TextStyle(
                                               fontSize: 20.0,
                                             ),

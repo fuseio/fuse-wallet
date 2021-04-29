@@ -1,7 +1,7 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
@@ -108,7 +108,7 @@ class TradeCard extends StatelessWidget {
                               ? Text(
                                   (token?.getBalance() ?? '0') +
                                       ' ' +
-                                      I18n.of(context).available,
+                                      I10n.of(context).available,
                                 )
                               : SizedBox.shrink(),
                         ],

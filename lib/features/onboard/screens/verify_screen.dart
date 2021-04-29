@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -39,7 +39,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).sign_up,
+      title: I10n.of(context).sign_up,
       body: StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
@@ -54,7 +54,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
           if (previousViewModel.verifyErrorMessage !=
               newViewModel.verifyErrorMessage) {
             showErrorSnack(
-              title: I18n.of(context).oops,
+              title: I10n.of(context).oops,
               message: newViewModel.verifyErrorMessage,
               context: context,
               margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120),
@@ -74,7 +74,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        I18n.of(context).we_just_sent +
+                        I10n.of(context).we_just_sent +
                             "${viewModel.phoneNumber}" +
                             "\n",
                         textAlign: TextAlign.center,
@@ -84,7 +84,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         ),
                       ),
                       Text(
-                        I18n.of(context).enter_verification_code,
+                        I10n.of(context).enter_verification_code,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
@@ -137,7 +137,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       SizedBox(height: 30.0),
                       Center(
                         child: PrimaryButton(
-                          label: I18n.of(context).next_button,
+                          label: I10n.of(context).next_button,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
                             formKey.currentState.validate();
@@ -158,7 +158,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            I18n.of(context).didnt_get_message,
+                            I10n.of(context).didnt_get_message,
                             style: TextStyle(fontSize: 12),
                           ),
                           FlatButton(
@@ -167,7 +167,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              I18n.of(context).resend_code,
+                              I10n.of(context).resend_code,
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: 12,

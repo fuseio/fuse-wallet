@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
 import 'package:fusecash/utils/webview.dart';
@@ -52,7 +52,7 @@ class DepositBanner extends StatelessWidget {
                           openDepositWebview(
                             withBack: true,
                             url: url,
-                            title: I18n.of(context).deposit_your_first_dollars,
+                            title: I10n.of(context).deposit_your_first_dollars,
                           );
                         }
                       },
@@ -64,7 +64,7 @@ class DepositBanner extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                I18n.of(context).deposit_your,
+                                I10n.of(context).deposit_your,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class DepositBanner extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    I18n.of(context).first_dollars,
+                                    I10n.of(context).first_dollars,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class DepositBanner extends StatelessWidget {
                   viewModel.showDismiss
                       ? FlatButton(
                           child: Text(
-                            I18n.of(context).dismiss,
+                            I10n.of(context).dismiss,
                             style: TextStyle(
                               fontSize: 14,
                               fontFamily: 'Europa',

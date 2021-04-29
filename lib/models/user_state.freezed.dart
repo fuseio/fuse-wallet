@@ -54,6 +54,8 @@ class _$UserStateTearOff {
           bool isVerifyRequest = false,
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
+      @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+          Locale locale,
       @JsonKey(ignore: true)
           List<Contact> contacts = const [],
       @JsonKey(ignore: true)
@@ -89,6 +91,7 @@ class _$UserStateTearOff {
       isLoginRequest: isLoginRequest,
       isVerifyRequest: isVerifyRequest,
       authType: authType,
+      locale: locale,
       contacts: contacts,
       credentials: credentials,
     );
@@ -142,6 +145,8 @@ mixin _$UserState {
   bool get isVerifyRequest;
   @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
   BiometricAuth get authType;
+  @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+  Locale get locale;
   @JsonKey(ignore: true)
   List<Contact> get contacts;
   @JsonKey(ignore: true)
@@ -193,6 +198,8 @@ abstract class $UserStateCopyWith<$Res> {
           bool isVerifyRequest,
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
+      @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+          Locale locale,
       @JsonKey(ignore: true)
           List<Contact> contacts,
       @JsonKey(ignore: true)
@@ -239,6 +246,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object isLoginRequest = freezed,
     Object isVerifyRequest = freezed,
     Object authType = freezed,
+    Object locale = freezed,
     Object contacts = freezed,
     Object credentials = freezed,
   }) {
@@ -309,6 +317,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
           : isVerifyRequest as bool,
       authType:
           authType == freezed ? _value.authType : authType as BiometricAuth,
+      locale: locale == freezed ? _value.locale : locale as Locale,
       contacts:
           contacts == freezed ? _value.contacts : contacts as List<Contact>,
       credentials: credentials == freezed
@@ -361,6 +370,8 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
           bool isVerifyRequest,
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
+      @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+          Locale locale,
       @JsonKey(ignore: true)
           List<Contact> contacts,
       @JsonKey(ignore: true)
@@ -408,6 +419,7 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object isLoginRequest = freezed,
     Object isVerifyRequest = freezed,
     Object authType = freezed,
+    Object locale = freezed,
     Object contacts = freezed,
     Object credentials = freezed,
   }) {
@@ -478,6 +490,7 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
           : isVerifyRequest as bool,
       authType:
           authType == freezed ? _value.authType : authType as BiometricAuth,
+      locale: locale == freezed ? _value.locale : locale as Locale,
       contacts:
           contacts == freezed ? _value.contacts : contacts as List<Contact>,
       credentials: credentials == freezed
@@ -528,6 +541,8 @@ class _$_UserState extends _UserState {
           this.isVerifyRequest = false,
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           this.authType,
+      @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+          this.locale,
       @JsonKey(ignore: true)
           this.contacts = const [],
       @JsonKey(ignore: true)
@@ -644,6 +659,9 @@ class _$_UserState extends _UserState {
   @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
   final BiometricAuth authType;
   @override
+  @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+  final Locale locale;
+  @override
   @JsonKey(ignore: true)
   final List<Contact> contacts;
   @override
@@ -652,7 +670,7 @@ class _$_UserState extends _UserState {
 
   @override
   String toString() {
-    return 'UserState(isContactsSynced: $isContactsSynced, installedAt: $installedAt, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, contacts: $contacts, credentials: $credentials)';
+    return 'UserState(isContactsSynced: $isContactsSynced, installedAt: $installedAt, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, locale: $locale, contacts: $contacts, credentials: $credentials)';
   }
 
   @override
@@ -730,6 +748,7 @@ class _$_UserState extends _UserState {
             (identical(other.isLoginRequest, isLoginRequest) || const DeepCollectionEquality().equals(other.isLoginRequest, isLoginRequest)) &&
             (identical(other.isVerifyRequest, isVerifyRequest) || const DeepCollectionEquality().equals(other.isVerifyRequest, isVerifyRequest)) &&
             (identical(other.authType, authType) || const DeepCollectionEquality().equals(other.authType, authType)) &&
+            (identical(other.locale, locale) || const DeepCollectionEquality().equals(other.locale, locale)) &&
             (identical(other.contacts, contacts) || const DeepCollectionEquality().equals(other.contacts, contacts)) &&
             (identical(other.credentials, credentials) || const DeepCollectionEquality().equals(other.credentials, credentials)));
   }
@@ -767,6 +786,7 @@ class _$_UserState extends _UserState {
       const DeepCollectionEquality().hash(isLoginRequest) ^
       const DeepCollectionEquality().hash(isVerifyRequest) ^
       const DeepCollectionEquality().hash(authType) ^
+      const DeepCollectionEquality().hash(locale) ^
       const DeepCollectionEquality().hash(contacts) ^
       const DeepCollectionEquality().hash(credentials);
 
@@ -820,6 +840,8 @@ abstract class _UserState extends UserState {
           bool isVerifyRequest,
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
+      @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+          Locale locale,
       @JsonKey(ignore: true)
           List<Contact> contacts,
       @JsonKey(ignore: true)
@@ -894,6 +916,9 @@ abstract class _UserState extends UserState {
   @override
   @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
   BiometricAuth get authType;
+  @override
+  @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+  Locale get locale;
   @override
   @JsonKey(ignore: true)
   List<Contact> get contacts;

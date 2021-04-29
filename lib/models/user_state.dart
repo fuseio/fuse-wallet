@@ -15,6 +15,14 @@ BiometricAuth authTypeFromJson(String auth) => auth == null
     ? BiometricAuth.none
     : EnumToString.fromString(BiometricAuth.values, auth);
 
+Locale localeFromJson(Map<String, dynamic> map) => map == null
+    ? Locale('en', 'US')
+    : Locale(map['languageCode'], map['countryCode']);
+
+Map<String, dynamic> localeToJson(Locale locale) => locale == null
+    ? {'languageCode': 'en', 'countryCode': 'US'}
+    : {'languageCode': locale.languageCode, 'countryCode': locale.countryCode};
+
 @immutable
 @freezed
 abstract class UserState implements _$UserState {
@@ -53,6 +61,7 @@ abstract class UserState implements _$UserState {
     @JsonKey(ignore: true) @Default(false) bool isVerifyRequest,
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
+    @JsonKey(fromJson: localeFromJson, toJson: localeToJson) Locale locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
     @JsonKey(ignore: true) PhoneAuthCredential credentials,
   }) = _UserState;
@@ -66,6 +75,7 @@ abstract class UserState implements _$UserState {
         displayName: "Anom",
         isContactsSynced: null,
         backup: false,
+        locale: Locale('en', 'US'),
         authType: BiometricAuth.none,
         installedAt: DateTime.now().toUtc(),
         receiveBackupDialogShowed: false,

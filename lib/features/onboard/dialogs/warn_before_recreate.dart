@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 
 class WarnBeforeReCreation extends StatefulWidget {
   @override
@@ -49,21 +49,21 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
             height: 35,
           ),
         ),
-        content: Text(I18n.of(context).reset_account),
+        content: Text(I10n.of(context).reset_account),
         actions: <Widget>[
           FlatButton(
             textColor: Color(0xFF009DFF),
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
-            child: Text(I18n.of(context).yes, style: TextStyle(fontSize: 16)),
+            child: Text(I10n.of(context).yes, style: TextStyle(fontSize: 16)),
           ),
           FlatButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(false);
             },
             child: Text(
-              I18n.of(context).no,
+              I10n.of(context).no,
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).colorScheme.onSurface,

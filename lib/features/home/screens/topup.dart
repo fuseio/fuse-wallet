@@ -5,7 +5,7 @@
 // import 'package:flutter_redux/flutter_redux.dart';
 // import 'package:flutter_segment/flutter_segment.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:fusecash/generated/i18n.dart';
+// import 'package:fusecash/generated/l10n.dart';
 // import 'package:fusecash/models/app_state.dart';
 // import 'package:fusecash/redux/viewsmodels/top_up.dart';
 // import 'package:fusecash/widgets/main_scaffold.dart';
@@ -130,7 +130,7 @@
 //   Widget build(BuildContext context) {
 //     return MainScaffold(
 //       withPadding: true,
-//       title: I18n.of(context).deposit_your_first_dollars,
+//       title: I10n.of(context).deposit_your_first_dollars,
 //       children: <Widget>[
 //         Container(
 //           height: MediaQuery.of(context).size.height * 0.6,
@@ -144,7 +144,7 @@
 //                   Container(
 //                     padding: EdgeInsets.symmetric(horizontal: 40),
 //                     child: Text(
-//                       I18n.of(context).how_much,
+//                       I10n.of(context).how_much,
 //                       style: TextStyle(color: Color(0xFF898989)),
 //                     ),
 //                   ),
@@ -230,14 +230,14 @@
 //           return Center(
 //             child: PrimaryButton(
 //               opacity: 1,
-//               label: I18n.of(context).continue_with +
+//               label: I10n.of(context).continue_with +
 //                   ' $amountText ${selectedToken?.value}',
 //               onPressed: () {
 //                 ExtendedNavigator.root.pushWebview(
 //                   withBack: true,
 //                   url:
 //                       '$url&fiatCurrency=${selectedToken?.value}&fiatValue=$amountText&finalUrl=https://fuse.cash',
-//                   title: I18n.of(context).deposit_your_first_dollars,
+//                   title: I10n.of(context).deposit_your_first_dollars,
 //                 );
 //               },
 //               preload: isPreloading,

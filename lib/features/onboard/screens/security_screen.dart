@@ -9,7 +9,7 @@ import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 
 class SecurityScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).protect_wallet,
+      title: I10n.of(context).protect_wallet,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +56,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                 Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    I18n.of(context).choose_lock_method,
+                    I10n.of(context).choose_lock_method,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF888888),
@@ -134,7 +134,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                               width: 3,
                                             ),
                                             Text(
-                                              I18n.of(context).recommended,
+                                              I10n.of(context).recommended,
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   color: Theme.of(context)
@@ -191,7 +191,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    Text(I18n.of(context).pincode,
+                                    Text(I10n.of(context).pincode,
                                         style: TextStyle(
                                             fontSize: 18,
                                             color: Theme.of(context)

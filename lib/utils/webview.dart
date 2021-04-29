@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 
 void openDepositWebview({
   String url,
@@ -14,7 +14,7 @@ void openDepositWebview({
       withBack: withBack,
       url: '$url&finalUrl=https://fuse.cash',
       title: title ??
-          I18n.of(ExtendedNavigator.root.context).deposit_your_first_dollars,
+          I10n.of(ExtendedNavigator.root.context).deposit_your_first_dollars,
     );
   } else {
     FlutterWebBrowser.openWebPage(

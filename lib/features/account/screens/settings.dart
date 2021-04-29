@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/common/di/package_info.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/drawer.dart';
 import 'package:fusecash/widgets/language_selector.dart';
@@ -14,7 +14,7 @@ import 'package:fusecash/widgets/my_scaffold.dart';
 class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).settings,
+      title: I10n.of(context).settings,
       body: StoreConnector<AppState, DrawerViewModel>(
         distinct: true,
         converter: DrawerViewModel.fromStore,
@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
                 LanguageSelector(),
                 Divider(),
                 MenuTile(
-                  label: I18n.of(context).logout,
+                  label: I10n.of(context).logout,
                   menuIcon: 'log-out.svg',
                   onTap: () {
                     viewModel.logout();
@@ -35,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 Divider(),
                 MenuTile(
-                  label: I18n.of(context).version,
+                  label: I10n.of(context).version,
                   menuIcon: 'app_version.svg',
                   trailing: Text(
                     "${packageInfo.version} ${(packageInfo.buildNumber)}",

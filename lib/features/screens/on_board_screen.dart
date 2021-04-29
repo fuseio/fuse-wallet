@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/onboard/widegts/sign_up_buttons.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/widgets/welcome_text.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -109,17 +109,17 @@ class _OnBoardScreenState extends State<OnBoardScreen>
   Widget build(BuildContext context) {
     final List<Widget> welcomeScreens = [
       WelcomeTitle(
-        title: I18n.of(context).simple,
-        subTitle: I18n.of(context).intro_text_one,
+        title: I10n.of(context).simple,
+        subTitle: I10n.of(context).intro_text_one,
         delay: 1000,
       ),
       WelcomeTitle(
-        title: I18n.of(context).useful,
-        subTitle: I18n.of(context).intro_text_two,
+        title: I10n.of(context).useful,
+        subTitle: I10n.of(context).intro_text_two,
       ),
       WelcomeTitle(
-        title: I18n.of(context).smart,
-        subTitle: I18n.of(context).intro_text_three,
+        title: I10n.of(context).smart,
+        subTitle: I10n.of(context).intro_text_three,
       ),
       SignUpButtons()
     ];

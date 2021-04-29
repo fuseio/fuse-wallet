@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
@@ -32,6 +32,10 @@ class UpdateCurrency {
   UpdateCurrency({this.currency});
 }
 
+class UpdateLocale {
+  final Locale locale;
+  UpdateLocale({this.locale});
+}
 
 class HomeBackupDialogShowed {
   HomeBackupDialogShowed();
@@ -205,7 +209,7 @@ ThunkAction verifyHandler(String verificationCode) {
       store.dispatch(SetIsVerifyRequest(
         isLoading: false,
         message: error ??
-            I18n.of(ExtendedNavigator.root.context).something_went_wrong,
+            I10n.of(ExtendedNavigator.root.context).something_went_wrong,
       ));
       await Sentry.captureException(
         error,

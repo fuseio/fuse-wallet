@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -30,7 +30,7 @@ class BuyScreen extends StatelessWidget {
       },
       builder: (_, viewModel) {
         return MyScaffold(
-          title: I18n.of(context).buy,
+          title: I10n.of(context).buy,
           body: Container(
             child: Column(
               children: [
@@ -109,7 +109,7 @@ class BusinessesListView extends StatelessWidget {
         ? Container(
             padding: EdgeInsets.all(40.0),
             child: Center(
-              child: Text(I18n.of(context).no_businesses),
+              child: Text(I10n.of(context).no_businesses),
             ),
           )
         : Row(
@@ -193,7 +193,7 @@ class BusinessesListView extends StatelessWidget {
             shape: CircleBorder(),
             color: Theme.of(context).buttonColor,
             child: Text(
-              I18n.of(context).pay,
+              I10n.of(context).pay,
               style: TextStyle(
                   color: Theme.of(context).textTheme.button.color,
                   fontSize: 15,

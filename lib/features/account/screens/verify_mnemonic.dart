@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -23,7 +23,7 @@ class Word extends StatelessWidget {
       autofocus: false,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(0.0),
-        labelText: I18n.of(context).word + wordIndex.toString(),
+        labelText: I10n.of(context).word + wordIndex.toString(),
         border: UnderlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.onSurface,
@@ -49,7 +49,7 @@ class Word extends StatelessWidget {
       ),
       validator: (String value) {
         if (mnemonic[wordIndex - 1] != value.trim()) {
-          return I18n.of(context).word_not_match;
+          return I10n.of(context).word_not_match;
         }
         return null;
       },
@@ -84,7 +84,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).back_up,
+      title: I10n.of(context).back_up,
       body: StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
         builder: (_, viewModel) {
@@ -103,7 +103,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            I18n.of(context).write_word +
+                            I10n.of(context).write_word +
                                 selectedWordsNum.join(", "),
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -150,7 +150,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                       padding: EdgeInsets.only(top: 40),
                       child: Center(
                           child: PrimaryButton(
-                        label: I18n.of(context).next_button,
+                        label: I10n.of(context).next_button,
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             ExtendedNavigator.named('accountRouter')

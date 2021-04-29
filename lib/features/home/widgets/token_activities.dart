@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/home/widgets/action_tile.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -44,7 +44,7 @@ class TokenActivities extends StatelessWidget {
                           height: 40,
                         ),
                         Text(
-                          I18n.of(context).no_activity,
+                          I10n.of(context).no_activity,
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class TokenActivities extends StatelessWidget {
                 : Container(
                     padding: EdgeInsets.only(top: 40, bottom: 30),
                     child: Text(
-                      I18n.of(context).activity,
+                      I10n.of(context).activity,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
@@ -104,9 +104,9 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                   child: Center(
                                     child: Text(
                                       isFuseToken
-                                          ? I18n.of(context).move_to +
+                                          ? I10n.of(context).move_to +
                                               ' Ethereum'
-                                          : I18n.of(context).move_to + ' Fuse',
+                                          : I10n.of(context).move_to + ' Fuse',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),
@@ -131,7 +131,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                             : Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  I18n.of(context).or,
+                                  I10n.of(context).or,
                                   style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.secondary,
@@ -150,7 +150,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                 color: Theme.of(context).backgroundColor,
                                 shape: BoxShape.rectangle),
                             child: Center(
-                              child: Text(I18n.of(context).send_to_address,
+                              child: Text(I10n.of(context).send_to_address,
                                   style: TextStyle(fontSize: 14)),
                             ),
                           ),

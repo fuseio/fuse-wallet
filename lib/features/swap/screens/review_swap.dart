@@ -7,7 +7,7 @@ import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/redux/viewsmodels/review_swap.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -87,7 +87,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                I18n.of(context).pay_with,
+                I10n.of(context).pay_with,
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(
@@ -124,7 +124,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                I18n.of(context).receive,
+                I10n.of(context).receive,
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(
@@ -169,7 +169,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              I18n.of(context).network_fee,
+              I10n.of(context).network_fee,
               style: TextStyle(fontSize: 16),
             ),
             Row(
@@ -183,7 +183,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   width: 2,
                 ),
                 Text(
-                  I18n.of(context).free,
+                  I10n.of(context).free,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -206,7 +206,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              I18n.of(context).rate,
+              I10n.of(context).rate,
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -236,7 +236,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              I18n.of(context).slippage,
+              I10n.of(context).slippage,
               style: TextStyle(fontSize: 16),
             ),
             Text(
@@ -254,7 +254,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).review_swap,
+      title: I10n.of(context).review_swap,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -273,7 +273,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   converter: ReviewSwapViewModel.fromStore,
                   builder: (_, viewModel) => Center(
                     child: PrimaryButton(
-                      label: I18n.of(context).swap,
+                      label: I10n.of(context).swap,
                       disabled: isPreloading,
                       preload: isPreloading,
                       onPressed: () => _onPress(viewModel),

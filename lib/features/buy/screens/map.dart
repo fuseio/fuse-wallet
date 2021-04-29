@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -36,7 +36,7 @@ class _MapScreenState extends State<MapScreen> {
           return MaterialApp(
             home: Scaffold(
               appBar: AppBar(
-                title: Text(I18n.of(context).map),
+                title: Text(I10n.of(context).map),
               ),
               body: GoogleMap(
                 onMapCreated: _onMapCreated,

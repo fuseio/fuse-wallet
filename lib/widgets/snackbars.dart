@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 
 void showErrorSnack({
   BuildContext context,
@@ -21,7 +21,7 @@ void showErrorSnack({
       ],
       duration: Duration(seconds: duration),
       titleText: Text(
-        title ?? I18n.of(ExtendedNavigator.root.context).transaction_failed,
+        title ?? I10n.of(ExtendedNavigator.root.context).transaction_failed,
         style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
@@ -53,7 +53,7 @@ void showCopiedFlushbar(context) {
       ),
     ],
     messageText: Text(
-      I18n.of(context).copied_to_clipboard,
+      I10n.of(context).copied_to_clipboard,
       textAlign: TextAlign.center,
     ),
     backgroundColor: Theme.of(context).bottomAppBarColor,

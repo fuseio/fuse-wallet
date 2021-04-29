@@ -12,27 +12,27 @@ import 'intl/messages_all.dart';
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
 // ignore_for_file: avoid_redundant_argument_values
 
-class S {
-  S();
+class I10n {
+  I10n();
   
-  static S current;
+  static I10n current;
   
   static const AppLocalizationDelegate delegate =
     AppLocalizationDelegate();
 
-  static Future<S> load(Locale locale) {
+  static Future<I10n> load(Locale locale) {
     final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
     final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      S.current = S();
+      I10n.current = I10n();
       
-      return S.current;
+      return I10n.current;
     });
   } 
 
-  static S of(BuildContext context) {
-    return Localizations.of<S>(context, S);
+  static I10n of(BuildContext context) {
+    return Localizations.of<I10n>(context, I10n);
   }
 
   /// `About`
@@ -805,10 +805,10 @@ class S {
     );
   }
 
-  /// `Deposit \$ and swap to other currencies with little to no fees`
+  /// `Deposit /$ and swap to other currencies with little to no fees`
   String get intro_text_two {
     return Intl.message(
-      'Deposit \\$ and swap to other currencies with little to no fees',
+      'Deposit /\$ and swap to other currencies with little to no fees',
       name: 'intro_text_two',
       desc: '',
       args: [],
@@ -2116,7 +2116,7 @@ class S {
   }
 }
 
-class AppLocalizationDelegate extends LocalizationsDelegate<S> {
+class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
   const AppLocalizationDelegate();
 
   List<Locale> get supportedLocales {
@@ -2138,7 +2138,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
   @override
-  Future<S> load(Locale locale) => S.load(locale);
+  Future<I10n> load(Locale locale) => I10n.load(locale);
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

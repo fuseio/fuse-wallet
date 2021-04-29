@@ -4,7 +4,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -35,7 +35,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   Widget build(BuildContext context) {
     final SendFlowArguments args = this.widget.pageArgs;
     return MyScaffold(
-      title: I18n.of(context).success,
+      title: I10n.of(context).success,
       body: Container(
         height: MediaQuery.of(context).size.height * .6,
         child: Center(

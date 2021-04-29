@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/features/home/widgets/deposit_banner.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/home.dart';
@@ -62,10 +62,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     tabs: [
                       Tab(
-                        text: I18n.of(context).feed,
+                        text: I10n.of(context).feed,
                       ),
                       Tab(
-                        text: I18n.of(context).wallet,
+                        text: I10n.of(context).wallet,
                       ),
                     ],
                   ),

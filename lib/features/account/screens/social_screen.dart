@@ -2,7 +2,7 @@ import 'dart:core';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -20,13 +20,13 @@ class SocialScreen extends StatelessWidget {
   );
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).social,
+      title: I10n.of(context).social,
       body: Container(
         padding: EdgeInsets.all(20),
         child: ListView(
           children: <Widget>[
             MenuTile(
-              label: I18n.of(context).rate_us,
+              label: I10n.of(context).rate_us,
               menuIcon: Platform.isIOS ? 'store.svg' : 'google_store.svg',
               onTap: () {
                 rateMyApp.init().then(
@@ -73,7 +73,7 @@ class SocialScreen extends StatelessWidget {
             ),
             Divider(),
             MenuTile(
-              label: I18n.of(context).follow_us_on_twitter,
+              label: I10n.of(context).follow_us_on_twitter,
               menuIcon: 'twitter.svg',
               onTap: () {
                 launchUrl('https://twitter.com/Fuse_network?s=20');

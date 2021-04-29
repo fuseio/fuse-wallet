@@ -118,6 +118,10 @@ flutter:
   generate: true
 flutter_intl:
   enabled: true
+  class_name: I10n
   main_locale: en_US
+  # arb_dir: lib/localization
+  # output_dir: lib/localization/generated
   localizely:
     project_id: 059fb9dd-4449-4e79-92ef-4d786cf38e5a
+    download_empty_as: main

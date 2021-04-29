@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 
 class BottomBar extends StatelessWidget {
   final int tabIndex;
@@ -59,10 +59,10 @@ class BottomBar extends StatelessWidget {
         currentIndex: tabIndex,
         showUnselectedLabels: true,
         items: [
-          bottomBarItem(I18n.of(context).home, 'home'),
-          bottomBarItem(I18n.of(context).send_button, 'send'),
-          bottomBarItem(I18n.of(context).swap, 'swap'),
-          bottomBarItem(I18n.of(context).account, 'account'),
+          bottomBarItem(I10n.of(context).home, 'home'),
+          bottomBarItem(I10n.of(context).send_button, 'send'),
+          bottomBarItem(I10n.of(context).swap, 'swap'),
+          bottomBarItem(I10n.of(context).account, 'account'),
         ],
         onTap: onTap,
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
@@ -55,8 +55,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       signUp(countryCode, value);
     }, onError: (e) {
       showErrorSnack(
-        message: I18n.of(context).invalid_number,
-        title: I18n.of(context).something_went_wrong,
+        message: I10n.of(context).invalid_number,
+        title: I10n.of(context).something_went_wrong,
         context: context,
         margin: EdgeInsets.only(
           top: 8,
@@ -72,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return MyScaffold(
       resizeToAvoidBottomInset: false,
-      title: I18n.of(context).sign_up,
+      title: I10n.of(context).sign_up,
       body: InkWell(
         onTap: () {
           WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
@@ -86,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      I18n.of(context).enter_phone_number,
+                      I10n.of(context).enter_phone_number,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
@@ -113,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         child: Center(
                           child: Text(
-                            I18n.of(context).why_do_we_need_this,
+                            I10n.of(context).why_do_we_need_this,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -233,7 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           vertical: 20,
                                           horizontal: 10,
                                         ),
-                                        hintText: I18n.of(context).phoneNumber,
+                                        hintText: I10n.of(context).phoneNumber,
                                         border: InputBorder.none,
                                         fillColor:
                                             Theme.of(context).backgroundColor,
@@ -256,7 +256,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (previousViewModel.signupErrorMessage !=
                                   newViewModel.signupErrorMessage) {
                                 showErrorSnack(
-                                  title: I18n.of(context).oops,
+                                  title: I10n.of(context).oops,
                                   message: newViewModel.signupErrorMessage,
                                   context: context,
                                   margin: EdgeInsets.only(
@@ -272,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             converter: OnboardViewModel.fromStore,
                             builder: (_, viewModel) => Center(
                               child: PrimaryButton(
-                                label: I18n.of(context).next_button,
+                                label: I10n.of(context).next_button,
                                 onPressed: () {
                                   onPressed(viewModel.signUp);
                                 },

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -38,21 +38,21 @@ class ActionDetailsScreen extends StatelessWidget {
     final String name = action.map(
       createWallet: (_) => '',
       joinCommunity: (_) => '',
-      fiatDeposit: (_) => I18n.of(context).from,
-      bonus: (_) => I18n.of(context).from,
-      send: (_) => I18n.of(context).to,
-      receive: (value) => I18n.of(context).from,
-      swap: (_) => I18n.of(context).sell,
+      fiatDeposit: (_) => I10n.of(context).from,
+      bonus: (_) => I10n.of(context).from,
+      send: (_) => I10n.of(context).to,
+      receive: (value) => I10n.of(context).from,
+      swap: (_) => I10n.of(context).sell,
     );
 
     final String title = action.map(
       createWallet: (_) => '',
       joinCommunity: (_) => '',
       fiatDeposit: (_) => '',
-      bonus: (_) => I18n.of(context).bonus,
-      send: (_) => I18n.of(context).send,
-      receive: (value) => I18n.of(context).receive,
-      swap: (value) => I18n.of(context).swap,
+      bonus: (_) => I10n.of(context).bonus,
+      send: (_) => I10n.of(context).send,
+      receive: (value) => I10n.of(context).receive,
+      swap: (value) => I10n.of(context).swap,
     );
 
     return new StoreConnector<AppState, ActionDetailsViewModel>(
@@ -101,7 +101,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           action.getStatusIcon(),
                           Text(
                             action.isConfirmed()
-                                ? I18n.of(context).approved
+                                ? I10n.of(context).approved
                                 : action?.status,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -120,14 +120,14 @@ class ActionDetailsScreen extends StatelessWidget {
                     //           SizedBox(
                     //             height: 10,
                     //           ),
-                    //           Text(I18n.of(context).transaction_failed,
+                    //           Text(I10n.of(context).transaction_failed,
                     //               textAlign: TextAlign.center,
                     //               style: TextStyle(
                     //                   fontSize: 14,
                     //                   fontWeight: FontWeight.normal)),
                     //           Text(
                     //               transfer?.failReason ??
-                    //                   I18n.of(context).something_went_wrong,
+                    //                   I10n.of(context).something_went_wrong,
                     //               textAlign: TextAlign.center,
                     //               style: TextStyle(
                     //                   color: Theme.of(context).accentColor,
@@ -223,7 +223,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           ? SizedBox.shrink()
                           : rowItem(
                               context,
-                              I18n.of(context).receive,
+                              I10n.of(context).receive,
                               action.map(
                                 createWallet: (value) => '',
                                 joinCommunity: (value) => '',
@@ -252,7 +252,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           ? SizedBox.shrink()
                           : rowItem(
                               context,
-                              I18n.of(context).address,
+                              I10n.of(context).address,
                               formatAddress(accountAddress),
                               withCopy: true,
                               onTap: () {
@@ -276,7 +276,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           ? SizedBox.shrink()
                           : rowItem(
                               context,
-                              I18n.of(context).amount,
+                              I10n.of(context).amount,
                               hasPriceInfo ? amount : '$amount $symbol',
                               // '$amount $symbol',
                             ),
@@ -287,7 +287,7 @@ class ActionDetailsScreen extends StatelessWidget {
                       //     height: 1,
                       //   ),
                       // ),
-                      // rowItem(context, I18n.of(context).network,
+                      // rowItem(context, I10n.of(context).network,
                       //     action.originNetwork != null ? 'Fuse' : 'Ethereum'),
                       [null, ''].contains(action.txHash)
                           ? SizedBox.shrink()
@@ -302,7 +302,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           ? SizedBox.shrink()
                           : rowItem(
                               context,
-                              I18n.of(context).txn,
+                              I10n.of(context).txn,
                               formatAddress(action?.txHash),
                               withCopy: true,
                               onTap: () {
@@ -324,7 +324,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           ? SizedBox.shrink()
                           : rowItem(
                               context,
-                              I18n.of(context).date_and_time,
+                              I10n.of(context).date_and_time,
                               DateFormat('dd.MM.yy - hh:mm aaa')
                                   .format(dateTime),
                             )

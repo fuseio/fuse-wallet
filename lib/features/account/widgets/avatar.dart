@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/features/home/dialogs/receive.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/format.dart';
@@ -88,7 +88,7 @@ class Avatar extends StatelessWidget {
                     ),
                     Flexible(
                       child: Button(
-                        text: I18n.of(context).receive,
+                        text: I10n.of(context).receive,
                         icon: 'receiveIcon',
                         onPressed: () {
                           showDialog(

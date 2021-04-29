@@ -3,7 +3,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
@@ -72,8 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
           ExtendedNavigator.root.replace(Routes.homeScreen);
         } else {
           flush = Flushbar<bool>(
-            title: I18n.of(context).auth_failed_title,
-            message: I18n.of(context).auth_failed_message,
+            title: I10n.of(context).auth_failed_title,
+            message: I10n.of(context).auth_failed_message,
             icon: Icon(
               Icons.info_outline,
               color: Theme.of(context).colorScheme.primary,
@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 flush.dismiss(true);
               },
               child: Text(
-                I18n.of(context).try_again,
+                I10n.of(context).try_again,
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),

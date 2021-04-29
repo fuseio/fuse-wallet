@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
@@ -74,7 +74,7 @@ class ReceiveDialogState extends State<ReceiveDialog>
                   SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: I18n.of(context).ok_thanks,
+                      label: I10n.of(context).ok_thanks,
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },
