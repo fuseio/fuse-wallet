@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "insufficient_fund" : MessageLookupByLibrary.simpleMessage("Insufficient fund"),
     "intro_text_one" : MessageLookupByLibrary.simpleMessage("Pay and get paid or send money to friends without fees or friction"),
     "intro_text_three" : MessageLookupByLibrary.simpleMessage("Create a secure and smart token account to access decentralized finance"),
-    "intro_text_two" : MessageLookupByLibrary.simpleMessage("Deposit \\\$ and swap to other currencies with little to no fees"),
+    "intro_text_two" : MessageLookupByLibrary.simpleMessage("Deposit \b\$ and swap to other currencies with little to no fees"),
     "invalid_number" : MessageLookupByLibrary.simpleMessage("Invalid number"),
     "invalid_pincode" : MessageLookupByLibrary.simpleMessage("Invalid pincode"),
     "invalid_qa_code" : MessageLookupByLibrary.simpleMessage("Invalid QA Code"),
