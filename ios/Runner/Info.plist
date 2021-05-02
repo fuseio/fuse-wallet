@@ -99,7 +99,7 @@
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>This identifier will be used to track errors occur to you & for our internal analytics.</string>
+	<string>This identifier will be used to track errors occur to you and for our internal analytics.</string>
 	<key>SKAdNetworkItems</key>
   <array>
     <dict>
