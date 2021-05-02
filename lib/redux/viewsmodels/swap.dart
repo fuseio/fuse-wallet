@@ -30,7 +30,8 @@ class SwapViewModel extends Equatable {
     return SwapViewModel(
       plugins: community?.plugins ?? Plugins(),
       payWithTokens:
-          tokens.where((element) => element.amount > BigInt.zero).toList(),
+          tokens.where((element) => element.amount > BigInt.zero).toList() ??
+              [],
       receiveTokens: tokens,
       walletAddress: store.state.userState.walletAddress,
       tokens: (store.state.swapState?.tokens?.values?.toList() ?? [])

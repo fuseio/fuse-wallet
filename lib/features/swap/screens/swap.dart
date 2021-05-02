@@ -33,7 +33,8 @@ class SwapScreen extends StatefulWidget {
   _SwapScreenState createState() => _SwapScreenState();
 }
 
-class _SwapScreenState extends State<SwapScreen> {
+class _SwapScreenState extends State<SwapScreen>
+    with SingleTickerProviderStateMixin {
   final tokenOutDebouncer = Debouncer(milliseconds: 1000);
   final tokenInDebouncer = Debouncer(milliseconds: 1000);
   TextEditingController tokenInController = TextEditingController();
@@ -46,9 +47,12 @@ class _SwapScreenState extends State<SwapScreen> {
   Token tokenIn;
   List<Token> tokenList;
   bool isSwapped = false;
+  AnimationController controller;
+  Animation<Offset> offset;
 
   @override
   void dispose() {
+    controller?.dispose();
     tokenOutController.dispose();
     tokenInController.dispose();
     super.dispose();
@@ -56,6 +60,11 @@ class _SwapScreenState extends State<SwapScreen> {
 
   @override
   void initState() {
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+
+    offset = Tween<Offset>(begin: Offset(0.0, 2.0), end: Offset.zero).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutQuad));
     super.initState();
   }
 
@@ -109,6 +118,7 @@ class _SwapScreenState extends State<SwapScreen> {
           amountIn: '0',
         );
       });
+      controller.reverse();
     };
     try {
       if (value.isNotEmpty) {
@@ -126,9 +136,9 @@ class _SwapScreenState extends State<SwapScreen> {
         ]);
         List<TradeInfo> result = await swapInfo;
         final TradeInfo tradeInfo = result[0];
-        log.info('amountIn: ${swapRequestBody.amountIn}');
-        log.info(
-            'tradeInfo: inputAmount - ${tradeInfo.inputAmount} outputAmount - ${tradeInfo.outputAmount}');
+        // log.info('amountIn: ${swapRequestBody.amountIn}');
+        // log.info(
+        //     'tradeInfo: inputAmount - ${tradeInfo.inputAmount} outputAmount - ${tradeInfo.outputAmount}');
         final TradeInfo rate = result[1];
         setState(() {
           rateInfo = rate;
@@ -136,6 +146,7 @@ class _SwapScreenState extends State<SwapScreen> {
           isFetchingPrice = false;
         });
         onSuccess(tradeInfo);
+        controller.forward();
       } else {
         resetFields();
       }
@@ -360,11 +371,9 @@ class _SwapScreenState extends State<SwapScreen> {
         },
         onInitialBuild: (viewModel) {
           if (viewModel.tokens.isNotEmpty) {
-            final Token payWith = widget.primaryToken ??
-                viewModel.tokens.firstWhere(
-                    (element) => element.address == fuseDollarToken.address);
-            final Token receiveToken = viewModel.tokens.firstWhere((element) =>
-                element.symbol == 'USDC' && element.address != payWith.address);
+            final Token payWith = widget.primaryToken ?? viewModel.tokens[0];
+            final Token receiveToken = viewModel.tokens
+                .firstWhere((element) => element.address != payWith.address);
             setState(() {
               tokenOutController.text = '';
               tokenInController.text = '';
@@ -383,13 +392,9 @@ class _SwapScreenState extends State<SwapScreen> {
         },
         onWillChange: (previousViewModel, newViewModel) {
           if (previousViewModel.tokens != newViewModel.tokens) {
-            final Token payWith = widget.primaryToken ??
-                newViewModel.tokens.firstWhere(
-                    (element) => element.address == fuseDollarToken.address);
-            final Token receiveToken = newViewModel.tokens.firstWhere(
-                (element) =>
-                    element.symbol == 'USDC' &&
-                    element.address != payWith.address);
+            final Token payWith = widget.primaryToken ?? newViewModel.tokens[0];
+            final Token receiveToken = newViewModel.tokens
+                .firstWhere((element) => element.address != payWith.address);
             setState(() {
               tokenOutController.text = '';
               tokenInController.text = '';
@@ -424,7 +429,6 @@ class _SwapScreenState extends State<SwapScreen> {
                     ) <=
                     0 &&
                 viewModel.payWithTokens.isNotEmpty;
-
             return InkWell(
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,
@@ -506,26 +510,35 @@ class _SwapScreenState extends State<SwapScreen> {
                               depositPlugins.isNotEmpty
                           ? topUpYourAccount(depositPlugins[0].widgetUrl)
                           : SizedBox.shrink(),
-                      PrimaryButton(
-                        disabled: isFetchingPrice || !hasFund,
-                        preload: isFetchingPrice,
-                        labelColor: hasFund ? null : Color(0xFF797979),
-                        bgColor: hasFund
-                            ? null
-                            : Theme.of(context).colorScheme.secondary,
-                        label: hasFund
-                            ? I10n.of(context).review_swap
-                            : I10n.of(context).insufficient_fund,
-                        onPressed: () {
-                          ExtendedNavigator.root.pushReviewSwapScreen(
-                            rateInfo: rateInfo,
-                            swapRequestBody: swapRequestBody,
-                            tradeInfo: info,
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 30,
+                      Center(
+                        child: SlideTransition(
+                          position: offset,
+                          child: Column(
+                            children: [
+                              PrimaryButton(
+                                disabled: isFetchingPrice || !hasFund,
+                                preload: isFetchingPrice,
+                                labelColor: hasFund ? null : Color(0xFF797979),
+                                bgColor: hasFund
+                                    ? null
+                                    : Theme.of(context).colorScheme.secondary,
+                                label: hasFund
+                                    ? I10n.of(context).review_swap
+                                    : I10n.of(context).insufficient_fund,
+                                onPressed: () {
+                                  ExtendedNavigator.root.pushReviewSwapScreen(
+                                    rateInfo: rateInfo,
+                                    swapRequestBody: swapRequestBody,
+                                    tradeInfo: info,
+                                  );
+                                },
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
