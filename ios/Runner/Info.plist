@@ -100,5 +100,14 @@
 	<array>
 		<string>itms</string>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to track errors occur to you & for our internal analytics.</string>
+	<key>SKAdNetworkItems</key>
+  <array>
+    <dict>
+      <key>SKAdNetworkIdentifier</key>
+      <string>cstr6suwn9.skadnetwork</string>
+    </dict>
+  </array>
 </dict>
 </plist>

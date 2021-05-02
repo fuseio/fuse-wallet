@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.41.1"
+  app_tracking_transparency:
+    dependency: "direct main"
+    description:
+      name: app_tracking_transparency
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0+1"
   archive:
     dependency: transitive
     description:
