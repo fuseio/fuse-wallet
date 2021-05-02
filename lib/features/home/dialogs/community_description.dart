@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -147,7 +147,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                             Padding(
                               padding: EdgeInsets.only(bottom: 10),
                               child: Text(
-                                '${widget.community.name} ${I18n.of(context).community}',
+                                '${widget.community.name} ${I10n.of(context).community}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -180,7 +180,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                             Center(
                                 child: PrimaryButton(
                               preload: isPreloading,
-                              label: I18n.of(context).ok,
+                              label: I10n.of(context).ok,
                               onPressed: () async {
                                 Navigator.of(context).pop();
                               },

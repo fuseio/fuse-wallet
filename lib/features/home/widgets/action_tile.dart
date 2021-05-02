@@ -5,7 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -130,6 +130,12 @@ class ActionTile extends StatelessWidget {
           swap: (value) => value.tradeInfo.outputToken,
         );
 
+        final String amount = hasPriceInfo
+            ? '\$' +
+                action.getAmount(
+                  priceInfo: token?.priceInfo,
+                )
+            : action.getAmount();
         final Widget trailing = Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: action.isPending()
@@ -166,12 +172,7 @@ class ActionTile extends StatelessWidget {
                                   TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: hasPriceInfo
-                                            ? '\$' +
-                                                action.getAmount(
-                                                  priceInfo: token?.priceInfo,
-                                                )
-                                            : action.getAmount(),
+                                        text: amount,
                                         style: TextStyle(
                                           fontSize: 15.0,
                                         ),
@@ -199,7 +200,7 @@ class ActionTile extends StatelessWidget {
                             child: action.isPending()
                                 ? Padding(
                                     child: Text(
-                                      I18n.of(context).pending,
+                                      I10n.of(context).pending,
                                       style: TextStyle(
                                         color: Color(0xFF8D8D8D),
                                         fontSize: 10,
@@ -288,8 +289,8 @@ class ActionTile extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(
                             text: action.isJoinCommunity() && action.isPending()
-                                ? I18n.of(context).joining
-                                : I18n.of(context).joined,
+                                ? I10n.of(context).joining
+                                : I10n.of(context).joined,
                             style: TextStyle(
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -307,7 +308,7 @@ class ActionTile extends StatelessWidget {
                                 )
                               : TextSpan(text: ''),
                           TextSpan(
-                            text: I18n.of(context).community,
+                            text: I10n.of(context).community,
                             style: TextStyle(
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -326,7 +327,7 @@ class ActionTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        I18n.of(context).swap + ' ',
+                        I10n.of(context).swap + ' ',
                         style: TextStyle(
                           color: Color(0xFF333333),
                           fontSize: 16,
@@ -395,7 +396,7 @@ class ActionTile extends StatelessWidget {
 
         final Widget subtitle = action.isGenerateWallet() && action.isPending()
             ? Text(
-                I18n.of(context).up_to_10,
+                I10n.of(context).up_to_10,
                 style: TextStyle(
                   fontSize: 12,
                 ),
@@ -414,7 +415,7 @@ class ActionTile extends StatelessWidget {
                               ' ' +
                               value.tradeInfo.inputToken,
                         ) +
-                        ' ${I18n.of(context).to.toLowerCase()} ' +
+                        ' ${I10n.of(context).to.toLowerCase()} ' +
                         action.map(
                           createWallet: (value) => '',
                           joinCommunity: (value) => '',

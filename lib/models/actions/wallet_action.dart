@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/utils/format.dart';
@@ -32,7 +32,16 @@ abstract class WalletAction implements _$WalletAction {
       send: (value) => calcPrice(value?.value, value.tokenDecimal, priceInfo),
       receive: (value) =>
           calcPrice(value?.value, value.tokenDecimal, priceInfo),
-      swap: (value) => display(num.parse(value.tradeInfo.outputAmount)),
+      swap: (value) {
+        final bool hasPriceInfo =
+            ![null, '', '0', 0].contains(priceInfo?.quote);
+        if (hasPriceInfo) {
+          double a = double.parse(value.tradeInfo.outputAmount) *
+              double.parse(priceInfo?.quote);
+          return display(num.tryParse(a.toString()));
+        }
+        return display(num.parse(value.tradeInfo.outputAmount));
+      },
     );
   }
 
@@ -152,53 +161,53 @@ abstract class WalletAction implements _$WalletAction {
     return this.map(
       createWallet: (value) {
         if (value.isFailed()) {
-          return I18n.of(ExtendedNavigator.root.context).generate_wallet_failed;
+          return I10n.of(ExtendedNavigator.root.context).generate_wallet_failed;
         } else if (value.isConfirmed()) {
-          return I18n.of(ExtendedNavigator.root.context).generated_wallet;
+          return I10n.of(ExtendedNavigator.root.context).generated_wallet;
         } else {
-          return I18n.of(ExtendedNavigator.root.context).generating_wallet;
+          return I10n.of(ExtendedNavigator.root.context).generating_wallet;
         }
       },
       joinCommunity: (value) => value.communityName,
       fiatDeposit: (value) {
         if (value.isFailed()) {
-          return 'fUSD - ${I18n.of(ExtendedNavigator.root.context).deposit_failed}';
+          return 'fUSD - ${I10n.of(ExtendedNavigator.root.context).deposit_failed}';
         } else if (value.isConfirmed()) {
-          return 'fUSD - ${I18n.of(ExtendedNavigator.root.context).deposit}';
+          return 'fUSD - ${I10n.of(ExtendedNavigator.root.context).deposit}';
         } else {
-          return I18n.of(ExtendedNavigator.root.context).waiting_for_deposit;
+          return I10n.of(ExtendedNavigator.root.context).waiting_for_deposit;
         }
       },
       bonus: (value) {
         if (value.isFailed()) {
-          return '${I18n.of(ExtendedNavigator.root.context).receiving} ${value.bonusType} ${I18n.of(ExtendedNavigator.root.context).bonus} failed';
+          return '${I10n.of(ExtendedNavigator.root.context).receiving} ${value.bonusType} ${I10n.of(ExtendedNavigator.root.context).bonus} failed';
         } else if (value.isConfirmed()) {
-          return '${I18n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I18n.of(ExtendedNavigator.root.context).bonus}';
+          return '${I10n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I10n.of(ExtendedNavigator.root.context).bonus}';
         } else {
-          return '${I18n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I18n.of(ExtendedNavigator.root.context).bonus}';
+          return '${I10n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I10n.of(ExtendedNavigator.root.context).bonus}';
         }
       },
       send: (value) {
         if (value.isFailed()) {
-          return '${I18n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I18n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
+          return '${I10n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I10n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
         } else if (value.isConfirmed()) {
-          return '${I18n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
+          return '${I10n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         } else {
-          return '${I18n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
+          return '${I10n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         }
       },
       receive: (value) {
         if (value.isFailed()) {
-          return '${I18n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)}  ${I18n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
+          return '${I10n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)}  ${I10n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
         } else if (value.isConfirmed()) {
-          return '${I18n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
+          return '${I10n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         } else {
-          return '${I18n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I18n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
+          return '${I10n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
         }
       },
       swap: (value) {
         final String text = value.tradeInfo.inputToken +
-            I18n.of(ExtendedNavigator.root.context).for_text +
+            I10n.of(ExtendedNavigator.root.context).for_text +
             ' ${value.tradeInfo.outputToken}';
         return text;
       },

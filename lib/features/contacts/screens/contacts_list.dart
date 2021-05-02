@@ -8,7 +8,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/contacts/widgets/empty_state.dart';
 import 'package:fusecash/features/contacts/widgets/recent_contacts.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
 import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
@@ -60,7 +60,7 @@ class _ContactsListState extends State<ContactsList> {
         return _contacts != null
             ? MyScaffold(
                 automaticallyImplyLeading: widget.automaticallyImplyLeading,
-                title: I18n.of(context).send_to,
+                title: I10n.of(context).send_to,
                 body: InkWell(
                   focusColor: Theme.of(context).canvasColor,
                   highlightColor: Theme.of(context).canvasColor,

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
@@ -310,7 +310,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               padding: EdgeInsets.only(
                                   left: 100, right: 100, top: 15, bottom: 15),
                               child: Text(
-                                I18n.of(context).pay,
+                                I10n.of(context).pay,
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .textTheme

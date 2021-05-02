@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'package:fusecash/features/home/dialogs/move_to_ethereum.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -78,7 +78,7 @@ class _BridgeDialogState extends State<BridgeDialog>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        I18n.of(context).bridge_to +
+                        I10n.of(context).bridge_to +
                             ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -93,7 +93,7 @@ class _BridgeDialogState extends State<BridgeDialog>
                       Center(
                         child: PrimaryButton(
                           preload: isPreloading,
-                          label: I18n.of(context).move_to +
+                          label: I10n.of(context).move_to +
                               ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
                           onPressed: () async {
                             Navigator.of(context).pop();

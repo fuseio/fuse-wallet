@@ -11,7 +11,6 @@ abstract class Price with _$Price {
   factory Price({
     String currency,
     String quote,
-    String total,
   }) = _Price;
 
   factory Price.fromJson(Map<String, dynamic> json) => _$PriceFromJson(json);

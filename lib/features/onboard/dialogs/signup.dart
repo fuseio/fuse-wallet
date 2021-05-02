@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/features/screens/webview_screen.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
@@ -62,7 +62,7 @@ class SignUpDialogState extends State<SignUpDialog>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    I18n.of(context).why_do_we_need_this,
+                    I10n.of(context).why_do_we_need_this,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    I18n.of(context).stores_private,
+                    I10n.of(context).stores_private,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
@@ -78,7 +78,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    I18n.of(context).will_never_share,
+                    I10n.of(context).will_never_share,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
@@ -86,7 +86,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    I18n.of(context).for_more_info,
+                    I10n.of(context).for_more_info,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
@@ -100,7 +100,7 @@ class SignUpDialogState extends State<SignUpDialog>
                         context,
                         MaterialPageRoute(
                           builder: (context) => WebViewScreen(
-                            title: I18n.of(context).legal,
+                            title: I10n.of(context).legal,
                             withBack: true,
                             url: 'https://fuse.cash/privacy',
                           ),
@@ -109,7 +109,7 @@ class SignUpDialogState extends State<SignUpDialog>
                       );
                     },
                     child: Text(
-                      I18n.of(context).privacy,
+                      I10n.of(context).privacy,
                       style: TextStyle(
                         color: Color(0xFF0076FF),
                         fontSize: 18,
@@ -120,7 +120,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: I18n.of(context).ok_thanks,
+                      label: I10n.of(context).ok_thanks,
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },

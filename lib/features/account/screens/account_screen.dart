@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/features/screens/webview_screen.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/url.dart';
@@ -33,14 +33,14 @@ class _AccountScreenState extends State<AccountScreen> {
     List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
     if (depositPlugins.isNotEmpty) {
       plugins.add(MenuTile(
-        label: '${I18n.of(context).top_up} \$',
+        label: '${I10n.of(context).top_up} \$',
         menuIcon: 'top_up_icon.svg',
         onTap: () {
           String url = depositPlugins[0].widgetUrl;
           openDepositWebview(
             withBack: true,
             url: url,
-            title: I18n.of(context).top_up,
+            title: I10n.of(context).top_up,
           );
           Segment.track(eventName: 'User clicked on top up');
         },
@@ -53,7 +53,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).account,
+      title: I10n.of(context).account,
       body: StoreConnector<AppState, AccountViewModel>(
         distinct: true,
         converter: AccountViewModel.fromStore,
@@ -76,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: Column(
                           children: [
                             MenuTile(
-                              label: I18n.of(context).settings,
+                              label: I10n.of(context).settings,
                               menuIcon: 'settings_icon.svg',
                               onTap: ExtendedNavigator.named('accountRouter')
                                   .pushSettingsScreen,
@@ -87,7 +87,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ),
                             MenuTile(
-                              label: I18n.of(context).protect_wallet,
+                              label: I10n.of(context).protect_wallet,
                               menuIcon: 'protect_wallet.svg',
                               onTap: ExtendedNavigator.named('accountRouter')
                                   .pushProtectYourWallet,
@@ -122,13 +122,13 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                             ...pluginsItems(viewModel),
                             MenuTile(
-                              label: I18n.of(context).social,
+                              label: I10n.of(context).social,
                               menuIcon: 'social_icon.svg',
                               onTap: ExtendedNavigator.named('accountRouter')
                                   .pushSocialScreen,
                             ),
                             MenuTile(
-                              label: I18n.of(context).contact_us,
+                              label: I10n.of(context).contact_us,
                               menuIcon: 'contact_us_icon.svg',
                               onTap: () {
                                 final Uri _emailLaunchUri = Uri(
@@ -139,23 +139,23 @@ class _AccountScreenState extends State<AccountScreen> {
                               },
                             ),
                             MenuTile(
-                              label: I18n.of(context).invite_friend,
+                              label: I10n.of(context).invite_friend,
                               menuIcon: 'invite_friend_icon.svg',
                               onTap: () {
                                 Share.share(
-                                  '${I18n.of(context).invite_friend_text} https://app.fuse.cash/NXzV6y1HLfb',
+                                  '${I10n.of(context).invite_friend_text} https://app.fuse.cash/NXzV6y1HLfb',
                                 );
                               },
                             ),
                             MenuTile(
-                              label: I18n.of(context).legal,
+                              label: I10n.of(context).legal,
                               menuIcon: 'legal_icon.svg',
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => WebViewScreen(
-                                      title: I18n.of(context).legal,
+                                      title: I10n.of(context).legal,
                                       withBack: true,
                                       url: 'https://fuse.cash/privacy',
                                     ),

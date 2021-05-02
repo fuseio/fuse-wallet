@@ -8,7 +8,7 @@ import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/account/router/router.gr.dart';
 
@@ -38,7 +38,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).protect_wallet,
+      title: I10n.of(context).protect_wallet,
       body: StoreConnector<AppState, SecurityViewModel>(
         distinct: true,
         converter: SecurityViewModel.fromStore,
@@ -52,7 +52,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
               primary: false,
               children: <Widget>[
                 MenuTile(
-                  label: I18n.of(context).back_up,
+                  label: I10n.of(context).back_up,
                   menuIcon: 'backup_icon.svg',
                   onTap:
                       ExtendedNavigator.named('accountRouter').pushShowMnemonic,
@@ -68,7 +68,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                     top: 20,
                     bottom: 20,
                   ),
-                  child: Text(I18n.of(context).please_choose_security),
+                  child: Text(I10n.of(context).please_choose_security),
                 ),
                 MenuTile(
                   label: BiometricUtils.getBiometricString(
@@ -98,7 +98,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                 ),
                 Divider(),
                 MenuTile(
-                  label: I18n.of(context).pincode,
+                  label: I10n.of(context).pincode,
                   menuIcon: 'pincode.svg',
                   trailing: !isBiometric
                       ? SvgPicture.asset(

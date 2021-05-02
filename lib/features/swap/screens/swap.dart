@@ -11,7 +11,7 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
@@ -178,7 +178,7 @@ class _SwapScreenState extends State<SwapScreen> {
                       Padding(
                         padding: EdgeInsets.only(top: 20, bottom: 10),
                         child: Text(
-                          I18n.of(context).token,
+                          I10n.of(context).token,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Europa',
@@ -194,7 +194,7 @@ class _SwapScreenState extends State<SwapScreen> {
                               ? Padding(
                                   padding: EdgeInsets.only(bottom: 30),
                                   child: Text(
-                                    I18n.of(context).no_swap_option,
+                                    I10n.of(context).no_swap_option,
                                     style: TextStyle(
                                       color: Color(0xFF979797),
                                       fontSize: 16.0,
@@ -288,7 +288,7 @@ class _SwapScreenState extends State<SwapScreen> {
           );
         },
         child: Text(
-          I18n.of(context).use_max,
+          I10n.of(context).use_max,
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w400,
@@ -321,10 +321,10 @@ class _SwapScreenState extends State<SwapScreen> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: I18n.of(context).your_balance_is_empty + ' ',
+                        text: I10n.of(context).your_balance_is_empty + ' ',
                       ),
                       TextSpan(
-                        text: I18n.of(context).top_up_your_account,
+                        text: I10n.of(context).top_up_your_account,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primaryVariant,
@@ -351,7 +351,7 @@ class _SwapScreenState extends State<SwapScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).swap,
+      title: I10n.of(context).swap,
       body: StoreConnector<AppState, SwapViewModel>(
         distinct: true,
         converter: SwapViewModel.fromStore,
@@ -465,7 +465,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                   useMaxWidget: maxButton(),
                                   textEditingController: tokenOutController,
                                   token: tokenOut,
-                                  title: I18n.of(context).pay_with,
+                                  title: I10n.of(context).pay_with,
                                 ),
                                 TradeCard(
                                   onTap: () {
@@ -489,7 +489,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                   isSwapped: !isSwapped,
                                   textEditingController: tokenInController,
                                   token: tokenIn,
-                                  title: I18n.of(context).receive,
+                                  title: I10n.of(context).receive,
                                 ),
                               ],
                             ),
@@ -514,8 +514,8 @@ class _SwapScreenState extends State<SwapScreen> {
                             ? null
                             : Theme.of(context).colorScheme.secondary,
                         label: hasFund
-                            ? I18n.of(context).review_swap
-                            : I18n.of(context).insufficient_fund,
+                            ? I10n.of(context).review_swap
+                            : I10n.of(context).insufficient_fund,
                         onPressed: () {
                           ExtendedNavigator.root.pushReviewSwapScreen(
                             rateInfo: rateInfo,

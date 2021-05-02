@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/recovery.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -38,7 +38,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).restore_from_backup,
+      title: I10n.of(context).restore_from_backup,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +53,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Text(
-                          I18n.of(context).restore_words,
+                          I10n.of(context).restore_words,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -118,7 +118,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                     child: PrimaryButton(
                       preload: isPreloading,
                       disabled: isPreloading,
-                      label: I18n.of(context).next_button,
+                      label: I10n.of(context).next_button,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           setState(() {

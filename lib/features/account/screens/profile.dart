@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/profile.dart';
 import 'package:fusecash/utils/format.dart';
@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
       builder: (_, viewModel) {
         return MyScaffold(
-          title: I18n.of(context).account,
+          title: I10n.of(context).account,
           body: InkWell(
             focusColor: Theme.of(context).canvasColor,
             highlightColor: Theme.of(context).canvasColor,
@@ -100,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   .colorScheme
                                                   .onSurface,
                                               child: Text(
-                                                I18n.of(context).edit,
+                                                I10n.of(context).edit,
                                                 style: TextStyle(
                                                     color: Theme.of(context)
                                                         .canvasColor,
@@ -128,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(I18n.of(context).name,
+                            child: Text(I10n.of(context).name,
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.grey))),
                       ),
@@ -174,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Divider(),
                       _buildGroup(
-                        I18n.of(context).wallet_address,
+                        I10n.of(context).wallet_address,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -208,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Divider(),
                       _buildGroup(
-                        I18n.of(context).phoneNumber,
+                        I10n.of(context).phoneNumber,
                         Text(
                           viewModel?.phone,
                           style: TextStyle(
@@ -273,13 +273,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                    title: Text(I18n.of(context).camera),
+                    title: Text(I10n.of(context).camera),
                     onTap: () {
                       callback(ImageSource.camera);
                       Navigator.pop(context);
                     }),
                 ListTile(
-                  title: Text(I18n.of(context).gallery),
+                  title: Text(I10n.of(context).gallery),
                   onTap: () {
                     callback(ImageSource.gallery);
                     Navigator.pop(context);

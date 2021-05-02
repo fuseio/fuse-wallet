@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
@@ -97,7 +97,7 @@ class RecentContacts extends StatelessWidget {
               0,
               Container(
                   padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
-                  child: Text(I18n.of(context).recent,
+                  child: Text(I10n.of(context).recent,
                       style: TextStyle(
                           color: Color(0xFF979797),
                           fontSize: 12.0,

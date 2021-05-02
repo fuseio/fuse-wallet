@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -30,7 +30,7 @@ class CashHeader extends StatelessWidget {
             children: <Widget>[
               Flexible(
                 child: Text(
-                  '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
+                  '${I10n.of(context).hi} ${viewModel?.firstName() ?? ''}',
                   style: TextStyle(
                     fontSize: 25,
                   ),
@@ -46,7 +46,7 @@ class CashHeader extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          I18n.of(context).balance,
+                          I10n.of(context).balance,
                           style: TextStyle(
                             color: Color(0xFF454545),
                             fontSize: 13.0,

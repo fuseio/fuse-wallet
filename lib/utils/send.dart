@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
@@ -150,11 +150,11 @@ void barcodeScannerHandler(context) async {
         ),
       ],
       titleText: Text(
-        I18n.of(context).error,
+        I10n.of(context).error,
         style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
-        I18n.of(context).invalid_qa_code,
+        I10n.of(context).invalid_qa_code,
         style: TextStyle(
           fontSize: 14.0,
         ),

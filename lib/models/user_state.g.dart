@@ -44,6 +44,7 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
         {},
     currency: currencyJson(json['currency'] as String),
     authType: authTypeFromJson(json['authType'] as String),
+    locale: localeFromJson(json['locale'] as Map<String, dynamic>),
   );
 }
 
@@ -75,4 +76,5 @@ Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
       'reverseContacts': instance.reverseContacts,
       'currency': instance.currency,
       'authType': EnumToString.convertToString(instance.authType),
+      'locale': localeToJson(instance.locale),
     };

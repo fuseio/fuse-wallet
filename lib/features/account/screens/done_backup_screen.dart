@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -13,7 +13,7 @@ class DoneBackup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).back_up,
+      title: I10n.of(context).back_up,
       body: StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
         builder: (_, viewModal) {
@@ -37,7 +37,7 @@ class DoneBackup extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      I18n.of(context).wallet_protected,
+                      I10n.of(context).wallet_protected,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -52,7 +52,7 @@ class DoneBackup extends StatelessWidget {
                         horizontal: 30,
                       ),
                       child: Text(
-                        I18n.of(context).wallet_protected_text,
+                        I10n.of(context).wallet_protected_text,
                         style: TextStyle(fontSize: 17),
                         textAlign: TextAlign.center,
                       ),
@@ -63,7 +63,7 @@ class DoneBackup extends StatelessWidget {
                   children: [
                     Center(
                       child: PrimaryButton(
-                        label: I18n.of(context).ok,
+                        label: I10n.of(context).ok,
                         onPressed: () {
                           viewModal.backupWallet();
                           ExtendedNavigator.named('accountRouter').popUntilRoot();

@@ -5,7 +5,7 @@ class UrlConstants {
   static const String FUSE_EXPLORER_URL = 'https://explorer.fuse.io/api';
   static const String FUSE_RPC_URL = 'https://rpc.fuse.io';
   static const String FUSESWAP_TOKEN_LIST = 'https://raw.githubusercontent.com/fuseio/fuseswap-default-token-list/master/build/fuseswap-default.tokenlist.json';
-  static const String FUSESWAP_SERVICE_API = 'https://service.fuseswap.com/api/v1';
+  static const String FUSESWAP_SERVICE_API = 'https://api.fuseswap.com/api/v1';
 
   // EXCHANGES API'S
   static const String TOTLE_EXCHANGE_API = 'https://api.totle.com';

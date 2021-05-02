@@ -11,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/strings.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/common/router/route_guards.dart';
@@ -19,7 +20,6 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -27,17 +27,21 @@ class MyApp extends StatefulWidget {
   final Store<AppState> store;
   MyApp({Key key, this.store}) : super(key: key);
 
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    state.setLocale(newLocale);
+  }
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  final i18n = I18n.delegate;
   StreamSubscription<Map> streamSubscription;
-
-  void onLocaleChange(Locale locale) {
+  Locale _locale;
+  setLocale(Locale locale) {
     setState(() {
-      I18n.locale = locale;
+      _locale = locale;
     });
   }
 
@@ -106,7 +110,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     setJwtToken(widget.store);
     listenDynamicLinks(widget.store);
-    I18n.onLocaleChanged = onLocaleChange;
+    _locale = widget.store.state.userState.locale;
   }
 
   @override
@@ -114,17 +118,18 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
       store: widget.store,
       child: MaterialApp(
+        locale: _locale,
         themeMode: ThemeMode.system,
         title: Strings.APP_NAME,
         builder: ExtendedNavigator.builder(
+          initialRoute: "/",
+          router: Router(),
+          guards: [AuthGuard()],
           observers: [
             FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
             SegmentObserver(),
             SentryNavigatorObserver(),
           ],
-          router: Router(),
-          initialRoute: "/",
-          guards: [AuthGuard()],
           builder: (_, extendedNav) => Theme(
             data: FlexColorScheme.light(
               fontFamily: 'Europa',
@@ -153,16 +158,22 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         localizationsDelegates: [
-          i18n,
+          I10n.delegate,
           CountryLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: i18n.supportedLocales,
-        localeResolutionCallback: i18n.resolution(
-          fallback: Locale("en", "US"),
-        ),
+        supportedLocales: I10n.delegate.supportedLocales,
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
+          }
+          return supportedLocales.first;
+        },
       ),
     );
   }

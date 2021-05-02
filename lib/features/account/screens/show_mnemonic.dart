@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -30,7 +30,7 @@ class ShowMnemonic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).back_up,
+      title: I10n.of(context).back_up,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,10 +54,10 @@ class ShowMnemonic extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: I18n.of(context).important + ' ',
+                                text: I10n.of(context).important + ' ',
                               ),
                               TextSpan(
-                                text: I18n.of(context).write_words,
+                                text: I10n.of(context).write_words,
                               )
                             ],
                           ),
@@ -174,7 +174,7 @@ class ShowMnemonic extends StatelessWidget {
               children: [
                 Center(
                   child: PrimaryButton(
-                    label: I18n.of(context).next_button,
+                    label: I10n.of(context).next_button,
                     onPressed: ExtendedNavigator.named('accountRouter')
                         .pushVerifyMnemonic,
                   ),

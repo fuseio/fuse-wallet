@@ -3,7 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/send_amount.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
@@ -130,7 +130,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   Widget build(BuildContext context) {
     final SendFlowArguments args = this.widget.pageArgs;
     return MyScaffold(
-      title: I18n.of(context).review_transfer,
+      title: I10n.of(context).review_transfer,
       body: StoreConnector<AppState, SendAmountViewModel>(
         converter: SendAmountViewModel.fromStore,
         builder: (_, viewModel) {
@@ -176,7 +176,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           height: 50,
                         ),
                         Text(
-                          I18n.of(context).amount,
+                          I10n.of(context).amount,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -292,7 +292,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                                     args.accountAddress.isEmpty
                                                 ? SizedBox.shrink()
                                                 : Text(
-                                                    I18n.of(context).address +
+                                                    I10n.of(context).address +
                                                         ": ${formatAddress(args.accountAddress)}",
                                                     style: TextStyle(
                                                       fontSize: 13,
@@ -304,7 +304,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                           ]
                                         : <Widget>[
                                             Text(
-                                              I18n.of(context).address +
+                                              I10n.of(context).address +
                                                   ": ${formatAddress(args.accountAddress)}",
                                               style: TextStyle(
                                                 fontSize: 13,
@@ -329,7 +329,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     height: 10,
                                   ),
                                   Text(
-                                    I18n.of(context).fee_amount +
+                                    I10n.of(context).fee_amount +
                                         ' ${feeAmount.toStringAsFixed(1)} $symbol',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -343,7 +343,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     height: 10,
                                   ),
                                   Text(
-                                      I18n.of(context).total_amount +
+                                      I10n.of(context).total_amount +
                                           ' ${(args.amount + feeAmount).toStringAsFixed(1)} $symbol',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -367,7 +367,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                             Padding(
                                               padding: EdgeInsets.only(left: 7),
                                               child: Text(
-                                                I18n.of(context)
+                                                I10n.of(context)
                                                     .not_enough_balance,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
@@ -390,10 +390,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     padding: EdgeInsets.only(
                                         top: 20.0, left: 30, right: 30),
                                     child: Text(
-                                      I18n.of(context).invite_text(
+                                      I10n.of(context).invite_text(
                                         args.name != null
                                             ? args.name
-                                            : I18n.of(context).friend,
+                                            : I10n.of(context).friend,
                                       ),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -410,7 +410,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   children: [
                     Center(
                       child: PrimaryButton(
-                        label: I18n.of(context).send_button,
+                        label: I10n.of(context).send_button,
                         disabled: isPreloading || !hasFund,
                         preload: isPreloading,
                         onPressed: () {

@@ -4,7 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/send_amount.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
@@ -80,7 +80,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                       Padding(
                         padding: EdgeInsets.only(top: 20, bottom: 10),
                         child: Text(
-                          I18n.of(context).token,
+                          I10n.of(context).token,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Europa',
@@ -182,7 +182,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: Text(
-          I18n.of(context).use_max,
+          I10n.of(context).use_max,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -208,7 +208,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   Widget build(BuildContext context) {
     final SendFlowArguments args = this.widget.pageArgs;
     String title =
-        "${I18n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
+        "${I10n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
@@ -270,7 +270,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      I18n.of(context).how_much,
+                                      I10n.of(context).how_much,
                                       style: TextStyle(
                                         color: Color(
                                           0xFF898989,
@@ -398,8 +398,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   : Theme.of(context).colorScheme.secondary,
                               labelColor: hasFund ? null : Color(0xFF797979),
                               label: hasFund
-                                  ? I18n.of(context).next_button
-                                  : I18n.of(context).insufficient_fund,
+                                  ? I10n.of(context).next_button
+                                  : I10n.of(context).insufficient_fund,
                               onPressed: () {
                                 args.tokenToSend = selectedToken;
                                 args.amount = double.parse(amountText);

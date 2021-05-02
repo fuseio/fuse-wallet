@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 // import 'package:fusecash/features/home/widgets/price_line_chart.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/default_logo.dart';
@@ -177,7 +177,7 @@ class TokenTile extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  I18n.of(context).price,
+                                  I10n.of(context).price,
                                   style: TextStyle(
                                     fontFamily: 'Europa',
                                     fontSize: 13,
@@ -201,7 +201,7 @@ class TokenTile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            I18n.of(context).your_balance,
+                            I10n.of(context).your_balance,
                             style: TextStyle(
                               fontFamily: 'Europa',
                               fontSize: 13,
@@ -244,7 +244,7 @@ class TokenTile extends StatelessWidget {
                   children: [
                     isSwappable
                         ? Button(
-                            text: I18n.of(context).swap,
+                            text: I10n.of(context).swap,
                             icon: 'swap_action',
                             onPressed: () {
                               ExtendedNavigator.root.pushSwapScreen(
@@ -254,7 +254,7 @@ class TokenTile extends StatelessWidget {
                           )
                         : SizedBox.shrink(),
                     Button(
-                      text: I18n.of(context).send_button,
+                      text: I10n.of(context).send_button,
                       icon: 'send_action',
                       width: isSwappable
                           ? null
@@ -310,32 +310,21 @@ class TokenTile extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: (token.imageUrl != null && token.imageUrl.isNotEmpty ||
-                      (viewModel?.tokensImages
-                              ?.containsKey(token?.address?.toLowerCase()) ??
-                          false))
-                  ? CachedNetworkImage(
-                      width: symbolWidth,
-                      height: symbolHeight,
-                      imageUrl: (viewModel?.tokensImages?.containsKey(
-                                  token?.address?.toLowerCase()) ??
-                              false)
-                          ? viewModel
-                              ?.tokensImages[token?.address?.toLowerCase()]
-                          : token?.imageUrl,
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => DefaultLogo(
-                        symbol: token?.symbol,
-                        width: symbolWidth,
-                        height: symbolHeight,
-                      ),
-                    )
-                  : DefaultLogo(
-                      symbol: token?.symbol,
-                      width: symbolWidth,
-                      height: symbolHeight,
-                    ),
+              child: CachedNetworkImage(
+                width: symbolWidth,
+                height: symbolHeight,
+                imageUrl: (viewModel?.tokensImages
+                            ?.containsKey(token?.address?.toLowerCase()) ??
+                        false)
+                    ? viewModel?.tokensImages[token?.address?.toLowerCase()]
+                    : token?.imageUrl,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => DefaultLogo(
+                  symbol: token?.symbol,
+                  width: symbolWidth,
+                  height: symbolHeight,
+                ),
+              ),
             ),
             isCommunityToken
                 ? Text(

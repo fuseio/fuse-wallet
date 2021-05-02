@@ -57,12 +57,10 @@ String getFiatValue(
   int decimals,
   double price, {
   int fractionDigits = 2,
-  bool withPrecision = false,
 }) {
   if (value == null || decimals == null) return '0';
   Decimal formattedValue = Decimal.parse(
       ((value / BigInt.from(pow(10, decimals))) * price).toString());
-  if (withPrecision) return formattedValue.toString();
   if (formattedValue.compareTo(Decimal.zero) == 1 &&
       formattedValue.compareTo(Decimal.parse('0.01')) <= 0) {
     return '< 0.01';

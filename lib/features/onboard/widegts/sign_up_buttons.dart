@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/onboard/dialogs/warn_before_recreate.dart';
 import 'package:fusecash/redux/viewsmodels/splash.dart';
@@ -35,7 +35,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                 child: ShowUp(
                   delay: 800,
                   child: Text(
-                    I18n.of(context).lets_start,
+                    I10n.of(context).lets_start,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
@@ -52,8 +52,8 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                     disabled: isPrimaryPreloading,
                     preload: isPrimaryPreloading,
                     label: viewModel.isLoggedOut
-                        ? I18n.of(context).login
-                        : I18n.of(context).create_new_wallet,
+                        ? I10n.of(context).login
+                        : I10n.of(context).create_new_wallet,
                     onPressed: () {
                       if (viewModel.isLoggedOut) {
                         viewModel.loginAgain();
@@ -87,20 +87,20 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                             children: <Widget>[
                               TransparentButton(
                                 fontSize: 14,
-                                label: I18n.of(context).restore_backup,
+                                label: I10n.of(context).restore_backup,
                                 onPressed: () {
                                   ExtendedNavigator.root.pushRecoveryPage();
                                 },
                               ),
                               Text(
-                                I18n.of(context).or,
+                                I10n.of(context).or,
                                 style: TextStyle(
                                   color: Color(0xFFB2B2B2),
                                 ),
                               ),
                               TransparentButton(
                                 fontSize: 14,
-                                label: I18n.of(context).create__wallet,
+                                label: I10n.of(context).create__wallet,
                                 preload: isTransparentPreloading,
                                 onPressed: () async {
                                   bool result = await showDialog(
@@ -126,7 +126,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                           )
                         : TransparentButton(
                             fontSize: 20,
-                            label: I18n.of(context).restore_from_backup,
+                            label: I10n.of(context).restore_from_backup,
                             onPressed: () {
                               ExtendedNavigator.root.pushRecoveryPage();
                             },
