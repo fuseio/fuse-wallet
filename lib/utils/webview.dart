@@ -7,14 +7,12 @@ import 'package:fusecash/generated/l10n.dart';
 void openDepositWebview({
   String url,
   bool withBack,
-  String title,
 }) {
   if (Platform.isIOS) {
     ExtendedNavigator.root.pushWebview(
       withBack: withBack,
       url: '$url&finalUrl=https://fuse.cash',
-      title: title ??
-          I10n.of(ExtendedNavigator.root.context).deposit_your_first_dollars,
+      title: I10n.of(ExtendedNavigator.root.context).top_up,
     );
   } else {
     FlutterWebBrowser.openWebPage(

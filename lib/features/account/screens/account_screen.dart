@@ -40,7 +40,6 @@ class _AccountScreenState extends State<AccountScreen> {
           openDepositWebview(
             withBack: true,
             url: url,
-            title: I10n.of(context).top_up,
           );
           Segment.track(eventName: 'User clicked on top up');
         },

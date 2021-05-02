@@ -52,7 +52,6 @@ class DepositBanner extends StatelessWidget {
                           openDepositWebview(
                             withBack: true,
                             url: url,
-                            title: I10n.of(context).deposit_your_first_dollars,
                           );
                         }
                       },

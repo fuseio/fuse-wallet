@@ -288,7 +288,6 @@ class TokenTile extends StatelessWidget {
                               openDepositWebview(
                                 withBack: true,
                                 url: url,
-                                title: I10n.of(context).top_up,
                               );
                             },
                           )
