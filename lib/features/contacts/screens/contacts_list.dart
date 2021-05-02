@@ -214,6 +214,14 @@ class _ContactsListState extends State<ContactsList> {
             EmptyState(),
           ]),
         ));
+        if (searchController.text.isEmpty) {
+          listItems.insert(
+            1,
+            RecentContacts(
+              token: widget?.pageArgs?.tokenToSend,
+            ),
+          );
+        }
       } else {
         List<String> titles = groups.keys.toList()..sort();
         for (String title in titles) {

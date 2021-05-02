@@ -8,7 +8,9 @@ import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -101,6 +103,9 @@ class TokenTile extends StatelessWidget {
   ) {
     final bool isSwappable =
         viewModel?.tokensImages?.containsKey(token.address) ?? false;
+    List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
+    final bool isFUSD =
+        (token.address == fuseDollarToken.address) && depositPlugins.isNotEmpty;
     showBarModalBottomSheet(
       useRootNavigator: true,
       context: ExtendedNavigator.named('homeRouter').context,
@@ -238,12 +243,15 @@ class TokenTile extends StatelessWidget {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: isSwappable
+                  mainAxisAlignment: isSwappable || isFUSD
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.start,
                   children: [
                     isSwappable
                         ? Button(
+                            width: isFUSD
+                                ? MediaQuery.of(context).size.width * .285
+                                : null,
                             text: I10n.of(context).swap,
                             icon: 'swap_action',
                             onPressed: () {
@@ -256,9 +264,11 @@ class TokenTile extends StatelessWidget {
                     Button(
                       text: I10n.of(context).send_button,
                       icon: 'send_action',
-                      width: isSwappable
-                          ? null
-                          : MediaQuery.of(context).size.width * .9,
+                      width: isFUSD
+                          ? MediaQuery.of(context).size.width * .285
+                          : isSwappable
+                              ? null
+                              : MediaQuery.of(context).size.width * .9,
                       onPressed: () {
                         ExtendedNavigator.root.pushContactsList(
                           automaticallyImplyLeading: true,
@@ -268,6 +278,21 @@ class TokenTile extends StatelessWidget {
                         );
                       },
                     ),
+                    isFUSD
+                        ? Button(
+                            text: I10n.of(context).buy,
+                            icon: 'buy_fUSD',
+                            width: MediaQuery.of(context).size.width * .285,
+                            onPressed: () {
+                              String url = depositPlugins[0].widgetUrl;
+                              openDepositWebview(
+                                withBack: true,
+                                url: url,
+                                title: I10n.of(context).top_up,
+                              );
+                            },
+                          )
+                        : SizedBox.shrink(),
                   ],
                 ),
                 // SizedBox(

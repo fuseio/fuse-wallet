@@ -1,4 +1,5 @@
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
@@ -10,16 +11,22 @@ class TokenTileViewModel extends Equatable {
   final Map<String, String> tokensImages;
   final Function(Token token) fetchTokenAction;
   final Function(Token token) fetchTokenPrice;
+  final Plugins plugins;
 
   TokenTileViewModel({
     this.communities,
+    this.plugins,
     this.tokensImages,
     this.fetchTokenAction,
     this.fetchTokenPrice,
   });
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress];
     return TokenTileViewModel(
+      plugins: community?.plugins ?? Plugins(),
       tokensImages: store.state.swapState?.tokensImages ?? Map(),
       communities: store.state.cashWalletState.communities.values.toList(),
       fetchTokenAction: (Token token) {
@@ -35,5 +42,6 @@ class TokenTileViewModel extends Equatable {
   List<Object> get props => [
         communities,
         tokensImages,
+        plugins,
       ];
 }

@@ -1,10 +1,12 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/viewsmodels/trade_card.dart';
+import 'package:fusecash/widgets/default_logo.dart';
 
 class TradeCard extends StatelessWidget {
   final Token token;
@@ -27,9 +29,9 @@ class TradeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, TokenTileViewModel>(
+    return StoreConnector<AppState, TradeCardViewModel>(
       distinct: true,
-      converter: TokenTileViewModel.fromStore,
+      converter: TradeCardViewModel.fromStore,
       builder: (_, viewModel) {
         return Container(
           height: 180,
@@ -71,27 +73,26 @@ class TradeCard extends StatelessWidget {
                                 onTap: onTap,
                                 child: Row(
                                   children: [
-                                    // CachedNetworkImage(
-                                    //   width: 30,
-                                    //   height: 30,
-                                    //   imageUrl: viewModel.tokensImages
-                                    //           .containsKey(
-                                    //               token?.address?.toLowerCase())
-                                    //       ? viewModel?.tokensImages[
-                                    //           token?.address?.toLowerCase()]
-                                    //       : token?.imageUrl,
-                                    //   placeholder: (context, url) =>
-                                    //       CircularProgressIndicator(),
-                                    //   errorWidget: (context, url, error) =>
-                                    //       DefaultLogo(
-                                    //     symbol: token?.symbol,
-                                    //     width: 35,
-                                    //     height: 35,
-                                    //   ),
-                                    // ),
-                                    // SizedBox(
-                                    //   width: 5,
-                                    // ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: CachedNetworkImage(
+                                        width: 35,
+                                        height: 35,
+                                        imageUrl: viewModel
+                                            .tokensImages[token?.address],
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            DefaultLogo(
+                                          symbol: token?.symbol,
+                                          width: 35,
+                                          height: 35,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       token?.symbol ?? '',
                                       style: TextStyle(fontSize: 27),

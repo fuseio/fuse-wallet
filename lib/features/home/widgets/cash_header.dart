@@ -32,7 +32,7 @@ class CashHeader extends StatelessWidget {
                 child: Text(
                   '${I10n.of(context).hi} ${viewModel?.firstName() ?? ''}',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 22,
                   ),
                 ),
               ),

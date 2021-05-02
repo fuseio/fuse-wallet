@@ -56,10 +56,33 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                   menuIcon: 'backup_icon.svg',
                   onTap:
                       ExtendedNavigator.named('accountRouter').pushShowMnemonic,
-                  trailing: SvgPicture.asset(
-                    viewModel.isBackup
-                        ? 'assets/images/go_to_pro.svg'
-                        : 'assets/images/back_up_icon.svg',
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      !viewModel.isBackup
+                          ? Flexible(
+                              child: SvgPicture.asset(
+                                'assets/images/back_up_icon.svg',
+                                width: 10,
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                      !viewModel.isBackup
+                          ? Flexible(
+                              child: SizedBox(
+                                width: 10,
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                      Flexible(
+                        child: SvgPicture.asset(
+                          'assets/images/go_to_pro.svg',
+                          width: 10,
+                          height: 10,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Divider(),

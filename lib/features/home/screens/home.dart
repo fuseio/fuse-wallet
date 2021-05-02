@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
         );
         return Scaffold(
           appBar: MyAppBar(
-            height: 182,
+            height: 156,
             child: CashHeader(),
           ),
           body: viewModel.showDepositBanner

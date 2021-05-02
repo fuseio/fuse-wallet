@@ -21,16 +21,14 @@ class MyScaffold extends StatelessWidget {
         automaticallyImplyLeading: automaticallyImplyLeading,
         backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,
-        title: Container(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              fontFamily: 'Europa',
-            ),
-            softWrap: true,
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            fontFamily: 'Europa',
           ),
+          softWrap: true,
         ),
         bottom: PreferredSize(
           child: Container(

@@ -225,15 +225,15 @@ class ActionTile extends StatelessWidget {
             Hero(
               child: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
-                radius: 21.5,
+                radius: 25,
                 backgroundImage: image,
               ),
               tag: action.hashCode,
             ),
             action.isPending()
                 ? Container(
-                    width: 43,
-                    height: 43,
+                    width: 50,
+                    height: 50,
                     child: CircularProgressIndicator(
                       strokeWidth: 3,
                       valueColor: AlwaysStoppedAnimation<Color>(

@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/home/dialogs/receive.dart';
-import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
@@ -75,29 +76,103 @@ class Avatar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Button(
-                        text: formatAddress(viewModel.walletAddress, 4),
-                        icon: 'copy',
-                        onPressed: () {
-                          Clipboard.setData(
-                            ClipboardData(text: viewModel?.walletAddress),
-                          );
-                          showCopiedFlushbar(context);
-                        },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .425,
+                        child: FlatButton(
+                          onPressed: () {
+                            Clipboard.setData(
+                              ClipboardData(text: viewModel?.walletAddress),
+                            );
+                            showCopiedFlushbar(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                12.0,
+                              ),
+                            ),
+                          ),
+                          color: Theme.of(context).colorScheme.secondary,
+                          padding: EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SvgPicture.asset(
+                                'assets/images/copy.svg',
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: AutoSizeText(
+                                  formatAddress(viewModel.walletAddress, 4),
+                                  style: TextStyle(
+                                    letterSpacing: 0.3,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  maxLines: 1,
+                                  presetFontSizes: [
+                                    16,
+                                    15,
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Flexible(
-                      child: Button(
-                        text: I10n.of(context).receive,
-                        icon: 'receiveIcon',
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => ReceiveDialog(
-                              'fuse:${viewModel?.walletAddress}',
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .475,
+                        child: FlatButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => ReceiveDialog(
+                                'fuse:${viewModel?.walletAddress}',
+                              ),
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                12.0,
+                              ),
                             ),
-                          );
-                        },
+                          ),
+                          color: Theme.of(context).colorScheme.secondary,
+                          padding: EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SvgPicture.asset(
+                                'assets/images/receiveIcon.svg',
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: AutoSizeText(
+                                  I10n.of(context).receive,
+                                  style: TextStyle(
+                                    letterSpacing: 0.3,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  maxLines: 1,
+                                  presetFontSizes: [
+                                    16,
+                                    15,
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],

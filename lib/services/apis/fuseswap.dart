@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:injectable/injectable.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -35,7 +34,6 @@ class FuseSwapService {
       '/swap/swapcallparameters',
       data: swapRequestBody.toJson(),
     );
-    log.info(response.data);
     return SwapCallParameters.fromJson(response.data);
   }
 

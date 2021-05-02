@@ -26,7 +26,7 @@ class _AccountScreenState extends State<AccountScreen> {
   void initState() {
     Segment.screen(screenName: '/account-screen');
     super.initState();
-  } 
+  }
 
   List<Widget> pluginsItems(AccountViewModel viewModel) {
     List<Widget> plugins = [];
@@ -72,6 +72,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Padding(
                         padding: EdgeInsets.only(
                           left: 10,
+                          top: 20,
                         ),
                         child: Column(
                           children: [
@@ -100,6 +101,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                       ? Flexible(
                                           child: SvgPicture.asset(
                                             'assets/images/back_up_icon.svg',
+                                            width: 10,
                                           ),
                                         )
                                       : SizedBox.shrink(),
