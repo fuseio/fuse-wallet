@@ -310,32 +310,21 @@ class TokenTile extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: (token.imageUrl != null && token.imageUrl.isNotEmpty ||
-                      (viewModel?.tokensImages
-                              ?.containsKey(token?.address?.toLowerCase()) ??
-                          false))
-                  ? CachedNetworkImage(
-                      width: symbolWidth,
-                      height: symbolHeight,
-                      imageUrl: (viewModel?.tokensImages?.containsKey(
-                                  token?.address?.toLowerCase()) ??
-                              false)
-                          ? viewModel
-                              ?.tokensImages[token?.address?.toLowerCase()]
-                          : token?.imageUrl,
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => DefaultLogo(
-                        symbol: token?.symbol,
-                        width: symbolWidth,
-                        height: symbolHeight,
-                      ),
-                    )
-                  : DefaultLogo(
-                      symbol: token?.symbol,
-                      width: symbolWidth,
-                      height: symbolHeight,
-                    ),
+              child: CachedNetworkImage(
+                width: symbolWidth,
+                height: symbolHeight,
+                imageUrl: (viewModel?.tokensImages
+                            ?.containsKey(token?.address?.toLowerCase()) ??
+                        false)
+                    ? viewModel?.tokensImages[token?.address?.toLowerCase()]
+                    : token?.imageUrl,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => DefaultLogo(
+                  symbol: token?.symbol,
+                  width: symbolWidth,
+                  height: symbolHeight,
+                ),
+              ),
             ),
             isCommunityToken
                 ? Text(

@@ -130,6 +130,12 @@ class ActionTile extends StatelessWidget {
           swap: (value) => value.tradeInfo.outputToken,
         );
 
+        final String amount = hasPriceInfo
+            ? '\$' +
+                action.getAmount(
+                  priceInfo: token?.priceInfo,
+                )
+            : action.getAmount();
         final Widget trailing = Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: action.isPending()
@@ -166,12 +172,7 @@ class ActionTile extends StatelessWidget {
                                   TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: hasPriceInfo
-                                            ? '\$' +
-                                                action.getAmount(
-                                                  priceInfo: token?.priceInfo,
-                                                )
-                                            : action.getAmount(),
+                                        text: amount,
                                         style: TextStyle(
                                           fontSize: 15.0,
                                         ),

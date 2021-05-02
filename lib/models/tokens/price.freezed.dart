@@ -17,11 +17,10 @@ class _$PriceTearOff {
   const _$PriceTearOff();
 
 // ignore: unused_element
-  _Price call({String currency, String quote, String total}) {
+  _Price call({String currency, String quote}) {
     return _Price(
       currency: currency,
       quote: quote,
-      total: total,
     );
   }
 
@@ -39,7 +38,6 @@ const $Price = _$PriceTearOff();
 mixin _$Price {
   String get currency;
   String get quote;
-  String get total;
 
   Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
@@ -50,7 +48,7 @@ mixin _$Price {
 abstract class $PriceCopyWith<$Res> {
   factory $PriceCopyWith(Price value, $Res Function(Price) then) =
       _$PriceCopyWithImpl<$Res>;
-  $Res call({String currency, String quote, String total});
+  $Res call({String currency, String quote});
 }
 
 /// @nodoc
@@ -65,12 +63,10 @@ class _$PriceCopyWithImpl<$Res> implements $PriceCopyWith<$Res> {
   $Res call({
     Object currency = freezed,
     Object quote = freezed,
-    Object total = freezed,
   }) {
     return _then(_value.copyWith(
       currency: currency == freezed ? _value.currency : currency as String,
       quote: quote == freezed ? _value.quote : quote as String,
-      total: total == freezed ? _value.total : total as String,
     ));
   }
 }
@@ -80,7 +76,7 @@ abstract class _$PriceCopyWith<$Res> implements $PriceCopyWith<$Res> {
   factory _$PriceCopyWith(_Price value, $Res Function(_Price) then) =
       __$PriceCopyWithImpl<$Res>;
   @override
-  $Res call({String currency, String quote, String total});
+  $Res call({String currency, String quote});
 }
 
 /// @nodoc
@@ -96,12 +92,10 @@ class __$PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res>
   $Res call({
     Object currency = freezed,
     Object quote = freezed,
-    Object total = freezed,
   }) {
     return _then(_Price(
       currency: currency == freezed ? _value.currency : currency as String,
       quote: quote == freezed ? _value.quote : quote as String,
-      total: total == freezed ? _value.total : total as String,
     ));
   }
 }
@@ -110,7 +104,7 @@ class __$PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Price implements _Price {
-  _$_Price({this.currency, this.quote, this.total});
+  _$_Price({this.currency, this.quote});
 
   factory _$_Price.fromJson(Map<String, dynamic> json) =>
       _$_$_PriceFromJson(json);
@@ -119,12 +113,10 @@ class _$_Price implements _Price {
   final String currency;
   @override
   final String quote;
-  @override
-  final String total;
 
   @override
   String toString() {
-    return 'Price(currency: $currency, quote: $quote, total: $total)';
+    return 'Price(currency: $currency, quote: $quote)';
   }
 
   @override
@@ -135,17 +127,14 @@ class _$_Price implements _Price {
                 const DeepCollectionEquality()
                     .equals(other.currency, currency)) &&
             (identical(other.quote, quote) ||
-                const DeepCollectionEquality().equals(other.quote, quote)) &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)));
+                const DeepCollectionEquality().equals(other.quote, quote)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(currency) ^
-      const DeepCollectionEquality().hash(quote) ^
-      const DeepCollectionEquality().hash(total);
+      const DeepCollectionEquality().hash(quote);
 
   @JsonKey(ignore: true)
   @override
@@ -159,7 +148,7 @@ class _$_Price implements _Price {
 }
 
 abstract class _Price implements Price {
-  factory _Price({String currency, String quote, String total}) = _$_Price;
+  factory _Price({String currency, String quote}) = _$_Price;
 
   factory _Price.fromJson(Map<String, dynamic> json) = _$_Price.fromJson;
 
@@ -167,8 +156,6 @@ abstract class _Price implements Price {
   String get currency;
   @override
   String get quote;
-  @override
-  String get total;
   @override
   @JsonKey(ignore: true)
   _$PriceCopyWith<_Price> get copyWith;

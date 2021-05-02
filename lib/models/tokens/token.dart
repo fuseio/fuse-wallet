@@ -85,15 +85,7 @@ abstract class Token implements _$Token {
   }) async {
     try {
       Price price = await fuseSwapService.price(this.address);
-      String total = getFiatValue(
-        this.amount,
-        this.decimals,
-        double.parse(price.quote),
-        withPrecision: true,
-      );
-      onDone(price.copyWith(
-        total: total,
-      ));
+      onDone(price);
     } catch (e, s) {
       onError(e, s);
     }

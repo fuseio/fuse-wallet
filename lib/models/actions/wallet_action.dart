@@ -32,7 +32,16 @@ abstract class WalletAction implements _$WalletAction {
       send: (value) => calcPrice(value?.value, value.tokenDecimal, priceInfo),
       receive: (value) =>
           calcPrice(value?.value, value.tokenDecimal, priceInfo),
-      swap: (value) => display(num.parse(value.tradeInfo.outputAmount)),
+      swap: (value) {
+        final bool hasPriceInfo =
+            ![null, '', '0', 0].contains(priceInfo?.quote);
+        if (hasPriceInfo) {
+          double a = double.parse(value.tradeInfo.outputAmount) *
+              double.parse(priceInfo?.quote);
+          return display(num.tryParse(a.toString()));
+        }
+        return display(num.parse(value.tradeInfo.outputAmount));
+      },
     );
   }
 

@@ -1,11 +1,9 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
-import 'package:fusecash/widgets/default_logo.dart';
 import 'package:fusecash/models/app_state.dart';
 
 class TradeCard extends StatelessWidget {
@@ -73,27 +71,27 @@ class TradeCard extends StatelessWidget {
                                 onTap: onTap,
                                 child: Row(
                                   children: [
-                                    CachedNetworkImage(
-                                      width: 30,
-                                      height: 30,
-                                      imageUrl: viewModel.tokensImages
-                                              .containsKey(
-                                                  token?.address?.toLowerCase())
-                                          ? viewModel?.tokensImages[
-                                              token?.address?.toLowerCase()]
-                                          : token?.imageUrl,
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          DefaultLogo(
-                                        symbol: token?.symbol,
-                                        width: 35,
-                                        height: 35,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
+                                    // CachedNetworkImage(
+                                    //   width: 30,
+                                    //   height: 30,
+                                    //   imageUrl: viewModel.tokensImages
+                                    //           .containsKey(
+                                    //               token?.address?.toLowerCase())
+                                    //       ? viewModel?.tokensImages[
+                                    //           token?.address?.toLowerCase()]
+                                    //       : token?.imageUrl,
+                                    //   placeholder: (context, url) =>
+                                    //       CircularProgressIndicator(),
+                                    //   errorWidget: (context, url, error) =>
+                                    //       DefaultLogo(
+                                    //     symbol: token?.symbol,
+                                    //     width: 35,
+                                    //     height: 35,
+                                    //   ),
+                                    // ),
+                                    // SizedBox(
+                                    //   width: 5,
+                                    // ),
                                     Text(
                                       token?.symbol ?? '',
                                       style: TextStyle(fontSize: 27),

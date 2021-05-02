@@ -188,12 +188,13 @@ class ActionDetailsScreen extends StatelessWidget {
                                                           value.tradeInfo
                                                               .inputToken,
                                                       orElse: () => null);
+                                              double a = double.parse(value
+                                                      .tradeInfo.inputAmount) *
+                                                  double.parse(
+                                                      _token?.priceInfo?.quote);
                                               return '\$' +
-                                                  display(num.parse(value
-                                                          .tradeInfo
-                                                          .inputAmount) *
-                                                      num.parse(_token
-                                                          .priceInfo.quote));
+                                                  display(num.tryParse(
+                                                      a.toString()));
                                             },
                                           )
                                         : displayName,
@@ -232,10 +233,11 @@ class ActionDetailsScreen extends StatelessWidget {
                                 send: (value) => '',
                                 receive: (value) => '',
                                 swap: (value) {
+                                  double val = double.parse(
+                                          value.tradeInfo.outputAmount) *
+                                      double.parse(token?.priceInfo?.quote);
                                   return '\$' +
-                                      display(num.parse(
-                                              value.tradeInfo.outputAmount) *
-                                          num.parse(token.priceInfo.quote));
+                                      display(num.tryParse(val.toString()));
                                 },
                               ),
                             ),
