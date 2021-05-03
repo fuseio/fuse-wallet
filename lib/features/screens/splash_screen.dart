@@ -1,4 +1,6 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +9,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -49,6 +52,9 @@ class _SplashScreenState extends State<SplashScreen> {
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
+        final TrackingStatus status =
+            await AppTrackingTransparency.requestTrackingAuthorization();
+        log.info(EnumToString.convertToString(status));
       }
       if (BiometricAuth.faceID == userState.authType ||
           BiometricAuth.touchID == userState.authType) {

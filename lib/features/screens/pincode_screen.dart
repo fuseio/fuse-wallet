@@ -18,6 +18,7 @@ class PinCodeScreen extends StatefulWidget {
 class _PinCodeScreenState extends State<PinCodeScreen> {
   final pincodeController = TextEditingController(text: "");
   String currentText = "";
+  Flushbar flush;
   final formKey = GlobalKey<FormState>();
   // StreamController<ErrorAnimationType> errorController;
 
@@ -135,40 +136,38 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                           .replace(Routes.homeScreen);
                                       pincodeController.clear();
                                     } else {
-                                      Flushbar(
-                                          boxShadows: [
-                                            BoxShadow(
-                                              color: Colors.grey[500],
-                                              offset: Offset(0.5, 0.5),
-                                              blurRadius: 5,
-                                            ),
-                                          ],
-                                          duration: Duration(seconds: 3),
-                                          messageText: Text(
-                                            I10n.of(context).invalid_pincode,
+                                      flush = Flushbar<bool>(
+                                        title: I10n.of(context).invalid_pincode,
+                                        message: I10n.of(context)
+                                            .auth_failed_message,
+                                        icon: Icon(
+                                          Icons.info_outline,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        mainButton: FlatButton(
+                                          onPressed: () async {
+                                            flush.dismiss(true);
+                                          },
+                                          child: Text(
+                                            I10n.of(context).try_again,
                                             style: TextStyle(
-                                              fontSize: 20.0,
-                                            ),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
                                           ),
-                                          backgroundColor: Theme.of(
-                                                  ExtendedNavigator
-                                                      .root.context)
-                                              .bottomAppBarColor,
-                                          margin: EdgeInsets.only(
-                                              top: 8,
-                                              right: 8,
-                                              left: 8,
-                                              bottom: 80),
-                                          borderRadius: 8,
-                                          icon: SvgPicture.asset(
-                                            'assets/images/failed_icon.svg',
-                                            width: 20,
-                                            height: 20,
-                                          ))
-                                        ..show(context ??
-                                            ExtendedNavigator.named(
-                                                    'homeRouter')
-                                                .context);
+                                        ),
+                                      )..show(context).then(
+                                          (result) async {
+                                            if (result) {
+                                              pincodeController.clear();
+                                              WidgetsBinding.instance
+                                                  .focusManager.primaryFocus
+                                                  ?.previousFocus();
+                                            }
+                                          },
+                                        );
                                     }
                                   },
                                   onChanged: (value) {

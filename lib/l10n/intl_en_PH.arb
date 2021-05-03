@@ -16,7 +16,7 @@
   "@approved": {},
   "assets_and_contracts": "Assets at mga kontrata",
   "@assets_and_contracts": {},
-  "auth_failed_message": "Please authenticate to continue",
+  "auth_failed_message": "Please try again to continue",
   "@auth_failed_message": {},
   "auth_failed_title": "Authentication failed",
   "@auth_failed_title": {},

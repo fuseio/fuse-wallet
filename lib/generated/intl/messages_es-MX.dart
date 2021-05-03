@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "amount" : MessageLookupByLibrary.simpleMessage("Cantidad"),
     "approved" : MessageLookupByLibrary.simpleMessage("APROBADO"),
     "assets_and_contracts" : MessageLookupByLibrary.simpleMessage("Activos y contratos"),
-    "auth_failed_message" : MessageLookupByLibrary.simpleMessage("Please authenticate to continue"),
+    "auth_failed_message" : MessageLookupByLibrary.simpleMessage("Please try again to continue"),
     "auth_failed_title" : MessageLookupByLibrary.simpleMessage("Authentication failed"),
     "available" : MessageLookupByLibrary.simpleMessage("available"),
     "back_up" : MessageLookupByLibrary.simpleMessage("Respaldo"),

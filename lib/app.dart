@@ -53,34 +53,12 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void listenDynamicLinks(Store<AppState> store) async {
-    streamSubscription =
-        FlutterBranchSdk.initSession().listen((linkData) async {
+  void listenDynamicLinks(Store<AppState> store) {
+    streamSubscription = FlutterBranchSdk.initSession().listen((linkData) {
       log.info("branch listening.");
       store.dispatch(BranchListening());
       log.info("Got link data: ${linkData.toString()}");
-      if (linkData["~feature"] == "switch_community") {
-        var communityAddress = linkData["community_address"];
-        log.info("communityAddress $communityAddress");
-        store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(
-          segmentIdentifyCall(
-            Map<String, dynamic>.from({
-              'Referral': linkData["~feature"],
-              'Referral link': linkData['~referring_link']
-            }),
-          ),
-        );
-        store.dispatch(
-          segmentTrackCall(
-            "Wallet: Branch: Studio Invite",
-            properties: Map<String, dynamic>.from(linkData),
-          ),
-        );
-      }
       if (linkData["~feature"] == "invite_user") {
-        var communityAddress = linkData["community_address"];
-        store.dispatch(BranchCommunityToUpdate(communityAddress));
         store.dispatch(
           segmentIdentifyCall(
             Map<String, dynamic>.from({

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -431,6 +432,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData) {
       store.dispatch(saveUserInDB(walletAddress));
       final TrackingStatus status =
           await AppTrackingTransparency.requestTrackingAuthorization();
+      log.info(EnumToString.convertToString(status));
       store.dispatch(enablePushNotifications());
       store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
       store.dispatch(segmentIdentifyCall(
@@ -476,7 +478,7 @@ ThunkAction getTokenBalanceCall(Token token) {
       ) async {
         await Sentry.captureException(
           e,
-          stackTrace: e,
+          stackTrace: s,
           hint: 'Error - fetch token balance ${token.name} $e',
         );
         log.error('Error - fetch token balance ${token.name} $e');
@@ -487,10 +489,11 @@ ThunkAction getTokenBalanceCall(Token token) {
         onError: onError,
       );
     } catch (e, s) {
-      log.error('ERROR - getTokenBalanceCall $e');
+      log.error('ERROR - getTokenBalanceCall ${e.toString()}');
       await Sentry.captureException(
         e,
         stackTrace: s,
+        hint: 'Error - fetch token balance ${token.name} $e',
       );
     }
   };

@@ -115,10 +115,10 @@ class I10n {
     );
   }
 
-  /// `Please authenticate to continue`
+  /// `Please try again to continue`
   String get auth_failed_message {
     return Intl.message(
-      'Please authenticate to continue',
+      'Please try again to continue',
       name: 'auth_failed_message',
       desc: '',
       args: [],
@@ -2126,6 +2126,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'en', countryCode: 'PH'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
+      Locale.fromSubtags(languageCode: 'fr', countryCode: 'FR'),
       Locale.fromSubtags(languageCode: 'he', countryCode: 'IL'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),

@@ -35,7 +35,7 @@ class TokensListViewModel extends Equatable {
             Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
           ].contains(token.address)) {
             return true;
-          } else if (num.parse(formatValue(token.amount, token.decimals,
+          } else if (num.parse(formatValue(token?.amount, token?.decimals,
                       withPrecision: true))
                   .compareTo(0) ==
               1) {
@@ -45,7 +45,7 @@ class TokensListViewModel extends Equatable {
         })
         .map((Token token) => token?.copyWith(
             imageUrl: token.imageUrl != null
-                ? token.imageUrl
+                ? token?.imageUrl
                 : store.state.cashWalletState.communities
                         .containsKey(token.communityAddress)
                     ? store.state.cashWalletState

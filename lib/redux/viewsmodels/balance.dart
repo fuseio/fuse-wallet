@@ -5,6 +5,7 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/addresses.dart' as util;
@@ -16,13 +17,13 @@ num combiner(num previousValue, Token token) => token?.priceInfo != null
 
 class BalanceViewModel extends Equatable {
   final String usdValue;
-  final bool hasErc20Tokens;
-  final Token token;
+  // final bool hasErc20Tokens;
+  // final Token token;
 
   BalanceViewModel({
     this.usdValue,
-    this.hasErc20Tokens,
-    this.token,
+    // this.hasErc20Tokens,
+    // this.token,
   });
 
   static BalanceViewModel fromStore(Store<AppState> store) {
@@ -35,10 +36,10 @@ class BalanceViewModel extends Equatable {
                     .compareTo(0) ==
                 1)
             .toList();
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            Community();
+    // String communityAddress = store.state.cashWalletState.communityAddress;
+    // Community community =
+    //     store.state.cashWalletState.communities[communityAddress] ??
+    //         Community();
     CashWalletState cashWalletState = store.state.cashWalletState;
     List<Token> homeTokens =
         List<Token>.from(cashWalletState.tokens?.values ?? Iterable.empty())
@@ -50,14 +51,14 @@ class BalanceViewModel extends Equatable {
             .toList();
 
     final num value = homeTokens.fold<num>(0, combiner);
-    final bool isDefaultCommunity = util.isDefaultCommunity(communityAddress);
-    final Token token = isDefaultCommunity
-        ? store.state.cashWalletState.tokens[community?.homeTokenAddress]
-            ?.copyWith(symbol: '\$')
-        : store.state.cashWalletState.tokens[community?.homeTokenAddress];
+    // final bool isDefaultCommunity = util.isDefaultCommunity(communityAddress);
+    // final Token token = isDefaultCommunity
+    //     ? store.state.cashWalletState.tokens[community?.homeTokenAddress]
+    //         ?.copyWith(symbol: '\$')
+    //     : store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return BalanceViewModel(
-      token: token,
-      hasErc20Tokens: erc20Tokens.isEmpty,
+      // token: token,
+      // hasErc20Tokens: erc20Tokens.isEmpty,
       usdValue: display(value),
     );
   }
@@ -65,7 +66,7 @@ class BalanceViewModel extends Equatable {
   @override
   List<Object> get props => [
         usdValue,
-        hasErc20Tokens,
-        token,
+        // hasErc20Tokens,
+        // token,
       ];
 }

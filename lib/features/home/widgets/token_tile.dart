@@ -302,7 +302,7 @@ class TokenTile extends StatelessWidget {
                 //   height: 200,
                 // ),
                 TokenActivities(
-                  tokenAddress: token.address,
+                  tokenAddress: token?.address,
                 ),
               ],
             ),
@@ -352,7 +352,7 @@ class TokenTile extends StatelessWidget {
             ),
             isCommunityToken
                 ? Text(
-                    token.symbol,
+                    token?.symbol,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -370,7 +370,7 @@ class TokenTile extends StatelessWidget {
           textBaseline: TextBaseline.alphabetic,
           children: <Widget>[
             Text(
-              token.name,
+              token?.name,
               maxLines: 1,
               style: TextStyle(
                 color: Color(0xFF333333),
@@ -414,7 +414,7 @@ class TokenTile extends StatelessWidget {
                                 ),
                               )
                             : TextSpan(
-                                text: token.getBalance() + ' ' + token.symbol,
+                                text: token.getBalance() + ' ' + token?.symbol,
                                 style: TextStyle(
                                   fontSize: 15.0,
                                   color:
@@ -428,7 +428,7 @@ class TokenTile extends StatelessWidget {
                       ? Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            token.getBalance() + ' ' + token.symbol,
+                            token.getBalance() + ' ' + token?.symbol,
                             style: TextStyle(
                               color: Color(0xFF8D8D8D),
                               fontSize: 10,

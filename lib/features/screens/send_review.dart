@@ -208,8 +208,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                   style: TextStyle(fontWeight: FontWeight.w900),
                                   textAlign: TextAlign.center,
                                   maxLines: 1,
-                                  minFontSize: 20,
-                                  maxFontSize: 50,
                                   presetFontSizes: [
                                     50,
                                     30,
