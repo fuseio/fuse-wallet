@@ -42,7 +42,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
       isPreloading = true;
     });
     SwapCallParameters swapCallParameters =
-        await fuseSwapService.swapCallParameters(
+        await fuseSwapService.requestParameters(
       widget.swapRequestBody,
     );
     viewModel.swap(

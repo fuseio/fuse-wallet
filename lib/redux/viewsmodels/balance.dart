@@ -1,14 +1,14 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/pro_wallet_state.dart';
+// import 'package:fusecash/models/community/community.dart';
+// import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
+// import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+// import 'package:fusecash/utils/addresses.dart' as util;
 
 num combiner(num previousValue, Token token) => token?.priceInfo != null
     ? previousValue +
@@ -27,15 +27,15 @@ class BalanceViewModel extends Equatable {
   });
 
   static BalanceViewModel fromStore(Store<AppState> store) {
-    ProWalletState proWalletState = store.state.proWalletState;
-    List<Token> erc20Tokens =
-        List<Token>.from(proWalletState.erc20Tokens?.values ?? Iterable.empty())
-            .where((Token token) =>
-                num.parse(formatValue(token.amount, token.decimals,
-                        withPrecision: true))
-                    .compareTo(0) ==
-                1)
-            .toList();
+    // ProWalletState proWalletState = store.state.proWalletState;
+    // List<Token> erc20Tokens =
+    //     List<Token>.from(proWalletState.erc20Tokens?.values ?? Iterable.empty())
+    //         .where((Token token) =>
+    //             num.parse(formatValue(token.amount, token.decimals,
+    //                     withPrecision: true))
+    //                 .compareTo(0) ==
+    //             1)
+    //         .toList();
     // String communityAddress = store.state.cashWalletState.communityAddress;
     // Community community =
     //     store.state.cashWalletState.communities[communityAddress] ??

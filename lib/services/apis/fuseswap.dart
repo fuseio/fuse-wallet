@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/models/tokens/stats.dart';
 import 'package:injectable/injectable.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -27,21 +28,21 @@ class FuseSwapService {
     // }
   }
 
-  Future<SwapCallParameters> swapCallParameters(
+  Future<SwapCallParameters> requestParameters(
     SwapRequestBody swapRequestBody,
   ) async {
     Response response = await dio.post(
-      '/swap/swapcallparameters',
+      '/swap/requestparameters',
       data: swapRequestBody.toJson(),
     );
     return SwapCallParameters.fromJson(response.data);
   }
 
-  Future<TradeInfo> trade(
+  Future<TradeInfo> quote(
     SwapRequestBody swapRequestBody,
   ) async {
     Response response = await dio.post(
-      '/swap/trade',
+      '/swap/quote',
       data: swapRequestBody.toJson(),
     );
     return TradeInfo.fromJson(response.data['data']['info']);
@@ -56,5 +57,17 @@ class FuseSwapService {
       currency: currency,
       quote: (response.data['data']['price'] ?? 0).toString(),
     );
+  }
+
+  Future<List<Stats>> stats(
+    String tokenAddress, {
+    String limit = '1',
+  }) async {
+    Response response = await dio.get('/stats/$tokenAddress', queryParameters: {
+      'limit': limit,
+    });
+    return (response.data['data'] as List<dynamic>)
+        .map((stats) => Stats.fromJson(stats))
+        .toList();
   }
 }

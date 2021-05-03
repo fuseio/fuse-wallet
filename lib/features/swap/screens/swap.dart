@@ -127,8 +127,8 @@ class _SwapScreenState extends State<SwapScreen>
           );
         });
         Future<List<TradeInfo>> swapInfo = Future.wait([
-          fuseSwapService.trade(swapRequestBody),
-          fuseSwapService.trade(
+          fuseSwapService.quote(swapRequestBody),
+          fuseSwapService.quote(
             swapRequestBody..copyWith(amountIn: '1').toJson(),
           ),
         ]);
