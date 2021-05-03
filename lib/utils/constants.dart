@@ -6,8 +6,7 @@ import 'package:fusecash/utils/string.dart';
 final Token fuseToken = Token(
   name: 'Fuse',
   symbol: 'FUSE',
-  imageUrl:
-      'https://assets.coingecko.com/coins/images/10347/small/vUXKHEe.png?1601523640',
+  imageUrl: 'https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-token-03.svg',
   decimals: 18,
   address: Addresses.ZERO_ADDRESS,
   originNetwork: 'fuse',
