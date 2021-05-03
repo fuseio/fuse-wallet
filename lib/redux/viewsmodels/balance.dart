@@ -10,7 +10,7 @@ import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 // import 'package:fusecash/utils/addresses.dart' as util;
 
-num combiner(num previousValue, Token token) => token?.priceInfo != null
+num combiner(num previousValue, Token token) => token?.priceInfo != null && token?.priceInfo?.quote != 'NaN'
     ? previousValue +
         num.parse(Decimal.parse(token?.getFiatBalance()).toString())
     : previousValue + 0;

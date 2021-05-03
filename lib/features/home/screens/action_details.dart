@@ -75,7 +75,7 @@ class ActionDetailsScreen extends StatelessWidget {
               orElse: () => null),
         );
         final bool hasPriceInfo =
-            ![null, '', '0', 0].contains(token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
         final String amount = hasPriceInfo
             ? '\$' +
                 action.getAmount(

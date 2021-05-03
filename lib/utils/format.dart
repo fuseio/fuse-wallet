@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:number_display/number_display.dart';
 
 final Display display = createDisplay(
@@ -13,7 +14,8 @@ String calcPrice(
   int decimals,
   Price priceInfo,
 ) {
-  final bool hasPriceInfo = ![null, '', '0', 0].contains(priceInfo?.quote);
+  final bool hasPriceInfo =
+      ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
   if (hasPriceInfo) {
     return getFiatValue(
       value,
@@ -58,7 +60,7 @@ String getFiatValue(
   double price, {
   int fractionDigits = 2,
 }) {
-  if (value == null || decimals == null) return '0';
+  if (value == null || decimals == null || price == null) return '0';
   Decimal formattedValue = Decimal.parse(
       ((value / BigInt.from(pow(10, decimals))) * price).toString());
   if (formattedValue.compareTo(Decimal.zero) == 1 &&

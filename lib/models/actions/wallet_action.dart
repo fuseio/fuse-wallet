@@ -34,7 +34,7 @@ abstract class WalletAction implements _$WalletAction {
           calcPrice(value?.value, value.tokenDecimal, priceInfo),
       swap: (value) {
         final bool hasPriceInfo =
-            ![null, '', '0', 0].contains(priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
         if (hasPriceInfo) {
           double a = double.parse(value.tradeInfo.outputAmount) *
               double.parse(priceInfo?.quote);

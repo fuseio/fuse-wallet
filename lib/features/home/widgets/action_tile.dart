@@ -84,7 +84,7 @@ class ActionTile extends StatelessWidget {
               orElse: () => null),
         );
         final bool hasPriceInfo =
-            ![null, '', '0', 0].contains(token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
         final String displayName = action.map(
           createWallet: (value) => value.getText(),
           joinCommunity: (value) => value.getText(),

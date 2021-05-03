@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/keys.dart';

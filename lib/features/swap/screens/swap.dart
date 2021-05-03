@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/features/swap/widgets/card.dart';
 import 'package:fusecash/models/swap/swap.dart';
@@ -58,6 +59,7 @@ class _SwapScreenState extends State<SwapScreen>
 
   @override
   void initState() {
+    Segment.screen(screenName: '/swap-screen');
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 

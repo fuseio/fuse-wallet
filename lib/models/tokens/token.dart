@@ -4,6 +4,7 @@ import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
@@ -37,26 +38,31 @@ abstract class Token implements _$Token {
         decimals,
         withPrecision: withPrecision,
       );
-  String getFiatBalance() => getFiatValue(
+  String getFiatBalance() {
+    if (priceInfo != null && priceInfo?.quote != 'NaN') {
+      return getFiatValue(
         amount,
         decimals,
-        double.parse(priceInfo?.quote),
+        double.tryParse(priceInfo?.quote) ?? 0.0,
       );
+    }
+    return '0';
+  }
 
   Future<dynamic> fetchTokenBalance(
     String accountAddress, {
     Function(BigInt) onDone,
     Function onError,
   }) async {
-    if ([null, ''].contains(accountAddress) ||
-        [null, ''].contains(this.address)) return;
-    if (this.isNative != null && this.isNative == true) {
-      Web3 web3 = this.originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
+    if ([null, ''].contains(accountAddress) || [null, ''].contains(address))
+      return;
+    if (isNative != null && isNative == true) {
+      Web3 web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
       try {
         EtherAmount balance = await web3.getBalance(
           address: accountAddress,
         );
-        if (this.amount?.compareTo(balance.getInWei) != 0) {
+        if (amount?.compareTo(balance.getInWei) != 0) {
           onDone(balance.getInWei);
         }
       } catch (e, s) {
@@ -66,10 +72,10 @@ abstract class Token implements _$Token {
       try {
         Web3 web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
         final BigInt balance = await web3.getTokenBalance(
-          this.address,
+          address,
           address: accountAddress,
         );
-        if (this.amount?.compareTo(balance) != 0) {
+        if (amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -84,7 +90,7 @@ abstract class Token implements _$Token {
     Function onError,
   }) async {
     try {
-      Price price = await fuseSwapService.price(this.address);
+      Price price = await fuseSwapService.price(address);
       onDone(price);
     } catch (e, s) {
       onError(e, s);

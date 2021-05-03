@@ -135,22 +135,33 @@ class TokenTile extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: CachedNetworkImage(
-                        width: 35,
-                        height: 35,
-                        imageUrl: viewModel.tokensImages
-                                .containsKey(token?.address?.toLowerCase())
-                            ? viewModel
-                                ?.tokensImages[token?.address?.toLowerCase()]
-                            : token?.imageUrl,
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => DefaultLogo(
-                          symbol: token?.symbol,
-                          width: symbolWidth,
-                          height: symbolHeight,
-                        ),
-                      ),
+                      child: (token.imageUrl != null &&
+                                  token.imageUrl.isNotEmpty ||
+                              (viewModel?.tokensImages?.containsKey(
+                                      token?.address?.toLowerCase()) ??
+                                  false))
+                          ? CachedNetworkImage(
+                              width: symbolWidth,
+                              height: symbolHeight,
+                              imageUrl: (viewModel?.tokensImages?.containsKey(
+                                          token?.address?.toLowerCase()) ??
+                                      false)
+                                  ? viewModel?.tokensImages[
+                                      token?.address?.toLowerCase()]
+                                  : token?.imageUrl,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => DefaultLogo(
+                                symbol: token?.symbol,
+                                width: symbolWidth,
+                                height: symbolHeight,
+                              ),
+                            )
+                          : DefaultLogo(
+                              symbol: token?.symbol,
+                              width: symbolWidth,
+                              height: symbolHeight,
+                            ),
                     ),
                     SizedBox(
                       width: 10,
@@ -319,7 +330,7 @@ class TokenTile extends StatelessWidget {
       converter: TokenTileViewModel.fromStore,
       builder: (_, viewModel) {
         final bool hasPriceInfo =
-            ![null, '', '0', 0].contains(token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
         final String price = !showCurrentPrice
             ? token?.getFiatBalance()
             : display(num.tryParse(token?.priceInfo?.quote) ?? 0);
@@ -334,21 +345,32 @@ class TokenTile extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: CachedNetworkImage(
-                width: symbolWidth,
-                height: symbolHeight,
-                imageUrl: (viewModel?.tokensImages
-                            ?.containsKey(token?.address?.toLowerCase()) ??
-                        false)
-                    ? viewModel?.tokensImages[token?.address?.toLowerCase()]
-                    : token?.imageUrl,
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => DefaultLogo(
-                  symbol: token?.symbol,
-                  width: symbolWidth,
-                  height: symbolHeight,
-                ),
-              ),
+              child: (token.imageUrl != null && token.imageUrl.isNotEmpty ||
+                      (viewModel?.tokensImages
+                              ?.containsKey(token?.address?.toLowerCase()) ??
+                          false))
+                  ? CachedNetworkImage(
+                      width: symbolWidth,
+                      height: symbolHeight,
+                      imageUrl: (viewModel?.tokensImages?.containsKey(
+                                  token?.address?.toLowerCase()) ??
+                              false)
+                          ? viewModel
+                              ?.tokensImages[token?.address?.toLowerCase()]
+                          : token?.imageUrl,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => DefaultLogo(
+                        symbol: token?.symbol,
+                        width: symbolWidth,
+                        height: symbolHeight,
+                      ),
+                    )
+                  : DefaultLogo(
+                      symbol: token?.symbol,
+                      width: symbolWidth,
+                      height: symbolHeight,
+                    ),
             ),
             isCommunityToken
                 ? Text(
