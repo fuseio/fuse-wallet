@@ -71,7 +71,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Padding(
                         padding: EdgeInsets.only(
                           left: 10,
-                          top: 20,
+                          top: 10,
                         ),
                         child: Column(
                           children: [
