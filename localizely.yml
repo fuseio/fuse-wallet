@@ -36,6 +36,8 @@ download: # Required.
       locale_code: pt-BR
     - file: l10n/intl_ru_RU.arb
       locale_code: ru-RU
+    - file: l10n/intl_sr_SR.arb
+      locale_code: sr-SR
 
   params:
     export_empty_as: main # Optional, default: empty. How you would like empty translations to be exported. Allowed values are `empty` to keep empty, `main` to replace with the main language value, or `skip` to omit.

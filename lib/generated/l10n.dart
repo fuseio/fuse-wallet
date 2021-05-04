@@ -245,6 +245,16 @@ class I10n {
     );
   }
 
+  /// `Close`
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Coming soon`
   String get coming_soon {
     return Intl.message(
@@ -1245,10 +1255,10 @@ class I10n {
     );
   }
 
-  /// `Please choose how you prefer to unlock the wallet`
+  /// `Please choose how you prefer to unlock the wallet:`
   String get please_choose_security {
     return Intl.message(
-      'Please choose how you prefer to unlock the wallet',
+      'Please choose how you prefer to unlock the wallet:',
       name: 'please_choose_security',
       desc: '',
       args: [],
@@ -2133,6 +2143,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
       Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
+      Locale.fromSubtags(languageCode: 'sr', countryCode: 'RS'),
     ];
   }
 

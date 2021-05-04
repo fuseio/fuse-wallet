@@ -1,4 +1,3 @@
-import 'package:fusecash/utils/format.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -100,14 +99,11 @@ class SendAmountViewModel extends Equatable {
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+        .where((Token token) => token.amount > BigInt.zero)
         .toList();
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .where((Token token) => token.amount > BigInt.zero)
         .map((Token token) => token?.copyWith(
             imageUrl: token.imageUrl != null
                 ? token.imageUrl
@@ -117,11 +113,6 @@ class SendAmountViewModel extends Equatable {
                         .communities[token.communityAddress]?.metadata
                         ?.getImageUri()
                     : null))
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
         .toList();
 
     final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(

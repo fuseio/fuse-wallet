@@ -30,6 +30,7 @@ class ResetTokenList {}
 ThunkAction fetchSwapList() {
   return (Store store) async {
     try {
+      store.dispatch(ResetTokenList());
       final dio = getIt<Dio>();
       String address = store.state.userState.walletAddress;
       Response<String> response =

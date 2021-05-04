@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:number_display/number_display.dart';
 
 final Display display = createDisplay(
@@ -36,6 +35,13 @@ final Map<String, num> fees = {
   "EURS": 1,
   "TUSD": 1,
 };
+
+bool isNumeric(String s) {
+  if (s == null) {
+    return false;
+  }
+  return Decimal.tryParse(s) != null;
+}
 
 String formatValue(
   BigInt value,

@@ -56,7 +56,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required for barcode scanning.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Please enable contacts sync for easy access your phone contacts when sending money.</string>
+	<string>Contacts data will be uploaded to our servers to be able to send them money.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>FaceId permission is required for protect your wallet.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

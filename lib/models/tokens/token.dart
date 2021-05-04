@@ -4,7 +4,6 @@ import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 

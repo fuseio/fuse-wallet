@@ -195,8 +195,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             selectedToken.decimals,
             withPrecision: true,
           );
-          if (Decimal.parse(max).compareTo((Decimal.parse(amountText) ?? 0)) !=
-              0) {
+          if ((Decimal.tryParse(max) ?? Decimal.zero) >
+              (Decimal.parse(amountText) ?? Decimal.zero)) {
             _onKeyPress(max, max: true);
           }
         },

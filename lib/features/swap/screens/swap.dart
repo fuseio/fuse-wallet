@@ -15,6 +15,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
@@ -121,7 +122,7 @@ class _SwapScreenState extends State<SwapScreen>
       controller.reverse();
     };
     try {
-      if (value.isNotEmpty) {
+      if (isNumeric(value)) {
         setState(() {
           isFetchingPrice = true;
           swapRequestBody = swapRequestBody.copyWith(
@@ -147,8 +148,6 @@ class _SwapScreenState extends State<SwapScreen>
         });
         onSuccess(tradeInfo);
         controller.forward();
-      } else {
-        resetFields();
       }
     } catch (e) {
       resetFields();
@@ -287,16 +286,18 @@ class _SwapScreenState extends State<SwapScreen>
             tokenOut.decimals,
             withPrecision: true,
           );
-          setState(() {
-            tokenOutController.text = display(num.tryParse(max) ?? '0');
-          });
-          getTradeInfo(
-            max,
-            (info) => setState(() {
-              tokenInController.text =
-                  display(num.tryParse(info.outputAmount) ?? '0');
-            }),
-          );
+          if ((Decimal.tryParse(max) ?? Decimal.zero) > Decimal.zero) {
+            setState(() {
+              tokenOutController.text = display(num.tryParse(max) ?? '0');
+            });
+            getTradeInfo(
+              max,
+              (info) => setState(() {
+                tokenInController.text =
+                    display(num.tryParse(info.outputAmount) ?? '0');
+              }),
+            );
+          }
         },
         child: Text(
           I10n.of(context).use_max,
@@ -369,30 +370,12 @@ class _SwapScreenState extends State<SwapScreen>
         onInit: (store) {
           store.dispatch(fetchSwapList());
         },
-        onInitialBuild: (viewModel) {
-          if (viewModel.tokens.isNotEmpty) {
-            final Token payWith = widget.primaryToken ?? viewModel.tokens[0];
-            final Token receiveToken = viewModel.tokens
-                .firstWhere((element) => element.address != payWith.address);
-            setState(() {
-              tokenOutController.text = '';
-              tokenInController.text = '';
-              info = null;
-              rateInfo = null;
-              tokenOut = payWith;
-              tokenIn = receiveToken;
-              swapRequestBody = swapRequestBody.copyWith(
-                recipient: viewModel.walletAddress,
-                currencyOut: receiveToken.address,
-                currencyIn: payWith.address,
-                amountIn: '0',
-              );
-            });
-          }
-        },
         onWillChange: (previousViewModel, newViewModel) {
           if (previousViewModel.tokens != newViewModel.tokens) {
-            final Token payWith = widget.primaryToken ?? newViewModel.tokens[0];
+            final Token payWith = widget.primaryToken != null
+                ? newViewModel.tokens.firstWhere(
+                    (element) => widget.primaryToken.address == element.address)
+                : newViewModel.tokens[0];
             final Token receiveToken = newViewModel.tokens
                 .firstWhere((element) => element.address != payWith.address);
             setState(() {
@@ -412,7 +395,8 @@ class _SwapScreenState extends State<SwapScreen>
           }
         },
         builder: (_, viewModel) {
-          if (viewModel.tokens.isEmpty) {
+          if (viewModel.tokens.isEmpty &&
+              (tokenOut == null || tokenIn == null)) {
             return Preloader();
           } else {
             List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
@@ -455,15 +439,19 @@ class _SwapScreenState extends State<SwapScreen>
                                     );
                                   },
                                   onChanged: (value) {
-                                    tokenOutDebouncer.run(
-                                      () => getTradeInfo(
-                                        value,
-                                        (info) => setState(() {
-                                          tokenInController.text =
-                                              info.outputAmount;
-                                        }),
-                                      ),
-                                    );
+                                    if (isNumeric(value)) {
+                                      tokenOutDebouncer.run(
+                                        () => getTradeInfo(
+                                          value,
+                                          (info) => setState(() {
+                                            tokenInController.text = display(
+                                                num.tryParse(
+                                                        info.outputAmount) ??
+                                                    '0');
+                                          }),
+                                        ),
+                                      );
+                                    }
                                   },
                                   isSwapped: isSwapped,
                                   useMaxWidget: maxButton(),
@@ -480,15 +468,19 @@ class _SwapScreenState extends State<SwapScreen>
                                     );
                                   },
                                   onChanged: (value) {
-                                    tokenInDebouncer.run(
-                                      () => getTradeInfo(
-                                        value,
-                                        (info) => setState(() {
-                                          tokenOutController.text =
-                                              info.outputAmount;
-                                        }),
-                                      ),
-                                    );
+                                    if (isNumeric(value)) {
+                                      tokenInDebouncer.run(
+                                        () => getTradeInfo(
+                                          value,
+                                          (info) => setState(() {
+                                            tokenOutController.text = display(
+                                                num.tryParse(
+                                                        info.outputAmount) ??
+                                                    '0');
+                                          }),
+                                        ),
+                                      );
+                                    }
                                   },
                                   isSwapped: !isSwapped,
                                   textEditingController: tokenInController,

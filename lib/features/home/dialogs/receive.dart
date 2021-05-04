@@ -74,7 +74,7 @@ class ReceiveDialogState extends State<ReceiveDialog>
                   SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: I10n.of(context).ok_thanks,
+                      label: I10n.of(context).close,
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },

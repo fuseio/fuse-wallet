@@ -552,10 +552,7 @@ ThunkAction fetchListOfTokensByAddress() {
       {},
       (previousValue, element) {
         if (!cashWalletState.tokens.containsKey(element.address) &&
-            num.parse(formatValue(element.amount, element.decimals,
-                        withPrecision: true))
-                    .compareTo(0) ==
-                1) {
+            element.amount > BigInt.zero) {
           log.info('New token added ${element.name}');
           previousValue[element.address] = element;
         }
@@ -1219,6 +1216,8 @@ ThunkAction swapHandler(
         '0x',
         '',
       );
+      log.info(
+          'swapRequestBody.amountIn: ${num.parse(swapRequestBody.amountIn)}');
       Map<String, dynamic> response = await api.approveTokenAndCallContract(
         fuseWeb3,
         swapRequestBody.recipient,

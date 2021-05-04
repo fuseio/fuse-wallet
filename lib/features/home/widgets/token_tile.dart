@@ -266,6 +266,7 @@ class TokenTile extends StatelessWidget {
                             text: I10n.of(context).swap,
                             icon: 'swap_action',
                             onPressed: () {
+                              viewModel.getSwapList();
                               ExtendedNavigator.root.pushSwapScreen(
                                 primaryToken: token,
                               );

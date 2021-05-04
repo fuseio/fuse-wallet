@@ -29,7 +29,6 @@ class HomeScreenViewModel extends Equatable {
         store.dispatch(ReceiveBackupDialogShowed());
       },
       getSwapList: () {
-        store.dispatch(ResetTokenList());
         store.dispatch(fetchSwapList());
       },
     );

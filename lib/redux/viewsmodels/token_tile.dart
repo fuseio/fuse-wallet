@@ -2,6 +2,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
@@ -12,6 +13,7 @@ class TokenTileViewModel extends Equatable {
   final Function(Token token) fetchTokenAction;
   final Function(Token token) fetchTokenPrice;
   final Plugins plugins;
+  final Function getSwapList;
 
   TokenTileViewModel({
     this.communities,
@@ -19,6 +21,7 @@ class TokenTileViewModel extends Equatable {
     this.tokensImages,
     this.fetchTokenAction,
     this.fetchTokenPrice,
+    this.getSwapList,
   });
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
@@ -35,6 +38,9 @@ class TokenTileViewModel extends Equatable {
       fetchTokenPrice: (Token token) {
         store.dispatch(getTokenPriceCall(token));
       },
+      getSwapList: () {
+        store.dispatch(fetchSwapList());
+      }
     );
   }
 
