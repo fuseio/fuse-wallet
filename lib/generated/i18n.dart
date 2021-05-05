@@ -62,8 +62,8 @@ class I18n implements WidgetsLocalizations {
   String get ok => "Ok";
   /// "Contact us"
   String get contact_us => "Contact us";
-  /// "Your wikibank wallet is protected!"
-  String get wallet_protected => "Your wikibank wallet is protected!";
+  /// "Your comunitaria wallet is protected!"
+  String get wallet_protected => "Your comunitaria wallet is protected!";
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "write down the words in order and keep safe. You won’t be able to recover your account without it."
@@ -334,10 +334,10 @@ class I18n implements WidgetsLocalizations {
   String get for_more_info => "For more information: ";
   /// "Fuse.io/privacy"
   String get privacy => "Fuse.io/privacy";
-  /// "Wikibank will never share this information with 3rd party."
-  String get will_never_share => "Wikibank will never share this information with 3rd party.";
-  /// "The wikibank wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
-  String get stores_private => "The wikibank wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.";
+  /// "Comunitaria will never share this information with 3rd party."
+  String get will_never_share => "Comunitaria will never share this information with 3rd party.";
+  /// "The comunitaria wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
+  String get stores_private => "The comunitaria wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.";
 }
 
 class _I18n_en_US extends I18n {
@@ -862,9 +862,9 @@ class _I18n_es_ES extends I18n {
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-  /// "Your wikibank wallet is protected!"
+  /// "Your comunitaria wallet is protected!"
   @override
-  String get wallet_protected => "Your wikibank wallet is protected!";
+  String get wallet_protected => "Your comunitaria wallet is protected!";
   /// "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
   String get wallet_protected_text => "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
@@ -1699,9 +1699,9 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Kontakin kami"
   @override
   String get contact_us => "Kontakin kami";
-  /// "Ang iyong wikibank wallet ay protektado!"
+  /// "Ang iyong comunitaria wallet ay protektado!"
   @override
-  String get wallet_protected => "Ang iyong wikibank wallet ay protektado!";
+  String get wallet_protected => "Ang iyong comunitaria wallet ay protektado!";
   /// "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao."
   @override
   String get wallet_protected_text => "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao.";
@@ -2291,9 +2291,9 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-  /// "Your wikibank wallet is protected!"
+  /// "Your comunitaria wallet is protected!"
   @override
-  String get wallet_protected => "Your wikibank wallet is protected!";
+  String get wallet_protected => "Your comunitaria wallet is protected!";
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
   String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";

@@ -190,16 +190,18 @@ class AppFactory {
     User user = new User(id: fullPhoneNumber, username: username);
 
     final SentryClient sentry = new SentryClient(
-        dsn: DotEnv().env['SENTRY_DSN'],
-        environmentAttributes: Event(
-            serverName: DotEnv().env['API_BASE_URL'],
-            release: versionName + ":" + versionCode,
-            environment: DotEnv().env['MODE'],
-            contexts: new Contexts(
-                device: device,
-                app: App(name: 'WikiBank'),
-                operatingSystem: operatingSystem),
-            userContext: user));
+      dsn: DotEnv().env['SENTRY_DSN'],
+      environmentAttributes: Event(
+        serverName: DotEnv().env['API_BASE_URL'],
+        release: versionName + ":" + versionCode,
+        environment: DotEnv().env['MODE'],
+        contexts: Contexts(
+            device: device,
+            app: App(name: 'Comunitaria'),
+            operatingSystem: operatingSystem),
+        userContext: user,
+      ),
+    );
 
     return sentry;
   }

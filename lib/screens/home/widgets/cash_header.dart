@@ -175,26 +175,15 @@ class CashHeader extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        RichText(
-                            textAlign: TextAlign.center,
-                            text: new TextSpan(children: <InlineSpan>[
-                              TextSpan(
-                                text: 'Wiki',
-                                style: TextStyle(
-                                    fontFamily: 'Eras',
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColorDark,
-                                    fontSize: 16),
-                              ),
-                              TextSpan(
-                                  text: 'Bank',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Eras',
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          Theme.of(context).primaryColorLight))
-                            ]))
+                        Text(
+                          'Comunitaria',
+                          style: TextStyle(
+                            fontFamily: 'Eras',
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColorDark,
+                            fontSize: 16,
+                          ),
+                        ),
                       ],
                     ),
                   ),

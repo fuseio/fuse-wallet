@@ -81,7 +81,8 @@ class _MyAppState extends State<MyApp> {
       Duration diff = exp.difference(now);
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
-        jwtToken = await api.login(token, accoutAddress, identifier, appName: 'Supervecina');
+        jwtToken = await api.login(token, accoutAddress, identifier,
+            appName: 'Supervecina');
       }
 
       logger.info('JWT: $jwtToken');
@@ -149,7 +150,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Wiki Bank',
+          title: 'Comunitaria',
           builder: ExtendedNavigator.builder(
             router: router.Router(),
             initialRoute: "/",

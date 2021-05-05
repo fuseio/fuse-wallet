@@ -14,7 +14,7 @@
     "phoneNumber": "Phone number",
     "ok": "Ok",
     "contact_us": "Contact us",
-    "wallet_protected": "Your wikibank wallet is protected!",
+    "wallet_protected": "Your comunitaria wallet is protected!",
     "wallet_protected_text": "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.",
     "write_words": "write down the words in order and keep safe. You won’t be able to recover your account without it.",
     "write_word": "Please write down words \n",
@@ -150,6 +150,6 @@
     "gallery": "Gallery",
     "for_more_info": "For more information: ",
     "privacy": "Fuse.io/privacy",
-    "will_never_share": "Wikibank will never share this information with 3rd party.",
-    "stores_private": "The wikibank wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
+    "will_never_share": "Comunitaria will never share this information with 3rd party.",
+    "stores_private": "The comunitaria wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
 }
