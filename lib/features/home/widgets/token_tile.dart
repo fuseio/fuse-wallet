@@ -4,12 +4,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-// import 'package:fusecash/features/home/widgets/price_line_chart.dart';
+import 'package:fusecash/features/home/widgets/button.dart';
+import 'package:fusecash/features/home/widgets/price_line_chart.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
@@ -17,67 +19,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-class Button extends StatelessWidget {
-  const Button({
-    Key key,
-    this.onPressed,
-    this.text,
-    this.icon,
-    this.width,
-  }) : super(key: key);
-  final void Function() onPressed;
-  final String text;
-  final String icon;
-  final double width;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width ?? MediaQuery.of(context).size.width * .425,
-      child: FlatButton(
-        onPressed: onPressed,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              12.0,
-            ),
-          ),
-        ),
-        color: Theme.of(context).colorScheme.secondary,
-        padding: EdgeInsets.all(15.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SvgPicture.asset(
-              'assets/images/$icon.svg',
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Flexible(
-              child: AutoSizeText(
-                text,
-                style: TextStyle(
-                  letterSpacing: 0.3,
-                  // fontSize: 20,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                maxLines: 1,
-                presetFontSizes: [
-                  20,
-                  17,
-                  // 15,
-                  // 12,
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+import "package:collection/collection.dart";
 
 class TokenTile extends StatelessWidget {
   TokenTile({
@@ -120,7 +62,7 @@ class TokenTile extends StatelessWidget {
         child: SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.only(top: 20, bottom: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
@@ -131,190 +73,199 @@ class TokenTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: (token.imageUrl != null &&
-                                  token.imageUrl.isNotEmpty ||
-                              (viewModel?.tokensImages?.containsKey(
-                                      token?.address?.toLowerCase()) ??
-                                  false))
-                          ? CachedNetworkImage(
-                              width: symbolWidth,
-                              height: symbolHeight,
-                              imageUrl: (viewModel?.tokensImages?.containsKey(
-                                          token?.address?.toLowerCase()) ??
-                                      false)
-                                  ? viewModel?.tokensImages[
-                                      token?.address?.toLowerCase()]
-                                  : token?.imageUrl,
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => DefaultLogo(
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: (token.imageUrl != null &&
+                                    token.imageUrl.isNotEmpty ||
+                                (viewModel?.tokensImages?.containsKey(
+                                        token?.address?.toLowerCase()) ??
+                                    false))
+                            ? CachedNetworkImage(
+                                width: symbolWidth,
+                                height: symbolHeight,
+                                imageUrl: (viewModel?.tokensImages?.containsKey(
+                                            token?.address?.toLowerCase()) ??
+                                        false)
+                                    ? viewModel?.tokensImages[
+                                        token?.address?.toLowerCase()]
+                                    : token?.imageUrl,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    DefaultLogo(
+                                  symbol: token?.symbol,
+                                  width: symbolWidth,
+                                  height: symbolHeight,
+                                ),
+                              )
+                            : DefaultLogo(
                                 symbol: token?.symbol,
                                 width: symbolWidth,
                                 height: symbolHeight,
                               ),
-                            )
-                          : DefaultLogo(
-                              symbol: token?.symbol,
-                              width: symbolWidth,
-                              height: symbolHeight,
-                            ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      token.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Europa',
-                        fontSize: 30,
                       ),
-                      softWrap: true,
-                    ),
-                  ],
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        token.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Europa',
+                          fontSize: 30,
+                        ),
+                        softWrap: true,
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: hasPriceInfo
-                      ? MainAxisAlignment.spaceBetween
-                      : MainAxisAlignment.start,
-                  children: [
-                    !hasPriceInfo
-                        ? SizedBox.shrink()
-                        : Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: hasPriceInfo
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.start,
+                    children: [
+                      !hasPriceInfo
+                          ? SizedBox.shrink()
+                          : Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    I10n.of(context).price,
+                                    style: TextStyle(
+                                      fontFamily: 'Europa',
+                                      fontSize: 13,
+                                    ),
+                                    softWrap: true,
+                                  ),
+                                  Text(
+                                    '\$${display(num.parse(token.priceInfo.quote))}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Europa',
+                                      fontSize: 25,
+                                    ),
+                                    softWrap: true,
+                                  ),
+                                ],
+                              ),
+                            ),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              I10n.of(context).your_balance,
+                              style: TextStyle(
+                                fontFamily: 'Europa',
+                                fontSize: 13,
+                              ),
+                              softWrap: true,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              verticalDirection: VerticalDirection.down,
+                              textBaseline: TextBaseline.alphabetic,
                               children: [
                                 Text(
-                                  I10n.of(context).price,
-                                  style: TextStyle(
-                                    fontFamily: 'Europa',
-                                    fontSize: 13,
-                                  ),
-                                  softWrap: true,
-                                ),
-                                Text(
-                                  '\$${display(num.parse(token.priceInfo.quote))}',
+                                  token.getBalance(),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: 'Europa',
                                     fontSize: 25,
                                   ),
-                                  softWrap: true,
+                                ),
+                                Text(
+                                  ' ${token.symbol}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            I10n.of(context).your_balance,
-                            style: TextStyle(
-                              fontFamily: 'Europa',
-                              fontSize: 13,
-                            ),
-                            softWrap: true,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            verticalDirection: VerticalDirection.down,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Text(
-                                token.getBalance(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
-                              ),
-                              Text(
-                                ' ${token.symbol}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: isSwappable || isFUSD
-                      ? MainAxisAlignment.spaceBetween
-                      : MainAxisAlignment.start,
-                  children: [
-                    isSwappable
-                        ? Button(
-                            width: isFUSD
-                                ? MediaQuery.of(context).size.width * .285
-                                : null,
-                            text: I10n.of(context).swap,
-                            icon: 'swap_action',
-                            onPressed: () {
-                              viewModel.getSwapList();
-                              ExtendedNavigator.root.pushSwapScreen(
-                                primaryToken: token,
-                              );
-                            },
-                          )
-                        : SizedBox.shrink(),
-                    Button(
-                      text: I10n.of(context).send_button,
-                      icon: 'send_action',
-                      width: isFUSD
-                          ? MediaQuery.of(context).size.width * .285
-                          : isSwappable
-                              ? null
-                              : MediaQuery.of(context).size.width * .9,
-                      onPressed: () {
-                        ExtendedNavigator.root.pushContactsList(
-                          automaticallyImplyLeading: true,
-                          pageArgs: SendFlowArguments(
-                            tokenToSend: token,
-                          ),
-                        );
-                      },
-                    ),
-                    isFUSD
-                        ? Button(
-                            text: I10n.of(context).buy,
-                            icon: 'buy_fUSD',
-                            width: MediaQuery.of(context).size.width * .285,
-                            onPressed: () {
-                              String url = depositPlugins[0].widgetUrl;
-                              openDepositWebview(
-                                withBack: true,
-                                url: url,
-                              );
-                            },
-                          )
-                        : SizedBox.shrink(),
-                  ],
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    mainAxisAlignment: isSwappable || isFUSD
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.start,
+                    children: [
+                      isSwappable
+                          ? Button(
+                              width: isFUSD
+                                  ? MediaQuery.of(context).size.width * .285
+                                  : null,
+                              text: I10n.of(context).swap,
+                              icon: 'swap_action',
+                              onPressed: () {
+                                viewModel.getSwapList();
+                                ExtendedNavigator.root.pushSwapScreen(
+                                  primaryToken: token,
+                                );
+                              },
+                            )
+                          : SizedBox.shrink(),
+                      Button(
+                        text: I10n.of(context).send_button,
+                        icon: 'send_action',
+                        width: isFUSD
+                            ? MediaQuery.of(context).size.width * .285
+                            : isSwappable
+                                ? null
+                                : MediaQuery.of(context).size.width * .9,
+                        onPressed: () {
+                          ExtendedNavigator.root.pushContactsList(
+                            automaticallyImplyLeading: true,
+                            pageArgs: SendFlowArguments(
+                              tokenToSend: token,
+                            ),
+                          );
+                        },
+                      ),
+                      isFUSD
+                          ? Button(
+                              text: I10n.of(context).buy,
+                              icon: 'buy_fUSD',
+                              width: MediaQuery.of(context).size.width * .285,
+                              onPressed: () {
+                                String url = depositPlugins[0].widgetUrl;
+                                openDepositWebview(
+                                  withBack: true,
+                                  url: url,
+                                );
+                              },
+                            )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
                 ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // Container(
-                //   child: SimpleLineChart.withRandomData(),
-                //   height: 200,
-                // ),
-                TokenActivities(
-                  tokenAddress: token?.address,
+                // (token?.stats?.isEmpty ?? [])
+                //     ? SizedBox.shrink()
+                //     : PriceLineChart(stats: token?.stats),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: TokenActivities(
+                    tokenAddress: token?.address,
+                  ),
                 ),
               ],
             ),
@@ -400,7 +351,7 @@ class TokenTile extends StatelessWidget {
                 fontSize: 15,
               ),
             ),
-            showBalance
+            showBalance && !showCurrentPrice
                 ? Row(
                     children: [
                       SizedBox(
@@ -417,48 +368,63 @@ class TokenTile extends StatelessWidget {
           ],
         );
         final Widget trailing = showBalance
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Europa',
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      AutoSizeText.rich(
+                        TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Europa',
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          children: <TextSpan>[
+                            hasPriceInfo
+                                ? TextSpan(
+                                    text: '\$' + price,
+                                  )
+                                : TextSpan(
+                                    text: token.getBalance() +
+                                        ' ' +
+                                        token?.symbol,
+                                  ),
+                          ],
+                        ),
+                        presetFontSizes: [15],
                       ),
-                      children: <TextSpan>[
-                        hasPriceInfo
-                            ? TextSpan(
-                                text: '\$' + price,
+                      hasPriceInfo && !showCurrentPrice
+                          ? Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text(
+                                token.getBalance() + ' ' + token?.symbol,
                                 style: TextStyle(
-                                  fontSize: 15.0,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                ),
-                              )
-                            : TextSpan(
-                                text: token.getBalance() + ' ' + token?.symbol,
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
+                                  color: Color(0xFF8D8D8D),
+                                  fontSize: 10,
                                 ),
                               ),
-                      ],
-                    ),
+                            )
+                          : SizedBox.shrink()
+                    ],
                   ),
-                  hasPriceInfo && !showCurrentPrice
-                      ? Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            token.getBalance() + ' ' + token?.symbol,
-                            style: TextStyle(
-                              color: Color(0xFF8D8D8D),
-                              fontSize: 10,
-                            ),
-                          ),
-                        )
-                      : SizedBox.shrink()
+                  // showCurrentPrice
+                  //     ? Row(
+                  //         children: [
+                  //           SizedBox(
+                  //             width: 10,
+                  //           ),
+                  //           Text(
+                  //             token?.getPriceChange(),
+                  //             style: TextStyle(
+                  //               color: Color(0xFF8D8D8D),
+                  //               fontSize: 12,
+                  //             ),
+                  //           )
+                  //         ],
+                  //       )
+                  //     : SizedBox.shrink()
                 ],
               )
             : SizedBox.shrink();

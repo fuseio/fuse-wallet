@@ -30,6 +30,8 @@ class _$TokenTearOff {
       Price priceInfo,
       String communityAddress,
       String originNetwork,
+      num priceChange,
+      List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions}) {
     return _Token(
       address: address,
@@ -44,6 +46,8 @@ class _$TokenTearOff {
       priceInfo: priceInfo,
       communityAddress: communityAddress,
       originNetwork: originNetwork,
+      priceChange: priceChange,
+      stats: stats,
       walletActions: walletActions,
     );
   }
@@ -73,6 +77,8 @@ mixin _$Token {
   Price get priceInfo;
   String get communityAddress;
   String get originNetwork;
+  num get priceChange;
+  List<Stats> get stats;
   @JsonKey(fromJson: walletActionsFromJson)
   WalletActions get walletActions;
 
@@ -98,6 +104,8 @@ abstract class $TokenCopyWith<$Res> {
       Price priceInfo,
       String communityAddress,
       String originNetwork,
+      num priceChange,
+      List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
 
   $PriceCopyWith<$Res> get priceInfo;
@@ -126,6 +134,8 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     Object priceInfo = freezed,
     Object communityAddress = freezed,
     Object originNetwork = freezed,
+    Object priceChange = freezed,
+    Object stats = freezed,
     Object walletActions = freezed,
   }) {
     return _then(_value.copyWith(
@@ -145,6 +155,9 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
           : originNetwork as String,
+      priceChange:
+          priceChange == freezed ? _value.priceChange : priceChange as num,
+      stats: stats == freezed ? _value.stats : stats as List<Stats>,
       walletActions: walletActions == freezed
           ? _value.walletActions
           : walletActions as WalletActions,
@@ -190,6 +203,8 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       Price priceInfo,
       String communityAddress,
       String originNetwork,
+      num priceChange,
+      List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
 
   @override
@@ -221,6 +236,8 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
     Object priceInfo = freezed,
     Object communityAddress = freezed,
     Object originNetwork = freezed,
+    Object priceChange = freezed,
+    Object stats = freezed,
     Object walletActions = freezed,
   }) {
     return _then(_Token(
@@ -240,6 +257,9 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
           : originNetwork as String,
+      priceChange:
+          priceChange == freezed ? _value.priceChange : priceChange as num,
+      stats: stats == freezed ? _value.stats : stats as List<Stats>,
       walletActions: walletActions == freezed
           ? _value.walletActions
           : walletActions as WalletActions,
@@ -264,6 +284,8 @@ class _$_Token extends _Token {
       this.priceInfo,
       this.communityAddress,
       this.originNetwork,
+      this.priceChange,
+      this.stats,
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions})
       : assert(isNative != null),
         super._();
@@ -298,12 +320,16 @@ class _$_Token extends _Token {
   @override
   final String originNetwork;
   @override
+  final num priceChange;
+  @override
+  final List<Stats> stats;
+  @override
   @JsonKey(fromJson: walletActionsFromJson)
   final WalletActions walletActions;
 
   @override
   String toString() {
-    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, walletActions: $walletActions)';
+    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, stats: $stats, walletActions: $walletActions)';
   }
 
   @override
@@ -343,6 +369,11 @@ class _$_Token extends _Token {
             (identical(other.originNetwork, originNetwork) ||
                 const DeepCollectionEquality()
                     .equals(other.originNetwork, originNetwork)) &&
+            (identical(other.priceChange, priceChange) ||
+                const DeepCollectionEquality()
+                    .equals(other.priceChange, priceChange)) &&
+            (identical(other.stats, stats) ||
+                const DeepCollectionEquality().equals(other.stats, stats)) &&
             (identical(other.walletActions, walletActions) ||
                 const DeepCollectionEquality()
                     .equals(other.walletActions, walletActions)));
@@ -363,6 +394,8 @@ class _$_Token extends _Token {
       const DeepCollectionEquality().hash(priceInfo) ^
       const DeepCollectionEquality().hash(communityAddress) ^
       const DeepCollectionEquality().hash(originNetwork) ^
+      const DeepCollectionEquality().hash(priceChange) ^
+      const DeepCollectionEquality().hash(stats) ^
       const DeepCollectionEquality().hash(walletActions);
 
   @JsonKey(ignore: true)
@@ -392,6 +425,8 @@ abstract class _Token extends Token {
       Price priceInfo,
       String communityAddress,
       String originNetwork,
+      num priceChange,
+      List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson)
           WalletActions walletActions}) = _$_Token;
 
@@ -422,6 +457,10 @@ abstract class _Token extends Token {
   String get communityAddress;
   @override
   String get originNetwork;
+  @override
+  num get priceChange;
+  @override
+  List<Stats> get stats;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
   WalletActions get walletActions;

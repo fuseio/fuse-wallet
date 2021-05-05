@@ -15,7 +15,6 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
@@ -498,7 +497,8 @@ class _SwapScreenState extends State<SwapScreen>
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      viewModel.payWithTokens.isEmpty &&
+                      viewModel.tokens.isNotEmpty &&
+                              viewModel.payWithTokens.isEmpty &&
                               depositPlugins.isNotEmpty
                           ? topUpYourAccount(depositPlugins[0].widgetUrl)
                           : SizedBox.shrink(),

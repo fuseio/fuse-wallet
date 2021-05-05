@@ -77,9 +77,7 @@ abstract class CashWalletState implements _$CashWalletState {
   factory CashWalletState.initial() {
     return CashWalletState(
       communities: Map<String, Community>(),
-      tokens: Map<String, Token>.from({
-        Addresses.ZERO_ADDRESS: fuseToken.copyWith(),
-      }),
+      tokens: Map<String, Token>(),
       walletActions: WalletActions().copyWith(
         list: <WalletAction>[],
         updatedAt: 0,

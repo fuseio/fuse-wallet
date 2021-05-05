@@ -61,7 +61,7 @@ class FuseSwapService {
 
   Future<List<Stats>> stats(
     String tokenAddress, {
-    String limit = '1',
+    String limit = '30',
   }) async {
     Response response = await dio.get('/stats/$tokenAddress', queryParameters: {
       'limit': limit,
@@ -69,5 +69,12 @@ class FuseSwapService {
     return (response.data['data'] as List<dynamic>)
         .map((stats) => Stats.fromJson(stats))
         .toList();
+  }
+
+  Future<num> priceChange(
+    String tokenAddress,
+  ) async {
+    Response response = await dio.get('/pricechange/$tokenAddress');
+    return num.tryParse(response.data['data']['priceChange'].toString()) ?? 0;
   }
 }

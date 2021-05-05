@@ -1,101 +1,118 @@
-// Copyright 2018 the Charts project authors. Please see the AUTHORS file
-// for details.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-/// Example of a simple line chart.
-// EXCLUDE_FROM_GALLERY_DOCS_START
-import 'dart:math';
-// EXCLUDE_FROM_GALLERY_DOCS_END
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:collection/collection.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/tokens/stats.dart';
 
-class SimpleLineChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
-
-  SimpleLineChart(this.seriesList, {this.animate});
-
-  /// Creates a [LineChart] with sample data and no transition.
-  factory SimpleLineChart.withSampleData() {
-    return new SimpleLineChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
-
-  // EXCLUDE_FROM_GALLERY_DOCS_START
-  // This section is excluded from being copied to the gallery.
-  // It is used for creating random series data to demonstrate animation in
-  // the example app only.
-  factory SimpleLineChart.withRandomData() {
-    return new SimpleLineChart(_createRandomData());
-  }
-
-  /// Create random data.
-  static List<charts.Series<LinearSales, num>> _createRandomData() {
-    final random = new Random();
-
-    final data = [
-      new LinearSales(0, random.nextInt(100)),
-      new LinearSales(1, random.nextInt(100)),
-      new LinearSales(2, random.nextInt(100)),
-      new LinearSales(3, random.nextInt(100)),
-    ];
-
-    return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
-  }
-  // EXCLUDE_FROM_GALLERY_DOCS_END
+class PriceLineChart extends StatelessWidget {
+  final List<Stats> stats;
+  const PriceLineChart({
+    Key key,
+    this.stats,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new charts.LineChart(seriesList, animate: animate);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          // color: Theme.of(context).colorScheme.secondary,
+          height: 150,
+          child: Center(
+            child: LineChart(
+              LineChartData(
+                gridData: FlGridData(
+                  show: false,
+                ),
+                titlesData: FlTitlesData(
+                  show: false,
+                ),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  getTouchedSpotIndicator:
+                      (LineChartBarData barData, List<int> spotIndexes) {
+                    return spotIndexes
+                        .map(
+                          (index) => TouchedSpotIndicatorData(
+                            FlLine(
+                              color: Colors.transparent,
+                            ),
+                            FlDotData(
+                              show: true,
+                              getDotPainter: (spot, percent, barData, index) =>
+                                  FlDotCirclePainter(
+                                radius: 0,
+                                color: Colors.transparent,
+                                strokeWidth: 0,
+                                strokeColor: Colors.transparent,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList();
+                  },
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: Theme.of(context).primaryColor,
+                    tooltipRoundedRadius: 8,
+                    getTooltipItems: (List<LineBarSpot> lineBarsSpot) {
+                      return lineBarsSpot.map((lineBarSpot) {
+                        return LineTooltipItem(
+                          lineBarSpot.y.toString(),
+                          const TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        );
+                      }).toList();
+                    },
+                  ),
+                ),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                minX: minBy(stats?.map((e) => double.parse(e.price)), (a) => a),
+                minY: minBy(stats?.map((e) => double.parse(e.price)), (a) => a),
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: stats
+                        ?.asMap()
+                        ?.map(
+                          (i, elem) => MapEntry(
+                            i,
+                            FlSpot(
+                              i.toDouble(),
+                              double.parse(
+                                double.parse(elem.price).toStringAsFixed(2),
+                              ),
+                            ),
+                          ),
+                        )
+                        ?.values
+                        ?.toList(),
+                    isCurved: true,
+                    colors: [Colors.black, Colors.black],
+                    barWidth: 4,
+                    isStrokeCapRound: true,
+                    dotData: FlDotData(
+                      show: false,
+                    ),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      colors: [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).colorScheme.primaryVariant,
+                      ].map((color) => color.withOpacity(0.3)).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
-
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
-    final data = [
-      new LinearSales(0, 5),
-      new LinearSales(1, 25),
-      new LinearSales(2, 100),
-      new LinearSales(3, 75),
-    ];
-
-    return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
-  }
-}
-
-/// Sample linear data type.
-class LinearSales {
-  final int year;
-  final int sales;
-
-  LinearSales(this.year, this.sales);
 }

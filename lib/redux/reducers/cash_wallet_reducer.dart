@@ -10,6 +10,10 @@ import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, GetTokenStatsSuccess>(
+      _getTokenStatsSuccess),
+  TypedReducer<CashWalletState, GetTokenPriceChangeSuccess>(
+      _getTokenPriceChangeSuccess),
   TypedReducer<CashWalletState, UpdateTokenPrice>(_updateTokenPrice),
   TypedReducer<CashWalletState, GetActionsSuccess>(_getActionsSuccess),
   TypedReducer<CashWalletState, GetTokenWalletActionsSuccess>(
@@ -207,6 +211,24 @@ CashWalletState _getTokenBalanceSuccess(
   Token current = state.tokens[action.tokenAddress];
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne[tokenAddress] = current.copyWith(amount: action.tokenBalance);
+  return state.copyWith(tokens: newOne);
+}
+
+CashWalletState _getTokenPriceChangeSuccess(
+    CashWalletState state, GetTokenPriceChangeSuccess action) {
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[action.tokenAddress];
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = current.copyWith(priceChange: action.priceChange);
+  return state.copyWith(tokens: newOne);
+}
+
+CashWalletState _getTokenStatsSuccess(
+    CashWalletState state, GetTokenStatsSuccess action) {
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[action.tokenAddress];
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = current.copyWith(stats: action.stats);
   return state.copyWith(tokens: newOne);
 }
 

@@ -2,8 +2,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
@@ -29,6 +31,8 @@ abstract class Token implements _$Token {
     Price priceInfo,
     String communityAddress,
     String originNetwork,
+    num priceChange,
+    List<Stats> stats,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
   }) = _Token;
 
@@ -46,6 +50,21 @@ abstract class Token implements _$Token {
       );
     }
     return '0';
+  }
+
+  String getPriceChange() {
+    // if (priceChange > 0.01) {
+    //   return '0%';
+    // }
+    log.info(
+        '$name $address isNegative ${priceChange.isNegative} $priceChange');
+    if (priceChange.isNegative) {
+      log.info('isNegative $name');
+      return '-${(num.tryParse(priceChange.toString().replaceFirst('-', '')) * 100).toStringAsFixed(1)}';
+    }
+    return (priceChange > 0.01 || priceChange.isNaN)
+        ? '0%'
+        : (priceChange * 100).toStringAsFixed(1) + '%';
   }
 
   Future<dynamic> fetchTokenBalance(
@@ -91,6 +110,30 @@ abstract class Token implements _$Token {
     try {
       Price price = await fuseSwapService.price(address);
       onDone(price);
+    } catch (e, s) {
+      onError(e, s);
+    }
+  }
+
+  Future<dynamic> fetchTokenPriceChange({
+    void Function(num) onDone,
+    Function onError,
+  }) async {
+    try {
+      final num priceChange = await fuseSwapService.priceChange(address);
+      onDone(priceChange);
+    } catch (e, s) {
+      onError(e, s);
+    }
+  }
+
+  Future<dynamic> fetchTokenStats({
+    void Function(List<Stats>) onDone,
+    Function onError,
+  }) async {
+    try {
+      final List<Stats> stats = await fuseSwapService.stats(address);
+      onDone(stats);
     } catch (e, s) {
       onError(e, s);
     }

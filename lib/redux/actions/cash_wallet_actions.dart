@@ -18,6 +18,7 @@ import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -76,6 +77,24 @@ class GetTokenBalanceSuccess {
   final String tokenAddress;
   final BigInt tokenBalance;
   GetTokenBalanceSuccess({this.tokenBalance, this.tokenAddress});
+}
+
+class GetTokenPriceChangeSuccess {
+  final String tokenAddress;
+  final num priceChange;
+  GetTokenPriceChangeSuccess({
+    this.priceChange,
+    this.tokenAddress,
+  });
+}
+
+class GetTokenStatsSuccess {
+  final String tokenAddress;
+  final List<Stats> stats;
+  GetTokenStatsSuccess({
+    this.stats,
+    this.tokenAddress,
+  });
 }
 
 class SwitchCommunityRequested {
@@ -1116,6 +1135,8 @@ ThunkAction updateTokensPrices() {
     Map<String, Token> tokens = store.state.cashWalletState.tokens;
     for (Token token in tokens.values) {
       store.dispatch(getTokenPriceCall(token));
+      // store.dispatch(getTokenPriceChangeCall(token));
+      // store.dispatch(getTokenStatsCall(token));
     }
   };
 }
@@ -1137,6 +1158,51 @@ ThunkAction getTokenPriceCall(Token token) {
     };
     // log.info('fetching price of token ${token.name} ${token.address}');
     await token.fetchTokenLatestPrice(
+      onDone: onDone,
+      onError: onError,
+    );
+  };
+}
+
+ThunkAction getTokenPriceChangeCall(Token token) {
+  return (Store store) async {
+    void Function(num) onDone = (num priceChange) {
+      store.dispatch(
+        GetTokenPriceChangeSuccess(
+          priceChange: priceChange,
+          tokenAddress: token.address,
+        ),
+      );
+    };
+    void Function(Object error, StackTrace stackTrace) onError =
+        (Object error, StackTrace stackTrace) {
+      log.error('Error getTokenPriceChangeCall - ${token.name} - $error ');
+    };
+    log.info('Fetching token price change ${token.name}');
+    await token.fetchTokenPriceChange(
+      onDone: onDone,
+      onError: onError,
+    );
+  };
+}
+
+ThunkAction getTokenStatsCall(Token token) {
+  return (Store store) async {
+    void Function(List<Stats>) onDone = (List<Stats> stats) {
+      log.info('stats.length ${stats.length}');
+      store.dispatch(
+        GetTokenStatsSuccess(
+          stats: stats,
+          tokenAddress: token.address,
+        ),
+      );
+    };
+    void Function(Object error, StackTrace stackTrace) onError =
+        (Object error, StackTrace stackTrace) {
+      log.error('Error getTokenStatsCall - ${token.name} - $error ');
+    };
+    log.info('Fetching token stats ${token.name}');
+    await token.fetchTokenStats(
       onDone: onDone,
       onError: onError,
     );

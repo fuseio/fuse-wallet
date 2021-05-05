@@ -4,6 +4,7 @@ description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  collection: ^1.14.6
   app_tracking_transparency: ^1.1.0+1
   rate_my_app: ^0.7.2
   responsive_framework: ^0.0.15
@@ -11,7 +12,7 @@ dependencies:
   modal_bottom_sheet: ^1.0.0+1
   intl: ^0.16.1
   grouped_list: ^3.7.0
-  charts_flutter: ^0.10.0
+  fl_chart: ^0.12.3
   number_display: ^2.3.0
   auto_size_text_field: ^0.1.7
   lottie: ^0.7.0+1
