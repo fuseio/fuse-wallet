@@ -25,8 +25,8 @@ class TokenTile extends StatelessWidget {
     this.showBalance = true,
     this.showCurrentPrice = false,
     this.onTap,
-    this.symbolHeight = 45.0,
-    this.symbolWidth = 45.0,
+    this.symbolHeight = 50.0,
+    this.symbolWidth = 50.0,
   }) : super(key: key);
   final Function() onTap;
   final bool showBalance;
