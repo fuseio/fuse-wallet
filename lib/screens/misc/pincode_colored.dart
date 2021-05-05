@@ -66,28 +66,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RichText(
-                              textAlign: TextAlign.center,
-                              text: new TextSpan(children: <InlineSpan>[
-                                TextSpan(
-                                  text: 'Wiki',
-                                  style: TextStyle(
-                                      fontFamily: 'Eras',
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColorDark,
-                                      fontSize: 20),
-                                ),
-                                TextSpan(
-                                    text: 'Bank',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Eras',
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context)
-                                            .primaryColorLight))
-                              ]))
-                          // Image.asset('assets/images/pincode_logo.png',
-                          //     width: 71, height: 61),
+                          Text(
+                            'Comunitaria',
+                            style: TextStyle(
+                              fontFamily: 'Eras',
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColorLight,
+                              fontSize: 20,
+                            ),
+                          ),
                         ],
                       ),
                     ),

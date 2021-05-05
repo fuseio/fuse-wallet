@@ -180,7 +180,7 @@ class CashHeader extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: 'Eras',
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColorDark,
+                            color: Theme.of(context).primaryColorLight,
                             fontSize: 16,
                           ),
                         ),
