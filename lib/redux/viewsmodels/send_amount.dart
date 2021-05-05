@@ -5,6 +5,7 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
@@ -99,11 +100,19 @@ class SendAmountViewModel extends Equatable {
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) => token.amount > BigInt.zero)
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
+                .compareTo(0) ==
+            1)
         .toList();
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
-        .where((Token token) => token.amount > BigInt.zero)
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
+                .compareTo(0) ==
+            1)
         .map((Token token) => token?.copyWith(
             imageUrl: token.imageUrl != null
                 ? token.imageUrl

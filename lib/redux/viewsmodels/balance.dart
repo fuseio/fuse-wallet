@@ -23,7 +23,11 @@ class BalanceViewModel extends Equatable {
     CashWalletState cashWalletState = store.state.cashWalletState;
     List<Token> homeTokens =
         List<Token>.from(cashWalletState.tokens?.values ?? Iterable.empty())
-            .where((Token token) => token.amount > BigInt.zero)
+            .where((Token token) =>
+                num.parse(formatValue(token.amount, token.decimals,
+                        withPrecision: true))
+                    .compareTo(0) ==
+                1)
             .toList();
 
     final num value = homeTokens.fold<num>(0, combiner);
