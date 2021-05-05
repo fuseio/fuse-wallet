@@ -30,13 +30,13 @@ class TopUpViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddress];
 
-    List<Token> homeTokens = store.state.cashWalletState.tokens.values
-        .where((Token token) =>
+    List<Token> homeTokens = store.state.cashWalletState?.tokens?.values
+        ?.where((Token token) =>
             num.parse(formatValue(token.amount, token.decimals,
                     withPrecision: true))
                 .compareTo(0) ==
             1)
-        .toList();
+        ?.toList();
 
     return TopUpViewModel(
       showDismiss: (walletActions?.any(

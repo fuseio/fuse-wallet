@@ -565,6 +565,16 @@ class I10n {
     );
   }
 
+  /// `Face ID`
+  String get face_id {
+    return Intl.message(
+      'Face ID',
+      name: 'face_id',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `FAILED`
   String get failed {
     return Intl.message(
@@ -1265,6 +1275,16 @@ class I10n {
     );
   }
 
+  /// `Please use`
+  String get please_use {
+    return Intl.message(
+      'Please use',
+      name: 'please_use',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Price`
   String get price {
     return Intl.message(
@@ -1830,6 +1850,26 @@ class I10n {
     return Intl.message(
       'Total amount:',
       name: 'total_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Touch ID`
+  String get touch_id {
+    return Intl.message(
+      'Touch ID',
+      name: 'touch_id',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to unlock!`
+  String get to_unlock {
+    return Intl.message(
+      'to unlock!',
+      name: 'to_unlock',
       desc: '',
       args: [],
     );

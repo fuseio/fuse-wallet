@@ -152,7 +152,8 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
                                   await BiometricUtils
                                       .showDefaultPopupCheckBiometricAuth(
-                                    message: 'Please use $biometric to unlock!',
+                                    message:
+                                        '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
                                     callback: (bool result) {
                                       if (result) {
                                         viewModel

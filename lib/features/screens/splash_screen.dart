@@ -71,7 +71,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _showLocalAuthPopup(String biometric) async {
     await BiometricUtils.showDefaultPopupCheckBiometricAuth(
-      message: 'Please use $biometric to unlock!',
+      message:
+          '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
       stickyAuth: true,
       callback: (bool result) {
         if (result) {

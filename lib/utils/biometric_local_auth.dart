@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:local_auth/local_auth.dart';
 
 class BiometricUtils {
@@ -31,11 +33,11 @@ class BiometricUtils {
   static String getBiometricString(BiometricAuth type) {
     switch (type) {
       case BiometricAuth.faceID:
-        return 'Face ID';
+        return I10n.of(ExtendedNavigator.root.context).face_id;
       case BiometricAuth.touchID:
-        return 'Touch ID';
+        return I10n.of(ExtendedNavigator.root.context).touch_id;
       default:
-        return 'Touch ID';
+        return I10n.of(ExtendedNavigator.root.context).touch_id;
     }
   }
 }
