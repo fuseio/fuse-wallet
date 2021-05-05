@@ -136,9 +136,6 @@ class _SwapScreenState extends State<SwapScreen>
         ]);
         List<TradeInfo> result = await swapInfo;
         final TradeInfo tradeInfo = result[0];
-        // log.info('amountIn: ${swapRequestBody.amountIn}');
-        // log.info(
-        //     'tradeInfo: inputAmount - ${tradeInfo.inputAmount} outputAmount - ${tradeInfo.outputAmount}');
         final TradeInfo rate = result[1];
         setState(() {
           rateInfo = rate;
@@ -432,7 +429,10 @@ class _SwapScreenState extends State<SwapScreen>
                                 TradeCard(
                                   onTap: () {
                                     showBottomMenu(
-                                      viewModel.payWithTokens,
+                                      viewModel.payWithTokens
+                                        ..removeWhere((element) =>
+                                            element.address ==
+                                            tokenIn?.address),
                                       onTokenOutChanged,
                                       false,
                                     );
@@ -461,7 +461,10 @@ class _SwapScreenState extends State<SwapScreen>
                                 TradeCard(
                                   onTap: () {
                                     showBottomMenu(
-                                      viewModel.receiveTokens,
+                                      viewModel.receiveTokens
+                                        ..removeWhere((element) =>
+                                            element.address ==
+                                            tokenOut?.address),
                                       onTokenInChanged,
                                       true,
                                     );

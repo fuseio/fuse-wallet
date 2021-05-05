@@ -67,7 +67,7 @@ abstract class Token implements _$Token {
         : (priceChange * 100).toStringAsFixed(1) + '%';
   }
 
-  Future<dynamic> fetchTokenBalance(
+  Future<dynamic> fetchBalance(
     String accountAddress, {
     Function(BigInt) onDone,
     Function onError,
@@ -102,7 +102,7 @@ abstract class Token implements _$Token {
     }
   }
 
-  Future<dynamic> fetchTokenLatestPrice({
+  Future<dynamic> fetchLatestPrice({
     String currency = 'usd',
     void Function(Price) onDone,
     Function onError,
@@ -115,7 +115,7 @@ abstract class Token implements _$Token {
     }
   }
 
-  Future<dynamic> fetchTokenPriceChange({
+  Future<dynamic> fetchPriceChange({
     void Function(num) onDone,
     Function onError,
   }) async {
@@ -127,7 +127,7 @@ abstract class Token implements _$Token {
     }
   }
 
-  Future<dynamic> fetchTokenStats({
+  Future<dynamic> fetchStats({
     void Function(List<Stats>) onDone,
     Function onError,
   }) async {

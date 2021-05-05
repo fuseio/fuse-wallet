@@ -193,8 +193,11 @@ ThunkAction fetchTokensBalances() {
               log.error(
                   'Error in fetchTokenBalance for - ${token.name} $error');
             };
-            await token.fetchTokenBalance(walletAddress,
-                onDone: onDone, onError: onError);
+            await token.fetchBalance(
+              walletAddress,
+              onDone: onDone,
+              onError: onError,
+            );
           };
           await Future.delayed(Duration(milliseconds: 1000), fetchTokenBalance);
         }
@@ -246,7 +249,7 @@ ThunkAction fetchTokensLatestPrice() {
               'Error in fetchTokenLatestPrice for - ${token.name} $error');
         };
         // log.info('fetching price of token ${token.name} ${token.address}');
-        await token.fetchTokenLatestPrice(onDone: onDone, onError: onError);
+        await token.fetchLatestPrice(onDone: onDone, onError: onError);
       };
       await Future.delayed(Duration(milliseconds: 500), fetchTokenLatestPrice);
     }

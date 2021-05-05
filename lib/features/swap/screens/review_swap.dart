@@ -161,7 +161,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   Widget extraInfo() {
     return ListView(
       shrinkWrap: true,
-      padding: EdgeInsets.only(left: 30, right: 30, top: 30),
+      padding: EdgeInsets.only(left: 10, right: 10, top: 30),
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -259,12 +259,15 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                infoCard(),
-                extraInfo(),
-              ],
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  infoCard(),
+                  extraInfo(),
+                ],
+              ),
             ),
             Column(
               children: [

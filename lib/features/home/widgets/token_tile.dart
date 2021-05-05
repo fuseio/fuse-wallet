@@ -5,13 +5,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/home/widgets/button.dart';
-import 'package:fusecash/features/home/widgets/price_line_chart.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import "package:collection/collection.dart";
 
 class TokenTile extends StatelessWidget {
   TokenTile({

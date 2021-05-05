@@ -502,7 +502,7 @@ ThunkAction getTokenBalanceCall(Token token) {
         );
         log.error('Error - fetch token balance ${token.name} $e');
       };
-      await token.fetchTokenBalance(
+      await token.fetchBalance(
         walletAddress,
         onDone: onDone,
         onError: onError,
@@ -1157,7 +1157,7 @@ ThunkAction getTokenPriceCall(Token token) {
       log.error('Fetch token price error for - ${token.name} - $error ');
     };
     // log.info('fetching price of token ${token.name} ${token.address}');
-    await token.fetchTokenLatestPrice(
+    await token.fetchLatestPrice(
       onDone: onDone,
       onError: onError,
     );
@@ -1179,7 +1179,7 @@ ThunkAction getTokenPriceChangeCall(Token token) {
       log.error('Error getTokenPriceChangeCall - ${token.name} - $error ');
     };
     log.info('Fetching token price change ${token.name}');
-    await token.fetchTokenPriceChange(
+    await token.fetchPriceChange(
       onDone: onDone,
       onError: onError,
     );
@@ -1202,7 +1202,7 @@ ThunkAction getTokenStatsCall(Token token) {
       log.error('Error getTokenStatsCall - ${token.name} - $error ');
     };
     log.info('Fetching token stats ${token.name}');
-    await token.fetchTokenStats(
+    await token.fetchStats(
       onDone: onDone,
       onError: onError,
     );
@@ -1282,8 +1282,6 @@ ThunkAction swapHandler(
         '0x',
         '',
       );
-      log.info(
-          'swapRequestBody.amountIn: ${num.parse(swapRequestBody.amountIn)}');
       Map<String, dynamic> response = await api.approveTokenAndCallContract(
         fuseWeb3,
         swapRequestBody.recipient,
