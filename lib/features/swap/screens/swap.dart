@@ -454,10 +454,7 @@ class _SwapScreenState extends State<SwapScreen>
                                 TradeCard(
                                   onTap: () {
                                     showBottomMenu(
-                                      viewModel.payWithTokens
-                                        ..removeWhere((element) =>
-                                            element.address ==
-                                            tokenIn?.address),
+                                      viewModel.payWithTokens,
                                       onTokenOutChanged,
                                       false,
                                     );
