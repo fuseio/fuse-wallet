@@ -9,6 +9,7 @@ import 'package:fusecash/features/home/router/router.gr.dart';
 import 'package:fusecash/features/contacts/router/router.gr.dart';
 import 'package:fusecash/features/swap/router/swap_router.gr.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
@@ -55,6 +56,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       distinct: true,
       converter: HomeScreenViewModel.fromStore,
       onInit: (store) {
+        store.dispatch(fetchSwapList());
         store.dispatch(startFetchingCall());
         store.dispatch(startFetchTokensBalances());
         store.dispatch(updateTokensPrices());
@@ -94,7 +96,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              // ReceiveScreen(),
               ExtendedNavigator(
                 router: AccountRouter(),
                 name: 'accountRouter',

@@ -393,10 +393,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                           children: [
                             PrimaryButton(
                               opacity: 1,
-                              bgColor: hasFund
-                                  ? null
-                                  : Theme.of(context).colorScheme.secondary,
-                              labelColor: hasFund ? null : Color(0xFF797979),
                               label: hasFund
                                   ? I10n.of(context).next_button
                                   : I10n.of(context).insufficient_fund,

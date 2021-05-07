@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -5,7 +7,6 @@ import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
@@ -52,19 +53,64 @@ abstract class Token implements _$Token {
     return '0';
   }
 
-  String getPriceChange() {
-    // if (priceChange > 0.01) {
-    //   return '0%';
-    // }
-    log.info(
-        '$name $address isNegative ${priceChange.isNegative} $priceChange');
-    if (priceChange.isNegative) {
-      log.info('isNegative $name');
-      return '-${(num.tryParse(priceChange.toString().replaceFirst('-', '')) * 100).toStringAsFixed(1)}';
+  Widget getPriceChange() {
+    if (priceChange.toStringAsFixed(2).startsWith('0.00') ||
+        priceChange.toStringAsFixed(2).startsWith('-0.00')) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            display(priceChange) + '%',
+            style: TextStyle(color: Color(0xFF292929)),
+          )
+        ],
+      );
     }
-    return (priceChange > 0.01 || priceChange.isNaN)
-        ? '0%'
-        : (priceChange * 100).toStringAsFixed(1) + '%';
+    if (priceChange != null && priceChange.isNegative) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            display(priceChange) + '%',
+            style: TextStyle(color: Color(0xFF292929)),
+          ),
+          SizedBox(
+            width: 2.5,
+          ),
+          SvgPicture.asset(
+            'assets/images/percent_down.svg',
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            display(priceChange) + '%',
+            style: TextStyle(color: Color(0xFF292929)),
+          ),
+          SizedBox(
+            width: 2.5,
+          ),
+          SvgPicture.asset(
+            'assets/images/percent_up.svg',
+          ),
+        ],
+      );
+    }
   }
 
   Future<dynamic> fetchBalance(

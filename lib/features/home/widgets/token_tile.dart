@@ -108,14 +108,16 @@ class TokenTile extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        token.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Europa',
-                          fontSize: 30,
+                      Expanded(
+                        child: AutoSizeText(
+                          token.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          softWrap: true,
+                          maxLines: 1,
+                          presetFontSizes: [30, 28, 26],
                         ),
-                        softWrap: true,
                       ),
                     ],
                   ),
@@ -340,12 +342,11 @@ class TokenTile extends StatelessWidget {
           verticalDirection: VerticalDirection.down,
           textBaseline: TextBaseline.alphabetic,
           children: <Widget>[
-            Text(
-              token?.name,
-              maxLines: 1,
-              style: TextStyle(
-                color: Color(0xFF333333),
-                fontSize: 15,
+            Flexible(
+              child: AutoSizeText(
+                token?.name,
+                maxLines: 1,
+                presetFontSizes: [15, 13, 12],
               ),
             ),
             showBalance && !showCurrentPrice
@@ -371,12 +372,14 @@ class TokenTile extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    verticalDirection: VerticalDirection.down,
+                    textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
                       AutoSizeText.rich(
                         TextSpan(
                           style: TextStyle(
                             fontFamily: 'Europa',
-                            color: Theme.of(context).colorScheme.onSurface,
+                            color: Color(0xFF292929),
                           ),
                           children: <TextSpan>[
                             hasPriceInfo
@@ -398,7 +401,7 @@ class TokenTile extends StatelessWidget {
                               child: Text(
                                 token.getBalance() + ' ' + token?.symbol,
                                 style: TextStyle(
-                                  color: Color(0xFF8D8D8D),
+                                  color: Color(0xFF292929),
                                   fontSize: 10,
                                 ),
                               ),
@@ -406,22 +409,7 @@ class TokenTile extends StatelessWidget {
                           : SizedBox.shrink()
                     ],
                   ),
-                  // showCurrentPrice
-                  //     ? Row(
-                  //         children: [
-                  //           SizedBox(
-                  //             width: 10,
-                  //           ),
-                  //           Text(
-                  //             token?.getPriceChange(),
-                  //             style: TextStyle(
-                  //               color: Color(0xFF8D8D8D),
-                  //               fontSize: 12,
-                  //             ),
-                  //           )
-                  //         ],
-                  //       )
-                  //     : SizedBox.shrink()
+                  showCurrentPrice ? token?.getPriceChange() : SizedBox.shrink()
                 ],
               )
             : SizedBox.shrink();

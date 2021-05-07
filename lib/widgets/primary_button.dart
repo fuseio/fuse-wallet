@@ -9,7 +9,6 @@ class PrimaryButton extends StatelessWidget {
     this.width,
     this.height,
     this.preload,
-    this.bgColor,
     this.opacity = 0.4,
     this.disabled = false,
     this.labelColor,
@@ -22,7 +21,6 @@ class PrimaryButton extends StatelessWidget {
   final bool preload;
   final bool disabled;
   final double fontSize;
-  final Color bgColor;
   final Color labelColor;
 
   @override
@@ -31,7 +29,9 @@ class PrimaryButton extends StatelessWidget {
       width: width ?? 255.0,
       height: height ?? 50.0,
       decoration: BoxDecoration(
-        color: bgColor ?? Theme.of(context).colorScheme.primary,
+        color: disabled
+            ? Theme.of(context).colorScheme.secondary
+            : Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.all(Radius.circular(11.0)),
       ),
       child: Material(
@@ -48,8 +48,9 @@ class PrimaryButton extends StatelessWidget {
                 ? AutoSizeText(
                     label,
                     style: TextStyle(
-                      color: labelColor ??
-                          Theme.of(context).textTheme.button.color,
+                      color: disabled
+                          ? Color(0xFF797979)
+                          : Theme.of(context).textTheme.button.color,
                       fontSize: this.fontSize ?? 20,
                       fontWeight: FontWeight.normal,
                     ),

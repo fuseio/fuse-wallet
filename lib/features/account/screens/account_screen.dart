@@ -71,6 +71,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Padding(
                         padding: EdgeInsets.only(
                           left: 10,
+                          right: 10,
                           top: 10,
                         ),
                         child: Column(
@@ -100,7 +101,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                       ? Flexible(
                                           child: SvgPicture.asset(
                                             'assets/images/back_up_icon.svg',
-                                            width: 10,
+                                            width: 12,
                                           ),
                                         )
                                       : SizedBox.shrink(),
@@ -127,6 +128,11 @@ class _AccountScreenState extends State<AccountScreen> {
                               menuIcon: 'social_icon.svg',
                               onTap: ExtendedNavigator.named('accountRouter')
                                   .pushSocialScreen,
+                              trailing: SvgPicture.asset(
+                                'assets/images/go_to_pro.svg',
+                                width: 10,
+                                height: 10,
+                              ),
                             ),
                             MenuTile(
                               label: I10n.of(context).contact_us,

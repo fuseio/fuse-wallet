@@ -65,18 +65,17 @@ ThunkAction fetchSwapList() {
             },
           );
 
-          // await newToken.fetchTokenPriceChange(
-          //   onDone: (num priceChange) {
-          //     // log.info('priceChange ${newToken.name} $priceChange ');
-          //     newToken = newToken.copyWith(
-          //       priceChange: priceChange,
-          //     );
-          //   },
-          //   onError: (Object error, StackTrace stackTrace) {
-          //     log.error(
-          //         'Fetch token PriceChange error for - ${newToken.name} - $error ');
-          //   },
-          // );
+          await newToken.fetchPriceChange(
+            onDone: (num priceChange) {
+              newToken = newToken.copyWith(
+                priceChange: priceChange,
+              );
+            },
+            onError: (Object error, StackTrace stackTrace) {
+              log.error(
+                  'Fetch token PriceChange error for - ${newToken.name} - $error ');
+            },
+          );
           tokens.putIfAbsent(
             token['address'].toLowerCase(),
             () => newToken,

@@ -571,7 +571,10 @@ ThunkAction fetchListOfTokensByAddress() {
       {},
       (previousValue, element) {
         if (!cashWalletState.tokens.containsKey(element.address) &&
-            element.amount > BigInt.zero) {
+            num.parse(formatValue(element.amount, element.decimals,
+                        withPrecision: true))
+                    .compareTo(0) ==
+                1) {
           log.info('New token added ${element.name}');
           previousValue[element.address] = element;
         }
@@ -1135,8 +1138,8 @@ ThunkAction updateTokensPrices() {
     Map<String, Token> tokens = store.state.cashWalletState.tokens;
     for (Token token in tokens.values) {
       store.dispatch(getTokenPriceCall(token));
-      // store.dispatch(getTokenPriceChangeCall(token));
-      // store.dispatch(getTokenStatsCall(token));
+      store.dispatch(getTokenPriceChangeCall(token));
+      store.dispatch(getTokenStatsCall(token));
     }
   };
 }

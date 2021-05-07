@@ -136,7 +136,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 30.0),
               ],
             )
           ],

@@ -51,11 +51,28 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
               shrinkWrap: true,
               primary: false,
               children: <Widget>[
-                MenuTile(
-                  label: I10n.of(context).back_up,
-                  menuIcon: 'backup_icon.svg',
+                ListTile(
+                  contentPadding: EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                  ),
                   onTap:
                       ExtendedNavigator.named('accountRouter').pushShowMnemonic,
+                  title: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/images/backup_icon.svg',
+                        width: 18,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        I10n.of(context).back_up,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +81,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                           ? Flexible(
                               child: SvgPicture.asset(
                                 'assets/images/back_up_icon.svg',
-                                width: 10,
+                                width: 12,
                               ),
                             )
                           : SizedBox.shrink(),

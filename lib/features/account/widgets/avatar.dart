@@ -100,6 +100,7 @@ class Avatar extends StatelessWidget {
                             children: <Widget>[
                               SvgPicture.asset(
                                 'assets/images/copy.svg',
+                                width: 16,
                               ),
                               SizedBox(
                                 width: 10,

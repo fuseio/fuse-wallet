@@ -55,8 +55,23 @@ class TokensListViewModel extends Equatable {
         .toList();
 
     final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
-        (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
-            ?.compareTo(tokenA?.amount ?? BigInt.zero));
+        (tokenA, tokenB) => num.parse(
+          formatValue(
+            tokenB?.amount,
+            tokenB?.decimals,
+            withPrecision: true,
+          ),
+        )?.compareTo(
+          num.parse(
+            formatValue(
+              tokenA?.amount,
+              tokenA?.decimals,
+              withPrecision: true,
+            ),
+          ),
+        ),
+      );
+
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: tokens ?? [],

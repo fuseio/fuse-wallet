@@ -39,7 +39,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
               Flexible(
                 child: SvgPicture.asset(
                   'assets/images/language.svg',
-                  width: 13,
+                  width: 16,
                 ),
               ),
               SizedBox(
@@ -47,9 +47,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
               ),
               Text(
                 I10n.of(context).language,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 18),
               ),
             ],
           ),
