@@ -1,5 +1,7 @@
 PODS:
   - Analytics (4.0.1)
+  - app_tracking_transparency (0.0.1):
+    - Flutter
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
@@ -158,6 +160,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
@@ -214,6 +217,8 @@ SPEC REPOS:
     - SwiftProtobuf
 
 EXTERNAL SOURCES:
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
   barcode_scan:
     :path: ".symlinks/plugins/barcode_scan/ios"
   connectivity:
@@ -269,6 +274,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Analytics: ebdc0c3ed93684d10c898f57886e0ce7fbecc240
+  app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
   barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
   Branch: 8aebcb7a6465f19f9f4d315acced369ae078d3f2
   connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
