@@ -16,21 +16,21 @@ class TokenTileViewModel extends Equatable {
   final Function getSwapList;
 
   TokenTileViewModel({
-    this.communities,
-    this.plugins,
-    this.tokensImages,
-    this.fetchTokenAction,
-    this.fetchTokenPrice,
-    this.getSwapList,
+    required this.communities,
+    required this.plugins,
+    required this.tokensImages,
+    required this.fetchTokenAction,
+    required this.fetchTokenPrice,
+    required this.getSwapList,
   });
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
+    Community? community =
         store.state.cashWalletState.communities[communityAddress];
     return TokenTileViewModel(
       plugins: community?.plugins ?? Plugins(),
-      tokensImages: store.state.swapState?.tokensImages ?? Map(),
+      tokensImages: store.state.swapState.tokensImages ?? Map(),
       communities: store.state.cashWalletState.communities.values.toList(),
       fetchTokenAction: (Token token) {
         store.dispatch(getTokenWalletActionsCall(token));
@@ -40,7 +40,7 @@ class TokenTileViewModel extends Equatable {
       },
       getSwapList: () {
         store.dispatch(fetchSwapList());
-      }
+      },
     );
   }
 

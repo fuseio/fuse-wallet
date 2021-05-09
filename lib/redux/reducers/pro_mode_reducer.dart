@@ -78,7 +78,7 @@ ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
 //   Transaction saved = current.transactions.list.firstWhere(
 //       (tx) => ((tx.jobId != null && tx.jobId == action.transaction.jobId) ||
 //           (tx.txHash != null && tx.txHash == action.transaction.txHash)),
-//       orElse: () => null);
+//       );
 //   Transactions transactions;
 //   if (saved == null) {
 //     transactions = current.transactions

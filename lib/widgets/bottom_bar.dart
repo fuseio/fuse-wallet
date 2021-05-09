@@ -1,17 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/generated/l10n.dart';
 
 class BottomBar extends StatelessWidget {
-  final int tabIndex;
-  final void Function(int) onTap;
+  late final TabsRouter tabsRouter;
 
-  BottomBar({
-    Key key,
-    this.tabIndex = 0,
-    this.onTap,
-  }) : super(key: key);
+  BottomBar(
+    this.tabsRouter,
+  );
 
   BottomNavigationBarItem bottomBarItem(
     String title,
@@ -50,13 +48,14 @@ class BottomBar extends StatelessWidget {
         ),
       ),
       child: BottomNavigationBar(
+        currentIndex: tabsRouter.activeIndex,
+        onTap: tabsRouter.setActiveIndex,
         selectedItemColor: Theme.of(context).colorScheme.onSurface,
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,
         key: AppKeys.bottomBarKey,
         selectedFontSize: 16,
         unselectedFontSize: 16,
         type: BottomNavigationBarType.fixed,
-        currentIndex: tabIndex,
         showUnselectedLabels: true,
         items: [
           bottomBarItem(I10n.of(context).home, 'home'),
@@ -65,7 +64,6 @@ class BottomBar extends StatelessWidget {
           bottomBarItem(I10n.of(context).earn, 'earn'),
           bottomBarItem(I10n.of(context).account, 'account'),
         ],
-        onTap: onTap,
       ),
     );
   }

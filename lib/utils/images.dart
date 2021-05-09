@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,8 +23,8 @@ class ImageUrl {
   static ImageProvider getContactImage(
     Contact contact,
   ) {
-    if (contact?.avatar != null && contact.avatar.isNotEmpty) {
-      return new MemoryImage(contact.avatar);
+    if (contact?.avatar != null && contact.avatar!.isNotEmpty) {
+      return new MemoryImage(contact.avatar!);
     }
     return new AssetImage('assets/images/anom.png');
   }
@@ -59,7 +61,7 @@ class ImageUrl {
   //         transfer.type == 'SEND' ? transfer.to : transfer.from;
   //     Business business = businesses.firstWhere(
   //         (business) => business.account == accountAddress,
-  //         orElse: () => null);
+  //         );
   //     if (business != null) {
   //       return NetworkImage(ImageUrl.getLink(business.metadata.image));
   //     }
@@ -67,23 +69,24 @@ class ImageUrl {
   //   return new AssetImage('assets/images/anom.png');
   // }
 
-  static String getTokenByAddress(
-    String address,
-    Map<String, String> tokensImages,
+  static String? getTokenByAddress(
+    String? address,
+    Map<String, String>? tokensImages,
   ) {
-    return tokensImages[address.toLowerCase()] ?? null;
+    return tokensImages?[address?.toLowerCase()];
   }
 
   static ImageProvider getActionImage(
     WalletAction action,
-    Contact contact,
-    Community community,
-    String accountAddress,
+    Contact? contact,
+    Community? community,
+    String? accountAddress,
     Map<String, String> tokensImages,
   ) {
-    final bool hasAvatar = contact?.avatar != null && contact.avatar.isNotEmpty;
+    final bool hasAvatar =
+        contact?.avatar != null && contact!.avatar!.isNotEmpty;
     if (hasAvatar) {
-      return new MemoryImage(contact.avatar);
+      return new MemoryImage(contact.avatar as Uint8List);
     }
     return action.map(
       createWallet: (value) => AssetImage(
@@ -91,11 +94,11 @@ class ImageUrl {
       ),
       joinCommunity: (value) =>
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
-      fiatDeposit: (value) => getTokenByAddress(
-                  value.tokenAddress, tokensImages) !=
-              null
-          ? NetworkImage(getTokenByAddress(value.tokenAddress, tokensImages))
-          : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
+      fiatDeposit: (value) =>
+          getTokenByAddress(value.tokenAddress!, tokensImages) != null
+              ? NetworkImage(
+                  getTokenByAddress(value.tokenAddress, tokensImages) ?? '')
+              : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       bonus: (value) => AssetImage(
         'assets/images/join.png',
       ),

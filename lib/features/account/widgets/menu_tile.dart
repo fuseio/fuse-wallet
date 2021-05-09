@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MenuTile extends StatelessWidget {
-  final void Function() onTap;
-  final String menuIcon;
+  final void Function()? onTap;
+  final String? menuIcon;
   final String label;
-  final Widget trailing;
+  final Widget? trailing;
 
   const MenuTile({
-    Key key,
+    Key? key,
     this.onTap,
-    this.menuIcon,
-    this.label,
+    required this.menuIcon,
+    required this.label,
     this.trailing,
   }) : super(key: key);
 

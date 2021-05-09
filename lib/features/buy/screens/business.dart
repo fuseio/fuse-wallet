@@ -19,15 +19,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class BusinessPage extends StatefulWidget {
   final Business business;
   final Token token;
-  BusinessPage({this.business, this.token});
+  BusinessPage({required this.business, required this.token});
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
 }
 
 class _BusinessPageState extends State<BusinessPage> {
-  GlobalKey<ScaffoldState> scaffoldState;
-  Completer<GoogleMapController> _controller = Completer();
+  GlobalKey<ScaffoldState>? scaffoldState;
+  late Completer<GoogleMapController> _controller;
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -35,6 +35,7 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   void initState() {
+    _controller = Completer();
     super.initState();
   }
 

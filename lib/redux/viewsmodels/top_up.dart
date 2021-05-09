@@ -16,17 +16,17 @@ class TopUpViewModel extends Equatable {
   final bool showDismiss;
 
   TopUpViewModel({
-    this.setDepositBanner,
-    this.plugins,
-    this.dismiss,
-    this.showDismiss,
+    required this.setDepositBanner,
+    required this.plugins,
+    required this.dismiss,
+    required this.showDismiss,
   });
 
   static TopUpViewModel fromStore(Store<AppState> store) {
     final List<WalletAction> walletActions =
-        List.from(store.state.cashWalletState?.walletActions?.list) ?? [];
+        List.from(store.state.cashWalletState.walletActions.list);
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
+    Community? community =
         store.state.cashWalletState.communities[communityAddress];
 
     List<Token> homeTokens = store.state.cashWalletState?.tokens?.values
@@ -43,7 +43,7 @@ class TopUpViewModel extends Equatable {
                       fiatDeposit: (value) => true,
                       joinCommunity: (value) => false,
                       bonus: (value) => false,
-                      send: (value) => null,
+                      send: (value) => false,
                       receive: (value) =>
                           value.tokenAddress.toLowerCase() ==
                           fuseDollarToken.address.toLowerCase(),

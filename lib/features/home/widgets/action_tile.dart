@@ -20,10 +20,10 @@ import 'package:intl/intl.dart';
 
 class ActionTile extends StatelessWidget {
   final WalletAction action;
-  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
 
   ActionTile({
-    this.action,
+    required this.action,
     this.contentPadding = const EdgeInsets.only(
       top: 10,
       bottom: 10,
@@ -35,21 +35,21 @@ class ActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(action.timestamp);
+        DateTime.fromMillisecondsSinceEpoch(action?.timestamp ?? 0);
     return new StoreConnector<AppState, TransferTileViewModel>(
       distinct: true,
       converter: TransferTileViewModel.fromStore,
       builder: (_, viewModel) {
-        final Contact contact = getContact(
+        final Contact? contact = getContact(
           action.getSender(),
           viewModel.reverseContacts,
           viewModel.contacts,
           viewModel.countryCode,
         );
-        final Community community = action.map(
+        final Community? community = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) =>
-              viewModel.communities[value.communityAddress.toLowerCase()],
+              viewModel.communities[value.communityAddress?.toLowerCase()],
           fiatDeposit: (value) =>
               viewModel.communities[defaultCommunityAddress.toLowerCase()],
           bonus: (value) => null,
@@ -60,7 +60,7 @@ class ActionTile extends StatelessWidget {
         final bool isCommunityToken = ![false, null].contains(
           community?.metadata?.isDefaultImage,
         );
-        final ImageProvider<dynamic> image = ImageUrl.getActionImage(
+        final ImageProvider<Object>? image = ImageUrl.getActionImage(
           action,
           contact,
           community,
@@ -68,11 +68,11 @@ class ActionTile extends StatelessWidget {
           viewModel.tokensImages,
         );
 
-        final Token token = action.map(
+        final Token? token = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
-              viewModel?.tokens[fuseDollarToken.address.toLowerCase()] ?? null,
+              viewModel?.tokens[fuseDollarToken.address?.toLowerCase()] ?? null,
           bonus: (value) =>
               viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
           send: (value) =>
@@ -80,8 +80,8 @@ class ActionTile extends StatelessWidget {
           receive: (value) =>
               viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
           swap: (value) => viewModel?.tokens?.values?.firstWhere(
-              (element) => element.symbol == value.tradeInfo.outputToken,
-              orElse: () => null),
+            (element) => element.symbol == value.tradeInfo.outputToken,
+          ),
         );
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);

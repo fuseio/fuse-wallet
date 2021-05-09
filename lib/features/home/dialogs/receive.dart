@@ -16,11 +16,9 @@ class ReceiveDialog extends StatefulWidget {
 
 class ReceiveDialogState extends State<ReceiveDialog>
     with SingleTickerProviderStateMixin {
-  ReceiveDialogState();
-
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -42,7 +40,7 @@ class ReceiveDialogState extends State<ReceiveDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 

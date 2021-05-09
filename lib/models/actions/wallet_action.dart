@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
@@ -12,7 +13,7 @@ part 'wallet_action.g.dart';
 
 @immutable
 @freezed
-abstract class WalletAction implements _$WalletAction {
+class WalletAction with _$WalletAction {
   const WalletAction._();
 
   factory WalletAction.fromJson(dynamic json) => _$WalletActionFromJson(json);
@@ -22,22 +23,21 @@ abstract class WalletAction implements _$WalletAction {
   bool isConfirmed() =>
       this.status == 'CONFIRMED' || this.status == 'SUCCEEDED';
 
-  String getAmount({Price priceInfo}) {
+  String getAmount({Price? priceInfo}) {
     return this.map(
       createWallet: (value) => '',
       joinCommunity: (value) => '',
       fiatDeposit: (value) =>
-          calcPrice(value?.value, value.tokenDecimal, priceInfo),
-      bonus: (value) => calcPrice(value?.value, value.tokenDecimal, priceInfo),
-      send: (value) => calcPrice(value?.value, value.tokenDecimal, priceInfo),
-      receive: (value) =>
-          calcPrice(value?.value, value.tokenDecimal, priceInfo),
+          calcPrice(value.value, value.tokenDecimal, priceInfo),
+      bonus: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
+      send: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
+      receive: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
       swap: (value) {
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
         if (hasPriceInfo) {
           double a = double.parse(value.tradeInfo.outputAmount) *
-              double.parse(priceInfo?.quote);
+              double.parse(priceInfo!.quote);
           return display(num.tryParse(a.toString()));
         }
         return display(num.parse(value.tradeInfo.outputAmount));
@@ -238,106 +238,109 @@ abstract class WalletAction implements _$WalletAction {
     );
   }
 
+  // @override
+  // int get timestamp;
+
   @JsonSerializable()
   const factory WalletAction.createWallet({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
+    @Default(null) int? timestamp,
+    @Default(null) @JsonKey(name: '_id') String? id,
+    @Default('createWallet') String name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
   }) = CreateWallet;
 
   @JsonSerializable()
   const factory WalletAction.fiatDeposit({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String tokenAddress,
-    String from,
-    String to,
-    BigInt value,
-    String tokenSymbol,
-    String tokenName,
-    int tokenDecimal,
+    @Default(null) int? timestamp,
+    @Default(null) @JsonKey(name: '_id') String id,
+    @Default('fiat-deposit') String? name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
+    @Default(null) String? tokenAddress,
+    @Default(null) String? from,
+    @Default(null) String? to,
+    @Default(null) BigInt? value,
+    @Default(null) String? tokenSymbol,
+    @Default(null) String? tokenName,
+    @Default(null) int? tokenDecimal,
   }) = FiatDeposit;
 
   @JsonSerializable()
   const factory WalletAction.joinCommunity({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String communityAddress,
-    String tokenAddress,
-    String communityName,
+    @Default(null) int? timestamp,
+    @Default(null) @JsonKey(name: '_id') String? id,
+    @Default('joinCommunity') String? name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
+    @Default(null) String? communityAddress,
+    @Default(null) String? tokenAddress,
+    @Default(null) String? communityName,
   }) = JoinCommunity;
 
   @JsonSerializable()
   const factory WalletAction.bonus({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String tokenAddress,
-    String from,
-    String to,
-    BigInt value,
-    String tokenName,
-    String tokenSymbol,
-    int tokenDecimal,
-    String bonusType,
+    @Default(null) int? timestamp,
+    @JsonKey(name: '_id') @Default(null) String? id,
+    @Default('tokenBonus') String? name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
+    @Default(null) String? tokenAddress,
+    @Default(null) String? from,
+    @Default(null) String? to,
+    @Default(null) BigInt? value,
+    @Default(null) String? tokenName,
+    @Default(null) String? tokenSymbol,
+    @Default(null) int? tokenDecimal,
+    @Default(null) String? bonusType,
   }) = Bonus;
 
   @JsonSerializable()
   const factory WalletAction.send({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String tokenAddress,
-    String from,
-    String to,
-    BigInt value,
-    String tokenName,
-    String tokenSymbol,
-    int tokenDecimal,
+    @Default(null) int? timestamp,
+    @Default(null) @JsonKey(name: '_id') String? id,
+    @Default('sendTokens') String? name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
+    @Default(null) String? tokenAddress,
+    @Default(null) String? from,
+    @Default(null) String? to,
+    @Default(null) BigInt? value,
+    @Default(null) String? tokenName,
+    @Default(null) String? tokenSymbol,
+    @Default(null) int? tokenDecimal,
   }) = Send;
 
   @JsonSerializable()
   const factory WalletAction.receive({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    String tokenAddress,
-    String from,
-    String to,
-    BigInt value,
-    String tokenName,
-    String tokenSymbol,
-    int tokenDecimal,
+    @Default(null) int? timestamp,
+    @Default(null) @JsonKey(name: '_id') String? id,
+    @Default('receiveTokens') String? name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
+    @Default(null) String? tokenAddress,
+    @Default(null) String? from,
+    @Default(null) String? to,
+    @Default(null) BigInt? value,
+    @Default(null) String? tokenName,
+    @Default(null) String? tokenSymbol,
+    @Default(null) int? tokenDecimal,
   }) = Receive;
 
   @JsonSerializable()
   const factory WalletAction.swap({
-    int timestamp,
-    @JsonKey(name: '_id') String id,
-    String name,
-    String txHash,
-    String status,
-    int blockNumber,
-    @JsonKey(name: 'metadata') TradeInfo tradeInfo,
+    @Default(null) int? timestamp,
+    @Default(null) @JsonKey(name: '_id') String? id,
+    @Default('swapTokens') String? name,
+    @Default(null) String? txHash,
+    @Default(null) String? status,
+    @Default(null) int? blockNumber,
+    @Default(null) @JsonKey(name: 'metadata') TradeInfo? tradeInfo,
   }) = Swap;
 }

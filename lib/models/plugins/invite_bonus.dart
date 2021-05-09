@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/plugins/plugin_base.dart';
 
 part 'invite_bonus.freezed.dart';
@@ -6,14 +7,14 @@ part 'invite_bonus.g.dart';
 
 @immutable
 @freezed
-abstract class InviteBonusPlugin with _$InviteBonusPlugin {
+class InviteBonusPlugin with _$InviteBonusPlugin {
   @Implements(Plugin)
   @JsonSerializable()
   factory InviteBonusPlugin({
     @Default('inviteBonus') String type,
-    String amount,
-    String name,
-    bool isActive,
+    required String amount,
+    required String name,
+    required bool isActive,
   }) = _InviteBonusPlugin;
 
   factory InviteBonusPlugin.fromJson(dynamic json) =>

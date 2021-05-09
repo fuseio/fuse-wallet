@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'join_bonus.dart';
 
@@ -8,6 +8,10 @@ part of 'join_bonus.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 JoinBonusPlugin _$JoinBonusPluginFromJson(Map<String, dynamic> json) {
   return _JoinBonusPlugin.fromJson(json);
 }
@@ -16,9 +20,11 @@ JoinBonusPlugin _$JoinBonusPluginFromJson(Map<String, dynamic> json) {
 class _$JoinBonusPluginTearOff {
   const _$JoinBonusPluginTearOff();
 
-// ignore: unused_element
   _JoinBonusPlugin call(
-      {String type = 'joinBonus', String amount, String name, bool isActive}) {
+      {String type = 'joinBonus',
+      required String amount,
+      required String name,
+      required bool isActive}) {
     return _JoinBonusPlugin(
       type: type,
       amount: amount,
@@ -27,26 +33,25 @@ class _$JoinBonusPluginTearOff {
     );
   }
 
-// ignore: unused_element
   JoinBonusPlugin fromJson(Map<String, Object> json) {
     return JoinBonusPlugin.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $JoinBonusPlugin = _$JoinBonusPluginTearOff();
 
 /// @nodoc
 mixin _$JoinBonusPlugin {
-  String get type;
-  String get amount;
-  String get name;
-  bool get isActive;
+  String get type => throw _privateConstructorUsedError;
+  String get amount => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $JoinBonusPluginCopyWith<JoinBonusPlugin> get copyWith;
+  $JoinBonusPluginCopyWith<JoinBonusPlugin> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -68,16 +73,28 @@ class _$JoinBonusPluginCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object type = freezed,
-    Object amount = freezed,
-    Object name = freezed,
-    Object isActive = freezed,
+    Object? type = freezed,
+    Object? amount = freezed,
+    Object? name = freezed,
+    Object? isActive = freezed,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed ? _value.type : type as String,
-      amount: amount == freezed ? _value.amount : amount as String,
-      name: name == freezed ? _value.name : name as String,
-      isActive: isActive == freezed ? _value.isActive : isActive as bool,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -105,28 +122,44 @@ class __$JoinBonusPluginCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object type = freezed,
-    Object amount = freezed,
-    Object name = freezed,
-    Object isActive = freezed,
+    Object? type = freezed,
+    Object? amount = freezed,
+    Object? name = freezed,
+    Object? isActive = freezed,
   }) {
     return _then(_JoinBonusPlugin(
-      type: type == freezed ? _value.type : type as String,
-      amount: amount == freezed ? _value.amount : amount as String,
-      name: name == freezed ? _value.name : name as String,
-      isActive: isActive == freezed ? _value.isActive : isActive as bool,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
+/// @nodoc
+
 @Implements(Plugin)
 @JsonSerializable()
-
-/// @nodoc
-class _$_JoinBonusPlugin implements _JoinBonusPlugin {
+class _$_JoinBonusPlugin
+    with DiagnosticableTreeMixin
+    implements _JoinBonusPlugin {
   _$_JoinBonusPlugin(
-      {this.type = 'joinBonus', this.amount, this.name, this.isActive})
-      : assert(type != null);
+      {this.type = 'joinBonus',
+      required this.amount,
+      required this.name,
+      required this.isActive});
 
   factory _$_JoinBonusPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_JoinBonusPluginFromJson(json);
@@ -142,8 +175,19 @@ class _$_JoinBonusPlugin implements _JoinBonusPlugin {
   final bool isActive;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'JoinBonusPlugin(type: $type, amount: $amount, name: $name, isActive: $isActive)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'JoinBonusPlugin'))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('isActive', isActive));
   }
 
   @override
@@ -183,22 +227,23 @@ class _$_JoinBonusPlugin implements _JoinBonusPlugin {
 abstract class _JoinBonusPlugin implements JoinBonusPlugin, Plugin {
   factory _JoinBonusPlugin(
       {String type,
-      String amount,
-      String name,
-      bool isActive}) = _$_JoinBonusPlugin;
+      required String amount,
+      required String name,
+      required bool isActive}) = _$_JoinBonusPlugin;
 
   factory _JoinBonusPlugin.fromJson(Map<String, dynamic> json) =
       _$_JoinBonusPlugin.fromJson;
 
   @override
-  String get type;
+  String get type => throw _privateConstructorUsedError;
   @override
-  String get amount;
+  String get amount => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  bool get isActive;
+  bool get isActive => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$JoinBonusPluginCopyWith<_JoinBonusPlugin> get copyWith;
+  _$JoinBonusPluginCopyWith<_JoinBonusPlugin> get copyWith =>
+      throw _privateConstructorUsedError;
 }

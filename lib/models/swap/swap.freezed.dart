@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'swap.dart';
 
@@ -8,6 +8,10 @@ part of 'swap.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 TradeInfo _$TradeInfoFromJson(Map<String, dynamic> json) {
   return _TradeInfo.fromJson(json);
 }
@@ -16,52 +20,50 @@ TradeInfo _$TradeInfoFromJson(Map<String, dynamic> json) {
 class _$TradeInfoTearOff {
   const _$TradeInfoTearOff();
 
-// ignore: unused_element
   _TradeInfo call(
-      {String inputAmount,
+      String inputAmount,
       String outputAmount,
       List<String> route,
       String inputToken,
       String outputToken,
       String executionPrice,
       String nextMidPrice,
-      String priceImpact}) {
+      String priceImpact) {
     return _TradeInfo(
-      inputAmount: inputAmount,
-      outputAmount: outputAmount,
-      route: route,
-      inputToken: inputToken,
-      outputToken: outputToken,
-      executionPrice: executionPrice,
-      nextMidPrice: nextMidPrice,
-      priceImpact: priceImpact,
+      inputAmount,
+      outputAmount,
+      route,
+      inputToken,
+      outputToken,
+      executionPrice,
+      nextMidPrice,
+      priceImpact,
     );
   }
 
-// ignore: unused_element
   TradeInfo fromJson(Map<String, Object> json) {
     return TradeInfo.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $TradeInfo = _$TradeInfoTearOff();
 
 /// @nodoc
 mixin _$TradeInfo {
-  String get inputAmount;
-  String get outputAmount;
-  List<String> get route;
-  String get inputToken;
-  String get outputToken;
-  String get executionPrice;
-  String get nextMidPrice;
-  String get priceImpact;
+  String get inputAmount => throw _privateConstructorUsedError;
+  String get outputAmount => throw _privateConstructorUsedError;
+  List<String> get route => throw _privateConstructorUsedError;
+  String get inputToken => throw _privateConstructorUsedError;
+  String get outputToken => throw _privateConstructorUsedError;
+  String get executionPrice => throw _privateConstructorUsedError;
+  String get nextMidPrice => throw _privateConstructorUsedError;
+  String get priceImpact => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TradeInfoCopyWith<TradeInfo> get copyWith;
+  $TradeInfoCopyWith<TradeInfo> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -89,34 +91,48 @@ class _$TradeInfoCopyWithImpl<$Res> implements $TradeInfoCopyWith<$Res> {
 
   @override
   $Res call({
-    Object inputAmount = freezed,
-    Object outputAmount = freezed,
-    Object route = freezed,
-    Object inputToken = freezed,
-    Object outputToken = freezed,
-    Object executionPrice = freezed,
-    Object nextMidPrice = freezed,
-    Object priceImpact = freezed,
+    Object? inputAmount = freezed,
+    Object? outputAmount = freezed,
+    Object? route = freezed,
+    Object? inputToken = freezed,
+    Object? outputToken = freezed,
+    Object? executionPrice = freezed,
+    Object? nextMidPrice = freezed,
+    Object? priceImpact = freezed,
   }) {
     return _then(_value.copyWith(
-      inputAmount:
-          inputAmount == freezed ? _value.inputAmount : inputAmount as String,
+      inputAmount: inputAmount == freezed
+          ? _value.inputAmount
+          : inputAmount // ignore: cast_nullable_to_non_nullable
+              as String,
       outputAmount: outputAmount == freezed
           ? _value.outputAmount
-          : outputAmount as String,
-      route: route == freezed ? _value.route : route as List<String>,
-      inputToken:
-          inputToken == freezed ? _value.inputToken : inputToken as String,
-      outputToken:
-          outputToken == freezed ? _value.outputToken : outputToken as String,
+          : outputAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      route: route == freezed
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      inputToken: inputToken == freezed
+          ? _value.inputToken
+          : inputToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      outputToken: outputToken == freezed
+          ? _value.outputToken
+          : outputToken // ignore: cast_nullable_to_non_nullable
+              as String,
       executionPrice: executionPrice == freezed
           ? _value.executionPrice
-          : executionPrice as String,
+          : executionPrice // ignore: cast_nullable_to_non_nullable
+              as String,
       nextMidPrice: nextMidPrice == freezed
           ? _value.nextMidPrice
-          : nextMidPrice as String,
-      priceImpact:
-          priceImpact == freezed ? _value.priceImpact : priceImpact as String,
+          : nextMidPrice // ignore: cast_nullable_to_non_nullable
+              as String,
+      priceImpact: priceImpact == freezed
+          ? _value.priceImpact
+          : priceImpact // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -149,51 +165,65 @@ class __$TradeInfoCopyWithImpl<$Res> extends _$TradeInfoCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object inputAmount = freezed,
-    Object outputAmount = freezed,
-    Object route = freezed,
-    Object inputToken = freezed,
-    Object outputToken = freezed,
-    Object executionPrice = freezed,
-    Object nextMidPrice = freezed,
-    Object priceImpact = freezed,
+    Object? inputAmount = freezed,
+    Object? outputAmount = freezed,
+    Object? route = freezed,
+    Object? inputToken = freezed,
+    Object? outputToken = freezed,
+    Object? executionPrice = freezed,
+    Object? nextMidPrice = freezed,
+    Object? priceImpact = freezed,
   }) {
     return _then(_TradeInfo(
-      inputAmount:
-          inputAmount == freezed ? _value.inputAmount : inputAmount as String,
-      outputAmount: outputAmount == freezed
+      inputAmount == freezed
+          ? _value.inputAmount
+          : inputAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      outputAmount == freezed
           ? _value.outputAmount
-          : outputAmount as String,
-      route: route == freezed ? _value.route : route as List<String>,
-      inputToken:
-          inputToken == freezed ? _value.inputToken : inputToken as String,
-      outputToken:
-          outputToken == freezed ? _value.outputToken : outputToken as String,
-      executionPrice: executionPrice == freezed
+          : outputAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      route == freezed
+          ? _value.route
+          : route // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      inputToken == freezed
+          ? _value.inputToken
+          : inputToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      outputToken == freezed
+          ? _value.outputToken
+          : outputToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      executionPrice == freezed
           ? _value.executionPrice
-          : executionPrice as String,
-      nextMidPrice: nextMidPrice == freezed
+          : executionPrice // ignore: cast_nullable_to_non_nullable
+              as String,
+      nextMidPrice == freezed
           ? _value.nextMidPrice
-          : nextMidPrice as String,
-      priceImpact:
-          priceImpact == freezed ? _value.priceImpact : priceImpact as String,
+          : nextMidPrice // ignore: cast_nullable_to_non_nullable
+              as String,
+      priceImpact == freezed
+          ? _value.priceImpact
+          : priceImpact // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_TradeInfo implements _TradeInfo {
+
+@JsonSerializable()
+class _$_TradeInfo with DiagnosticableTreeMixin implements _TradeInfo {
   _$_TradeInfo(
-      {this.inputAmount,
+      this.inputAmount,
       this.outputAmount,
       this.route,
       this.inputToken,
       this.outputToken,
       this.executionPrice,
       this.nextMidPrice,
-      this.priceImpact});
+      this.priceImpact);
 
   factory _$_TradeInfo.fromJson(Map<String, dynamic> json) =>
       _$_$_TradeInfoFromJson(json);
@@ -216,8 +246,23 @@ class _$_TradeInfo implements _TradeInfo {
   final String priceImpact;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TradeInfo(inputAmount: $inputAmount, outputAmount: $outputAmount, route: $route, inputToken: $inputToken, outputToken: $outputToken, executionPrice: $executionPrice, nextMidPrice: $nextMidPrice, priceImpact: $priceImpact)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TradeInfo'))
+      ..add(DiagnosticsProperty('inputAmount', inputAmount))
+      ..add(DiagnosticsProperty('outputAmount', outputAmount))
+      ..add(DiagnosticsProperty('route', route))
+      ..add(DiagnosticsProperty('inputToken', inputToken))
+      ..add(DiagnosticsProperty('outputToken', outputToken))
+      ..add(DiagnosticsProperty('executionPrice', executionPrice))
+      ..add(DiagnosticsProperty('nextMidPrice', nextMidPrice))
+      ..add(DiagnosticsProperty('priceImpact', priceImpact));
   }
 
   @override
@@ -274,37 +319,38 @@ class _$_TradeInfo implements _TradeInfo {
 
 abstract class _TradeInfo implements TradeInfo {
   factory _TradeInfo(
-      {String inputAmount,
+      String inputAmount,
       String outputAmount,
       List<String> route,
       String inputToken,
       String outputToken,
       String executionPrice,
       String nextMidPrice,
-      String priceImpact}) = _$_TradeInfo;
+      String priceImpact) = _$_TradeInfo;
 
   factory _TradeInfo.fromJson(Map<String, dynamic> json) =
       _$_TradeInfo.fromJson;
 
   @override
-  String get inputAmount;
+  String get inputAmount => throw _privateConstructorUsedError;
   @override
-  String get outputAmount;
+  String get outputAmount => throw _privateConstructorUsedError;
   @override
-  List<String> get route;
+  List<String> get route => throw _privateConstructorUsedError;
   @override
-  String get inputToken;
+  String get inputToken => throw _privateConstructorUsedError;
   @override
-  String get outputToken;
+  String get outputToken => throw _privateConstructorUsedError;
   @override
-  String get executionPrice;
+  String get executionPrice => throw _privateConstructorUsedError;
   @override
-  String get nextMidPrice;
+  String get nextMidPrice => throw _privateConstructorUsedError;
   @override
-  String get priceImpact;
+  String get priceImpact => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TradeInfoCopyWith<_TradeInfo> get copyWith;
+  _$TradeInfoCopyWith<_TradeInfo> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 SwapCallParameters _$SwapCallParametersFromJson(Map<String, dynamic> json) {
@@ -315,40 +361,35 @@ SwapCallParameters _$SwapCallParametersFromJson(Map<String, dynamic> json) {
 class _$SwapCallParametersTearOff {
   const _$SwapCallParametersTearOff();
 
-// ignore: unused_element
-  _SwapCallParameters call(
-      {String methodName,
-      List<dynamic> args,
-      String value,
-      Map<String, dynamic> rawTxn}) {
+  _SwapCallParameters call(String methodName, List<dynamic> args, String value,
+      Map<String, dynamic> rawTxn) {
     return _SwapCallParameters(
-      methodName: methodName,
-      args: args,
-      value: value,
-      rawTxn: rawTxn,
+      methodName,
+      args,
+      value,
+      rawTxn,
     );
   }
 
-// ignore: unused_element
   SwapCallParameters fromJson(Map<String, Object> json) {
     return SwapCallParameters.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $SwapCallParameters = _$SwapCallParametersTearOff();
 
 /// @nodoc
 mixin _$SwapCallParameters {
-  String get methodName;
-  List<dynamic> get args;
-  String get value;
-  Map<String, dynamic> get rawTxn;
+  String get methodName => throw _privateConstructorUsedError;
+  List<dynamic> get args => throw _privateConstructorUsedError;
+  String get value => throw _privateConstructorUsedError;
+  Map<String, dynamic> get rawTxn => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SwapCallParametersCopyWith<SwapCallParameters> get copyWith;
+  $SwapCallParametersCopyWith<SwapCallParameters> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -374,18 +415,28 @@ class _$SwapCallParametersCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object methodName = freezed,
-    Object args = freezed,
-    Object value = freezed,
-    Object rawTxn = freezed,
+    Object? methodName = freezed,
+    Object? args = freezed,
+    Object? value = freezed,
+    Object? rawTxn = freezed,
   }) {
     return _then(_value.copyWith(
-      methodName:
-          methodName == freezed ? _value.methodName : methodName as String,
-      args: args == freezed ? _value.args : args as List<dynamic>,
-      value: value == freezed ? _value.value : value as String,
-      rawTxn:
-          rawTxn == freezed ? _value.rawTxn : rawTxn as Map<String, dynamic>,
+      methodName: methodName == freezed
+          ? _value.methodName
+          : methodName // ignore: cast_nullable_to_non_nullable
+              as String,
+      args: args == freezed
+          ? _value.args
+          : args // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      value: value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      rawTxn: rawTxn == freezed
+          ? _value.rawTxn
+          : rawTxn // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ));
   }
 }
@@ -417,27 +468,39 @@ class __$SwapCallParametersCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object methodName = freezed,
-    Object args = freezed,
-    Object value = freezed,
-    Object rawTxn = freezed,
+    Object? methodName = freezed,
+    Object? args = freezed,
+    Object? value = freezed,
+    Object? rawTxn = freezed,
   }) {
     return _then(_SwapCallParameters(
-      methodName:
-          methodName == freezed ? _value.methodName : methodName as String,
-      args: args == freezed ? _value.args : args as List<dynamic>,
-      value: value == freezed ? _value.value : value as String,
-      rawTxn:
-          rawTxn == freezed ? _value.rawTxn : rawTxn as Map<String, dynamic>,
+      methodName == freezed
+          ? _value.methodName
+          : methodName // ignore: cast_nullable_to_non_nullable
+              as String,
+      args == freezed
+          ? _value.args
+          : args // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+      value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      rawTxn == freezed
+          ? _value.rawTxn
+          : rawTxn // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_SwapCallParameters implements _SwapCallParameters {
-  _$_SwapCallParameters({this.methodName, this.args, this.value, this.rawTxn});
+
+@JsonSerializable()
+class _$_SwapCallParameters
+    with DiagnosticableTreeMixin
+    implements _SwapCallParameters {
+  _$_SwapCallParameters(this.methodName, this.args, this.value, this.rawTxn);
 
   factory _$_SwapCallParameters.fromJson(Map<String, dynamic> json) =>
       _$_$_SwapCallParametersFromJson(json);
@@ -452,8 +515,19 @@ class _$_SwapCallParameters implements _SwapCallParameters {
   final Map<String, dynamic> rawTxn;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SwapCallParameters(methodName: $methodName, args: $args, value: $value, rawTxn: $rawTxn)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SwapCallParameters'))
+      ..add(DiagnosticsProperty('methodName', methodName))
+      ..add(DiagnosticsProperty('args', args))
+      ..add(DiagnosticsProperty('value', value))
+      ..add(DiagnosticsProperty('rawTxn', rawTxn));
   }
 
   @override
@@ -491,26 +565,24 @@ class _$_SwapCallParameters implements _SwapCallParameters {
 }
 
 abstract class _SwapCallParameters implements SwapCallParameters {
-  factory _SwapCallParameters(
-      {String methodName,
-      List<dynamic> args,
-      String value,
-      Map<String, dynamic> rawTxn}) = _$_SwapCallParameters;
+  factory _SwapCallParameters(String methodName, List<dynamic> args,
+      String value, Map<String, dynamic> rawTxn) = _$_SwapCallParameters;
 
   factory _SwapCallParameters.fromJson(Map<String, dynamic> json) =
       _$_SwapCallParameters.fromJson;
 
   @override
-  String get methodName;
+  String get methodName => throw _privateConstructorUsedError;
   @override
-  List<dynamic> get args;
+  List<dynamic> get args => throw _privateConstructorUsedError;
   @override
-  String get value;
+  String get value => throw _privateConstructorUsedError;
   @override
-  Map<String, dynamic> get rawTxn;
+  Map<String, dynamic> get rawTxn => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SwapCallParametersCopyWith<_SwapCallParameters> get copyWith;
+  _$SwapCallParametersCopyWith<_SwapCallParameters> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 SwapRequestBody _$SwapRequestBodyFromJson(Map<String, dynamic> json) {
@@ -521,40 +593,35 @@ SwapRequestBody _$SwapRequestBodyFromJson(Map<String, dynamic> json) {
 class _$SwapRequestBodyTearOff {
   const _$SwapRequestBodyTearOff();
 
-// ignore: unused_element
-  _SwapRequestBody call(
-      {String currencyIn,
-      String currencyOut,
-      String amountIn,
-      String recipient}) {
+  _SwapRequestBody call(String currencyIn, String currencyOut, String amountIn,
+      String recipient) {
     return _SwapRequestBody(
-      currencyIn: currencyIn,
-      currencyOut: currencyOut,
-      amountIn: amountIn,
-      recipient: recipient,
+      currencyIn,
+      currencyOut,
+      amountIn,
+      recipient,
     );
   }
 
-// ignore: unused_element
   SwapRequestBody fromJson(Map<String, Object> json) {
     return SwapRequestBody.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $SwapRequestBody = _$SwapRequestBodyTearOff();
 
 /// @nodoc
 mixin _$SwapRequestBody {
-  String get currencyIn;
-  String get currencyOut;
-  String get amountIn;
-  String get recipient;
+  String get currencyIn => throw _privateConstructorUsedError;
+  String get currencyOut => throw _privateConstructorUsedError;
+  String get amountIn => throw _privateConstructorUsedError;
+  String get recipient => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SwapRequestBodyCopyWith<SwapRequestBody> get copyWith;
+  $SwapRequestBodyCopyWith<SwapRequestBody> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -580,18 +647,28 @@ class _$SwapRequestBodyCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object currencyIn = freezed,
-    Object currencyOut = freezed,
-    Object amountIn = freezed,
-    Object recipient = freezed,
+    Object? currencyIn = freezed,
+    Object? currencyOut = freezed,
+    Object? amountIn = freezed,
+    Object? recipient = freezed,
   }) {
     return _then(_value.copyWith(
-      currencyIn:
-          currencyIn == freezed ? _value.currencyIn : currencyIn as String,
-      currencyOut:
-          currencyOut == freezed ? _value.currencyOut : currencyOut as String,
-      amountIn: amountIn == freezed ? _value.amountIn : amountIn as String,
-      recipient: recipient == freezed ? _value.recipient : recipient as String,
+      currencyIn: currencyIn == freezed
+          ? _value.currencyIn
+          : currencyIn // ignore: cast_nullable_to_non_nullable
+              as String,
+      currencyOut: currencyOut == freezed
+          ? _value.currencyOut
+          : currencyOut // ignore: cast_nullable_to_non_nullable
+              as String,
+      amountIn: amountIn == freezed
+          ? _value.amountIn
+          : amountIn // ignore: cast_nullable_to_non_nullable
+              as String,
+      recipient: recipient == freezed
+          ? _value.recipient
+          : recipient // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -623,28 +700,40 @@ class __$SwapRequestBodyCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object currencyIn = freezed,
-    Object currencyOut = freezed,
-    Object amountIn = freezed,
-    Object recipient = freezed,
+    Object? currencyIn = freezed,
+    Object? currencyOut = freezed,
+    Object? amountIn = freezed,
+    Object? recipient = freezed,
   }) {
     return _then(_SwapRequestBody(
-      currencyIn:
-          currencyIn == freezed ? _value.currencyIn : currencyIn as String,
-      currencyOut:
-          currencyOut == freezed ? _value.currencyOut : currencyOut as String,
-      amountIn: amountIn == freezed ? _value.amountIn : amountIn as String,
-      recipient: recipient == freezed ? _value.recipient : recipient as String,
+      currencyIn == freezed
+          ? _value.currencyIn
+          : currencyIn // ignore: cast_nullable_to_non_nullable
+              as String,
+      currencyOut == freezed
+          ? _value.currencyOut
+          : currencyOut // ignore: cast_nullable_to_non_nullable
+              as String,
+      amountIn == freezed
+          ? _value.amountIn
+          : amountIn // ignore: cast_nullable_to_non_nullable
+              as String,
+      recipient == freezed
+          ? _value.recipient
+          : recipient // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_SwapRequestBody implements _SwapRequestBody {
+
+@JsonSerializable()
+class _$_SwapRequestBody
+    with DiagnosticableTreeMixin
+    implements _SwapRequestBody {
   _$_SwapRequestBody(
-      {this.currencyIn, this.currencyOut, this.amountIn, this.recipient});
+      this.currencyIn, this.currencyOut, this.amountIn, this.recipient);
 
   factory _$_SwapRequestBody.fromJson(Map<String, dynamic> json) =>
       _$_$_SwapRequestBodyFromJson(json);
@@ -659,8 +748,19 @@ class _$_SwapRequestBody implements _SwapRequestBody {
   final String recipient;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SwapRequestBody(currencyIn: $currencyIn, currencyOut: $currencyOut, amountIn: $amountIn, recipient: $recipient)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SwapRequestBody'))
+      ..add(DiagnosticsProperty('currencyIn', currencyIn))
+      ..add(DiagnosticsProperty('currencyOut', currencyOut))
+      ..add(DiagnosticsProperty('amountIn', amountIn))
+      ..add(DiagnosticsProperty('recipient', recipient));
   }
 
   @override
@@ -701,24 +801,22 @@ class _$_SwapRequestBody implements _SwapRequestBody {
 }
 
 abstract class _SwapRequestBody implements SwapRequestBody {
-  factory _SwapRequestBody(
-      {String currencyIn,
-      String currencyOut,
-      String amountIn,
-      String recipient}) = _$_SwapRequestBody;
+  factory _SwapRequestBody(String currencyIn, String currencyOut,
+      String amountIn, String recipient) = _$_SwapRequestBody;
 
   factory _SwapRequestBody.fromJson(Map<String, dynamic> json) =
       _$_SwapRequestBody.fromJson;
 
   @override
-  String get currencyIn;
+  String get currencyIn => throw _privateConstructorUsedError;
   @override
-  String get currencyOut;
+  String get currencyOut => throw _privateConstructorUsedError;
   @override
-  String get amountIn;
+  String get amountIn => throw _privateConstructorUsedError;
   @override
-  String get recipient;
+  String get recipient => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SwapRequestBodyCopyWith<_SwapRequestBody> get copyWith;
+  _$SwapRequestBodyCopyWith<_SwapRequestBody> get copyWith =>
+      throw _privateConstructorUsedError;
 }

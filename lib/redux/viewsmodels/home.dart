@@ -9,26 +9,24 @@ class HomeViewModel extends Equatable {
   final bool showDepositBanner;
 
   HomeViewModel({
-    this.onReceiveBranchData,
-    this.showDepositBanner,
+    required this.onReceiveBranchData,
+    required this.showDepositBanner,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    bool isCommunityLoading =
-        store.state.cashWalletState.isCommunityLoading ?? false;
+    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
     String branchAddress = store.state.cashWalletState.branchAddress;
 
     final bool isBranchDataReceived =
-        store.state.cashWalletState.isBranchDataReceived ?? false;
+        store.state.cashWalletState.isBranchDataReceived;
     final bool isCommunityFetched =
-        store.state.cashWalletState.isCommunityFetched ?? false;
+        store.state.cashWalletState.isCommunityFetched;
     final String walletAddress = store.state.userState.walletAddress;
 
-    final WalletAction walletAction =
-        store.state.cashWalletState?.walletActions?.list?.firstWhere(
+    final WalletAction? walletAction =
+        store.state.cashWalletState.walletActions.list.firstWhere(
       (element) => element is CreateWallet,
-      orElse: () => null,
     );
     final bool isDepositBanner =
         [true, null].contains(store.state?.cashWalletState?.isDepositBanner);

@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'business.dart';
 
@@ -8,6 +8,10 @@ part of 'business.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 Business _$BusinessFromJson(Map<String, dynamic> json) {
   return _Business.fromJson(json);
 }
@@ -16,9 +20,8 @@ Business _$BusinessFromJson(Map<String, dynamic> json) {
 class _$BusinessTearOff {
   const _$BusinessTearOff();
 
-// ignore: unused_element
   _Business call(
-      {BusinessMetadata metadata,
+      {BusinessMetadata? metadata = null,
       String account = '',
       String id = '',
       String name = ''}) {
@@ -30,26 +33,25 @@ class _$BusinessTearOff {
     );
   }
 
-// ignore: unused_element
   Business fromJson(Map<String, Object> json) {
     return Business.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $Business = _$BusinessTearOff();
 
 /// @nodoc
 mixin _$Business {
-  BusinessMetadata get metadata;
-  String get account;
-  String get id;
-  String get name;
+  BusinessMetadata? get metadata => throw _privateConstructorUsedError;
+  String get account => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $BusinessCopyWith<Business> get copyWith;
+  $BusinessCopyWith<Business> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -57,9 +59,9 @@ abstract class $BusinessCopyWith<$Res> {
   factory $BusinessCopyWith(Business value, $Res Function(Business) then) =
       _$BusinessCopyWithImpl<$Res>;
   $Res call(
-      {BusinessMetadata metadata, String account, String id, String name});
+      {BusinessMetadata? metadata, String account, String id, String name});
 
-  $BusinessMetadataCopyWith<$Res> get metadata;
+  $BusinessMetadataCopyWith<$Res>? get metadata;
 }
 
 /// @nodoc
@@ -72,26 +74,38 @@ class _$BusinessCopyWithImpl<$Res> implements $BusinessCopyWith<$Res> {
 
   @override
   $Res call({
-    Object metadata = freezed,
-    Object account = freezed,
-    Object id = freezed,
-    Object name = freezed,
+    Object? metadata = freezed,
+    Object? account = freezed,
+    Object? id = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
-      metadata:
-          metadata == freezed ? _value.metadata : metadata as BusinessMetadata,
-      account: account == freezed ? _value.account : account as String,
-      id: id == freezed ? _value.id : id as String,
-      name: name == freezed ? _value.name : name as String,
+      metadata: metadata == freezed
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as BusinessMetadata?,
+      account: account == freezed
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
   @override
-  $BusinessMetadataCopyWith<$Res> get metadata {
+  $BusinessMetadataCopyWith<$Res>? get metadata {
     if (_value.metadata == null) {
       return null;
     }
-    return $BusinessMetadataCopyWith<$Res>(_value.metadata, (value) {
+
+    return $BusinessMetadataCopyWith<$Res>(_value.metadata!, (value) {
       return _then(_value.copyWith(metadata: value));
     });
   }
@@ -103,10 +117,10 @@ abstract class _$BusinessCopyWith<$Res> implements $BusinessCopyWith<$Res> {
       __$BusinessCopyWithImpl<$Res>;
   @override
   $Res call(
-      {BusinessMetadata metadata, String account, String id, String name});
+      {BusinessMetadata? metadata, String account, String id, String name});
 
   @override
-  $BusinessMetadataCopyWith<$Res> get metadata;
+  $BusinessMetadataCopyWith<$Res>? get metadata;
 }
 
 /// @nodoc
@@ -120,35 +134,45 @@ class __$BusinessCopyWithImpl<$Res> extends _$BusinessCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object metadata = freezed,
-    Object account = freezed,
-    Object id = freezed,
-    Object name = freezed,
+    Object? metadata = freezed,
+    Object? account = freezed,
+    Object? id = freezed,
+    Object? name = freezed,
   }) {
     return _then(_Business(
-      metadata:
-          metadata == freezed ? _value.metadata : metadata as BusinessMetadata,
-      account: account == freezed ? _value.account : account as String,
-      id: id == freezed ? _value.id : id as String,
-      name: name == freezed ? _value.name : name as String,
+      metadata: metadata == freezed
+          ? _value.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as BusinessMetadata?,
+      account: account == freezed
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_Business implements _Business {
-  _$_Business({this.metadata, this.account = '', this.id = '', this.name = ''})
-      : assert(account != null),
-        assert(id != null),
-        assert(name != null);
+
+@JsonSerializable()
+class _$_Business with DiagnosticableTreeMixin implements _Business {
+  _$_Business(
+      {this.metadata = null, this.account = '', this.id = '', this.name = ''});
 
   factory _$_Business.fromJson(Map<String, dynamic> json) =>
       _$_$_BusinessFromJson(json);
 
+  @JsonKey(defaultValue: null)
   @override
-  final BusinessMetadata metadata;
+  final BusinessMetadata? metadata;
   @JsonKey(defaultValue: '')
   @override
   final String account;
@@ -160,8 +184,19 @@ class _$_Business implements _Business {
   final String name;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Business(metadata: $metadata, account: $account, id: $id, name: $name)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Business'))
+      ..add(DiagnosticsProperty('metadata', metadata))
+      ..add(DiagnosticsProperty('account', account))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name));
   }
 
   @override
@@ -201,7 +236,7 @@ class _$_Business implements _Business {
 
 abstract class _Business implements Business {
   factory _Business(
-      {BusinessMetadata metadata,
+      {BusinessMetadata? metadata,
       String account,
       String id,
       String name}) = _$_Business;
@@ -209,14 +244,15 @@ abstract class _Business implements Business {
   factory _Business.fromJson(Map<String, dynamic> json) = _$_Business.fromJson;
 
   @override
-  BusinessMetadata get metadata;
+  BusinessMetadata? get metadata => throw _privateConstructorUsedError;
   @override
-  String get account;
+  String get account => throw _privateConstructorUsedError;
   @override
-  String get id;
+  String get id => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BusinessCopyWith<_Business> get copyWith;
+  _$BusinessCopyWith<_Business> get copyWith =>
+      throw _privateConstructorUsedError;
 }

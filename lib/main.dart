@@ -15,8 +15,7 @@ Future<void> mainCommon(String env) async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  final envFile = env == 'prod' ? '.env' : '.env_qa';
-  await DotEnv.load(fileName: 'environment/$envFile');
+  await DotEnv.load(fileName: 'environment/.env');
   configureDependencies();
   final Store<AppState> store = await AppFactory().getStore();
   await SentryFlutter.init(

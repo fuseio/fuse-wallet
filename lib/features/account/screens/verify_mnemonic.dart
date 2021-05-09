@@ -10,9 +10,9 @@ import 'package:fusecash/features/account/router/router.gr.dart';
 
 class Word extends StatelessWidget {
   Word({
-    Key key,
-    this.mnemonic,
-    this.wordIndex,
+    Key? key,
+    required this.mnemonic,
+    required this.wordIndex,
   }) : super(key: key);
   final List<String> mnemonic;
   final int wordIndex;

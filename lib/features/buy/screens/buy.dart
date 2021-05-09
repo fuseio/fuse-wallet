@@ -122,7 +122,7 @@ class BusinessesListView extends StatelessWidget {
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
                     shrinkWrap: true,
-                    itemCount: vm.businesses?.length ?? 0,
+                    itemCount: vm.businesses.length,
                     itemBuilder: (context, index) => businessTile(
                       context,
                       vm.businesses[index],
@@ -163,14 +163,14 @@ class BusinessesListView extends StatelessWidget {
         ),
       ),
       title: Text(
-        business.name ?? '',
+        business.name,
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
         ),
       ),
       subtitle: Text(
-        business.metadata.description ?? '',
+        business.metadata.description,
         style: TextStyle(
           // color: Theme.of(context).accentColor,
           fontSize: 12,
@@ -195,7 +195,7 @@ class BusinessesListView extends StatelessWidget {
             child: Text(
               I10n.of(context).pay,
               style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
+                  color: Theme.of(context).textTheme.button!.color,
                   fontSize: 15,
                   fontWeight: FontWeight.normal),
             ),
@@ -203,7 +203,7 @@ class BusinessesListView extends StatelessWidget {
               ExtendedNavigator.root.pushSendAmountScreen(
                 pageArgs: SendFlowArguments(
                   tokenToSend: token,
-                  name: business.name ?? '',
+                  name: business.name,
                   accountAddress: business.account,
                   avatar: NetworkImage(
                     ImageUrl.getLink(business.metadata.image),

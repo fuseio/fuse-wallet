@@ -1,15 +1,15 @@
-import 'package:auto_route/auto_route_annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/features/contacts/screens/contacts_list.dart';
 
-@MaterialAutoRouter(
-  routesClassName: "ContactsRoutes",
-  generateNavigationHelperExtension: true,
-  routes: <AutoRoute>[
-    MaterialRoute(
-      page: ContactsList,
+const contactsTab = AutoRoute(
+  path: 'contacts',
+  name: 'contactsTab',
+  page: EmptyRouterPage,
+  children: [
+    AutoRoute(
       initial: true,
+      page: ContactsList,
       name: 'contactsList',
     ),
   ],
-)
-class $ContactsRouter {}
+);

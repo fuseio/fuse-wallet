@@ -11,7 +11,7 @@ final Display display = createDisplay(
 String calcPrice(
   BigInt value,
   int decimals,
-  Price priceInfo,
+  Price? priceInfo,
 ) {
   final bool hasPriceInfo =
       ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
@@ -19,7 +19,7 @@ String calcPrice(
     return getFiatValue(
       value,
       decimals,
-      double.parse(priceInfo.quote),
+      double.parse(priceInfo!.quote),
     );
   } else {
     return formatValue(value, decimals);
@@ -36,7 +36,7 @@ final Map<String, num> fees = {
   "TUSD": 1,
 };
 
-bool isNumeric(String s) {
+bool isNumeric(String? s) {
   if (s == null) {
     return false;
   }
@@ -44,8 +44,8 @@ bool isNumeric(String s) {
 }
 
 String formatValue(
-  BigInt value,
-  int decimals, {
+  BigInt? value,
+  int? decimals, {
   int fractionDigits = 2,
   bool withPrecision = false,
 }) {
@@ -61,9 +61,9 @@ String formatValue(
 }
 
 String getFiatValue(
-  BigInt value,
-  int decimals,
-  double price, {
+  BigInt? value,
+  int? decimals,
+  double? price, {
   int fractionDigits = 2,
 }) {
   if (value == null || decimals == null || price == null) return '0';
@@ -76,7 +76,7 @@ String getFiatValue(
   return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
-String formatAddress(String address, [int endIndex = 6]) {
+String formatAddress(String? address, [int endIndex = 6]) {
   if (address == null || address.isEmpty) return '';
   return '${address.substring(0, endIndex)}...${address.substring(address.length - 4, address.length)}';
 }

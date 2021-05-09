@@ -25,8 +25,8 @@ import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SwapScreen extends StatefulWidget {
-  final Token primaryToken;
-  SwapScreen({Key key, this.primaryToken}) : super(key: key);
+  final Token? primaryToken;
+  SwapScreen({Key? key, this.primaryToken}) : super(key: key);
 
   @override
   _SwapScreenState createState() => _SwapScreenState();

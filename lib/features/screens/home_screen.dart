@@ -150,7 +150,92 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               }
             },
           ),
+          routes: [
+            // HomeTab(),
+            // ContactsTab(),
+            // SwapTab(),
+            // AccountTab(),
+          ],
+          bottomNavigationBuilder: (_, TabsRouter tabs) => BottomBar(tabs),
         );
+        // return Scaffold(
+        //   body: IndexedStack(
+        //     index: currentIndex,
+        //     children: <Widget>[
+        //       ExtendedNavigator(
+        //         router: HomeRouter(),
+        //         name: 'homeRouter',
+        //         observers: [
+        //           FirebaseAnalyticsObserver(
+        //               analytics: getIt<FirebaseAnalytics>()),
+        //           SegmentObserver(),
+        //           SentryNavigatorObserver(),
+        //         ],
+        //       ),
+        //       ExtendedNavigator(
+        //         router: ContactsRouter(),
+        //         name: 'contactsRouter',
+        //         observers: [
+        //           FirebaseAnalyticsObserver(
+        //               analytics: getIt<FirebaseAnalytics>()),
+        //           SegmentObserver(),
+        //           SentryNavigatorObserver(),
+        //         ],
+        //       ),
+        //       ExtendedNavigator(
+        //         router: SwapRouter(),
+        //         name: 'swapRouter',
+        //         observers: [
+        //           FirebaseAnalyticsObserver(
+        //               analytics: getIt<FirebaseAnalytics>()),
+        //           SegmentObserver(),
+        //           SentryNavigatorObserver(),
+        //         ],
+        //       ),
+        //       ExtendedNavigator(
+        //         router: AccountRouter(),
+        //         name: 'accountRouter',
+        //         observers: [
+        //           FirebaseAnalyticsObserver(
+        //               analytics: getIt<FirebaseAnalytics>()),
+        //           SegmentObserver(),
+        //           SentryNavigatorObserver(),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        //   bottomNavigationBar: BottomBar(
+        //     tabIndex: currentIndex,
+        //     onTap: (index) {
+        //       _onTap(index);
+        //       if (vm.isContactsSynced == null &&
+        //           index == 1 &&
+        //           !isContactSynced) {
+        //         Future.delayed(
+        //           Duration.zero,
+        //           () => showDialog(
+        //             context: context,
+        //             builder: (_) => ContactsConfirmationScreen(),
+        //           ),
+        //         );
+        //       }
+        //       if (index == 2) {
+        //         vm.getSwapList();
+        //       }
+        //       if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+        //         Future.delayed(Duration.zero, () {
+        //           vm.setShowDialog();
+        //           showDialog(
+        //             context: context,
+        //             builder: (BuildContext context) {
+        //               return BackUpDialog();
+        //             },
+        //           );
+        //         });
+        //       }
+        //     },
+        //   ),
+        // );
       },
     );
   }

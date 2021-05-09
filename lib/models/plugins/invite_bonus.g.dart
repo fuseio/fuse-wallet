@@ -8,7 +8,7 @@ part of 'invite_bonus.dart';
 
 _$_InviteBonusPlugin _$_$_InviteBonusPluginFromJson(Map<String, dynamic> json) {
   return _$_InviteBonusPlugin(
-    type: json['type'] as String ?? 'inviteBonus',
+    type: json['type'] as String? ?? 'inviteBonus',
     amount: json['amount'] as String,
     name: json['name'] as String,
     isActive: json['isActive'] as bool,

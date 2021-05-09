@@ -14,7 +14,7 @@ class LanguageSelector extends StatefulWidget {
 }
 
 class _LanguageSelectorState extends State<LanguageSelector> {
-  int _key;
+  int? _key;
 
   void _changeLanguage(Locale _locale) async {
     MyApp.setLocale(context, _locale);
@@ -83,7 +83,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   _collapse() {
-    int newKey;
+    int? newKey;
     do {
       _key = Random().nextInt(10000);
     } while (newKey == _key);

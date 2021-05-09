@@ -12,7 +12,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyScreen extends StatefulWidget {
   final String verificationId;
-  VerifyScreen({this.verificationId});
+  VerifyScreen(this.verificationId);
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }

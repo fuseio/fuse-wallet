@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'cash_wallet_state.dart';
 
@@ -8,6 +8,10 @@ part of 'cash_wallet_state.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 CashWalletState _$CashWalletStateFromJson(Map<String, dynamic> json) {
   return _CashWalletState.fromJson(json);
 }
@@ -16,34 +20,33 @@ CashWalletState _$CashWalletStateFromJson(Map<String, dynamic> json) {
 class _$CashWalletStateTearOff {
   const _$CashWalletStateTearOff();
 
-// ignore: unused_element
   _CashWalletState call(
-      {String communityAddress,
-      bool isDepositBanner = true,
+      {String? communityAddress = null,
+      bool? isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens = const {},
       @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities = const {},
       @JsonKey(fromJson: walletActionsFromJson)
-          WalletActions walletActions,
+          WalletActions? walletActions,
       @JsonKey(ignore: true)
-          String branchAddress,
+          String? branchAddress,
       @JsonKey(ignore: true)
-          bool isCommunityLoading = false,
+          bool? isCommunityLoading = false,
       @JsonKey(ignore: true)
-          bool isCommunityFetched = false,
+          bool? isCommunityFetched = false,
       @JsonKey(ignore: true)
-          bool isTransfersFetchingStarted = false,
+          bool? isTransfersFetchingStarted = false,
       @JsonKey(ignore: true)
-          bool isListeningToBranch = false,
+          bool? isListeningToBranch = false,
       @JsonKey(ignore: true)
-          bool isBranchDataReceived = false,
+          bool? isBranchDataReceived = false,
       @JsonKey(ignore: true)
-          bool isCommunityBusinessesFetched = false,
+          bool? isCommunityBusinessesFetched = false,
       @JsonKey(ignore: true)
-          bool isJobProcessingStarted = false,
+          bool? isJobProcessingStarted = false,
       @JsonKey(ignore: true)
-          bool isFetchingBalances}) {
+          bool? isFetchingBalances = false}) {
     return _CashWalletState(
       communityAddress: communityAddress,
       isDepositBanner: isDepositBanner,
@@ -62,48 +65,47 @@ class _$CashWalletStateTearOff {
     );
   }
 
-// ignore: unused_element
   CashWalletState fromJson(Map<String, Object> json) {
     return CashWalletState.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $CashWalletState = _$CashWalletStateTearOff();
 
 /// @nodoc
 mixin _$CashWalletState {
-  String get communityAddress;
-  bool get isDepositBanner;
+  String? get communityAddress => throw _privateConstructorUsedError;
+  bool? get isDepositBanner => throw _privateConstructorUsedError;
   @JsonKey(fromJson: tokensFromJson)
-  Map<String, Token> get tokens;
+  Map<String, Token> get tokens => throw _privateConstructorUsedError;
   @JsonKey(fromJson: communitiesFromJson)
-  Map<String, Community> get communities;
+  Map<String, Community> get communities => throw _privateConstructorUsedError;
   @JsonKey(fromJson: walletActionsFromJson)
-  WalletActions get walletActions;
+  WalletActions? get walletActions => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  String get branchAddress;
+  String? get branchAddress => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isCommunityLoading;
+  bool? get isCommunityLoading => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isCommunityFetched;
+  bool? get isCommunityFetched => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isTransfersFetchingStarted;
+  bool? get isTransfersFetchingStarted => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isListeningToBranch;
+  bool? get isListeningToBranch => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isBranchDataReceived;
+  bool? get isBranchDataReceived => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isCommunityBusinessesFetched;
+  bool? get isCommunityBusinessesFetched => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isJobProcessingStarted;
+  bool? get isJobProcessingStarted => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  bool get isFetchingBalances;
+  bool? get isFetchingBalances => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CashWalletStateCopyWith<CashWalletState> get copyWith;
+  $CashWalletStateCopyWith<CashWalletState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -112,34 +114,34 @@ abstract class $CashWalletStateCopyWith<$Res> {
           CashWalletState value, $Res Function(CashWalletState) then) =
       _$CashWalletStateCopyWithImpl<$Res>;
   $Res call(
-      {String communityAddress,
-      bool isDepositBanner,
+      {String? communityAddress,
+      bool? isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
       @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities,
       @JsonKey(fromJson: walletActionsFromJson)
-          WalletActions walletActions,
+          WalletActions? walletActions,
       @JsonKey(ignore: true)
-          String branchAddress,
+          String? branchAddress,
       @JsonKey(ignore: true)
-          bool isCommunityLoading,
+          bool? isCommunityLoading,
       @JsonKey(ignore: true)
-          bool isCommunityFetched,
+          bool? isCommunityFetched,
       @JsonKey(ignore: true)
-          bool isTransfersFetchingStarted,
+          bool? isTransfersFetchingStarted,
       @JsonKey(ignore: true)
-          bool isListeningToBranch,
+          bool? isListeningToBranch,
       @JsonKey(ignore: true)
-          bool isBranchDataReceived,
+          bool? isBranchDataReceived,
       @JsonKey(ignore: true)
-          bool isCommunityBusinessesFetched,
+          bool? isCommunityBusinessesFetched,
       @JsonKey(ignore: true)
-          bool isJobProcessingStarted,
+          bool? isJobProcessingStarted,
       @JsonKey(ignore: true)
-          bool isFetchingBalances});
+          bool? isFetchingBalances});
 
-  $WalletActionsCopyWith<$Res> get walletActions;
+  $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
 /// @nodoc
@@ -153,71 +155,88 @@ class _$CashWalletStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object communityAddress = freezed,
-    Object isDepositBanner = freezed,
-    Object tokens = freezed,
-    Object communities = freezed,
-    Object walletActions = freezed,
-    Object branchAddress = freezed,
-    Object isCommunityLoading = freezed,
-    Object isCommunityFetched = freezed,
-    Object isTransfersFetchingStarted = freezed,
-    Object isListeningToBranch = freezed,
-    Object isBranchDataReceived = freezed,
-    Object isCommunityBusinessesFetched = freezed,
-    Object isJobProcessingStarted = freezed,
-    Object isFetchingBalances = freezed,
+    Object? communityAddress = freezed,
+    Object? isDepositBanner = freezed,
+    Object? tokens = freezed,
+    Object? communities = freezed,
+    Object? walletActions = freezed,
+    Object? branchAddress = freezed,
+    Object? isCommunityLoading = freezed,
+    Object? isCommunityFetched = freezed,
+    Object? isTransfersFetchingStarted = freezed,
+    Object? isListeningToBranch = freezed,
+    Object? isBranchDataReceived = freezed,
+    Object? isCommunityBusinessesFetched = freezed,
+    Object? isJobProcessingStarted = freezed,
+    Object? isFetchingBalances = freezed,
   }) {
     return _then(_value.copyWith(
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
-          : communityAddress as String,
+          : communityAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       isDepositBanner: isDepositBanner == freezed
           ? _value.isDepositBanner
-          : isDepositBanner as bool,
-      tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
+          : isDepositBanner // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      tokens: tokens == freezed
+          ? _value.tokens
+          : tokens // ignore: cast_nullable_to_non_nullable
+              as Map<String, Token>,
       communities: communities == freezed
           ? _value.communities
-          : communities as Map<String, Community>,
+          : communities // ignore: cast_nullable_to_non_nullable
+              as Map<String, Community>,
       walletActions: walletActions == freezed
           ? _value.walletActions
-          : walletActions as WalletActions,
+          : walletActions // ignore: cast_nullable_to_non_nullable
+              as WalletActions?,
       branchAddress: branchAddress == freezed
           ? _value.branchAddress
-          : branchAddress as String,
+          : branchAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       isCommunityLoading: isCommunityLoading == freezed
           ? _value.isCommunityLoading
-          : isCommunityLoading as bool,
+          : isCommunityLoading // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isCommunityFetched: isCommunityFetched == freezed
           ? _value.isCommunityFetched
-          : isCommunityFetched as bool,
+          : isCommunityFetched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isTransfersFetchingStarted: isTransfersFetchingStarted == freezed
           ? _value.isTransfersFetchingStarted
-          : isTransfersFetchingStarted as bool,
+          : isTransfersFetchingStarted // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isListeningToBranch: isListeningToBranch == freezed
           ? _value.isListeningToBranch
-          : isListeningToBranch as bool,
+          : isListeningToBranch // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isBranchDataReceived: isBranchDataReceived == freezed
           ? _value.isBranchDataReceived
-          : isBranchDataReceived as bool,
+          : isBranchDataReceived // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isCommunityBusinessesFetched: isCommunityBusinessesFetched == freezed
           ? _value.isCommunityBusinessesFetched
-          : isCommunityBusinessesFetched as bool,
+          : isCommunityBusinessesFetched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isJobProcessingStarted: isJobProcessingStarted == freezed
           ? _value.isJobProcessingStarted
-          : isJobProcessingStarted as bool,
+          : isJobProcessingStarted // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isFetchingBalances: isFetchingBalances == freezed
           ? _value.isFetchingBalances
-          : isFetchingBalances as bool,
+          : isFetchingBalances // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 
   @override
-  $WalletActionsCopyWith<$Res> get walletActions {
+  $WalletActionsCopyWith<$Res>? get walletActions {
     if (_value.walletActions == null) {
       return null;
     }
-    return $WalletActionsCopyWith<$Res>(_value.walletActions, (value) {
+
+    return $WalletActionsCopyWith<$Res>(_value.walletActions!, (value) {
       return _then(_value.copyWith(walletActions: value));
     });
   }
@@ -231,35 +250,35 @@ abstract class _$CashWalletStateCopyWith<$Res>
       __$CashWalletStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String communityAddress,
-      bool isDepositBanner,
+      {String? communityAddress,
+      bool? isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
       @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities,
       @JsonKey(fromJson: walletActionsFromJson)
-          WalletActions walletActions,
+          WalletActions? walletActions,
       @JsonKey(ignore: true)
-          String branchAddress,
+          String? branchAddress,
       @JsonKey(ignore: true)
-          bool isCommunityLoading,
+          bool? isCommunityLoading,
       @JsonKey(ignore: true)
-          bool isCommunityFetched,
+          bool? isCommunityFetched,
       @JsonKey(ignore: true)
-          bool isTransfersFetchingStarted,
+          bool? isTransfersFetchingStarted,
       @JsonKey(ignore: true)
-          bool isListeningToBranch,
+          bool? isListeningToBranch,
       @JsonKey(ignore: true)
-          bool isBranchDataReceived,
+          bool? isBranchDataReceived,
       @JsonKey(ignore: true)
-          bool isCommunityBusinessesFetched,
+          bool? isCommunityBusinessesFetched,
       @JsonKey(ignore: true)
-          bool isJobProcessingStarted,
+          bool? isJobProcessingStarted,
       @JsonKey(ignore: true)
-          bool isFetchingBalances});
+          bool? isFetchingBalances});
 
   @override
-  $WalletActionsCopyWith<$Res> get walletActions;
+  $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
 /// @nodoc
@@ -275,72 +294,88 @@ class __$CashWalletStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object communityAddress = freezed,
-    Object isDepositBanner = freezed,
-    Object tokens = freezed,
-    Object communities = freezed,
-    Object walletActions = freezed,
-    Object branchAddress = freezed,
-    Object isCommunityLoading = freezed,
-    Object isCommunityFetched = freezed,
-    Object isTransfersFetchingStarted = freezed,
-    Object isListeningToBranch = freezed,
-    Object isBranchDataReceived = freezed,
-    Object isCommunityBusinessesFetched = freezed,
-    Object isJobProcessingStarted = freezed,
-    Object isFetchingBalances = freezed,
+    Object? communityAddress = freezed,
+    Object? isDepositBanner = freezed,
+    Object? tokens = freezed,
+    Object? communities = freezed,
+    Object? walletActions = freezed,
+    Object? branchAddress = freezed,
+    Object? isCommunityLoading = freezed,
+    Object? isCommunityFetched = freezed,
+    Object? isTransfersFetchingStarted = freezed,
+    Object? isListeningToBranch = freezed,
+    Object? isBranchDataReceived = freezed,
+    Object? isCommunityBusinessesFetched = freezed,
+    Object? isJobProcessingStarted = freezed,
+    Object? isFetchingBalances = freezed,
   }) {
     return _then(_CashWalletState(
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
-          : communityAddress as String,
+          : communityAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       isDepositBanner: isDepositBanner == freezed
           ? _value.isDepositBanner
-          : isDepositBanner as bool,
-      tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
+          : isDepositBanner // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      tokens: tokens == freezed
+          ? _value.tokens
+          : tokens // ignore: cast_nullable_to_non_nullable
+              as Map<String, Token>,
       communities: communities == freezed
           ? _value.communities
-          : communities as Map<String, Community>,
+          : communities // ignore: cast_nullable_to_non_nullable
+              as Map<String, Community>,
       walletActions: walletActions == freezed
           ? _value.walletActions
-          : walletActions as WalletActions,
+          : walletActions // ignore: cast_nullable_to_non_nullable
+              as WalletActions?,
       branchAddress: branchAddress == freezed
           ? _value.branchAddress
-          : branchAddress as String,
+          : branchAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       isCommunityLoading: isCommunityLoading == freezed
           ? _value.isCommunityLoading
-          : isCommunityLoading as bool,
+          : isCommunityLoading // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isCommunityFetched: isCommunityFetched == freezed
           ? _value.isCommunityFetched
-          : isCommunityFetched as bool,
+          : isCommunityFetched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isTransfersFetchingStarted: isTransfersFetchingStarted == freezed
           ? _value.isTransfersFetchingStarted
-          : isTransfersFetchingStarted as bool,
+          : isTransfersFetchingStarted // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isListeningToBranch: isListeningToBranch == freezed
           ? _value.isListeningToBranch
-          : isListeningToBranch as bool,
+          : isListeningToBranch // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isBranchDataReceived: isBranchDataReceived == freezed
           ? _value.isBranchDataReceived
-          : isBranchDataReceived as bool,
+          : isBranchDataReceived // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isCommunityBusinessesFetched: isCommunityBusinessesFetched == freezed
           ? _value.isCommunityBusinessesFetched
-          : isCommunityBusinessesFetched as bool,
+          : isCommunityBusinessesFetched // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isJobProcessingStarted: isJobProcessingStarted == freezed
           ? _value.isJobProcessingStarted
-          : isJobProcessingStarted as bool,
+          : isJobProcessingStarted // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isFetchingBalances: isFetchingBalances == freezed
           ? _value.isFetchingBalances
-          : isFetchingBalances as bool,
+          : isFetchingBalances // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_CashWalletState extends _CashWalletState {
+
+@JsonSerializable()
+class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   _$_CashWalletState(
-      {this.communityAddress,
+      {this.communityAddress = null,
       this.isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson) this.tokens = const {},
       @JsonKey(fromJson: communitiesFromJson) this.communities = const {},
@@ -353,27 +388,18 @@ class _$_CashWalletState extends _CashWalletState {
       @JsonKey(ignore: true) this.isBranchDataReceived = false,
       @JsonKey(ignore: true) this.isCommunityBusinessesFetched = false,
       @JsonKey(ignore: true) this.isJobProcessingStarted = false,
-      @JsonKey(ignore: true) this.isFetchingBalances})
-      : assert(isDepositBanner != null),
-        assert(tokens != null),
-        assert(communities != null),
-        assert(isCommunityLoading != null),
-        assert(isCommunityFetched != null),
-        assert(isTransfersFetchingStarted != null),
-        assert(isListeningToBranch != null),
-        assert(isBranchDataReceived != null),
-        assert(isCommunityBusinessesFetched != null),
-        assert(isJobProcessingStarted != null),
-        super._();
+      @JsonKey(ignore: true) this.isFetchingBalances = false})
+      : super._();
 
   factory _$_CashWalletState.fromJson(Map<String, dynamic> json) =>
       _$_$_CashWalletStateFromJson(json);
 
+  @JsonKey(defaultValue: null)
   @override
-  final String communityAddress;
+  final String? communityAddress;
   @JsonKey(defaultValue: true)
   @override
-  final bool isDepositBanner;
+  final bool? isDepositBanner;
   @override
   @JsonKey(fromJson: tokensFromJson)
   final Map<String, Token> tokens;
@@ -382,38 +408,62 @@ class _$_CashWalletState extends _CashWalletState {
   final Map<String, Community> communities;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
-  final WalletActions walletActions;
+  final WalletActions? walletActions;
   @override
   @JsonKey(ignore: true)
-  final String branchAddress;
+  final String? branchAddress;
   @override
   @JsonKey(ignore: true)
-  final bool isCommunityLoading;
+  final bool? isCommunityLoading;
   @override
   @JsonKey(ignore: true)
-  final bool isCommunityFetched;
+  final bool? isCommunityFetched;
   @override
   @JsonKey(ignore: true)
-  final bool isTransfersFetchingStarted;
+  final bool? isTransfersFetchingStarted;
   @override
   @JsonKey(ignore: true)
-  final bool isListeningToBranch;
+  final bool? isListeningToBranch;
   @override
   @JsonKey(ignore: true)
-  final bool isBranchDataReceived;
+  final bool? isBranchDataReceived;
   @override
   @JsonKey(ignore: true)
-  final bool isCommunityBusinessesFetched;
+  final bool? isCommunityBusinessesFetched;
   @override
   @JsonKey(ignore: true)
-  final bool isJobProcessingStarted;
+  final bool? isJobProcessingStarted;
   @override
   @JsonKey(ignore: true)
-  final bool isFetchingBalances;
+  final bool? isFetchingBalances;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CashWalletState(communityAddress: $communityAddress, isDepositBanner: $isDepositBanner, tokens: $tokens, communities: $communities, walletActions: $walletActions, branchAddress: $branchAddress, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted, isFetchingBalances: $isFetchingBalances)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CashWalletState'))
+      ..add(DiagnosticsProperty('communityAddress', communityAddress))
+      ..add(DiagnosticsProperty('isDepositBanner', isDepositBanner))
+      ..add(DiagnosticsProperty('tokens', tokens))
+      ..add(DiagnosticsProperty('communities', communities))
+      ..add(DiagnosticsProperty('walletActions', walletActions))
+      ..add(DiagnosticsProperty('branchAddress', branchAddress))
+      ..add(DiagnosticsProperty('isCommunityLoading', isCommunityLoading))
+      ..add(DiagnosticsProperty('isCommunityFetched', isCommunityFetched))
+      ..add(DiagnosticsProperty(
+          'isTransfersFetchingStarted', isTransfersFetchingStarted))
+      ..add(DiagnosticsProperty('isListeningToBranch', isListeningToBranch))
+      ..add(DiagnosticsProperty('isBranchDataReceived', isBranchDataReceived))
+      ..add(DiagnosticsProperty(
+          'isCommunityBusinessesFetched', isCommunityBusinessesFetched))
+      ..add(
+          DiagnosticsProperty('isJobProcessingStarted', isJobProcessingStarted))
+      ..add(DiagnosticsProperty('isFetchingBalances', isFetchingBalances));
   }
 
   @override
@@ -497,79 +547,80 @@ class _$_CashWalletState extends _CashWalletState {
 }
 
 abstract class _CashWalletState extends CashWalletState {
-  _CashWalletState._() : super._();
   factory _CashWalletState(
-      {String communityAddress,
-      bool isDepositBanner,
+      {String? communityAddress,
+      bool? isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
       @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities,
       @JsonKey(fromJson: walletActionsFromJson)
-          WalletActions walletActions,
+          WalletActions? walletActions,
       @JsonKey(ignore: true)
-          String branchAddress,
+          String? branchAddress,
       @JsonKey(ignore: true)
-          bool isCommunityLoading,
+          bool? isCommunityLoading,
       @JsonKey(ignore: true)
-          bool isCommunityFetched,
+          bool? isCommunityFetched,
       @JsonKey(ignore: true)
-          bool isTransfersFetchingStarted,
+          bool? isTransfersFetchingStarted,
       @JsonKey(ignore: true)
-          bool isListeningToBranch,
+          bool? isListeningToBranch,
       @JsonKey(ignore: true)
-          bool isBranchDataReceived,
+          bool? isBranchDataReceived,
       @JsonKey(ignore: true)
-          bool isCommunityBusinessesFetched,
+          bool? isCommunityBusinessesFetched,
       @JsonKey(ignore: true)
-          bool isJobProcessingStarted,
+          bool? isJobProcessingStarted,
       @JsonKey(ignore: true)
-          bool isFetchingBalances}) = _$_CashWalletState;
+          bool? isFetchingBalances}) = _$_CashWalletState;
+  _CashWalletState._() : super._();
 
   factory _CashWalletState.fromJson(Map<String, dynamic> json) =
       _$_CashWalletState.fromJson;
 
   @override
-  String get communityAddress;
+  String? get communityAddress => throw _privateConstructorUsedError;
   @override
-  bool get isDepositBanner;
+  bool? get isDepositBanner => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: tokensFromJson)
-  Map<String, Token> get tokens;
+  Map<String, Token> get tokens => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: communitiesFromJson)
-  Map<String, Community> get communities;
+  Map<String, Community> get communities => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
-  WalletActions get walletActions;
+  WalletActions? get walletActions => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  String get branchAddress;
+  String? get branchAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isCommunityLoading;
+  bool? get isCommunityLoading => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isCommunityFetched;
+  bool? get isCommunityFetched => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isTransfersFetchingStarted;
+  bool? get isTransfersFetchingStarted => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isListeningToBranch;
+  bool? get isListeningToBranch => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isBranchDataReceived;
+  bool? get isBranchDataReceived => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isCommunityBusinessesFetched;
+  bool? get isCommunityBusinessesFetched => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isJobProcessingStarted;
+  bool? get isJobProcessingStarted => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  bool get isFetchingBalances;
+  bool? get isFetchingBalances => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CashWalletStateCopyWith<_CashWalletState> get copyWith;
+  _$CashWalletStateCopyWith<_CashWalletState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

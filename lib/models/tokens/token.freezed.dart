@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'token.dart';
 
@@ -8,6 +8,10 @@ part of 'token.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 Token _$TokenFromJson(Map<String, dynamic> json) {
   return _Token.fromJson(json);
 }
@@ -16,23 +20,22 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
 class _$TokenTearOff {
   const _$TokenTearOff();
 
-// ignore: unused_element
   _Token call(
-      {String address,
-      String name,
+      {String? address,
+      String? name,
       bool isNative = false,
-      String symbol,
-      String imageUrl,
-      int decimals,
-      BigInt amount,
-      @JsonKey(ignore: true) String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
-      num priceChange,
-      List<Stats> stats,
-      @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions}) {
+      String? symbol,
+      String? imageUrl,
+      int? decimals,
+      BigInt? amount,
+      @JsonKey(ignore: true) String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
+      num? priceChange,
+      List<Stats>? stats,
+      @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions}) {
     return _Token(
       address: address,
       name: name,
@@ -52,39 +55,37 @@ class _$TokenTearOff {
     );
   }
 
-// ignore: unused_element
   Token fromJson(Map<String, Object> json) {
     return Token.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $Token = _$TokenTearOff();
 
 /// @nodoc
 mixin _$Token {
-  String get address;
-  String get name;
-  bool get isNative;
-  String get symbol;
-  String get imageUrl;
-  int get decimals;
-  BigInt get amount;
+  String? get address => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  bool get isNative => throw _privateConstructorUsedError;
+  String? get symbol => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
+  int? get decimals => throw _privateConstructorUsedError;
+  BigInt? get amount => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  String get subtitle;
-  int get timestamp;
-  Price get priceInfo;
-  String get communityAddress;
-  String get originNetwork;
-  num get priceChange;
-  List<Stats> get stats;
+  String? get subtitle => throw _privateConstructorUsedError;
+  int? get timestamp => throw _privateConstructorUsedError;
+  Price? get priceInfo => throw _privateConstructorUsedError;
+  String? get communityAddress => throw _privateConstructorUsedError;
+  String? get originNetwork => throw _privateConstructorUsedError;
+  num? get priceChange => throw _privateConstructorUsedError;
+  List<Stats>? get stats => throw _privateConstructorUsedError;
   @JsonKey(fromJson: walletActionsFromJson)
-  WalletActions get walletActions;
+  WalletActions? get walletActions => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TokenCopyWith<Token> get copyWith;
+  $TokenCopyWith<Token> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -92,24 +93,24 @@ abstract class $TokenCopyWith<$Res> {
   factory $TokenCopyWith(Token value, $Res Function(Token) then) =
       _$TokenCopyWithImpl<$Res>;
   $Res call(
-      {String address,
-      String name,
+      {String? address,
+      String? name,
       bool isNative,
-      String symbol,
-      String imageUrl,
-      int decimals,
-      BigInt amount,
-      @JsonKey(ignore: true) String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
-      num priceChange,
-      List<Stats> stats,
-      @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
+      String? symbol,
+      String? imageUrl,
+      int? decimals,
+      BigInt? amount,
+      @JsonKey(ignore: true) String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
+      num? priceChange,
+      List<Stats>? stats,
+      @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
-  $PriceCopyWith<$Res> get priceInfo;
-  $WalletActionsCopyWith<$Res> get walletActions;
+  $PriceCopyWith<$Res>? get priceInfo;
+  $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
 /// @nodoc
@@ -122,64 +123,104 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
 
   @override
   $Res call({
-    Object address = freezed,
-    Object name = freezed,
-    Object isNative = freezed,
-    Object symbol = freezed,
-    Object imageUrl = freezed,
-    Object decimals = freezed,
-    Object amount = freezed,
-    Object subtitle = freezed,
-    Object timestamp = freezed,
-    Object priceInfo = freezed,
-    Object communityAddress = freezed,
-    Object originNetwork = freezed,
-    Object priceChange = freezed,
-    Object stats = freezed,
-    Object walletActions = freezed,
+    Object? address = freezed,
+    Object? name = freezed,
+    Object? isNative = freezed,
+    Object? symbol = freezed,
+    Object? imageUrl = freezed,
+    Object? decimals = freezed,
+    Object? amount = freezed,
+    Object? subtitle = freezed,
+    Object? timestamp = freezed,
+    Object? priceInfo = freezed,
+    Object? communityAddress = freezed,
+    Object? originNetwork = freezed,
+    Object? priceChange = freezed,
+    Object? stats = freezed,
+    Object? walletActions = freezed,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed ? _value.address : address as String,
-      name: name == freezed ? _value.name : name as String,
-      isNative: isNative == freezed ? _value.isNative : isNative as bool,
-      symbol: symbol == freezed ? _value.symbol : symbol as String,
-      imageUrl: imageUrl == freezed ? _value.imageUrl : imageUrl as String,
-      decimals: decimals == freezed ? _value.decimals : decimals as int,
-      amount: amount == freezed ? _value.amount : amount as BigInt,
-      subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
-      timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
-      priceInfo: priceInfo == freezed ? _value.priceInfo : priceInfo as Price,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isNative: isNative == freezed
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool,
+      symbol: symbol == freezed
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: imageUrl == freezed
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      decimals: decimals == freezed
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int?,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+      subtitle: subtitle == freezed
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      timestamp: timestamp == freezed
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      priceInfo: priceInfo == freezed
+          ? _value.priceInfo
+          : priceInfo // ignore: cast_nullable_to_non_nullable
+              as Price?,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
-          : communityAddress as String,
+          : communityAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
-          : originNetwork as String,
-      priceChange:
-          priceChange == freezed ? _value.priceChange : priceChange as num,
-      stats: stats == freezed ? _value.stats : stats as List<Stats>,
+          : originNetwork // ignore: cast_nullable_to_non_nullable
+              as String?,
+      priceChange: priceChange == freezed
+          ? _value.priceChange
+          : priceChange // ignore: cast_nullable_to_non_nullable
+              as num?,
+      stats: stats == freezed
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as List<Stats>?,
       walletActions: walletActions == freezed
           ? _value.walletActions
-          : walletActions as WalletActions,
+          : walletActions // ignore: cast_nullable_to_non_nullable
+              as WalletActions?,
     ));
   }
 
   @override
-  $PriceCopyWith<$Res> get priceInfo {
+  $PriceCopyWith<$Res>? get priceInfo {
     if (_value.priceInfo == null) {
       return null;
     }
-    return $PriceCopyWith<$Res>(_value.priceInfo, (value) {
+
+    return $PriceCopyWith<$Res>(_value.priceInfo!, (value) {
       return _then(_value.copyWith(priceInfo: value));
     });
   }
 
   @override
-  $WalletActionsCopyWith<$Res> get walletActions {
+  $WalletActionsCopyWith<$Res>? get walletActions {
     if (_value.walletActions == null) {
       return null;
     }
-    return $WalletActionsCopyWith<$Res>(_value.walletActions, (value) {
+
+    return $WalletActionsCopyWith<$Res>(_value.walletActions!, (value) {
       return _then(_value.copyWith(walletActions: value));
     });
   }
@@ -191,26 +232,26 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       __$TokenCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String address,
-      String name,
+      {String? address,
+      String? name,
       bool isNative,
-      String symbol,
-      String imageUrl,
-      int decimals,
-      BigInt amount,
-      @JsonKey(ignore: true) String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
-      num priceChange,
-      List<Stats> stats,
-      @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
+      String? symbol,
+      String? imageUrl,
+      int? decimals,
+      BigInt? amount,
+      @JsonKey(ignore: true) String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
+      num? priceChange,
+      List<Stats>? stats,
+      @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
   @override
-  $PriceCopyWith<$Res> get priceInfo;
+  $PriceCopyWith<$Res>? get priceInfo;
   @override
-  $WalletActionsCopyWith<$Res> get walletActions;
+  $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
 /// @nodoc
@@ -224,53 +265,91 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object address = freezed,
-    Object name = freezed,
-    Object isNative = freezed,
-    Object symbol = freezed,
-    Object imageUrl = freezed,
-    Object decimals = freezed,
-    Object amount = freezed,
-    Object subtitle = freezed,
-    Object timestamp = freezed,
-    Object priceInfo = freezed,
-    Object communityAddress = freezed,
-    Object originNetwork = freezed,
-    Object priceChange = freezed,
-    Object stats = freezed,
-    Object walletActions = freezed,
+    Object? address = freezed,
+    Object? name = freezed,
+    Object? isNative = freezed,
+    Object? symbol = freezed,
+    Object? imageUrl = freezed,
+    Object? decimals = freezed,
+    Object? amount = freezed,
+    Object? subtitle = freezed,
+    Object? timestamp = freezed,
+    Object? priceInfo = freezed,
+    Object? communityAddress = freezed,
+    Object? originNetwork = freezed,
+    Object? priceChange = freezed,
+    Object? stats = freezed,
+    Object? walletActions = freezed,
   }) {
     return _then(_Token(
-      address: address == freezed ? _value.address : address as String,
-      name: name == freezed ? _value.name : name as String,
-      isNative: isNative == freezed ? _value.isNative : isNative as bool,
-      symbol: symbol == freezed ? _value.symbol : symbol as String,
-      imageUrl: imageUrl == freezed ? _value.imageUrl : imageUrl as String,
-      decimals: decimals == freezed ? _value.decimals : decimals as int,
-      amount: amount == freezed ? _value.amount : amount as BigInt,
-      subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
-      timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
-      priceInfo: priceInfo == freezed ? _value.priceInfo : priceInfo as Price,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isNative: isNative == freezed
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool,
+      symbol: symbol == freezed
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String?,
+      imageUrl: imageUrl == freezed
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      decimals: decimals == freezed
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int?,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+      subtitle: subtitle == freezed
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      timestamp: timestamp == freezed
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int?,
+      priceInfo: priceInfo == freezed
+          ? _value.priceInfo
+          : priceInfo // ignore: cast_nullable_to_non_nullable
+              as Price?,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
-          : communityAddress as String,
+          : communityAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
-          : originNetwork as String,
-      priceChange:
-          priceChange == freezed ? _value.priceChange : priceChange as num,
-      stats: stats == freezed ? _value.stats : stats as List<Stats>,
+          : originNetwork // ignore: cast_nullable_to_non_nullable
+              as String?,
+      priceChange: priceChange == freezed
+          ? _value.priceChange
+          : priceChange // ignore: cast_nullable_to_non_nullable
+              as num?,
+      stats: stats == freezed
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as List<Stats>?,
       walletActions: walletActions == freezed
           ? _value.walletActions
-          : walletActions as WalletActions,
+          : walletActions // ignore: cast_nullable_to_non_nullable
+              as WalletActions?,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_Token extends _Token {
+
+@JsonSerializable()
+class _$_Token extends _Token with DiagnosticableTreeMixin {
   _$_Token(
       {this.address,
       this.name,
@@ -287,49 +366,70 @@ class _$_Token extends _Token {
       this.priceChange,
       this.stats,
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions})
-      : assert(isNative != null),
-        super._();
+      : super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
       _$_$_TokenFromJson(json);
 
   @override
-  final String address;
+  final String? address;
   @override
-  final String name;
+  final String? name;
   @JsonKey(defaultValue: false)
   @override
   final bool isNative;
   @override
-  final String symbol;
+  final String? symbol;
   @override
-  final String imageUrl;
+  final String? imageUrl;
   @override
-  final int decimals;
+  final int? decimals;
   @override
-  final BigInt amount;
+  final BigInt? amount;
   @override
   @JsonKey(ignore: true)
-  final String subtitle;
+  final String? subtitle;
   @override
-  final int timestamp;
+  final int? timestamp;
   @override
-  final Price priceInfo;
+  final Price? priceInfo;
   @override
-  final String communityAddress;
+  final String? communityAddress;
   @override
-  final String originNetwork;
+  final String? originNetwork;
   @override
-  final num priceChange;
+  final num? priceChange;
   @override
-  final List<Stats> stats;
+  final List<Stats>? stats;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
-  final WalletActions walletActions;
+  final WalletActions? walletActions;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, stats: $stats, walletActions: $walletActions)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Token'))
+      ..add(DiagnosticsProperty('address', address))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('isNative', isNative))
+      ..add(DiagnosticsProperty('symbol', symbol))
+      ..add(DiagnosticsProperty('imageUrl', imageUrl))
+      ..add(DiagnosticsProperty('decimals', decimals))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('subtitle', subtitle))
+      ..add(DiagnosticsProperty('timestamp', timestamp))
+      ..add(DiagnosticsProperty('priceInfo', priceInfo))
+      ..add(DiagnosticsProperty('communityAddress', communityAddress))
+      ..add(DiagnosticsProperty('originNetwork', originNetwork))
+      ..add(DiagnosticsProperty('priceChange', priceChange))
+      ..add(DiagnosticsProperty('stats', stats))
+      ..add(DiagnosticsProperty('walletActions', walletActions));
   }
 
   @override
@@ -410,61 +510,61 @@ class _$_Token extends _Token {
 }
 
 abstract class _Token extends Token {
-  _Token._() : super._();
   factory _Token(
-      {String address,
-      String name,
+      {String? address,
+      String? name,
       bool isNative,
-      String symbol,
-      String imageUrl,
-      int decimals,
-      BigInt amount,
+      String? symbol,
+      String? imageUrl,
+      int? decimals,
+      BigInt? amount,
       @JsonKey(ignore: true)
-          String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
-      num priceChange,
-      List<Stats> stats,
+          String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
+      num? priceChange,
+      List<Stats>? stats,
       @JsonKey(fromJson: walletActionsFromJson)
-          WalletActions walletActions}) = _$_Token;
+          WalletActions? walletActions}) = _$_Token;
+  _Token._() : super._();
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$_Token.fromJson;
 
   @override
-  String get address;
+  String? get address => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String? get name => throw _privateConstructorUsedError;
   @override
-  bool get isNative;
+  bool get isNative => throw _privateConstructorUsedError;
   @override
-  String get symbol;
+  String? get symbol => throw _privateConstructorUsedError;
   @override
-  String get imageUrl;
+  String? get imageUrl => throw _privateConstructorUsedError;
   @override
-  int get decimals;
+  int? get decimals => throw _privateConstructorUsedError;
   @override
-  BigInt get amount;
+  BigInt? get amount => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  String get subtitle;
+  String? get subtitle => throw _privateConstructorUsedError;
   @override
-  int get timestamp;
+  int? get timestamp => throw _privateConstructorUsedError;
   @override
-  Price get priceInfo;
+  Price? get priceInfo => throw _privateConstructorUsedError;
   @override
-  String get communityAddress;
+  String? get communityAddress => throw _privateConstructorUsedError;
   @override
-  String get originNetwork;
+  String? get originNetwork => throw _privateConstructorUsedError;
   @override
-  num get priceChange;
+  num? get priceChange => throw _privateConstructorUsedError;
   @override
-  List<Stats> get stats;
+  List<Stats>? get stats => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
-  WalletActions get walletActions;
+  WalletActions? get walletActions => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TokenCopyWith<_Token> get copyWith;
+  _$TokenCopyWith<_Token> get copyWith => throw _privateConstructorUsedError;
 }

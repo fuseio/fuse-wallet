@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,7 +9,7 @@ part 'swap_state.g.dart';
 
 @immutable
 @freezed
-abstract class SwapState implements _$SwapState {
+class SwapState with _$SwapState {
   const SwapState._();
 
   @JsonSerializable()

@@ -8,8 +8,8 @@ class ActionDetailsViewModel extends Equatable {
   final Map<String, String> tokensImages;
 
   ActionDetailsViewModel({
-    this.tokens,
-    this.tokensImages,
+    required this.tokens,
+    required this.tokensImages,
   });
 
   static ActionDetailsViewModel fromStore(Store<AppState> store) {

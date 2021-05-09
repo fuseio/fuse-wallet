@@ -9,8 +9,8 @@ class FeedViewModel extends Equatable {
   final Function() refreshFeed;
 
   FeedViewModel({
-    this.refreshFeed,
-    this.walletActions,
+    required this.refreshFeed,
+    required this.walletActions,
   });
 
   static FeedViewModel fromStore(Store<AppState> store) {

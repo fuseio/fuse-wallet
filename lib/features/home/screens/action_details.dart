@@ -17,24 +17,24 @@ import 'package:intl/intl.dart';
 class ActionDetailsScreen extends StatelessWidget {
   final String accountAddress;
   final String displayName;
-  final ImageProvider<dynamic> image;
+  late final ImageProvider<Object>? image;
   final Contact contact;
   final WalletAction action;
   final String symbol;
 
   ActionDetailsScreen({
-    this.action,
+    required this.action,
     this.image,
-    this.displayName,
-    this.accountAddress,
-    this.symbol,
-    this.contact,
+    required this.displayName,
+    required this.accountAddress,
+    required this.symbol,
+    required this.contact,
   });
 
   @override
   Widget build(BuildContext context) {
     final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(action.timestamp);
+        DateTime.fromMillisecondsSinceEpoch(action.timestamp ?? 0);
     final String name = action.map(
       createWallet: (_) => '',
       joinCommunity: (_) => '',
@@ -59,20 +59,20 @@ class ActionDetailsScreen extends StatelessWidget {
       distinct: true,
       converter: ActionDetailsViewModel.fromStore,
       builder: (_, viewModel) {
-        final Token token = action.map(
+        final Token? token = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
-              viewModel?.tokens[fuseDollarToken.address.toLowerCase()] ?? null,
+              viewModel.tokens[fuseDollarToken.address!.toLowerCase()] ?? null,
           bonus: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+              viewModel.tokens[value.tokenAddress?.toLowerCase()] ?? null,
           send: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+              viewModel.tokens[value.tokenAddress?.toLowerCase()] ?? null,
           receive: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
-          swap: (value) => viewModel?.tokens?.values?.firstWhere(
-              (element) => element.symbol == value.tradeInfo.outputToken,
-              orElse: () => null),
+              viewModel?.tokens[value.tokenAddress?.toLowerCase()] ?? null,
+          swap: (value) => viewModel.tokens.values.firstWhere(
+            (element) => element.symbol == value.tradeInfo?.outputToken,
+          ),
         );
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
@@ -100,9 +100,9 @@ class ActionDetailsScreen extends StatelessWidget {
                         children: <Widget>[
                           action.getStatusIcon(),
                           Text(
-                            action.isConfirmed()
+                            (action.isConfirmed()
                                 ? I10n.of(context).approved
-                                : action?.status,
+                                : action.status)!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -178,15 +178,16 @@ class ActionDetailsScreen extends StatelessWidget {
                                             receive: (value) => '',
                                             swap: (value) {
                                               final Token _token = viewModel
-                                                  ?.tokens?.values
-                                                  ?.firstWhere(
-                                                      (element) =>
-                                                          element.symbol ==
-                                                          value.tradeInfo
-                                                              .inputToken,
-                                                      orElse: () => null);
+                                                  .tokens.values
+                                                  .firstWhere(
+                                                (element) =>
+                                                    element.symbol ==
+                                                    value.tradeInfo?.inputToken,
+                                              );
                                               double a = double.parse(value
-                                                      .tradeInfo.inputAmount) *
+                                                          .tradeInfo
+                                                          ?.inputAmount ??
+                                                      '0') *
                                                   double.parse(
                                                       _token?.priceInfo?.quote);
                                               return '${display(num.parse(value.tradeInfo.inputAmount)) + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
@@ -339,7 +340,7 @@ class ActionDetailsScreen extends StatelessWidget {
     BuildContext context,
     String title,
     String value, {
-    void Function() onTap,
+    void Function()? onTap,
     bool withCopy = false,
   }) {
     if (withCopy) {

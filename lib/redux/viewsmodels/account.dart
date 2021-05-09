@@ -12,11 +12,11 @@ class AccountViewModel extends Equatable {
   final bool isBackup;
 
   AccountViewModel({
-    this.plugins,
-    this.walletAddress,
-    this.avatarUrl,
-    this.displayName,
-    this.isBackup,
+    required this.plugins,
+    required this.walletAddress,
+    required this.avatarUrl,
+    required this.displayName,
+    required this.isBackup,
   });
 
   static AccountViewModel fromStore(Store<AppState> store) {

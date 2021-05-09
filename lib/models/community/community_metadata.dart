@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,14 +8,14 @@ part 'community_metadata.g.dart';
 
 @immutable
 @freezed
-abstract class CommunityMetadata implements _$CommunityMetadata {
+class CommunityMetadata with _$CommunityMetadata {
   @JsonSerializable()
   factory CommunityMetadata({
-    bool isDefaultImage,
-    String image,
-    String coverPhoto,
-    String coverPhotoUri,
-    String imageUri,
+    @Default(false) bool isDefaultImage,
+    @Default(null) String image,
+    @Default(null) String coverPhoto,
+    @Default(null) String coverPhotoUri,
+    @Default(null) String imageUri,
   }) = _CommunityMetadata;
 
   const CommunityMetadata._();

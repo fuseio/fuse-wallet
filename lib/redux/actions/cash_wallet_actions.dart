@@ -699,7 +699,7 @@ ThunkAction sendTokenCall(
             (element) =>
                 element?.homeTokenAddress?.toLowerCase() ==
                 tokenAddress?.toLowerCase(),
-            orElse: () => null);
+            );
 
         dynamic response;
         if (![null, ''].contains(token?.communityAddress) &&

@@ -11,10 +11,10 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/snackbars.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
+// import 'package:fusecash/features/account/router/router.gr.dart';
 
 class Avatar extends StatelessWidget {
-  const Avatar({Key key}) : super(key: key);
+  const Avatar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class Avatar extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: 60,
                       height: 60,
-                      imageUrl: viewModel?.avatarUrl,
+                      imageUrl: viewModel.avatarUrl,
                       placeholder: (context, url) =>
                           CircularProgressIndicator(),
                       errorWidget: (context, url, error) => CircleAvatar(

@@ -360,7 +360,7 @@ CashWalletState _setIsTransfersFetching(
 
 //   Transaction saved = current?.transactions?.list?.firstWhere(
 //       (tx) => tx.jobId != null && tx.jobId == action.transaction.jobId,
-//       orElse: () => null);
+//       );
 //   Transactions transactions;
 //   if (saved == null) {
 //     transactions = current?.transactions?.copyWith(

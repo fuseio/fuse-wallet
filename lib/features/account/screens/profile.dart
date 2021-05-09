@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             focusColor: Theme.of(context).canvasColor,
             highlightColor: Theme.of(context).canvasColor,
             onTap: () {
-              WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+              WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
             },
             child: Material(
               color: Theme.of(context).canvasColor,
@@ -180,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              formatAddress(viewModel?.walletAddress),
+                              formatAddress(viewModel.walletAddress),
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.grey,
@@ -210,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildGroup(
                         I10n.of(context).phoneNumber,
                         Text(
-                          viewModel?.phone,
+                          viewModel.phone,
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,

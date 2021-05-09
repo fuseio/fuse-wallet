@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'community_metadata.dart';
 
@@ -8,6 +8,10 @@ part of 'community_metadata.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 CommunityMetadata _$CommunityMetadataFromJson(Map<String, dynamic> json) {
   return _CommunityMetadata.fromJson(json);
 }
@@ -16,13 +20,12 @@ CommunityMetadata _$CommunityMetadataFromJson(Map<String, dynamic> json) {
 class _$CommunityMetadataTearOff {
   const _$CommunityMetadataTearOff();
 
-// ignore: unused_element
   _CommunityMetadata call(
-      {bool isDefaultImage,
-      String image,
-      String coverPhoto,
-      String coverPhotoUri,
-      String imageUri}) {
+      {bool isDefaultImage = false,
+      String image = null,
+      String coverPhoto = null,
+      String coverPhotoUri = null,
+      String imageUri = null}) {
     return _CommunityMetadata(
       isDefaultImage: isDefaultImage,
       image: image,
@@ -32,27 +35,26 @@ class _$CommunityMetadataTearOff {
     );
   }
 
-// ignore: unused_element
   CommunityMetadata fromJson(Map<String, Object> json) {
     return CommunityMetadata.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $CommunityMetadata = _$CommunityMetadataTearOff();
 
 /// @nodoc
 mixin _$CommunityMetadata {
-  bool get isDefaultImage;
-  String get image;
-  String get coverPhoto;
-  String get coverPhotoUri;
-  String get imageUri;
+  bool get isDefaultImage => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
+  String get coverPhoto => throw _privateConstructorUsedError;
+  String get coverPhotoUri => throw _privateConstructorUsedError;
+  String get imageUri => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CommunityMetadataCopyWith<CommunityMetadata> get copyWith;
+  $CommunityMetadataCopyWith<CommunityMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -79,23 +81,33 @@ class _$CommunityMetadataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object isDefaultImage = freezed,
-    Object image = freezed,
-    Object coverPhoto = freezed,
-    Object coverPhotoUri = freezed,
-    Object imageUri = freezed,
+    Object? isDefaultImage = freezed,
+    Object? image = freezed,
+    Object? coverPhoto = freezed,
+    Object? coverPhotoUri = freezed,
+    Object? imageUri = freezed,
   }) {
     return _then(_value.copyWith(
       isDefaultImage: isDefaultImage == freezed
           ? _value.isDefaultImage
-          : isDefaultImage as bool,
-      image: image == freezed ? _value.image : image as String,
-      coverPhoto:
-          coverPhoto == freezed ? _value.coverPhoto : coverPhoto as String,
+          : isDefaultImage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverPhoto: coverPhoto == freezed
+          ? _value.coverPhoto
+          : coverPhoto // ignore: cast_nullable_to_non_nullable
+              as String,
       coverPhotoUri: coverPhotoUri == freezed
           ? _value.coverPhotoUri
-          : coverPhotoUri as String,
-      imageUri: imageUri == freezed ? _value.imageUri : imageUri as String,
+          : coverPhotoUri // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUri: imageUri == freezed
+          ? _value.imageUri
+          : imageUri // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -128,56 +140,84 @@ class __$CommunityMetadataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object isDefaultImage = freezed,
-    Object image = freezed,
-    Object coverPhoto = freezed,
-    Object coverPhotoUri = freezed,
-    Object imageUri = freezed,
+    Object? isDefaultImage = freezed,
+    Object? image = freezed,
+    Object? coverPhoto = freezed,
+    Object? coverPhotoUri = freezed,
+    Object? imageUri = freezed,
   }) {
     return _then(_CommunityMetadata(
       isDefaultImage: isDefaultImage == freezed
           ? _value.isDefaultImage
-          : isDefaultImage as bool,
-      image: image == freezed ? _value.image : image as String,
-      coverPhoto:
-          coverPhoto == freezed ? _value.coverPhoto : coverPhoto as String,
+          : isDefaultImage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverPhoto: coverPhoto == freezed
+          ? _value.coverPhoto
+          : coverPhoto // ignore: cast_nullable_to_non_nullable
+              as String,
       coverPhotoUri: coverPhotoUri == freezed
           ? _value.coverPhotoUri
-          : coverPhotoUri as String,
-      imageUri: imageUri == freezed ? _value.imageUri : imageUri as String,
+          : coverPhotoUri // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUri: imageUri == freezed
+          ? _value.imageUri
+          : imageUri // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_CommunityMetadata extends _CommunityMetadata {
+
+@JsonSerializable()
+class _$_CommunityMetadata extends _CommunityMetadata
+    with DiagnosticableTreeMixin {
   _$_CommunityMetadata(
-      {this.isDefaultImage,
-      this.image,
-      this.coverPhoto,
-      this.coverPhotoUri,
-      this.imageUri})
+      {this.isDefaultImage = false,
+      this.image = null,
+      this.coverPhoto = null,
+      this.coverPhotoUri = null,
+      this.imageUri = null})
       : super._();
 
   factory _$_CommunityMetadata.fromJson(Map<String, dynamic> json) =>
       _$_$_CommunityMetadataFromJson(json);
 
+  @JsonKey(defaultValue: false)
   @override
   final bool isDefaultImage;
+  @JsonKey(defaultValue: null)
   @override
   final String image;
+  @JsonKey(defaultValue: null)
   @override
   final String coverPhoto;
+  @JsonKey(defaultValue: null)
   @override
   final String coverPhotoUri;
+  @JsonKey(defaultValue: null)
   @override
   final String imageUri;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CommunityMetadata(isDefaultImage: $isDefaultImage, image: $image, coverPhoto: $coverPhoto, coverPhotoUri: $coverPhotoUri, imageUri: $imageUri)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CommunityMetadata'))
+      ..add(DiagnosticsProperty('isDefaultImage', isDefaultImage))
+      ..add(DiagnosticsProperty('image', image))
+      ..add(DiagnosticsProperty('coverPhoto', coverPhoto))
+      ..add(DiagnosticsProperty('coverPhotoUri', coverPhotoUri))
+      ..add(DiagnosticsProperty('imageUri', imageUri));
   }
 
   @override
@@ -221,28 +261,29 @@ class _$_CommunityMetadata extends _CommunityMetadata {
 }
 
 abstract class _CommunityMetadata extends CommunityMetadata {
-  _CommunityMetadata._() : super._();
   factory _CommunityMetadata(
       {bool isDefaultImage,
       String image,
       String coverPhoto,
       String coverPhotoUri,
       String imageUri}) = _$_CommunityMetadata;
+  _CommunityMetadata._() : super._();
 
   factory _CommunityMetadata.fromJson(Map<String, dynamic> json) =
       _$_CommunityMetadata.fromJson;
 
   @override
-  bool get isDefaultImage;
+  bool get isDefaultImage => throw _privateConstructorUsedError;
   @override
-  String get image;
+  String get image => throw _privateConstructorUsedError;
   @override
-  String get coverPhoto;
+  String get coverPhoto => throw _privateConstructorUsedError;
   @override
-  String get coverPhotoUri;
+  String get coverPhotoUri => throw _privateConstructorUsedError;
   @override
-  String get imageUri;
+  String get imageUri => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$CommunityMetadataCopyWith<_CommunityMetadata> get copyWith;
+  _$CommunityMetadataCopyWith<_CommunityMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
 }

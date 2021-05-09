@@ -39,7 +39,7 @@ class SocialScreen extends StatelessWidget {
                             'You like this app ? Then take a little bit of your time to leave a rating :',
                         actionsBuilder: (context, stars) {
                           return [
-                            FlatButton(
+                            TextButton(
                               child: Text('OK'),
                               onPressed: () async {
                                 log.info('Thanks for the ' +

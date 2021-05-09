@@ -26,11 +26,11 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-  MyApp({Key key, this.store}) : super(key: key);
+  MyApp({required this.store});
 
   static void setLocale(BuildContext context, Locale newLocale) {
-    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
-    state.setLocale(newLocale);
+    // _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    // state.setLocale(newLocale);
   }
 
   @override
@@ -38,8 +38,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  StreamSubscription<Map> streamSubscription;
-  Locale _locale;
+  final _rootRouter = RootRouter();
+  late StreamSubscription<Map> streamSubscription;
+  late Locale _locale;
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -47,7 +48,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setJwtToken(Store<AppState> store) async {
-    String jwtToken = store?.state?.userState?.jwtToken;
+    String jwtToken = store.state.userState.jwtToken;
     if (![null, ''].contains(jwtToken)) {
       log.info('JWT: $jwtToken');
       api.setJwtToken(jwtToken);
@@ -96,45 +97,43 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: widget.store,
-      child: MaterialApp(
-        locale: _locale,
-        themeMode: ThemeMode.system,
+      child: MaterialApp.router(
         title: Strings.APP_NAME,
-        builder: ExtendedNavigator.builder(
-          initialRoute: "/",
-          router: Router(),
-          guards: [AuthGuard()],
-          observers: [
+        theme: FlexColorScheme.light(
+          fontFamily: 'Europa',
+          colors: FlexSchemeColor.from(
+            secondary: Color(0xFFF5F5F5),
+            secondaryVariant: Color(0xFF777777),
+            primary: Color(0xFF38D989),
+            primaryVariant: Color(0xFF23B16A),
+            accentColor: Color(0xFF000000),
+            appBarColor: Color(0xFFFFFFFF),
+          ),
+        ).toTheme,
+        themeMode: ThemeMode.system,
+        locale: _locale,
+        routerDelegate: AutoRouterDelegate(
+          _rootRouter,
+          navigatorObservers: () => [
+            AutoRouteObserver(),
             FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
             SegmentObserver(),
             SentryNavigatorObserver(),
           ],
-          builder: (_, extendedNav) => Theme(
-            data: FlexColorScheme.light(
-              fontFamily: 'Europa',
-              colors: FlexSchemeColor.from(
-                secondary: Color(0xFFF5F5F5),
-                secondaryVariant: Color(0xFF777777),
-                primary: Color(0xFF38D989),
-                primaryVariant: Color(0xFF23B16A),
-                accentColor: Color(0xFF000000),
-                appBarColor: Color(0xFFFFFFFF),
-              ),
-            ).toTheme,
-            child: ResponsiveWrapper.builder(
-              extendedNav,
-              maxWidth: 1200,
-              minWidth: 400,
-              defaultScale: true,
-              breakpoints: [
-                ResponsiveBreakpoint.resize(480, name: MOBILE),
-                ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-                ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-                ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-              ],
-            ),
-          ),
+        ),
+        routeInformationParser: _rootRouter.defaultRouteParser(),
+        builder: (_, router) => ResponsiveWrapper.builder(
+          router,
+          maxWidth: 1200,
+          minWidth: 400,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+            ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+          ],
         ),
         localizationsDelegates: [
           LocaleNamesLocalizationsDelegate(),
@@ -147,8 +146,8 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: I10n.delegate.supportedLocales,
         localeResolutionCallback: (locale, supportedLocales) {
           for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
+            if (supportedLocale.languageCode == locale?.languageCode &&
+                supportedLocale.countryCode == locale?.countryCode) {
               return supportedLocale;
             }
           }

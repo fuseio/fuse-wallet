@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+// import 'package:barcode_scan/barcode_scan.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -115,29 +115,29 @@ void sendToPastedAddress(
 void barcodeScannerHandler(context) async {
   try {
     PermissionStatus permission = await Permission.camera.request();
-    if (permission == PermissionStatus.granted) {
-      ScanResult scanResult = await BarcodeScanner.scan();
-      final String rawData = scanResult.rawContent;
-      final bool hasColon = rawData.contains(':');
-      if (hasColon) {
-        List<String> parts = scanResult.rawContent.split(':');
-        bool expression =
-            parts.length == 2 && (parts[0] == 'fuse' || parts[0] == 'ethereum');
-        if (expression) {
-          final String accountAddress =
-              parts[0] == 'fuse' ? parts[1].replaceFirst('f', 'x') : parts[1];
-          if (isValidEthereumAddress(accountAddress)) {
-            sendToPastedAddress(accountAddress);
-          } else {
-            throw 'ERROR';
-          }
-        } else {
-          throw 'ERROR';
-        }
-      } else if (isValidEthereumAddress(rawData)) {
-        sendToPastedAddress(scanResult.rawContent);
-      }
-    }
+    // if (permission == PermissionStatus.granted) {
+    //   ScanResult scanResult = await BarcodeScanner.scan();
+    //   final String rawData = scanResult.rawContent;
+    //   final bool hasColon = rawData.contains(':');
+    //   if (hasColon) {
+    //     List<String> parts = scanResult.rawContent.split(':');
+    //     bool expression =
+    //         parts.length == 2 && (parts[0] == 'fuse' || parts[0] == 'ethereum');
+    //     if (expression) {
+    //       final String accountAddress =
+    //           parts[0] == 'fuse' ? parts[1].replaceFirst('f', 'x') : parts[1];
+    //       if (isValidEthereumAddress(accountAddress)) {
+    //         sendToPastedAddress(accountAddress);
+    //       } else {
+    //         throw 'ERROR';
+    //       }
+    //     } else {
+    //       throw 'ERROR';
+    //     }
+    //   } else if (isValidEthereumAddress(rawData)) {
+    //     sendToPastedAddress(scanResult.rawContent);
+    //   }
+    // }
   } catch (e) {
     log.error('ERROR - BarcodeScanner');
     Flushbar(

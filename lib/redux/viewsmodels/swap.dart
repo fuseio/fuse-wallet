@@ -14,31 +14,33 @@ class SwapViewModel extends Equatable {
   final Plugins plugins;
 
   SwapViewModel({
-    this.walletAddress,
-    this.tokens,
-    this.receiveTokens,
-    this.payWithTokens,
-    this.plugins,
+    required this.walletAddress,
+    required this.tokens,
+    required this.receiveTokens,
+    required this.payWithTokens,
+    required this.plugins,
   });
 
   static SwapViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
+    Community? community =
         store.state.cashWalletState.communities[communityAddress];
-    final List<Token> tokens = store.state.swapState?.tokens?.values?.toList();
-    final Token fusd = store.state.swapState?.tokens[fuseDollarToken.address];
-    final Token wfuse = tokens?.firstWhere(
-        (element) => element.symbol == 'WFUSE',
-        orElse: () => null);
-    final Token weth = tokens?.firstWhere((element) => element.symbol == 'WETH',
-        orElse: () => null);
-    final Token wbtc = tokens?.firstWhere((element) => element.symbol == 'WBTC',
-        orElse: () => null);
-    final List<Token> payWithTokens = tokens
+    final List<Token>? tokens = store.state.swapState?.tokens?.values?.toList();
+    final Token? fusd = store.state.swapState.tokens[fuseDollarToken.address];
+    final Token? wfuse = tokens?.firstWhere(
+      (element) => element.symbol == 'WFUSE',
+    );
+    final Token? weth = tokens?.firstWhere(
+      (element) => element.symbol == 'WETH',
+    );
+    final Token? wbtc = tokens?.firstWhere(
+      (element) => element.symbol == 'WBTC',
+    );
+    final List<Token>? payWithTokens = tokens
         ?.where((Token token) =>
             num.parse(token.getBalance(true)).compareTo(0) == 1)
         ?.toList();
-    final List<Token> receiveTokens = [
+    final List<Token>? receiveTokens = [
       fusd,
       wfuse,
       weth,
@@ -61,8 +63,8 @@ class SwapViewModel extends Equatable {
 
     return SwapViewModel(
       plugins: community?.plugins ?? Plugins(),
-      payWithTokens: payWithTokens,
-      receiveTokens: receiveTokens,
+      payWithTokens: payWithTokens ?? [],
+      receiveTokens: receiveTokens ?? [],
       walletAddress: store.state.userState.walletAddress,
       tokens: List<Token>.from(tokenList.reversed) ?? [],
     );

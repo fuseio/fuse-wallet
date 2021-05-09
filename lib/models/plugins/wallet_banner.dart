@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/plugins/plugin_base.dart';
 
 part 'wallet_banner.freezed.dart';
@@ -6,15 +7,15 @@ part 'wallet_banner.g.dart';
 
 @immutable
 @freezed
-abstract class WalletBannerPlugin with _$WalletBannerPlugin {
+class WalletBannerPlugin with _$WalletBannerPlugin {
   @Implements(Plugin)
   @JsonSerializable()
   factory WalletBannerPlugin({
     @Default('walletBanner') String type,
-    String walletBannerHash,
-    String name,
-    String link,
-    bool isActive,
+    required String walletBannerHash,
+    required String name,
+    required String link,
+    required bool isActive,
   }) = _WalletBannerPlugin;
 
   factory WalletBannerPlugin.fromJson(dynamic json) =>

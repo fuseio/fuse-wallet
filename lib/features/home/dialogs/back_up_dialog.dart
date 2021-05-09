@@ -17,11 +17,10 @@ class BackUpDialog extends StatefulWidget {
 
 class BackUpDialogState extends State<BackUpDialog>
     with SingleTickerProviderStateMixin {
-  BackUpDialogState();
 
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {

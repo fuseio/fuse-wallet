@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
@@ -56,27 +57,27 @@ Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
 
 @immutable
 @freezed
-abstract class CashWalletState implements _$CashWalletState {
+class CashWalletState with _$CashWalletState {
   const CashWalletState._();
 
   @JsonSerializable()
   factory CashWalletState({
-    String communityAddress,
-    @Default(true) bool isDepositBanner,
+    @Default(null) String? communityAddress,
+    @Default(true) bool? isDepositBanner,
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @JsonKey(fromJson: communitiesFromJson)
     @Default({})
         Map<String, Community> communities,
-    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
-    @JsonKey(ignore: true) String branchAddress,
-    @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
-    @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
-    @JsonKey(ignore: true) @Default(false) bool isTransfersFetchingStarted,
-    @JsonKey(ignore: true) @Default(false) bool isListeningToBranch,
-    @JsonKey(ignore: true) @Default(false) bool isBranchDataReceived,
-    @JsonKey(ignore: true) @Default(false) bool isCommunityBusinessesFetched,
-    @JsonKey(ignore: true) @Default(false) bool isJobProcessingStarted,
-    @JsonKey(ignore: true) bool isFetchingBalances,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
+    @JsonKey(ignore: true) String? branchAddress,
+    @JsonKey(ignore: true) @Default(false) bool? isCommunityLoading,
+    @JsonKey(ignore: true) @Default(false) bool? isCommunityFetched,
+    @JsonKey(ignore: true) @Default(false) bool? isTransfersFetchingStarted,
+    @JsonKey(ignore: true) @Default(false) bool? isListeningToBranch,
+    @JsonKey(ignore: true) @Default(false) bool? isBranchDataReceived,
+    @JsonKey(ignore: true) @Default(false) bool? isCommunityBusinessesFetched,
+    @JsonKey(ignore: true) @Default(false) bool? isJobProcessingStarted,
+    @JsonKey(ignore: true) @Default(false) bool? isFetchingBalances,
   }) = _CashWalletState;
 
   factory CashWalletState.initial() {

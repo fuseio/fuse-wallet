@@ -311,7 +311,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         (Community element) =>
             tokenAddress?.toLowerCase() ==
             element?.foreignTokenAddress?.toLowerCase(),
-        orElse: () => null);
+        );
     if (community != null) {
       Token token =
           store.state.cashWalletState.tokens[community?.homeTokenAddress];

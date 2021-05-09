@@ -18,7 +18,7 @@ class ProtectYourWallet extends StatefulWidget {
 }
 
 class _ProtectYourWalletState extends State<ProtectYourWallet> {
-  BiometricAuth _biometricType;
+  BiometricAuth? _biometricType;
 
   Future<void> _checkBiometricable() async {
     _biometricType = await BiometricUtils.getAvailableBiometrics();

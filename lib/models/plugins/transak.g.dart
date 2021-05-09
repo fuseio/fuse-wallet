@@ -10,8 +10,8 @@ _$_TransakPlugin _$_$_TransakPluginFromJson(Map<String, dynamic> json) {
   return _$_TransakPlugin(
     name: json['name'] as String,
     widgetUrl: json['widgetUrl'] as String,
-    type: json['type'] as String ?? 'deposit',
-    isActive: json['isActive'] as bool ?? false,
+    type: json['type'] as String? ?? 'deposit',
+    isActive: json['isActive'] as bool? ?? false,
   );
 }
 

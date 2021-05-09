@@ -12,17 +12,22 @@ class BridgeDialog extends StatefulWidget {
   final Token token;
   final bool isFuseToken;
   final Community community;
-  BridgeDialog({this.logo, this.community, this.token, this.isFuseToken});
+  BridgeDialog({
+    required this.logo,
+    required this.community,
+    required this.token,
+    required this.isFuseToken,
+  });
   @override
   _BridgeDialogState createState() => _BridgeDialogState();
 }
 
 class _BridgeDialogState extends State<BridgeDialog>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimatoin;
-  bool isPreloading = false;
-  String network;
+  late AnimationController controller;
+  late Animation<double> scaleAnimatoin;
+  late bool isPreloading = false;
+  late String network;
 
   @override
   void initState() {

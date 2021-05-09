@@ -16,8 +16,8 @@ class ContactsConfirmationScreen extends StatefulWidget {
 
 class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override

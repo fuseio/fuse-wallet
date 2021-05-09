@@ -11,9 +11,9 @@ _$_Business _$_$_BusinessFromJson(Map<String, dynamic> json) {
     metadata: json['metadata'] == null
         ? null
         : BusinessMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    account: json['account'] as String ?? '',
-    id: json['id'] as String ?? '',
-    name: json['name'] as String ?? '',
+    account: json['account'] as String? ?? '',
+    id: json['id'] as String? ?? '',
+    name: json['name'] as String? ?? '',
   );
 }
 

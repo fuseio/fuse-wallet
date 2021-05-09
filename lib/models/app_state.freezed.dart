@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'app_state.dart';
 
@@ -8,6 +8,10 @@ part of 'app_state.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 AppState _$AppStateFromJson(Map<String, dynamic> json) {
   return _AppState.fromJson(json);
 }
@@ -16,12 +20,11 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 class _$AppStateTearOff {
   const _$AppStateTearOff();
 
-// ignore: unused_element
   _AppState call(
-      {@UserStateConverter() UserState userState,
-      @CashWalletStateConverter() CashWalletState cashWalletState,
-      @ProWalletStateConverter() ProWalletState proWalletState,
-      SwapState swapState}) {
+      {@UserStateConverter() UserState userState = null,
+      @CashWalletStateConverter() CashWalletState cashWalletState = null,
+      @ProWalletStateConverter() ProWalletState proWalletState = null,
+      SwapState swapState = null}) {
     return _AppState(
       userState: userState,
       cashWalletState: cashWalletState,
@@ -30,29 +33,28 @@ class _$AppStateTearOff {
     );
   }
 
-// ignore: unused_element
   AppState fromJson(Map<String, Object> json) {
     return AppState.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $AppState = _$AppStateTearOff();
 
 /// @nodoc
 mixin _$AppState {
   @UserStateConverter()
-  UserState get userState;
+  UserState get userState => throw _privateConstructorUsedError;
   @CashWalletStateConverter()
-  CashWalletState get cashWalletState;
+  CashWalletState get cashWalletState => throw _privateConstructorUsedError;
   @ProWalletStateConverter()
-  ProWalletState get proWalletState;
-  SwapState get swapState;
+  ProWalletState get proWalletState => throw _privateConstructorUsedError;
+  SwapState get swapState => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $AppStateCopyWith<AppState> get copyWith;
+  $AppStateCopyWith<AppState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -81,30 +83,33 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object userState = freezed,
-    Object cashWalletState = freezed,
-    Object proWalletState = freezed,
-    Object swapState = freezed,
+    Object? userState = freezed,
+    Object? cashWalletState = freezed,
+    Object? proWalletState = freezed,
+    Object? swapState = freezed,
   }) {
     return _then(_value.copyWith(
-      userState:
-          userState == freezed ? _value.userState : userState as UserState,
+      userState: userState == freezed
+          ? _value.userState
+          : userState // ignore: cast_nullable_to_non_nullable
+              as UserState,
       cashWalletState: cashWalletState == freezed
           ? _value.cashWalletState
-          : cashWalletState as CashWalletState,
+          : cashWalletState // ignore: cast_nullable_to_non_nullable
+              as CashWalletState,
       proWalletState: proWalletState == freezed
           ? _value.proWalletState
-          : proWalletState as ProWalletState,
-      swapState:
-          swapState == freezed ? _value.swapState : swapState as SwapState,
+          : proWalletState // ignore: cast_nullable_to_non_nullable
+              as ProWalletState,
+      swapState: swapState == freezed
+          ? _value.swapState
+          : swapState // ignore: cast_nullable_to_non_nullable
+              as SwapState,
     ));
   }
 
   @override
   $UserStateCopyWith<$Res> get userState {
-    if (_value.userState == null) {
-      return null;
-    }
     return $UserStateCopyWith<$Res>(_value.userState, (value) {
       return _then(_value.copyWith(userState: value));
     });
@@ -112,9 +117,6 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
 
   @override
   $CashWalletStateCopyWith<$Res> get cashWalletState {
-    if (_value.cashWalletState == null) {
-      return null;
-    }
     return $CashWalletStateCopyWith<$Res>(_value.cashWalletState, (value) {
       return _then(_value.copyWith(cashWalletState: value));
     });
@@ -122,9 +124,6 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
 
   @override
   $ProWalletStateCopyWith<$Res> get proWalletState {
-    if (_value.proWalletState == null) {
-      return null;
-    }
     return $ProWalletStateCopyWith<$Res>(_value.proWalletState, (value) {
       return _then(_value.copyWith(proWalletState: value));
     });
@@ -132,9 +131,6 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
 
   @override
   $SwapStateCopyWith<$Res> get swapState {
-    if (_value.swapState == null) {
-      return null;
-    }
     return $SwapStateCopyWith<$Res>(_value.swapState, (value) {
       return _then(_value.copyWith(swapState: value));
     });
@@ -173,55 +169,76 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object userState = freezed,
-    Object cashWalletState = freezed,
-    Object proWalletState = freezed,
-    Object swapState = freezed,
+    Object? userState = freezed,
+    Object? cashWalletState = freezed,
+    Object? proWalletState = freezed,
+    Object? swapState = freezed,
   }) {
     return _then(_AppState(
-      userState:
-          userState == freezed ? _value.userState : userState as UserState,
+      userState: userState == freezed
+          ? _value.userState
+          : userState // ignore: cast_nullable_to_non_nullable
+              as UserState,
       cashWalletState: cashWalletState == freezed
           ? _value.cashWalletState
-          : cashWalletState as CashWalletState,
+          : cashWalletState // ignore: cast_nullable_to_non_nullable
+              as CashWalletState,
       proWalletState: proWalletState == freezed
           ? _value.proWalletState
-          : proWalletState as ProWalletState,
-      swapState:
-          swapState == freezed ? _value.swapState : swapState as SwapState,
+          : proWalletState // ignore: cast_nullable_to_non_nullable
+              as ProWalletState,
+      swapState: swapState == freezed
+          ? _value.swapState
+          : swapState // ignore: cast_nullable_to_non_nullable
+              as SwapState,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_AppState extends _AppState {
+
+@JsonSerializable()
+class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   _$_AppState(
-      {@UserStateConverter() this.userState,
-      @CashWalletStateConverter() this.cashWalletState,
-      @ProWalletStateConverter() this.proWalletState,
-      this.swapState})
+      {@UserStateConverter() this.userState = null,
+      @CashWalletStateConverter() this.cashWalletState = null,
+      @ProWalletStateConverter() this.proWalletState = null,
+      this.swapState = null})
       : super._();
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$_$_AppStateFromJson(json);
 
+  @JsonKey(defaultValue: null)
   @override
   @UserStateConverter()
   final UserState userState;
+  @JsonKey(defaultValue: null)
   @override
   @CashWalletStateConverter()
   final CashWalletState cashWalletState;
+  @JsonKey(defaultValue: null)
   @override
   @ProWalletStateConverter()
   final ProWalletState proWalletState;
+  @JsonKey(defaultValue: null)
   @override
   final SwapState swapState;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AppState(userState: $userState, cashWalletState: $cashWalletState, proWalletState: $proWalletState, swapState: $swapState)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AppState'))
+      ..add(DiagnosticsProperty('userState', userState))
+      ..add(DiagnosticsProperty('cashWalletState', cashWalletState))
+      ..add(DiagnosticsProperty('proWalletState', proWalletState))
+      ..add(DiagnosticsProperty('swapState', swapState));
   }
 
   @override
@@ -262,27 +279,28 @@ class _$_AppState extends _AppState {
 }
 
 abstract class _AppState extends AppState {
-  _AppState._() : super._();
   factory _AppState(
       {@UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
       @ProWalletStateConverter() ProWalletState proWalletState,
       SwapState swapState}) = _$_AppState;
+  _AppState._() : super._();
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
   @override
   @UserStateConverter()
-  UserState get userState;
+  UserState get userState => throw _privateConstructorUsedError;
   @override
   @CashWalletStateConverter()
-  CashWalletState get cashWalletState;
+  CashWalletState get cashWalletState => throw _privateConstructorUsedError;
   @override
   @ProWalletStateConverter()
-  ProWalletState get proWalletState;
+  ProWalletState get proWalletState => throw _privateConstructorUsedError;
   @override
-  SwapState get swapState;
+  SwapState get swapState => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$AppStateCopyWith<_AppState> get copyWith;
+  _$AppStateCopyWith<_AppState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

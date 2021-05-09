@@ -18,7 +18,7 @@ class TradeCard extends StatelessWidget {
   final void Function() onTap;
   final bool isSwapped;
 
-  TradeCard({
+  TradeCard(
     this.title,
     this.isSwapped,
     this.onTap,
@@ -26,7 +26,7 @@ class TradeCard extends StatelessWidget {
     this.onChanged,
     this.token,
     this.textEditingController,
-  });
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +77,12 @@ class TradeCard extends StatelessWidget {
                                       width: 35,
                                       height: 35,
                                       imageUrl: viewModel
-                                          .tokensImages[token?.address],
+                                              .tokensImages[token.address],
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
                                           DefaultLogo(
-                                        symbol: token?.symbol,
+                                        symbol: token.symbol,
                                         width: 35,
                                         height: 35,
                                       ),

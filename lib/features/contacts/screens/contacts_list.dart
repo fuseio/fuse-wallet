@@ -22,8 +22,8 @@ import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
-  final SendFlowArguments pageArgs;
-  final bool automaticallyImplyLeading;
+  final SendFlowArguments? pageArgs;
+  final bool? automaticallyImplyLeading;
   ContactsList({
     this.pageArgs,
     this.automaticallyImplyLeading = false,
@@ -35,7 +35,7 @@ class ContactsList extends StatefulWidget {
 class _ContactsListState extends State<ContactsList> {
   List<Contact> filteredUsers = [];
   TextEditingController searchController = TextEditingController();
-  List<Contact> _contacts;
+  late List<Contact> _contacts;
 
   @override
   void initState() {
@@ -59,13 +59,13 @@ class _ContactsListState extends State<ContactsList> {
       builder: (_, viewModel) {
         return _contacts != null
             ? MyScaffold(
-                automaticallyImplyLeading: widget.automaticallyImplyLeading,
+                automaticallyImplyLeading: (widget.automaticallyImplyLeading)!,
                 title: I10n.of(context).send_to,
                 body: InkWell(
                   focusColor: Theme.of(context).canvasColor,
                   highlightColor: Theme.of(context).canvasColor,
                   onTap: () {
-                    WidgetsBinding.instance.focusManager.primaryFocus
+                    WidgetsBinding.instance!.focusManager.primaryFocus
                         ?.unfocus();
                   },
                   child: Column(
@@ -114,7 +114,7 @@ class _ContactsListState extends State<ContactsList> {
     List<Contact> users = [];
     users.addAll(_contacts);
     if (searchController.text.isNotEmpty) {
-      users.retainWhere((user) => user.displayName
+      users.retainWhere((user) => user.displayName!
           .toLowerCase()
           .contains(searchController.text.toLowerCase()));
     }
@@ -136,36 +136,36 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   SliverList listBody(ContactsViewModel viewModel, List<Contact> group) {
-    List<Widget> listItems = List();
+    List<Widget> listItems = <Widget>[];
     for (Contact user in group) {
-      Iterable<Item> phones = user.phones
-          .map((e) => Item(value: clearNotNumbersAndPlusSymbol(e.value)))
+      Iterable<Item> phones = user.phones!
+          .map((e) => Item(value: clearNotNumbersAndPlusSymbol(e.value!)))
           .toSet()
           .toList();
       for (Item phone in phones) {
         listItems.add(
           ContactTile(
-            image: user.avatar != null && user.avatar.isNotEmpty
-                ? MemoryImage(user.avatar)
-                : null,
-            displayName: user.displayName,
-            phoneNumber: phone.value,
+            image: (user.avatar != null && user.avatar!.isNotEmpty
+                ? MemoryImage(user.avatar!)
+                : null)!,
+            displayName: user.displayName!,
+            phoneNumber: phone.value!,
             onTap: () {
               resetSearch();
               sendToContact(
                 ExtendedNavigator.named('contactsRouter').context,
-                user.displayName,
-                phone.value,
-                tokenToSend: widget?.pageArgs?.tokenToSend,
+                user.displayName!,
+                phone.value!,
+                tokenToSend: widget.pageArgs!.tokenToSend,
                 isoCode: viewModel.isoCode,
                 countryCode: viewModel.countryCode,
-                avatar: user.avatar != null && user.avatar.isNotEmpty
-                    ? MemoryImage(user.avatar)
-                    : new AssetImage('assets/images/anom.png'),
+                // avatar: (user.avatar != null && user.avatar!.isNotEmpty
+                //     ? MemoryImage(user.avatar!)
+                //     : new AssetImage('assets/images/anom.png')),
               );
             },
             trailing: Text(
-              phone.value,
+              phone.value!,
               style: TextStyle(fontSize: 13),
             ),
           ),
@@ -195,17 +195,17 @@ class _ContactsListState extends State<ContactsList> {
         SendToAccount(
           accountAddress: accountAddress,
           resetSearch: resetSearch,
-          token: widget?.pageArgs?.tokenToSend,
+          token: widget.pageArgs!.tokenToSend,
         ),
       );
     } else {
       Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
       for (Contact c in filteredUsers) {
-        String groupName = c.displayName[0];
+        String groupName = c.displayName![0];
         if (!groups.containsKey(groupName)) {
-          groups[groupName] = new List<Contact>();
+          groups[groupName] = [];
         }
-        groups[groupName].add(c);
+        groups[groupName]!.add(c);
       }
 
       if (groups.isEmpty) {
@@ -218,14 +218,14 @@ class _ContactsListState extends State<ContactsList> {
           listItems.insert(
             1,
             RecentContacts(
-              token: widget?.pageArgs?.tokenToSend,
+              token: widget.pageArgs!.tokenToSend,
             ),
           );
         }
       } else {
         List<String> titles = groups.keys.toList()..sort();
         for (String title in titles) {
-          List<Contact> group = groups[title];
+          List<Contact> group = groups[title]!;
           listItems.add(ListHeader(title: title));
           listItems.add(listBody(viewModel, group));
         }
@@ -233,7 +233,7 @@ class _ContactsListState extends State<ContactsList> {
           listItems.insert(
             1,
             RecentContacts(
-              token: widget?.pageArgs?.tokenToSend,
+              token: widget.pageArgs!.tokenToSend,
             ),
           );
         }

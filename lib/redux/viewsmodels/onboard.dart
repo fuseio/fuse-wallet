@@ -26,22 +26,23 @@ class OnboardViewModel extends Equatable {
   final dynamic signupErrorMessage;
   final Function resetErrors;
 
-  OnboardViewModel(
-      {this.setSecurityType,
-      this.countryCode,
-      this.phoneNumber,
-      this.accountAddress,
-      this.verificationId,
-      this.credentials,
-      this.signUp,
-      this.verify,
-      this.setPincode,
-      this.setDisplayName,
-      this.isLoginRequest,
-      this.isVerifyRequest,
-      this.verifyErrorMessage,
-      this.signupErrorMessage,
-      this.resetErrors});
+  OnboardViewModel({
+    required this.setSecurityType,
+    required this.countryCode,
+    required this.phoneNumber,
+    required this.accountAddress,
+    required this.verificationId,
+    required this.credentials,
+    required this.signUp,
+    required this.verify,
+    required this.setPincode,
+    required this.setDisplayName,
+    required this.isLoginRequest,
+    required this.isVerifyRequest,
+    required this.verifyErrorMessage,
+    required this.signupErrorMessage,
+    required this.resetErrors,
+  });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
     final String accountAddress = store.state.userState.accountAddress;

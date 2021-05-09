@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
@@ -14,7 +15,7 @@ part 'token.g.dart';
 
 @immutable
 @freezed
-abstract class Token implements _$Token, Comparable<Token> {
+class Token with _$Token implements Comparable<Token> {
   const Token._();
 
   @override
@@ -26,21 +27,21 @@ abstract class Token implements _$Token, Comparable<Token> {
 
   @JsonSerializable()
   factory Token({
-    String address,
-    String name,
+    String? address,
+    String? name,
     @Default(false) bool isNative,
-    String symbol,
-    String imageUrl,
-    int decimals,
-    BigInt amount,
-    @JsonKey(ignore: true) String subtitle,
-    int timestamp,
-    Price priceInfo,
-    String communityAddress,
-    String originNetwork,
-    num priceChange,
-    List<Stats> stats,
-    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
+    String? symbol,
+    String? imageUrl,
+    int? decimals,
+    BigInt? amount,
+    @JsonKey(ignore: true) String? subtitle,
+    int? timestamp,
+    Price? priceInfo,
+    String? communityAddress,
+    String? originNetwork,
+    num? priceChange,
+    List<Stats>? stats,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
   }) = _Token;
 
   String getBalance([withPrecision = false]) => formatValue(

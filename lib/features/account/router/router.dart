@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route_annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/features/account/screens/account_screen.dart';
 import 'package:fusecash/features/account/screens/done_backup_screen.dart';
 import 'package:fusecash/features/account/screens/profile.dart';
@@ -8,22 +8,37 @@ import 'package:fusecash/features/account/screens/show_mnemonic.dart';
 import 'package:fusecash/features/account/screens/social_screen.dart';
 import 'package:fusecash/features/account/screens/verify_mnemonic.dart';
 
-@MaterialAutoRouter(
-  routesClassName: "AccountRoutes",
-  generateNavigationHelperExtension: true,
-  routes: <AutoRoute>[
-    MaterialRoute(
+
+const accountTab = AutoRoute(
+  path: 'account',
+  name: 'accountTab',
+  page: EmptyRouterPage,
+  children: [
+    AutoRoute(
       page: AccountScreen,
       name: 'accountScreen',
       initial: true,
     ),
-    MaterialRoute(page: ShowMnemonic),
-    MaterialRoute(page: VerifyMnemonic),
-    MaterialRoute(page: DoneBackup),
-    MaterialRoute(page: SettingsScreen),
-    MaterialRoute(page: ProtectYourWallet),
-    MaterialRoute(page: ProfileScreen),
-    MaterialRoute(page: SocialScreen),
+    AutoRoute(
+      page: ShowMnemonic,
+    ),
+    AutoRoute(
+      page: VerifyMnemonic,
+    ),
+    AutoRoute(
+      page: DoneBackup,
+    ),
+    AutoRoute(
+      page: SettingsScreen,
+    ),
+    AutoRoute(
+      page: ProtectYourWallet,
+    ),
+    AutoRoute(
+      page: ProfileScreen,
+    ),
+    AutoRoute(
+      page: SocialScreen,
+    ),
   ],
-)
-class $AccountRouter {}
+);

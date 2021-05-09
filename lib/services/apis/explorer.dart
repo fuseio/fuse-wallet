@@ -12,13 +12,13 @@ class Explorer {
 
   Explorer(
     this.dio,
-    @factoryParam String base,
-    @factoryParam String apiKey,
+    @factoryParam String? base,
+    @factoryParam String? apiKey,
   ) {
     if (apiKey != null) {
       dio.options.queryParameters = Map.from({'apiKey': apiKey});
     }
-    dio.options.baseUrl = base;
+    dio.options.baseUrl = base ?? '';
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
     // if (kDebugMode) {

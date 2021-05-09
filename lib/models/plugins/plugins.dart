@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/plugins/backup_bonus.dart';
 import 'package:fusecash/models/plugins/invite_bonus.dart';
 import 'package:fusecash/models/plugins/join_bonus.dart';
@@ -25,25 +26,21 @@ InviteBonusPlugin inviteBonusPluginFromJson(json) =>
 
 @immutable
 @freezed
-abstract class Plugins implements _$Plugins {
+class Plugins with _$Plugins {
   const Plugins._();
 
   @JsonSerializable()
   factory Plugins({
-    @nullable @JsonKey(includeIfNull: false) RampInstantPlugin rampInstant,
-    @nullable @JsonKey(includeIfNull: false) MoonpayPlugin moonpay,
-    @nullable @JsonKey(includeIfNull: false) TransakPlugin transak,
-    @nullable
-    @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+    @Default(null) @JsonKey(includeIfNull: false) RampInstantPlugin rampInstant,
+    @Default(null) @JsonKey(includeIfNull: false) MoonpayPlugin moonpay,
+    @Default(null) @JsonKey(includeIfNull: false) TransakPlugin transak,
+    @Default(null) @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
         WalletBannerPlugin walletBanner,
-    @nullable
-    @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+    @Default(null) @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
         JoinBonusPlugin joinBonus,
-    @nullable
-    @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+    @Default(null) @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
         BackupBonusPlugin backupBonus,
-    @nullable
-    @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+    @Default(null) @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
         InviteBonusPlugin inviteBonus,
   }) = _Plugins;
 

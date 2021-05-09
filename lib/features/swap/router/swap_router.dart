@@ -1,15 +1,16 @@
-import 'package:auto_route/auto_route_annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/features/swap/screens/swap.dart';
 
-@MaterialAutoRouter(
-  generateNavigationHelperExtension: true,
-  routesClassName: "SwapRoutes",
-  routes: <AutoRoute>[
-    MaterialRoute(
+const swapTab = AutoRoute(
+  path: 'swap',
+  name: 'swapTab',
+  page: EmptyRouterPage,
+  children: [
+    AutoRoute(
       initial: true,
       page: SwapScreen,
       name: 'swapScreen',
     ),
   ],
-)
-class $SwapRouter {}
+);
+

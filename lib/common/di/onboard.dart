@@ -6,6 +6,6 @@ import 'package:injectable/injectable.dart';
 abstract class OnBoardStrategy {
   @lazySingleton
   IOnBoardStrategy get onBoardStrategy => OnBoardStrategyFactory.create(
-        env['ON_BOARDING_STRATEGY'],
+        env['ON_BOARDING_STRATEGY'] ?? 'sms',
       );
 }

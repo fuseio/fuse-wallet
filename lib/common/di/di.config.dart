@@ -34,7 +34,7 @@ import 'phone.dart' as _i24; // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
 Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
-    {String environment, _i2.EnvironmentFilter environmentFilter}) async {
+    {String? environment, _i2.EnvironmentFilter? environmentFilter}) async {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   final servicesModule = _$ServicesModule();
   final dioDi = _$DioDi();
@@ -47,7 +47,7 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i3.API>(() => servicesModule.api);
   gh.factory<_i4.Dio>(() => dioDi.dio);
   gh.lazySingleton<_i5.Exchange>(() => _i5.Exchange(get<_i4.Dio>()));
-  gh.factoryParam<_i6.Explorer, String, String>(
+  gh.factoryParam<_i6.Explorer, String?, String?>(
       (base, apiKey) => _i6.Explorer(get<_i4.Dio>(), base, apiKey));
   gh.factory<_i7.FirebaseAnalytics>(
       () => firebaseInjectableModule.firebaseAnalytics);
@@ -69,11 +69,11 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i16.PhoneNumberUtil>(() => phone.phoneNumberUtil);
   gh.factory<String>(() => web3Di.defaultCommunityAddress,
       instanceName: 'defaultCommunityAddress');
-  gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>, dynamic>(
+  gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>?, dynamic>(
       (walletModules, _) => web3Di.fuseWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
       instanceName: 'fuseWeb3');
-  gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>, dynamic>(
+  gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>?, dynamic>(
       (walletModules, _) => web3Di.ethereumWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
       instanceName: 'ethereumWeb3');

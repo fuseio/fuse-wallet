@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
           (Map code) => code['code'] == myLocale.countryCode,
-          orElse: () => null);
+          );
       if (mounted && localeData != null) {
         setState(() {
           countryCode = CountryCode(

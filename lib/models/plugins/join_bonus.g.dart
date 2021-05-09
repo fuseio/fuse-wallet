@@ -8,7 +8,7 @@ part of 'join_bonus.dart';
 
 _$_JoinBonusPlugin _$_$_JoinBonusPluginFromJson(Map<String, dynamic> json) {
   return _$_JoinBonusPlugin(
-    type: json['type'] as String ?? 'joinBonus',
+    type: json['type'] as String? ?? 'joinBonus',
     amount: json['amount'] as String,
     name: json['name'] as String,
     isActive: json['isActive'] as bool,

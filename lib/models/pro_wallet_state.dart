@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -17,15 +18,15 @@ Map<String, Token> erc20TokensFromJson(Map<String, dynamic> json) =>
 
 @immutable
 @freezed
-abstract class ProWalletState implements _$ProWalletState {
+class ProWalletState with _$ProWalletState {
   const ProWalletState._();
 
   @JsonSerializable()
   factory ProWalletState({
-    @JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
+    @Default(null) @JsonKey(fromJson: balanceFromJson) BigInt? etherBalance,
     @JsonKey(fromJson: erc20TokensFromJson)
     @Default({})
-        Map<String, Token> erc20Tokens,
+        Map<String, Token>? erc20Tokens,
     @JsonKey(ignore: true) @Default(false) bool isFetchTransferEvents,
     @JsonKey(ignore: true) @Default(false) bool isListenToTransferEvents,
     @JsonKey(ignore: true) @Default(false) bool isProcessingTokensJobs,
