@@ -2,7 +2,6 @@ import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/features/screens/home_screen.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
