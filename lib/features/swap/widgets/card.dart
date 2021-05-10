@@ -139,7 +139,10 @@ class TradeCard extends StatelessWidget {
                       textAlign: TextAlign.end,
                       onChanged: onChanged,
                       controller: textEditingController,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.numberWithOptions(
+                        signed: false,
+                        decimal: true,
+                      ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         fillColor: isSwapped

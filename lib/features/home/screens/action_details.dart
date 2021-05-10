@@ -160,13 +160,10 @@ class ActionDetailsScreen extends StatelessWidget {
                               children: <Widget>[
                                 action.isSwapAction()
                                     ? SizedBox.shrink()
-                                    : Hero(
-                                        child: CircleAvatar(
-                                          backgroundColor: Color(0xFFE0E0E0),
-                                          radius: 22,
-                                          backgroundImage: image,
-                                        ),
-                                        tag: action.hashCode,
+                                    : CircleAvatar(
+                                        backgroundColor: Color(0xFFE0E0E0),
+                                        radius: 22,
+                                        backgroundImage: image,
                                       ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 10),

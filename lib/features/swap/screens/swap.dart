@@ -412,6 +412,7 @@ class _SwapScreenState extends State<SwapScreen>
             final Token receiveToken = newViewModel.receiveTokens
                 .firstWhere((element) => element.address != payWith.address);
             setState(() {
+              hasFund = null;
               tokenOutController.text = '';
               tokenInController.text = '';
               info = null;

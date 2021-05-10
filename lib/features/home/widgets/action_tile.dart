@@ -222,13 +222,10 @@ class ActionTile extends StatelessWidget {
         final Widget leading = Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            Hero(
-              child: CircleAvatar(
-                backgroundColor: Color(0xFFE0E0E0),
-                radius: 25,
-                backgroundImage: image,
-              ),
-              tag: action.hashCode,
+            CircleAvatar(
+              backgroundColor: Color(0xFFE0E0E0),
+              radius: 25,
+              backgroundImage: image,
             ),
             action.isPending()
                 ? Container(

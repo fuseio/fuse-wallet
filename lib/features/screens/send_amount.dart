@@ -131,12 +131,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     } else if (back) {
       if (amountText.length == 0) return;
       amountText = amountText.substring(0, amountText.length - 1);
+    } else if (amountText == '.') {
+      amountText = amountText + value;
     } else {
       if (amountText == '0' && value == '0') {
         amountText = '0';
       } else {
         String newAmount = amountText + value;
-        amountText = newAmount;
+        amountText = Decimal.parse(newAmount).toString();
       }
     }
     setState(() {});
@@ -144,6 +146,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
       final bool hasFund = amountText != null &&
           amountText != '' &&
           amountText != '0' &&
+          (Decimal.tryParse(amountText)).compareTo(Decimal.parse('0.0')) == 1 &&
           (Decimal.tryParse(amountText)).compareTo(
                 Decimal.parse(
                   formatValue(
@@ -195,8 +198,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             selectedToken.decimals,
             withPrecision: true,
           );
-          if ((Decimal.tryParse(max) ?? Decimal.zero) >
-              (Decimal.parse(amountText) ?? Decimal.zero)) {
+          if (Decimal.parse(max).compareTo((Decimal.parse(amountText) ?? 0)) !=
+              0) {
             _onKeyPress(max, max: true);
           }
         },
@@ -370,8 +373,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               width: 28,
                             ),
                             leftButtonFn: () {
-                              if (amountText.contains('.')) return;
-                              _onKeyPress('.');
+                              if (amountText.contains('.')) {
+                                return;
+                              } else {
+                                String newAmount = amountText + '.';
+                                setState(() {
+                                  amountText = newAmount;
+                                });
+                              }
                             },
                             leftIcon: Icon(
                               Icons.fiber_manual_record,

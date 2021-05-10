@@ -498,9 +498,9 @@ ThunkAction getTokenBalanceCall(Token token) {
         await Sentry.captureException(
           e,
           stackTrace: s,
-          hint: 'Error - fetch token balance ${token.name} $e',
+          hint: 'Error - fetch token balance ${token.name} ${e.toString()}',
         );
-        log.error('Error - fetch token balance ${token.name} $e');
+        log.error('Error - fetch token balance ${token.name} ${e.toString()}');
       };
       await token.fetchBalance(
         walletAddress,
