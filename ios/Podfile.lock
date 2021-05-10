@@ -138,7 +138,7 @@ PODS:
     - Flutter
     - Plaid (= 1.1.38)
   - PromisesObjC (1.2.12)
-  - Protobuf (3.14.0)
+  - Protobuf (3.16.0)
   - Reachability (3.2)
   - SAMKeychain (1.5.3)
   - Segment-Branch (0.1.24):
@@ -149,11 +149,11 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - Stripe (19.4.0)
+  - Stripe (19.4.1)
   - stripe_payment (1.0.0):
     - Flutter
     - Stripe (~> 19.4.0)
-  - SwiftProtobuf (1.15.0)
+  - SwiftProtobuf (1.16.0)
   - url_launcher (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -314,18 +314,18 @@ SPEC CHECKSUMS:
   Plaid: e09b44fb14245ac650eeccd7a1d57896c0b64b7b
   plaid_flutter: ee9d380d0cf240c37d3ab27e4e07a81d0a1cfa5c
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
+  Protobuf: 8e78b4aabb47d17f379fb10b0d22ed5439e69b95
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   Segment-Branch: 5e91faad404e1af9998f5a2bbd44522a0f071786
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  Stripe: 92f1c73a9dbd3c54277ed06a1fea6e08f20414c6
+  Stripe: 5914399ac5878056b985d56b409cb4bb1e7fc7e8
   stripe_payment: 1cbe9c339c21b5ecf01035e80eea351067c67c56
-  SwiftProtobuf: 3320217e9d8fb75f36b40282e78c482640fd75dd
+  SwiftProtobuf: 4e16842b83c6fda06b10fac50d73b3f1fce8ab7b
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: 348dad678b7cce6be8a224f25af1488a984f0e6a
+PODFILE CHECKSUM: 3efef3e4c4241ddf19165efb8229df7447127bfd
 
 COCOAPODS: 1.10.1
