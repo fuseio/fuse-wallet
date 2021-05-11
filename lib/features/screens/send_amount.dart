@@ -143,10 +143,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     }
     setState(() {});
     try {
-      final bool hasFund = amountText != null &&
-          amountText != '' &&
-          amountText != '0' &&
-          (Decimal.tryParse(amountText)).compareTo(Decimal.parse('0.0')) == 1 &&
+      final bool hasFund = ![null, '', '0'].contains(amountText) &&
           (Decimal.tryParse(amountText)).compareTo(
                 Decimal.parse(
                   formatValue(

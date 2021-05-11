@@ -62,6 +62,7 @@ class BottomBar extends StatelessWidget {
           bottomBarItem(I10n.of(context).home, 'home'),
           bottomBarItem(I10n.of(context).send_button, 'send'),
           bottomBarItem(I10n.of(context).swap, 'swap'),
+          bottomBarItem(I10n.of(context).earn, 'earn'),
           bottomBarItem(I10n.of(context).account, 'account'),
         ],
         onTap: onTap,

@@ -5,6 +5,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/features/account/router/router.gr.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
+import 'package:fusecash/features/earn/router/router.gr.dart';
 import 'package:fusecash/features/home/router/router.gr.dart';
 import 'package:fusecash/features/contacts/router/router.gr.dart';
 import 'package:fusecash/features/swap/router/swap_router.gr.dart';
@@ -89,6 +90,16 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               ExtendedNavigator(
                 router: SwapRouter(),
                 name: 'swapRouter',
+                observers: [
+                  FirebaseAnalyticsObserver(
+                      analytics: getIt<FirebaseAnalytics>()),
+                  SegmentObserver(),
+                  SentryNavigatorObserver(),
+                ],
+              ),
+              ExtendedNavigator(
+                router: EarnRouter(),
+                name: 'earnRouter',
                 observers: [
                   FirebaseAnalyticsObserver(
                       analytics: getIt<FirebaseAnalytics>()),

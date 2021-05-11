@@ -475,6 +475,26 @@ class I10n {
     );
   }
 
+  /// `Earn`
+  String get earn {
+    return Intl.message(
+      'Earn',
+      name: 'earn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance.`
+  String get earn_description {
+    return Intl.message(
+      'Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance.',
+      name: 'earn_description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit`
   String get edit {
     return Intl.message(
@@ -695,6 +715,26 @@ class I10n {
     );
   }
 
+  /// `Fuse Dollar`
+  String get fuse_dollar {
+    return Intl.message(
+      'Fuse Dollar',
+      name: 'fuse_dollar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fuse Dollars is a dollar pegged stable cryptocurrency that is minted on the Fuse blockchain and was created in order to lower barrier for mainstream users to use this new asset type just like they use cash.\nFuse Dollar is free to move between accounts on the Fuse.cash app and swap them for other currencies and even hold them is a yield bearing savings account.`
+  String get fuse_dollar_explained {
+    return Intl.message(
+      'Fuse Dollars is a dollar pegged stable cryptocurrency that is minted on the Fuse blockchain and was created in order to lower barrier for mainstream users to use this new asset type just like they use cash.\nFuse Dollar is free to move between accounts on the Fuse.cash app and swap them for other currencies and even hold them is a yield bearing savings account.',
+      name: 'fuse_dollar_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code`
   String get fuse_studio {
     return Intl.message(
@@ -745,6 +785,16 @@ class I10n {
     );
   }
 
+  /// `Go to token page`
+  String get go_to_token_page {
+    return Intl.message(
+      'Go to token page',
+      name: 'go_to_token_page',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Hello`
   String get hi {
     return Intl.message(
@@ -770,6 +820,16 @@ class I10n {
     return Intl.message(
       'How much?',
       name: 'how_much',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How does Fuse Dollar keeps it’s peg to USD?`
+  String get how_peg {
+    return Intl.message(
+      'How does Fuse Dollar keeps it’s peg to USD?',
+      name: 'how_peg',
       desc: '',
       args: [],
     );
@@ -950,6 +1010,16 @@ class I10n {
     return Intl.message(
       'Language',
       name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Learn about Fuse Dollar`
+  String get learn_about_fuse_dollar {
+    return Intl.message(
+      'Learn about Fuse Dollar',
+      name: 'learn_about_fuse_dollar',
       desc: '',
       args: [],
     );
@@ -1200,6 +1270,16 @@ class I10n {
     return Intl.message(
       'Pay with',
       name: 'pay_with',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fuse Dollar (fUSD) is fully backed by USDC which is a fully backed us regulated stablecoin minted by circle.com and is widely used in the decentralized finance space. The Fuse network will add more stablecoins to aggregate yield, add stability and remove friction for on boarding and off boarding between crypto and fiat.\nGo to fuse.io to learn more about the Fuse network and read how things work behind the scenes.`
+  String get peg_explained {
+    return Intl.message(
+      'Fuse Dollar (fUSD) is fully backed by USDC which is a fully backed us regulated stablecoin minted by circle.com and is widely used in the decentralized finance space. The Fuse network will add more stablecoins to aggregate yield, add stability and remove friction for on boarding and off boarding between crypto and fiat.\nGo to fuse.io to learn more about the Fuse network and read how things work behind the scenes.',
+      name: 'peg_explained',
       desc: '',
       args: [],
     );
