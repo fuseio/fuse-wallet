@@ -536,6 +536,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_localized_locales:
+    dependency: "direct main"
+    description:
+      name: flutter_localized_locales
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   flutter_native_splash:
     dependency: "direct dev"
     description:
@@ -1272,6 +1279,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.2"
+  span_builder:
+    dependency: "direct main"
+    description:
+      name: span_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   sqflite:
     dependency: transitive
     description:

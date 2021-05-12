@@ -7,6 +7,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
@@ -136,6 +137,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         localizationsDelegates: [
+          LocaleNamesLocalizationsDelegate(),
           I10n.delegate,
           CountryLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

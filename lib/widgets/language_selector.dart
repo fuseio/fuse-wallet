@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/app.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:country_code_picker/country_codes.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/language_selector.dart';
 
@@ -61,16 +61,13 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     Locale currentLocal = Localizations.localeOf(context);
     return I10n.delegate.supportedLocales.map((locale) {
       bool isSelected = currentLocal == locale;
-      Map code = codes.firstWhere((code) => code['code'] == locale.countryCode,
-          orElse: () => null);
-      String name = code['name'] ?? locale.countryCode;
       return ListTile(
         contentPadding: EdgeInsets.only(
           top: 5,
           bottom: 5,
         ),
         title: Text(
-          name,
+          LocaleNames.of(context).nameOf(locale.toString()),
         ),
         trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
         selected: isSelected,

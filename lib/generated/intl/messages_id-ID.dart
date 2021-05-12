@@ -105,7 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "how_peg" : MessageLookupByLibrary.simpleMessage("How does Fuse Dollar keeps it’s peg to USD?"),
     "important" : MessageLookupByLibrary.simpleMessage("Penting!"),
     "initializing_wallet" : MessageLookupByLibrary.simpleMessage("Initializing your wallet on Fuse"),
-    "insufficient_fund" : MessageLookupByLibrary.simpleMessage("Insufficient fund"),
+    "insufficient_fund" : MessageLookupByLibrary.simpleMessage("Insufficient funds"),
     "intro_text_one" : MessageLookupByLibrary.simpleMessage("Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih"),
     "intro_text_three" : MessageLookupByLibrary.simpleMessage("Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan"),
     "intro_text_two" : MessageLookupByLibrary.simpleMessage("Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar"),

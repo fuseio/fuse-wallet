@@ -42,6 +42,32 @@ class EarnComingSoonScreen extends StatelessWidget {
                 'assets/images/green_fusd.svg',
               ),
             ),
+            Positioned(
+              bottom: 30,
+              child: OutlineButton(
+                focusColor: Theme.of(context).colorScheme.onSurface,
+                hoverColor: Theme.of(context).colorScheme.onSurface,
+                highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                textColor: Theme.of(context).colorScheme.onSurface,
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  width: 2.0,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.0),
+                ),
+                child: Text(
+                  I10n.of(context).coming_soon + '!',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ),
             Positioned.fill(
               child: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -32,8 +32,7 @@ class SwapScreen extends StatefulWidget {
   _SwapScreenState createState() => _SwapScreenState();
 }
 
-class _SwapScreenState extends State<SwapScreen>
-    with SingleTickerProviderStateMixin {
+class _SwapScreenState extends State<SwapScreen> {
   final tokenOutDebouncer = Debouncer(milliseconds: 1000);
   final tokenInDebouncer = Debouncer(milliseconds: 1000);
   TextEditingController tokenInController = TextEditingController();
@@ -68,6 +67,7 @@ class _SwapScreenState extends State<SwapScreen>
       tokenInController.text = '';
       rateInfo = null;
       info = null;
+      hasFund = null;
       swapRequestBody = swapRequestBody.copyWith(
         amountIn: '0',
       );

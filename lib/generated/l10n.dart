@@ -855,10 +855,10 @@ class I10n {
     );
   }
 
-  /// `Insufficient fund`
+  /// `Insufficient funds`
   String get insufficient_fund {
     return Intl.message(
-      'Insufficient fund',
+      'Insufficient funds',
       name: 'insufficient_fund',
       desc: '',
       args: [],
