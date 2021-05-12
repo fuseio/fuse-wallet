@@ -153,6 +153,16 @@ class _TopupScreenState extends State<TopupScreen>
     }
   }
 
+  //decimal place checker
+  String decimalChecker(double a, {int decimalPlaces = 2}) {
+    List<String> values = a.toString().split('.');
+    if (values.length == 2 && values[1].length > decimalPlaces) {
+      return "Too long";
+    } else {
+      return a.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _onKeyPress(VirtualKeyboardKey key) {
@@ -163,7 +173,9 @@ class _TopupScreenState extends State<TopupScreen>
         if (amountText == "0") {
           amountText = "";
         }
-        if (!(num.parse(amountText + key.text) > 250)) {
+        if (!(num.parse(amountText + key.text) > 250) &&
+            !(decimalChecker(double.parse(amountText + key.text)) ==
+                'Too long')) {
           // Don't allow topping up more than £250
           amountText = amountText + key.text;
         }
