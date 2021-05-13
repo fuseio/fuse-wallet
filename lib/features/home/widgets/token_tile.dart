@@ -5,6 +5,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/home/widgets/button.dart';
+import 'package:fusecash/features/home/widgets/price.dart';
+import 'package:fusecash/features/home/widgets/price_change.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
@@ -282,9 +284,6 @@ class TokenTile extends StatelessWidget {
       builder: (_, viewModel) {
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
-        final String price = !showCurrentPrice
-            ? token?.getFiatBalance()
-            : display(num.tryParse(token?.priceInfo?.quote) ?? 0);
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
               element?.homeTokenAddress?.toLowerCase() != null &&
@@ -369,53 +368,79 @@ class TokenTile extends StatelessWidget {
             ? Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    verticalDirection: VerticalDirection.down,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: <Widget>[
-                      AutoSizeText.rich(
-                        TextSpan(
-                          style: TextStyle(
-                            fontFamily: 'Europa',
-                            color: Color(0xFF292929),
-                          ),
-                          children: <TextSpan>[
-                            hasPriceInfo
-                                ? TextSpan(
-                                    text: '\$' + price,
-                                  )
-                                : TextSpan(
-                                    text: token.getBalance() +
-                                        ' ' +
-                                        token?.symbol,
+                  showCurrentPrice
+                      ? TokenPrice(
+                          address: token.address,
+                        )
+                      : Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            verticalDirection: VerticalDirection.down,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: <Widget>[
+                              Flexible(
+                                child: AutoSizeText.rich(
+                                  TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Europa',
+                                      color: Color(0xFF292929),
+                                    ),
+                                    children: <TextSpan>[
+                                      hasPriceInfo
+                                          ? TextSpan(
+                                              text: '\$' +
+                                                  token?.getFiatBalance(),
+                                            )
+                                          : TextSpan(
+                                              text: token.getBalance() +
+                                                  ' ' +
+                                                  token?.symbol,
+                                            ),
+                                    ],
                                   ),
-                          ],
-                        ),
-                        presetFontSizes: [15],
-                      ),
-                      hasPriceInfo && !showCurrentPrice
-                          ? Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text(
-                                token.getBalance() + ' ' + token?.symbol,
-                                style: TextStyle(
-                                  color: Color(0xFF292929),
-                                  fontSize: 10,
+                                  presetFontSizes: [15],
                                 ),
                               ),
-                            )
-                          : SizedBox.shrink()
-                    ],
-                  ),
-                  showCurrentPrice ? token?.getPriceChange() : SizedBox.shrink()
+                              hasPriceInfo
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: AutoSizeText(
+                                        token.getBalance() +
+                                            ' ' +
+                                            token?.symbol,
+                                        style: TextStyle(
+                                          color: Color(0xFF292929),
+                                        ),
+                                        maxLines: 1,
+                                        presetFontSizes: [10],
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                            ],
+                          ),
+                        ),
+                  showCurrentPrice
+                      ? TokenPriceChange(
+                          address: token?.address,
+                        )
+                      : SizedBox.shrink(),
                 ],
               )
             : SizedBox.shrink();
 
         return ListTile(
+          focusColor: Theme.of(context).colorScheme.secondary,
+          hoverColor: Theme.of(context).colorScheme.secondary,
+          title: title,
           leading: leading,
+          trailing: trailing,
+          contentPadding: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+            left: 15,
+            right: 15,
+          ),
           onTap: onTap != null
               ? onTap
               : () {
@@ -423,14 +448,6 @@ class TokenTile extends StatelessWidget {
                   viewModel.fetchTokenAction(token);
                   showBottomMenu(viewModel, context, hasPriceInfo);
                 },
-          contentPadding: EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 15,
-            right: 15,
-          ),
-          title: title,
-          trailing: trailing,
           // subtitle: !showBalance
           //     ? Text(
           //         token.symbol,

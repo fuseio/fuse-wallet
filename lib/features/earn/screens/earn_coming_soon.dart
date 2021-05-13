@@ -93,7 +93,7 @@ class EarnComingSoonScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   InkWell(
                     onTap: () {

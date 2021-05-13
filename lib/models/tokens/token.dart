@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -15,8 +14,15 @@ part 'token.g.dart';
 
 @immutable
 @freezed
-abstract class Token implements _$Token {
+abstract class Token implements _$Token, Comparable<Token> {
   const Token._();
+
+  @override
+  int compareTo(Token other) {
+    if (other == null) return 1;
+    return num.parse(this.getBalance(true))
+        .compareTo(num.parse(other.getBalance(true)));
+  }
 
   @JsonSerializable()
   factory Token({
@@ -51,66 +57,6 @@ abstract class Token implements _$Token {
       );
     }
     return '0';
-  }
-
-  Widget getPriceChange() {
-    if (priceChange.toStringAsFixed(2).startsWith('0.00') ||
-        priceChange.toStringAsFixed(2).startsWith('-0.00')) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            display(priceChange) + '%',
-            style: TextStyle(color: Color(0xFF292929)),
-          )
-        ],
-      );
-    }
-    if (priceChange != null && priceChange.isNegative) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            display(priceChange) + '%',
-            style: TextStyle(color: Color(0xFF292929)),
-          ),
-          SizedBox(
-            width: 2.5,
-          ),
-          SvgPicture.asset(
-            'assets/images/percent_down.svg',
-          ),
-        ],
-      );
-    } else {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            display(priceChange) + '%',
-            style: TextStyle(color: Color(0xFF292929)),
-          ),
-          SizedBox(
-            width: 2.5,
-          ),
-          SvgPicture.asset(
-            'assets/images/percent_up.svg',
-          ),
-        ],
-      );
-    }
   }
 
   Future<dynamic> fetchBalance(

@@ -1,7 +1,6 @@
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:equatable/equatable.dart';
@@ -20,11 +19,7 @@ class TokensListViewModel extends Equatable {
   static TokensListViewModel fromStore(Store<AppState> store) {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+        .where((token) => num.parse(token.getBalance(true)).compareTo(0) == 1)
         .toList();
 
     List<Token> homeTokens = List<Token>.from(
@@ -35,10 +30,7 @@ class TokensListViewModel extends Equatable {
             Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
           ].contains(token.address)) {
             return true;
-          } else if (num.parse(formatValue(token?.amount, token?.decimals,
-                      withPrecision: true))
-                  .compareTo(0) ==
-              1) {
+          } else if (num.parse(token.getBalance(true)).compareTo(0) == 1) {
             return true;
           }
           return false;
@@ -54,27 +46,11 @@ class TokensListViewModel extends Equatable {
                     : null))
         .toList();
 
-    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
-        (tokenA, tokenB) => num.parse(
-          formatValue(
-            tokenB?.amount,
-            tokenB?.decimals,
-            withPrecision: true,
-          ),
-        )?.compareTo(
-          num.parse(
-            formatValue(
-              tokenA?.amount,
-              tokenA?.decimals,
-              withPrecision: true,
-            ),
-          ),
-        ),
-      );
+    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort();
 
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: tokens ?? [],
+      tokens: List<Token>.from(tokens.reversed) ?? [],
       refreshFeed: () {
         store.dispatch(refresh());
       },

@@ -136,6 +136,7 @@ class _SwapScreenState extends State<SwapScreen> {
     List<Token> tokens,
     Function onTap,
     bool showCurrentPrice,
+    String title,
   ) {
     showBarModalBottomSheet(
       useRootNavigator: true,
@@ -166,7 +167,7 @@ class _SwapScreenState extends State<SwapScreen> {
                       Padding(
                         padding: EdgeInsets.only(top: 20, bottom: 10),
                         child: Text(
-                          I10n.of(context).token,
+                          title,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Europa',
@@ -207,7 +208,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                                   I10n.of(context).price,
                                                 ),
                                                 SizedBox(
-                                                  width: 20,
+                                                  width: 50,
                                                 ),
                                                 Text(
                                                   '24H',
@@ -261,6 +262,7 @@ class _SwapScreenState extends State<SwapScreen> {
           String amountOut = tokenOutController.text;
           String amountIn = tokenInController.text;
           setState(() {
+            hasFund = null;
             isSwapped = !isSwapped;
             tokenOut = tokenReceive;
             tokenIn = tokenPayWith;
@@ -294,11 +296,7 @@ class _SwapScreenState extends State<SwapScreen> {
         focusColor: Theme.of(context).canvasColor,
         highlightColor: Theme.of(context).canvasColor,
         onTap: () {
-          String max = formatValue(
-            tokenOut.amount,
-            tokenOut.decimals,
-            withPrecision: true,
-          );
+          String max = tokenOut.getBalance(true);
           if ((Decimal.tryParse(max) ?? Decimal.zero) > Decimal.zero) {
             setState(() {
               tokenOutController.text = display(num.tryParse(max) ?? '0');
@@ -377,13 +375,7 @@ class _SwapScreenState extends State<SwapScreen> {
     final bool hasEnough = rateInfo != null &&
         info != null &&
         (Decimal.parse(swapRequestBody?.amountIn)).compareTo(
-              Decimal.parse(
-                formatValue(
-                  tokenOut?.amount,
-                  tokenOut?.decimals,
-                  withPrecision: true,
-                ),
-              ),
+              Decimal.parse(tokenOut.getBalance(true)),
             ) <=
             0;
     setState(() {
@@ -457,6 +449,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                       viewModel.payWithTokens,
                                       onTokenOutChanged,
                                       false,
+                                      I10n.of(context).pay_with,
                                     );
                                   },
                                   onChanged: (value) {
@@ -489,6 +482,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                             tokenOut?.address),
                                       onTokenInChanged,
                                       true,
+                                      I10n.of(context).receive,
                                     );
                                   },
                                   onChanged: (value) {

@@ -5,7 +5,6 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
@@ -101,18 +100,12 @@ class SendAmountViewModel extends Equatable {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+            num.parse(token?.getBalance(true)).compareTo(0) == 1)
         .toList();
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
         .map((Token token) => token?.copyWith(
             imageUrl: token.imageUrl != null
                 ? token.imageUrl
@@ -124,25 +117,9 @@ class SendAmountViewModel extends Equatable {
                     : null))
         .toList();
 
-    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
-        (tokenA, tokenB) => num.parse(
-          formatValue(
-            tokenB?.amount,
-            tokenB?.decimals,
-            withPrecision: true,
-          ),
-        )?.compareTo(
-          num.parse(
-            formatValue(
-              tokenA?.amount,
-              tokenA?.decimals,
-              withPrecision: true,
-            ),
-          ),
-        ),
-      );
+    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort();
     return SendAmountViewModel(
-      tokens: tokens ?? [],
+      tokens: List<Token>.from(tokens.reversed) ?? [],
       communities: communities,
       sendToContact: (
         Token token,

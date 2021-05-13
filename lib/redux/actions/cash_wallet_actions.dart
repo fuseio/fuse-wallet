@@ -483,10 +483,8 @@ ThunkAction getTokenBalanceCall(Token token) {
         store.dispatch(
           segmentIdentifyCall(
             Map<String, dynamic>.from({
-              '${token?.name} Balance':
-                  formatValue(balance, token.decimals, withPrecision: true),
-              "DisplayBalance":
-                  formatValue(balance, token.decimals, withPrecision: true)
+              '${token?.name} Balance': token.getBalance(true),
+              "DisplayBalance": token.getBalance(true),
             }),
           ),
         );
@@ -571,10 +569,7 @@ ThunkAction fetchListOfTokensByAddress() {
       {},
       (previousValue, element) {
         if (!cashWalletState.tokens.containsKey(element.address) &&
-            num.parse(formatValue(element.amount, element.decimals,
-                        withPrecision: true))
-                    .compareTo(0) ==
-                1) {
+            num.parse(element.getBalance(true)).compareTo(0) == 1) {
           log.info('New token added ${element.name}');
           previousValue[element.address] = element;
         }

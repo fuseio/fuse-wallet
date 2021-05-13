@@ -1,4 +1,5 @@
 import 'package:fusecash/models/swap_state.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:redux/redux.dart';
 
@@ -7,7 +8,20 @@ final swapReducers = combineReducers<SwapState>([
       _getSwappableTokensSuccess),
   TypedReducer<SwapState, GetTokensImagesSuccess>(_getTokensImagesSuccess),
   TypedReducer<SwapState, ResetTokenList>(_resetTokenList),
+  TypedReducer<SwapState, UpdateTokenPrices>(_updateTokenPrices),
 ]);
+
+SwapState _updateTokenPrices(SwapState state, UpdateTokenPrices action) {
+  final Token token = state.tokens[action.tokenAddress].copyWith(
+    priceInfo: action.priceInfo,
+    priceChange: action.priceChange,
+  );
+  Map<String, Token> tokens = Map<String, Token>.from(state.tokens);
+  tokens[action.tokenAddress] = token.copyWith();
+  return (state ?? SwapState())?.copyWith(
+    tokens: tokens,
+  );
+}
 
 SwapState _resetTokenList(SwapState state, ResetTokenList action) {
   return (state ?? SwapState())?.copyWith(

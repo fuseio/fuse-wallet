@@ -1,7 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/url.dart';
 import 'dart:core';
 
@@ -14,8 +12,6 @@ class LearnMoreDialog extends StatefulWidget {
 
 class LearnMoreDialogState extends State<LearnMoreDialog>
     with SingleTickerProviderStateMixin {
-  LearnMoreDialogState();
-
   AnimationController controller;
   Animation<double> opacityAnimation;
   Animation<double> scaleAnimation;

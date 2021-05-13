@@ -2,7 +2,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
@@ -37,10 +36,7 @@ class SwapViewModel extends Equatable {
         orElse: () => null);
     final List<Token> payWithTokens = tokens
         ?.where((Token token) =>
-            num.parse(formatValue(token?.amount, token?.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
         ?.toList();
     final List<Token> receiveTokens = [
       fusd,
@@ -56,34 +52,19 @@ class SwapViewModel extends Equatable {
               element.address == wbtc.address),
       );
 
+    final List<Token> tokenList = (store.state.swapState?.tokens?.values
+            ?.toList() ??
+        [])
+      ..where(
+          (Token token) => num.parse(token.getBalance(true)).compareTo(0) == 1)
+      ..sort();
+
     return SwapViewModel(
       plugins: community?.plugins ?? Plugins(),
       payWithTokens: payWithTokens,
       receiveTokens: receiveTokens,
       walletAddress: store.state.userState.walletAddress,
-      tokens: (store.state.swapState?.tokens?.values?.toList() ?? [])
-        ..where((Token token) =>
-            num.parse(formatValue(token?.amount, token?.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
-        ..sort(
-          (tokenA, tokenB) => num.parse(
-            formatValue(
-              tokenB?.amount,
-              tokenB?.decimals,
-              withPrecision: true,
-            ),
-          )?.compareTo(
-            num.parse(
-              formatValue(
-                tokenA?.amount,
-                tokenA?.decimals,
-                withPrecision: true,
-              ),
-            ),
-          ),
-        ),
+      tokens: List<Token>.from(tokenList.reversed) ?? [],
     );
   }
 

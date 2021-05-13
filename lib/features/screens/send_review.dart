@@ -156,11 +156,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           Decimal.zero)
                       .compareTo(
                     Decimal.parse(
-                      formatValue(
-                        args.tokenToSend?.amount,
-                        args.tokenToSend?.decimals,
-                        withPrecision: true,
-                      ),
+                      args.tokenToSend.getBalance(true),
                     ),
                   ) <=
                   0;

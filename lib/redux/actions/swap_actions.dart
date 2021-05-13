@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/urls.dart';
+import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
@@ -15,6 +16,17 @@ class GetSwappableTokensSuccess {
   final Map<String, Token> swappableTokens;
   GetSwappableTokensSuccess({
     this.swappableTokens,
+  });
+}
+
+class UpdateTokenPrices {
+  final num priceChange;
+  final Price priceInfo;
+  final String tokenAddress;
+  UpdateTokenPrices({
+    this.priceInfo,
+    this.priceChange,
+    this.tokenAddress,
   });
 }
 
@@ -53,29 +65,6 @@ ThunkAction fetchSwapList() {
             "symbol": token['symbol'],
             "imageUrl": token['logoURI'],
           });
-          await newToken.fetchLatestPrice(
-            onDone: (Price priceInfo) {
-              newToken = newToken.copyWith(
-                priceInfo: priceInfo,
-              );
-            },
-            onError: (Object error, StackTrace stackTrace) {
-              log.error(
-                  'Fetch token price error for - ${newToken.name} - $error ');
-            },
-          );
-
-          await newToken.fetchPriceChange(
-            onDone: (num priceChange) {
-              newToken = newToken.copyWith(
-                priceChange: priceChange,
-              );
-            },
-            onError: (Object error, StackTrace stackTrace) {
-              log.error(
-                  'Fetch token PriceChange error for - ${newToken.name} - $error ');
-            },
-          );
           tokens.putIfAbsent(
             token['address'].toLowerCase(),
             () => newToken,
@@ -90,6 +79,7 @@ ThunkAction fetchSwapList() {
       store.dispatch(GetSwappableTokensSuccess(
         swappableTokens: tokens,
       ));
+      store.dispatch(fetchSwapListPrices());
 
       if (tokensImages.isNotEmpty) {
         store.dispatch(GetTokensImagesSuccess(
@@ -102,6 +92,37 @@ ThunkAction fetchSwapList() {
         e,
         stackTrace: s,
         hint: 'ERROR - fetchTokenList $e',
+      );
+    }
+  };
+}
+
+ThunkAction fetchSwapListPrices() {
+  return (Store store) async {
+    try {
+      SwapState swapState = store.state.swapState;
+      final List<Token> payWithTokens = swapState?.tokens?.values
+          ?.where((Token token) =>
+              num.parse(token.getBalance(true)).compareTo(0) == 1)
+          ?.toList();
+      for (Token token in payWithTokens) {
+        Future<List<dynamic>> prices = Future.wait([
+          fuseSwapService.price(token.address),
+          fuseSwapService.priceChange(token.address)
+        ]);
+        List<dynamic> result = await prices;
+        store.dispatch(UpdateTokenPrices(
+          tokenAddress: token.address,
+          priceChange: result[1],
+          priceInfo: result[0],
+        ));
+      }
+    } catch (e, s) {
+      log.error('ERROR - fetchSwapListPrices $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR - fetchSwapListPrices $e',
       );
     }
   };

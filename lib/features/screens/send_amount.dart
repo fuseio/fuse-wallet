@@ -94,15 +94,13 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                         children: [
                           ListView.separated(
                             shrinkWrap: true,
-                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            padding: EdgeInsets.only(top: 20, bottom: 30),
                             separatorBuilder: (_, int index) => Divider(
                               height: 0,
                             ),
                             itemCount: viewModel.tokens?.length ?? 0,
                             itemBuilder: (context, index) => TokenTile(
                               token: viewModel.tokens[index],
-                              symbolWidth: 60,
-                              symbolHeight: 60,
                               onTap: () {
                                 Navigator.of(context).pop();
                                 setState(() {
@@ -112,6 +110,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               },
                             ),
                           ),
+                          SizedBox(
+                            height: 30,
+                          )
                         ],
                       ),
                     ],
@@ -146,11 +147,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
       final bool hasFund = ![null, '', '0'].contains(amountText) &&
           (Decimal.tryParse(amountText)).compareTo(
                 Decimal.parse(
-                  formatValue(
-                    selectedToken?.amount,
-                    selectedToken?.decimals,
-                    withPrecision: true,
-                  ),
+                  selectedToken.getBalance(true),
                 ),
               ) <=
               0;
@@ -190,11 +187,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           ),
         ),
         onPressed: () {
-          String max = formatValue(
-            selectedToken.amount,
-            selectedToken.decimals,
-            withPrecision: true,
-          );
+          String max = selectedToken.getBalance(true);
           if (Decimal.parse(max).compareTo((Decimal.parse(amountText) ?? 0)) !=
               0) {
             _onKeyPress(max, max: true);
@@ -231,11 +224,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         final bool hasFund =
             (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
                       Decimal.parse(
-                        formatValue(
-                          selectedToken?.amount,
-                          selectedToken?.decimals,
-                          withPrecision: true,
-                        ),
+                        selectedToken.getBalance(true),
                       ),
                     ) <=
                     0 &&

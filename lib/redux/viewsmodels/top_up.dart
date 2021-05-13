@@ -6,7 +6,6 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/community/community.dart';
 
@@ -32,10 +31,7 @@ class TopUpViewModel extends Equatable {
 
     List<Token> homeTokens = store.state.cashWalletState?.tokens?.values
         ?.where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
         ?.toList();
 
     return TopUpViewModel(

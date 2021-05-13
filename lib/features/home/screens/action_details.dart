@@ -189,9 +189,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                                       .tradeInfo.inputAmount) *
                                                   double.parse(
                                                       _token?.priceInfo?.quote);
-                                              return '\$' +
-                                                  display(num.tryParse(
-                                                      a.toString()));
+                                              return '${display(num.parse(value.tradeInfo.inputAmount)) + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
                                             },
                                           )
                                         : displayName,
@@ -233,8 +231,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                   double val = double.parse(
                                           value.tradeInfo.outputAmount) *
                                       double.parse(token?.priceInfo?.quote);
-                                  return '\$' +
-                                      display(num.tryParse(val.toString()));
+                                  return '${display(num.parse(value.tradeInfo.outputAmount)) + ' ' + value.tradeInfo.outputToken} (\$${display(num.tryParse(val.toString()))})';
                                 },
                               ),
                             ),
