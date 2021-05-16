@@ -22,7 +22,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 

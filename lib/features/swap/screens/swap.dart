@@ -38,14 +38,14 @@ class _SwapScreenState extends State<SwapScreen> {
   TextEditingController tokenInController = TextEditingController();
   TextEditingController tokenOutController = TextEditingController();
   SwapRequestBody swapRequestBody = SwapRequestBody();
-  TradeInfo info;
-  TradeInfo rateInfo;
-  bool isFetchingPrice = false;
-  Token tokenOut;
-  Token tokenIn;
-  List<Token> tokenList;
-  bool isSwapped = false;
-  bool hasFund;
+  late TradeInfo? info;
+  late TradeInfo? rateInfo;
+  late bool isFetchingPrice = false;
+  late Token tokenOut;
+  late Token tokenIn;
+  late List<Token> tokenList;
+  late bool isSwapped = false;
+  late bool? hasFund;
 
   @override
   void dispose() {
@@ -225,7 +225,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                           Divider(
                                         height: 0,
                                       ),
-                                      itemCount: tokens?.length ?? 0,
+                                      itemCount: tokens.length,
                                       itemBuilder: (context, index) =>
                                           TokenTile(
                                         token: tokens[index],
@@ -299,13 +299,13 @@ class _SwapScreenState extends State<SwapScreen> {
           String max = tokenOut.getBalance(true);
           if ((Decimal.tryParse(max) ?? Decimal.zero) > Decimal.zero) {
             setState(() {
-              tokenOutController.text = display(num.tryParse(max) ?? '0');
+              tokenOutController.text = display(num.tryParse(max));
             });
             getTradeInfo(
               max,
               (info) => setState(() {
                 tokenInController.text =
-                    display(num.tryParse(info.outputAmount) ?? '0');
+                    display(num.tryParse(info.outputAmount));
               }),
             );
           }
@@ -328,6 +328,7 @@ class _SwapScreenState extends State<SwapScreen> {
         InkWell(
           onTap: () {
             openDepositWebview(
+              context: context,
               withBack: true,
               url: url,
             );
@@ -374,7 +375,7 @@ class _SwapScreenState extends State<SwapScreen> {
   void validateBalance() {
     final bool hasEnough = rateInfo != null &&
         info != null &&
-        (Decimal.parse(swapRequestBody?.amountIn)).compareTo(
+        (Decimal.parse(swapRequestBody.amountIn)).compareTo(
               Decimal.parse(tokenOut.getBalance(true)),
             ) <=
             0;
@@ -394,10 +395,10 @@ class _SwapScreenState extends State<SwapScreen> {
         //   store.dispatch(fetchSwapList());
         // },
         onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel.tokens != newViewModel.tokens) {
+          if (previousViewModel?.tokens != newViewModel.tokens) {
             final Token payWith = widget.primaryToken != null
-                ? newViewModel.tokens.firstWhere(
-                    (element) => widget.primaryToken.address == element.address)
+                ? newViewModel.tokens.firstWhere((element) =>
+                    widget.primaryToken?.address == element.address)
                 : newViewModel.tokens.firstWhere(
                     (element) => element.address == fuseDollarToken.address);
             final Token receiveToken = newViewModel.receiveTokens
@@ -425,12 +426,12 @@ class _SwapScreenState extends State<SwapScreen> {
                   viewModel.payWithTokens.isEmpty)) {
             return Preloader();
           } else {
-            List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
+            List depositPlugins = viewModel.plugins.getDepositPlugins();
             return InkWell(
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,
               onTap: () {
-                WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+                WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -460,8 +461,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                           (info) => setState(() {
                                             tokenInController.text = display(
                                                 num.tryParse(
-                                                        info.outputAmount) ??
-                                                    '0');
+                                                    info.outputAmount));
                                           }),
                                         ),
                                       );
@@ -479,7 +479,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                       viewModel.receiveTokens
                                         ..removeWhere((element) =>
                                             element.address ==
-                                            tokenOut?.address),
+                                            tokenOut.address),
                                       onTokenInChanged,
                                       true,
                                       I10n.of(context).receive,
@@ -493,8 +493,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                           (info) => setState(() {
                                             tokenOutController.text = display(
                                                 num.tryParse(
-                                                        info.outputAmount) ??
-                                                    '0');
+                                                    info.outputAmount));
                                           }),
                                         ),
                                       );
@@ -513,7 +512,7 @@ class _SwapScreenState extends State<SwapScreen> {
                       ),
                       hasFund == null
                           ? SizedBox.shrink()
-                          : hasFund
+                          : hasFund == true
                               ? SizedBox.shrink()
                               : Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -545,15 +544,15 @@ class _SwapScreenState extends State<SwapScreen> {
                             PrimaryButton(
                               disabled: isFetchingPrice ||
                                   hasFund == null ||
-                                  !hasFund,
+                                  hasFund == false,
                               preload: isFetchingPrice,
                               label: I10n.of(context).review_swap,
                               onPressed: () {
-                                ExtendedNavigator.root.pushReviewSwapScreen(
-                                  rateInfo: rateInfo,
-                                  swapRequestBody: swapRequestBody,
-                                  tradeInfo: info,
-                                );
+                                // ExtendedNavigator.root.pushReviewSwapScreen(
+                                //   rateInfo: rateInfo,
+                                //   swapRequestBody: swapRequestBody,
+                                //   tradeInfo: info,
+                                // );
                               },
                             )
                           ],

@@ -15,22 +15,22 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class SendReviewScreen extends StatefulWidget {
   final SendFlowArguments pageArgs;
-  SendReviewScreen({this.pageArgs});
+  SendReviewScreen({required this.pageArgs});
   @override
   _SendReviewScreenState createState() => _SendReviewScreenState();
 }
 
 class _SendReviewScreenState extends State<SendReviewScreen>
     with TickerProviderStateMixin {
-  AnimationController controller;
+  late AnimationController controller;
   final transferNoteController = TextEditingController(text: "");
-  Animation<double> offset;
+  late Animation<double> offset;
   bool isPreloading = false;
   var squareScaleA = 1.0;
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -57,7 +57,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     VoidCallback sendFailureCallback,
   ) {
     final bool isFuseToken =
-        ![null, ''].contains(args?.tokenToSend?.originNetwork) ?? false;
+        ![null, ''].contains(args?.tokenToSend?.originNetwork);
     if (args.useBridge && args.isMultiBridge) {
       if (isFuseToken) {
         viewModel.sendToForeignMultiBridge(
@@ -140,17 +140,17 @@ class _SendReviewScreenState extends State<SendReviewScreen>
               (fees.containsKey(symbol) &&
                   args.tokenToSend.originNetwork == null) ||
               (viewModel.communities.any((element) =>
-                  (args?.accountAddress != null &&
-                      args?.accountAddress?.toLowerCase() ==
-                          element?.homeBridgeAddress?.toLowerCase()) ||
-                  (args?.accountAddress != null &&
-                      args?.accountAddress?.toLowerCase() ==
-                          element?.foreignBridgeAddress?.toLowerCase()) ||
-                  args?.tokenToSend?.address != null &&
-                      args?.tokenToSend?.address?.toLowerCase() ==
-                          element?.foreignTokenAddress?.toLowerCase()));
+                  (args.accountAddress != null &&
+                      args.accountAddress.toLowerCase() ==
+                          element.homeBridgeAddress?.toLowerCase()) ||
+                  (args.accountAddress != null &&
+                      args.accountAddress.toLowerCase() ==
+                          element.foreignBridgeAddress?.toLowerCase()) ||
+                  args.tokenToSend.address != null &&
+                      args.tokenToSend.address.toLowerCase() ==
+                          element.foreignTokenAddress?.toLowerCase()));
           final num feeAmount =
-              withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
+              (withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0)!;
           final bool hasFund =
               (Decimal.tryParse((args.amount + feeAmount).toString()) ??
                           Decimal.zero)
@@ -411,10 +411,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           if (withFee && !hasFund) return;
                           send(viewModel, args, transferNoteController.text,
                               () {
-                            ExtendedNavigator.root.replace(
-                                Routes.sendSuccessScreen,
-                                arguments:
-                                    SendSuccessScreenArguments(pageArgs: args));
+                            // ExtendedNavigator.root.replace(
+                            //     Routes.sendSuccessScreen,
+                            //     arguments:
+                            //         SendSuccessScreenArguments(pageArgs: args));
                           }, () {
                             setState(() {
                               isPreloading = false;

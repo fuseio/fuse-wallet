@@ -51,7 +51,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
           }
         },
         onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel.verifyErrorMessage !=
+          if (previousViewModel?.verifyErrorMessage !=
               newViewModel.verifyErrorMessage) {
             showErrorSnack(
               title: I10n.of(context).oops,
@@ -140,7 +140,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           label: I10n.of(context).next_button,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
-                            formKey.currentState.validate();
+                            formKey.currentState!.validate();
                             // conditions for validating
                             log.info(
                                 'currentText.length ${currentText.length}');

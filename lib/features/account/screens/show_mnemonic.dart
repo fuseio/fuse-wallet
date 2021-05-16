@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -9,7 +10,7 @@ import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
+// import 'package:fusecash/features/account/router/router.gr.dart';
 
 class ShowMnemonic extends StatelessWidget {
   Widget wordWidget(
@@ -143,11 +144,10 @@ class ShowMnemonic extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
                                               CopyToClipboard(
-                                                context: context,
                                                 content: viewModel.user.mnemonic
                                                     .join(" "),
                                               ),
-                                              const SizedBox(width: 4.0),
+                                              SizedBox(width: 4.0),
                                               Icon(
                                                 Icons.content_copy,
                                                 size: 16,
@@ -175,8 +175,11 @@ class ShowMnemonic extends StatelessWidget {
                 Center(
                   child: PrimaryButton(
                     label: I10n.of(context).next_button,
-                    onPressed: ExtendedNavigator.named('accountRouter')
-                        .pushVerifyMnemonic,
+                    onPressed: () {
+                      context.router.push(VerifyMnemonic());
+                    },
+                    // onPressed: ExtendedNavigator.named('accountRouter')
+                    //     .pushVerifyMnemonic,
                   ),
                 ),
                 SizedBox(

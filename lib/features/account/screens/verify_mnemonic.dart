@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
+// import 'package:fusecash/features/account/router/router.gr.dart';
 
 class Word extends StatelessWidget {
   Word({
@@ -47,8 +48,8 @@ class Word extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
-      validator: (String value) {
-        if (mnemonic[wordIndex - 1] != value.trim()) {
+      validator: (String? value) {
+        if (mnemonic[wordIndex - 1] != value?.trim()) {
           return I10n.of(context).word_not_match;
         }
         return null;
@@ -63,7 +64,7 @@ class VerifyMnemonic extends StatefulWidget {
 }
 
 class _VerifyMnemonicState extends State<VerifyMnemonic> {
-  List<int> selectedWordsNum = new List<int>();
+  List<int> selectedWordsNum = <int>[];
   final _formKey = GlobalKey<FormState>();
 
   List<int> getRandom3Numbers() {
@@ -152,9 +153,10 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                           child: PrimaryButton(
                         label: I10n.of(context).next_button,
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            ExtendedNavigator.named('accountRouter')
-                                .pushDoneBackup();
+                          if (_formKey.currentState!.validate()) {
+                            context.router.push(DoneBackup());
+                            // ExtendedNavigator.named('accountRouter')
+                            //     .pushDoneBackup();
                           }
                         },
                       )),

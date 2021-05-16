@@ -66,7 +66,7 @@ class DoneBackup extends StatelessWidget {
                         label: I10n.of(context).ok,
                         onPressed: () {
                           viewModal.backupWallet();
-                          ExtendedNavigator.named('accountRouter').popUntilRoot();
+                          // ExtendedNavigator.named('accountRouter').popUntilRoot();
                         },
                       ),
                     ),

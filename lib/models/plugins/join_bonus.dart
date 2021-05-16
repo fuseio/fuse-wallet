@@ -26,16 +26,14 @@ class JoinBonusPluginConverter
   const JoinBonusPluginConverter();
 
   @override
-  JoinBonusPlugin fromJson(Map<String, dynamic> json) => json != null
-      ? JoinBonusPlugin(
-          name: json['name'],
-          amount: json.containsKey('joinInfo')
-              ? json['joinInfo']['amount']
-              : json['amount'],
-          isActive: json["isActive"] ?? false,
-        )
-      : null;
+  JoinBonusPlugin fromJson(Map<String, dynamic> json) => JoinBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('joinInfo')
+            ? json['joinInfo']['amount']
+            : json['amount'],
+        isActive: json["isActive"] ?? false,
+      );
 
   @override
-  Map<String, dynamic> toJson(JoinBonusPlugin instance) => instance?.toJson();
+  Map<String, dynamic> toJson(JoinBonusPlugin instance) => instance.toJson();
 }

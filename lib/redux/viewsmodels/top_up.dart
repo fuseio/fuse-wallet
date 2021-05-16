@@ -12,7 +12,7 @@ import 'package:fusecash/models/community/community.dart';
 class TopUpViewModel extends Equatable {
   final Function setDepositBanner;
   final Plugins plugins;
-  final Function dismiss;
+  final void Function()? dismiss;
   final bool showDismiss;
 
   TopUpViewModel({

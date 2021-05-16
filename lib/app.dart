@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
+import 'common/router/routes.gr.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -15,18 +16,17 @@ import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/common/router/route_guards.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
-import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-  MyApp({required this.store});
+  MyApp({
+    required this.store,
+  });
 
   static void setLocale(BuildContext context, Locale newLocale) {
     // _MyAppState state = context.findAncestorStateOfType<_MyAppState>();

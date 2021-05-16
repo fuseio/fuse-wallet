@@ -10,16 +10,16 @@ class NumericKeyboard extends StatefulWidget {
   final Function() leftButtonFn;
   final KeyboardTapCallback onKeyboardTap;
   final MainAxisAlignment mainAxisAlignment;
-  final double height;
+  final double? height;
 
   NumericKeyboard({
-    Key key,
-    @required this.onKeyboardTap,
+    Key? key,
+    required this.onKeyboardTap,
     this.textColor = Colors.black,
-    this.rightButtonFn,
-    this.rightIcon,
-    this.leftButtonFn,
-    this.leftIcon,
+    required this.rightButtonFn,
+    required this.rightIcon,
+    required this.leftButtonFn,
+    required this.leftIcon,
     this.height,
     this.mainAxisAlignment = MainAxisAlignment.spaceEvenly,
   }) : super(key: key);

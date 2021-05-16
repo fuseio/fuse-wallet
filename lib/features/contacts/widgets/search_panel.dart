@@ -6,7 +6,10 @@ import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
-  SearchPanel({Key key, this.searchController}) : super(key: key);
+  SearchPanel({
+    Key? key,
+    required this.searchController,
+  }) : super(key: key);
   final TextEditingController searchController;
 
   @override
@@ -80,9 +83,9 @@ class SearchPanel extends StatelessWidget {
                     width: 25.0,
                   ),
                   onTap: () {
-                    barcodeScannerHandler(
-                      ExtendedNavigator.named('contactsRouter').context,
-                    );
+                    // barcodeScannerHandler(
+                    //   ExtendedNavigator.named('contactsRouter').context,
+                    // );
                   },
                 ),
               )

@@ -27,16 +27,13 @@ class WalletBannerPluginConverter
   const WalletBannerPluginConverter();
 
   @override
-  WalletBannerPlugin fromJson(Map<String, dynamic> json) => json != null
-      ? WalletBannerPlugin(
-          name: json['name'],
-          walletBannerHash: json['walletBannerHash'],
-          link: json['link'],
-          isActive: json["isActive"] ?? false,
-        )
-      : null;
+  WalletBannerPlugin fromJson(Map<String, dynamic> json) => WalletBannerPlugin(
+        name: json['name'],
+        walletBannerHash: json['walletBannerHash'],
+        link: json['link'],
+        isActive: json["isActive"] ?? false,
+      );
 
   @override
-  Map<String, dynamic> toJson(WalletBannerPlugin instance) =>
-      instance?.toJson();
+  Map<String, dynamic> toJson(WalletBannerPlugin instance) => instance.toJson();
 }

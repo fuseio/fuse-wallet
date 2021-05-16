@@ -8,7 +8,7 @@ part of 'cash_wallet_state.dart';
 
 _$_CashWalletState _$_$_CashWalletStateFromJson(Map<String, dynamic> json) {
   return _$_CashWalletState(
-    communityAddress: json['communityAddress'] as String?,
+    communityAddress: json['communityAddress'] as String,
     isDepositBanner: json['isDepositBanner'] as bool? ?? true,
     tokens: tokensFromJson(json['tokens'] as Map<String, dynamic>),
     communities:

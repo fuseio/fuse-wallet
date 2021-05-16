@@ -18,7 +18,7 @@ class SecurityScreen extends StatefulWidget {
 }
 
 class _SecurityScreenState extends State<SecurityScreen> {
-  BiometricAuth _biometricType;
+  late BiometricAuth _biometricType;
 
   Future<void> _checkBiometrical() async {
     _biometricType = await BiometricUtils.getAvailableBiometrics();
@@ -114,7 +114,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                             ),
                                             Text(
                                               BiometricUtils.getBiometricString(
-                                                  _biometricType),
+                                                  context, _biometricType),
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   color: Theme.of(context)
@@ -148,7 +148,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                 onTap: () async {
                                   final String biometric =
                                       BiometricUtils.getBiometricString(
-                                          _biometricType);
+                                          context, _biometricType);
 
                                   await BiometricUtils
                                       .showDefaultPopupCheckBiometricAuth(
@@ -158,9 +158,10 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                       if (result) {
                                         viewModel
                                             .setSecurityType(_biometricType);
-                                        ExtendedNavigator.root.popUntilRoot();
-                                        ExtendedNavigator.root
-                                            .replace(Routes.homeScreen);
+                                        // Todo = Routes.homeScreen
+                                        // ExtendedNavigator.root.popUntilRoot();
+                                        // ExtendedNavigator.root
+                                        //     .replace(Routes.homeScreen);
                                       }
                                     },
                                   );
@@ -206,9 +207,10 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => SetUpPinCodeScreen(
                                         onSuccess: () {
-                                          ExtendedNavigator.root.popUntilRoot();
-                                          ExtendedNavigator.root
-                                              .replace(Routes.homeScreen);
+                                          // Todo = Routes.homeScreen
+                                          // ExtendedNavigator.root.popUntilRoot();
+                                          // ExtendedNavigator.root
+                                          //     .replace(Routes.homeScreen);
                                         },
                                       ),
                                     ),

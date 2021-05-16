@@ -8,8 +8,8 @@ import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
 
-Web3 fuseWeb3;
-Web3 ethereumWeb3;
+late Web3 fuseWeb3;
+late Web3 ethereumWeb3;
 
 final Explorer fuseExplorerApi = getIt<Explorer>(
   param1: UrlConstants.FUSE_EXPLORER_URL,

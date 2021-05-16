@@ -16,9 +16,9 @@ import 'package:fusecash/utils/transfer.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numofRecentToShow;
-  final Token token;
+  final Token? token;
   const RecentContacts({
-    Key key,
+    Key? key,
     this.numofRecentToShow = 3,
     this.token,
   }) : super(key: key);
@@ -42,52 +42,52 @@ class RecentContacts extends StatelessWidget {
 
         final List<Widget> listItems = uniqueList
             .map((WalletAction transfer) {
-              final Contact contact = getContact(
+              final Contact? contact = getContact(
                 transfer.getRecipient(),
                 viewModel.reverseContacts,
                 viewModel.contacts,
                 viewModel.countryCode,
               );
-              final String displayName = contact != null
-                  ? contact.displayName
-                  : deducePhoneNumber(
-                      transfer.getRecipient(),
-                      viewModel.reverseContacts,
-                    );
+              final String displayName = (contact?.displayName ??
+                  deducePhoneNumber(
+                    transfer.getRecipient(),
+                    viewModel.reverseContacts,
+                  ))!;
               dynamic image = ImageUrl.getContactImage(
                 contact,
               );
               String phoneNumber =
                   viewModel.reverseContacts[transfer.getRecipient()] ?? '';
               return ContactTile(
-                  image: image,
-                  displayName: displayName,
-                  phoneNumber: phoneNumber,
-                  trailing: Text(
-                    phoneNumber,
-                    style: TextStyle(fontSize: 13),
-                  ),
-                  onTap: () {
-                    if (contact == null) {
-                      ExtendedNavigator.root.pushSendAmountScreen(
-                        pageArgs: SendFlowArguments(
-                          name: displayName,
-                          accountAddress: transfer.getRecipient(),
-                          avatar: image,
-                          tokenToSend: token,
-                        ),
-                      );
-                    } else {
-                      sendToContact(
-                        ExtendedNavigator.named('contactsRouter').context,
-                        displayName,
-                        '',
-                        avatar: image,
-                        address: transfer.getRecipient(),
-                        tokenToSend: token,
-                      );
-                    }
-                  });
+                image: image,
+                displayName: displayName,
+                // phoneNumber: phoneNumber,
+                trailing: Text(
+                  phoneNumber,
+                  style: TextStyle(fontSize: 13),
+                ),
+                onTap: () {
+                  if (contact == null) {
+                    // ExtendedNavigator.root.pushSendAmountScreen(
+                    //   pageArgs: SendFlowArguments(
+                    //     name: displayName,
+                    //     accountAddress: transfer.getRecipient(),
+                    //     avatar: image,
+                    //     tokenToSend: token,
+                    //   ),
+                    // );
+                  } else {
+                    // sendToContact(
+                    //   ExtendedNavigator.named('contactsRouter').context,
+                    //   displayName,
+                    //   '',
+                    //   avatar: image,
+                    //   address: transfer.getRecipient(),
+                    //   tokenToSend: token,
+                    // );
+                  }
+                },
+              );
             })
             .cast<Widget>()
             .toList();

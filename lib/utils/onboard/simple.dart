@@ -19,7 +19,8 @@ class SimpleStrategy implements IOnBoardStrategy {
     store.dispatch(LoginVerifySuccess(jwtToken));
     store.dispatch(SetIsVerifyRequest(isLoading: false));
     store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-    ExtendedNavigator.root.pushUserNameScreen();
+    // Todo - pushUserNameScreen
+    // ExtendedNavigator.root.pushUserNameScreen();
   }
 
   @override

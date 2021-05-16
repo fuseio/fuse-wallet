@@ -18,7 +18,7 @@ class Feed extends StatelessWidget {
           onRefresh: () async {
             viewModel.refreshFeed();
             await Future.delayed(Duration(milliseconds: 1000));
-            return 'success';
+            return;
           },
           child: GroupedListView<WalletAction, DateTime>(
             elements: viewModel.walletActions,

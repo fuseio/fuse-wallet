@@ -6,12 +6,12 @@ class TradeCardViewModel extends Equatable {
   final Map<String, String> tokensImages;
 
   TradeCardViewModel({
-    this.tokensImages,
+    required this.tokensImages,
   });
 
   static TradeCardViewModel fromStore(Store<AppState> store) {
     return TradeCardViewModel(
-      tokensImages: store.state.swapState?.tokensImages ?? Map(),
+      tokensImages: store.state.swapState.tokensImages,
     );
   }
 

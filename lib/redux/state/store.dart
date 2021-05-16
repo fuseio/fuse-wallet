@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 
 class AppFactory {
-  static AppFactory _singleton;
+  static late AppFactory _singleton;
   Store<AppState> _store;
 
   AppFactory._();

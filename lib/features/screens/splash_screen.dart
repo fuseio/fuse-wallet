@@ -22,8 +22,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  BiometricAuth _biometricType;
-  Flushbar flush;
+  late BiometricAuth _biometricType;
+  Flushbar? flush;
 
   @override
   void initState() {
@@ -45,10 +45,10 @@ class _SplashScreenState extends State<SplashScreen> {
     String jwtToken = store?.state?.userState?.jwtToken ?? '';
     bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      ExtendedNavigator.root.replace(Routes.onBoardScreen);
+      // ExtendedNavigator.root.replace(Routes.onBoardScreen);
     } else {
       UserState userState = store.state.userState;
-      if (userState?.authType != BiometricAuth.none) {
+      if (userState.authType != BiometricAuth.none) {
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
@@ -59,12 +59,15 @@ class _SplashScreenState extends State<SplashScreen> {
       if (BiometricAuth.faceID == userState.authType ||
           BiometricAuth.touchID == userState.authType) {
         await _showLocalAuthPopup(
-          BiometricUtils.getBiometricString(_biometricType),
+          BiometricUtils.getBiometricString(
+            context,
+            _biometricType,
+          ),
         );
-      } else if (userState?.authType == BiometricAuth.pincode) {
-        ExtendedNavigator.root.replace(Routes.pinCodeScreen);
+      } else if (userState.authType == BiometricAuth.pincode) {
+        // ExtendedNavigator.root.replace(Routes.pinCodeScreen);
       } else {
-        ExtendedNavigator.root.replace(Routes.homeScreen);
+        // ExtendedNavigator.root.replace(Routes.homeScreen);
       }
     }
   }
@@ -76,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
       stickyAuth: true,
       callback: (bool result) {
         if (result) {
-          ExtendedNavigator.root.replace(Routes.homeScreen);
+          // ExtendedNavigator.root.replace(Routes.homeScreen);
         } else {
           flush = Flushbar<bool>(
             title: I10n.of(context).auth_failed_title,
@@ -85,9 +88,9 @@ class _SplashScreenState extends State<SplashScreen> {
               Icons.info_outline,
               color: Theme.of(context).colorScheme.primary,
             ),
-            mainButton: FlatButton(
+            mainButton: TextButton(
               onPressed: () async {
-                flush.dismiss(true);
+                flush?.dismiss(true);
               },
               child: Text(
                 I10n.of(context).try_again,
@@ -98,7 +101,10 @@ class _SplashScreenState extends State<SplashScreen> {
               (result) async {
                 if (result) {
                   await _showLocalAuthPopup(
-                    BiometricUtils.getBiometricString(_biometricType),
+                    BiometricUtils.getBiometricString(
+                      context,
+                      _biometricType,
+                    ),
                   );
                 }
               },

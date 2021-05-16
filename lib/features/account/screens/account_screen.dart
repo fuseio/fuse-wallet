@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/features/screens/webview_screen.dart';
@@ -13,7 +14,7 @@ import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
+// import 'package:fusecash/features/account/router/router.gr.dart';
 import 'package:share/share.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -38,6 +39,7 @@ class _AccountScreenState extends State<AccountScreen> {
         onTap: () {
           String url = depositPlugins[0].widgetUrl;
           openDepositWebview(
+            context: context,
             withBack: true,
             url: url,
           );
@@ -79,8 +81,13 @@ class _AccountScreenState extends State<AccountScreen> {
                             MenuTile(
                               label: I10n.of(context).settings,
                               menuIcon: 'settings_icon.svg',
-                              onTap: ExtendedNavigator.named('accountRouter')
-                                  .pushSettingsScreen,
+                              onTap: () {
+                                context.router.push(SettingsScreen());
+                                // context.router
+                                //     .navigateNamed('/settings/newSegment');
+                              },
+                              // onTap: ExtendedNavigator.named('accountRouter')
+                              //     .pushSettingsScreen,
                               trailing: SvgPicture.asset(
                                 'assets/images/go_to_pro.svg',
                                 width: 10,
@@ -90,8 +97,11 @@ class _AccountScreenState extends State<AccountScreen> {
                             MenuTile(
                               label: I10n.of(context).protect_wallet,
                               menuIcon: 'protect_wallet.svg',
-                              onTap: ExtendedNavigator.named('accountRouter')
-                                  .pushProtectYourWallet,
+                              onTap: () {
+                                context.router.push(ProtectYourWallet());
+                              },
+                              // onTap: ExtendedNavigator.named('accountRouter')
+                              //     .pushProtectYourWallet,
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment:
@@ -126,8 +136,11 @@ class _AccountScreenState extends State<AccountScreen> {
                             MenuTile(
                               label: I10n.of(context).social,
                               menuIcon: 'social_icon.svg',
-                              onTap: ExtendedNavigator.named('accountRouter')
-                                  .pushSocialScreen,
+                              onTap: () {
+                                context.router.push(SocialScreen());
+                              },
+                              // onTap: ExtendedNavigator.named('accountRouter')
+                              //     .pushSocialScreen,
                               trailing: SvgPicture.asset(
                                 'assets/images/go_to_pro.svg',
                                 width: 10,
@@ -162,9 +175,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => WebViewScreen(
-                                      title: I10n.of(context).legal,
+                                      'https://fuse.cash/privacy',
+                                      I10n.of(context).legal,
                                       withBack: true,
-                                      url: 'https://fuse.cash/privacy',
                                     ),
                                     fullscreenDialog: true,
                                   ),

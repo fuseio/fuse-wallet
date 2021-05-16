@@ -42,7 +42,7 @@ dependencies:
   share: ^2.0.1
   flutter_svg: ^0.22.0
   cupertino_icons: ^1.0.2
-  flutter_secure_storage: ^4.1.0
+  flutter_secure_storage: ^4.2.0
   flutter_redux: ^0.8.2
   flutter_dotenv: ^3.1.0
   redux_thunk: ^0.4.0

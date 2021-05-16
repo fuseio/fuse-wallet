@@ -19,7 +19,7 @@ class Token with _$Token implements Comparable<Token> {
   const Token._();
 
   @override
-  int compareTo(Token other) {
+  int compareTo(Token? other) {
     if (other == null) return 1;
     return num.parse(this.getBalance(true))
         .compareTo(num.parse(other.getBalance(true)));
@@ -27,20 +27,20 @@ class Token with _$Token implements Comparable<Token> {
 
   @JsonSerializable()
   factory Token({
-    String? address,
-    String? name,
+    @Default('') String address,
+    @Default('') String name,
     @Default(false) bool isNative,
-    String? symbol,
+    @Default('') String symbol,
     String? imageUrl,
-    int? decimals,
-    BigInt? amount,
-    @JsonKey(ignore: true) String? subtitle,
-    int? timestamp,
-    Price? priceInfo,
-    String? communityAddress,
-    String? originNetwork,
-    num? priceChange,
-    List<Stats>? stats,
+    @Default(18) int decimals,
+    @Default(0) BigInt amount,
+    @JsonKey(ignore: true) @Default(null) String subtitle,
+    @Default(null) int timestamp,
+    @Default(null) Price priceInfo,
+    @Default(null) String communityAddress,
+    @Default(null) String originNetwork,
+    @Default(0) num priceChange,
+    @Default([]) List<Stats> stats,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
   }) = _Token;
 
@@ -54,7 +54,7 @@ class Token with _$Token implements Comparable<Token> {
       return getFiatValue(
         amount,
         decimals,
-        double.tryParse(priceInfo?.quote) ?? 0.0,
+        double.tryParse(priceInfo!.quote) ?? 0.0,
       );
     }
     return '0';
@@ -62,18 +62,18 @@ class Token with _$Token implements Comparable<Token> {
 
   Future<dynamic> fetchBalance(
     String accountAddress, {
-    Function(BigInt) onDone,
-    Function onError,
+    required Function(BigInt) onDone,
+    required Function onError,
   }) async {
     if ([null, ''].contains(accountAddress) || [null, ''].contains(address))
       return;
-    if (isNative != null && isNative == true) {
+    if (isNative) {
       Web3 web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
       try {
         EtherAmount balance = await web3.getBalance(
           address: accountAddress,
         );
-        if (amount?.compareTo(balance.getInWei) != 0) {
+        if (amount.compareTo(balance.getInWei) != 0) {
           onDone(balance.getInWei);
         }
       } catch (e, s) {
@@ -86,7 +86,7 @@ class Token with _$Token implements Comparable<Token> {
           address,
           address: accountAddress,
         );
-        if (amount?.compareTo(balance) != 0) {
+        if (amount.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -97,8 +97,8 @@ class Token with _$Token implements Comparable<Token> {
 
   Future<dynamic> fetchLatestPrice({
     String currency = 'usd',
-    void Function(Price) onDone,
-    Function onError,
+    required void Function(Price) onDone,
+    required Function onError,
   }) async {
     try {
       Price price = await fuseSwapService.price(address);
@@ -109,8 +109,8 @@ class Token with _$Token implements Comparable<Token> {
   }
 
   Future<dynamic> fetchPriceChange({
-    void Function(num) onDone,
-    Function onError,
+    required void Function(num) onDone,
+    required Function onError,
   }) async {
     try {
       final num priceChange = await fuseSwapService.priceChange(address);
@@ -121,8 +121,8 @@ class Token with _$Token implements Comparable<Token> {
   }
 
   Future<dynamic> fetchStats({
-    void Function(List<Stats>) onDone,
-    Function onError,
+    required void Function(List<Stats>) onDone,
+    required Function onError,
   }) async {
     try {
       final List<Stats> stats = await fuseSwapService.stats(address);

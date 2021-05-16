@@ -20,7 +20,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class SendAmountScreen extends StatefulWidget {
   final SendFlowArguments pageArgs;
-  SendAmountScreen({this.pageArgs});
+  SendAmountScreen({required this.pageArgs});
   @override
   _SendAmountScreenState createState() => _SendAmountScreenState();
 }
@@ -29,14 +29,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     with SingleTickerProviderStateMixin {
   String amountText = "0";
   bool hasBalance = true;
-  AnimationController controller;
-  Animation<Offset> offset;
+  late AnimationController controller;
+  late Animation<Offset> offset;
   bool isPreloading = false;
-  Token selectedToken;
+  late Token selectedToken;
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -145,7 +145,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     setState(() {});
     try {
       final bool hasFund = ![null, '', '0'].contains(amountText) &&
-          (Decimal.tryParse(amountText)).compareTo(
+          (Decimal.parse(amountText)).compareTo(
                 Decimal.parse(
                   selectedToken.getBalance(true),
                 ),
@@ -188,8 +188,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         ),
         onPressed: () {
           String max = selectedToken.getBalance(true);
-          if (Decimal.parse(max).compareTo((Decimal.parse(amountText) ?? 0)) !=
-              0) {
+          if (Decimal.parse(max).compareTo(Decimal.parse(amountText)) != 0) {
             _onKeyPress(max, max: true);
           }
         },
@@ -208,7 +207,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         Segment.screen(screenName: '/send-amount-screen');
         if (args.tokenToSend != null) {
           setState(() {
-            selectedToken = args.tokenToSend;
+            selectedToken = args.tokenToSend!;
           });
         } else {
           if (viewModel.tokens.isNotEmpty) {
@@ -394,8 +393,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               onPressed: () {
                                 args.tokenToSend = selectedToken;
                                 args.amount = double.parse(amountText);
-                                ExtendedNavigator.root
-                                    .pushSendReviewScreen(pageArgs: args);
+                                context.router
+                                    .push(SendReviewScreen(pageArgs: args));
+                                // ExtendedNavigator.root
+                                //     .pushSendReviewScreen(pageArgs: args);
                               },
                               preload: isPreloading,
                               disabled: isPreloading || !hasFund,

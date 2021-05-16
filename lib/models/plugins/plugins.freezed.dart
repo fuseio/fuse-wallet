@@ -22,12 +22,12 @@ class _$PluginsTearOff {
 
   _Plugins call(
       {@JsonKey(includeIfNull: false)
-          RampInstantPlugin rampInstant = null,
+          RampInstantPlugin? rampInstant = null,
       @JsonKey(includeIfNull: false)
-          MoonpayPlugin moonpay = null,
+          MoonpayPlugin? moonpay = null,
       @JsonKey(includeIfNull: false)
-          TransakPlugin transak = null,
-      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+          TransakPlugin? transak = null,
+      @JsonKey(includeIfNull: false)
           WalletBannerPlugin walletBanner = null,
       @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus = null,
@@ -57,12 +57,12 @@ const $Plugins = _$PluginsTearOff();
 /// @nodoc
 mixin _$Plugins {
   @JsonKey(includeIfNull: false)
-  RampInstantPlugin get rampInstant => throw _privateConstructorUsedError;
+  RampInstantPlugin? get rampInstant => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  MoonpayPlugin get moonpay => throw _privateConstructorUsedError;
+  MoonpayPlugin? get moonpay => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  TransakPlugin get transak => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+  TransakPlugin? get transak => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   WalletBannerPlugin get walletBanner => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
   JoinBonusPlugin get joinBonus => throw _privateConstructorUsedError;
@@ -82,12 +82,12 @@ abstract class $PluginsCopyWith<$Res> {
       _$PluginsCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(includeIfNull: false)
-          RampInstantPlugin rampInstant,
+          RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
-          MoonpayPlugin moonpay,
+          MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
-          TransakPlugin transak,
-      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+          TransakPlugin? transak,
+      @JsonKey(includeIfNull: false)
           WalletBannerPlugin walletBanner,
       @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
@@ -96,9 +96,9 @@ abstract class $PluginsCopyWith<$Res> {
       @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
           InviteBonusPlugin inviteBonus});
 
-  $RampInstantPluginCopyWith<$Res> get rampInstant;
-  $MoonpayPluginCopyWith<$Res> get moonpay;
-  $TransakPluginCopyWith<$Res> get transak;
+  $RampInstantPluginCopyWith<$Res>? get rampInstant;
+  $MoonpayPluginCopyWith<$Res>? get moonpay;
+  $TransakPluginCopyWith<$Res>? get transak;
   $WalletBannerPluginCopyWith<$Res> get walletBanner;
   $JoinBonusPluginCopyWith<$Res> get joinBonus;
   $BackupBonusPluginCopyWith<$Res> get backupBonus;
@@ -127,15 +127,15 @@ class _$PluginsCopyWithImpl<$Res> implements $PluginsCopyWith<$Res> {
       rampInstant: rampInstant == freezed
           ? _value.rampInstant
           : rampInstant // ignore: cast_nullable_to_non_nullable
-              as RampInstantPlugin,
+              as RampInstantPlugin?,
       moonpay: moonpay == freezed
           ? _value.moonpay
           : moonpay // ignore: cast_nullable_to_non_nullable
-              as MoonpayPlugin,
+              as MoonpayPlugin?,
       transak: transak == freezed
           ? _value.transak
           : transak // ignore: cast_nullable_to_non_nullable
-              as TransakPlugin,
+              as TransakPlugin?,
       walletBanner: walletBanner == freezed
           ? _value.walletBanner
           : walletBanner // ignore: cast_nullable_to_non_nullable
@@ -156,22 +156,34 @@ class _$PluginsCopyWithImpl<$Res> implements $PluginsCopyWith<$Res> {
   }
 
   @override
-  $RampInstantPluginCopyWith<$Res> get rampInstant {
-    return $RampInstantPluginCopyWith<$Res>(_value.rampInstant, (value) {
+  $RampInstantPluginCopyWith<$Res>? get rampInstant {
+    if (_value.rampInstant == null) {
+      return null;
+    }
+
+    return $RampInstantPluginCopyWith<$Res>(_value.rampInstant!, (value) {
       return _then(_value.copyWith(rampInstant: value));
     });
   }
 
   @override
-  $MoonpayPluginCopyWith<$Res> get moonpay {
-    return $MoonpayPluginCopyWith<$Res>(_value.moonpay, (value) {
+  $MoonpayPluginCopyWith<$Res>? get moonpay {
+    if (_value.moonpay == null) {
+      return null;
+    }
+
+    return $MoonpayPluginCopyWith<$Res>(_value.moonpay!, (value) {
       return _then(_value.copyWith(moonpay: value));
     });
   }
 
   @override
-  $TransakPluginCopyWith<$Res> get transak {
-    return $TransakPluginCopyWith<$Res>(_value.transak, (value) {
+  $TransakPluginCopyWith<$Res>? get transak {
+    if (_value.transak == null) {
+      return null;
+    }
+
+    return $TransakPluginCopyWith<$Res>(_value.transak!, (value) {
       return _then(_value.copyWith(transak: value));
     });
   }
@@ -212,12 +224,12 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(includeIfNull: false)
-          RampInstantPlugin rampInstant,
+          RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
-          MoonpayPlugin moonpay,
+          MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
-          TransakPlugin transak,
-      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+          TransakPlugin? transak,
+      @JsonKey(includeIfNull: false)
           WalletBannerPlugin walletBanner,
       @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
@@ -227,11 +239,11 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
           InviteBonusPlugin inviteBonus});
 
   @override
-  $RampInstantPluginCopyWith<$Res> get rampInstant;
+  $RampInstantPluginCopyWith<$Res>? get rampInstant;
   @override
-  $MoonpayPluginCopyWith<$Res> get moonpay;
+  $MoonpayPluginCopyWith<$Res>? get moonpay;
   @override
-  $TransakPluginCopyWith<$Res> get transak;
+  $TransakPluginCopyWith<$Res>? get transak;
   @override
   $WalletBannerPluginCopyWith<$Res> get walletBanner;
   @override
@@ -265,15 +277,15 @@ class __$PluginsCopyWithImpl<$Res> extends _$PluginsCopyWithImpl<$Res>
       rampInstant: rampInstant == freezed
           ? _value.rampInstant
           : rampInstant // ignore: cast_nullable_to_non_nullable
-              as RampInstantPlugin,
+              as RampInstantPlugin?,
       moonpay: moonpay == freezed
           ? _value.moonpay
           : moonpay // ignore: cast_nullable_to_non_nullable
-              as MoonpayPlugin,
+              as MoonpayPlugin?,
       transak: transak == freezed
           ? _value.transak
           : transak // ignore: cast_nullable_to_non_nullable
-              as TransakPlugin,
+              as TransakPlugin?,
       walletBanner: walletBanner == freezed
           ? _value.walletBanner
           : walletBanner // ignore: cast_nullable_to_non_nullable
@@ -305,7 +317,7 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
           this.moonpay = null,
       @JsonKey(includeIfNull: false)
           this.transak = null,
-      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+      @JsonKey(includeIfNull: false)
           this.walletBanner = null,
       @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           this.joinBonus = null,
@@ -320,15 +332,15 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
 
   @override
   @JsonKey(includeIfNull: false)
-  final RampInstantPlugin rampInstant;
+  final RampInstantPlugin? rampInstant;
   @override
   @JsonKey(includeIfNull: false)
-  final MoonpayPlugin moonpay;
+  final MoonpayPlugin? moonpay;
   @override
   @JsonKey(includeIfNull: false)
-  final TransakPlugin transak;
+  final TransakPlugin? transak;
   @override
-  @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+  @JsonKey(includeIfNull: false)
   final WalletBannerPlugin walletBanner;
   @override
   @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
@@ -411,12 +423,12 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
 abstract class _Plugins extends Plugins {
   factory _Plugins(
       {@JsonKey(includeIfNull: false)
-          RampInstantPlugin rampInstant,
+          RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
-          MoonpayPlugin moonpay,
+          MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
-          TransakPlugin transak,
-      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+          TransakPlugin? transak,
+      @JsonKey(includeIfNull: false)
           WalletBannerPlugin walletBanner,
       @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
@@ -430,15 +442,15 @@ abstract class _Plugins extends Plugins {
 
   @override
   @JsonKey(includeIfNull: false)
-  RampInstantPlugin get rampInstant => throw _privateConstructorUsedError;
+  RampInstantPlugin? get rampInstant => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)
-  MoonpayPlugin get moonpay => throw _privateConstructorUsedError;
+  MoonpayPlugin? get moonpay => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)
-  TransakPlugin get transak => throw _privateConstructorUsedError;
+  TransakPlugin? get transak => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+  @JsonKey(includeIfNull: false)
   WalletBannerPlugin get walletBanner => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)

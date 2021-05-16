@@ -12,21 +12,20 @@ import 'package:fusecash/widgets/default_logo.dart';
 class TradeCard extends StatelessWidget {
   final Token token;
   final String title;
-  final Widget useMaxWidget;
+  final Widget? useMaxWidget;
   final void Function(String) onChanged;
   final TextEditingController textEditingController;
   final void Function() onTap;
   final bool isSwapped;
-
-  TradeCard(
-    this.title,
-    this.isSwapped,
-    this.onTap,
+  TradeCard({
+    required this.title,
+    required this.isSwapped,
+    required this.onTap,
     this.useMaxWidget,
-    this.onChanged,
-    this.token,
-    this.textEditingController,
-  );
+    required this.onChanged,
+    required this.token,
+    required this.textEditingController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +75,8 @@ class TradeCard extends StatelessWidget {
                                     child: CachedNetworkImage(
                                       width: 35,
                                       height: 35,
-                                      imageUrl: viewModel
-                                              .tokensImages[token.address],
+                                      imageUrl: (viewModel
+                                          .tokensImages[token.address])!,
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
@@ -92,7 +91,7 @@ class TradeCard extends StatelessWidget {
                                     width: 5,
                                   ),
                                   Text(
-                                    token?.symbol ?? '',
+                                    token.symbol,
                                     style: TextStyle(fontSize: 27),
                                   ),
                                   Icon(Icons.arrow_drop_down)
@@ -110,7 +109,7 @@ class TradeCard extends StatelessWidget {
                                       height: 5,
                                     ),
                                     Text(
-                                      (token?.getBalance() ?? '0') +
+                                      token.getBalance() +
                                           ' ' +
                                           I10n.of(context).available,
                                     ),

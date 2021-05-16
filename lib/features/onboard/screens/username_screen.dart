@@ -108,7 +108,8 @@ class UserNameScreen extends StatelessWidget {
                           viewModel.setDisplayName(
                               displayNameController.text.capitalize() ??
                                   'Anom');
-                          ExtendedNavigator.root.pushSecurityScreen();
+                          // Todo - pushSecurityScreen
+                          // ExtendedNavigator.root.pushSecurityScreen();
                         },
                       ),
                     ),

@@ -52,10 +52,10 @@ Map<String, dynamic> _$_$_SwapCallParametersToJson(
 
 _$_SwapRequestBody _$_$_SwapRequestBodyFromJson(Map<String, dynamic> json) {
   return _$_SwapRequestBody(
-    json['currencyIn'] as String,
-    json['currencyOut'] as String,
-    json['amountIn'] as String,
-    json['recipient'] as String,
+    currencyIn: json['currencyIn'] as String? ?? '',
+    currencyOut: json['currencyOut'] as String? ?? '',
+    amountIn: json['amountIn'] as String? ?? '',
+    recipient: json['recipient'] as String? ?? '',
   );
 }
 

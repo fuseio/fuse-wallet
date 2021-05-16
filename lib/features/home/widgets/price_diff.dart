@@ -4,8 +4,8 @@ import 'package:fusecash/services.dart';
 class PriceDiff extends StatefulWidget {
   final String tokenAddress;
   const PriceDiff({
-    Key key,
-    this.tokenAddress,
+    Key? key,
+    required this.tokenAddress,
   }) : super(key: key);
 
   @override
@@ -66,22 +66,8 @@ class _PriceDiffState extends State<PriceDiff> {
                   case ConnectionState.active:
                     return Text('\$${snapshot.data}');
                   case ConnectionState.done:
-                    return Text(snapshot.data.toStringAsFixed(2));
+                    return Text(snapshot.data!.toStringAsFixed(2));
                 }
-                return null; // unreachable
-                // if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                //   return Center(
-                //     child: CircularProgressIndicator(),
-                //   );
-                // } else {
-                //   if (dataSnapshot.error != null) {
-                //     return Center(
-                //       child: Text('An error occured'),
-                //     );
-                //   } else {
-                //     return Container();
-                //   }
-                // }
               },
             ),
           ),

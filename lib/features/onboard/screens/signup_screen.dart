@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     Segment.screen(screenName: '/signup-screen');
-    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
+    WidgetsBinding.instance!.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
@@ -36,8 +36,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
-          (Map code) => code['code'] == myLocale.countryCode,
-          );
+        (Map code) => code['code'] == myLocale.countryCode,
+      );
       if (mounted && localeData != null) {
         setState(() {
           countryCode = CountryCode(
@@ -75,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       title: I10n.of(context).sign_up,
       body: InkWell(
         onTap: () {
-          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+          WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
         },
         child: Container(
           child: Column(
@@ -220,9 +220,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       controller: phoneController,
                                       keyboardType: TextInputType.number,
                                       autofocus: true,
-                                      validator: (String value) => value.isEmpty
-                                          ? "Please enter mobile number"
-                                          : null,
+                                      validator: (String? value) =>
+                                          value!.isEmpty
+                                              ? "Please enter mobile number"
+                                              : null,
                                       style: TextStyle(
                                           fontSize: 18,
                                           color: Theme.of(context)
@@ -253,7 +254,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           StoreConnector<AppState, OnboardViewModel>(
                             distinct: true,
                             onWillChange: (previousViewModel, newViewModel) {
-                              if (previousViewModel.signupErrorMessage !=
+                              if (previousViewModel?.signupErrorMessage !=
                                   newViewModel.signupErrorMessage) {
                                 showErrorSnack(
                                   title: I10n.of(context).oops,

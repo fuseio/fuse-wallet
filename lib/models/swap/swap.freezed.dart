@@ -593,13 +593,16 @@ SwapRequestBody _$SwapRequestBodyFromJson(Map<String, dynamic> json) {
 class _$SwapRequestBodyTearOff {
   const _$SwapRequestBodyTearOff();
 
-  _SwapRequestBody call(String currencyIn, String currencyOut, String amountIn,
-      String recipient) {
+  _SwapRequestBody call(
+      {String currencyIn = '',
+      String currencyOut = '',
+      String amountIn = '',
+      String recipient = ''}) {
     return _SwapRequestBody(
-      currencyIn,
-      currencyOut,
-      amountIn,
-      recipient,
+      currencyIn: currencyIn,
+      currencyOut: currencyOut,
+      amountIn: amountIn,
+      recipient: recipient,
     );
   }
 
@@ -706,19 +709,19 @@ class __$SwapRequestBodyCopyWithImpl<$Res>
     Object? recipient = freezed,
   }) {
     return _then(_SwapRequestBody(
-      currencyIn == freezed
+      currencyIn: currencyIn == freezed
           ? _value.currencyIn
           : currencyIn // ignore: cast_nullable_to_non_nullable
               as String,
-      currencyOut == freezed
+      currencyOut: currencyOut == freezed
           ? _value.currencyOut
           : currencyOut // ignore: cast_nullable_to_non_nullable
               as String,
-      amountIn == freezed
+      amountIn: amountIn == freezed
           ? _value.amountIn
           : amountIn // ignore: cast_nullable_to_non_nullable
               as String,
-      recipient == freezed
+      recipient: recipient == freezed
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as String,
@@ -733,17 +736,24 @@ class _$_SwapRequestBody
     with DiagnosticableTreeMixin
     implements _SwapRequestBody {
   _$_SwapRequestBody(
-      this.currencyIn, this.currencyOut, this.amountIn, this.recipient);
+      {this.currencyIn = '',
+      this.currencyOut = '',
+      this.amountIn = '',
+      this.recipient = ''});
 
   factory _$_SwapRequestBody.fromJson(Map<String, dynamic> json) =>
       _$_$_SwapRequestBodyFromJson(json);
 
+  @JsonKey(defaultValue: '')
   @override
   final String currencyIn;
+  @JsonKey(defaultValue: '')
   @override
   final String currencyOut;
+  @JsonKey(defaultValue: '')
   @override
   final String amountIn;
+  @JsonKey(defaultValue: '')
   @override
   final String recipient;
 
@@ -801,8 +811,11 @@ class _$_SwapRequestBody
 }
 
 abstract class _SwapRequestBody implements SwapRequestBody {
-  factory _SwapRequestBody(String currencyIn, String currencyOut,
-      String amountIn, String recipient) = _$_SwapRequestBody;
+  factory _SwapRequestBody(
+      {String currencyIn,
+      String currencyOut,
+      String amountIn,
+      String recipient}) = _$_SwapRequestBody;
 
   factory _SwapRequestBody.fromJson(Map<String, dynamic> json) =
       _$_SwapRequestBody.fromJson;

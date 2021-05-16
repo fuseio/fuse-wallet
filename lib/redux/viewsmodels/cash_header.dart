@@ -5,7 +5,7 @@ class CashHeaderViewModel {
   final Function() firstName;
 
   CashHeaderViewModel({
-    this.firstName,
+    required this.firstName,
   });
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {

@@ -58,7 +58,7 @@ class _$UserStateTearOff {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType = BiometricAuth.none,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          Locale locale = null,
+          Locale locale = const {'languageCode': 'en', 'countryCode': 'US'},
       @JsonKey(ignore: true)
           List<Contact> contacts = const [],
       @JsonKey(ignore: true)
@@ -664,7 +664,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           this.authType = BiometricAuth.none,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          this.locale = null,
+          this.locale = const {'languageCode': 'en', 'countryCode': 'US'},
       @JsonKey(ignore: true)
           this.contacts = const [],
       @JsonKey(ignore: true)

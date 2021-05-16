@@ -63,8 +63,8 @@ class CashHeader extends StatelessWidget {
                           'assets/images/scan.svg',
                         ),
                         onTap: () {
-                          barcodeScannerHandler(
-                              ExtendedNavigator.named('homeRouter').context);
+                          // barcodeScannerHandler(
+                          //     ExtendedNavigator.named('homeRouter').context);
                         },
                       ),
                     )

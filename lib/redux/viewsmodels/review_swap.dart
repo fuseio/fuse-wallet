@@ -16,8 +16,8 @@ class ReviewSwapViewModel extends Equatable {
   ) swap;
 
   ReviewSwapViewModel({
-    this.walletAddress,
-    this.swap,
+    required this.walletAddress,
+    required this.swap,
   });
 
   static ReviewSwapViewModel fromStore(Store<AppState> store) {

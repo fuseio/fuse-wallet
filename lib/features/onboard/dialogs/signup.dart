@@ -14,11 +14,9 @@ class SignUpDialog extends StatefulWidget {
 
 class SignUpDialogState extends State<SignUpDialog>
     with SingleTickerProviderStateMixin {
-  SignUpDialogState();
-
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -40,7 +38,7 @@ class SignUpDialogState extends State<SignUpDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -100,9 +98,9 @@ class SignUpDialogState extends State<SignUpDialog>
                         context,
                         MaterialPageRoute(
                           builder: (context) => WebViewScreen(
-                            title: I10n.of(context).legal,
+                            'https://fuse.cash/privacy',
+                            I10n.of(context).legal,
                             withBack: true,
-                            url: 'https://fuse.cash/privacy',
                           ),
                           fullscreenDialog: true,
                         ),

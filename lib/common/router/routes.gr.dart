@@ -5,19 +5,21 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:contacts_service/contacts_service.dart' as _i30;
+import 'package:contacts_service/contacts_service.dart' as _i32;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../features/account/screens/account_screen.dart' as _i21;
-import '../../features/account/screens/done_backup_screen.dart' as _i24;
-import '../../features/account/screens/profile.dart' as _i27;
-import '../../features/account/screens/protect_your_wallet.dart' as _i26;
-import '../../features/account/screens/settings.dart' as _i25;
-import '../../features/account/screens/show_mnemonic.dart' as _i22;
-import '../../features/account/screens/social_screen.dart' as _i28;
-import '../../features/account/screens/verify_mnemonic.dart' as _i23;
+import '../../features/account/screens/account_screen.dart' as _i23;
+import '../../features/account/screens/done_backup_screen.dart' as _i26;
+import '../../features/account/screens/profile.dart' as _i29;
+import '../../features/account/screens/protect_your_wallet.dart' as _i28;
+import '../../features/account/screens/settings.dart' as _i27;
+import '../../features/account/screens/show_mnemonic.dart' as _i24;
+import '../../features/account/screens/social_screen.dart' as _i30;
+import '../../features/account/screens/verify_mnemonic.dart' as _i25;
 import '../../features/contacts/screens/contacts_list.dart' as _i19;
-import '../../features/contacts/send_amount_arguments.dart' as _i31;
+import '../../features/contacts/send_amount_arguments.dart' as _i33;
+import '../../features/earn/screens/earn.dart' as _i21;
+import '../../features/earn/screens/earn_coming_soon.dart' as _i22;
 import '../../features/home/screens/action_details.dart' as _i12;
 import '../../features/home/screens/home.dart' as _i18;
 import '../../features/onboard/screens/restore_wallet_screen.dart' as _i6;
@@ -35,9 +37,9 @@ import '../../features/screens/splash_screen.dart' as _i3;
 import '../../features/screens/webview_screen.dart' as _i11;
 import '../../features/swap/screens/review_swap.dart' as _i16;
 import '../../features/swap/screens/swap.dart' as _i20;
-import '../../models/actions/wallet_action.dart' as _i29;
-import '../../models/swap/swap.dart' as _i32;
-import '../../models/tokens/token.dart' as _i33;
+import '../../models/actions/wallet_action.dart' as _i31;
+import '../../models/swap/swap.dart' as _i34;
+import '../../models/tokens/token.dart' as _i35;
 
 class RootRouter extends _i1.RootStackRouter {
   RootRouter([_i2.GlobalKey<_i2.NavigatorState>? navigatorKey])
@@ -78,9 +80,8 @@ class RootRouter extends _i1.RootStackRouter {
     VerifyScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<VerifyScreenArgs>(
-              orElse: () => const VerifyScreenArgs());
-          return _i9.VerifyScreen(verificationId: args.verificationId);
+          final args = data.argsAs<VerifyScreenArgs>();
+          return _i9.VerifyScreen(args.verificationId);
         }),
     UserNameScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -90,17 +91,15 @@ class RootRouter extends _i1.RootStackRouter {
     Webview.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args =
-              data.argsAs<WebviewArgs>(orElse: () => const WebviewArgs());
-          return _i11.WebViewScreen(
-              url: args.url, title: args.title, withBack: args.withBack);
+          final args = data.argsAs<WebviewArgs>();
+          return _i11.WebViewScreen(args.url, args.title,
+              withBack: args.withBack);
         },
         fullscreenDialog: true),
     ActionDetailsScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<ActionDetailsScreenArgs>(
-              orElse: () => const ActionDetailsScreenArgs());
+          final args = data.argsAs<ActionDetailsScreenArgs>();
           return _i12.ActionDetailsScreen(
               action: args.action,
               image: args.image,
@@ -112,29 +111,25 @@ class RootRouter extends _i1.RootStackRouter {
     SendAmountScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<SendAmountScreenArgs>(
-              orElse: () => const SendAmountScreenArgs());
+          final args = data.argsAs<SendAmountScreenArgs>();
           return _i13.SendAmountScreen(pageArgs: args.pageArgs);
         }),
     SendReviewScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<SendReviewScreenArgs>(
-              orElse: () => const SendReviewScreenArgs());
+          final args = data.argsAs<SendReviewScreenArgs>();
           return _i14.SendReviewScreen(pageArgs: args.pageArgs);
         }),
     SendSuccessScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<SendSuccessScreenArgs>(
-              orElse: () => const SendSuccessScreenArgs());
+          final args = data.argsAs<SendSuccessScreenArgs>();
           return _i15.SendSuccessScreen(pageArgs: args.pageArgs);
         }),
     ReviewSwapScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<ReviewSwapScreenArgs>(
-              orElse: () => const ReviewSwapScreenArgs());
+          final args = data.argsAs<ReviewSwapScreenArgs>();
           return _i16.ReviewSwapScreen(
               tradeInfo: args.tradeInfo,
               rateInfo: args.rateInfo,
@@ -142,10 +137,8 @@ class RootRouter extends _i1.RootStackRouter {
         }),
     MainHomeScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
-        builder: (data) {
-          final args = data.argsAs<MainHomeScreenArgs>(
-              orElse: () => const MainHomeScreenArgs());
-          return _i17.MainHomeScreen(key: args.key);
+        builder: (_) {
+          return _i17.MainHomeScreen();
         }),
     HomeTab.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -158,6 +151,11 @@ class RootRouter extends _i1.RootStackRouter {
           return const _i1.EmptyRouterPage();
         }),
     SwapTab.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return const _i1.EmptyRouterPage();
+        }),
+    EarnTab.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
           return const _i1.EmptyRouterPage();
@@ -189,47 +187,57 @@ class RootRouter extends _i1.RootStackRouter {
           return _i20.SwapScreen(
               key: args.key, primaryToken: args.primaryToken);
         }),
+    EarnScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return _i21.EarnScreen();
+        }),
+    EarnComingSoonScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return _i22.EarnComingSoonScreen();
+        }),
     AccountScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i21.AccountScreen();
+          return _i23.AccountScreen();
         }),
     ShowMnemonic.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i22.ShowMnemonic();
+          return _i24.ShowMnemonic();
         }),
     VerifyMnemonic.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i23.VerifyMnemonic();
+          return _i25.VerifyMnemonic();
         }),
     DoneBackup.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i24.DoneBackup();
+          return _i26.DoneBackup();
         }),
     SettingsScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i25.SettingsScreen();
+          return _i27.SettingsScreen();
         }),
     ProtectYourWallet.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i26.ProtectYourWallet();
+          return _i28.ProtectYourWallet();
         }),
     ProfileScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<ProfileScreenArgs>(
               orElse: () => const ProfileScreenArgs());
-          return _i27.ProfileScreen(key: args.key);
+          return _i29.ProfileScreen(key: args.key);
         }),
     SocialScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i28.SocialScreen();
+          return _i30.SocialScreen();
         })
   };
 
@@ -260,6 +268,10 @@ class RootRouter extends _i1.RootStackRouter {
           _i1.RouteConfig(SwapTab.name,
               path: 'swap',
               children: [_i1.RouteConfig(SwapScreen.name, path: '')]),
+          _i1.RouteConfig(EarnTab.name, path: 'earn', children: [
+            _i1.RouteConfig(EarnScreen.name, path: 'earn-screen'),
+            _i1.RouteConfig(EarnComingSoonScreen.name, path: '')
+          ]),
           _i1.RouteConfig(AccountTab.name, path: 'account', children: [
             _i1.RouteConfig(AccountScreen.name, path: ''),
             _i1.RouteConfig(ShowMnemonic.name, path: 'show-mnemonic'),
@@ -314,7 +326,7 @@ class SignUpScreen extends _i1.PageRouteInfo {
 }
 
 class VerifyScreen extends _i1.PageRouteInfo<VerifyScreenArgs> {
-  VerifyScreen({String verificationId})
+  VerifyScreen({required String verificationId})
       : super(name,
             path: '/verify-screen',
             args: VerifyScreenArgs(verificationId: verificationId));
@@ -323,7 +335,7 @@ class VerifyScreen extends _i1.PageRouteInfo<VerifyScreenArgs> {
 }
 
 class VerifyScreenArgs {
-  const VerifyScreenArgs({this.verificationId});
+  const VerifyScreenArgs({required this.verificationId});
 
   final String verificationId;
 }
@@ -335,7 +347,7 @@ class UserNameScreen extends _i1.PageRouteInfo {
 }
 
 class Webview extends _i1.PageRouteInfo<WebviewArgs> {
-  Webview({String url, String title, bool withBack = false})
+  Webview({required String url, required String title, bool? withBack = false})
       : super(name,
             path: '/web-view-screen',
             args: WebviewArgs(url: url, title: title, withBack: withBack));
@@ -344,23 +356,24 @@ class Webview extends _i1.PageRouteInfo<WebviewArgs> {
 }
 
 class WebviewArgs {
-  const WebviewArgs({this.url, this.title, this.withBack = false});
+  const WebviewArgs(
+      {required this.url, required this.title, this.withBack = false});
 
   final String url;
 
   final String title;
 
-  final bool withBack;
+  final bool? withBack;
 }
 
 class ActionDetailsScreen extends _i1.PageRouteInfo<ActionDetailsScreenArgs> {
   ActionDetailsScreen(
-      {_i29.WalletAction action,
-      _i2.ImageProvider<dynamic> image,
-      String displayName,
-      String accountAddress,
-      String symbol,
-      _i30.Contact contact})
+      {required _i31.WalletAction action,
+      _i2.ImageProvider<Object>? image,
+      required String displayName,
+      required String accountAddress,
+      required String symbol,
+      required _i32.Contact contact})
       : super(name,
             path: '/action-details-screen',
             args: ActionDetailsScreenArgs(
@@ -376,16 +389,16 @@ class ActionDetailsScreen extends _i1.PageRouteInfo<ActionDetailsScreenArgs> {
 
 class ActionDetailsScreenArgs {
   const ActionDetailsScreenArgs(
-      {this.action,
+      {required this.action,
       this.image,
-      this.displayName,
-      this.accountAddress,
-      this.symbol,
-      this.contact});
+      required this.displayName,
+      required this.accountAddress,
+      required this.symbol,
+      required this.contact});
 
-  final _i29.WalletAction action;
+  final _i31.WalletAction action;
 
-  final _i2.ImageProvider<dynamic> image;
+  final _i2.ImageProvider<Object>? image;
 
   final String displayName;
 
@@ -393,11 +406,11 @@ class ActionDetailsScreenArgs {
 
   final String symbol;
 
-  final _i30.Contact contact;
+  final _i32.Contact contact;
 }
 
 class SendAmountScreen extends _i1.PageRouteInfo<SendAmountScreenArgs> {
-  SendAmountScreen({_i31.SendFlowArguments pageArgs})
+  SendAmountScreen({required _i33.SendFlowArguments pageArgs})
       : super(name,
             path: '/send-amount-screen',
             args: SendAmountScreenArgs(pageArgs: pageArgs));
@@ -406,13 +419,13 @@ class SendAmountScreen extends _i1.PageRouteInfo<SendAmountScreenArgs> {
 }
 
 class SendAmountScreenArgs {
-  const SendAmountScreenArgs({this.pageArgs});
+  const SendAmountScreenArgs({required this.pageArgs});
 
-  final _i31.SendFlowArguments pageArgs;
+  final _i33.SendFlowArguments pageArgs;
 }
 
 class SendReviewScreen extends _i1.PageRouteInfo<SendReviewScreenArgs> {
-  SendReviewScreen({_i31.SendFlowArguments pageArgs})
+  SendReviewScreen({required _i33.SendFlowArguments pageArgs})
       : super(name,
             path: '/send-review-screen',
             args: SendReviewScreenArgs(pageArgs: pageArgs));
@@ -421,13 +434,13 @@ class SendReviewScreen extends _i1.PageRouteInfo<SendReviewScreenArgs> {
 }
 
 class SendReviewScreenArgs {
-  const SendReviewScreenArgs({this.pageArgs});
+  const SendReviewScreenArgs({required this.pageArgs});
 
-  final _i31.SendFlowArguments pageArgs;
+  final _i33.SendFlowArguments pageArgs;
 }
 
 class SendSuccessScreen extends _i1.PageRouteInfo<SendSuccessScreenArgs> {
-  SendSuccessScreen({_i31.SendFlowArguments pageArgs})
+  SendSuccessScreen({required _i33.SendFlowArguments pageArgs})
       : super(name,
             path: '/send-success-screen',
             args: SendSuccessScreenArgs(pageArgs: pageArgs));
@@ -436,16 +449,16 @@ class SendSuccessScreen extends _i1.PageRouteInfo<SendSuccessScreenArgs> {
 }
 
 class SendSuccessScreenArgs {
-  const SendSuccessScreenArgs({this.pageArgs});
+  const SendSuccessScreenArgs({required this.pageArgs});
 
-  final _i31.SendFlowArguments pageArgs;
+  final _i33.SendFlowArguments pageArgs;
 }
 
 class ReviewSwapScreen extends _i1.PageRouteInfo<ReviewSwapScreenArgs> {
   ReviewSwapScreen(
-      {_i32.TradeInfo tradeInfo,
-      _i32.TradeInfo rateInfo,
-      _i32.SwapRequestBody swapRequestBody})
+      {required _i34.TradeInfo tradeInfo,
+      required _i34.TradeInfo rateInfo,
+      required _i34.SwapRequestBody swapRequestBody})
       : super(name,
             path: '/review-swap-screen',
             args: ReviewSwapScreenArgs(
@@ -458,29 +471,22 @@ class ReviewSwapScreen extends _i1.PageRouteInfo<ReviewSwapScreenArgs> {
 
 class ReviewSwapScreenArgs {
   const ReviewSwapScreenArgs(
-      {this.tradeInfo, this.rateInfo, this.swapRequestBody});
+      {required this.tradeInfo,
+      required this.rateInfo,
+      required this.swapRequestBody});
 
-  final _i32.TradeInfo tradeInfo;
+  final _i34.TradeInfo tradeInfo;
 
-  final _i32.TradeInfo rateInfo;
+  final _i34.TradeInfo rateInfo;
 
-  final _i32.SwapRequestBody swapRequestBody;
+  final _i34.SwapRequestBody swapRequestBody;
 }
 
-class MainHomeScreen extends _i1.PageRouteInfo<MainHomeScreenArgs> {
-  MainHomeScreen({_i2.Key key, List<_i1.PageRouteInfo>? children})
-      : super(name,
-            path: '/',
-            args: MainHomeScreenArgs(key: key),
-            initialChildren: children);
+class MainHomeScreen extends _i1.PageRouteInfo {
+  const MainHomeScreen({List<_i1.PageRouteInfo>? children})
+      : super(name, path: '/', initialChildren: children);
 
   static const String name = 'MainHomeScreen';
-}
-
-class MainHomeScreenArgs {
-  const MainHomeScreenArgs({this.key});
-
-  final _i2.Key key;
 }
 
 class HomeTab extends _i1.PageRouteInfo {
@@ -504,6 +510,13 @@ class SwapTab extends _i1.PageRouteInfo {
   static const String name = 'SwapTab';
 }
 
+class EarnTab extends _i1.PageRouteInfo {
+  const EarnTab({List<_i1.PageRouteInfo>? children})
+      : super(name, path: 'earn', initialChildren: children);
+
+  static const String name = 'EarnTab';
+}
+
 class AccountTab extends _i1.PageRouteInfo {
   const AccountTab({List<_i1.PageRouteInfo>? children})
       : super(name, path: 'account', initialChildren: children);
@@ -519,7 +532,8 @@ class HomeScreen extends _i1.PageRouteInfo {
 
 class ContactsList extends _i1.PageRouteInfo<ContactsListArgs> {
   ContactsList(
-      {_i31.SendFlowArguments pageArgs, bool automaticallyImplyLeading = false})
+      {_i33.SendFlowArguments? pageArgs,
+      bool? automaticallyImplyLeading = false})
       : super(name,
             path: '',
             args: ContactsListArgs(
@@ -533,13 +547,13 @@ class ContactsListArgs {
   const ContactsListArgs(
       {this.pageArgs, this.automaticallyImplyLeading = false});
 
-  final _i31.SendFlowArguments pageArgs;
+  final _i33.SendFlowArguments? pageArgs;
 
-  final bool automaticallyImplyLeading;
+  final bool? automaticallyImplyLeading;
 }
 
 class SwapScreen extends _i1.PageRouteInfo<SwapScreenArgs> {
-  SwapScreen({_i2.Key key, _i33.Token primaryToken})
+  SwapScreen({_i2.Key? key, _i35.Token? primaryToken})
       : super(name,
             path: '',
             args: SwapScreenArgs(key: key, primaryToken: primaryToken));
@@ -550,9 +564,21 @@ class SwapScreen extends _i1.PageRouteInfo<SwapScreenArgs> {
 class SwapScreenArgs {
   const SwapScreenArgs({this.key, this.primaryToken});
 
-  final _i2.Key key;
+  final _i2.Key? key;
 
-  final _i33.Token primaryToken;
+  final _i35.Token? primaryToken;
+}
+
+class EarnScreen extends _i1.PageRouteInfo {
+  const EarnScreen() : super(name, path: 'earn-screen');
+
+  static const String name = 'EarnScreen';
+}
+
+class EarnComingSoonScreen extends _i1.PageRouteInfo {
+  const EarnComingSoonScreen() : super(name, path: '');
+
+  static const String name = 'EarnComingSoonScreen';
 }
 
 class AccountScreen extends _i1.PageRouteInfo {
@@ -592,7 +618,7 @@ class ProtectYourWallet extends _i1.PageRouteInfo {
 }
 
 class ProfileScreen extends _i1.PageRouteInfo<ProfileScreenArgs> {
-  ProfileScreen({_i2.Key key})
+  ProfileScreen({_i2.Key? key})
       : super(name, path: 'profile-screen', args: ProfileScreenArgs(key: key));
 
   static const String name = 'ProfileScreen';
@@ -601,7 +627,7 @@ class ProfileScreen extends _i1.PageRouteInfo<ProfileScreenArgs> {
 class ProfileScreenArgs {
   const ProfileScreenArgs({this.key});
 
-  final _i2.Key key;
+  final _i2.Key? key;
 }
 
 class SocialScreen extends _i1.PageRouteInfo {

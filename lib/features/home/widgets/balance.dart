@@ -5,7 +5,7 @@ import 'package:fusecash/redux/viewsmodels/balance.dart';
 import 'package:fusecash/models/app_state.dart';
 
 class Balance extends StatelessWidget {
-  const Balance({Key key}) : super(key: key);
+  const Balance({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class Balance extends StatelessWidget {
       builder: (_, viewModel) {
         return Flexible(
           child: AutoSizeText(
-            '\$${viewModel?.usdValue ?? '0'}',
+            '\$${viewModel.usdValue}',
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),

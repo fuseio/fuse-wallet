@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -14,9 +15,11 @@ class HomeViewModel extends Equatable {
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
-    String branchAddress = store.state.cashWalletState.branchAddress;
+    String communityAddress =
+        store.state.cashWalletState.communityAddress ?? defaultCommunityAddress;
+    bool isCommunityLoading =
+        store.state.cashWalletState.isCommunityLoading ?? false;
+    String branchAddress = store.state.cashWalletState.branchAddress ?? '';
 
     final bool isBranchDataReceived =
         store.state.cashWalletState.isBranchDataReceived;

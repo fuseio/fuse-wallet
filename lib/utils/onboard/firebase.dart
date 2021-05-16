@@ -18,16 +18,16 @@ class FirebaseStrategy implements IOnBoardStrategy {
     final PhoneVerificationCompleted verificationCompleted = (
       AuthCredential credentials,
     ) async {
-      store.dispatch(new SetCredentials(credentials));
+      store.dispatch(SetCredentials(credentials));
       UserCredential userCredential = await firebaseAuth.signInWithCredential(
         credentials,
       );
-      final User user = userCredential.user;
-      final User currentUser = firebaseAuth.currentUser;
-      assert(user.uid == currentUser.uid);
+      final User? user = userCredential.user;
+      final User currentUser = firebaseAuth.currentUser!;
+      assert(user?.uid == currentUser.uid);
       final String accountAddress = store.state.userState.accountAddress;
       final String identifier = store.state.userState.identifier;
-      String token = await user.getIdToken();
+      String token = await user!.getIdToken();
       String jwtToken = await api.loginWithFirebase(
         token,
         accountAddress,
@@ -39,7 +39,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-      ExtendedNavigator.root.pushUserNameScreen();
+      // ExtendedNavigator.root.pushUserNameScreen();
     };
 
     final PhoneVerificationFailed verificationFailed = (
@@ -78,13 +78,15 @@ class FirebaseStrategy implements IOnBoardStrategy {
 
     final PhoneCodeSent codeSent = (
       String verificationId, [
-      int forceResendingToken,
+      int? forceResendingToken,
     ]) {
       log.info("PhoneCodeSent " + verificationId);
       store.dispatch(SetIsLoginRequest(isLoading: false));
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
-      ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
+      // Todo - .pushVerifyScreen(verificationId: verificationId);
+
+      // ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
     };
 
     await firebaseAuth.verifyPhoneNumber(
@@ -111,11 +113,11 @@ class FirebaseStrategy implements IOnBoardStrategy {
     UserCredential userCredential = await firebaseAuth.signInWithCredential(
       credential,
     );
-    final User currentUser = firebaseAuth.currentUser;
-    assert(userCredential.user.uid == currentUser.uid);
+    final User? currentUser = firebaseAuth.currentUser;
+    assert(userCredential.user?.uid == currentUser?.uid);
     final String accountAddress = store.state.userState.accountAddress;
     final String identifier = store.state.userState.identifier;
-    String token = await userCredential.user.getIdToken();
+    String token = await userCredential.user!.getIdToken();
     final String jwtToken = await api.loginWithFirebase(
       token,
       accountAddress,

@@ -76,7 +76,7 @@ class ReceiveScreen extends StatelessWidget {
                         child: Center(
                           child: CopyToClipboard(
                             textColor: Color(0xFF0091ff),
-                            content: viewModel?.walletAddress,
+                            content: viewModel.walletAddress,
                           ),
                         ),
                       ),
@@ -87,7 +87,7 @@ class ReceiveScreen extends StatelessWidget {
                   child: PrimaryButton(
                     label: I10n.of(context).share_button,
                     onPressed: () {
-                      Share.share(viewModel?.walletAddress);
+                      Share.share(viewModel.walletAddress);
                     },
                   ),
                 )

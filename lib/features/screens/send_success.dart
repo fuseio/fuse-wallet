@@ -11,7 +11,9 @@ import 'package:fusecash/widgets/my_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendFlowArguments pageArgs;
-  SendSuccessScreen({this.pageArgs});
+  SendSuccessScreen({
+    required this.pageArgs,
+  });
   @override
   _SendSuccessScreenState createState() => _SendSuccessScreenState();
 }
@@ -24,10 +26,10 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     Segment.screen(screenName: '/send-success-screen');
 
     Future.delayed(Duration(milliseconds: 2500), () {
-      BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
-      navigationBar.onTap(0);
-      ExtendedNavigator.named('homeRouter').popUntilRoot();
-      ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
+      // BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
+      // navigationBar.onTap(0);
+      // ExtendedNavigator.named('homeRouter').popUntilRoot();
+      // ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
     });
   }
 

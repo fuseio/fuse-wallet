@@ -13,7 +13,7 @@ class TokenActivities extends StatelessWidget {
   final String tokenAddress;
 
   TokenActivities({
-    this.tokenAddress,
+    required this.tokenAddress,
   });
 
   @override

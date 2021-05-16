@@ -35,7 +35,7 @@ Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens == null
     },
   ));
 
-Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
+Map<String, Community> communitiesFromJson(Map<String, dynamic>? list) {
   if (list == null) {
     return Map<String, Community>();
   } else if (list.containsKey('communities')) {
@@ -48,10 +48,8 @@ Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
     return communities;
   } else {
     return list.map(
-          (k, e) => MapEntry(k,
-              e == null ? null : Community.fromJson(e as Map<String, dynamic>)),
-        ) ??
-        {};
+      (k, e) => MapEntry(k, Community.fromJson(e as Map<String, dynamic>)),
+    );
   }
 }
 
@@ -62,22 +60,22 @@ class CashWalletState with _$CashWalletState {
 
   @JsonSerializable()
   factory CashWalletState({
-    @Default(null) String? communityAddress,
-    @Default(true) bool? isDepositBanner,
+    @Default(null) String communityAddress,
+    @Default(true) bool isDepositBanner,
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @JsonKey(fromJson: communitiesFromJson)
     @Default({})
         Map<String, Community> communities,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
     @JsonKey(ignore: true) String? branchAddress,
-    @JsonKey(ignore: true) @Default(false) bool? isCommunityLoading,
-    @JsonKey(ignore: true) @Default(false) bool? isCommunityFetched,
-    @JsonKey(ignore: true) @Default(false) bool? isTransfersFetchingStarted,
-    @JsonKey(ignore: true) @Default(false) bool? isListeningToBranch,
-    @JsonKey(ignore: true) @Default(false) bool? isBranchDataReceived,
-    @JsonKey(ignore: true) @Default(false) bool? isCommunityBusinessesFetched,
-    @JsonKey(ignore: true) @Default(false) bool? isJobProcessingStarted,
-    @JsonKey(ignore: true) @Default(false) bool? isFetchingBalances,
+    @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
+    @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
+    @JsonKey(ignore: true) @Default(false) bool isTransfersFetchingStarted,
+    @JsonKey(ignore: true) @Default(false) bool isListeningToBranch,
+    @JsonKey(ignore: true) @Default(false) bool isBranchDataReceived,
+    @JsonKey(ignore: true) @Default(false) bool isCommunityBusinessesFetched,
+    @JsonKey(ignore: true) @Default(false) bool isJobProcessingStarted,
+    @JsonKey(ignore: true) @Default(false) bool isFetchingBalances,
   }) = _CashWalletState;
 
   factory CashWalletState.initial() {
@@ -100,9 +98,9 @@ class CashWalletStateConverter
   const CashWalletStateConverter();
 
   @override
-  CashWalletState fromJson(Map<String, dynamic> json) =>
+  CashWalletState fromJson(Map<String, dynamic>? json) =>
       json != null ? CashWalletState.fromJson(json) : CashWalletState.initial();
 
   @override
-  Map<String, dynamic> toJson(CashWalletState instance) => instance?.toJson();
+  Map<String, dynamic> toJson(CashWalletState instance) => instance.toJson();
 }

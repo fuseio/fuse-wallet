@@ -4,10 +4,10 @@ import 'package:fusecash/widgets/show_up.dart';
 
 class WelcomeTitle extends StatelessWidget {
   const WelcomeTitle({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
     this.delay = 500,
-    this.subTitle,
+    required this.subTitle,
   }) : super(key: key);
   final int delay;
   final String title;

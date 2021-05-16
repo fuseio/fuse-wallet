@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/features/account/router/router.dart';
 import 'package:fusecash/features/contacts/router/router.dart';
+import 'package:fusecash/features/earn/router/router.dart';
 import 'package:fusecash/features/home/router/router.dart';
 import 'package:fusecash/features/home/screens/action_details.dart';
 import 'package:fusecash/features/screens/home_screen.dart';
@@ -80,6 +81,7 @@ export 'routes.gr.dart';
         homeTab,
         contactsTab,
         swapTab,
+        earnTab,
         accountTab,
       ],
     ),

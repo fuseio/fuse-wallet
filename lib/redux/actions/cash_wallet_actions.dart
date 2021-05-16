@@ -34,12 +34,16 @@ import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 
 class AddCashTokens {
   final Map<String, Token> tokens;
-  AddCashTokens({this.tokens});
+  AddCashTokens({
+    required this.tokens,
+  });
 }
 
 class AddCashToken {
   final Token token;
-  AddCashToken({this.token});
+  AddCashToken({
+    required this.token,
+  });
 }
 
 class UpdateTokenPrice {
@@ -47,8 +51,8 @@ class UpdateTokenPrice {
   final String tokenAddress;
 
   UpdateTokenPrice({
-    this.price,
-    this.tokenAddress,
+    required this.price,
+    required this.tokenAddress,
   });
 }
 
@@ -59,7 +63,9 @@ class SetDefaultCommunity {
 
 class AddCommunities {
   Map<String, Community> communities;
-  AddCommunities({this.communities});
+  AddCommunities({
+    required this.communities,
+  });
 }
 
 class GetWalletAddressesSuccess {
@@ -67,24 +73,27 @@ class GetWalletAddressesSuccess {
   final String walletAddress;
   final bool backup;
   GetWalletAddressesSuccess({
-    this.backup,
-    this.networks,
-    this.walletAddress,
+    required this.backup,
+    required this.networks,
+    required this.walletAddress,
   });
 }
 
 class GetTokenBalanceSuccess {
   final String tokenAddress;
   final BigInt tokenBalance;
-  GetTokenBalanceSuccess({this.tokenBalance, this.tokenAddress});
+  GetTokenBalanceSuccess({
+    required this.tokenBalance,
+    required this.tokenAddress,
+  });
 }
 
 class GetTokenPriceChangeSuccess {
   final String tokenAddress;
   final num priceChange;
   GetTokenPriceChangeSuccess({
-    this.priceChange,
-    this.tokenAddress,
+    required this.priceChange,
+    required this.tokenAddress,
   });
 }
 
@@ -92,8 +101,8 @@ class GetTokenStatsSuccess {
   final String tokenAddress;
   final List<Stats> stats;
   GetTokenStatsSuccess({
-    this.stats,
-    this.tokenAddress,
+    required this.stats,
+    required this.tokenAddress,
   });
 }
 
@@ -110,7 +119,7 @@ class SwitchToNewCommunity {
 class SwitchCommunitySuccess {
   final Community community;
   SwitchCommunitySuccess({
-    this.community,
+    required this.community,
   });
 }
 
@@ -121,23 +130,28 @@ class RefreshCommunityData {
   final String bridgeDirection;
   final String webUrl;
   RefreshCommunityData({
-    this.bridgeDirection,
-    this.bridgeType,
-    this.plugins,
-    this.communityAddress,
-    this.webUrl,
+    required this.bridgeDirection,
+    required this.bridgeType,
+    required this.plugins,
+    required this.communityAddress,
+    required this.webUrl,
   });
 }
 
 class FetchCommunityMetadataSuccess {
   final String communityAddress;
   final CommunityMetadata metadata;
-  FetchCommunityMetadataSuccess({this.communityAddress, this.metadata});
+  FetchCommunityMetadataSuccess({
+    required this.communityAddress,
+    required this.metadata,
+  });
 }
 
 class SwitchCommunityFailed {
   final String communityAddress;
-  SwitchCommunityFailed({this.communityAddress});
+  SwitchCommunityFailed({
+    required this.communityAddress,
+  });
 }
 
 class StartFetchingBusinessList {
@@ -155,7 +169,8 @@ class FetchingBusinessListFailed {
 class GetBusinessListSuccess {
   final String communityAddress;
   final List<Business> businessList;
-  GetBusinessListSuccess({this.businessList, this.communityAddress});
+  GetBusinessListSuccess(
+      {required this.businessList, required this.communityAddress});
 }
 
 // class GetTokenTransfersListSuccess {
@@ -167,7 +182,10 @@ class GetBusinessListSuccess {
 class GetActionsSuccess {
   final List<WalletAction> walletActions;
   final num updateAt;
-  GetActionsSuccess({this.updateAt, this.walletActions});
+  GetActionsSuccess({
+    required this.updateAt,
+    required this.walletActions,
+  });
 }
 
 class GetTokenWalletActionsSuccess {
@@ -175,9 +193,9 @@ class GetTokenWalletActionsSuccess {
   final List<WalletAction> walletActions;
   final num updateAt;
   GetTokenWalletActionsSuccess({
-    this.updateAt,
-    this.walletActions,
-    this.token,
+    required this.updateAt,
+    required this.walletActions,
+    required this.token,
   });
 }
 
@@ -187,7 +205,9 @@ class StartBalanceFetchingSuccess {
 
 class SetIsTransfersFetching {
   final bool isFetching;
-  SetIsTransfersFetching({this.isFetching});
+  SetIsTransfersFetching({
+    required this.isFetching,
+  });
 }
 
 class ResetTokenTxs {
@@ -230,7 +250,9 @@ class BranchListeningStopped {}
 
 class SetIsFetchingBalances {
   final bool isFetching;
-  SetIsFetchingBalances({this.isFetching});
+  SetIsFetchingBalances({
+    required this.isFetching,
+  });
 }
 
 class SetShowDepositBanner {}
@@ -238,46 +260,46 @@ class SetShowDepositBanner {}
 ThunkAction enablePushNotifications() {
   return (Store store) async {
     try {
-      FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-      void iosPermission() {
-        var firebaseMessaging2 = firebaseMessaging;
-        firebaseMessaging2.requestNotificationPermissions(
-            IosNotificationSettings(sound: true, badge: true, alert: true));
-        firebaseMessaging.onIosSettingsRegistered
-            .listen((IosNotificationSettings settings) {
-          log.info("Settings registered: $settings");
-        });
-      }
+      // FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+      // void iosPermission() {
+      //   var firebaseMessaging2 = firebaseMessaging;
+      //   firebaseMessaging2.requestNotificationPermissions(
+      //       IosNotificationSettings(sound: true, badge: true, alert: true));
+      //   firebaseMessaging.onIosSettingsRegistered
+      //       .listen((IosNotificationSettings settings) {
+      //     log.info("Settings registered: $settings");
+      //   });
+      // }
 
-      if (Platform.isIOS) iosPermission();
-      String token = await firebaseMessaging.getToken();
-      log.info("Firebase messaging token $token");
+      // if (Platform.isIOS) iosPermission();
+      // String token = await firebaseMessaging.getToken();
+      // log.info("Firebase messaging token $token");
 
-      String walletAddress = store.state.userState.walletAddress;
-      await api.updateFirebaseToken(walletAddress, token);
-      await Segment.setContext({
-        'device': {'token': token},
-      });
+      // String walletAddress = store.state.userState.walletAddress;
+      // await api.updateFirebaseToken(walletAddress, token);
+      // await Segment.setContext({
+      //   'device': {'token': token},
+      // });
 
-      void switchOnPush(message) {
-        final dynamic data = message['data'] ?? message;
-        final String communityAddress = data['communityAddress'];
-        if (communityAddress != null && communityAddress.isNotEmpty) {
-          store.dispatch(switchCommunityCall(communityAddress));
-        }
-      }
+      // void switchOnPush(message) {
+      //   final dynamic data = message['data'] ?? message;
+      //   final String communityAddress = data['communityAddress'];
+      //   if (communityAddress != null && communityAddress.isNotEmpty) {
+      //     store.dispatch(switchCommunityCall(communityAddress));
+      //   }
+      // }
 
-      firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {
-          switchOnPush(message);
-        },
-        onResume: (Map<String, dynamic> message) async {
-          switchOnPush(message);
-        },
-        onLaunch: (Map<String, dynamic> message) async {
-          switchOnPush(message);
-        },
-      );
+      // firebaseMessaging.configure(
+      //   onMessage: (Map<String, dynamic> message) async {
+      //     switchOnPush(message);
+      //   },
+      //   onResume: (Map<String, dynamic> message) async {
+      //     switchOnPush(message);
+      //   },
+      //   onLaunch: (Map<String, dynamic> message) async {
+      //     switchOnPush(message);
+      //   },
+      // );
     } catch (e, s) {
       log.error('ERROR - Enable push notifications: $e');
       await Sentry.captureException(
@@ -289,7 +311,7 @@ ThunkAction enablePushNotifications() {
   };
 }
 
-ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
+ThunkAction segmentTrackCall(eventName, {Map<String, dynamic>? properties}) {
   return (Store store) async {
     try {
       log.info('Track - $eventName');
@@ -364,13 +386,13 @@ ThunkAction startFetchTokensBalances() {
           log.error('Timer stopped - startFetchTokensBalances');
           store.dispatch(SetIsFetchingBalances(isFetching: false));
           timer.cancel();
-          return false;
-        }
-        Map<String, Token> tokens = store.state.cashWalletState.tokens;
-        store.dispatch(getFuseBalance());
-        for (Token token in tokens.values) {
-          if (![null, ''].contains(token.address)) {
-            store.dispatch(getTokenBalanceCall(token));
+        } else {
+          Map<String, Token> tokens = store.state.cashWalletState.tokens;
+          store.dispatch(getFuseBalance());
+          for (Token token in tokens.values) {
+            if (![null, ''].contains(token.address)) {
+              store.dispatch(getTokenBalanceCall(token));
+            }
           }
         }
       });
@@ -419,7 +441,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         ));
       } else {
         CashWalletState cashWalletState = store.state.cashWalletState;
-        Community community =
+        Community? community =
             cashWalletState.communities[defaultCommunityAddress.toLowerCase()];
         if (!cashWalletState.tokens.containsKey(community?.homeTokenAddress)) {
           final response = await api.getWallet();
@@ -444,7 +466,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
 
 ThunkAction generateWalletSuccessCall(dynamic walletData) {
   return (Store store) async {
-    String walletAddress = walletData["walletAddress"];
+    String? walletAddress = walletData["walletAddress"];
     log.info('walletAddress walletAddress $walletAddress');
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(setupWalletCall(walletData));
@@ -522,7 +544,7 @@ ThunkAction inviteAndSendCall(
   num tokensAmount,
   VoidCallback sendSuccessCallback,
   VoidCallback sendFailureCallback, {
-  String receiverName,
+  String? receiverName,
 }) {
   return (Store store) async {
     try {
@@ -587,17 +609,18 @@ ThunkAction fetchListOfTokensByAddress() {
 }
 
 ThunkAction sendTokenToForeignMultiBridge(
-    Token token,
-    String receiverAddress,
-    num tokensAmount,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-    {String receiverName,
-    String transferNote}) {
+  Token token,
+  String receiverAddress,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback, {
+  String? receiverName,
+  String? transferNote,
+}) {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      String tokenAddress = token?.address;
+      String tokenAddress = token.address;
       dynamic response;
       num feeAmount = 20;
       log.info(
@@ -678,8 +701,8 @@ ThunkAction sendTokenCall(
   num tokensAmount,
   VoidCallback sendSuccessCallback,
   VoidCallback sendFailureCallback, {
-  String receiverName,
-  String transferNote,
+  String? receiverName,
+  String? transferNote,
 }) {
   return (Store store) async {
     try {
@@ -694,12 +717,12 @@ ThunkAction sendTokenCall(
       } else {
         Map<String, Community> communities =
             store.state.cashWalletState.communities;
-        String tokenAddress = token?.address;
+        String tokenAddress = token.address;
         Community community = communities.values.firstWhere(
-            (element) =>
-                element?.homeTokenAddress?.toLowerCase() ==
-                tokenAddress?.toLowerCase(),
-            );
+          (element) =>
+              element?.homeTokenAddress?.toLowerCase() ==
+              tokenAddress?.toLowerCase(),
+        );
 
         dynamic response;
         if (![null, ''].contains(token?.communityAddress) &&
@@ -823,12 +846,11 @@ Future<Map<String, dynamic>> getCommunityData(
 }
 
 Future<Token> fetchToken(
-  Community community,
+  Community? community,
   bool isRopsten,
   String originNetwork,
 ) async {
-  if (community.homeTokenAddress != null &&
-      community.homeTokenAddress.isNotEmpty) {
+  if (community?.homeTokenAddress != null) {
     Token tokenInfo = await fuseExplorerApi.getTokenInfo(
       community.homeTokenAddress,
     );
@@ -846,7 +868,7 @@ Future<Token> fetchToken(
       address: tokenInfo['address'].toLowerCase(),
       timestamp: 0,
       amount: BigInt.zero,
-      communityAddress: community.address.toLowerCase(),
+      communityAddress: community?.address.toLowerCase(),
       name: formatTokenName(tokenInfo['name']),
     );
     return token;
@@ -1233,8 +1255,8 @@ ThunkAction sendTokenToContactCall(
   num tokensAmount,
   VoidCallback sendSuccessCallback,
   VoidCallback sendFailureCallback, {
-  String receiverName,
-  String transferNote,
+  String? receiverName,
+  String? transferNote,
 }) {
   return (Store store) async {
     try {

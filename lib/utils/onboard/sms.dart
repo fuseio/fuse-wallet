@@ -13,7 +13,8 @@ class SmsStrategy implements IOnBoardStrategy {
   Future login(store, phoneNumber) async {
     await api.loginWithSMS(phoneNumber);
     store.dispatch(SetIsLoginRequest(isLoading: false));
-    ExtendedNavigator.root.pushVerifyScreen();
+    // Todo - pushVerifyScreen
+    // ExtendedNavigator.root.pushVerifyScreen();
   }
 
   @override

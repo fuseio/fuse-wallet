@@ -10,9 +10,9 @@ class SecurityViewModel extends Equatable {
   final bool isBackup;
   final BiometricAuth authType;
   SecurityViewModel({
-    this.setSecurityType,
-    this.authType,
-    this.isBackup,
+    required this.setSecurityType,
+    required this.authType,
+    required this.isBackup,
   });
 
   static SecurityViewModel fromStore(Store<AppState> store) {

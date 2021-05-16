@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
   PrimaryButton({
-    this.fontSize,
-    this.onPressed,
-    this.label,
-    this.width,
-    this.height,
-    this.preload,
+    this.fontSize = 20,
+    required this.onPressed,
+    required this.label,
+    this.width = 255.0,
+    this.height = 50.0,
+    this.preload = false,
     this.opacity = 0.4,
     this.disabled = false,
-    this.labelColor,
   });
   final double opacity;
   final GestureTapCallback onPressed;
@@ -21,13 +20,12 @@ class PrimaryButton extends StatelessWidget {
   final bool preload;
   final bool disabled;
   final double fontSize;
-  final Color labelColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? 255.0,
-      height: height ?? 50.0,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: disabled
             ? Theme.of(context).colorScheme.secondary
@@ -44,14 +42,14 @@ class PrimaryButton extends StatelessWidget {
           splashColor:
               Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
           child: Center(
-            child: (preload == null || preload == false)
+            child: !preload
                 ? AutoSizeText(
                     label,
                     style: TextStyle(
                       color: disabled
                           ? Color(0xFF797979)
-                          : Theme.of(context).textTheme.button.color,
-                      fontSize: this.fontSize ?? 20,
+                          : Theme.of(context).textTheme.button!.color,
+                      fontSize: this.fontSize,
                       fontWeight: FontWeight.normal,
                     ),
                     maxLines: 1,

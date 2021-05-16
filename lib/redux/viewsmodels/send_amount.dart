@@ -82,16 +82,16 @@ class SendAmountViewModel extends Equatable {
   List<Object> get props => [tokens, communities];
 
   SendAmountViewModel({
-    this.tokens,
-    this.communities,
-    this.sendToContact,
-    this.sendToAccountAddress,
-    this.trackTransferCall,
-    this.identifyCall,
-    this.sendToErc20Token,
-    this.sendERC20ToContact,
-    this.sendToForeignMultiBridge,
-    this.sendToHomeMultiBridge,
+    required this.tokens,
+    required this.communities,
+    required this.sendToContact,
+    required this.sendToAccountAddress,
+    required this.trackTransferCall,
+    required this.identifyCall,
+    required this.sendToErc20Token,
+    required this.sendERC20ToContact,
+    required this.sendToForeignMultiBridge,
+    required this.sendToHomeMultiBridge,
   });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
@@ -106,7 +106,7 @@ class SendAmountViewModel extends Equatable {
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .where((Token token) =>
             num.parse(token.getBalance(true)).compareTo(0) == 1)
-        .map((Token token) => token?.copyWith(
+        .map((Token token) => token.copyWith(
             imageUrl: token.imageUrl != null
                 ? token.imageUrl
                 : store.state.cashWalletState.communities
@@ -127,8 +127,8 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
-        String transferNote,
+        String? receiverName,
+        String? transferNote,
       }) {
         store.dispatch(sendTokenToContactCall(
           token,

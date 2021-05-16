@@ -26,100 +26,106 @@ class _CreateWalletState extends State<CreateWallet> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SplashViewModel>(
-        distinct: true,
-        converter: SplashViewModel.fromStore,
-        builder: (_, viewModel) {
-          return Container(
-            padding: EdgeInsets.only(bottom: 80),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                PrimaryButton(
-                  disabled: isPrimaryPreloading,
-                  label: viewModel.isLoggedOut
-                      ? I10n.of(context).login
-                      : I10n.of(context).create_new_wallet,
-                  onPressed: () async {
-                    if (viewModel.isLoggedOut) {
-                      viewModel.loginAgain();
-                      if (ExtendedNavigator.root.canPop()) {
-                        ExtendedNavigator.root.popUntilRoot();
-                      }
-                      ExtendedNavigator.root.replace(Routes.homeScreen);
-                    } else {
+      distinct: true,
+      converter: SplashViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Container(
+          padding: EdgeInsets.only(bottom: 80),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              PrimaryButton(
+                disabled: isPrimaryPreloading,
+                label: viewModel.isLoggedOut
+                    ? I10n.of(context).login
+                    : I10n.of(context).create_new_wallet,
+                onPressed: () async {
+                  if (viewModel.isLoggedOut) {
+                    viewModel.loginAgain();
+                    // if (ExtendedNavigator.root.canPop()) {
+                    //   ExtendedNavigator.root.popUntilRoot();
+                    // }
+                    // ExtendedNavigator.root.replace(Routes.homeScreen);
+                  } else {
+                    setState(() {
+                      isPrimaryPreloading = true;
+                    });
+                    viewModel.createLocalAccount(() {
                       setState(() {
-                        isPrimaryPreloading = true;
+                        isPrimaryPreloading = false;
                       });
-                      viewModel.createLocalAccount(() {
-                        setState(() {
-                          isPrimaryPreloading = false;
-                        });
-                        ExtendedNavigator.root.pushSignUpScreen();
-                      }, () {
-                        setState(() {
-                          isPrimaryPreloading = false;
-                        });
+                      // ExtendedNavigator.root.pushSignUpScreen();
+                    }, () {
+                      setState(() {
+                        isPrimaryPreloading = false;
                       });
-                    }
-                  },
-                  preload: isPrimaryPreloading,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: viewModel.isLoggedOut
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              TransparentButton(
-                                  fontSize: 14,
-                                  label: I10n.of(context).restore_backup,
-                                  onPressed: () async {
-                                    ExtendedNavigator.root.pushRecoveryPage();
-                                  }),
-                              Text(
-                                I10n.of(context).or,
-                                style: TextStyle(
-                                  color: Color(0xFFB2B2B2),
-                                ),
-                              ),
-                              TransparentButton(
-                                  fontSize: 14,
-                                  label: I10n.of(context).create__wallet,
-                                  onPressed: () async {
-                                    bool result = await showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          WarnBeforeReCreation(),
-                                    );
-                                    if (result) {
+                    });
+                  }
+                },
+                preload: isPrimaryPreloading,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: viewModel.isLoggedOut
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          TransparentButton(
+                            fontSize: 14,
+                            label: I10n.of(context).restore_backup,
+                            onPressed: () {
+                              // ExtendedNavigator.root.pushRecoveryPage();
+                            },
+                          ),
+                          Text(
+                            I10n.of(context).or,
+                            style: TextStyle(
+                              color: Color(0xFFB2B2B2),
+                            ),
+                          ),
+                          TransparentButton(
+                              fontSize: 14,
+                              label: I10n.of(context).create__wallet,
+                              onPressed: () async {
+                                bool result = await showDialog(
+                                  context: context,
+                                  builder: (context) => WarnBeforeReCreation(),
+                                );
+                                if (result) {
+                                  setState(() {
+                                    isTransparentPreloading = true;
+                                  });
+                                  viewModel.createLocalAccount(
+                                    () {
+                                      // ExtendedNavigator.root
+                                      //     .pushSignUpScreen();
+                                    },
+                                    () {
                                       setState(() {
-                                        isTransparentPreloading = true;
+                                        isTransparentPreloading = false;
                                       });
-                                      viewModel.createLocalAccount(() {
-                                        ExtendedNavigator.root
-                                            .pushSignUpScreen();
-                                      }, () {
-                                        setState(() {
-                                          isTransparentPreloading = false;
-                                        });
-                                      });
-                                    }
-                                  },
-                                  preload: isTransparentPreloading)
-                            ],
-                          )
-                        : TransparentButton(
-                            fontSize: 20,
-                            label: I10n.of(context).restore_from_backup,
-                            onPressed: () async {
-                              ExtendedNavigator.root.pushRecoveryPage();
-                            }))
-              ],
-            ),
-          );
-        });
+                                    },
+                                  );
+                                }
+                              },
+                              preload: isTransparentPreloading)
+                        ],
+                      )
+                    : TransparentButton(
+                        fontSize: 20,
+                        label: I10n.of(context).restore_from_backup,
+                        onPressed: () {
+                          // ExtendedNavigator.root.pushRecoveryPage();
+                        },
+                      ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }

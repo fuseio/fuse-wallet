@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.height = 350.0,
     this.backgroundColor: Colors.white,
   }) : super(key: key);

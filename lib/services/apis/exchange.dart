@@ -25,7 +25,10 @@ class Exchange {
     // }
   }
 
-  Future<Map<String, dynamic>> swap(String walletAddress, {Map data}) async {
+  Future<Map<String, dynamic>> swap(
+    String walletAddress,
+    Map data,
+  ) async {
     Map body = Map.from({
       'address': walletAddress,
       ...data,

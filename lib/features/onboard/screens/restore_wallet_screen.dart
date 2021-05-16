@@ -17,7 +17,7 @@ class RecoveryPage extends StatefulWidget {
 }
 
 class _RecoveryPageState extends State<RecoveryPage> {
-  GlobalKey<ScaffoldState> scaffoldState;
+  GlobalKey<ScaffoldState>? scaffoldState;
   bool isLoading = false;
   final wordsController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
@@ -96,8 +96,8 @@ class _RecoveryPageState extends State<RecoveryPage> {
                               ),
                               fillColor: Colors.transparent,
                             ),
-                            validator: (String value) =>
-                                value.split(" ").length != 12
+                            validator: (String? value) =>
+                                value?.split(" ").length != 12
                                     ? 'Please enter 12 words'
                                     : null,
                           ),
@@ -120,7 +120,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       disabled: isPreloading,
                       label: I10n.of(context).next_button,
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           setState(() {
                             isPreloading = true;
                           });
@@ -129,7 +129,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                             setState(() {
                               isPreloading = false;
                             });
-                            ExtendedNavigator.root.pushSignUpScreen();
+                            // ExtendedNavigator.root.pushSignUpScreen();
                           });
                         }
                       },

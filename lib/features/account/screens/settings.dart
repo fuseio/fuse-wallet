@@ -41,7 +41,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   viewModel.logout();
-                  ExtendedNavigator.root.replace(Routes.onBoardScreen);
+                  context.router.replace(OnBoardScreen());
+                  // ExtendedNavigator.root.replace(Routes.onBoardScreen);
                 },
                 title: Row(
                   children: <Widget>[

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class TransparentButton extends StatelessWidget {
   TransparentButton({
-    this.fontSize,
-    this.onPressed,
-    this.label,
-    this.width,
-    this.height,
-    this.preload,
+    this.fontSize = 18,
+    required this.onPressed,
+    required this.label,
+    this.width = 21.0,
+    this.height = 21.0,
+    this.preload = false,
   });
 
   final void Function() onPressed;
@@ -25,12 +25,12 @@ class TransparentButton extends StatelessWidget {
         focusColor: Theme.of(context).canvasColor,
         highlightColor: Theme.of(context).canvasColor,
         onTap: onPressed,
-        child: (preload == null || preload == false)
+        child: !preload
             ? Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: Text(label,
                     style: TextStyle(
-                      fontSize: this.fontSize ?? 18,
+                      fontSize: this.fontSize,
                       fontWeight: FontWeight.normal,
                     )),
               )
@@ -41,8 +41,8 @@ class TransparentButton extends StatelessWidget {
                     Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
-                width: 21.0,
-                height: 21.0,
+                width: width,
+                height: height,
                 margin: EdgeInsets.only(left: 28, right: 28),
               ),
       ),

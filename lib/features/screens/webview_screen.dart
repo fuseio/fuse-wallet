@@ -8,9 +8,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebViewScreen extends StatefulWidget {
   final String url;
   final String title;
-  final bool withBack;
+  final bool? withBack;
 
-  WebViewScreen({this.url, this.title, this.withBack = false});
+  WebViewScreen(this.url, this.title, {this.withBack = false});
 
   @override
   _WebViewScreenState createState() => _WebViewScreenState();
@@ -36,7 +36,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         initialUrl: widget.url,
         onPageStarted: (String url) {
           if (url.contains('https://fuse.cash/')) {
-            ExtendedNavigator.root.popUntilRoot();
+            // ExtendedNavigator.root.popUntilRoot();
           }
         },
       ),

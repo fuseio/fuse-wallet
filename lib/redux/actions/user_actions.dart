@@ -69,11 +69,11 @@ class ReLogin {
 class LoginRequestSuccess {
   final CountryCode countryCode;
   final String phoneNumber;
-  final String displayName;
-  final String email;
+  final String? displayName;
+  final String? email;
   LoginRequestSuccess({
-    this.countryCode,
-    this.phoneNumber,
+    required this.countryCode,
+    required this.phoneNumber,
     this.displayName,
     this.email,
   });
@@ -127,7 +127,7 @@ class BackupSuccess {
 }
 
 class SetCredentials {
-  PhoneAuthCredential credentials;
+  AuthCredential? credentials;
   SetCredentials(this.credentials);
 }
 
@@ -144,13 +144,19 @@ class JustInstalled {
 class SetIsLoginRequest {
   final bool isLoading;
   final dynamic message;
-  SetIsLoginRequest({this.isLoading, this.message});
+  SetIsLoginRequest({
+    required this.isLoading,
+    this.message,
+  });
 }
 
 class SetIsVerifyRequest {
   final bool isLoading;
   final dynamic message;
-  SetIsVerifyRequest({this.isLoading, this.message});
+  SetIsVerifyRequest({
+    required this.isLoading,
+    this.message,
+  });
 }
 
 class DeviceIdSuccess {
@@ -202,14 +208,13 @@ ThunkAction verifyHandler(String verificationCode) {
         store.dispatch(LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        ExtendedNavigator.root.pushUserNameScreen();
+        // ExtendedNavigator.root.pushUserNameScreen();
       };
       await onBoardStrategy.verify(store, verificationCode, onSuccess);
     } catch (error, s) {
       store.dispatch(SetIsVerifyRequest(
         isLoading: false,
-        message: error ??
-            I10n.of(ExtendedNavigator.root.context).something_went_wrong,
+        message: error,
       ));
       await Sentry.captureException(
         error,
@@ -329,14 +334,14 @@ ThunkAction syncContactsCall() {
       List<Contact> contacts = await Contacts.getContacts();
       store.dispatch(SaveContacts(contacts));
       List<String> syncedContacts = store.state.userState.syncedContacts;
-      List<String> newPhones = List<String>();
+      List<String> newPhones = <String>[];
       String countryCode = store.state.userState.countryCode;
       String isoCode = store.state.userState.isoCode;
       for (Contact contact in contacts) {
         Future<List<String>> phones = Future.wait(
-          contact.phones.map(
+          contact.phones!.map(
             (Item phone) async {
-              String value = clearNotNumbersAndPlusSymbol(phone.value);
+              String value = clearNotNumbersAndPlusSymbol(phone.value!);
               try {
                 PhoneNumber phoneNumber = await phoneNumberUtil.parse(value);
                 return phoneNumber.e164;
@@ -548,7 +553,7 @@ ThunkAction updateUserAvatarCall(ImageSource source) {
     final picker = ImagePicker();
     final file = await picker.getImage(source: source);
     try {
-      final uploadResponse = await api.uploadImage(File(file.path));
+      final uploadResponse = await api.uploadImage(File(file!.path));
       String accountAddress = store.state.userState.accountAddress;
       await api.updateAvatar(accountAddress, uploadResponse['hash']);
       store.dispatch(SetUserAvatar(uploadResponse['uri']));

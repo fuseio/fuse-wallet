@@ -51,7 +51,7 @@ class _ContactsListState extends State<ContactsList> {
         refreshContacts(viewModel.contacts);
       },
       onWillChange: (previousViewModel, newViewModel) {
-        if (previousViewModel.contacts != newViewModel.contacts) {
+        if (previousViewModel?.contacts != newViewModel.contacts) {
           refreshContacts(newViewModel.contacts);
         }
       },
@@ -149,14 +149,15 @@ class _ContactsListState extends State<ContactsList> {
                 ? MemoryImage(user.avatar!)
                 : null)!,
             displayName: user.displayName!,
-            phoneNumber: phone.value!,
+            // phoneNumber: phone.value!,
             onTap: () {
               resetSearch();
               sendToContact(
-                ExtendedNavigator.named('contactsRouter').context,
+                context,
+                // ExtendedNavigator.named('contactsRouter').context,
                 user.displayName!,
                 phone.value!,
-                tokenToSend: widget.pageArgs!.tokenToSend,
+                // tokenToSend: widget.pageArgs!.tokenToSend,
                 isoCode: viewModel.isoCode,
                 countryCode: viewModel.countryCode,
                 // avatar: (user.avatar != null && user.avatar!.isNotEmpty
@@ -178,7 +179,7 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   List<Widget> _buildPageList(ContactsViewModel viewModel) {
-    List<Widget> listItems = List();
+    List<Widget> listItems = [];
 
     listItems.add(SearchPanel(
       searchController: searchController,
@@ -218,7 +219,7 @@ class _ContactsListState extends State<ContactsList> {
           listItems.insert(
             1,
             RecentContacts(
-              token: widget.pageArgs!.tokenToSend,
+              token: widget.pageArgs?.tokenToSend,
             ),
           );
         }

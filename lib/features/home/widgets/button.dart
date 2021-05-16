@@ -4,31 +4,31 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class Button extends StatelessWidget {
   const Button({
-    Key key,
-    this.onPressed,
-    this.text,
-    this.icon,
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    required this.icon,
     this.width,
   }) : super(key: key);
   final void Function() onPressed;
   final String text;
   final String icon;
-  final double width;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? MediaQuery.of(context).size.width * .425,
-      child: FlatButton(
+      child: TextButton(
         onPressed: onPressed,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              12.0,
-            ),
-          ),
-        ),
-        color: Theme.of(context).colorScheme.secondary,
-        padding: EdgeInsets.all(15.0),
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.all(
+        //     Radius.circular(
+        //       12.0,
+        //     ),
+        //   ),
+        // ),
+        // color: Theme.of(context).colorScheme.secondary,
+        // padding: EdgeInsets.all(15.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

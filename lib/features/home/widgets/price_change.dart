@@ -6,8 +6,8 @@ import 'package:number_display/number_display.dart';
 class TokenPriceChange extends StatelessWidget {
   final String address;
   const TokenPriceChange({
-    Key key,
-    this.address,
+    Key? key,
+    required this.address,
   }) : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class TokenPriceChange extends StatelessWidget {
               case ConnectionState.active:
                 return Text('..');
               case ConnectionState.done:
-                final num priceChange = snapshot.data;
+                final num priceChange = snapshot.data!;
                 final Display display = createDisplay(
                   decimal: 1,
                 );
@@ -102,7 +102,6 @@ class TokenPriceChange extends StatelessWidget {
                   );
                 }
             }
-            return null;
           },
         ),
       ),

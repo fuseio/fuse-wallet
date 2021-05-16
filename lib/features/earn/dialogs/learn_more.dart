@@ -12,9 +12,9 @@ class LearnMoreDialog extends StatefulWidget {
 
 class LearnMoreDialogState extends State<LearnMoreDialog>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 

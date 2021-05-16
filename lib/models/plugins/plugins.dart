@@ -12,17 +12,14 @@ import 'package:json_annotation/json_annotation.dart';
 part 'plugins.freezed.dart';
 part 'plugins.g.dart';
 
-WalletBannerPlugin walletBannerFromJson(json) =>
-    json == null ? null : WalletBannerPluginConverter().fromJson(json);
-
 JoinBonusPlugin joinBonusPluginFromJson(json) =>
-    json == null ? null : JoinBonusPluginConverter().fromJson(json);
+    JoinBonusPluginConverter().fromJson(json);
 
 BackupBonusPlugin backupBonusPluginFromJson(json) =>
-    json == null ? null : BackupBonusPluginConverter().fromJson(json);
+    BackupBonusPluginConverter().fromJson(json);
 
 InviteBonusPlugin inviteBonusPluginFromJson(json) =>
-    json == null ? null : InviteBonusPluginConverter().fromJson(json);
+    InviteBonusPluginConverter().fromJson(json);
 
 @immutable
 @freezed
@@ -31,16 +28,22 @@ class Plugins with _$Plugins {
 
   @JsonSerializable()
   factory Plugins({
-    @Default(null) @JsonKey(includeIfNull: false) RampInstantPlugin rampInstant,
-    @Default(null) @JsonKey(includeIfNull: false) MoonpayPlugin moonpay,
-    @Default(null) @JsonKey(includeIfNull: false) TransakPlugin transak,
-    @Default(null) @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
+    @Default(null)
+    @JsonKey(includeIfNull: false)
+        RampInstantPlugin? rampInstant,
+    @Default(null) @JsonKey(includeIfNull: false) MoonpayPlugin? moonpay,
+    @Default(null) @JsonKey(includeIfNull: false) TransakPlugin? transak,
+    @Default(null)
+    @JsonKey(includeIfNull: false)
         WalletBannerPlugin walletBanner,
-    @Default(null) @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+    @Default(null)
+    @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
         JoinBonusPlugin joinBonus,
-    @Default(null) @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+    @Default(null)
+    @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
         BackupBonusPlugin backupBonus,
-    @Default(null) @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+    @Default(null)
+    @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
         InviteBonusPlugin inviteBonus,
   }) = _Plugins;
 
@@ -48,13 +51,13 @@ class Plugins with _$Plugins {
 
   List getDepositPlugins() {
     List depositPlugins = [];
-    if (this.rampInstant != null && this.rampInstant.isActive) {
+    if (this.rampInstant != null && this.rampInstant!.isActive) {
       depositPlugins.add(this.rampInstant);
     }
-    if (this.transak != null && this.transak.isActive) {
+    if (this.transak != null && this.transak!.isActive) {
       depositPlugins.add(this.transak);
     }
-    if (this.moonpay != null && this.moonpay.isActive) {
+    if (this.moonpay != null && this.moonpay!.isActive) {
       depositPlugins.add(this.moonpay);
     }
     return depositPlugins;
@@ -65,7 +68,7 @@ class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
   const PluginsConverter();
 
   @override
-  Plugins fromJson(Map<String, dynamic> json) {
+  Plugins fromJson(Map<String, dynamic>? json) {
     if (json == null) {
       return Plugins();
     } else {
@@ -97,5 +100,5 @@ class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
   }
 
   @override
-  Map<String, dynamic> toJson(Plugins instance) => instance?.toJson();
+  Map<String, dynamic> toJson(Plugins instance) => instance.toJson();
 }

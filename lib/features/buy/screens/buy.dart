@@ -9,7 +9,7 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/features/buy/router/router.gr.dart';
+// import 'package:fusecash/features/buy/router/router.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/images.dart';
@@ -78,10 +78,12 @@ class BusinessesListView extends StatelessWidget {
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,
               onTap: () {
-                ExtendedNavigator.root.pushWebview(
-                  title: '',
-                  withBack: true,
-                  url: vm.walletBanner.link,
+                context.router.push(
+                  Webview(
+                    url: vm.walletBanner.link,
+                    title: '',
+                    withBack: true,
+                  ),
                 );
               },
               child: CachedNetworkImage(
@@ -150,7 +152,7 @@ class BusinessesListView extends StatelessWidget {
         decoration: BoxDecoration(),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: ImageUrl.getLink(business.metadata.image),
+            imageUrl: ImageUrl.getLink(business.metadata!.image),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -170,7 +172,7 @@ class BusinessesListView extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        business.metadata.description,
+        business.metadata!.description,
         style: TextStyle(
           // color: Theme.of(context).accentColor,
           fontSize: 12,
@@ -178,10 +180,11 @@ class BusinessesListView extends StatelessWidget {
         ),
       ),
       onTap: () {
-        ExtendedNavigator.named('buyRouter').pushBusinessPage(
-          business: business,
-          token: token,
-        );
+        // TODO = pushBusinessPage
+        // ExtendedNavigator.named('buyRouter').pushBusinessPage(
+        //   business: business,
+        //   token: token,
+        // );
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -200,16 +203,17 @@ class BusinessesListView extends StatelessWidget {
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
-              ExtendedNavigator.root.pushSendAmountScreen(
-                pageArgs: SendFlowArguments(
-                  tokenToSend: token,
-                  name: business.name,
-                  accountAddress: business.account,
-                  avatar: NetworkImage(
-                    ImageUrl.getLink(business.metadata.image),
-                  ),
-                ),
-              );
+              // Todo - pushSendAmountScreen
+              // ExtendedNavigator.root.pushSendAmountScreen(
+              //   pageArgs: SendFlowArguments(
+              //     tokenToSend: token,
+              //     name: business.name,
+              //     accountAddress: business.account,
+              //     avatar: NetworkImage(
+              //       ImageUrl.getLink(business.metadata.image),
+              //     ),
+              //   ),
+              // );
             },
           ),
         ],

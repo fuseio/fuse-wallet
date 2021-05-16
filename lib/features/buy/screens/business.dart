@@ -62,7 +62,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: SizedBox.expand(
                                   child: CachedNetworkImage(
                                 imageUrl: ImageUrl.getLink(
-                                  widget.business.metadata.coverPhoto,
+                                  widget.business.metadata!.coverPhoto,
                                 ), // widget.business.metadata.getCoverPhotoUri(),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
@@ -96,7 +96,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             child: ClipOval(
                                 child: CachedNetworkImage(
                               imageUrl: ImageUrl.getLink(
-                                widget.business.metadata.image,
+                                widget.business.metadata!.image,
                               ),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
@@ -124,7 +124,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         MediaQuery.of(context).size.width -
                                             120),
                                 child: Text(
-                                  widget.business.metadata.address,
+                                  widget.business.metadata!.address,
                                   softWrap: true,
                                   style: TextStyle(
                                     fontSize: 13,
@@ -133,10 +133,10 @@ class _BusinessPageState extends State<BusinessPage> {
                                 ),
                               ),
                               ![null, '']
-                                      .contains(widget.business.metadata.type)
+                                      .contains(widget.business.metadata!.type)
                                   ? Text(
                                       '#' +
-                                          widget.business.metadata.type
+                                          widget.business.metadata!.type
                                               .capitalize(),
                                       overflow: TextOverflow.fade,
                                       style: TextStyle(
@@ -163,7 +163,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             ),
                             Column(
                               children: <Widget>[
-                                widget.business.metadata.website != ''
+                                widget.business.metadata!.website != ''
                                     ? Container(
                                         child: Row(
                                           children: <Widget>[
@@ -182,16 +182,16 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   Theme.of(context).canvasColor,
                                               onTap: () {
                                                 launchUrl(widget
-                                                    .business.metadata.website);
+                                                    .business.metadata!.website);
                                               },
                                               child: Text(widget
-                                                  .business.metadata.website),
+                                                  .business.metadata!.website),
                                             ),
                                           ],
                                         ),
                                       )
                                     : SizedBox.shrink(),
-                                widget.business.metadata.phoneNumber != ''
+                                widget.business.metadata!.phoneNumber != ''
                                     ? Container(
                                         padding: EdgeInsets.only(
                                             top: 10, bottom: 10),
@@ -211,11 +211,11 @@ class _BusinessPageState extends State<BusinessPage> {
                                               highlightColor:
                                                   Theme.of(context).canvasColor,
                                               child: Text(widget.business
-                                                  .metadata.phoneNumber),
+                                                  .metadata!.phoneNumber),
                                               onTap: () {
                                                 final Uri _phoneLaunchUri = Uri(
                                                   scheme: 'tel',
-                                                  path: widget.business.metadata
+                                                  path: widget.business.metadata!
                                                       .phoneNumber,
                                                 );
                                                 launchUrl(
@@ -226,7 +226,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         ),
                                       )
                                     : SizedBox.shrink(),
-                                widget.business.metadata.description != ''
+                                widget.business.metadata!.description != ''
                                     ? Container(
                                         padding: EdgeInsets.only(
                                             top: 10, bottom: 10),
@@ -254,7 +254,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                                       bottom: 5),
                                                   child: Text(widget
                                                               .business
-                                                              .metadata
+                                                              .metadata!
                                                               .description !=
                                                           ''
                                                       ? 'More details'
@@ -264,7 +264,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   padding: EdgeInsets.only(
                                                       bottom: 5),
                                                   child: Text(
-                                                    widget.business.metadata
+                                                    widget.business.metadata!
                                                         .description,
                                                     style: TextStyle(
                                                         color: Theme.of(context)
@@ -290,14 +290,14 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                          widget.business.metadata.latLng != null &&
-                                  widget.business.metadata.latLng.isNotEmpty
+                          widget.business.metadata!.latLng != null &&
+                                  widget.business.metadata!.latLng.isNotEmpty
                               ? GoogleMap(
                                   onMapCreated: _onMapCreated,
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
-                                        widget.business.metadata.latLng[0],
-                                        widget.business.metadata.latLng[1]),
+                                        widget.business.metadata!.latLng[0],
+                                        widget.business.metadata!.latLng[1]),
                                     zoom: 13.0,
                                   ),
                                 )
@@ -315,24 +315,24 @@ class _BusinessPageState extends State<BusinessPage> {
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .textTheme
-                                        .button
+                                        .button!
                                         .color,
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                ExtendedNavigator.root.pushSendAmountScreen(
-                                  pageArgs: SendFlowArguments(
-                                    tokenToSend: widget.token,
-                                    name: widget.business.name ?? '',
-                                    accountAddress: widget.business.account,
-                                    avatar: NetworkImage(
-                                      ImageUrl.getLink(
-                                        widget.business.metadata.image,
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                // ExtendedNavigator.root.pushSendAmountScreen(
+                                //   pageArgs: SendFlowArguments(
+                                //     tokenToSend: widget.token,
+                                //     name: widget.business.name ?? '',
+                                //     accountAddress: widget.business.account,
+                                //     avatar: NetworkImage(
+                                //       ImageUrl.getLink(
+                                //         widget.business.metadata!.image,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // );
                               },
                             ),
                           )

@@ -18,7 +18,7 @@ class PinCodeScreen extends StatefulWidget {
 class _PinCodeScreenState extends State<PinCodeScreen> {
   final pincodeController = TextEditingController(text: "");
   String currentText = "";
-  Flushbar flush;
+  late Flushbar flush;
   final formKey = GlobalKey<FormState>();
   // StreamController<ErrorAnimationType> errorController;
 
@@ -39,7 +39,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        ExtendedNavigator.root.pop<bool>(false);
+        // ExtendedNavigator.root.pop<bool>(false);
         return false;
       },
       child: Scaffold(
@@ -101,8 +101,8 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                   animationType: AnimationType.fade,
                                   controller: pincodeController,
                                   // errorAnimationController: errorController,
-                                  validator: (String value) =>
-                                      value.length != 6 &&
+                                  validator: (String? value) =>
+                                      value!.length != 6 &&
                                               value == viewModel.pincode
                                           ? I10n.of(context).invalid_pincode
                                           : null,
@@ -132,8 +132,8 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                   ),
                                   onCompleted: (value) {
                                     if (viewModel.pincode == value) {
-                                      ExtendedNavigator.root
-                                          .replace(Routes.homeScreen);
+                                      // ExtendedNavigator.root
+                                      //     .replace(Routes.homeScreen);
                                       pincodeController.clear();
                                     } else {
                                       flush = Flushbar<bool>(
@@ -146,7 +146,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                               .colorScheme
                                               .primary,
                                         ),
-                                        mainButton: FlatButton(
+                                        mainButton: TextButton(
                                           onPressed: () async {
                                             flush.dismiss(true);
                                           },
@@ -162,7 +162,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                           (result) async {
                                             if (result) {
                                               pincodeController.clear();
-                                              WidgetsBinding.instance
+                                              WidgetsBinding.instance!
                                                   .focusManager.primaryFocus
                                                   ?.previousFocus();
                                             }

@@ -41,7 +41,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -70,7 +70,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                 topRight: Radius.circular(12.0)),
                             child: CachedNetworkImage(
                               imageUrl:
-                                  widget.community.metadata.getCoverPhotoUri(),
+                                  widget.community.metadata!.getCoverPhotoUri(),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) => Icon(

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/features/screens/set_up_pincode.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
+// import 'package:fusecash/features/account/router/router.gr.dart';
 
 class ProtectYourWallet extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class ProtectYourWallet extends StatefulWidget {
 }
 
 class _ProtectYourWalletState extends State<ProtectYourWallet> {
-  BiometricAuth? _biometricType;
+  late BiometricAuth _biometricType;
 
   Future<void> _checkBiometricable() async {
     _biometricType = await BiometricUtils.getAvailableBiometrics();
@@ -56,8 +57,11 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                     top: 5,
                     bottom: 5,
                   ),
-                  onTap:
-                      ExtendedNavigator.named('accountRouter').pushShowMnemonic,
+                  onTap: () {
+                    context.router.push(ShowMnemonic());
+                  },
+                  // onTap:
+                  //     ExtendedNavigator.named('accountRouter').pushShowMnemonic,
                   title: Row(
                     children: <Widget>[
                       SvgPicture.asset(
@@ -112,6 +116,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                 ),
                 MenuTile(
                   label: BiometricUtils.getBiometricString(
+                    context,
                     _biometricType,
                   ),
                   menuIcon:
@@ -122,15 +127,15 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                         )
                       : null,
                   onTap: () async {
-                    final String biometric =
-                        BiometricUtils.getBiometricString(_biometricType);
+                    final String biometric = BiometricUtils.getBiometricString(
+                        context, _biometricType);
 
                     await BiometricUtils.showDefaultPopupCheckBiometricAuth(
                       message:
                           '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
                       callback: (bool result) {
                         if (result) {
-                          viewModel.setSecurityType(_biometricType);
+                          viewModel.setSecurityType(_biometricType!);
                           Navigator.of(context).pop();
                         }
                       },

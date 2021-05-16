@@ -20,36 +20,41 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class TokenTile extends StatelessWidget {
+class TokenTile extends StatefulWidget {
   TokenTile({
-    Key key,
-    this.token,
+    Key? key,
+    required this.token,
     this.showBalance = true,
     this.showCurrentPrice = false,
     this.onTap,
     this.symbolHeight = 50.0,
     this.symbolWidth = 50.0,
   }) : super(key: key);
-  final Function() onTap;
+  final void Function()? onTap;
   final bool showBalance;
   final bool showCurrentPrice;
   final double symbolWidth;
   final double symbolHeight;
   final Token token;
 
+  @override
+  _TokenTileState createState() => _TokenTileState();
+}
+
+class _TokenTileState extends State<TokenTile> {
   showBottomMenu(
     TokenTileViewModel viewModel,
     BuildContext context,
     bool hasPriceInfo,
   ) {
     final bool isSwappable =
-        viewModel?.tokensImages?.containsKey(token.address) ?? false;
-    List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-    final bool isFUSD =
-        (token.address == fuseDollarToken.address) && depositPlugins.isNotEmpty;
+        viewModel.tokensImages.containsKey(widget.token.address);
+    List depositPlugins = viewModel.plugins.getDepositPlugins();
+    final bool isFUSD = (widget.token.address == fuseDollarToken.address) &&
+        depositPlugins.isNotEmpty;
     showBarModalBottomSheet(
       useRootNavigator: true,
-      context: ExtendedNavigator.named('homeRouter').context,
+      context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0),
@@ -78,41 +83,37 @@ class TokenTile extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: (token.imageUrl != null &&
-                                    token.imageUrl.isNotEmpty ||
-                                (viewModel?.tokensImages?.containsKey(
-                                        token?.address?.toLowerCase()) ??
-                                    false))
+                        child: (widget.token.imageUrl != null &&
+                                    widget.token.imageUrl!.isNotEmpty ||
+                                viewModel.tokensImages.containsKey(
+                                    widget.token.address.toLowerCase())
                             ? CachedNetworkImage(
-                                width: symbolWidth,
-                                height: symbolHeight,
-                                imageUrl: (viewModel?.tokensImages?.containsKey(
-                                            token?.address?.toLowerCase()) ??
-                                        false)
-                                    ? viewModel?.tokensImages[
-                                        token?.address?.toLowerCase()]
-                                    : token?.imageUrl,
+                                width: widget.symbolWidth,
+                                height: widget.symbolHeight,
+                                imageUrl: (viewModel.tokensImages[
+                                        widget.token.address.toLowerCase()] ??
+                                    widget.token.imageUrl)!,
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
                                     DefaultLogo(
-                                  symbol: token?.symbol,
-                                  width: symbolWidth,
-                                  height: symbolHeight,
+                                  symbol: widget.token.symbol,
+                                  width: widget.symbolWidth,
+                                  height: widget.symbolHeight,
                                 ),
                               )
                             : DefaultLogo(
-                                symbol: token?.symbol,
-                                width: symbolWidth,
-                                height: symbolHeight,
-                              ),
+                                symbol: widget.token.symbol,
+                                width: widget.symbolWidth,
+                                height: widget.symbolHeight,
+                              )),
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Expanded(
                         child: AutoSizeText(
-                          token.name,
+                          widget.token.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -150,7 +151,7 @@ class TokenTile extends StatelessWidget {
                                     softWrap: true,
                                   ),
                                   Text(
-                                    '\$${display(num.parse(token.priceInfo.quote))}',
+                                    '\$${display(num.parse(widget.token.priceInfo.quote))}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Europa',
@@ -179,14 +180,14 @@ class TokenTile extends StatelessWidget {
                               textBaseline: TextBaseline.alphabetic,
                               children: [
                                 Text(
-                                  token.getBalance(),
+                                  widget.token.getBalance(),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25,
                                   ),
                                 ),
                                 Text(
-                                  ' ${token.symbol}',
+                                  ' ${widget.token.symbol}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13,
@@ -219,9 +220,9 @@ class TokenTile extends StatelessWidget {
                               icon: 'swap_action',
                               onPressed: () {
                                 viewModel.getSwapList();
-                                ExtendedNavigator.root.pushSwapScreen(
-                                  primaryToken: token,
-                                );
+                                // ExtendedNavigator.root.pushSwapScreen(
+                                //   primaryToken: token,
+                                // );
                               },
                             )
                           : SizedBox.shrink(),
@@ -234,12 +235,12 @@ class TokenTile extends StatelessWidget {
                                 ? null
                                 : MediaQuery.of(context).size.width * .9,
                         onPressed: () {
-                          ExtendedNavigator.root.pushContactsList(
-                            automaticallyImplyLeading: true,
-                            pageArgs: SendFlowArguments(
-                              tokenToSend: token,
-                            ),
-                          );
+                          // ExtendedNavigator.root.pushContactsList(
+                          //   automaticallyImplyLeading: true,
+                          //   pageArgs: SendFlowArguments(
+                          //     tokenToSend: token,
+                          //   ),
+                          // );
                         },
                       ),
                       isFUSD
@@ -250,6 +251,7 @@ class TokenTile extends StatelessWidget {
                               onPressed: () {
                                 String url = depositPlugins[0].widgetUrl;
                                 openDepositWebview(
+                                  context: context,
                                   withBack: true,
                                   url: url,
                                 );
@@ -265,7 +267,7 @@ class TokenTile extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: TokenActivities(
-                    tokenAddress: token?.address,
+                    tokenAddress: widget.token.address,
                   ),
                 ),
               ],
@@ -283,11 +285,12 @@ class TokenTile extends StatelessWidget {
       converter: TokenTileViewModel.fromStore,
       builder: (_, viewModel) {
         final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(widget.token?.priceInfo?.quote);
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
               element?.homeTokenAddress?.toLowerCase() != null &&
-              element?.homeTokenAddress?.toLowerCase() == token?.address &&
+              element?.homeTokenAddress?.toLowerCase() ==
+                  widget.token?.address &&
               ![false, null].contains(element?.metadata?.isDefaultImage),
         );
         final Widget leading = Stack(
@@ -295,36 +298,34 @@ class TokenTile extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: (token.imageUrl != null && token.imageUrl.isNotEmpty ||
-                      (viewModel?.tokensImages
-                              ?.containsKey(token?.address?.toLowerCase()) ??
-                          false))
+              child: (widget.token.imageUrl != null &&
+                      viewModel.tokensImages
+                          .containsKey(widget.token.address.toLowerCase()))
                   ? CachedNetworkImage(
-                      width: symbolWidth,
-                      height: symbolHeight,
-                      imageUrl: (viewModel?.tokensImages?.containsKey(
-                                  token?.address?.toLowerCase()) ??
-                              false)
+                      width: widget.symbolWidth,
+                      height: widget.symbolHeight,
+                      imageUrl: (viewModel.tokensImages
+                              .containsKey(widget.token.address.toLowerCase())
                           ? viewModel
-                              ?.tokensImages[token?.address?.toLowerCase()]
-                          : token?.imageUrl,
+                              .tokensImages[widget.token.address.toLowerCase()]
+                          : widget.token.imageUrl)!,
                       placeholder: (context, url) =>
                           CircularProgressIndicator(),
                       errorWidget: (context, url, error) => DefaultLogo(
-                        symbol: token?.symbol,
-                        width: symbolWidth,
-                        height: symbolHeight,
+                        symbol: widget.token.symbol,
+                        width: widget.symbolWidth,
+                        height: widget.symbolHeight,
                       ),
                     )
                   : DefaultLogo(
-                      symbol: token?.symbol,
-                      width: symbolWidth,
-                      height: symbolHeight,
+                      symbol: widget.token.symbol,
+                      width: widget.symbolWidth,
+                      height: widget.symbolHeight,
                     ),
             ),
             isCommunityToken
                 ? Text(
-                    token?.symbol,
+                    widget.token.symbol,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -343,12 +344,12 @@ class TokenTile extends StatelessWidget {
           children: <Widget>[
             Flexible(
               child: AutoSizeText(
-                token?.name,
+                widget.token.name,
                 maxLines: 1,
                 presetFontSizes: [15, 13, 12],
               ),
             ),
-            showBalance && !showCurrentPrice
+            widget.showBalance && !widget.showCurrentPrice
                 ? Row(
                     children: [
                       SizedBox(
@@ -364,13 +365,13 @@ class TokenTile extends StatelessWidget {
                 : SizedBox.shrink()
           ],
         );
-        final Widget trailing = showBalance
+        final Widget trailing = widget.showBalance
             ? Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  showCurrentPrice
+                  widget.showCurrentPrice
                       ? TokenPrice(
-                          address: token.address,
+                          address: widget.token.address,
                         )
                       : Flexible(
                           child: Column(
@@ -390,12 +391,12 @@ class TokenTile extends StatelessWidget {
                                       hasPriceInfo
                                           ? TextSpan(
                                               text: '\$' +
-                                                  token?.getFiatBalance(),
+                                                  widget.token.getFiatBalance(),
                                             )
                                           : TextSpan(
-                                              text: token.getBalance() +
+                                              text: widget.token.getBalance() +
                                                   ' ' +
-                                                  token?.symbol,
+                                                  widget.token.symbol,
                                             ),
                                     ],
                                   ),
@@ -406,9 +407,9 @@ class TokenTile extends StatelessWidget {
                                   ? Padding(
                                       padding: EdgeInsets.only(top: 5),
                                       child: AutoSizeText(
-                                        token.getBalance() +
+                                        widget.token.getBalance() +
                                             ' ' +
-                                            token?.symbol,
+                                            widget.token.symbol,
                                         style: TextStyle(
                                           color: Color(0xFF292929),
                                         ),
@@ -420,9 +421,9 @@ class TokenTile extends StatelessWidget {
                             ],
                           ),
                         ),
-                  showCurrentPrice
+                  widget.showCurrentPrice
                       ? TokenPriceChange(
-                          address: token?.address,
+                          address: widget.token.address,
                         )
                       : SizedBox.shrink(),
                 ],
@@ -441,11 +442,11 @@ class TokenTile extends StatelessWidget {
             left: 15,
             right: 15,
           ),
-          onTap: onTap != null
-              ? onTap
+          onTap: widget.onTap != null
+              ? widget.onTap
               : () {
-                  viewModel.fetchTokenPrice(token);
-                  viewModel.fetchTokenAction(token);
+                  viewModel.fetchTokenPrice(widget.token);
+                  viewModel.fetchTokenAction(widget.token);
                   showBottomMenu(viewModel, context, hasPriceInfo);
                 },
           // subtitle: !showBalance

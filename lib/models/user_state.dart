@@ -10,15 +10,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_state.freezed.dart';
 part 'user_state.g.dart';
 
-String currencyJson(String currency) => currency == null ? 'usd' : currency;
+String currencyJson(String? currency) => currency == null ? 'usd' : currency;
 
-BiometricAuth authTypeFromJson(String auth) => auth == null
-    ? BiometricAuth.none
-    : EnumToString.fromString(BiometricAuth.values, auth);
+authTypeFromJson(String auth) =>
+    EnumToString.fromString(BiometricAuth.values, auth);
 
-Locale localeFromJson(Map<String, dynamic> map) => map == null
-    ? Locale('en', 'US')
-    : Locale(map['languageCode'], map['countryCode']);
+Locale localeFromJson(Map<String, dynamic> map) =>
+    Locale(map['languageCode'], map['countryCode']);
 
 Map<String, dynamic> localeToJson(Locale locale) => locale == null
     ? {'languageCode': 'en', 'countryCode': 'US'}
@@ -63,7 +61,7 @@ class UserState with _$UserState {
     @Default(BiometricAuth.none)
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
-    @Default(null)
+    @Default({'languageCode': 'en', 'countryCode': 'US'})
     @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
         Locale locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
@@ -94,9 +92,9 @@ class UserStateConverter
   const UserStateConverter();
 
   @override
-  UserState fromJson(Map<String, dynamic> json) =>
+  UserState fromJson(Map<String, dynamic>? json) =>
       json != null ? UserState.fromJson(json) : UserState.initial();
 
   @override
-  Map<String, dynamic> toJson(UserState instance) => instance?.toJson();
+  Map<String, dynamic> toJson(UserState instance) => instance.toJson();
 }

@@ -13,17 +13,9 @@ class ActionDetailsViewModel extends Equatable {
   });
 
   static ActionDetailsViewModel fromStore(Store<AppState> store) {
-    List<Token> homeTokens = List<Token>.from(
-        store.state?.cashWalletState?.tokens?.values ?? Iterable.empty());
-    Map<String, Token> tokens =
-        [...homeTokens].fold(Map(), (previousValue, element) {
-      previousValue.putIfAbsent(element?.address?.toLowerCase(), () => element);
-      return previousValue;
-    });
-
     return ActionDetailsViewModel(
-      tokens: tokens,
-      tokensImages: store.state.swapState?.tokensImages ?? Map(),
+      tokens: store.state.cashWalletState.tokens,
+      tokensImages: store.state.swapState.tokensImages,
     );
   }
 

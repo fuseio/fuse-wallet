@@ -21,19 +21,19 @@ class ImageUrl {
   }
 
   static ImageProvider getContactImage(
-    Contact contact,
+    Contact? contact,
   ) {
-    if (contact?.avatar != null && contact.avatar!.isNotEmpty) {
-      return new MemoryImage(contact.avatar!);
+    if (contact?.avatar != null) {
+      return new MemoryImage(contact?.avatar as Uint8List);
     }
     return new AssetImage('assets/images/anom.png');
   }
 
-  static String getIPFSImageUrl(String image) {
+  static String getIPFSImageUrl(String? image) {
     if (image == null) {
       return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
     }
-    return env['IPFS_BASE_URL'] + '/image/' + image;
+    return (env['IPFS_BASE_URL'] ?? '') + '/image/' + image;
   }
 
   static String getS3ImageUrl(String image) {

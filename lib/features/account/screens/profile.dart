@@ -13,14 +13,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String displayName;
+  late String displayName;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       distinct: true,
       converter: ProfileViewModel.fromStore,
       onDispose: (store) {
-        if (displayName != null &&
-            store.state.userState.displayName != displayName) {
+        if (store.state.userState.displayName != displayName) {
           final viewModel = ProfileViewModel.fromStore(store);
           viewModel.updateDisplayName(displayName);
         }

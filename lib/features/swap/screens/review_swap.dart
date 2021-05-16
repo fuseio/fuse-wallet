@@ -21,9 +21,9 @@ class ReviewSwapScreen extends StatefulWidget {
   final SwapRequestBody swapRequestBody;
 
   const ReviewSwapScreen({
-    this.tradeInfo,
-    this.rateInfo,
-    this.swapRequestBody,
+    required this.tradeInfo,
+    required this.rateInfo,
+    required this.swapRequestBody,
   });
 
   @override
@@ -50,12 +50,12 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
       swapCallParameters,
       widget.tradeInfo,
       () {
-        ExtendedNavigator.named('swapRouter').popUntilRoot();
-        BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
-        navigationBar.onTap(0);
-        ExtendedNavigator.named('homeRouter').popUntilRoot();
-        ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        // ExtendedNavigator.named('swapRouter').popUntilRoot();
+        // BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
+        // navigationBar.onTap(0);
+        // ExtendedNavigator.named('homeRouter').popUntilRoot();
+        // ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
+        // WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
       },
       () {
         setState(() {

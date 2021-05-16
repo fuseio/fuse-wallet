@@ -6,9 +6,9 @@ class DefaultLogo extends StatelessWidget {
   final double height;
 
   const DefaultLogo({
-    this.height,
-    this.width,
-    this.symbol,
+    required this.height,
+    required this.width,
+    required this.symbol,
   });
 
   @override

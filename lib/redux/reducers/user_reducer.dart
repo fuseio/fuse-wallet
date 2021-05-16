@@ -92,8 +92,8 @@ UserState _createNewWalletSuccess(
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
-    countryCode: action.countryCode.dialCode,
-    isoCode: action.countryCode.code,
+    countryCode: action.countryCode.dialCode ?? '',
+    isoCode: action.countryCode.code ?? '',
     phoneNumber: action.phoneNumber,
   );
 }

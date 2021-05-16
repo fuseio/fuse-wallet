@@ -58,9 +58,9 @@ CashWalletState _updateTokenPrice(
   CashWalletState state,
   UpdateTokenPrice action,
 ) {
-  Token token = state.tokens[action.tokenAddress];
+  Token? token = state.tokens[action.tokenAddress];
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[token.address] = token.copyWith(priceInfo: action.price);
+  newOne[token?.address] = token!.copyWith(priceInfo: action.price);
   return state.copyWith(tokens: newOne);
 }
 

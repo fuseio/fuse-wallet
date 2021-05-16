@@ -26,16 +26,14 @@ class BackupBonusPluginConverter
   const BackupBonusPluginConverter();
 
   @override
-  BackupBonusPlugin fromJson(Map<String, dynamic> json) => json != null
-      ? BackupBonusPlugin(
-          name: json['name'],
-          amount: json.containsKey('backupInfo')
-              ? json['backupInfo']['amount']
-              : json['amount'],
-          isActive: json["isActive"] ?? false,
-        )
-      : null;
+  BackupBonusPlugin fromJson(Map<String, dynamic> json) => BackupBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('backupInfo')
+            ? json['backupInfo']['amount']
+            : json['amount'],
+        isActive: json["isActive"] ?? false,
+      );
 
   @override
-  Map<String, dynamic> toJson(BackupBonusPlugin instance) => instance?.toJson();
+  Map<String, dynamic> toJson(BackupBonusPlugin instance) => instance.toJson();
 }

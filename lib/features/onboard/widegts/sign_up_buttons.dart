@@ -57,10 +57,10 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                     onPressed: () {
                       if (viewModel.isLoggedOut) {
                         viewModel.loginAgain();
-                        if (ExtendedNavigator.root.canPop()) {
-                          ExtendedNavigator.root.popUntilRoot();
-                        }
-                        ExtendedNavigator.root.replace(Routes.homeScreen);
+                        // if (ExtendedNavigator.root.canPop()) {
+                        //   ExtendedNavigator.root.popUntilRoot();
+                        // }
+                        // ExtendedNavigator.root.replace(Routes.homeScreen);
                       } else {
                         setState(() {
                           isPrimaryPreloading = true;
@@ -69,7 +69,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                           setState(() {
                             isPrimaryPreloading = false;
                           });
-                          ExtendedNavigator.root.pushSignUpScreen();
+                          // ExtendedNavigator.root.pushSignUpScreen();
                         }, () {
                           setState(() {
                             isPrimaryPreloading = false;
@@ -89,7 +89,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                                 fontSize: 14,
                                 label: I10n.of(context).restore_backup,
                                 onPressed: () {
-                                  ExtendedNavigator.root.pushRecoveryPage();
+                                  // ExtendedNavigator.root.pushRecoveryPage();
                                 },
                               ),
                               Text(
@@ -113,7 +113,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                                       isTransparentPreloading = true;
                                     });
                                     viewModel.createLocalAccount(() {
-                                      ExtendedNavigator.root.pushSignUpScreen();
+                                      // ExtendedNavigator.root.pushSignUpScreen();
                                     }, () {
                                       setState(() {
                                         isTransparentPreloading = false;
@@ -128,7 +128,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                             fontSize: 20,
                             label: I10n.of(context).restore_from_backup,
                             onPressed: () {
-                              ExtendedNavigator.root.pushRecoveryPage();
+                              // ExtendedNavigator.root.pushRecoveryPage();
                             },
                           ),
                   )

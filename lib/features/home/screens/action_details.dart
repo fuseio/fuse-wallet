@@ -34,7 +34,7 @@ class ActionDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(action.timestamp ?? 0);
+        DateTime.fromMillisecondsSinceEpoch(action.timestamp);
     final String name = action.map(
       createWallet: (_) => '',
       joinCommunity: (_) => '',
@@ -189,8 +189,8 @@ class ActionDetailsScreen extends StatelessWidget {
                                                           ?.inputAmount ??
                                                       '0') *
                                                   double.parse(
-                                                      _token?.priceInfo?.quote);
-                                              return '${display(num.parse(value.tradeInfo.inputAmount)) + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
+                                                      _token.priceInfo.quote);
+                                              return '${display(num.parse(value.tradeInfo!.inputAmount)) + ' ' + value.tradeInfo!.inputToken} (\$${display(num.tryParse(a.toString()))})';
                                             },
                                           )
                                         : displayName,
@@ -230,9 +230,9 @@ class ActionDetailsScreen extends StatelessWidget {
                                 receive: (value) => '',
                                 swap: (value) {
                                   double val = double.parse(
-                                          value.tradeInfo.outputAmount) *
-                                      double.parse(token?.priceInfo?.quote);
-                                  return '${display(num.parse(value.tradeInfo.outputAmount)) + ' ' + value.tradeInfo.outputToken} (\$${display(num.tryParse(val.toString()))})';
+                                          value.tradeInfo!.outputAmount) *
+                                      double.parse(token!.priceInfo.quote);
+                                  return '${display(num.parse(value.tradeInfo!.outputAmount)) + ' ' + value.tradeInfo!.outputToken} (\$${display(num.tryParse(val.toString()))})';
                                 },
                               ),
                             ),

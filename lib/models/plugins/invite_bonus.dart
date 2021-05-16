@@ -26,16 +26,14 @@ class InviteBonusPluginConverter
   const InviteBonusPluginConverter();
 
   @override
-  InviteBonusPlugin fromJson(Map<String, dynamic> json) => json != null
-      ? InviteBonusPlugin(
-          name: json['name'],
-          amount: json.containsKey('inviteInfo')
-              ? json['inviteInfo']['amount']
-              : json['amount'],
-          isActive: json["isActive"] ?? false,
-        )
-      : null;
+  InviteBonusPlugin fromJson(Map<String, dynamic> json) => InviteBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('inviteInfo')
+            ? json['inviteInfo']['amount']
+            : json['amount'],
+        isActive: json["isActive"] ?? false,
+      );
 
   @override
-  Map<String, dynamic> toJson(InviteBonusPlugin instance) => instance?.toJson();
+  Map<String, dynamic> toJson(InviteBonusPlugin instance) => instance.toJson();
 }

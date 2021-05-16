@@ -62,36 +62,36 @@ void sendToContact(
   BuildContext context,
   String displayName,
   String phone, {
-  ImageProvider avatar,
-  String address,
-  String countryCode,
-  String isoCode,
-  Token tokenToSend,
+  ImageProvider? avatar,
+  String? address,
+  String? countryCode,
+  String? isoCode,
+  Token? tokenToSend,
 }) async {
   if (address != null && address.isNotEmpty) {
-    ExtendedNavigator.root.pushSendAmountScreen(
-      pageArgs: SendFlowArguments(
-        accountAddress: address,
-        name: displayName,
-        avatar: avatar,
-        tokenToSend: tokenToSend,
-      ),
-    );
+    // ExtendedNavigator.root.pushSendAmountScreen(
+    //   pageArgs: SendFlowArguments(
+    //     accountAddress: address,
+    //     name: displayName,
+    //     avatar: avatar,
+    //     tokenToSend: tokenToSend,
+    //   ),
+    // );
     return;
   }
   try {
     _openLoadingDialog(context);
-    Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
+    // Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     Navigator.of(context).pop();
-    ExtendedNavigator.root.pushSendAmountScreen(
-      pageArgs: SendFlowArguments(
-        phoneNumber: res['phoneNumber'],
-        accountAddress: res['walletAddress'],
-        name: displayName,
-        avatar: avatar,
-        tokenToSend: tokenToSend,
-      ),
-    );
+    // ExtendedNavigator.root.pushSendAmountScreen(
+    //   pageArgs: SendFlowArguments(
+    //     phoneNumber: res['phoneNumber'],
+    //     accountAddress: res['walletAddress'],
+    //     name: displayName,
+    //     avatar: avatar,
+    //     tokenToSend: tokenToSend,
+    //   ),
+    // );
   } catch (e) {
     Navigator.of(context).pop();
     throw '$e';
@@ -100,16 +100,16 @@ void sendToContact(
 
 void sendToPastedAddress(
   accountAddress, {
-  Token token,
+  Token? token,
 }) {
-  ExtendedNavigator.root.pushSendAmountScreen(
-    pageArgs: SendFlowArguments(
-      accountAddress: accountAddress,
-      avatar: AssetImage('assets/images/anom.png'),
-      name: formatAddress(accountAddress),
-      tokenToSend: token,
-    ),
-  );
+  // ExtendedNavigator.root.pushSendAmountScreen(
+  //   pageArgs: SendFlowArguments(
+  //     accountAddress: accountAddress,
+  //     avatar: AssetImage('assets/images/anom.png'),
+  //     name: formatAddress(accountAddress),
+  //     tokenToSend: token,
+  //   ),
+  // );
 }
 
 void barcodeScannerHandler(context) async {
@@ -144,7 +144,7 @@ void barcodeScannerHandler(context) async {
       duration: Duration(seconds: 2),
       boxShadows: [
         BoxShadow(
-          color: Colors.grey[500],
+          // color: Colors.grey[500],
           offset: Offset(0.5, 0.5),
           blurRadius: 5,
         ),

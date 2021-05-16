@@ -67,7 +67,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           bottom: 5,
         ),
         title: Text(
-          LocaleNames.of(context).nameOf(locale.toString()),
+          LocaleNames.of(context)!.nameOf(locale.toString())!,
         ),
         trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
         selected: isSelected,

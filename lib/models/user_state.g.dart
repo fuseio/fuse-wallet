@@ -45,7 +45,7 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
           (k, e) => MapEntry(k, e as String),
         ) ??
         {},
-    currency: currencyJson(json['currency'] as String),
+    currency: currencyJson(json['currency'] as String?),
     authType: authTypeFromJson(json['authType'] as String),
     locale: localeFromJson(json['locale'] as Map<String, dynamic>),
   );

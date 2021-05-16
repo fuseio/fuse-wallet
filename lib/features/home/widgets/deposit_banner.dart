@@ -50,6 +50,7 @@ class DepositBanner extends StatelessWidget {
                           dynamic url = depositPlugins[0].widgetUrl;
                           viewModel.setDepositBanner();
                           openDepositWebview(
+                            context: context,
                             withBack: true,
                             url: url,
                           );

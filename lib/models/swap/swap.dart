@@ -44,12 +44,12 @@ class SwapCallParameters with _$SwapCallParameters {
 @freezed
 class SwapRequestBody with _$SwapRequestBody {
   @JsonSerializable()
-  factory SwapRequestBody(
-    String currencyIn,
-    String currencyOut,
-    String amountIn,
-    String recipient,
-  ) = _SwapRequestBody;
+  factory SwapRequestBody({
+    @Default('') String currencyIn,
+    @Default('') String currencyOut,
+    @Default('') String amountIn,
+    @Default('') String recipient,
+  }) = _SwapRequestBody;
 
   factory SwapRequestBody.fromJson(Map<String, dynamic> json) =>
       _$SwapRequestBodyFromJson(json);

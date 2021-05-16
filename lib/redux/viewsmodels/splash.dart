@@ -14,11 +14,11 @@ class SplashViewModel extends Equatable {
       createLocalAccount;
 
   SplashViewModel({
-    this.privateKey,
-    this.jwtToken,
-    this.isLoggedOut,
-    this.createLocalAccount,
-    this.loginAgain,
+    required this.privateKey,
+    required this.jwtToken,
+    required this.isLoggedOut,
+    required this.createLocalAccount,
+    required this.loginAgain,
   });
 
   static SplashViewModel fromStore(Store<AppState> store) {

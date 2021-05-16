@@ -114,7 +114,7 @@ class Explorer {
     }
   }
 
-  Future<Token> getTokenInfo(String tokenAddress) async {
+  Future<Token?> getTokenInfo(String tokenAddress) async {
     Response response = await dio
         .get('?module=token&action=getToken&contractaddress=$tokenAddress');
     if (response.data['message'] == 'OK' && response.data['status'] == '1') {

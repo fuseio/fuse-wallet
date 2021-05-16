@@ -16,14 +16,14 @@ class TransferTileViewModel extends Equatable {
   final Map<String, String> tokensImages;
 
   TransferTileViewModel({
-    this.reverseContacts,
-    this.countryCode,
-    this.erc20Tokens,
-    this.tokens,
-    this.contacts,
-    this.tokensImages,
-    this.communities,
-    this.communitiesMap,
+    required this.reverseContacts,
+    required this.countryCode,
+    required this.erc20Tokens,
+    required this.tokens,
+    required this.contacts,
+    required this.tokensImages,
+    required this.communities,
+    required this.communitiesMap,
   });
 
   static TransferTileViewModel fromStore(Store<AppState> store) {

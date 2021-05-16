@@ -9,13 +9,13 @@ class WarnBeforeReCreation extends StatefulWidget {
 
 class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimatoin;
+  late AnimationController controller;
+  late Animation<double> scaleAnimatoin;
   bool isPreloading = false;
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 

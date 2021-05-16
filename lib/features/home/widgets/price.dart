@@ -6,8 +6,8 @@ import 'package:fusecash/utils/format.dart';
 class TokenPrice extends StatelessWidget {
   final String address;
   const TokenPrice({
-    Key key,
-    this.address,
+    Key? key,
+    required this.address,
   }) : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class TokenPrice extends StatelessWidget {
               case ConnectionState.active:
                 return Text('..');
               case ConnectionState.done:
-                final num quote = num.tryParse(snapshot?.data?.quote ?? '0');
+                final num quote = num.tryParse(snapshot.data?.quote ?? '0')!;
                 return Row(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
