@@ -94,6 +94,8 @@
 	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
 	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
 	<false/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to track errors occur to you and for our internal analytics.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>itms</string>

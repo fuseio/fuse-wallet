@@ -3,7 +3,7 @@ import 'package:supervecina/screens/home/widgets/drawer.dart';
 
 final Map<String, Map<String, String>> donors = Map.from({
   '0xed0bd7f319cd03539cbd3b5c592cae91a349dbae': {
-    'image': 'comunitaria.png',
+    'image': 'comunitaria.jpeg',
     'name': 'Comunitaria'
   },
   '0x615334c6256cd8dd94eed368cebedcf07a36a5ae': {

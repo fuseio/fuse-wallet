@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  onInit(Store<AppState> store) {
+  onInit(Store<AppState> store) async {
     final String walletStatus = store.state.userState.walletStatus;
     final String accountAddress = store.state.userState.accountAddress;
     final String identifier = store.state.userState.identifier;
@@ -82,6 +83,7 @@ class _HomePageState extends State<HomePage> {
       String jwtToken = store.state.userState.jwtToken;
       bool isLoggedOut = store.state.userState.isLoggedOut;
       if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+        await AppTrackingTransparency.requestTrackingAuthorization();
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
