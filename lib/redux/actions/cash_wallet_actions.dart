@@ -501,8 +501,7 @@ ThunkAction generateWalletSuccessCall(
   return (Store store) async {
     String walletAddress = walletData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
-      final TrackingStatus status =
-          await AppTrackingTransparency.requestTrackingAuthorization();
+      await AppTrackingTransparency.requestTrackingAuthorization();
       store.dispatch(enablePushNotifications());
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
