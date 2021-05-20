@@ -15,11 +15,11 @@ final Map<String, Map<String, String>> donors = Map.from({
     'name': 'Banco de Alimentos'
   },
   '0xa86696defccd53bbc5b6c80fd6b9824e453cd16d': {
-    'image': 'asociación_3_barrios.jpeg',
+    'image': 'barrios.jpg',
     'name': 'Asociación Tres Barrios'
   },
   '0x0c9b8c54634301350a0a5059cadcc828afd4b246': {
-    'image': 'asociación_3_barrios.jpeg',
+    'image': 'barrios.jpg',
     'name': 'Asociación Tres Barrios'
   }
 });

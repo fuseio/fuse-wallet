@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
                   Flexible(
                     flex: 4,
                     child: Image.asset(
-                      'assets/images/wikibank_logo.png',
+                      'assets/images/wikibank_logo.jpg',
                       width: 350,
                       // height: 300,
                     ),
