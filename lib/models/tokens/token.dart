@@ -39,6 +39,8 @@ abstract class Token implements _$Token, Comparable<Token> {
     String communityAddress,
     String originNetwork,
     num priceChange,
+    @JsonKey(ignore: true) @Default(0) num priceDiff,
+    @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
     List<Stats> stats,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
   }) = _Token;

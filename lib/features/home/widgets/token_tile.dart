@@ -2,17 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/home/widgets/button.dart';
 import 'package:fusecash/features/home/widgets/price.dart';
 import 'package:fusecash/features/home/widgets/price_change.dart';
+import 'package:fusecash/features/home/widgets/price_diff.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -48,8 +48,8 @@ class TokenTile extends StatelessWidget {
     final bool isFUSD =
         (token.address == fuseDollarToken.address) && depositPlugins.isNotEmpty;
     showBarModalBottomSheet(
-      useRootNavigator: true,
-      context: ExtendedNavigator.named('homeRouter').context,
+      // useRootNavigator: true,
+      context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0),
@@ -248,16 +248,21 @@ class TokenTile extends StatelessWidget {
                               icon: 'buy_fUSD',
                               width: MediaQuery.of(context).size.width * .285,
                               onPressed: () {
-                                String url = depositPlugins[0].widgetUrl;
-                                openDepositWebview(
-                                  withBack: true,
-                                  url: url,
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TopUpScreen(),
+                                  ),
                                 );
                               },
                             )
                           : SizedBox.shrink(),
                     ],
                   ),
+                ),
+                PriceDiff(
+                  tokenAddress: token?.address,
                 ),
                 // (token?.stats?.isEmpty ?? [])
                 //     ? SizedBox.shrink()
@@ -354,10 +359,9 @@ class TokenTile extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      SvgPicture.asset(
-                        'assets/images/go_to_pro.svg',
-                        width: 10,
-                        height: 10,
+                      Icon(
+                        Icons.navigate_next,
+                        color: Colors.black,
                       ),
                     ],
                   )

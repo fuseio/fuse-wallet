@@ -37,7 +37,11 @@ class MenuTile extends StatelessWidget {
           ),
         ],
       ),
-      trailing: trailing,
+      trailing: trailing ??
+          Icon(
+            Icons.navigate_next,
+            color: Colors.black,
+          ),
     );
   }
 }

@@ -30,6 +30,15 @@ class UpdateTokenPrices {
   });
 }
 
+class UpdateTokenBalance {
+  final BigInt balance;
+  final String tokenAddress;
+  UpdateTokenBalance({
+    this.balance,
+    this.tokenAddress,
+  });
+}
+
 class GetTokensImagesSuccess {
   final Map<String, String> tokensImages;
   GetTokensImagesSuccess({
@@ -44,21 +53,17 @@ ThunkAction fetchSwapList() {
     try {
       store.dispatch(ResetTokenList());
       final dio = getIt<Dio>();
-      String address = store.state.userState.walletAddress;
       Response<String> response =
           await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
       Map data = jsonDecode(response.data);
       Map<String, Token> tokens = Map();
       Map<String, String> tokensImages = Map();
       for (Map token in data['tokens']) {
-        final BigInt balance = await fuseWeb3.getTokenBalance(
-          token['address'],
-          address: address,
-        );
-        if (!token.containsKey('isDeprecated')) {
+        final String name = token['name'];
+        if (!token.containsKey('isDeprecated') || !name.contains('Dai')) {
           Token newToken = Token.fromJson({
             "originNetwork": 'mainnet',
-            "amount": balance.toString(),
+            "amount": BigInt.zero.toString(),
             "address": token['address'].toLowerCase(),
             "decimals": token['decimals'],
             "name": formatTokenName(token["name"]),
@@ -79,7 +84,7 @@ ThunkAction fetchSwapList() {
       store.dispatch(GetSwappableTokensSuccess(
         swappableTokens: tokens,
       ));
-      store.dispatch(fetchSwapListPrices());
+      store.dispatch(fetchSwapBalances());
 
       if (tokensImages.isNotEmpty) {
         store.dispatch(GetTokensImagesSuccess(
@@ -123,6 +128,33 @@ ThunkAction fetchSwapListPrices() {
         e,
         stackTrace: s,
         hint: 'ERROR - fetchSwapListPrices $e',
+      );
+    }
+  };
+}
+
+ThunkAction fetchSwapBalances() {
+  return (Store store) async {
+    try {
+      SwapState swapState = store.state.swapState;
+      String walletAddress = store.state.userState.walletAddress;
+      for (Token token in swapState.tokens.values) {
+        final BigInt balance = await fuseWeb3.getTokenBalance(
+          token.address,
+          address: walletAddress,
+        );
+        store.dispatch(UpdateTokenBalance(
+          tokenAddress: token.address,
+          balance: balance,
+        ));
+      }
+      store.dispatch(fetchSwapListPrices());
+    } catch (e, s) {
+      log.error('ERROR - fetchSwapBalances $e');
+      await Sentry.captureException(
+        e,
+        stackTrace: s,
+        hint: 'ERROR - fetchSwapBalances $e',
       );
     }
   };

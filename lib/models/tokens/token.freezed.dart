@@ -31,6 +31,8 @@ class _$TokenTearOff {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true) num priceDiff = 0,
+      @JsonKey(ignore: true) int priceDiffLimitInDays = 0,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions}) {
     return _Token(
@@ -47,6 +49,8 @@ class _$TokenTearOff {
       communityAddress: communityAddress,
       originNetwork: originNetwork,
       priceChange: priceChange,
+      priceDiff: priceDiff,
+      priceDiffLimitInDays: priceDiffLimitInDays,
       stats: stats,
       walletActions: walletActions,
     );
@@ -78,6 +82,10 @@ mixin _$Token {
   String get communityAddress;
   String get originNetwork;
   num get priceChange;
+  @JsonKey(ignore: true)
+  num get priceDiff;
+  @JsonKey(ignore: true)
+  int get priceDiffLimitInDays;
   List<Stats> get stats;
   @JsonKey(fromJson: walletActionsFromJson)
   WalletActions get walletActions;
@@ -105,6 +113,8 @@ abstract class $TokenCopyWith<$Res> {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true) num priceDiff,
+      @JsonKey(ignore: true) int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
 
@@ -135,6 +145,8 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     Object communityAddress = freezed,
     Object originNetwork = freezed,
     Object priceChange = freezed,
+    Object priceDiff = freezed,
+    Object priceDiffLimitInDays = freezed,
     Object stats = freezed,
     Object walletActions = freezed,
   }) {
@@ -157,6 +169,10 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
           : originNetwork as String,
       priceChange:
           priceChange == freezed ? _value.priceChange : priceChange as num,
+      priceDiff: priceDiff == freezed ? _value.priceDiff : priceDiff as num,
+      priceDiffLimitInDays: priceDiffLimitInDays == freezed
+          ? _value.priceDiffLimitInDays
+          : priceDiffLimitInDays as int,
       stats: stats == freezed ? _value.stats : stats as List<Stats>,
       walletActions: walletActions == freezed
           ? _value.walletActions
@@ -204,6 +220,8 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true) num priceDiff,
+      @JsonKey(ignore: true) int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions});
 
@@ -237,6 +255,8 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
     Object communityAddress = freezed,
     Object originNetwork = freezed,
     Object priceChange = freezed,
+    Object priceDiff = freezed,
+    Object priceDiffLimitInDays = freezed,
     Object stats = freezed,
     Object walletActions = freezed,
   }) {
@@ -259,6 +279,10 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
           : originNetwork as String,
       priceChange:
           priceChange == freezed ? _value.priceChange : priceChange as num,
+      priceDiff: priceDiff == freezed ? _value.priceDiff : priceDiff as num,
+      priceDiffLimitInDays: priceDiffLimitInDays == freezed
+          ? _value.priceDiffLimitInDays
+          : priceDiffLimitInDays as int,
       stats: stats == freezed ? _value.stats : stats as List<Stats>,
       walletActions: walletActions == freezed
           ? _value.walletActions
@@ -285,9 +309,13 @@ class _$_Token extends _Token {
       this.communityAddress,
       this.originNetwork,
       this.priceChange,
+      @JsonKey(ignore: true) this.priceDiff = 0,
+      @JsonKey(ignore: true) this.priceDiffLimitInDays = 0,
       this.stats,
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions})
       : assert(isNative != null),
+        assert(priceDiff != null),
+        assert(priceDiffLimitInDays != null),
         super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
@@ -322,6 +350,12 @@ class _$_Token extends _Token {
   @override
   final num priceChange;
   @override
+  @JsonKey(ignore: true)
+  final num priceDiff;
+  @override
+  @JsonKey(ignore: true)
+  final int priceDiffLimitInDays;
+  @override
   final List<Stats> stats;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
@@ -329,7 +363,7 @@ class _$_Token extends _Token {
 
   @override
   String toString() {
-    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, stats: $stats, walletActions: $walletActions)';
+    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, priceDiff: $priceDiff, priceDiffLimitInDays: $priceDiffLimitInDays, stats: $stats, walletActions: $walletActions)';
   }
 
   @override
@@ -372,6 +406,12 @@ class _$_Token extends _Token {
             (identical(other.priceChange, priceChange) ||
                 const DeepCollectionEquality()
                     .equals(other.priceChange, priceChange)) &&
+            (identical(other.priceDiff, priceDiff) ||
+                const DeepCollectionEquality()
+                    .equals(other.priceDiff, priceDiff)) &&
+            (identical(other.priceDiffLimitInDays, priceDiffLimitInDays) ||
+                const DeepCollectionEquality().equals(
+                    other.priceDiffLimitInDays, priceDiffLimitInDays)) &&
             (identical(other.stats, stats) ||
                 const DeepCollectionEquality().equals(other.stats, stats)) &&
             (identical(other.walletActions, walletActions) ||
@@ -395,6 +435,8 @@ class _$_Token extends _Token {
       const DeepCollectionEquality().hash(communityAddress) ^
       const DeepCollectionEquality().hash(originNetwork) ^
       const DeepCollectionEquality().hash(priceChange) ^
+      const DeepCollectionEquality().hash(priceDiff) ^
+      const DeepCollectionEquality().hash(priceDiffLimitInDays) ^
       const DeepCollectionEquality().hash(stats) ^
       const DeepCollectionEquality().hash(walletActions);
 
@@ -426,6 +468,10 @@ abstract class _Token extends Token {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true)
+          num priceDiff,
+      @JsonKey(ignore: true)
+          int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson)
           WalletActions walletActions}) = _$_Token;
@@ -459,6 +505,12 @@ abstract class _Token extends Token {
   String get originNetwork;
   @override
   num get priceChange;
+  @override
+  @JsonKey(ignore: true)
+  num get priceDiff;
+  @override
+  @JsonKey(ignore: true)
+  int get priceDiffLimitInDays;
   @override
   List<Stats> get stats;
   @override

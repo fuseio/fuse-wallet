@@ -385,6 +385,46 @@ class I10n {
     );
   }
 
+  /// `Credit Card`
+  String get credit_card {
+    return Intl.message(
+      'Credit Card',
+      name: 'credit_card',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:`
+  String get crypto_deposit_explained {
+    return Intl.message(
+      'If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:',
+      name: 'crypto_deposit_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please note that this is a personal link that will bridge the funds directly to your account.`
+  String get crypto_deposit_risk {
+    return Intl.message(
+      'Please note that this is a personal link that will bridge the funds directly to your account.',
+      name: 'crypto_deposit_risk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please use it responsibly and at your own risk.`
+  String get crypto_deposit_risk_2 {
+    return Intl.message(
+      'Please use it responsibly and at your own risk.',
+      name: 'crypto_deposit_risk_2',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Current community`
   String get current_community {
     return Intl.message(
@@ -420,6 +460,16 @@ class I10n {
     return Intl.message(
       'deposit failed',
       name: 'deposit_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit from Ethereum or BSC`
+  String get deposit_from_ethereum_or_BSC {
+    return Intl.message(
+      'Deposit from Ethereum or BSC',
+      name: 'deposit_from_ethereum_or_BSC',
       desc: '',
       args: [],
     );

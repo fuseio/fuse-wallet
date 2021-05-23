@@ -10,8 +10,9 @@ import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
-  TypedReducer<CashWalletState, GetTokenStatsSuccess>(
-      _getTokenStatsSuccess),
+  TypedReducer<CashWalletState, GetTokenPriceDiffSuccess>(
+      _getTokenPriceDiffSuccess),
+  TypedReducer<CashWalletState, GetTokenStatsSuccess>(_getTokenStatsSuccess),
   TypedReducer<CashWalletState, GetTokenPriceChangeSuccess>(
       _getTokenPriceChangeSuccess),
   TypedReducer<CashWalletState, UpdateTokenPrice>(_updateTokenPrice),
@@ -53,6 +54,18 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances),
   TypedReducer<CashWalletState, SetShowDepositBanner>(_setShowDepositBanner)
 ]);
+
+CashWalletState _getTokenPriceDiffSuccess(
+    CashWalletState state, GetTokenPriceDiffSuccess action) {
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[action.tokenAddress];
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = current.copyWith(
+    priceDiff: action.priceDiff,
+    priceDiffLimitInDays: action.priceDiffLimitInDays,
+  );
+  return state.copyWith(tokens: newOne);
+}
 
 CashWalletState _updateTokenPrice(
   CashWalletState state,

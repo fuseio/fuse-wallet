@@ -5,6 +5,7 @@ import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/stats.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:injectable/injectable.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -75,6 +76,22 @@ class FuseSwapService {
     String tokenAddress,
   ) async {
     Response response = await dio.get('/pricechange/$tokenAddress');
+    return num.tryParse(response.data['data']['priceChange'].toString()) ?? 0;
+  }
+
+  Future<num> priceDiff(
+    String tokenAddress,
+    String days,
+  ) async {
+    log.info('days $days');
+    Response response = await dio.post(
+      '/pricechange/$tokenAddress',
+      data: Map.from({
+        "duration": {
+          "days": days,
+        },
+      }),
+    );
     return num.tryParse(response.data['data']['priceChange'].toString()) ?? 0;
   }
 }

@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/features/swap/widgets/card.dart';
 import 'package:fusecash/models/swap/swap.dart';
@@ -15,7 +16,6 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -327,9 +327,11 @@ class _SwapScreenState extends State<SwapScreen> {
       children: [
         InkWell(
           onTap: () {
-            openDepositWebview(
-              withBack: true,
-              url: url,
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TopUpScreen(),
+              ),
             );
           },
           child: Row(

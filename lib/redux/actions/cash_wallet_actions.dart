@@ -79,6 +79,17 @@ class GetTokenBalanceSuccess {
   GetTokenBalanceSuccess({this.tokenBalance, this.tokenAddress});
 }
 
+class GetTokenPriceDiffSuccess {
+  final String tokenAddress;
+  final num priceDiff;
+  final int priceDiffLimitInDays;
+  GetTokenPriceDiffSuccess({
+    this.priceDiff,
+    this.tokenAddress,
+    this.priceDiffLimitInDays,
+  });
+}
+
 class GetTokenPriceChangeSuccess {
   final String tokenAddress;
   final num priceChange;
@@ -1159,6 +1170,22 @@ ThunkAction getTokenPriceCall(Token token) {
       onDone: onDone,
       onError: onError,
     );
+  };
+}
+
+ThunkAction getTokenPriceDiffCall(String tokenAddress, String limit) {
+  return (Store store) async {
+    try {
+      final num priceDiff = await fuseSwapService.priceDiff(
+        tokenAddress,
+        limit,
+      );
+      store.dispatch(GetTokenPriceDiffSuccess(
+        priceDiff: priceDiff,
+        tokenAddress: tokenAddress,
+        priceDiffLimitInDays: int.parse(limit),
+      ));
+    } catch (e) {}
   };
 }
 
