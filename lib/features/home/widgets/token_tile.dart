@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/home/widgets/button.dart';
@@ -249,6 +250,11 @@ class TokenTile extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * .285,
                               onPressed: () {
                                 Navigator.of(context).pop();
+                                Segment.track(
+                                  eventName: 'Top up Button Press',
+                                  properties:
+                                      Map.from({"fromScreen": 'fuseDollarScreen'}),
+                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

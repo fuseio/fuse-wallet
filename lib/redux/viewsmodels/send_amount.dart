@@ -60,15 +60,6 @@ class SendAmountViewModel extends Equatable {
   }) sendToAccountAddress;
 
   final Function(
-    String eventName, {
-    Map<String, dynamic> properties,
-  }) trackTransferCall;
-
-  final Function(
-    Map<String, dynamic> traits,
-  ) identifyCall;
-
-  final Function(
     Token token,
     String receiverAddress,
     num amount,
@@ -86,8 +77,6 @@ class SendAmountViewModel extends Equatable {
     this.communities,
     this.sendToContact,
     this.sendToAccountAddress,
-    this.trackTransferCall,
-    this.identifyCall,
     this.sendToErc20Token,
     this.sendERC20ToContact,
     this.sendToForeignMultiBridge,
@@ -231,20 +220,6 @@ class SendAmountViewModel extends Equatable {
           sendFailureCallback,
           receiverName: receiverName,
         ));
-      },
-      trackTransferCall: (
-        String eventName, {
-        Map<String, dynamic> properties,
-      }) {
-        store.dispatch(segmentTrackCall(
-          eventName,
-          properties: properties,
-        ));
-      },
-      identifyCall: (
-        Map<String, dynamic> traits,
-      ) {
-        store.dispatch(segmentIdentifyCall(traits));
       },
     );
   }

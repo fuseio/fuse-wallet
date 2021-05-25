@@ -47,6 +47,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setJwtToken(Store<AppState> store) async {
+    Segment.track(eventName: 'Session Start');
     String jwtToken = store?.state?.userState?.jwtToken;
     if (![null, ''].contains(jwtToken)) {
       log.info('JWT: $jwtToken');
@@ -60,20 +61,20 @@ class _MyAppState extends State<MyApp> {
       store.dispatch(BranchListening());
       log.info("Got link data: ${linkData.toString()}");
       if (linkData["~feature"] == "invite_user") {
-        store.dispatch(
-          segmentIdentifyCall(
-            Map<String, dynamic>.from({
-              'Referral': linkData["~feature"],
-              'Referral link': linkData['~referring_link']
-            }),
-          ),
-        );
-        store.dispatch(
-          segmentTrackCall(
-            "Wallet: Branch: User Invite",
-            properties: Map<String, dynamic>.from(linkData),
-          ),
-        );
+        // store.dispatch(
+        //   segmentIdentifyCall(
+        //     Map<String, dynamic>.from({
+        //       'Referral': linkData["~feature"],
+        //       'Referral link': linkData['~referring_link']
+        //     }),
+        //   ),
+        // );
+        // store.dispatch(
+        //   segmentTrackCall(
+        //     "Wallet: Branch: User Invite",
+        //     properties: Map<String, dynamic>.from(linkData),
+        //   ),
+        // );
       }
     });
   }

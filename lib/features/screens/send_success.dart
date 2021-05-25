@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -21,8 +20,6 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   @override
   void initState() {
     super.initState();
-    Segment.screen(screenName: '/send-success-screen');
-
     Future.delayed(Duration(milliseconds: 2500), () {
       BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
       navigationBar.onTap(0);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/recovery.dart';
@@ -11,12 +10,13 @@ import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
-class RecoveryPage extends StatefulWidget {
+class RestoreFromBackupScreen extends StatefulWidget {
   @override
-  _RecoveryPageState createState() => _RecoveryPageState();
+  _RestoreFromBackupScreenState createState() =>
+      _RestoreFromBackupScreenState();
 }
 
-class _RecoveryPageState extends State<RecoveryPage> {
+class _RestoreFromBackupScreenState extends State<RestoreFromBackupScreen> {
   GlobalKey<ScaffoldState> scaffoldState;
   bool isLoading = false;
   final wordsController = TextEditingController(text: "");
@@ -25,7 +25,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/restore-wallet-screen');
     super.initState();
   }
 

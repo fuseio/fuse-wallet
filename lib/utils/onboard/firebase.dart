@@ -38,7 +38,6 @@ class FirebaseStrategy implements IOnBoardStrategy {
       store.dispatch(SetIsLoginRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
-      store.dispatch(segmentTrackCall("Wallet: verified phone number"));
       ExtendedNavigator.root.pushUserNameScreen();
     };
 
@@ -84,7 +83,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       store.dispatch(SetIsLoginRequest(isLoading: false));
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
-      ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
+      ExtendedNavigator.root.pushVerifyPhoneNumber(verificationId: verificationId);
     };
 
     await firebaseAuth.verifyPhoneNumber(

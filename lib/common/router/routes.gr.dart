@@ -36,12 +36,12 @@ import 'route_guards.dart';
 
 class Routes {
   static const String splashScreen = '/';
-  static const String securityScreen = '/security-screen';
+  static const String chooseSecurityOption = '/choose-security-option';
   static const String pinCodeScreen = '/pin-code-screen';
-  static const String recoveryPage = '/recovery-page';
+  static const String restoreFromBackupScreen = '/restore-from-backup-screen';
   static const String onBoardScreen = '/on-board-screen';
   static const String signUpScreen = '/sign-up-screen';
-  static const String verifyScreen = '/verify-screen';
+  static const String verifyPhoneNumber = '/verify-phone-number';
   static const String userNameScreen = '/user-name-screen';
   static const String webview = '/web-view-screen';
   static const String homeScreen = '/main-home-screen';
@@ -55,12 +55,12 @@ class Routes {
   static const String unknownRouteScreen = '*';
   static const all = <String>{
     splashScreen,
-    securityScreen,
+    chooseSecurityOption,
     pinCodeScreen,
-    recoveryPage,
+    restoreFromBackupScreen,
     onBoardScreen,
     signUpScreen,
-    verifyScreen,
+    verifyPhoneNumber,
     userNameScreen,
     webview,
     homeScreen,
@@ -80,12 +80,12 @@ class Router extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.splashScreen, page: SplashScreen),
-    RouteDef(Routes.securityScreen, page: SecurityScreen),
+    RouteDef(Routes.chooseSecurityOption, page: ChooseSecurityOption),
     RouteDef(Routes.pinCodeScreen, page: PinCodeScreen),
-    RouteDef(Routes.recoveryPage, page: RecoveryPage),
+    RouteDef(Routes.restoreFromBackupScreen, page: RestoreFromBackupScreen),
     RouteDef(Routes.onBoardScreen, page: OnBoardScreen),
     RouteDef(Routes.signUpScreen, page: SignUpScreen),
-    RouteDef(Routes.verifyScreen, page: VerifyScreen),
+    RouteDef(Routes.verifyPhoneNumber, page: VerifyPhoneNumber),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
     RouteDef(Routes.webview, page: WebViewScreen),
     RouteDef(Routes.homeScreen, page: MainHomeScreen, guards: [AuthGuard]),
@@ -112,9 +112,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    SecurityScreen: (data) {
+    ChooseSecurityOption: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SecurityScreen(),
+        builder: (context) => ChooseSecurityOption(),
         settings: data,
       );
     },
@@ -124,9 +124,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    RecoveryPage: (data) {
+    RestoreFromBackupScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => RecoveryPage(),
+        builder: (context) => RestoreFromBackupScreen(),
         settings: data,
       );
     },
@@ -142,12 +142,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    VerifyScreen: (data) {
-      final args = data.getArgs<VerifyScreenArguments>(
-        orElse: () => VerifyScreenArguments(),
+    VerifyPhoneNumber: (data) {
+      final args = data.getArgs<VerifyPhoneNumberArguments>(
+        orElse: () => VerifyPhoneNumberArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => VerifyScreen(verificationId: args.verificationId),
+        builder: (context) =>
+            VerifyPhoneNumber(verificationId: args.verificationId),
         settings: data,
       );
     },
@@ -276,22 +277,24 @@ class Router extends RouterBase {
 extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushSplashScreen() => push<dynamic>(Routes.splashScreen);
 
-  Future<dynamic> pushSecurityScreen() => push<dynamic>(Routes.securityScreen);
+  Future<dynamic> pushChooseSecurityOption() =>
+      push<dynamic>(Routes.chooseSecurityOption);
 
   Future<dynamic> pushPinCodeScreen() => push<dynamic>(Routes.pinCodeScreen);
 
-  Future<dynamic> pushRecoveryPage() => push<dynamic>(Routes.recoveryPage);
+  Future<dynamic> pushRestoreFromBackupScreen() =>
+      push<dynamic>(Routes.restoreFromBackupScreen);
 
   Future<dynamic> pushOnBoardScreen() => push<dynamic>(Routes.onBoardScreen);
 
   Future<dynamic> pushSignUpScreen() => push<dynamic>(Routes.signUpScreen);
 
-  Future<dynamic> pushVerifyScreen({
+  Future<dynamic> pushVerifyPhoneNumber({
     String verificationId,
   }) =>
       push<dynamic>(
-        Routes.verifyScreen,
-        arguments: VerifyScreenArguments(verificationId: verificationId),
+        Routes.verifyPhoneNumber,
+        arguments: VerifyPhoneNumberArguments(verificationId: verificationId),
       );
 
   Future<dynamic> pushUserNameScreen() => push<dynamic>(Routes.userNameScreen);
@@ -400,10 +403,10 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 /// Arguments holder classes
 /// *************************************************************************
 
-/// VerifyScreen arguments holder class
-class VerifyScreenArguments {
+/// VerifyPhoneNumber arguments holder class
+class VerifyPhoneNumberArguments {
   final String verificationId;
-  VerifyScreenArguments({this.verificationId});
+  VerifyPhoneNumberArguments({this.verificationId});
 }
 
 /// WebViewScreen arguments holder class

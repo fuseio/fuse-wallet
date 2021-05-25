@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
@@ -15,8 +14,6 @@ class ContactsViewModel extends Equatable {
   final String isoCode;
   final Function() syncContactsRejected;
   final List<Business> businesses;
-  final Function(String eventName) trackCall;
-  final Function(Map<String, dynamic> traits) identifyCall;
   final Community community;
 
   ContactsViewModel({
@@ -28,8 +25,6 @@ class ContactsViewModel extends Equatable {
     this.isoCode,
     this.businesses,
     this.syncContactsRejected,
-    this.trackCall,
-    this.identifyCall,
   });
 
   static ContactsViewModel fromStore(Store<AppState> store) {
@@ -47,13 +42,7 @@ class ContactsViewModel extends Equatable {
         store.dispatch(syncContactsCall());
       },
       syncContactsRejected: () {
-        store.dispatch(new SyncContactsRejected());
-      },
-      trackCall: (String eventName) {
-        store.dispatch(segmentTrackCall(eventName));
-      },
-      identifyCall: (Map<String, dynamic> traits) {
-        store.dispatch(segmentIdentifyCall(traits));
+        store.dispatch(SyncContactsRejected());
       },
     );
   }

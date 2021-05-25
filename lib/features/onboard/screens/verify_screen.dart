@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyScreen extends StatefulWidget {
+class VerifyPhoneNumber extends StatefulWidget {
   final String verificationId;
-  VerifyScreen({this.verificationId});
+  VerifyPhoneNumber({this.verificationId});
   @override
-  _VerifyScreenState createState() => _VerifyScreenState();
+  _VerifyPhoneNumberState createState() => _VerifyPhoneNumberState();
 }
 
-class _VerifyScreenState extends State<VerifyScreen> {
+class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   String autoCode = "";
   TextEditingController codeController = TextEditingController(text: '');
   String currentText = "";
@@ -26,7 +24,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/verify-phone-number-screen');
     super.initState();
   }
 
@@ -141,9 +138,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
                             formKey.currentState.validate();
-                            // conditions for validating
-                            log.info(
-                                'currentText.length ${currentText.length}');
                             if (currentText.length != 6) {
                               // errorController.add(ErrorAnimationType
                               //     .shake); // Triggering error shake animation

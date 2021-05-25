@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -9,7 +8,11 @@ void openDepositWebview({
   String url,
   bool withBack,
 }) {
-  final link = url.contains('ramp') ? '$url&finalUrl=https://fuse.cash' : url;
+  final String link = url.contains('ramp')
+      ? '$url&finalUrl=https://fuse.cash'
+      : url.contains('transak')
+          ? '$url&redirectURL=https://fuse.cash'
+          : url;
   if (Platform.isIOS) {
     ExtendedNavigator.root.pushWebview(
       withBack: withBack,
@@ -33,12 +36,4 @@ void openDepositWebview({
       ),
     );
   }
-  try {
-    Segment.track(
-      eventName: 'User clicked on top up',
-      properties: Map<String, dynamic>.from({
-        url: url,
-      }),
-    );
-  } catch (e) {}
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -45,6 +46,10 @@ class DepositBanner extends StatelessWidget {
                       focusColor: Theme.of(context).canvasColor,
                       highlightColor: Theme.of(context).canvasColor,
                       onTap: () {
+                        Segment.track(
+                          eventName: 'Top up Button Press',
+                          properties: Map.from({"fromScreen": 'HomeScreen'}),
+                        );
                         Navigator.push(
                           context,
                           MaterialPageRoute(

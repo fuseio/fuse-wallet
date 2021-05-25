@@ -269,6 +269,7 @@ ThunkAction enablePushNotifications() {
       await Segment.setContext({
         'device': {'token': token},
       });
+      await Segment.track(eventName: 'Application Opened');
 
       void switchOnPush(message) {
         final dynamic data = message['data'] ?? message;
@@ -460,21 +461,10 @@ ThunkAction generateWalletSuccessCall(dynamic walletData) {
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(saveUserInDB(walletAddress));
-      final TrackingStatus status =
-          await AppTrackingTransparency.requestTrackingAuthorization();
-      log.info(EnumToString.convertToString(status));
+      await AppTrackingTransparency.requestTrackingAuthorization();
       store.dispatch(enablePushNotifications());
-      store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
-      store.dispatch(segmentIdentifyCall(
-        Map<String, dynamic>.from({
-          "Wallet Generated": true,
-          "App name": 'Fuse',
-          "Phone Number": store.state.userState.phoneNumber,
-          "Wallet Address": store.state.userState.walletAddress,
-          "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName
-        }),
-      ));
+      store.dispatch(identifyCall());
+      Segment.track(eventName: 'User: wallet generated successfully');
     }
   };
 }
@@ -494,7 +484,7 @@ ThunkAction getTokenBalanceCall(Token token) {
         store.dispatch(
           segmentIdentifyCall(
             Map<String, dynamic>.from({
-              '${token?.name} Balance': token.getBalance(true),
+              '${token?.symbol}_balance': token.getBalance(true),
               "DisplayBalance": token.getBalance(true),
             }),
           ),
@@ -891,33 +881,12 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
         ),
       ));
       store.dispatch(
-        segmentTrackCall(
-          "Wallet: Switch Community",
-          properties: Map<String, dynamic>.from({
-            "Community Name": newCommunity.name,
-            "Community Address": communityAddress,
-            "Token Address": communityToken.address,
-            "Token Symbol": communityToken.symbol,
-            "Origin Network": originNetwork
-          }),
-        ),
-      );
-      store.dispatch(
         fetchCommunityMetadataCall(
           communityAddress,
           communityData['communityURI'],
           isRopsten,
         ),
       );
-      // if (communityAddress.toLowerCase() !=
-      //     defaultCommunityAddress.toLowerCase()) {
-      //   store.dispatch(
-      //     getBusinessListCall(
-      //       communityAddress: communityAddress,
-      //       isRopsten: isRopsten,
-      //     ),
-      //   );
-      // }
       store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');

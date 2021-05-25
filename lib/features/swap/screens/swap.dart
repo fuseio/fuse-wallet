@@ -327,6 +327,10 @@ class _SwapScreenState extends State<SwapScreen> {
       children: [
         InkWell(
           onTap: () {
+            Segment.track(
+              eventName: 'Top up Button Press',
+              properties: Map.from({"fromScreen": 'swapScreen'}),
+            );
             Navigator.push(
               context,
               MaterialPageRoute(

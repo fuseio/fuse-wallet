@@ -10,9 +10,16 @@ class RecoveryViewModel {
   RecoveryViewModel({this.generateWalletFromBackup});
 
   static RecoveryViewModel fromStore(Store<AppState> store) {
-    return RecoveryViewModel(
-      generateWalletFromBackup: (mnemonic, VoidCallback successCallback) {
-      store.dispatch(restoreWalletCall(mnemonic.split(' ').toList(), successCallback));
+    return RecoveryViewModel(generateWalletFromBackup: (
+      mnemonic,
+      VoidCallback successCallback,
+    ) {
+      store.dispatch(
+        restoreWalletCall(
+          mnemonic.split(' ').toList(),
+          successCallback,
+        ),
+      );
     });
   }
 }

@@ -12,12 +12,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 
-class SecurityScreen extends StatefulWidget {
+class ChooseSecurityOption extends StatefulWidget {
   @override
-  _SecurityScreenState createState() => _SecurityScreenState();
+  _ChooseSecurityOptionState createState() => _ChooseSecurityOptionState();
 }
 
-class _SecurityScreenState extends State<SecurityScreen> {
+class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
   BiometricAuth _biometricType;
 
   Future<void> _checkBiometrical() async {
@@ -31,7 +31,6 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/choose-lock-method-screen');
     _checkBiometrical();
     super.initState();
   }
@@ -156,9 +155,21 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                         '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
                                     callback: (bool result) {
                                       if (result) {
+                                        Segment.track(
+                                          eventName:
+                                              'Sign up: Choose Protection Type',
+                                          properties: Map.from(
+                                            {
+                                              "protectionType": biometric,
+                                            },
+                                          ),
+                                        );
                                         viewModel
                                             .setSecurityType(_biometricType);
                                         ExtendedNavigator.root.popUntilRoot();
+                                        Segment.track(
+                                          eventName: 'Sign up: Protection Done',
+                                        );
                                         ExtendedNavigator.root
                                             .replace(Routes.homeScreen);
                                       }
@@ -201,12 +212,21 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                   ]),
                                 ),
                                 onTap: () {
+                                  Segment.track(
+                                      eventName:
+                                          'Sign up: Choose Protection Type',
+                                      properties: Map.from(
+                                          {"protectionType": 'PinCode'}));
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => SetUpPinCodeScreen(
                                         onSuccess: () {
                                           ExtendedNavigator.root.popUntilRoot();
+                                          Segment.track(
+                                            eventName:
+                                                'Sign up: Protection Done',
+                                          );
                                           ExtendedNavigator.root
                                               .replace(Routes.homeScreen);
                                         },

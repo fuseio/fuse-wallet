@@ -27,7 +27,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/signup-screen');
     WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
@@ -108,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           );
                           Segment.track(
                             eventName:
-                                "Wallet: opened modal - why do we need this",
+                                "User: opened modal - why do we need this",
                           );
                         },
                         child: Center(
@@ -155,13 +154,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           countryCode = _countryCode;
                                         });
                                         Segment.track(
-                                            eventName:
-                                                'Wallet: country code selected',
-                                            properties: Map.from({
-                                              'Dial code':
-                                                  _countryCode.dialCode,
-                                              'County code': _countryCode.code,
-                                            }));
+                                          eventName:
+                                              'User: Country code selected',
+                                          properties: Map.from({
+                                            'Dial code': _countryCode.dialCode,
+                                            'County code': _countryCode.code,
+                                          }),
+                                        );
                                       },
                                       searchDecoration: InputDecoration(
                                         border: UnderlineInputBorder(
@@ -273,10 +272,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             builder: (_, viewModel) => Center(
                               child: PrimaryButton(
                                 label: I10n.of(context).next_button,
+                                preload: viewModel.isLoginRequest,
                                 onPressed: () {
                                   onPressed(viewModel.signUp);
                                 },
-                                preload: viewModel.isLoginRequest,
                               ),
                             ),
                           ),

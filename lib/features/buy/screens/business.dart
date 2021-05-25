@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/business.dart';
@@ -40,7 +39,6 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/business-details-screen');
     return Scaffold(
       key: scaffoldState,
       body: Container(

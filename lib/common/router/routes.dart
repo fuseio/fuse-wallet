@@ -23,12 +23,12 @@ import 'package:fusecash/features/swap/screens/swap.dart';
   generateNavigationHelperExtension: true,
   routes: [
     MaterialRoute(page: SplashScreen, initial: true),
-    MaterialRoute(page: SecurityScreen, name: 'securityScreen'),
+    MaterialRoute(page: ChooseSecurityOption),
     MaterialRoute(page: PinCodeScreen),
-    MaterialRoute(page: RecoveryPage),
+    MaterialRoute(page: RestoreFromBackupScreen),
     MaterialRoute(page: OnBoardScreen),
     MaterialRoute(page: SignUpScreen),
-    MaterialRoute(page: VerifyScreen),
+    MaterialRoute(page: VerifyPhoneNumber),
     MaterialRoute(page: UserNameScreen),
     MaterialRoute(page: WebViewScreen, name: 'webview', fullscreenDialog: true),
     MaterialRoute(

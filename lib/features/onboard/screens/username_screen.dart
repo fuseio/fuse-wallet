@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -16,7 +15,6 @@ class UserNameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/user-name-screen');
     return MyScaffold(
       title: I10n.of(context).sign_up,
       body: StoreConnector<AppState, OnboardViewModel>(
@@ -108,7 +106,7 @@ class UserNameScreen extends StatelessWidget {
                           viewModel.setDisplayName(
                               displayNameController.text.capitalize() ??
                                   'Anom');
-                          ExtendedNavigator.root.pushSecurityScreen();
+                          ExtendedNavigator.root.pushChooseSecurityOption();
                         },
                       ),
                     ),

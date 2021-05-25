@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -129,15 +130,13 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             bool permission = await Contacts.getPermissions();
                             if (permission) {
                               viewModel.syncContacts();
-                              viewModel.trackCall(
-                                  "Wallet: Contacts Permission Granted");
-                              viewModel.identifyCall(Map.from(
-                                  {"Contacts Permission Granted": true}));
+                              Segment.track(
+                                  eventName:
+                                      'User: Contacts Permission Granted');
                             } else {
-                              viewModel.trackCall(
-                                  "Wallet: Contacts Permission Rejected");
-                              viewModel.identifyCall(Map.from(
-                                  {"Contacts Permission Granted": false}));
+                              Segment.track(
+                                  eventName:
+                                      'User: Contacts Permission Rejected');
                             }
                             Navigator.of(context).pop();
                             setState(() {

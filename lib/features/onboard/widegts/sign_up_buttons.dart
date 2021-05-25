@@ -88,9 +88,8 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                               TransparentButton(
                                 fontSize: 14,
                                 label: I10n.of(context).restore_backup,
-                                onPressed: () {
-                                  ExtendedNavigator.root.pushRecoveryPage();
-                                },
+                                onPressed: ExtendedNavigator
+                                    .root.pushRestoreFromBackupScreen,
                               ),
                               Text(
                                 I10n.of(context).or,
@@ -127,9 +126,8 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                         : TransparentButton(
                             fontSize: 20,
                             label: I10n.of(context).restore_from_backup,
-                            onPressed: () {
-                              ExtendedNavigator.root.pushRecoveryPage();
-                            },
+                            onPressed: ExtendedNavigator
+                                .root.pushRestoreFromBackupScreen,
                           ),
                   )
                 ],

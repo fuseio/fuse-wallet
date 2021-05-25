@@ -99,6 +99,11 @@ class _AccountScreenState extends State<AccountScreen> {
                               label: '${I10n.of(context).top_up} \$',
                               menuIcon: 'top_up_icon.svg',
                               onTap: () {
+                                Segment.track(
+                                  eventName: 'Top up Button Press',
+                                  properties:
+                                      Map.from({"fromScreen": 'AccountScreen'}),
+                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
