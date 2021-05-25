@@ -300,30 +300,6 @@ ThunkAction enablePushNotifications() {
   };
 }
 
-ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
-  return (Store store) async {
-    try {
-      log.info('Track - $eventName');
-      Segment.track(eventName: eventName, properties: properties);
-    } catch (e, s) {
-      log.error('ERROR - segment track call: $e');
-      await Sentry.captureException(e, stackTrace: s);
-    }
-  };
-}
-
-ThunkAction segmentAliasCall(String userId) {
-  return (Store store) async {
-    try {
-      log.info('Alias - $userId');
-      Segment.alias(alias: userId);
-    } catch (e, s) {
-      log.error('ERROR - segment alias call: $e');
-      await Sentry.captureException(e, stackTrace: s);
-    }
-  };
-}
-
 ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
   return (Store store) async {
     try {
@@ -463,7 +439,6 @@ ThunkAction generateWalletSuccessCall(dynamic walletData) {
       await AppTrackingTransparency.requestTrackingAuthorization();
       store.dispatch(enablePushNotifications());
       store.dispatch(identifyCall());
-      Segment.track(eventName: 'User: wallet generated successfully');
     }
   };
 }

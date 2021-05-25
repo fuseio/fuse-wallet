@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -57,14 +56,6 @@ class FirebaseStrategy implements IOnBoardStrategy {
         SetIsVerifyRequest(
           isLoading: false,
           message: authException.message,
-        ),
-      );
-      store.dispatch(
-        segmentTrackCall(
-          "PhoneVerificationFailed",
-          properties: new Map.from(
-            {"error": authException.message},
-          ),
         ),
       );
       await Sentry.captureException(

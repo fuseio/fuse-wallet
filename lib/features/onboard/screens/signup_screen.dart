@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -105,10 +104,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             context: context,
                             builder: (BuildContext context) => SignUpDialog(),
                           );
-                          Segment.track(
-                            eventName:
-                                "User: opened modal - why do we need this",
-                          );
                         },
                         child: Center(
                           child: Text(
@@ -153,14 +148,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         setState(() {
                                           countryCode = _countryCode;
                                         });
-                                        Segment.track(
-                                          eventName:
-                                              'User: Country code selected',
-                                          properties: Map.from({
-                                            'Dial code': _countryCode.dialCode,
-                                            'County code': _countryCode.code,
-                                          }),
-                                        );
                                       },
                                       searchDecoration: InputDecoration(
                                         border: UnderlineInputBorder(

@@ -36,6 +36,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         initialUrl: widget.url,
         onPageStarted: (String url) {
           if (url.contains('https://fuse.cash/')) {
+            Segment.track(eventName: 'fUSD Purchase Success');
             ExtendedNavigator.root.popUntilRoot();
           }
         },

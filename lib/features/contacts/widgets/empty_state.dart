@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -74,11 +73,6 @@ class EmptyState extends StatelessWidget {
                         bool permission = await Contacts.getPermissions();
                         if (permission) {
                           viewModel.syncContacts();
-                          Segment.track(
-                              eventName: 'User: Contacts Permission Granted');
-                        } else {
-                          Segment.track(
-                              eventName: 'User: Contacts Permission Rejected');
                         }
                       })
                 ],

@@ -168,7 +168,7 @@ ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
         countryCode: countryCode,
         phoneNumber: phoneNumber.e164,
       ));
-      store.dispatch(segmentAliasCall(phoneNumber.e164));
+      Segment.alias(alias: phoneNumber.e164);
       Segment.track(
         eventName: 'Sign up: Phone_NextBtn_Press',
       );
@@ -333,9 +333,6 @@ ThunkAction reLoginCall() {
   return (Store store) async {
     store.dispatch(ReLogin());
     store.dispatch(getWalletAddressesCall());
-    Segment.track(
-      eventName: 'User: Login clicked',
-    );
   };
 }
 
@@ -411,7 +408,7 @@ ThunkAction syncContactsCall() {
 }
 
 ThunkAction identifyCall() {
-  return (Store store) async {
+  return (Store store) {
     String displayName = store.state.userState.displayName;
     String phoneNumber = store.state.userState.phoneNumber;
     String walletAddress = store.state.userState.walletAddress;
@@ -537,10 +534,6 @@ ThunkAction updateDisplayNameCall(String displayName) {
       String accountAddress = store.state.userState.accountAddress;
       await api.updateDisplayName(accountAddress, displayName);
       store.dispatch(SetDisplayName(displayName));
-      store.dispatch(segmentTrackCall("User: name updated"));
-      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-        "Display Name": displayName,
-      })));
     } catch (e, s) {
       await Sentry.captureException(e, stackTrace: s);
     }
@@ -556,7 +549,6 @@ ThunkAction updateUserAvatarCall(ImageSource source) {
       String accountAddress = store.state.userState.accountAddress;
       await api.updateAvatar(accountAddress, uploadResponse['hash']);
       store.dispatch(SetUserAvatar(uploadResponse['uri']));
-      Segment.track(eventName: 'User: avatar image updated');
     } catch (e, s) {
       await Sentry.captureException(e, stackTrace: s);
     }
