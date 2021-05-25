@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
