@@ -449,6 +449,7 @@ class _SwapScreenState extends State<SwapScreen> {
                             Column(
                               children: [
                                 TradeCard(
+                                  showCurrent: true,
                                   onTap: () {
                                     showBottomMenu(
                                       viewModel.payWithTokens,
@@ -473,7 +474,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                     }
                                   },
                                   isSwapped: isSwapped,
-                                  useMaxWidget: maxButton(),
+                                  // useMaxWidget: maxButton(),
                                   textEditingController: tokenOutController,
                                   token: tokenOut,
                                   title: I10n.of(context).pay_with,

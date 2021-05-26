@@ -264,7 +264,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                         ),
                                       ),
                                     ),
-                                    useMax(),
+                                    // useMax(),
                                   ],
                                 ),
                               ),

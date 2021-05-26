@@ -13,6 +13,7 @@ class TradeCard extends StatelessWidget {
   final Token token;
   final String title;
   final Widget useMaxWidget;
+  final bool showCurrent;
   final void Function(String) onChanged;
   final TextEditingController textEditingController;
   final void Function() onTap;
@@ -26,6 +27,7 @@ class TradeCard extends StatelessWidget {
     this.onChanged,
     this.token,
     this.textEditingController,
+    this.showCurrent = false
   });
 
   @override
@@ -101,7 +103,7 @@ class TradeCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        useMaxWidget != null
+                        showCurrent
                             ? Positioned(
                                 bottom: -30,
                                 child: Column(
