@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins/plugin_base.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -18,11 +17,8 @@ class TopUpViewModel extends Equatable {
   final String walletAddress;
   final String countryCode;
   final String isoCode;
-  final bool isUSUser;
-  final Plugin topUpPlugin;
 
   TopUpViewModel({
-    this.topUpPlugin,
     this.isoCode,
     this.countryCode,
     this.setDepositBanner,
@@ -30,7 +26,6 @@ class TopUpViewModel extends Equatable {
     this.dismiss,
     this.showDismiss,
     this.walletAddress,
-    this.isUSUser,
   });
 
   static TopUpViewModel fromStore(Store<AppState> store) {
@@ -45,14 +40,7 @@ class TopUpViewModel extends Equatable {
         ?.where((Token token) =>
             num.parse(token.getBalance(true)).compareTo(0) == 1)
         ?.toList();
-    final String isoCode = store.state.userState.isoCode;
-    final String countryCode = store.state.userState.countryCode;
-    final bool isUSUser =
-        (![null, ''].contains(countryCode) && countryCode == '+1') &&
-            (![null, ''].contains(isoCode) && isoCode == 'US');
     return TopUpViewModel(
-      topUpPlugin: isUSUser ? plugins.transak : plugins.rampInstant,
-      isUSUser: isUSUser,
       plugins: plugins,
       isoCode: store.state.userState.isoCode,
       countryCode: store.state.userState.countryCode,
@@ -88,8 +76,6 @@ class TopUpViewModel extends Equatable {
 
   @override
   List get props => [
-        topUpPlugin,
-        isUSUser,
         countryCode,
         isoCode,
         showDismiss,

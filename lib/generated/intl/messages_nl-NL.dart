@@ -239,6 +239,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "we_notice" : MessageLookupByLibrary.simpleMessage("We notice you haven’t backup your wallet yet."),
     "why_do_we_need_this" : MessageLookupByLibrary.simpleMessage("Waarom hebben jullie dit nodig?"),
     "will_never_share" : MessageLookupByLibrary.simpleMessage("Fuse will never share this information with 3rd party."),
+    "wire_transfer" : MessageLookupByLibrary.simpleMessage("Wire Transfer"),
     "word" : MessageLookupByLibrary.simpleMessage("Woord"),
     "word_not_match" : MessageLookupByLibrary.simpleMessage("Het woord komt niet overeen"),
     "write_down_your_words" : MessageLookupByLibrary.simpleMessage("Schrijf je 12 woorden op..."),

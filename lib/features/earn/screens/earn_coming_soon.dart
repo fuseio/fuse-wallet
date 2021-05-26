@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/earn/dialogs/learn_more.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -8,7 +7,6 @@ import 'package:fusecash/widgets/my_scaffold.dart';
 
 class EarnComingSoonScreen extends StatelessWidget {
   Widget build(BuildContext context) {
-    Segment.screen(screenName: 'earn-coming-soon');
     return MyScaffold(
       title: I10n.of(context).earn,
       body: Container(

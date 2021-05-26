@@ -1,8 +1,4 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/features/account/router/router.gr.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/features/earn/router/router.gr.dart';
@@ -13,7 +9,6 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/bottom_bar.dart';
@@ -71,9 +66,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 router: HomeRouter(),
                 name: 'homeRouter',
                 observers: [
-                  FirebaseAnalyticsObserver(
-                      analytics: getIt<FirebaseAnalytics>()),
-                  SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
               ),
@@ -81,9 +73,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 router: ContactsRouter(),
                 name: 'contactsRouter',
                 observers: [
-                  FirebaseAnalyticsObserver(
-                      analytics: getIt<FirebaseAnalytics>()),
-                  SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
               ),
@@ -91,9 +80,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 router: SwapRouter(),
                 name: 'swapRouter',
                 observers: [
-                  FirebaseAnalyticsObserver(
-                      analytics: getIt<FirebaseAnalytics>()),
-                  SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
               ),
@@ -101,9 +87,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 router: EarnRouter(),
                 name: 'earnRouter',
                 observers: [
-                  FirebaseAnalyticsObserver(
-                      analytics: getIt<FirebaseAnalytics>()),
-                  SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
               ),
@@ -111,9 +94,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 router: AccountRouter(),
                 name: 'accountRouter',
                 observers: [
-                  FirebaseAnalyticsObserver(
-                      analytics: getIt<FirebaseAnalytics>()),
-                  SegmentObserver(),
                   SentryNavigatorObserver(),
                 ],
               ),
@@ -135,19 +115,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 );
               }
               if (index == 2) {
-                vm.getSwapList();
+                vm.getSwapListBalances();
               }
-              if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
-                Future.delayed(Duration.zero, () {
-                  vm.setShowDialog();
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return BackUpDialog();
-                    },
-                  );
-                });
-              }
+              // if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+              //   Future.delayed(Duration.zero, () {
+              //     vm.setShowDialog();
+              //     showDialog(
+              //       context: context,
+              //       builder: (BuildContext context) {
+              //         return BackUpDialog();
+              //       },
+              //     );
+              //   });
+              // }
             },
           ),
         );

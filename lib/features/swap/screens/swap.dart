@@ -56,7 +56,6 @@ class _SwapScreenState extends State<SwapScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/swap-screen');
     super.initState();
   }
 

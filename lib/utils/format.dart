@@ -43,21 +43,24 @@ bool isNumeric(String s) {
   return Decimal.tryParse(s) != null;
 }
 
+String smallValuesConvertor(Decimal value) {
+  if (value.compareTo(Decimal.zero) == 1 &&
+      value.compareTo(Decimal.parse('0.01')) <= 0) {
+    return '< 0.01';
+  }
+  return display(num.parse(value.toStringAsFixed(2)));
+}
+
 String formatValue(
   BigInt value,
   int decimals, {
-  int fractionDigits = 2,
   bool withPrecision = false,
 }) {
   if (value == null || decimals == null) return '0';
   Decimal formattedValue =
       Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
-  if (formattedValue.compareTo(Decimal.zero) == 1 &&
-      formattedValue.compareTo(Decimal.parse('0.01')) <= 0) {
-    return '< 0.01';
-  }
-  return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
+  return smallValuesConvertor(formattedValue);
 }
 
 String getFiatValue(

@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/contacts/widgets/empty_state.dart';
 import 'package:fusecash/features/contacts/widgets/recent_contacts.dart';
@@ -36,12 +35,6 @@ class _ContactsListState extends State<ContactsList> {
   List<Contact> filteredUsers = [];
   TextEditingController searchController = TextEditingController();
   List<Contact> _contacts;
-
-  @override
-  void initState() {
-    Segment.screen(screenName: '/contacts-screen');
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

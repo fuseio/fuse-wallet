@@ -268,7 +268,6 @@ ThunkAction enablePushNotifications() {
       await Segment.setContext({
         'device': {'token': token},
       });
-      await Segment.track(eventName: 'Application Opened');
 
       void switchOnPush(message) {
         final dynamic data = message['data'] ?? message;

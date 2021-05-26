@@ -1,14 +1,15 @@
 import 'dart:core';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/features/account/screens/crypto_deposit.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins/rampInstant.dart';
-import 'package:fusecash/models/plugins/transak.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
+import 'package:fusecash/utils/log/log.dart';
+import 'package:fusecash/utils/onramp.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -63,10 +64,23 @@ class TopUpScreen extends StatefulWidget {
 }
 
 class _TopUpScreenState extends State<TopUpScreen> {
-  @override
-  void initState() {
-    Segment.screen(screenName: '/top-up-screen');
-    super.initState();
+  bool showWireTransfer = false;
+  bool showTransak = false;
+  onInit(store) async {
+    try {
+      final dio = getIt<Dio>();
+      Response response = await dio.get('http://ip-api.com/json');
+      Map countryData = Map.from(response.data);
+      final String currentCountry = countryData['country'];
+      setState(() {
+        showTransak =
+            countriesWithTransak.any((country) => country == currentCountry);
+        showWireTransfer = countriesWithWireTransfer
+            .any((country) => country == currentCountry);
+      });
+    } catch (e) {
+      log.error('Error: ${e.toString()}');
+    }
   }
 
   @override
@@ -76,6 +90,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
       body: StoreConnector<AppState, TopUpViewModel>(
         distinct: true,
         converter: TopUpViewModel.fromStore,
+        onInit: onInit,
         builder: (_, viewModel) {
           return Container(
             padding: EdgeInsets.only(
@@ -90,22 +105,32 @@ class _TopUpScreenState extends State<TopUpScreen> {
                     CustomTile(
                       title: I10n.of(context).credit_card,
                       menuIcon: 'credit_card',
-                      subtitle:
-                          viewModel.isUSUser ? '(Transak)' : '(Ramp network)',
+                      subtitle: showTransak ? '(Transak)' : '(Ramp network)',
                       onTap: () {
-                        if (viewModel.topUpPlugin != null) {
-                          final String url = viewModel.isUSUser
-                              ? (viewModel.topUpPlugin as TransakPlugin)
-                                  .widgetUrl
-                              : (viewModel.topUpPlugin as RampInstantPlugin)
-                                  .widgetUrl;
-                          openDepositWebview(
-                            withBack: true,
-                            url: url,
-                          );
-                        }
+                        final String url = showTransak
+                            ? viewModel?.plugins?.transak?.widgetUrl
+                            : viewModel?.plugins?.rampInstant?.widgetUrl;
+                        openDepositWebview(
+                          withBack: true,
+                          url: url,
+                        );
                       },
                     ),
+                    showWireTransfer
+                        ? CustomTile(
+                            title: I10n.of(context).wire_transfer,
+                            menuIcon: 'credit_card',
+                            subtitle: '(Ramp network)',
+                            onTap: () {
+                              final String url =
+                                  viewModel.plugins?.rampInstant?.widgetUrl;
+                              openDepositWebview(
+                                withBack: true,
+                                url: url,
+                              );
+                            },
+                          )
+                        : SizedBox.shrink(),
                     CustomTile(
                       title: 'USDC',
                       menuIcon: 'usdc',

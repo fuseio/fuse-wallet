@@ -26,7 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/initial-screen');
     super.initState();
     _checkBiometrical();
   }

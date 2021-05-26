@@ -23,12 +23,6 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   @override
-  void initState() {
-    Segment.screen(screenName: '/account-screen');
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).account,

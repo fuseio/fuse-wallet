@@ -60,7 +60,10 @@ ThunkAction fetchSwapList() {
       Map<String, String> tokensImages = Map();
       for (Map token in data['tokens']) {
         final String name = token['name'];
-        if (!token.containsKey('isDeprecated') || !name.contains('Dai')) {
+        if (name.startsWith('Dai')) {
+          continue;
+        }
+        if (!token.containsKey('isDeprecated')) {
           Token newToken = Token.fromJson({
             "originNetwork": 'mainnet',
             "amount": BigInt.zero.toString(),

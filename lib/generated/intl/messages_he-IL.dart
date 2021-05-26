@@ -239,6 +239,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "we_notice" : MessageLookupByLibrary.simpleMessage("שמנו לב שטרם ביצעת גיבוי"),
     "why_do_we_need_this" : MessageLookupByLibrary.simpleMessage("למה אנחנו צריכים את זה?"),
     "will_never_share" : MessageLookupByLibrary.simpleMessage("Fuse לעולם לא ישתף מידע זה עם צד שלישי."),
+    "wire_transfer" : MessageLookupByLibrary.simpleMessage("Wire Transfer"),
     "word" : MessageLookupByLibrary.simpleMessage("מילה"),
     "word_not_match" : MessageLookupByLibrary.simpleMessage("המילה לא תואמת"),
     "write_down_your_words" : MessageLookupByLibrary.simpleMessage("רשמו את 12 המילים שלכם..."),
