@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:core';
 import 'package:dio/dio.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -11,7 +9,7 @@ import 'package:fusecash/features/account/screens/crypto_deposit.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/onramp.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/utils/webview.dart';
@@ -75,13 +73,6 @@ class _TopUpScreenState extends State<TopUpScreen> {
       Response response = await dio.get('http://ip-api.com/json');
       Map countryData = Map.from(response.data);
       final String currentCountry = countryData['country'];
-      RemoteConfigValue remoteConfigValue = remoteConfig.getValue('onramp');
-      final Map onrampValues =
-          Map.from(jsonDecode(remoteConfigValue.asString()));
-      final List<String> countriesWithTransak =
-          List.from(onrampValues['withTransak']);
-      final List<String> countriesWithWireTransfer =
-          List.from(onrampValues['withWireTransfer']);
       setState(() {
         showTransak =
             countriesWithTransak.any((country) => country == currentCountry);
@@ -156,22 +147,6 @@ class _TopUpScreenState extends State<TopUpScreen> {
                           )
                         : SizedBox.shrink(),
                     CustomTile(
-                      title: I10n.of(context).deposit_from_BSC,
-                      menuIcon: 'usdc',
-                      subtitle: '(${I10n.of(context).bridge_from_BSC})',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CryptoDepositScreen(
-                              link:
-                                  'https://fuseswap.com/#/bridge?sourceChain=56&recipient=${viewModel.walletAddress}',
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    CustomTile(
                       title: I10n.of(context).deposit_from_ethereum,
                       menuIcon: 'etheruem',
                       subtitle: '(${I10n.of(context).bridge_from_ethereum})',
@@ -182,6 +157,22 @@ class _TopUpScreenState extends State<TopUpScreen> {
                             builder: (context) => CryptoDepositScreen(
                               link:
                                   'https://fuseswap.com/#/bridge?sourceChain=1&recipient=${viewModel.walletAddress}',
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    CustomTile(
+                      title: I10n.of(context).deposit_from_BSC,
+                      menuIcon: 'usdc',
+                      subtitle: '(${I10n.of(context).bridge_from_BSC})',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CryptoDepositScreen(
+                              link:
+                                  'https://fuseswap.com/#/bridge?sourceChain=56&recipient=${viewModel.walletAddress}',
                             ),
                           ),
                         );
