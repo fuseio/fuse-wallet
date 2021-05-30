@@ -1,5 +1,6 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -9,6 +10,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -43,7 +45,15 @@ class _SplashScreenState extends State<SplashScreen> {
     String privateKey = store?.state?.userState?.privateKey ?? '';
     String jwtToken = store?.state?.userState?.jwtToken ?? '';
     bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
+    remoteConfig = await RemoteConfig.instance;
+    await remoteConfig.fetch(
+      expiration: Duration(
+        hours: 2,
+      ),
+    );
+    await remoteConfig.activateFetched();
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
+      Segment.track(eventName: 'Session Start: First Launch');
       ExtendedNavigator.root.replace(Routes.onBoardScreen);
     } else {
       UserState userState = store.state.userState;
@@ -76,6 +86,9 @@ class _SplashScreenState extends State<SplashScreen> {
       stickyAuth: true,
       callback: (bool result) {
         if (result) {
+          Segment.track(
+            eventName: 'Session Start: Authentication success',
+          );
           ExtendedNavigator.root.replace(Routes.homeScreen);
         } else {
           flush = Flushbar<bool>(

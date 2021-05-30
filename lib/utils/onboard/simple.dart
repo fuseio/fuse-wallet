@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
@@ -17,6 +18,9 @@ class SimpleStrategy implements IOnBoardStrategy {
     log.info('jwtToken $jwtToken');
     store.dispatch(LoginVerifySuccess(jwtToken));
     store.dispatch(SetIsVerifyRequest(isLoading: false));
+    Segment.track(
+      eventName: 'Sign up: VerificationCode_NextBtn_Press',
+    );
     ExtendedNavigator.root.pushUserNameScreen();
   }
 

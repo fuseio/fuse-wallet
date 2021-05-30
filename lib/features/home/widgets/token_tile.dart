@@ -176,14 +176,18 @@ class TokenTile extends StatelessWidget {
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.baseline,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               verticalDirection: VerticalDirection.down,
                               textBaseline: TextBaseline.alphabetic,
                               children: [
-                                Text(
-                                  token.getBalance(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                Flexible(
+                                  child: AutoSizeText(
+                                    token.getBalance(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    presetFontSizes: [25, 24, 23, 22],
+                                    maxLines: 1,
                                   ),
                                 ),
                                 Text(
@@ -252,8 +256,8 @@ class TokenTile extends StatelessWidget {
                                 Navigator.of(context).pop();
                                 Segment.track(
                                   eventName: 'Top up Button Press',
-                                  properties:
-                                      Map.from({"fromScreen": 'fuseDollarScreen'}),
+                                  properties: Map.from(
+                                      {"fromScreen": 'fuseDollarScreen'}),
                                 );
                                 Navigator.push(
                                   context,

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
@@ -407,10 +408,15 @@ class ActionTile extends StatelessWidget {
                           bonus: (value) => '',
                           send: (value) => '',
                           receive: (value) => '',
-                          swap: (value) =>
-                              display(num.parse(value.tradeInfo.inputAmount)) +
-                              ' ' +
-                              value.tradeInfo.inputToken,
+                          swap: (value) {
+                            final String amount = smallNumberTest(
+                                    Decimal.parse(value.tradeInfo.inputAmount))
+                                ? value.tradeInfo.inputAmount
+                                : smallValuesConvertor(
+                                    Decimal.parse(value.tradeInfo.inputAmount));
+
+                            return amount + ' ' + value.tradeInfo.inputToken;
+                          },
                         ) +
                         ' ${I10n.of(context).to.toLowerCase()} ' +
                         action.map(
@@ -420,10 +426,17 @@ class ActionTile extends StatelessWidget {
                           bonus: (value) => '',
                           send: (value) => '',
                           receive: (value) => '',
-                          swap: (value) =>
-                              display(num.parse(value.tradeInfo.outputAmount)) +
-                              ' ' +
-                              value.tradeInfo.outputToken,
+                          swap: (value) {
+                            final String outputAmount = smallNumberTest(
+                                    Decimal.parse(value.tradeInfo.outputAmount))
+                                ? value.tradeInfo.outputAmount
+                                : smallValuesConvertor(Decimal.parse(
+                                    value.tradeInfo.outputAmount));
+
+                            return outputAmount +
+                                ' ' +
+                                value.tradeInfo.outputToken;
+                          },
                         ),
                     maxLines: 1,
                   )

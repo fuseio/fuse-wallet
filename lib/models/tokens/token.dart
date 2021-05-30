@@ -48,7 +48,7 @@ abstract class Token implements _$Token, Comparable<Token> {
   String getBalance([withPrecision = false]) => formatValue(
         amount,
         decimals,
-        withPrecision: withPrecision,
+        withPrecision,
       );
   String getFiatBalance() {
     if (priceInfo != null && priceInfo?.quote != 'NaN') {

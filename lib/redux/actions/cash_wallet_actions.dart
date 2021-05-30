@@ -1156,7 +1156,6 @@ ThunkAction getTokenPriceChangeCall(Token token) {
 ThunkAction getTokenStatsCall(Token token) {
   return (Store store) async {
     void Function(List<Stats>) onDone = (List<Stats> stats) {
-      log.info('stats.length ${stats.length}');
       store.dispatch(
         GetTokenStatsSuccess(
           stats: stats,
@@ -1168,7 +1167,6 @@ ThunkAction getTokenStatsCall(Token token) {
         (Object error, StackTrace stackTrace) {
       log.error('Error getTokenStatsCall - ${token.name} - $error ');
     };
-    log.info('Fetching token stats ${token.name}');
     await token.fetchStats(
       onDone: onDone,
       onError: onError,

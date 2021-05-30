@@ -463,12 +463,22 @@ class _SwapScreenState extends State<SwapScreen> {
                                       tokenOutDebouncer.run(
                                         () => getTradeInfo(
                                           value,
-                                          (info) => setState(() {
-                                            tokenInController.text = display(
-                                                num.tryParse(
-                                                        info.outputAmount) ??
-                                                    '0');
-                                          }),
+                                          (info) {
+                                            if (smallNumberTest(Decimal.parse(
+                                                info.outputAmount))) {
+                                              setState(() {
+                                                tokenInController.text =
+                                                    info.outputAmount;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                tokenInController.text =
+                                                    display(num.tryParse(info
+                                                            .outputAmount) ??
+                                                        '0');
+                                              });
+                                            }
+                                          },
                                         ),
                                       );
                                     }
@@ -496,12 +506,28 @@ class _SwapScreenState extends State<SwapScreen> {
                                       tokenInDebouncer.run(
                                         () => getTradeInfo(
                                           value,
-                                          (info) => setState(() {
-                                            tokenOutController.text = display(
-                                                num.tryParse(
-                                                        info.outputAmount) ??
-                                                    '0');
-                                          }),
+                                          (info) {
+                                            if (smallNumberTest(Decimal.parse(
+                                                info.outputAmount))) {
+                                              setState(() {
+                                                tokenOutController.text =
+                                                    info.outputAmount;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                tokenOutController.text =
+                                                    display(num.tryParse(info
+                                                            .outputAmount) ??
+                                                        '0');
+                                              });
+                                            }
+                                          },
+                                          // (info) => setState(() {
+                                          //   tokenOutController.text = display(
+                                          //       num.tryParse(
+                                          //               info.outputAmount) ??
+                                          //           '0');
+                                          // }),
                                         ),
                                       );
                                     }

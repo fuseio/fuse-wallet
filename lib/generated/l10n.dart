@@ -195,6 +195,26 @@ class I10n {
     );
   }
 
+  /// `Bridge ETH or BNB from Binance Smart Chain`
+  String get bridge_from_BSC {
+    return Intl.message(
+      'Bridge ETH or BNB from Binance Smart Chain',
+      name: 'bridge_from_BSC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bridge assets from Ethereum network`
+  String get bridge_from_ethereum {
+    return Intl.message(
+      'Bridge assets from Ethereum network',
+      name: 'bridge_from_ethereum',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Bridge to`
   String get bridge_to {
     return Intl.message(
@@ -320,6 +340,16 @@ class I10n {
     return Intl.message(
       'Contact us',
       name: 'contact_us',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact us for support`
+  String get contact_us_for_support {
+    return Intl.message(
+      'Contact us for support',
+      name: 'contact_us_for_support',
       desc: '',
       args: [],
     );
@@ -460,6 +490,26 @@ class I10n {
     return Intl.message(
       'deposit failed',
       name: 'deposit_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit from BSC`
+  String get deposit_from_BSC {
+    return Intl.message(
+      'Deposit from BSC',
+      name: 'deposit_from_BSC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit from Ethereum`
+  String get deposit_from_ethereum {
+    return Intl.message(
+      'Deposit from Ethereum',
+      name: 'deposit_from_ethereum',
       desc: '',
       args: [],
     );

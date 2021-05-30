@@ -186,11 +186,22 @@ class ActionDetailsScreen extends StatelessWidget {
                                                           value.tradeInfo
                                                               .inputToken,
                                                       orElse: () => null);
+                                              final String amount =
+                                                  smallNumberTest(Decimal.parse(
+                                                          value.tradeInfo
+                                                              .inputAmount))
+                                                      ? value
+                                                          .tradeInfo.inputAmount
+                                                      : smallValuesConvertor(
+                                                          Decimal.parse(value
+                                                              .tradeInfo
+                                                              .inputAmount));
+
                                               double a = double.parse(value
                                                       .tradeInfo.inputAmount) *
                                                   double.parse(
                                                       _token?.priceInfo?.quote);
-                                              return '${smallValuesConvertor(Decimal.parse(value.tradeInfo.inputAmount)) + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
+                                              return '${amount + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
                                             },
                                           )
                                         : displayName,
@@ -229,10 +240,17 @@ class ActionDetailsScreen extends StatelessWidget {
                                 send: (value) => '',
                                 receive: (value) => '',
                                 swap: (value) {
+                                  final String amount = smallNumberTest(
+                                          Decimal.parse(
+                                              value.tradeInfo.outputAmount))
+                                      ? value.tradeInfo.outputAmount
+                                      : smallValuesConvertor(Decimal.parse(
+                                          value.tradeInfo.outputAmount));
+
                                   double val = double.parse(
                                           value.tradeInfo.outputAmount) *
                                       double.parse(token?.priceInfo?.quote);
-                                  return '${smallValuesConvertor(Decimal.parse(value.tradeInfo.outputAmount)) + ' ' + value.tradeInfo.outputToken} (\$${display(num.tryParse(val.toString()))})';
+                                  return '${amount + ' ' + value.tradeInfo.outputToken} (\$${display(num.tryParse(val.toString()))})';
                                 },
                               ),
                             ),

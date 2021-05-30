@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
@@ -33,8 +34,10 @@ class FirebaseStrategy implements IOnBoardStrategy {
         identifier,
         appName: 'fusecash',
       );
+      Segment.track(
+        eventName: 'Sign up: VerificationCode_NextBtn_Press',
+      );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
-      store.dispatch(SetIsLoginRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
       ExtendedNavigator.root.pushUserNameScreen();
@@ -74,7 +77,8 @@ class FirebaseStrategy implements IOnBoardStrategy {
       store.dispatch(SetIsLoginRequest(isLoading: false));
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
-      ExtendedNavigator.root.pushVerifyPhoneNumber(verificationId: verificationId);
+      ExtendedNavigator.root
+          .pushVerifyPhoneNumber(verificationId: verificationId);
     };
 
     await firebaseAuth.verifyPhoneNumber(

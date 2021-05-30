@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/onboard/dialogs/warn_before_recreate.dart';
@@ -88,8 +89,14 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                               TransparentButton(
                                 fontSize: 14,
                                 label: I10n.of(context).restore_backup,
-                                onPressed: ExtendedNavigator
-                                    .root.pushRestoreFromBackupScreen,
+                                onPressed: () {
+                                  Segment.track(
+                                    eventName:
+                                        'Existing User: Restore wallet from backup',
+                                  );
+                                  ExtendedNavigator.root
+                                      .pushRestoreFromBackupScreen();
+                                },
                               ),
                               Text(
                                 I10n.of(context).or,
@@ -126,8 +133,14 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                         : TransparentButton(
                             fontSize: 20,
                             label: I10n.of(context).restore_from_backup,
-                            onPressed: ExtendedNavigator
-                                .root.pushRestoreFromBackupScreen,
+                            onPressed: () {
+                              Segment.track(
+                                eventName:
+                                    'Existing User: Restore wallet from backup',
+                              );
+                              ExtendedNavigator.root
+                                  .pushRestoreFromBackupScreen();
+                            },
                           ),
                   )
                 ],

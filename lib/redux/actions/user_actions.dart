@@ -196,6 +196,9 @@ ThunkAction verifyHandler(String verificationCode) {
       );
       final Function onSuccess = (jwtToken) {
         log.info('jwtToken $jwtToken');
+        Segment.track(
+          eventName: 'Sign up: VerificationCode_NextBtn_Press',
+        );
         store.dispatch(LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         ExtendedNavigator.root.pushUserNameScreen();
@@ -261,9 +264,6 @@ ThunkAction restoreWalletCall(
         ),
       );
       store.dispatch(setDefaultCommunity());
-      Segment.track(
-        eventName: 'Existing User: Restore wallet from backup',
-      );
       successCallback();
       Segment.track(
         eventName: 'Existing User: Successful Restore wallet from backup',

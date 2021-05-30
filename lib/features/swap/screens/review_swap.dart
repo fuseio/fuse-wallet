@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/keys.dart';
@@ -66,6 +67,15 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   }
 
   Widget infoCard() {
+    final String payWithAmount =
+        smallNumberTest(Decimal.parse(widget.tradeInfo.inputAmount))
+            ? '${widget.tradeInfo.inputAmount} '
+            : '${display(num.parse(widget.tradeInfo.inputAmount))} ';
+
+    final String receiveAmount =
+        smallNumberTest(Decimal.parse(widget.tradeInfo.outputAmount))
+            ? '${widget.tradeInfo.outputAmount} '
+            : '${display(num.parse(widget.tradeInfo.outputAmount))} ';
     return Container(
       margin: EdgeInsets.only(
         top: 20,
@@ -97,8 +107,9 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text:
-                          '${display(num.parse(widget.tradeInfo.inputAmount))} ',
+                      text: payWithAmount,
+                      // text:
+                      //     '${display(num.parse(widget.tradeInfo.inputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -134,8 +145,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text:
-                          '${display(num.parse(widget.tradeInfo.outputAmount))} ',
+                      text: receiveAmount,
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -159,6 +169,15 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   }
 
   Widget extraInfo() {
+    final String payWithRate =
+        smallNumberTest(Decimal.parse(widget.rateInfo.inputAmount))
+            ? '${widget.rateInfo.inputAmount} '
+            : '${display(num.parse(widget.rateInfo.inputAmount))}';
+
+    final String receiveRate =
+        smallNumberTest(Decimal.parse(widget.rateInfo.outputAmount))
+            ? '${widget.rateInfo.outputAmount} '
+            : '${display(num.parse(widget.rateInfo.outputAmount))}';
     return ListView(
       shrinkWrap: true,
       padding: EdgeInsets.only(left: 10, right: 10, top: 30),
@@ -212,10 +231,10 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
               ),
             ),
             AutoSizeText(
-              display(num.parse(widget.rateInfo.inputAmount)) +
+              payWithRate +
                   widget.rateInfo.inputToken +
                   '=' +
-                  display(num.parse(widget.rateInfo.outputAmount)) +
+                  receiveRate +
                   widget.rateInfo.outputToken,
               style: TextStyle(
                 fontSize: 16,

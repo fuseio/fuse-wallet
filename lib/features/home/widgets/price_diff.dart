@@ -52,7 +52,6 @@ class _PriceDiffState extends State<PriceDiff> {
           child: Text(
             value,
             style: TextStyle(
-              fontSize: 20,
               color: token.priceDiffLimitInDays.toString() == l
                   ? Theme.of(context).canvasColor
                   : Theme.of(context).colorScheme.onSurface,

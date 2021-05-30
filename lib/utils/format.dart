@@ -43,19 +43,23 @@ bool isNumeric(String s) {
   return Decimal.tryParse(s) != null;
 }
 
+bool smallNumberTest(Decimal value) {
+  return value.compareTo(Decimal.zero) == 1 &&
+      value.compareTo(Decimal.parse('0.01')) <= 0;
+}
+
 String smallValuesConvertor(Decimal value) {
-  if (value.compareTo(Decimal.zero) == 1 &&
-      value.compareTo(Decimal.parse('0.01')) <= 0) {
+  if (smallNumberTest(value)) {
     return '< 0.01';
   }
-  return display(num.parse(value.toStringAsFixed(2)));
+  return display(num.parse(value.toString()));
 }
 
 String formatValue(
   BigInt value,
-  int decimals, {
+  int decimals, [
   bool withPrecision = false,
-}) {
+]) {
   if (value == null || decimals == null) return '0';
   Decimal formattedValue =
       Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());

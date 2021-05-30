@@ -121,6 +121,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                   path: 'hello@fuse.io',
                                 );
                                 launchUrl(_emailLaunchUri.toString());
+                                Segment.track(
+                                  eventName: 'Contact us',
+                                  properties: Map.from(
+                                    {"fromScreen": 'AccountScreen'},
+                                  ),
+                                );
                               },
                             ),
                             MenuTile(
