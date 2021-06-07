@@ -6,6 +6,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/l10n.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Segment.track(
           eventName: 'Session Start: Authentication request for existed user',
         );
+        store.dispatch(registerNotification());
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());

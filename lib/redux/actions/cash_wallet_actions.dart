@@ -5,6 +5,7 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/actions/actions.dart';
@@ -245,22 +246,55 @@ class SetIsFetchingBalances {
 
 class SetShowDepositBanner {}
 
+ThunkAction registerNotification() {
+  return (Store store) async {
+    void switchOnPush(message) {
+      final dynamic data = message['data'] ?? message;
+      final bool isTopUp =
+          data['isTopUp'] != null && data['isTopUp'] == 'true' ? true : false;
+
+      if (isTopUp) {
+        Segment.track(eventName: 'fUSD Purchase Success');
+      }
+    }
+
+    getIt<FirebaseMessaging>().configure(
+      onMessage: (Map<String, dynamic> message) async {
+        log.info('onMessage ${message.toString()}');
+        switchOnPush(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        log.info('onResume ${message.toString()}');
+        switchOnPush(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        log.info('onLaunch ${message.toString()}');
+        switchOnPush(message);
+      },
+    );
+  };
+}
+
 ThunkAction enablePushNotifications() {
   return (Store store) async {
     try {
-      FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
       void iosPermission() {
-        var firebaseMessaging2 = firebaseMessaging;
-        firebaseMessaging2.requestNotificationPermissions(
-            IosNotificationSettings(sound: true, badge: true, alert: true));
-        firebaseMessaging.onIosSettingsRegistered
-            .listen((IosNotificationSettings settings) {
+        getIt<FirebaseMessaging>().requestNotificationPermissions(
+          IosNotificationSettings(
+            sound: true,
+            badge: true,
+            alert: true,
+          ),
+        );
+        getIt<FirebaseMessaging>().onIosSettingsRegistered.listen((
+          IosNotificationSettings settings,
+        ) {
           log.info("Settings registered: $settings");
         });
       }
 
       if (Platform.isIOS) iosPermission();
-      String token = await firebaseMessaging.getToken();
+      String token = await getIt<FirebaseMessaging>().getToken();
       log.info("Firebase messaging token $token");
 
       String walletAddress = store.state.userState.walletAddress;
@@ -268,26 +302,7 @@ ThunkAction enablePushNotifications() {
       await Segment.setContext({
         'device': {'token': token},
       });
-
-      void switchOnPush(message) {
-        final dynamic data = message['data'] ?? message;
-        final String communityAddress = data['communityAddress'];
-        if (communityAddress != null && communityAddress.isNotEmpty) {
-          // store.dispatch(switchCommunityCall(communityAddress));
-        }
-      }
-
-      firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) async {
-          // switchOnPush(message);
-        },
-        onResume: (Map<String, dynamic> message) async {
-          // switchOnPush(message);
-        },
-        onLaunch: (Map<String, dynamic> message) async {
-          // switchOnPush(message);
-        },
-      );
+      store.dispatch(registerNotification());
     } catch (e, s) {
       log.error('ERROR - Enable push notifications: $e');
       await Sentry.captureException(
