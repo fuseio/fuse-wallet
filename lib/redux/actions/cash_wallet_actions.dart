@@ -273,19 +273,19 @@ ThunkAction enablePushNotifications() {
         final dynamic data = message['data'] ?? message;
         final String communityAddress = data['communityAddress'];
         if (communityAddress != null && communityAddress.isNotEmpty) {
-          store.dispatch(switchCommunityCall(communityAddress));
+          // store.dispatch(switchCommunityCall(communityAddress));
         }
       }
 
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          switchOnPush(message);
+          // switchOnPush(message);
         },
         onResume: (Map<String, dynamic> message) async {
-          switchOnPush(message);
+          // switchOnPush(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
-          switchOnPush(message);
+          // switchOnPush(message);
         },
       );
     } catch (e, s) {

@@ -59,7 +59,9 @@
         <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
         <!-- Set to true to use Branch_Test_Key -->
         <meta-data android:name="com.claimsforce.segment.WRITE_KEY" android:value="b4aJlPklY2YWc0Z6KhMFsR486E7k4p2r" />
-        <meta-data android:name="com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS" android:value="false" />
+        <meta-data android:name="com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS" android:value="true" />
+        <meta-data android:name="com.claimsforce.segment.ENABLE_AMPLITUDE_INTEGRATION" android:value="true" />
+        <meta-data android:name="com.claimsforce.segment.DEBUG" android:value="false" />
         <!-- Branch install referrer tracking -->
         <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
             <intent-filter>

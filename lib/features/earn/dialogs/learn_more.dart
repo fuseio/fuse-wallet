@@ -42,15 +42,7 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
 
   @override
   Widget build(BuildContext _context) {
-    final spans = SpanBuilder(I10n.of(context).peg_explained).apply(
-      TextSpan(
-        text: "circle.com",
-        style: TextStyle(color: Color(0xFF006CFF)),
-      ),
-      onTap: () {
-        launchUrl('https://circle.com');
-      },
-    ).apply(
+    final spans = SpanBuilder(I10n.of(context).visit_fuseio).apply(
       TextSpan(
         text: "fuse.io",
         style: TextStyle(color: Color(0xFF006CFF)),
@@ -128,21 +120,74 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
                     ),
                     SizedBox(height: 20.0),
                     Text(
-                      I10n.of(context).fuse_dollar_explained,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      I10n.of(context).how_peg,
+                      I10n.of(context).what_is_fuse_dollar,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Text(
+                      I10n.of(context).fuse_dollar_explain,
+                      style: TextStyle(
+                        fontFamily: 'Europa',
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    // what_is_peg
+                    Text(
+                      I10n.of(context).what_is_peg,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      I10n.of(context).peg_explain,
+                      style: TextStyle(
+                        fontFamily: 'Europa',
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text(
+                      I10n.of(context).how_to_use_fusd,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      I10n.of(context).use_fusd_explain,
+                      style: TextStyle(
+                        fontFamily: 'Europa',
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    Text(
+                      I10n.of(context).future_stablecoins,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      I10n.of(context).fusd_stablecoins_explain,
+                      style: TextStyle(
+                        fontFamily: 'Europa',
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
                     RichText(
                       text: TextSpan(
                         children: spans,
@@ -154,37 +199,6 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    // InkWell(
-                    //   onTap: () {
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (BuildContext context) => LearnMoreDialog(),
-                    //     );
-                    //   },
-                    //   focusColor: Theme.of(context).canvasColor,
-                    //   highlightColor: Theme.of(context).canvasColor,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     mainAxisSize: MainAxisSize.min,
-                    //     children: [
-                    //       Text(
-                    //         I10n.of(context).go_to_token_page,
-                    //         style: TextStyle(
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 20,
-                    //         ),
-                    //       ),
-                    //       SizedBox(
-                    //         width: 5,
-                    //       ),
-                    //       SvgPicture.asset(
-                    //         'assets/images/deposit_arrow.svg',
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: 20.0),
                   ],
                 ),
               ),

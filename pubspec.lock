@@ -556,7 +556,7 @@ packages:
       name: flutter_segment
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "3.0.0"
   flutter_slidable:
     dependency: "direct main"
     description:

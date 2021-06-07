@@ -34,8 +34,8 @@ download: # Required.
       locale_code: nl-NL
     - file: l10n/intl_pt_BR.arb
       locale_code: pt-BR
-    - file: l10n/intl_ru_RU.arb
-      locale_code: ru-RU
+    # - file: l10n/intl_ru_RU.arb
+    #   locale_code: ru-RU
     # - file: l10n/intl_sr_SR.arb
     #   locale_code: sr-SR
 

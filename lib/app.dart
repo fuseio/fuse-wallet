@@ -5,7 +5,6 @@ import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -40,8 +39,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void setJwtToken(Store<AppState> store) async {
-    Segment.track(eventName: 'Session Start');
+  void setJwtToken(Store<AppState> store) {
     String jwtToken = store?.state?.userState?.jwtToken;
     if (![null, ''].contains(jwtToken)) {
       log.info('JWT: $jwtToken');
