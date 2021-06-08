@@ -325,13 +325,15 @@ class ActionTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: AutoSizeText(
+                        child: Text(
                           I10n.of(context).swap + ' ',
-                          presetFontSizes: [17],
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       Flexible(
-                        child: AutoSizeText(
+                        child: Text(
                           action.map(
                             createWallet: (value) => '',
                             joinCommunity: (value) => '',
@@ -341,7 +343,9 @@ class ActionTile extends StatelessWidget {
                             receive: (value) => '',
                             swap: (value) => value.tradeInfo.inputToken,
                           ),
-                          presetFontSizes: [17],
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -358,7 +362,7 @@ class ActionTile extends StatelessWidget {
                         width: 5,
                       ),
                       Flexible(
-                        child: AutoSizeText(
+                        child: Text(
                           action.map(
                             createWallet: (value) => '',
                             joinCommunity: (value) => '',
@@ -368,7 +372,9 @@ class ActionTile extends StatelessWidget {
                             receive: (value) => '',
                             swap: (value) => value.tradeInfo.outputToken,
                           ),
-                          presetFontSizes: [17],
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
                         ),
                       )
                     ],
@@ -377,9 +383,11 @@ class ActionTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: AutoSizeText(
+                        child: Text(
                           displayName,
-                          presetFontSizes: [17],
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                     ],
@@ -389,27 +397,23 @@ class ActionTile extends StatelessWidget {
             ? Text(
                 I10n.of(context).up_to_10,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               )
             : action.map(
                 createWallet: (value) => null,
                 joinCommunity: (value) => null,
                 fiatDeposit: (value) => null,
-                bonus: (value) => AutoSizeText(
+                bonus: (value) => Text(
                   '+' + value.getAmount() + ' $symbol',
                   style: TextStyle(
-                    // fontSize: 12,
+                    fontSize: 13,
                     color: Theme.of(context).primaryColor,
                   ),
-                  presetFontSizes: [
-                    // 14,
-                    13,
-                  ],
                 ),
                 send: (value) => null,
                 receive: (value) => null,
-                swap: (value) => AutoSizeText(
+                swap: (value) => Text(
                   action.map(
                         createWallet: (value) => '',
                         joinCommunity: (value) => '',
@@ -448,11 +452,9 @@ class ActionTile extends StatelessWidget {
                         },
                       ),
                   maxLines: 1,
-                  presetFontSizes: [
-                    // 15,
-                    // 14,
-                    13,
-                  ],
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
               );
         ;
