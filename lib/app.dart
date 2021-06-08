@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setJwtToken(Store<AppState> store) {
-    String jwtToken = store?.state?.userState?.jwtToken;
+    final String jwtToken = store.state.userState.jwtToken;
     if (![null, ''].contains(jwtToken)) {
       log.info('JWT: $jwtToken');
       api.setJwtToken(jwtToken);

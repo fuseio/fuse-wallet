@@ -10,7 +10,7 @@ _$_ProWalletState _$_$_ProWalletStateFromJson(Map<String, dynamic> json) {
   return _$_ProWalletState(
     etherBalance: balanceFromJson(json['etherBalance'] as String?),
     erc20Tokens:
-        erc20TokensFromJson(json['erc20Tokens'] as Map<String, dynamic>),
+        erc20TokensFromJson(json['erc20Tokens'] as Map<String, dynamic>?),
   );
 }
 

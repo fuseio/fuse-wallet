@@ -17,7 +17,7 @@ class SecurityViewModel extends Equatable {
 
   static SecurityViewModel fromStore(Store<AppState> store) {
     return SecurityViewModel(
-      isBackup: store.state.userState.backup ?? false,
+      isBackup: store.state.userState.backup,
       authType: store.state.userState.authType,
       setSecurityType: (biometricAuth) {
         store.dispatch(SetSecurityType(biometricAuth: biometricAuth));

@@ -19,7 +19,7 @@ class Token with _$Token implements Comparable<Token> {
   const Token._();
 
   @override
-  int compareTo(Token? other) {
+  int compareTo(Token other) {
     if (other == null) return 1;
     return num.parse(this.getBalance(true))
         .compareTo(num.parse(other.getBalance(true)));
@@ -43,7 +43,7 @@ class Token with _$Token implements Comparable<Token> {
     @JsonKey(ignore: true) @Default(0) num priceDiff,
     @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
     @Default([]) List<Stats> stats,
-    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
   }) = _Token;
 
   String getBalance([withPrecision = false]) => formatValue(

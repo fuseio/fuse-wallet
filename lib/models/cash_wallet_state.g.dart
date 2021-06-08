@@ -12,7 +12,7 @@ _$_CashWalletState _$_$_CashWalletStateFromJson(Map<String, dynamic> json) {
     isDepositBanner: json['isDepositBanner'] as bool? ?? true,
     tokens: tokensFromJson(json['tokens'] as Map<String, dynamic>),
     communities:
-        communitiesFromJson(json['communities'] as Map<String, dynamic>),
+        communitiesFromJson(json['communities'] as Map<String, dynamic>?),
     walletActions:
         walletActionsFromJson(json['walletActions'] as Map<String, dynamic>),
   );

@@ -16,9 +16,9 @@ import 'package:fusecash/utils/transfer.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numofRecentToShow;
-  final Token? token;
+  final Token token;
   const RecentContacts({
-    Key? key,
+    Key key,
     this.numofRecentToShow = 3,
     this.token,
   }) : super(key: key);

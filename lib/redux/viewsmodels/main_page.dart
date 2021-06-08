@@ -12,11 +12,11 @@ class HomeScreenViewModel extends Equatable {
   final Function getSwapListBalances;
 
   HomeScreenViewModel({
-    this.isContactsSynced,
-    this.backup,
-    this.isBackupDialogShowed,
-    this.setShowDialog,
-    this.getSwapListBalances,
+    required this.isContactsSynced,
+    required this.backup,
+    required this.isBackupDialogShowed,
+    required this.setShowDialog,
+    required this.getSwapListBalances,
   });
 
   static HomeScreenViewModel fromStore(Store<AppState> store) {

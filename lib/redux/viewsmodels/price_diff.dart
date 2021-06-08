@@ -12,13 +12,13 @@ class PriceDiffViewModel extends Equatable {
   ) fetchPriceDiff;
 
   PriceDiffViewModel({
-    this.tokens,
-    this.fetchPriceDiff,
+    required this.tokens,
+    required this.fetchPriceDiff,
   });
 
   static PriceDiffViewModel fromStore(Store<AppState> store) {
     return PriceDiffViewModel(
-      tokens: store.state?.cashWalletState?.tokens,
+      tokens: store.state.cashWalletState.tokens,
       fetchPriceDiff: (
         tokenAddress,
         limit,

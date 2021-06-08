@@ -26,16 +26,16 @@ class SwapViewModel extends Equatable {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community? community =
         store.state.cashWalletState.communities[communityAddress];
-    final List<Token> tokens = store.state.swapState?.tokens?.values?.toList();
-    final Token fusd = store.state.swapState?.tokens[fuseDollarToken.address];
-    final Token wfuse = store.state.swapState?.tokens[wfuseTokenAddress];
-    final Token weth = store.state.swapState?.tokens[wethTokenAddress];
-    final Token wbtc = store.state.swapState?.tokens[wbtcTokenAddress];
+    final List<Token> tokens = store.state.swapState.tokens.values.toList();
+    final Token fusd = store.state.swapState.tokens[fuseDollarToken.address];
+    final Token wfuse = store.state.swapState.tokens[wfuseTokenAddress];
+    final Token weth = store.state.swapState.tokens[wethTokenAddress];
+    final Token wbtc = store.state.swapState.tokens[wbtcTokenAddress];
     final List<Token> payWithTokens = tokens
-        ?.where((Token token) =>
+        .where((Token token) =>
             Decimal.parse(token.getBalance(true)).compareTo(Decimal.zero) == 1)
-        ?.toList();
-    final List<Token>? receiveTokens = [
+        .toList();
+    final List<Token> receiveTokens = [
       fusd,
       wfuse,
       weth,
@@ -43,10 +43,10 @@ class SwapViewModel extends Equatable {
     ]..addAll(
         tokens
           ..removeWhere((element) =>
-              element.address == fusd.address ||
-              element.address == wfuse.address ||
-              element.address == weth.address ||
-              element.address == wbtc.address),
+              element.address == fusd!.address ||
+              element.address == wfuse!.address ||
+              element.address == weth!.address ||
+              element.address == wbtc!.address),
       );
 
     final List<Token> tokenList = (store.state.swapState?.tokens?.values
@@ -59,9 +59,9 @@ class SwapViewModel extends Equatable {
     return SwapViewModel(
       plugins: community?.plugins ?? Plugins(),
       payWithTokens: payWithTokens ?? [],
-      receiveTokens: receiveTokens ?? [],
+      receiveTokens: receiveTokens,
       walletAddress: store.state.userState.walletAddress,
-      tokens: List<Token>.from(tokenList.reversed) ?? [],
+      tokens: List<Token>.from(tokenList.reversed),
     );
   }
 

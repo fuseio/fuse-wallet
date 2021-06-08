@@ -22,7 +22,7 @@ abstract class Web3Di {
     @factoryParam Map? walletModules,
   ) =>
       Web3(
-        approvalCallback,
+        approveCb: approvalCallback,
         url: UrlConstants.FUSE_RPC_URL,
         networkId: Variables.FUSE_CHAIN_ID,
         defaultCommunityAddress: defaultCommunityAddress,
@@ -38,7 +38,7 @@ abstract class Web3Di {
     @factoryParam Map? walletModules,
   ) =>
       Web3(
-        approvalCallback,
+        approveCb: approvalCallback,
         url: env['FOREIGN_PROVIDER_URL'] ?? '',
         networkId: int.parse(env['FOREIGN_NETWORK_ID'] ?? '1'),
         defaultCommunityAddress: defaultCommunityAddress,

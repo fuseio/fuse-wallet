@@ -19,28 +19,28 @@ class TopUpViewModel extends Equatable {
   final String isoCode;
 
   TopUpViewModel({
-    this.isoCode,
-    this.countryCode,
-    this.setDepositBanner,
-    this.plugins,
-    this.dismiss,
-    this.showDismiss,
-    this.walletAddress,
+    required this.isoCode,
+    required this.countryCode,
+    required this.setDepositBanner,
+    required this.plugins,
+    required this.dismiss,
+    required this.showDismiss,
+    required this.walletAddress,
   });
 
   static TopUpViewModel fromStore(Store<AppState> store) {
-    Map<String, Token> tokens = store.state.cashWalletState?.tokens;
+    Map<String, Token> tokens = store.state.cashWalletState.tokens;
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community? community =
         store.state.cashWalletState.communities[communityAddress];
     final Plugins plugins = community?.plugins ?? Plugins();
-    List<Token> homeTokens = tokens?.values
-        ?.where((Token token) =>
+    List<Token> homeTokens = tokens.values
+        .where((Token token) =>
             num.parse(token.getBalance(true)).compareTo(0) == 1)
-        ?.toList();
-    final bool hasFUSD = homeTokens?.any((element) =>
-        (element?.address?.toLowerCase() ==
-            fuseDollarToken?.address?.toLowerCase()) &&
+        .toList();
+    final bool hasFUSD = homeTokens.any((element) =>
+        (element.address.toLowerCase() ==
+            fuseDollarToken.address.toLowerCase()) &&
         Decimal.parse(element.getBalance(true)).compareTo(Decimal.zero) == 1);
     return TopUpViewModel(
       plugins: plugins,

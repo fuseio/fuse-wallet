@@ -13,7 +13,7 @@ import 'package:fusecash/widgets/snackbars.dart';
 
 class CryptoDepositScreen extends StatelessWidget {
   final String link;
-  CryptoDepositScreen({this.link});
+  CryptoDepositScreen(this.link);
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
