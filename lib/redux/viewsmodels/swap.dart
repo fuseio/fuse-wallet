@@ -33,7 +33,7 @@ class SwapViewModel extends Equatable {
     final Token wbtc = store.state.swapState?.tokens[wbtcTokenAddress];
     final List<Token> payWithTokens = tokens
         ?.where((Token token) =>
-            Decimal.parse(token.getBalance(true)).compareTo(Decimal.zero) == 1)
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
         ?.toList();
     final List<Token> receiveTokens = [
       fusd,
