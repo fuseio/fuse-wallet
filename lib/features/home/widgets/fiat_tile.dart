@@ -77,10 +77,6 @@ class FiatTile extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           item.label,
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 15,
-                          ),
                         ),
                       ],
                     ),

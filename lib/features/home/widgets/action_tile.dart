@@ -324,26 +324,24 @@ class ActionTile extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        I10n.of(context).swap + ' ',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
+                      Flexible(
+                        child: AutoSizeText(
+                          I10n.of(context).swap + ' ',
+                          presetFontSizes: [17],
                         ),
                       ),
-                      Text(
-                        action.map(
-                          createWallet: (value) => '',
-                          joinCommunity: (value) => '',
-                          fiatDeposit: (value) => '',
-                          bonus: (value) => '',
-                          send: (value) => '',
-                          receive: (value) => '',
-                          swap: (value) => value.tradeInfo.inputToken,
-                        ),
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
+                      Flexible(
+                        child: AutoSizeText(
+                          action.map(
+                            createWallet: (value) => '',
+                            joinCommunity: (value) => '',
+                            fiatDeposit: (value) => '',
+                            bonus: (value) => '',
+                            send: (value) => '',
+                            receive: (value) => '',
+                            swap: (value) => value.tradeInfo.inputToken,
+                          ),
+                          presetFontSizes: [17],
                         ),
                       ),
                       SizedBox(
@@ -359,7 +357,7 @@ class ActionTile extends StatelessWidget {
                       SizedBox(
                         width: 5,
                       ),
-                      Expanded(
+                      Flexible(
                         child: AutoSizeText(
                           action.map(
                             createWallet: (value) => '',
@@ -370,10 +368,7 @@ class ActionTile extends StatelessWidget {
                             receive: (value) => '',
                             swap: (value) => value.tradeInfo.outputToken,
                           ),
-                          style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 16,
-                          ),
+                          presetFontSizes: [17],
                         ),
                       )
                     ],
@@ -384,9 +379,7 @@ class ActionTile extends StatelessWidget {
                       Flexible(
                         child: AutoSizeText(
                           displayName,
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                          presetFontSizes: [17],
                         ),
                       ),
                     ],
@@ -399,48 +392,70 @@ class ActionTile extends StatelessWidget {
                   fontSize: 12,
                 ),
               )
-            : action.isSwapAction()
-                ? AutoSizeText(
-                    action.map(
-                          createWallet: (value) => '',
-                          joinCommunity: (value) => '',
-                          fiatDeposit: (value) => '',
-                          bonus: (value) => '',
-                          send: (value) => '',
-                          receive: (value) => '',
-                          swap: (value) {
-                            final String amount = smallNumberTest(
-                                    Decimal.parse(value.tradeInfo.inputAmount))
-                                ? value.tradeInfo.inputAmount
-                                : smallValuesConvertor(
-                                    Decimal.parse(value.tradeInfo.inputAmount));
+            : action.map(
+                createWallet: (value) => null,
+                joinCommunity: (value) => null,
+                fiatDeposit: (value) => null,
+                bonus: (value) => AutoSizeText(
+                  '+' + value.getAmount() + ' $symbol',
+                  style: TextStyle(
+                    // fontSize: 12,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  presetFontSizes: [
+                    // 14,
+                    13,
+                  ],
+                ),
+                send: (value) => null,
+                receive: (value) => null,
+                swap: (value) => AutoSizeText(
+                  action.map(
+                        createWallet: (value) => '',
+                        joinCommunity: (value) => '',
+                        fiatDeposit: (value) => '',
+                        bonus: (value) => '',
+                        send: (value) => '',
+                        receive: (value) => '',
+                        swap: (value) {
+                          final String amount = smallNumberTest(
+                                  Decimal.parse(value.tradeInfo.inputAmount))
+                              ? value.tradeInfo.inputAmount
+                              : smallValuesConvertor(
+                                  Decimal.parse(value.tradeInfo.inputAmount));
 
-                            return amount + ' ' + value.tradeInfo.inputToken;
-                          },
-                        ) +
-                        ' ${I10n.of(context).to.toLowerCase()} ' +
-                        action.map(
-                          createWallet: (value) => '',
-                          joinCommunity: (value) => '',
-                          fiatDeposit: (value) => '',
-                          bonus: (value) => '',
-                          send: (value) => '',
-                          receive: (value) => '',
-                          swap: (value) {
-                            final String outputAmount = smallNumberTest(
-                                    Decimal.parse(value.tradeInfo.outputAmount))
-                                ? value.tradeInfo.outputAmount
-                                : smallValuesConvertor(Decimal.parse(
-                                    value.tradeInfo.outputAmount));
+                          return amount + ' ' + value.tradeInfo.inputToken;
+                        },
+                      ) +
+                      ' ${I10n.of(context).to.toLowerCase()} ' +
+                      action.map(
+                        createWallet: (value) => '',
+                        joinCommunity: (value) => '',
+                        fiatDeposit: (value) => '',
+                        bonus: (value) => '',
+                        send: (value) => '',
+                        receive: (value) => '',
+                        swap: (value) {
+                          final String outputAmount = smallNumberTest(
+                                  Decimal.parse(value.tradeInfo.outputAmount))
+                              ? value.tradeInfo.outputAmount
+                              : smallValuesConvertor(
+                                  Decimal.parse(value.tradeInfo.outputAmount));
 
-                            return outputAmount +
-                                ' ' +
-                                value.tradeInfo.outputToken;
-                          },
-                        ),
-                    maxLines: 1,
-                  )
-                : null;
+                          return outputAmount +
+                              ' ' +
+                              value.tradeInfo.outputToken;
+                        },
+                      ),
+                  maxLines: 1,
+                  presetFontSizes: [
+                    // 15,
+                    // 14,
+                    13,
+                  ],
+                ),
+              );
+        ;
 
         return ListTile(
           contentPadding: contentPadding,
