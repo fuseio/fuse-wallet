@@ -260,11 +260,9 @@ ThunkAction registerNotification() {
 
     getIt<FirebaseMessaging>().configure(
       onMessage: (Map<String, dynamic> message) async {
-        log.info('onMessage ${message.toString()}');
         switchOnPush(message);
       },
       onResume: (Map<String, dynamic> message) async {
-        log.info('onResume ${message.toString()}');
         switchOnPush(message);
       },
       onLaunch: (Map<String, dynamic> message) async {

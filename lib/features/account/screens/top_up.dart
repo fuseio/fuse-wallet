@@ -149,12 +149,14 @@ class _TopUpScreenState extends State<TopUpScreen> {
                     CustomTile(
                       title: I10n.of(context).deposit_from_ethereum,
                       menuIcon: 'etheruem',
-                      subtitle: '(${I10n.of(context).bridge_from_ethereum})',
+                      subtitle: I10n.of(context).bridge_from_ethereum,
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => CryptoDepositScreen(
+                              text:
+                                  'If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
                               link:
                                   'https://fuseswap.com/#/bridge?sourceChain=1&recipient=${viewModel.walletAddress}',
                             ),
@@ -165,12 +167,14 @@ class _TopUpScreenState extends State<TopUpScreen> {
                     CustomTile(
                       title: I10n.of(context).deposit_from_BSC,
                       menuIcon: 'usdc',
-                      subtitle: '(${I10n.of(context).bridge_from_BSC})',
+                      subtitle: I10n.of(context).bridge_from_BSC,
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => CryptoDepositScreen(
+                              text:
+                                  'If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
                               link:
                                   'https://fuseswap.com/#/bridge?sourceChain=56&recipient=${viewModel.walletAddress}',
                             ),

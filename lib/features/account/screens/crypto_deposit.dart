@@ -13,7 +13,11 @@ import 'package:fusecash/widgets/snackbars.dart';
 
 class CryptoDepositScreen extends StatelessWidget {
   final String link;
-  CryptoDepositScreen({this.link});
+  final String text;
+  CryptoDepositScreen({
+    this.link,
+    this.text,
+  });
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -45,7 +49,7 @@ class CryptoDepositScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      I10n.of(context).crypto_deposit_explained,
+                      text,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18,

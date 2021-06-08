@@ -1,9 +1,10 @@
 name: fusecash
-version: 0.1.3+61
+version: 0.1.3+62
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  confetti: ^0.5.5
   span_builder: ^0.1.0
   flutter_localized_locales: ^1.1.2
   collection: ^1.14.6
