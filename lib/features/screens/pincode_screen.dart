@@ -24,7 +24,6 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/pincode-screen');
     super.initState();
   }
 
@@ -132,6 +131,12 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                   ),
                                   onCompleted: (value) {
                                     if (viewModel.pincode == value) {
+                                      // ExtendedNavigator.root
+                                      //     .replace(Routes.homeScreen);
+                                      Segment.track(
+                                        eventName:
+                                            'Session Start: Authentication success',
+                                      );
                                       // ExtendedNavigator.root
                                       //     .replace(Routes.homeScreen);
                                       pincodeController.clear();

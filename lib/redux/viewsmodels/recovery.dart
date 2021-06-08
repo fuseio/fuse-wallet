@@ -13,9 +13,17 @@ class RecoveryViewModel {
 
   static RecoveryViewModel fromStore(Store<AppState> store) {
     return RecoveryViewModel(
-        generateWalletFromBackup: (mnemonic, VoidCallback successCallback) {
-      store.dispatch(
-          restoreWalletCall(mnemonic.split(' ').toList(), successCallback));
-    });
+      generateWalletFromBackup: (
+        mnemonic,
+        VoidCallback successCallback,
+      ) {
+        store.dispatch(
+          restoreWalletCall(
+            mnemonic.split(' ').toList(),
+            successCallback,
+          ),
+        );
+      },
+    );
   }
 }

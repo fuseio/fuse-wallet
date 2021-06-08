@@ -34,6 +34,8 @@ class _$TokenTearOff {
       String communityAddress = null,
       String originNetwork = null,
       num priceChange = 0,
+      @JsonKey(ignore: true) num priceDiff = 0,
+      @JsonKey(ignore: true) int priceDiffLimitInDays = 0,
       List<Stats> stats = const [],
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions}) {
     return _Token(
@@ -50,6 +52,8 @@ class _$TokenTearOff {
       communityAddress: communityAddress,
       originNetwork: originNetwork,
       priceChange: priceChange,
+      priceDiff: priceDiff,
+      priceDiffLimitInDays: priceDiffLimitInDays,
       stats: stats,
       walletActions: walletActions,
     );
@@ -79,6 +83,10 @@ mixin _$Token {
   String get communityAddress => throw _privateConstructorUsedError;
   String get originNetwork => throw _privateConstructorUsedError;
   num get priceChange => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  num get priceDiff => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  int get priceDiffLimitInDays => throw _privateConstructorUsedError;
   List<Stats> get stats => throw _privateConstructorUsedError;
   @JsonKey(fromJson: walletActionsFromJson)
   WalletActions? get walletActions => throw _privateConstructorUsedError;
@@ -106,6 +114,8 @@ abstract class $TokenCopyWith<$Res> {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true) num priceDiff,
+      @JsonKey(ignore: true) int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
@@ -136,6 +146,8 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     Object? communityAddress = freezed,
     Object? originNetwork = freezed,
     Object? priceChange = freezed,
+    Object? priceDiff = freezed,
+    Object? priceDiffLimitInDays = freezed,
     Object? stats = freezed,
     Object? walletActions = freezed,
   }) {
@@ -192,6 +204,14 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
           ? _value.priceChange
           : priceChange // ignore: cast_nullable_to_non_nullable
               as num,
+      priceDiff: priceDiff == freezed
+          ? _value.priceDiff
+          : priceDiff // ignore: cast_nullable_to_non_nullable
+              as num,
+      priceDiffLimitInDays: priceDiffLimitInDays == freezed
+          ? _value.priceDiffLimitInDays
+          : priceDiffLimitInDays // ignore: cast_nullable_to_non_nullable
+              as int,
       stats: stats == freezed
           ? _value.stats
           : stats // ignore: cast_nullable_to_non_nullable
@@ -241,6 +261,8 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true) num priceDiff,
+      @JsonKey(ignore: true) int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
@@ -274,6 +296,8 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
     Object? communityAddress = freezed,
     Object? originNetwork = freezed,
     Object? priceChange = freezed,
+    Object? priceDiff = freezed,
+    Object? priceDiffLimitInDays = freezed,
     Object? stats = freezed,
     Object? walletActions = freezed,
   }) {
@@ -330,6 +354,14 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
           ? _value.priceChange
           : priceChange // ignore: cast_nullable_to_non_nullable
               as num,
+      priceDiff: priceDiff == freezed
+          ? _value.priceDiff
+          : priceDiff // ignore: cast_nullable_to_non_nullable
+              as num,
+      priceDiffLimitInDays: priceDiffLimitInDays == freezed
+          ? _value.priceDiffLimitInDays
+          : priceDiffLimitInDays // ignore: cast_nullable_to_non_nullable
+              as int,
       stats: stats == freezed
           ? _value.stats
           : stats // ignore: cast_nullable_to_non_nullable
@@ -360,6 +392,8 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       this.communityAddress = null,
       this.originNetwork = null,
       this.priceChange = 0,
+      @JsonKey(ignore: true) this.priceDiff = 0,
+      @JsonKey(ignore: true) this.priceDiffLimitInDays = 0,
       this.stats = const [],
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions})
       : super._();
@@ -405,6 +439,12 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
   @JsonKey(defaultValue: 0)
   @override
   final num priceChange;
+  @override
+  @JsonKey(ignore: true)
+  final num priceDiff;
+  @override
+  @JsonKey(ignore: true)
+  final int priceDiffLimitInDays;
   @JsonKey(defaultValue: const [])
   @override
   final List<Stats> stats;
@@ -414,7 +454,7 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, stats: $stats, walletActions: $walletActions)';
+    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, priceDiff: $priceDiff, priceDiffLimitInDays: $priceDiffLimitInDays, stats: $stats, walletActions: $walletActions)';
   }
 
   @override
@@ -435,6 +475,8 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('communityAddress', communityAddress))
       ..add(DiagnosticsProperty('originNetwork', originNetwork))
       ..add(DiagnosticsProperty('priceChange', priceChange))
+      ..add(DiagnosticsProperty('priceDiff', priceDiff))
+      ..add(DiagnosticsProperty('priceDiffLimitInDays', priceDiffLimitInDays))
       ..add(DiagnosticsProperty('stats', stats))
       ..add(DiagnosticsProperty('walletActions', walletActions));
   }
@@ -479,6 +521,12 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
             (identical(other.priceChange, priceChange) ||
                 const DeepCollectionEquality()
                     .equals(other.priceChange, priceChange)) &&
+            (identical(other.priceDiff, priceDiff) ||
+                const DeepCollectionEquality()
+                    .equals(other.priceDiff, priceDiff)) &&
+            (identical(other.priceDiffLimitInDays, priceDiffLimitInDays) ||
+                const DeepCollectionEquality().equals(
+                    other.priceDiffLimitInDays, priceDiffLimitInDays)) &&
             (identical(other.stats, stats) ||
                 const DeepCollectionEquality().equals(other.stats, stats)) &&
             (identical(other.walletActions, walletActions) ||
@@ -502,6 +550,8 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(communityAddress) ^
       const DeepCollectionEquality().hash(originNetwork) ^
       const DeepCollectionEquality().hash(priceChange) ^
+      const DeepCollectionEquality().hash(priceDiff) ^
+      const DeepCollectionEquality().hash(priceDiffLimitInDays) ^
       const DeepCollectionEquality().hash(stats) ^
       const DeepCollectionEquality().hash(walletActions);
 
@@ -532,6 +582,10 @@ abstract class _Token extends Token {
       String communityAddress,
       String originNetwork,
       num priceChange,
+      @JsonKey(ignore: true)
+          num priceDiff,
+      @JsonKey(ignore: true)
+          int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson)
           WalletActions? walletActions}) = _$_Token;
@@ -566,6 +620,12 @@ abstract class _Token extends Token {
   String get originNetwork => throw _privateConstructorUsedError;
   @override
   num get priceChange => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  num get priceDiff => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  int get priceDiffLimitInDays => throw _privateConstructorUsedError;
   @override
   List<Stats> get stats => throw _privateConstructorUsedError;
   @override

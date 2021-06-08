@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:phone_number/phone_number.dart';
@@ -59,7 +60,7 @@ class OnboardViewModel extends Equatable {
         signUp: (CountryCode countryCode, PhoneNumber phoneNumber) {
           store.dispatch(loginHandler(countryCode, phoneNumber));
         },
-        verify: (String verificationCode) async {
+        verify: (String verificationCode) {
           store.dispatch(verifyHandler(verificationCode));
         },
         setPincode: (pincode) {
@@ -67,8 +68,10 @@ class OnboardViewModel extends Equatable {
         },
         setDisplayName: (String displayName) {
           store.dispatch(SetDisplayName(displayName));
-          store.dispatch(segmentTrackCall("Wallet: display name added"));
           store.dispatch(createAccountWalletCall(accountAddress));
+          Segment.track(
+            eventName: 'Sign up: User name Next button pressed',
+          );
         },
         setSecurityType: (biometricAuth) {
           store.dispatch(SetSecurityType(biometricAuth: biometricAuth));

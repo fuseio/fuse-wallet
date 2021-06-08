@@ -1,21 +1,17 @@
-import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'common/router/routes.gr.dart';
 import 'package:country_code_picker/country_localizations.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart' hide Router;
-import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+// import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/common/router/route_guards.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
@@ -39,7 +35,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _rootRouter = RootRouter();
-  late StreamSubscription<Map> streamSubscription;
+  // late StreamSubscription<Map> streamSubscription;
   late Locale _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -47,41 +43,26 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void setJwtToken(Store<AppState> store) async {
-    String jwtToken = store.state.userState.jwtToken;
+  void setJwtToken(Store<AppState> store) {
+    String jwtToken = store?.state?.userState?.jwtToken;
     if (![null, ''].contains(jwtToken)) {
       log.info('JWT: $jwtToken');
       api.setJwtToken(jwtToken);
     }
   }
 
-  void listenDynamicLinks(Store<AppState> store) {
-    streamSubscription = FlutterBranchSdk.initSession().listen((linkData) {
-      log.info("branch listening.");
-      store.dispatch(BranchListening());
-      log.info("Got link data: ${linkData.toString()}");
-      if (linkData["~feature"] == "invite_user") {
-        store.dispatch(
-          segmentIdentifyCall(
-            Map<String, dynamic>.from({
-              'Referral': linkData["~feature"],
-              'Referral link': linkData['~referring_link']
-            }),
-          ),
-        );
-        store.dispatch(
-          segmentTrackCall(
-            "Wallet: Branch: User Invite",
-            properties: Map<String, dynamic>.from(linkData),
-          ),
-        );
-      }
-    });
-  }
+  // void listenDynamicLinks(Store<AppState> store) {
+  //   streamSubscription = FlutterBranchSdk.initSession().listen((linkData) {
+  //     log.info("branch listening.");
+  //     store.dispatch(BranchListening());
+  //     log.info("Got link data: ${linkData.toString()}");
+  //     if (linkData["~feature"] == "invite_user") {}
+  //   });
+  // }
 
   @override
   void dispose() {
-    streamSubscription.cancel();
+    // streamSubscription.cancel();
     super.dispose();
   }
 
@@ -89,7 +70,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     setJwtToken(widget.store);
-    listenDynamicLinks(widget.store);
+    // listenDynamicLinks(widget.store);
     _locale = widget.store.state.userState.locale;
   }
 
@@ -116,8 +97,8 @@ class _MyAppState extends State<MyApp> {
           _rootRouter,
           navigatorObservers: () => [
             AutoRouteObserver(),
-            FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
-            SegmentObserver(),
+            // FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
+            // SegmentObserver(),
             SentryNavigatorObserver(),
           ],
         ),

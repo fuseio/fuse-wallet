@@ -1,5 +1,6 @@
 PODS:
-  - Analytics (4.0.1)
+  - Amplitude-iOS (4.8.2)
+  - Analytics (3.7.0)
   - app_tracking_transparency (0.0.1):
     - Flutter
   - barcode_scan (0.0.1):
@@ -11,24 +12,14 @@ PODS:
     - Flutter
   - device_info (0.0.1):
     - Flutter
-  - Firebase/Analytics (6.33.0):
-    - Firebase/Core
   - Firebase/Auth (6.33.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.9.2)
-  - Firebase/Core (6.33.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.8.3)
   - Firebase/CoreOnly (6.33.0):
     - FirebaseCore (= 6.10.3)
   - Firebase/Messaging (6.33.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 4.7.0)
-  - firebase_analytics (6.3.0):
-    - Firebase/Analytics (~> 6.33.0)
-    - Firebase/CoreOnly (~> 6.33.0)
-    - firebase_core
-    - Flutter
   - firebase_auth (0.18.4-1):
     - Firebase/Auth (~> 6.33.0)
     - Firebase/CoreOnly (~> 6.33.0)
@@ -42,15 +33,6 @@ PODS:
     - Firebase/Messaging (~> 6.33.0)
     - firebase_core
     - Flutter
-  - FirebaseAnalytics (6.8.3):
-    - FirebaseCore (~> 6.10)
-    - FirebaseInstallations (~> 1.6)
-    - GoogleAppMeasurement (= 6.8.3)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
-    - GoogleUtilities/MethodSwizzler (~> 6.7)
-    - GoogleUtilities/Network (~> 6.7)
-    - "GoogleUtilities/NSData+zlib (~> 6.7)"
-    - nanopb (~> 1.30906.0)
   - FirebaseAuth (6.9.2):
     - FirebaseCore (~> 6.10)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
@@ -90,9 +72,9 @@ PODS:
   - flutter_secure_storage (3.3.1):
     - Flutter
   - flutter_segment (0.0.1):
-    - Analytics (= 4.0.1)
+    - Analytics (= 3.7.0)
     - Flutter
-    - Segment-Branch
+    - Segment-Amplitude (= 3.0.1)
   - flutter_udid (0.0.1):
     - Flutter
     - SAMKeychain
@@ -104,12 +86,6 @@ PODS:
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps (< 3.10)
-  - GoogleAppMeasurement (6.8.3):
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
-    - GoogleUtilities/MethodSwizzler (~> 6.7)
-    - GoogleUtilities/Network (~> 6.7)
-    - "GoogleUtilities/NSData+zlib (~> 6.7)"
-    - nanopb (~> 1.30906.0)
   - GoogleDataTransport (7.5.1):
     - nanopb (~> 1.30906.0)
   - GoogleMaps (3.9.0):
@@ -125,8 +101,6 @@ PODS:
     - PromisesObjC (~> 1.2)
   - GoogleUtilities/Logger (6.7.2):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.7.2):
-    - GoogleUtilities/Logger
   - GoogleUtilities/Network (6.7.2):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
@@ -162,9 +136,9 @@ PODS:
   - rate_my_app (0.7.1):
     - Flutter
   - SAMKeychain (1.5.3)
-  - Segment-Branch (0.1.24):
-    - Analytics
-    - Branch (~> 0.36.0)
+  - Segment-Amplitude (3.0.1):
+    - Amplitude-iOS (~> 4.8.0)
+    - Analytics (~> 3.7.0)
   - Sentry (6.1.4):
     - Sentry/Core (= 6.1.4)
   - Sentry/Core (6.1.4)
@@ -189,7 +163,6 @@ DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
-  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
@@ -216,10 +189,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Amplitude-iOS
     - Analytics
     - Branch
     - Firebase
-    - FirebaseAnalytics
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -227,7 +200,6 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseMessaging
     - FMDB
-    - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
     - GoogleUtilities
@@ -238,7 +210,7 @@ SPEC REPOS:
     - PromisesObjC
     - Protobuf
     - SAMKeychain
-    - Segment-Branch
+    - Segment-Amplitude
     - Sentry
     - SwiftProtobuf
 
@@ -251,8 +223,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/contacts_service/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
-  firebase_analytics:
-    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -301,18 +271,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
-  Analytics: ebdc0c3ed93684d10c898f57886e0ce7fbecc240
+  Amplitude-iOS: 46c8e6e65c49bb1ad1909a9add1a68e1f8562b3f
+  Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
   barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
   Branch: 8aebcb7a6465f19f9f4d315acced369ae078d3f2
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
-  firebase_analytics: 36a619088c46224900829f14f4daa71585693a6f
   firebase_auth: d5159db3873478d1ac839af7b10d2f831516136a
   firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
   firebase_messaging: 0aea2cd5885b65e19ede58ee3507f485c992cc75
-  FirebaseAnalytics: 5dd088bd2e67bb9d13dbf792d1164ceaf3052193
   FirebaseAuth: c92d49ada7948d1a23466e3db17bc4c2039dddc3
   FirebaseCore: d889d9e12535b7f36ac8bfbf1713a0836a3012cd
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
@@ -322,12 +291,11 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_branch_sdk: ecbe8c173d747c9f8d18a74e72de96cc9159375f
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
-  flutter_segment: 0357d36d6b066d5d255cda46d2f217b55110af95
+  flutter_segment: f20a38d465030de0f1b2aa9325cef9c1442b0721
   flutter_udid: c9d59b0a440e137882faa5cf53a3501e906fb8c2
   flutter_web_browser: cf735f704b5d72449e6ea1cb65a7da102aa9123a
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_maps_flutter: c7f9c73576de1fbe152a227bfd6e6c4ae8088619
-  GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleMaps: 4b5346bddfe6911bb89155d43c903020170523ac
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
@@ -345,7 +313,7 @@ SPEC CHECKSUMS:
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   rate_my_app: 3b64dd0876bd286001595ee2e69193e757c4d77c
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  Segment-Branch: 5e91faad404e1af9998f5a2bbd44522a0f071786
+  Segment-Amplitude: 1b3b02a2e92f4b08a413a72bf7aa44f78566ab3b
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   sentry_flutter: 8b2b2e1c0101ef562106b5d272d3c0c741512c01
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410

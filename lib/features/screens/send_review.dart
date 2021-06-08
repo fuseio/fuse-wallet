@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/send_amount.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -37,7 +36,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   @override
   void initState() {
     super.initState();
-    Segment.screen(screenName: '/send-review-screen');
 
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2000));

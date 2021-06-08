@@ -5,9 +5,9 @@
 // **************************************************************************
 
 import 'package:dio/dio.dart' as _i4;
-import 'package:firebase_analytics/firebase_analytics.dart' as _i7;
-import 'package:firebase_auth/firebase_auth.dart' as _i9;
-import 'package:firebase_core/firebase_core.dart' as _i8;
+import 'package:firebase_auth/firebase_auth.dart' as _i8;
+import 'package:firebase_core/firebase_core.dart' as _i7;
+import 'package:firebase_messaging/firebase_messaging.dart' as _i9;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:logger/logger.dart' as _i13;
@@ -49,13 +49,13 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   gh.lazySingleton<_i5.Exchange>(() => _i5.Exchange(get<_i4.Dio>()));
   gh.factoryParam<_i6.Explorer, String?, String?>(
       (base, apiKey) => _i6.Explorer(get<_i4.Dio>(), base, apiKey));
-  gh.factory<_i7.FirebaseAnalytics>(
-      () => firebaseInjectableModule.firebaseAnalytics);
-  await gh.factoryAsync<_i8.FirebaseApp>(
+  await gh.factoryAsync<_i7.FirebaseApp>(
       () => firebaseInjectableModule.firebaseApp,
       preResolve: true);
-  gh.lazySingleton<_i9.FirebaseAuth>(
+  gh.lazySingleton<_i8.FirebaseAuth>(
       () => firebaseInjectableModule.firebaseAuth);
+  gh.lazySingleton<_i9.FirebaseMessaging>(
+      () => firebaseInjectableModule.firebaseMessaging);
   gh.lazySingleton<_i10.Funder>(() => _i10.Funder(get<_i4.Dio>()));
   gh.lazySingleton<_i11.FuseSwapService>(
       () => _i11.FuseSwapService(get<_i4.Dio>()));

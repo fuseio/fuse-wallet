@@ -42,7 +42,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   auto_route:
     dependency: "direct main"
     description:
@@ -560,11 +560,9 @@ packages:
   flutter_segment:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "7afec152108ea192d58aaed10d662f9528e11a79"
-      url: "https://github.com/ryanheise/flutter-segment.git"
-    source: git
+      name: flutter_segment
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "3.0.0"
   flutter_slidable:
     dependency: "direct main"
@@ -820,7 +818,7 @@ packages:
       name: intl_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   io:
     dependency: transitive
     description:
@@ -1336,7 +1334,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   span_builder:
     dependency: "direct main"
     description:
@@ -1406,7 +1404,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   timing:
     dependency: transitive
     description:

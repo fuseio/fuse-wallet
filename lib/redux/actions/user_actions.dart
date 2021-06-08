@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -173,28 +174,21 @@ ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
         countryCode: countryCode,
         phoneNumber: phoneNumber.e164,
       ));
-      store.dispatch(segmentAliasCall(phoneNumber.e164));
-      store.dispatch(
-        segmentTrackCall(
-          "Wallet: user insert his phone number",
-          properties: Map<String, dynamic>.from({
-            "Phone number": phoneNumber.e164,
-          }),
-        ),
+      Segment.alias(alias: phoneNumber.e164);
+      Segment.track(
+        eventName: 'Sign up: Phone_NextBtn_Press',
       );
     } catch (e, s) {
       store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
       log.error('ERROR - LoginRequest $e');
+      Segment.track(
+        eventName: 'Sign up: FAILED - Phone_NextBtn_Press',
+        properties: Map.from({"error": e.toString()}),
+      );
       await Sentry.captureException(
         e,
         stackTrace: s,
         hint: 'ERROR in Login Request',
-      );
-      store.dispatch(
-        segmentTrackCall(
-          "ERROR in LoginRequest",
-          properties: Map.from({"error": e.toString()}),
-        ),
       );
     }
   };
@@ -203,11 +197,16 @@ ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
 ThunkAction verifyHandler(String verificationCode) {
   return (Store store) async {
     try {
+      Segment.track(
+        eventName: 'Sign up: Verify phone code next button pressed',
+      );
       final Function onSuccess = (jwtToken) {
         log.info('jwtToken $jwtToken');
+        Segment.track(
+          eventName: 'Sign up: VerificationCode_NextBtn_Press',
+        );
         store.dispatch(LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
-        store.dispatch(segmentTrackCall("Wallet: verified phone number"));
         // ExtendedNavigator.root.pushUserNameScreen();
       };
       await onBoardStrategy.verify(store, verificationCode, onSuccess);
@@ -216,17 +215,17 @@ ThunkAction verifyHandler(String verificationCode) {
         isLoading: false,
         message: error,
       ));
+      Segment.track(
+        eventName: 'Sign up: FAILED - VerificationCode_NextBtn_Press',
+        properties: Map.from({
+          "error": error.toString(),
+        }),
+      );
       await Sentry.captureException(
         error,
         stackTrace: s,
         hint: 'Error while phone number verification',
       );
-      store.dispatch(segmentTrackCall(
-        "ERROR in VerifyRequest",
-        properties: Map.from({
-          "error": error.toString(),
-        }),
-      ));
     }
   };
 }
@@ -255,17 +254,30 @@ ThunkAction restoreWalletCall(
       String mnemonic = _mnemonic.join(' ');
       log.info('mnemonic: $mnemonic');
       log.info('compute pk');
-      String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
+      String privateKey = await compute(
+        Web3.privateKeyFromMnemonic,
+        mnemonic,
+      );
       log.info('privateKey: $privateKey');
       Credentials credentials = EthPrivateKey.fromHex(privateKey);
       EthereumAddress accountAddress = await credentials.extractAddress();
-      store.dispatch(CreateLocalAccountSuccess(
-          mnemonic.split(' '), privateKey, accountAddress.toString()));
+      store.dispatch(
+        CreateLocalAccountSuccess(
+          mnemonic.split(' '),
+          privateKey,
+          accountAddress.toString(),
+        ),
+      );
       store.dispatch(setDefaultCommunity());
-      store.dispatch(segmentTrackCall("Wallet: restored mnemonic"));
       successCallback();
+      Segment.track(
+        eventName: 'Existing User: Successful Restore wallet from backup',
+      );
     } catch (e, s) {
       log.error('ERROR - restoreWalletCall $e');
+      Segment.track(
+        eventName: 'Existing User: Failed to restore wallet from backup',
+      );
       await Sentry.captureException(
         e,
         stackTrace: s,
@@ -300,7 +312,9 @@ ThunkAction createLocalAccountCall(
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(setDefaultCommunity());
-      store.dispatch(segmentTrackCall("Wallet: Create wallet"));
+      Segment.track(
+        eventName: 'New User: Create Wallet',
+      );
       successCallback();
     } catch (e, s) {
       log.error('ERROR - createLocalAccountCall $e');
@@ -324,7 +338,6 @@ ThunkAction reLoginCall() {
   return (Store store) async {
     store.dispatch(ReLogin());
     store.dispatch(getWalletAddressesCall());
-    store.dispatch(segmentTrackCall("Wallet: Login clicked"));
   };
 }
 
@@ -400,7 +413,7 @@ ThunkAction syncContactsCall() {
 }
 
 ThunkAction identifyCall() {
-  return (Store store) async {
+  return (Store store) {
     String displayName = store.state.userState.displayName;
     String phoneNumber = store.state.userState.phoneNumber;
     String walletAddress = store.state.userState.walletAddress;
@@ -423,8 +436,6 @@ ThunkAction identifyCall() {
         "Account Address": accountAddress,
         "Display Name": displayName,
         "Identifier": identifier,
-        "Joined Communities":
-            store.state.cashWalletState.communities.keys.toList(),
       }),
     ));
   };
@@ -433,7 +444,6 @@ ThunkAction identifyCall() {
 ThunkAction saveUserInDB(walletAddress) {
   return (Store store) async {
     String displayName = store.state.userState.displayName;
-    String phoneNumber = store.state.userState.phoneNumber;
     try {
       Map user = {
         "accountAddress": walletAddress,
@@ -444,15 +454,6 @@ ThunkAction saveUserInDB(walletAddress) {
         "displayName": displayName
       };
       await api.saveUserToDb(user);
-      Sentry.configureScope((scope) {
-        scope.setContexts(
-            'user',
-            Map.from({
-              'id': phoneNumber,
-              'walletAddress': walletAddress,
-              'username': displayName
-            }));
-      });
       log.info('save user $walletAddress');
     } catch (e, s) {
       log.error('user $walletAddress already saved');
@@ -538,10 +539,6 @@ ThunkAction updateDisplayNameCall(String displayName) {
       String accountAddress = store.state.userState.accountAddress;
       await api.updateDisplayName(accountAddress, displayName);
       store.dispatch(SetDisplayName(displayName));
-      store.dispatch(segmentTrackCall("Wallet: display name updated"));
-      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-        "Display Name": displayName,
-      })));
     } catch (e, s) {
       await Sentry.captureException(e, stackTrace: s);
     }
@@ -557,7 +554,6 @@ ThunkAction updateUserAvatarCall(ImageSource source) {
       String accountAddress = store.state.userState.accountAddress;
       await api.updateAvatar(accountAddress, uploadResponse['hash']);
       store.dispatch(SetUserAvatar(uploadResponse['uri']));
-      store.dispatch(segmentTrackCall("User avatar updated"));
     } catch (e, s) {
       await Sentry.captureException(e, stackTrace: s);
     }

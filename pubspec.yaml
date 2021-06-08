@@ -1,5 +1,5 @@
 name: fusecash
-version: 0.1.1+40
+version: 0.1.3+59
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -65,19 +65,16 @@ dependencies:
   json_annotation: ^4.0.1
   flare_flutter: ^3.0.0
   decimal: ^1.1.0
-  flutter_segment:
-    git:
-      url: https://github.com/ryanheise/flutter-segment.git
   firebase_messaging: ^9.1.3
   firebase_auth: ^1.1.3
   firebase_core: ^1.1.0
   firebase_analytics: ^8.0.3
-  # ethereum_address: ^1.0.1
   ethereum_address:
     path: ../dart-ethereum_address
   sentry_flutter: ^5.0.0
   device_info: ^2.0.0
   image_picker: ^0.7.4
+  flutter_segment: ^3.0.0
   flutter_cupertino_localizations: ^1.0.1
   flutter_branch_sdk: ^3.1.0
   flutter_udid: ^2.0.0
@@ -86,7 +83,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 dev_dependencies:
-  intl_utils: ^2.2.0
+  intl_utils: ^2.3.0
   # flutter_gen_runner: ^3.0.2
   freezed: ^0.14.1+3
   lint: ^1.5.3

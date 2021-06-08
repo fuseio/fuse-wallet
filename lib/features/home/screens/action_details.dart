@@ -1,4 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -180,17 +181,31 @@ class ActionDetailsScreen extends StatelessWidget {
                                               final Token _token = viewModel
                                                   .tokens.values
                                                   .firstWhere(
-                                                (element) =>
-                                                    element.symbol ==
-                                                    value.tradeInfo?.inputToken,
-                                              );
+                                                      (element) =>
+                                                          element.symbol ==
+                                                          value.tradeInfo
+                                                              .inputToken,
+                                                      orElse: () => null);
+                                              final String amount =
+                                                  smallNumberTest(Decimal.parse(
+                                                          value.tradeInfo
+                                                              .inputAmount))
+                                                      ? value
+                                                          .tradeInfo.inputAmount
+                                                      : smallValuesConvertor(
+                                                          Decimal.parse(value
+                                                              .tradeInfo
+                                                              .inputAmount));
+
                                               double a = double.parse(value
                                                           .tradeInfo
                                                           ?.inputAmount ??
                                                       '0') *
                                                   double.parse(
                                                       _token.priceInfo.quote);
-                                              return '${display(num.parse(value.tradeInfo!.inputAmount)) + ' ' + value.tradeInfo!.inputToken} (\$${display(num.tryParse(a.toString()))})';
+                                              // return '${display(num.parse(value.tradeInfo!.inputAmount)) + ' ' + value.tradeInfo!.inputToken} (\$${display(num.tryParse(a.toString()))})';
+                                              //         _token?.priceInfo?.quote);
+                                              return '${amount + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
                                             },
                                           )
                                         : displayName,
@@ -229,10 +244,20 @@ class ActionDetailsScreen extends StatelessWidget {
                                 send: (value) => '',
                                 receive: (value) => '',
                                 swap: (value) {
+                                  final String amount = smallNumberTest(
+                                          Decimal.parse(
+                                              value.tradeInfo.outputAmount))
+                                      ? value.tradeInfo.outputAmount
+                                      : smallValuesConvertor(Decimal.parse(
+                                          value.tradeInfo.outputAmount));
+
                                   double val = double.parse(
                                           value.tradeInfo!.outputAmount) *
                                       double.parse(token!.priceInfo.quote);
-                                  return '${display(num.parse(value.tradeInfo!.outputAmount)) + ' ' + value.tradeInfo!.outputToken} (\$${display(num.tryParse(val.toString()))})';
+                                  // return '${display(num.parse(value.tradeInfo!.outputAmount)) + ' ' + value.tradeInfo!.outputToken} (\$${display(num.tryParse(val.toString()))})';
+                                  //         value.tradeInfo.outputAmount) *
+                                  //     double.parse(token?.priceInfo?.quote);
+                                  return '${amount + ' ' + value.tradeInfo.outputToken} (\$${display(num.tryParse(val.toString()))})';
                                 },
                               ),
                             ),

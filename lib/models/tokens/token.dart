@@ -40,14 +40,16 @@ class Token with _$Token implements Comparable<Token> {
     @Default(null) String communityAddress,
     @Default(null) String originNetwork,
     @Default(0) num priceChange,
+    @JsonKey(ignore: true) @Default(0) num priceDiff,
+    @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
     @Default([]) List<Stats> stats,
-    @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
   }) = _Token;
 
   String getBalance([withPrecision = false]) => formatValue(
         amount,
         decimals,
-        withPrecision: withPrecision,
+        withPrecision,
       );
   String getFiatBalance() {
     if (priceInfo != null && priceInfo?.quote != 'NaN') {

@@ -77,4 +77,19 @@ class FuseSwapService {
     Response response = await dio.get('/pricechange/$tokenAddress');
     return num.tryParse(response.data['data']['priceChange'].toString()) ?? 0;
   }
+
+  Future<num> priceDiff(
+    String tokenAddress,
+    String days,
+  ) async {
+        Response response = await dio.post(
+      '/pricechange/$tokenAddress',
+      data: Map.from({
+        "duration": {
+          "days": days,
+        },
+      }),
+    );
+    return num.tryParse(response.data['data']['priceChange'].toString()) ?? 0;
+  }
 }

@@ -12,19 +12,22 @@ import 'package:fusecash/widgets/default_logo.dart';
 class TradeCard extends StatelessWidget {
   final Token token;
   final String title;
-  final Widget? useMaxWidget;
+  final Widget useMaxWidget;
+  final bool showCurrent;
   final void Function(String) onChanged;
   final TextEditingController textEditingController;
   final void Function() onTap;
   final bool isSwapped;
+
   TradeCard({
-    required this.title,
-    required this.isSwapped,
-    required this.onTap,
+    this.title,
+    this.isSwapped,
+    this.onTap,
     this.useMaxWidget,
-    required this.onChanged,
-    required this.token,
-    required this.textEditingController,
+    this.onChanged,
+    this.token,
+    this.textEditingController,
+    this.showCurrent = false,
   });
 
   @override
@@ -76,7 +79,7 @@ class TradeCard extends StatelessWidget {
                                       width: 35,
                                       height: 35,
                                       imageUrl: (viewModel
-                                          .tokensImages[token.address])!,
+                                          .tokensImages[token.address]),
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
@@ -100,7 +103,7 @@ class TradeCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        useMaxWidget != null
+                        showCurrent
                             ? Positioned(
                                 bottom: -30,
                                 child: Column(

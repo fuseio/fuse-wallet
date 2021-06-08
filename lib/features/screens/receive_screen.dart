@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/receive.dart';
@@ -19,9 +18,6 @@ class ReceiveScreen extends StatelessWidget {
       title: I10n.of(context).receive,
       body: StoreConnector<AppState, ReceiveModel>(
         distinct: true,
-        onInitialBuild: (viewModel) {
-          Segment.screen(screenName: '/receive-screen');
-        },
         converter: ReceiveModel.fromStore,
         builder: (_, viewModel) {
           final String barcodeData = 'fuse:${viewModel.walletAddress}';

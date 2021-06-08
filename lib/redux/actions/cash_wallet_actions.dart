@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/actions/actions.dart';
@@ -85,6 +85,17 @@ class GetTokenBalanceSuccess {
   GetTokenBalanceSuccess({
     required this.tokenBalance,
     required this.tokenAddress,
+  });
+}
+
+class GetTokenPriceDiffSuccess {
+  final String tokenAddress;
+  final num priceDiff;
+  final int priceDiffLimitInDays;
+  GetTokenPriceDiffSuccess({
+    this.priceDiff,
+    this.tokenAddress,
+    this.priceDiffLimitInDays,
   });
 }
 
@@ -257,49 +268,63 @@ class SetIsFetchingBalances {
 
 class SetShowDepositBanner {}
 
+ThunkAction registerNotification() {
+  return (Store store) async {
+    void switchOnPush(message) {
+      final dynamic data = message['data'] ?? message;
+      final bool isTopUp =
+          data['isTopUp'] != null && data['isTopUp'] == 'true' ? true : false;
+
+      if (isTopUp) {
+        Segment.track(eventName: 'fUSD Purchase Success');
+      }
+    }
+
+    getIt<FirebaseMessaging>().configure(
+      onMessage: (Map<String, dynamic> message) async {
+        log.info('onMessage ${message.toString()}');
+        switchOnPush(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        log.info('onResume ${message.toString()}');
+        switchOnPush(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        log.info('onLaunch ${message.toString()}');
+        switchOnPush(message);
+      },
+    );
+  };
+}
+
 ThunkAction enablePushNotifications() {
   return (Store store) async {
     try {
-      // FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-      // void iosPermission() {
-      //   var firebaseMessaging2 = firebaseMessaging;
-      //   firebaseMessaging2.requestNotificationPermissions(
-      //       IosNotificationSettings(sound: true, badge: true, alert: true));
-      //   firebaseMessaging.onIosSettingsRegistered
-      //       .listen((IosNotificationSettings settings) {
-      //     log.info("Settings registered: $settings");
-      //   });
-      // }
+      void iosPermission() {
+        getIt<FirebaseMessaging>().requestNotificationPermissions(
+          IosNotificationSettings(
+            sound: true,
+            badge: true,
+            alert: true,
+          ),
+        );
+        getIt<FirebaseMessaging>().onIosSettingsRegistered.listen((
+          IosNotificationSettings settings,
+        ) {
+          log.info("Settings registered: $settings");
+        });
+      }
 
-      // if (Platform.isIOS) iosPermission();
-      // String token = await firebaseMessaging.getToken();
-      // log.info("Firebase messaging token $token");
+      if (Platform.isIOS) iosPermission();
+      String token = await getIt<FirebaseMessaging>().getToken();
+      log.info("Firebase messaging token $token");
 
-      // String walletAddress = store.state.userState.walletAddress;
-      // await api.updateFirebaseToken(walletAddress, token);
-      // await Segment.setContext({
-      //   'device': {'token': token},
-      // });
-
-      // void switchOnPush(message) {
-      //   final dynamic data = message['data'] ?? message;
-      //   final String communityAddress = data['communityAddress'];
-      //   if (communityAddress != null && communityAddress.isNotEmpty) {
-      //     store.dispatch(switchCommunityCall(communityAddress));
-      //   }
-      // }
-
-      // firebaseMessaging.configure(
-      //   onMessage: (Map<String, dynamic> message) async {
-      //     switchOnPush(message);
-      //   },
-      //   onResume: (Map<String, dynamic> message) async {
-      //     switchOnPush(message);
-      //   },
-      //   onLaunch: (Map<String, dynamic> message) async {
-      //     switchOnPush(message);
-      //   },
-      // );
+      String walletAddress = store.state.userState.walletAddress;
+      await api.updateFirebaseToken(walletAddress, token);
+      await Segment.setContext({
+        'device': {'token': token},
+      });
+      store.dispatch(registerNotification());
     } catch (e, s) {
       log.error('ERROR - Enable push notifications: $e');
       await Sentry.captureException(
@@ -307,30 +332,6 @@ ThunkAction enablePushNotifications() {
         stackTrace: s,
         hint: 'ERROR - Enable push notifications',
       );
-    }
-  };
-}
-
-ThunkAction segmentTrackCall(eventName, {Map<String, dynamic>? properties}) {
-  return (Store store) async {
-    try {
-      log.info('Track - $eventName');
-      Segment.track(eventName: eventName, properties: properties);
-    } catch (e, s) {
-      log.error('ERROR - segment track call: $e');
-      await Sentry.captureException(e, stackTrace: s);
-    }
-  };
-}
-
-ThunkAction segmentAliasCall(String userId) {
-  return (Store store) async {
-    try {
-      log.info('Alias - $userId');
-      Segment.alias(alias: userId);
-    } catch (e, s) {
-      log.error('ERROR - segment alias call: $e');
-      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }
@@ -471,21 +472,9 @@ ThunkAction generateWalletSuccessCall(dynamic walletData) {
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(saveUserInDB(walletAddress));
-      final TrackingStatus status =
-          await AppTrackingTransparency.requestTrackingAuthorization();
-      log.info(EnumToString.convertToString(status));
+      await AppTrackingTransparency.requestTrackingAuthorization();
       store.dispatch(enablePushNotifications());
-      store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
-      store.dispatch(segmentIdentifyCall(
-        Map<String, dynamic>.from({
-          "Wallet Generated": true,
-          "App name": 'Fuse',
-          "Phone Number": store.state.userState.phoneNumber,
-          "Wallet Address": store.state.userState.walletAddress,
-          "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName
-        }),
-      ));
+      store.dispatch(identifyCall());
     }
   };
 }
@@ -505,7 +494,7 @@ ThunkAction getTokenBalanceCall(Token token) {
         store.dispatch(
           segmentIdentifyCall(
             Map<String, dynamic>.from({
-              '${token?.name} Balance': token.getBalance(true),
+              '${token?.symbol}_balance': token.getBalance(true),
               "DisplayBalance": token.getBalance(true),
             }),
           ),
@@ -902,33 +891,12 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
         ),
       ));
       store.dispatch(
-        segmentTrackCall(
-          "Wallet: Switch Community",
-          properties: Map<String, dynamic>.from({
-            "Community Name": newCommunity.name,
-            "Community Address": communityAddress,
-            "Token Address": communityToken.address,
-            "Token Symbol": communityToken.symbol,
-            "Origin Network": originNetwork
-          }),
-        ),
-      );
-      store.dispatch(
         fetchCommunityMetadataCall(
           communityAddress,
           communityData['communityURI'],
           isRopsten,
         ),
       );
-      // if (communityAddress.toLowerCase() !=
-      //     defaultCommunityAddress.toLowerCase()) {
-      //   store.dispatch(
-      //     getBusinessListCall(
-      //       communityAddress: communityAddress,
-      //       isRopsten: isRopsten,
-      //     ),
-      //   );
-      // }
       store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
@@ -1184,6 +1152,22 @@ ThunkAction getTokenPriceCall(Token token) {
   };
 }
 
+ThunkAction getTokenPriceDiffCall(String tokenAddress, String limit) {
+  return (Store store) async {
+    try {
+      final num priceDiff = await fuseSwapService.priceDiff(
+        tokenAddress,
+        limit,
+      );
+      store.dispatch(GetTokenPriceDiffSuccess(
+        priceDiff: priceDiff,
+        tokenAddress: tokenAddress,
+        priceDiffLimitInDays: int.parse(limit),
+      ));
+    } catch (e) {}
+  };
+}
+
 ThunkAction getTokenPriceChangeCall(Token token) {
   return (Store store) async {
     void Function(num) onDone = (num priceChange) {
@@ -1209,7 +1193,6 @@ ThunkAction getTokenPriceChangeCall(Token token) {
 ThunkAction getTokenStatsCall(Token token) {
   return (Store store) async {
     void Function(List<Stats>) onDone = (List<Stats> stats) {
-      log.info('stats.length ${stats.length}');
       store.dispatch(
         GetTokenStatsSuccess(
           stats: stats,
@@ -1221,7 +1204,6 @@ ThunkAction getTokenStatsCall(Token token) {
         (Object error, StackTrace stackTrace) {
       log.error('Error getTokenStatsCall - ${token.name} - $error ');
     };
-    log.info('Fetching token stats ${token.name}');
     await token.fetchStats(
       onDone: onDone,
       onError: onError,

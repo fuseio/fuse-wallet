@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -204,7 +203,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
-        Segment.screen(screenName: '/send-amount-screen');
         if (args.tokenToSend != null) {
           setState(() {
             selectedToken = args.tokenToSend!;
@@ -265,7 +263,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                         ),
                                       ),
                                     ),
-                                    useMax(),
+                                    // useMax(),
                                   ],
                                 ),
                               ),

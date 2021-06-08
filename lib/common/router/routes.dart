@@ -21,6 +21,29 @@ import 'package:fusecash/features/swap/router/swap_router.dart';
 import 'package:fusecash/features/swap/screens/review_swap.dart';
 import 'package:fusecash/features/swap/screens/swap.dart';
 
+// MaterialRoute(page: SplashScreen, initial: true),
+// MaterialRoute(page: ChooseSecurityOption),
+// MaterialRoute(page: PinCodeScreen),
+// MaterialRoute(page: RestoreFromBackupScreen),
+// MaterialRoute(page: OnBoardScreen),
+// MaterialRoute(page: SignUpScreen),
+// MaterialRoute(page: VerifyPhoneNumber),
+// MaterialRoute(page: UserNameScreen),
+// MaterialRoute(page: WebViewScreen, name: 'webview', fullscreenDialog: true),
+// MaterialRoute(
+//     guards: [AuthGuard], page: MainHomeScreen, name: 'homeScreen'),
+// MaterialRoute(guards: [AuthGuard], page: ActionDetailsScreen),
+// MaterialRoute(guards: [AuthGuard], page: SendAmountScreen),
+// MaterialRoute(guards: [AuthGuard], page: SendReviewScreen),
+// MaterialRoute(guards: [AuthGuard], page: SendSuccessScreen),
+// MaterialRoute(guards: [AuthGuard], page: SwapScreen),
+// MaterialRoute(guards: [AuthGuard], page: ReviewSwapScreen),
+// MaterialRoute(
+//   page: ContactsList,
+//   guards: [AuthGuard],
+// ),
+// AdaptiveRoute(path: '*', page: UnknownRouteScreen)
+
 export 'routes.gr.dart';
 
 @MaterialAutoRouter(
@@ -31,13 +54,13 @@ export 'routes.gr.dart';
       initial: true,
     ),
     AutoRoute(
-      page: SecurityScreen,
+      page: ChooseSecurityOption,
     ),
     AutoRoute(
       page: PinCodeScreen,
     ),
     AutoRoute(
-      page: RecoveryPage,
+      page: RestoreFromBackupScreen,
     ),
     AutoRoute(
       page: OnBoardScreen,
@@ -46,7 +69,7 @@ export 'routes.gr.dart';
       page: SignUpScreen,
     ),
     AutoRoute(
-      page: VerifyScreen,
+      page: VerifyPhoneNumber,
     ),
     AutoRoute(
       page: UserNameScreen,

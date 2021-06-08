@@ -52,20 +52,20 @@ class RootRouter extends _i1.RootStackRouter {
         builder: (_) {
           return _i3.SplashScreen();
         }),
-    SecurityScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
+    ChooseSecurityOption.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i4.SecurityScreen();
+          return _i4.ChooseSecurityOption();
         }),
     PinCodeScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
           return _i5.PinCodeScreen();
         }),
-    RecoveryRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+    RestoreFromBackupScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return _i6.RecoveryPage();
+          return _i6.RestoreFromBackupScreen();
         }),
     OnBoardScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -77,11 +77,11 @@ class RootRouter extends _i1.RootStackRouter {
         builder: (_) {
           return _i8.SignUpScreen();
         }),
-    VerifyScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
+    VerifyPhoneNumber.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<VerifyScreenArgs>();
-          return _i9.VerifyScreen(args.verificationId);
+          final args = data.argsAs<VerifyPhoneNumberArgs>();
+          return _i9.VerifyPhoneNumber(args.verificationId);
         }),
     UserNameScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -244,12 +244,14 @@ class RootRouter extends _i1.RootStackRouter {
   @override
   List<_i1.RouteConfig> get routes => [
         _i1.RouteConfig(SplashScreen.name, path: '/'),
-        _i1.RouteConfig(SecurityScreen.name, path: '/security-screen'),
+        _i1.RouteConfig(ChooseSecurityOption.name,
+            path: '/choose-security-option'),
         _i1.RouteConfig(PinCodeScreen.name, path: '/pin-code-screen'),
-        _i1.RouteConfig(RecoveryRoute.name, path: '/recovery-page'),
+        _i1.RouteConfig(RestoreFromBackupScreen.name,
+            path: '/restore-from-backup-screen'),
         _i1.RouteConfig(OnBoardScreen.name, path: '/on-board-screen'),
         _i1.RouteConfig(SignUpScreen.name, path: '/sign-up-screen'),
-        _i1.RouteConfig(VerifyScreen.name, path: '/verify-screen'),
+        _i1.RouteConfig(VerifyPhoneNumber.name, path: '/verify-phone-number'),
         _i1.RouteConfig(UserNameScreen.name, path: '/user-name-screen'),
         _i1.RouteConfig(Webview.name, path: '/web-view-screen'),
         _i1.RouteConfig(ActionDetailsScreen.name,
@@ -295,10 +297,10 @@ class SplashScreen extends _i1.PageRouteInfo {
   static const String name = 'SplashScreen';
 }
 
-class SecurityScreen extends _i1.PageRouteInfo {
-  const SecurityScreen() : super(name, path: '/security-screen');
+class ChooseSecurityOption extends _i1.PageRouteInfo {
+  const ChooseSecurityOption() : super(name, path: '/choose-security-option');
 
-  static const String name = 'SecurityScreen';
+  static const String name = 'ChooseSecurityOption';
 }
 
 class PinCodeScreen extends _i1.PageRouteInfo {
@@ -307,10 +309,11 @@ class PinCodeScreen extends _i1.PageRouteInfo {
   static const String name = 'PinCodeScreen';
 }
 
-class RecoveryRoute extends _i1.PageRouteInfo {
-  const RecoveryRoute() : super(name, path: '/recovery-page');
+class RestoreFromBackupScreen extends _i1.PageRouteInfo {
+  const RestoreFromBackupScreen()
+      : super(name, path: '/restore-from-backup-screen');
 
-  static const String name = 'RecoveryRoute';
+  static const String name = 'RestoreFromBackupScreen';
 }
 
 class OnBoardScreen extends _i1.PageRouteInfo {
@@ -325,17 +328,17 @@ class SignUpScreen extends _i1.PageRouteInfo {
   static const String name = 'SignUpScreen';
 }
 
-class VerifyScreen extends _i1.PageRouteInfo<VerifyScreenArgs> {
-  VerifyScreen({required String verificationId})
+class VerifyPhoneNumber extends _i1.PageRouteInfo<VerifyPhoneNumberArgs> {
+  VerifyPhoneNumber({required String verificationId})
       : super(name,
-            path: '/verify-screen',
-            args: VerifyScreenArgs(verificationId: verificationId));
+            path: '/verify-phone-number',
+            args: VerifyPhoneNumberArgs(verificationId: verificationId));
 
-  static const String name = 'VerifyScreen';
+  static const String name = 'VerifyPhoneNumber';
 }
 
-class VerifyScreenArgs {
-  const VerifyScreenArgs({required this.verificationId});
+class VerifyPhoneNumberArgs {
+  const VerifyPhoneNumberArgs({required this.verificationId});
 
   final String verificationId;
 }

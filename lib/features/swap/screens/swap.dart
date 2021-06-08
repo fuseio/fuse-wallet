@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/features/swap/widgets/card.dart';
 import 'package:fusecash/models/swap/swap.dart';
@@ -15,7 +16,6 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -56,7 +56,6 @@ class _SwapScreenState extends State<SwapScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/swap-screen');
     super.initState();
   }
 
@@ -327,10 +326,15 @@ class _SwapScreenState extends State<SwapScreen> {
       children: [
         InkWell(
           onTap: () {
-            openDepositWebview(
-              context: context,
-              withBack: true,
-              url: url,
+            Segment.track(
+              eventName: 'Top up Button Press',
+              properties: Map.from({"fromScreen": 'swapScreen'}),
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TopUpScreen(),
+              ),
             );
           },
           child: Row(
@@ -445,6 +449,7 @@ class _SwapScreenState extends State<SwapScreen> {
                             Column(
                               children: [
                                 TradeCard(
+                                  showCurrent: true,
                                   onTap: () {
                                     showBottomMenu(
                                       viewModel.payWithTokens,
@@ -458,17 +463,28 @@ class _SwapScreenState extends State<SwapScreen> {
                                       tokenOutDebouncer.run(
                                         () => getTradeInfo(
                                           value,
-                                          (info) => setState(() {
-                                            tokenInController.text = display(
-                                                num.tryParse(
-                                                    info.outputAmount));
-                                          }),
+                                          (info) {
+                                            if (smallNumberTest(Decimal.parse(
+                                                info.outputAmount))) {
+                                              setState(() {
+                                                tokenInController.text =
+                                                    info.outputAmount;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                tokenInController.text =
+                                                    display(num.tryParse(info
+                                                            .outputAmount) ??
+                                                        '0');
+                                              });
+                                            }
+                                          },
                                         ),
                                       );
                                     }
                                   },
                                   isSwapped: isSwapped,
-                                  useMaxWidget: maxButton(),
+                                  // useMaxWidget: maxButton(),
                                   textEditingController: tokenOutController,
                                   token: tokenOut,
                                   title: I10n.of(context).pay_with,
@@ -490,11 +506,28 @@ class _SwapScreenState extends State<SwapScreen> {
                                       tokenInDebouncer.run(
                                         () => getTradeInfo(
                                           value,
-                                          (info) => setState(() {
-                                            tokenOutController.text = display(
-                                                num.tryParse(
-                                                    info.outputAmount));
-                                          }),
+                                          (info) {
+                                            if (smallNumberTest(Decimal.parse(
+                                                info.outputAmount))) {
+                                              setState(() {
+                                                tokenOutController.text =
+                                                    info.outputAmount;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                tokenOutController.text =
+                                                    display(num.tryParse(info
+                                                            .outputAmount) ??
+                                                        '0');
+                                              });
+                                            }
+                                          },
+                                          // (info) => setState(() {
+                                          //   tokenOutController.text = display(
+                                          //       num.tryParse(
+                                          //               info.outputAmount) ??
+                                          //           '0');
+                                          // }),
                                         ),
                                       );
                                     }

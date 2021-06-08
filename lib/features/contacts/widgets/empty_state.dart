@@ -73,16 +73,6 @@ class EmptyState extends StatelessWidget {
                         bool permission = await Contacts.getPermissions();
                         if (permission) {
                           viewModel.syncContacts();
-                          viewModel
-                              .trackCall("Wallet: Contacts Permission Granted");
-                          viewModel.identifyCall(
-                            Map.from({"Contacts Permission Granted": true}),
-                          );
-                        } else {
-                          viewModel.trackCall(
-                              "Wallet: Contacts Permission Rejected");
-                          viewModel.identifyCall(
-                              Map.from({"Contacts Permission Granted": false}));
                         }
                       })
                 ],

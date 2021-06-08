@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -19,9 +18,6 @@ class WebViewScreen extends StatefulWidget {
 class _WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
-    Segment.screen(screenName: '/web-view-screen', properties: {
-      "url": widget.url,
-    });
     super.initState();
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }

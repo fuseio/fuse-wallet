@@ -210,6 +210,26 @@ class I10n {
     );
   }
 
+  /// `Bridge ETH or BNB from Binance Smart Chain`
+  String get bridge_from_BSC {
+    return Intl.message(
+      'Bridge ETH or BNB from Binance Smart Chain',
+      name: 'bridge_from_BSC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bridge assets from Ethereum network`
+  String get bridge_from_ethereum {
+    return Intl.message(
+      'Bridge assets from Ethereum network',
+      name: 'bridge_from_ethereum',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Bridge to`
   String get bridge_to {
     return Intl.message(
@@ -340,6 +360,16 @@ class I10n {
     );
   }
 
+  /// `Contact us for support`
+  String get contact_us_for_support {
+    return Intl.message(
+      'Contact us for support',
+      name: 'contact_us_for_support',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Continue with`
   String get continue_with {
     return Intl.message(
@@ -400,6 +430,46 @@ class I10n {
     );
   }
 
+  /// `Credit Card`
+  String get credit_card {
+    return Intl.message(
+      'Credit Card',
+      name: 'credit_card',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:`
+  String get crypto_deposit_explained {
+    return Intl.message(
+      'If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:',
+      name: 'crypto_deposit_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please note that this is a personal link that will bridge the funds directly to your account.`
+  String get crypto_deposit_risk {
+    return Intl.message(
+      'Please note that this is a personal link that will bridge the funds directly to your account.',
+      name: 'crypto_deposit_risk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please use it responsibly and at your own risk.`
+  String get crypto_deposit_risk_2 {
+    return Intl.message(
+      'Please use it responsibly and at your own risk.',
+      name: 'crypto_deposit_risk_2',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Current community`
   String get current_community {
     return Intl.message(
@@ -435,6 +505,36 @@ class I10n {
     return Intl.message(
       'deposit failed',
       name: 'deposit_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit from BSC`
+  String get deposit_from_BSC {
+    return Intl.message(
+      'Deposit from BSC',
+      name: 'deposit_from_BSC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit from Ethereum`
+  String get deposit_from_ethereum {
+    return Intl.message(
+      'Deposit from Ethereum',
+      name: 'deposit_from_ethereum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit from Ethereum or BSC`
+  String get deposit_from_ethereum_or_BSC {
+    return Intl.message(
+      'Deposit from Ethereum or BSC',
+      name: 'deposit_from_ethereum_or_BSC',
       desc: '',
       args: [],
     );
@@ -670,10 +770,10 @@ class I10n {
     );
   }
 
-  /// `Follow us on twitter`
+  /// `Follow us on Twitter.`
   String get follow_us_on_twitter {
     return Intl.message(
-      'Follow us on twitter',
+      'Follow us on Twitter.',
       name: 'follow_us_on_twitter',
       desc: '',
       args: [],
@@ -730,6 +830,16 @@ class I10n {
     );
   }
 
+  /// `FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!`
+  String get fusd_stablecoins_explain {
+    return Intl.message(
+      'FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!',
+      name: 'fusd_stablecoins_explain',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Fuse Dollar`
   String get fuse_dollar {
     return Intl.message(
@@ -740,11 +850,11 @@ class I10n {
     );
   }
 
-  /// `Fuse Dollars is a dollar pegged stable cryptocurrency that is minted on the Fuse blockchain and was created in order to lower barrier for mainstream users to use this new asset type just like they use cash.\nFuse Dollar is free to move between accounts on the Fuse.cash app and swap them for other currencies and even hold them is a yield bearing savings account.`
-  String get fuse_dollar_explained {
+  /// `FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash.`
+  String get fuse_dollar_explain {
     return Intl.message(
-      'Fuse Dollars is a dollar pegged stable cryptocurrency that is minted on the Fuse blockchain and was created in order to lower barrier for mainstream users to use this new asset type just like they use cash.\nFuse Dollar is free to move between accounts on the Fuse.cash app and swap them for other currencies and even hold them is a yield bearing savings account.',
-      name: 'fuse_dollar_explained',
+      'FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash.',
+      name: 'fuse_dollar_explain',
       desc: '',
       args: [],
     );
@@ -755,6 +865,16 @@ class I10n {
     return Intl.message(
       'You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code',
       name: 'fuse_studio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Future stablecoins`
+  String get future_stablecoins {
+    return Intl.message(
+      'Future stablecoins',
+      name: 'future_stablecoins',
       desc: '',
       args: [],
     );
@@ -800,16 +920,6 @@ class I10n {
     );
   }
 
-  /// `Go to token page`
-  String get go_to_token_page {
-    return Intl.message(
-      'Go to token page',
-      name: 'go_to_token_page',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Hello`
   String get hi {
     return Intl.message(
@@ -840,11 +950,11 @@ class I10n {
     );
   }
 
-  /// `How does Fuse Dollar keeps it’s peg to USD?`
-  String get how_peg {
+  /// `How you can use fUSD?`
+  String get how_to_use_fusd {
     return Intl.message(
-      'How does Fuse Dollar keeps it’s peg to USD?',
-      name: 'how_peg',
+      'How you can use fUSD?',
+      name: 'how_to_use_fusd',
       desc: '',
       args: [],
     );
@@ -1290,11 +1400,11 @@ class I10n {
     );
   }
 
-  /// `Fuse Dollar (fUSD) is fully backed by USDC which is a fully backed us regulated stablecoin minted by circle.com and is widely used in the decentralized finance space. The Fuse network will add more stablecoins to aggregate yield, add stability and remove friction for on boarding and off boarding between crypto and fiat.\nGo to fuse.io to learn more about the Fuse network and read how things work behind the scenes.`
-  String get peg_explained {
+  /// `FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space.`
+  String get peg_explain {
     return Intl.message(
-      'Fuse Dollar (fUSD) is fully backed by USDC which is a fully backed us regulated stablecoin minted by circle.com and is widely used in the decentralized finance space. The Fuse network will add more stablecoins to aggregate yield, add stability and remove friction for on boarding and off boarding between crypto and fiat.\nGo to fuse.io to learn more about the Fuse network and read how things work behind the scenes.',
-      name: 'peg_explained',
+      'FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space.',
+      name: 'peg_explain',
       desc: '',
       args: [],
     );
@@ -2050,6 +2160,16 @@ class I10n {
     );
   }
 
+  /// `FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income.`
+  String get use_fusd_explain {
+    return Intl.message(
+      'FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income.',
+      name: 'use_fusd_explain',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Use max`
   String get use_max {
     return Intl.message(
@@ -2065,6 +2185,16 @@ class I10n {
     return Intl.message(
       'App version',
       name: 'version',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visit fuse.io to learn more about Fuse and how things work behind the scene.`
+  String get visit_fuseio {
+    return Intl.message(
+      'Visit fuse.io to learn more about Fuse and how things work behind the scene.',
+      name: 'visit_fuseio',
       desc: '',
       args: [],
     );
@@ -2140,6 +2270,26 @@ class I10n {
     );
   }
 
+  /// `What is FuseDollar?`
+  String get what_is_fuse_dollar {
+    return Intl.message(
+      'What is FuseDollar?',
+      name: 'what_is_fuse_dollar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How the FuseDollar peg is maintained?`
+  String get what_is_peg {
+    return Intl.message(
+      'How the FuseDollar peg is maintained?',
+      name: 'what_is_peg',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Why do we need this?`
   String get why_do_we_need_this {
     return Intl.message(
@@ -2155,6 +2305,16 @@ class I10n {
     return Intl.message(
       'Fuse will never share this information with 3rd party.',
       name: 'will_never_share',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wire Transfer`
+  String get wire_transfer {
+    return Intl.message(
+      'Wire Transfer',
+      name: 'wire_transfer',
       desc: '',
       args: [],
     );
@@ -2271,7 +2431,6 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'en', countryCode: 'PH'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
-      Locale.fromSubtags(languageCode: 'fr', countryCode: 'FR'),
       Locale.fromSubtags(languageCode: 'he', countryCode: 'IL'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),

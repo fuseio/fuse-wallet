@@ -9,12 +9,24 @@ final swapReducers = combineReducers<SwapState>([
   TypedReducer<SwapState, GetTokensImagesSuccess>(_getTokensImagesSuccess),
   TypedReducer<SwapState, ResetTokenList>(_resetTokenList),
   TypedReducer<SwapState, UpdateTokenPrices>(_updateTokenPrices),
+  TypedReducer<SwapState, UpdateTokenBalance>(_updateTokenBalance),
 ]);
 
 SwapState _updateTokenPrices(SwapState state, UpdateTokenPrices action) {
   final Token token = state.tokens[action.tokenAddress].copyWith(
     priceInfo: action.priceInfo,
     priceChange: action.priceChange,
+  );
+  Map<String, Token> tokens = Map<String, Token>.from(state.tokens);
+  tokens[action.tokenAddress] = token.copyWith();
+  return (state ?? SwapState())?.copyWith(
+    tokens: tokens,
+  );
+}
+
+SwapState _updateTokenBalance(SwapState state, UpdateTokenBalance action) {
+  final Token token = state.tokens[action.tokenAddress].copyWith(
+    amount: action.balance
   );
   Map<String, Token> tokens = Map<String, Token>.from(state.tokens);
   tokens[action.tokenAddress] = token.copyWith();

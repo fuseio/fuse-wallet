@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/features/home/widgets/deposit_banner.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -15,7 +14,6 @@ import 'package:fusecash/widgets/my_app_bar.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/home-screen');
     return new StoreConnector<AppState, HomeViewModel>(
       distinct: true,
       converter: HomeViewModel.fromStore,

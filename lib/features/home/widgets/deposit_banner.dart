@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/utils/webview.dart';
 
 class DepositBanner extends StatelessWidget {
   @override
@@ -13,7 +14,6 @@ class DepositBanner extends StatelessWidget {
       distinct: true,
       converter: TopUpViewModel.fromStore,
       builder: (_, viewModel) {
-        List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
         return Column(
           children: [
             SizedBox(height: 20),
@@ -46,15 +46,16 @@ class DepositBanner extends StatelessWidget {
                       focusColor: Theme.of(context).canvasColor,
                       highlightColor: Theme.of(context).canvasColor,
                       onTap: () {
-                        if (depositPlugins.isNotEmpty) {
-                          dynamic url = depositPlugins[0].widgetUrl;
-                          viewModel.setDepositBanner();
-                          openDepositWebview(
-                            context: context,
-                            withBack: true,
-                            url: url,
-                          );
-                        }
+                        Segment.track(
+                          eventName: 'Top up Button Press',
+                          properties: Map.from({"fromScreen": 'HomeScreen'}),
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TopUpScreen(),
+                          ),
+                        );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

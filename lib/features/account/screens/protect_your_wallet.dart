@@ -97,10 +97,9 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                             )
                           : SizedBox.shrink(),
                       Flexible(
-                        child: SvgPicture.asset(
-                          'assets/images/go_to_pro.svg',
-                          width: 10,
-                          height: 10,
+                        child: Icon(
+                          Icons.navigate_next,
+                          color: Colors.black,
                         ),
                       ),
                     ],

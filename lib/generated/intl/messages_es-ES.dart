@@ -45,6 +45,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Copia de seguridad"),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo"),
         "bonus": MessageLookupByLibrary.simpleMessage("regalo"),
+        "bridge_from_BSC": MessageLookupByLibrary.simpleMessage(
+            "Envía por el puente ETH o BNB desde Binance Smart Chain"),
+        "bridge_from_ethereum": MessageLookupByLibrary.simpleMessage(
+            "Envía por el puente activos desde la red Ethereum"),
         "bridge_to": MessageLookupByLibrary.simpleMessage("Puente a"),
         "buy": MessageLookupByLibrary.simpleMessage("Comprar"),
         "camera": MessageLookupByLibrary.simpleMessage("Cámara"),
@@ -62,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "connection": MessageLookupByLibrary.simpleMessage(
             "por favor, arregle su conexión a Internet y vuelva a intentarlo!"),
         "contact_us": MessageLookupByLibrary.simpleMessage("Contáctanos"),
+        "contact_us_for_support":
+            MessageLookupByLibrary.simpleMessage("Contáctanos para soporte"),
         "continue_with": MessageLookupByLibrary.simpleMessage("Continuar con"),
         "copied_to_clipboard":
             MessageLookupByLibrary.simpleMessage("Copiado al portapapeles"),
@@ -73,12 +79,26 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Crea un nuevo monedero"),
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("Crea tu contraseña"),
+        "credit_card":
+            MessageLookupByLibrary.simpleMessage("Tarjeta de crédito"),
+        "crypto_deposit_explained": MessageLookupByLibrary.simpleMessage(
+            "Si tiene USDC en Ethereum o BSC, use esta URL con su navegador habilitado para monederos para usar el puente a Fuse:"),
+        "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
+            "Tenga en cuenta que este es un enlace personal que enviará por el puente los fondos directamente a su cuenta."),
+        "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
+            "Por favor, úselo de manera responsable y bajo su propio riesgo."),
         "current_community":
             MessageLookupByLibrary.simpleMessage("Comunidad actual"),
         "date_and_time": MessageLookupByLibrary.simpleMessage("Fecha y hora"),
         "deposit": MessageLookupByLibrary.simpleMessage("depósito"),
         "deposit_failed":
             MessageLookupByLibrary.simpleMessage("depósito fallido"),
+        "deposit_from_BSC":
+            MessageLookupByLibrary.simpleMessage("Depósito desde BSC"),
+        "deposit_from_ethereum":
+            MessageLookupByLibrary.simpleMessage("Depósito desde Ethereum"),
+        "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
+            "Depósito desde Ethereum o BSC"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Deposita tus"),
         "deposit_your_first_dollars": MessageLookupByLibrary.simpleMessage(
             "Deposita tus primeros dólares"),
@@ -122,11 +142,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "free": MessageLookupByLibrary.simpleMessage("Gratis"),
         "friend": MessageLookupByLibrary.simpleMessage("amigo"),
         "from": MessageLookupByLibrary.simpleMessage("De"),
+        "fusd_stablecoins_explain": MessageLookupByLibrary.simpleMessage(
+            "FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!"),
         "fuse_dollar": MessageLookupByLibrary.simpleMessage("Fuse Dollar"),
-        "fuse_dollar_explained": MessageLookupByLibrary.simpleMessage(
-            "Fuse Dollar es una criptomoneda estable vinculada al dólar que se acuña en la cadena de bloques de Fuse y se creó para reducir la barrera para que los usuarios principales usen este nuevo tipo de activo al igual que usan efectivo.\nFuse Dollar puede moverse libremente entre cuentas en la aplicación Fuse.cash, intercambiarse por otras monedas e incluso mantenerla en una cuenta de ahorros con rendimiento."),
+        "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
+            "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash."),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
             "Puede cambiar a una nueva comunidad ingresando su ID de activo (disponible en Fuse Studio) o escaneando un código QR"),
+        "future_stablecoins":
+            MessageLookupByLibrary.simpleMessage("Future stablecoins"),
         "gallery": MessageLookupByLibrary.simpleMessage("Galería"),
         "generate_wallet_failed":
             MessageLookupByLibrary.simpleMessage("Error al generar monedero"),
@@ -134,13 +158,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Bienvenido al monedero Fuse"),
         "generating_wallet":
             MessageLookupByLibrary.simpleMessage("Generando monedero Fuse"),
-        "go_to_token_page":
-            MessageLookupByLibrary.simpleMessage("Ir a la página de la moneda"),
         "hi": MessageLookupByLibrary.simpleMessage("Hola"),
         "home": MessageLookupByLibrary.simpleMessage("Inicio"),
         "how_much": MessageLookupByLibrary.simpleMessage("¿Cuánto?"),
-        "how_peg": MessageLookupByLibrary.simpleMessage(
-            "¿Cómo mantiene Fuse Dollar su paridad con el USD?"),
+        "how_to_use_fusd":
+            MessageLookupByLibrary.simpleMessage("How you can use fUSD?"),
         "important": MessageLookupByLibrary.simpleMessage("¡Importante!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
             "Inicializando su monedero en Fuse"),
@@ -207,8 +229,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("o"),
         "pay": MessageLookupByLibrary.simpleMessage("PAGAR"),
         "pay_with": MessageLookupByLibrary.simpleMessage("Pagar con"),
-        "peg_explained": MessageLookupByLibrary.simpleMessage(
-            "Fuse Dollar (fUSD) está totalmente respaldada por USDC, que es una moneda estable regulada por EE. UU. acuñada por circle.com y se utiliza ampliamente en el espacio financiero descentralizado. La red Fuse agregará más monedas estables para el rendimiento agregado, agregará estabilidad y eliminará la fricción para el embarque y desembarque entre cripto y fiat.\nVaya a fuse.io para obtener más información sobre la red Fuse y leer cómo funcionan las cosas detrás de escena."),
+        "peg_explain": MessageLookupByLibrary.simpleMessage(
+            "FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space."),
         "pending": MessageLookupByLibrary.simpleMessage("PENDIENTE"),
         "phoneNumber":
             MessageLookupByLibrary.simpleMessage("Número de teléfono"),
@@ -284,7 +306,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "stores_private": MessageLookupByLibrary.simpleMessage(
             "El monedero Fuse almacena información privada localmente en el dispositivo. Sólo se usa el número de teléfono para poder verificar su identidad y reducir la fricción al enviar dinero a los contactos telefónicos."),
         "success": MessageLookupByLibrary.simpleMessage("Éxito"),
-        "swap": MessageLookupByLibrary.simpleMessage("Cambio"),
+        "swap": MessageLookupByLibrary.simpleMessage("Cambiar"),
         "swapped": MessageLookupByLibrary.simpleMessage("Cambiado"),
         "swapping": MessageLookupByLibrary.simpleMessage("Cambiando"),
         "switch_community":
@@ -314,9 +336,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "try_again": MessageLookupByLibrary.simpleMessage("Intentar otra vez"),
         "txn": MessageLookupByLibrary.simpleMessage("Txn"),
         "up_to_10": MessageLookupByLibrary.simpleMessage("(hasta 10 segundos)"),
+        "use_fusd_explain": MessageLookupByLibrary.simpleMessage(
+            "FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income."),
         "use_max": MessageLookupByLibrary.simpleMessage("Usar máx"),
         "useful": MessageLookupByLibrary.simpleMessage("Útil"),
         "version": MessageLookupByLibrary.simpleMessage("Versión"),
+        "visit_fuseio": MessageLookupByLibrary.simpleMessage(
+            "Visit fuse.io to learn more about Fuse and how things work behind the scene."),
         "waiting_for_deposit": MessageLookupByLibrary.simpleMessage(
             "Esperando que llegue su depósito"),
         "wallet": MessageLookupByLibrary.simpleMessage("Monedero"),
@@ -330,10 +356,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "Acabamos de enviar un mensaje a"),
         "we_notice": MessageLookupByLibrary.simpleMessage(
             "Notamos que aún no ha realizado una copia de seguridad de su monedero."),
+        "what_is_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("What is FuseDollar?"),
+        "what_is_peg": MessageLookupByLibrary.simpleMessage(
+            "How the FuseDollar peg is maintained?"),
         "why_do_we_need_this":
             MessageLookupByLibrary.simpleMessage("¿Por qué necesitamos esto?"),
         "will_never_share": MessageLookupByLibrary.simpleMessage(
             "Fuse nunca compartirá esta información con terceros."),
+        "wire_transfer":
+            MessageLookupByLibrary.simpleMessage("Transferencia bancaria"),
         "word": MessageLookupByLibrary.simpleMessage("Palabra "),
         "word_not_match":
             MessageLookupByLibrary.simpleMessage("La palabra no coincide"),

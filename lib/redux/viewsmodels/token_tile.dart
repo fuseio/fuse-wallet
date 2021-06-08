@@ -39,7 +39,7 @@ class TokenTileViewModel extends Equatable {
         store.dispatch(getTokenPriceCall(token));
       },
       getSwapList: () {
-        store.dispatch(fetchSwapList());
+        store.dispatch(fetchSwapBalances());
       },
     );
   }

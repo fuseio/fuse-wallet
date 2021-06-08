@@ -10,6 +10,11 @@ void openDepositWebview({
   required String url,
   required bool withBack,
 }) {
+  final String link = url.contains('ramp')
+      ? '$url&finalUrl=https://fuse.cash'
+      : url.contains('transak')
+          ? '$url&redirectURL=https://fuse.cash'
+          : url;
   if (Platform.isIOS) {
     context.router.push(
       Webview(
@@ -20,7 +25,7 @@ void openDepositWebview({
     );
   } else {
     FlutterWebBrowser.openWebPage(
-      url: '$url&finalUrl=https://fuse.cash',
+      url: link,
       customTabsOptions: CustomTabsOptions(
         colorScheme: CustomTabsColorScheme.light,
         addDefaultShareMenuItem: true,
