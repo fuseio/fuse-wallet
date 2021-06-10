@@ -15,7 +15,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 class GetSwappableTokensSuccess {
   final Map<String, Token> swappableTokens;
   GetSwappableTokensSuccess({
-    this.swappableTokens,
+    required this.swappableTokens,
   });
 }
 
@@ -24,9 +24,9 @@ class UpdateTokenPrices {
   final Price priceInfo;
   final String tokenAddress;
   UpdateTokenPrices({
-    this.priceInfo,
-    this.priceChange,
-    this.tokenAddress,
+    required this.priceInfo,
+    required this.priceChange,
+    required this.tokenAddress,
   });
 }
 
@@ -34,15 +34,15 @@ class UpdateTokenBalance {
   final BigInt balance;
   final String tokenAddress;
   UpdateTokenBalance({
-    this.balance,
-    this.tokenAddress,
+    required this.balance,
+    required this.tokenAddress,
   });
 }
 
 class GetTokensImagesSuccess {
   final Map<String, String> tokensImages;
   GetTokensImagesSuccess({
-    this.tokensImages,
+    required this.tokensImages,
   });
 }
 
@@ -55,7 +55,7 @@ ThunkAction fetchSwapList() {
       final dio = getIt<Dio>();
       Response<String> response =
           await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
-      Map data = jsonDecode(response.data);
+      Map data = jsonDecode(response.data!);
       Map<String, Token> tokens = Map();
       Map<String, String> tokensImages = Map();
       for (Map token in data['tokens']) {
@@ -110,10 +110,10 @@ ThunkAction fetchSwapListPrices() {
   return (Store store) async {
     try {
       SwapState swapState = store.state.swapState;
-      final List<Token> payWithTokens = swapState?.tokens?.values
-          ?.where((Token token) =>
+      final List<Token> payWithTokens = swapState.tokens.values
+          .where((Token token) =>
               num.parse(token.getBalance(true)).compareTo(0) == 1)
-          ?.toList();
+          .toList();
       for (Token token in payWithTokens) {
         Future<List<dynamic>> prices = Future.wait([
           fuseSwapService.price(token.address),

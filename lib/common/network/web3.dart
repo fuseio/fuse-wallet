@@ -12,7 +12,7 @@ Future<bool> approvalCallback() async {
 abstract class Web3Di {
   @Named('defaultCommunityAddress')
   String get defaultCommunityAddress =>
-      env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] ??
+      dotenv.env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] ??
       '0xEe289be8bE686ca6Ca334683306C6dA6CdAD379C';
 
   @Named('fuseWeb3')
@@ -39,8 +39,8 @@ abstract class Web3Di {
   ) =>
       Web3(
         approveCb: approvalCallback,
-        url: env['FOREIGN_PROVIDER_URL'] ?? '',
-        networkId: int.parse(env['FOREIGN_NETWORK_ID'] ?? '1'),
+        url: dotenv.env['FOREIGN_PROVIDER_URL']!,
+        networkId: int.parse(dotenv.env['FOREIGN_NETWORK_ID']!),
         defaultCommunityAddress: defaultCommunityAddress,
         communityManagerAddress: walletModules?['communityManager'],
         transferManagerAddress: walletModules?['transferManager'],

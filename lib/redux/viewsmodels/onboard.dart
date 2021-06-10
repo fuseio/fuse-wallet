@@ -52,7 +52,7 @@ class OnboardViewModel extends Equatable {
         phoneNumber: store.state.userState.phoneNumber,
         accountAddress: accountAddress,
         verificationId: store.state.userState.verificationId,
-        credentials: store.state.userState.credentials,
+        credentials: store.state.userState.credentials!,
         isVerifyRequest: store.state.userState.isVerifyRequest,
         isLoginRequest: store.state.userState.isLoginRequest,
         signupErrorMessage: store.state.userState.signupErrorMessage,

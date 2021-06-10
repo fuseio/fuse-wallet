@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -93,9 +92,9 @@ class GetTokenPriceDiffSuccess {
   final num priceDiff;
   final int priceDiffLimitInDays;
   GetTokenPriceDiffSuccess({
-    this.priceDiff,
-    this.tokenAddress,
-    this.priceDiffLimitInDays,
+    required this.priceDiff,
+    required this.tokenAddress,
+    required this.priceDiffLimitInDays,
   });
 }
 
@@ -268,63 +267,21 @@ class SetIsFetchingBalances {
 
 class SetShowDepositBanner {}
 
-ThunkAction registerNotification() {
-  return (Store store) async {
-    void switchOnPush(message) {
-      final dynamic data = message['data'] ?? message;
-      final bool isTopUp =
-          data['isTopUp'] != null && data['isTopUp'] == 'true' ? true : false;
-
-      if (isTopUp) {
-        Segment.track(eventName: 'fUSD Purchase Success');
-      }
-    }
-
-    getIt<FirebaseMessaging>().configure(
-      onMessage: (Map<String, dynamic> message) async {
-        log.info('onMessage ${message.toString()}');
-        switchOnPush(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        log.info('onResume ${message.toString()}');
-        switchOnPush(message);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        log.info('onLaunch ${message.toString()}');
-        switchOnPush(message);
-      },
-    );
-  };
-}
-
 ThunkAction enablePushNotifications() {
   return (Store store) async {
     try {
-      void iosPermission() {
-        getIt<FirebaseMessaging>().requestNotificationPermissions(
-          IosNotificationSettings(
-            sound: true,
-            badge: true,
-            alert: true,
-          ),
-        );
-        getIt<FirebaseMessaging>().onIosSettingsRegistered.listen((
-          IosNotificationSettings settings,
-        ) {
-          log.info("Settings registered: $settings");
-        });
-      }
-
-      if (Platform.isIOS) iosPermission();
-      String token = await getIt<FirebaseMessaging>().getToken();
+      await getIt<FirebaseMessaging>().requestPermission(
+        sound: true,
+        badge: true,
+        alert: true,
+      );
+      final String token = (await getIt<FirebaseMessaging>().getToken())!;
       log.info("Firebase messaging token $token");
-
       String walletAddress = store.state.userState.walletAddress;
       await api.updateFirebaseToken(walletAddress, token);
       await Segment.setContext({
         'device': {'token': token},
       });
-      store.dispatch(registerNotification());
     } catch (e, s) {
       log.error('ERROR - Enable push notifications: $e');
       await Sentry.captureException(
@@ -336,20 +293,20 @@ ThunkAction enablePushNotifications() {
   };
 }
 
-ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
+ThunkAction segmentIdentifyCall(Map<String, dynamic>? traits) {
   return (Store store) async {
     try {
       UserState userState = store.state.userState;
       String fullPhoneNumber = store.state.userState.phoneNumber;
       traits = traits ?? new Map<String, dynamic>();
-      DateTime installedAt = userState.installedAt;
+      DateTime? installedAt = userState.installedAt;
       if (installedAt == null) {
         log.info('Identify - $fullPhoneNumber');
         installedAt = DateTime.now().toUtc();
         store.dispatch(new JustInstalled(installedAt));
       }
-      traits["Installed At"] = installedAt.toIso8601String();
-      Segment.identify(userId: fullPhoneNumber, traits: traits);
+      traits?["Installed At"] = installedAt.toIso8601String();
+      Segment.identify(userId: fullPhoneNumber, traits: Map.from({...?traits}));
     } catch (e, s) {
       log.error('ERROR - segment identify call: $e');
       await Sentry.captureException(e, stackTrace: s);
@@ -359,16 +316,13 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
 
 ThunkAction setDefaultCommunity() {
   return (Store store) async {
-    final String communityAddress =
-        store.state.cashWalletState.communityAddress;
-    if ([null, ''].contains(communityAddress)) {
-      final String branchAddress = store.state.cashWalletState.branchAddress;
-      if (![null, ''].contains(branchAddress)) {
-        store.dispatch(SetDefaultCommunity(branchAddress.toLowerCase()));
-      } else {
-        store.dispatch(
-            SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
-      }
+    CashWalletState cashWalletState = store.state.cashWalletState;
+    final String? branchAddress = cashWalletState.branchAddress;
+    if (![null, ''].contains(branchAddress)) {
+      store.dispatch(SetDefaultCommunity(branchAddress!.toLowerCase()));
+    } else {
+      store
+          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
     }
   };
 }
@@ -494,7 +448,7 @@ ThunkAction getTokenBalanceCall(Token token) {
         store.dispatch(
           segmentIdentifyCall(
             Map<String, dynamic>.from({
-              '${token?.symbol}_balance': token.getBalance(true),
+              '${token.symbol}_balance': token.getBalance(true),
               "DisplayBalance": token.getBalance(true),
             }),
           ),
@@ -709,14 +663,14 @@ ThunkAction sendTokenCall(
         String tokenAddress = token.address;
         Community community = communities.values.firstWhere(
           (element) =>
-              element?.homeTokenAddress?.toLowerCase() ==
-              tokenAddress?.toLowerCase(),
+              element.homeTokenAddress.toLowerCase() ==
+              tokenAddress.toLowerCase(),
         );
 
         dynamic response;
-        if (![null, ''].contains(token?.communityAddress) &&
-            receiverAddress?.toLowerCase() ==
-                community?.homeBridgeAddress?.toLowerCase()) {
+        if (![null, ''].contains(token.communityAddress) &&
+            receiverAddress.toLowerCase() ==
+                community.homeBridgeAddress.toLowerCase()) {
           num feeAmount = 20;
           log.info(
               'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
@@ -772,22 +726,20 @@ ThunkAction fetchCommunityMetadataCall(
   return (Store store) async {
     try {
       CommunityMetadata communityMetadata = CommunityMetadata();
-      if (communityURI != null) {
-        String hash = communityURI.startsWith('ipfs://')
-            ? communityURI.split('://').last
-            : communityURI.split('/').last;
-        dynamic metadata = await api.fetchMetadata(
-          hash,
-          isRopsten: isRopsten,
-        );
-        communityMetadata = communityMetadata.copyWith(
-          image: metadata['image'],
-          coverPhoto: metadata['coverPhoto'],
-          imageUri: metadata['imageUri'] ?? null,
-          coverPhotoUri: metadata['coverPhotoUri'] ?? null,
-          isDefaultImage: metadata['isDefault'] ?? false,
-        );
-      }
+      String hash = communityURI.startsWith('ipfs://')
+          ? communityURI.split('://').last
+          : communityURI.split('/').last;
+      dynamic metadata = await api.fetchMetadata(
+        hash,
+        isRopsten: isRopsten,
+      );
+      communityMetadata = communityMetadata.copyWith(
+        image: metadata['image'],
+        coverPhoto: metadata['coverPhoto'],
+        imageUri: metadata['imageUri'] ?? null,
+        coverPhotoUri: metadata['coverPhotoUri'] ?? null,
+        isDefaultImage: metadata['isDefault'] ?? false,
+      );
       store.dispatch(FetchCommunityMetadataSuccess(
           metadata: communityMetadata,
           communityAddress: communityAddress.toLowerCase()));
@@ -807,7 +759,7 @@ Future<Map<String, dynamic>> getCommunityData(
   communityAddress,
   walletAddress,
 ) async {
-  Map<String, dynamic> communityData = await api.getCommunityData(
+  Map<String, dynamic>? communityData = await api.getCommunityData(
     communityAddress,
     isRopsten: true,
     walletAddress: walletAddress,
@@ -819,7 +771,7 @@ Future<Map<String, dynamic>> getCommunityData(
     );
     return Map.from(
       {
-        ...communityData,
+        ...?communityData,
         'isRopsten': false,
         'originNetwork': 'mainnet',
       },
@@ -835,15 +787,15 @@ Future<Map<String, dynamic>> getCommunityData(
 }
 
 Future<Token> fetchToken(
-  Community? community,
+  Community community,
   bool isRopsten,
   String originNetwork,
 ) async {
-  if (community?.homeTokenAddress != null) {
-    Token tokenInfo = await fuseExplorerApi.getTokenInfo(
+  if (community.homeTokenAddress != '') {
+    Token? tokenInfo = await fuseExplorerApi.getTokenInfo(
       community.homeTokenAddress,
     );
-    return tokenInfo.copyWith(
+    return tokenInfo!.copyWith(
       originNetwork: originNetwork,
       communityAddress: community.address.toLowerCase(),
     );
@@ -857,7 +809,7 @@ Future<Token> fetchToken(
       address: tokenInfo['address'].toLowerCase(),
       timestamp: 0,
       amount: BigInt.zero,
-      communityAddress: community?.address.toLowerCase(),
+      communityAddress: community.address.toLowerCase(),
       name: formatTokenName(tokenInfo['name']),
     );
     return token;
@@ -973,7 +925,7 @@ ThunkAction refetchCommunityData() {
     String walletAddress = store.state.userState.walletAddress;
     Community current =
         store.state.cashWalletState.communities[communityAddress.toLowerCase()];
-    if (current != null && current.name != null) {
+    if (current.name != '') {
       Map<String, dynamic> communityData = await getCommunityData(
         checksumEthereumAddress(communityAddress),
         checksumEthereumAddress(walletAddress),
@@ -1011,10 +963,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       if (isLoading) return;
       Community current = store
           .state.cashWalletState.communities[communityAddress.toLowerCase()];
-      if (current != null &&
-          current.name != null &&
-          current.isMember != null &&
-          current.isMember) {
+      if (current.name != '' && current.isMember) {
         store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExistingCommunityCall(communityAddress));
       } else {
@@ -1035,7 +984,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
   };
 }
 
-ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
+ThunkAction getBusinessListCall({String? communityAddress, bool? isRopsten}) {
   return (Store store) async {
     try {
       if (communityAddress == null) {
@@ -1045,13 +994,13 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
       Community community =
           store.state.cashWalletState.communities[communityAddress];
       Token token =
-          store.state.cashWalletState.tokens[community?.homeTokenAddress];
+          store.state.cashWalletState.tokens[community.homeTokenAddress];
       bool isOriginRopsten = isRopsten ??
-          (token?.originNetwork != null
-              ? token?.originNetwork == 'ropsten'
+          (token.originNetwork != null
+              ? token.originNetwork == 'ropsten'
               : false);
       dynamic communityEntities =
-          await graph.getCommunityBusinesses(communityAddress);
+          await graph.getCommunityBusinesses(communityAddress!);
       if (communityEntities != null) {
         List<dynamic> entities = List.from(communityEntities);
         Future<List<Business>> businesses = Future.wait(
@@ -1059,11 +1008,13 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
             (dynamic entity) async {
               try {
                 dynamic metadata = await api.getEntityMetadata(
-                    communityAddress, entity['address'],
-                    isRopsten: isOriginRopsten);
+                  communityAddress!,
+                  entity['address'],
+                  isRopsten: isOriginRopsten,
+                );
                 return Business(
                   account: entity['address'],
-                  name: metadata['name'] ?? '',
+                  name: metadata['name'],
                   metadata: BusinessMetadata.fromJson(
                     metadata ?? {},
                   ),
@@ -1083,7 +1034,9 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
         List<Business> result = await businesses;
         result..toList();
         store.dispatch(GetBusinessListSuccess(
-            businessList: result, communityAddress: communityAddress));
+          businessList: result,
+          communityAddress: communityAddress!,
+        ));
         store.dispatch(FetchingBusinessListSuccess());
       }
     } catch (e, s) {
@@ -1105,7 +1058,7 @@ ThunkAction getWalletActionsCall() {
     WalletActions walletActions = store.state.cashWalletState.walletActions;
     Map<String, dynamic> response = await api.getActionsByWalletAddress(
       walletAddress,
-      updatedAt: walletActions?.updatedAt ?? 0,
+      updatedAt: walletActions.updatedAt.toInt(),
     );
     Iterable<dynamic> docs = response['docs'] ?? [];
     List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
@@ -1216,8 +1169,8 @@ ThunkAction getTokenWalletActionsCall(Token token) {
     String walletAddress = store.state.userState.walletAddress;
     Map<String, dynamic> response = await api.getActionsByWalletAddress(
       walletAddress,
-      updatedAt: token.walletActions?.updatedAt ?? 0,
-      tokenAddress: token?.address,
+      updatedAt: token.walletActions!.updatedAt.toInt(),
+      tokenAddress: token.address,
     );
     Iterable<dynamic> docs = response['docs'] ?? [];
     List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
@@ -1242,9 +1195,9 @@ ThunkAction sendTokenToContactCall(
 }) {
   return (Store store) async {
     try {
-      Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
+      Map? wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
       log.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
-      String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
+      String? walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(inviteAndSendCall(
           token,

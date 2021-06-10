@@ -21,8 +21,8 @@ class _$UserStateTearOff {
   const _$UserStateTearOff();
 
   _UserState call(
-      DateTime installedAt,
-      {bool isContactsSynced = null,
+      {DateTime? installedAt,
+      bool? isContactsSynced = null,
       bool isLoggedOut = false,
       bool backup = false,
       bool depositBannerShowed = false,
@@ -58,13 +58,13 @@ class _$UserStateTearOff {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType = BiometricAuth.none,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          Locale locale = const {'languageCode': 'en', 'countryCode': 'US'},
+          Locale? locale,
       @JsonKey(ignore: true)
           List<Contact> contacts = const [],
       @JsonKey(ignore: true)
-          PhoneAuthCredential credentials = null}) {
+          PhoneAuthCredential? credentials = null}) {
     return _UserState(
-      installedAt,
+      installedAt: installedAt,
       isContactsSynced: isContactsSynced,
       isLoggedOut: isLoggedOut,
       backup: backup,
@@ -110,8 +110,8 @@ const $UserState = _$UserStateTearOff();
 
 /// @nodoc
 mixin _$UserState {
-  DateTime get installedAt => throw _privateConstructorUsedError;
-  bool get isContactsSynced => throw _privateConstructorUsedError;
+  DateTime? get installedAt => throw _privateConstructorUsedError;
+  bool? get isContactsSynced => throw _privateConstructorUsedError;
   bool get isLoggedOut => throw _privateConstructorUsedError;
   bool get backup => throw _privateConstructorUsedError;
   bool get depositBannerShowed => throw _privateConstructorUsedError;
@@ -147,11 +147,11 @@ mixin _$UserState {
   @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
   BiometricAuth get authType => throw _privateConstructorUsedError;
   @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-  Locale get locale => throw _privateConstructorUsedError;
+  Locale? get locale => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   List<Contact> get contacts => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  PhoneAuthCredential get credentials => throw _privateConstructorUsedError;
+  PhoneAuthCredential? get credentials => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -164,8 +164,8 @@ abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res>;
   $Res call(
-      {DateTime installedAt,
-      bool isContactsSynced,
+      {DateTime? installedAt,
+      bool? isContactsSynced,
       bool isLoggedOut,
       bool backup,
       bool depositBannerShowed,
@@ -201,11 +201,11 @@ abstract class $UserStateCopyWith<$Res> {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          Locale locale,
+          Locale? locale,
       @JsonKey(ignore: true)
           List<Contact> contacts,
       @JsonKey(ignore: true)
-          PhoneAuthCredential credentials});
+          PhoneAuthCredential? credentials});
 }
 
 /// @nodoc
@@ -256,11 +256,11 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       installedAt: installedAt == freezed
           ? _value.installedAt
           : installedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       isContactsSynced: isContactsSynced == freezed
           ? _value.isContactsSynced
           : isContactsSynced // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       isLoggedOut: isLoggedOut == freezed
           ? _value.isLoggedOut
           : isLoggedOut // ignore: cast_nullable_to_non_nullable
@@ -376,7 +376,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       locale: locale == freezed
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
-              as Locale,
+              as Locale?,
       contacts: contacts == freezed
           ? _value.contacts
           : contacts // ignore: cast_nullable_to_non_nullable
@@ -384,7 +384,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       credentials: credentials == freezed
           ? _value.credentials
           : credentials // ignore: cast_nullable_to_non_nullable
-              as PhoneAuthCredential,
+              as PhoneAuthCredential?,
     ));
   }
 }
@@ -396,8 +396,8 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       __$UserStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {DateTime installedAt,
-      bool isContactsSynced,
+      {DateTime? installedAt,
+      bool? isContactsSynced,
       bool isLoggedOut,
       bool backup,
       bool depositBannerShowed,
@@ -433,11 +433,11 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          Locale locale,
+          Locale? locale,
       @JsonKey(ignore: true)
           List<Contact> contacts,
       @JsonKey(ignore: true)
-          PhoneAuthCredential credentials});
+          PhoneAuthCredential? credentials});
 }
 
 /// @nodoc
@@ -486,14 +486,14 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object? credentials = freezed,
   }) {
     return _then(_UserState(
-      installedAt == freezed
+      installedAt: installedAt == freezed
           ? _value.installedAt
           : installedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       isContactsSynced: isContactsSynced == freezed
           ? _value.isContactsSynced
           : isContactsSynced // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       isLoggedOut: isLoggedOut == freezed
           ? _value.isLoggedOut
           : isLoggedOut // ignore: cast_nullable_to_non_nullable
@@ -609,7 +609,7 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       locale: locale == freezed
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
-              as Locale,
+              as Locale?,
       contacts: contacts == freezed
           ? _value.contacts
           : contacts // ignore: cast_nullable_to_non_nullable
@@ -617,7 +617,7 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       credentials: credentials == freezed
           ? _value.credentials
           : credentials // ignore: cast_nullable_to_non_nullable
-              as PhoneAuthCredential,
+              as PhoneAuthCredential?,
     ));
   }
 }
@@ -627,8 +627,8 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   _$_UserState(
-      this.installedAt,
-      {this.isContactsSynced = null,
+      {this.installedAt,
+      this.isContactsSynced = null,
       this.isLoggedOut = false,
       this.backup = false,
       this.depositBannerShowed = false,
@@ -664,7 +664,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           this.authType = BiometricAuth.none,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          this.locale = const {'languageCode': 'en', 'countryCode': 'US'},
+          this.locale,
       @JsonKey(ignore: true)
           this.contacts = const [],
       @JsonKey(ignore: true)
@@ -675,10 +675,10 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       _$_$_UserStateFromJson(json);
 
   @override
-  final DateTime installedAt;
+  final DateTime? installedAt;
   @JsonKey(defaultValue: null)
   @override
-  final bool isContactsSynced;
+  final bool? isContactsSynced;
   @JsonKey(defaultValue: false)
   @override
   final bool isLoggedOut;
@@ -765,13 +765,13 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   final BiometricAuth authType;
   @override
   @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-  final Locale locale;
+  final Locale? locale;
   @override
   @JsonKey(ignore: true)
   final List<Contact> contacts;
   @override
   @JsonKey(ignore: true)
-  final PhoneAuthCredential credentials;
+  final PhoneAuthCredential? credentials;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -950,8 +950,8 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
 
 abstract class _UserState extends UserState {
   factory _UserState(
-      DateTime installedAt,
-      {bool isContactsSynced,
+      {DateTime? installedAt,
+      bool? isContactsSynced,
       bool isLoggedOut,
       bool backup,
       bool depositBannerShowed,
@@ -987,20 +987,20 @@ abstract class _UserState extends UserState {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          Locale locale,
+          Locale? locale,
       @JsonKey(ignore: true)
           List<Contact> contacts,
       @JsonKey(ignore: true)
-          PhoneAuthCredential credentials}) = _$_UserState;
+          PhoneAuthCredential? credentials}) = _$_UserState;
   _UserState._() : super._();
 
   factory _UserState.fromJson(Map<String, dynamic> json) =
       _$_UserState.fromJson;
 
   @override
-  DateTime get installedAt => throw _privateConstructorUsedError;
+  DateTime? get installedAt => throw _privateConstructorUsedError;
   @override
-  bool get isContactsSynced => throw _privateConstructorUsedError;
+  bool? get isContactsSynced => throw _privateConstructorUsedError;
   @override
   bool get isLoggedOut => throw _privateConstructorUsedError;
   @override
@@ -1065,13 +1065,13 @@ abstract class _UserState extends UserState {
   BiometricAuth get authType => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-  Locale get locale => throw _privateConstructorUsedError;
+  Locale? get locale => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   List<Contact> get contacts => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  PhoneAuthCredential get credentials => throw _privateConstructorUsedError;
+  PhoneAuthCredential? get credentials => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$UserStateCopyWith<_UserState> get copyWith =>

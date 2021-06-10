@@ -38,9 +38,9 @@ final proWalletReducers = combineReducers<ProWalletState>([
 ]);
 
 ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens!);
   for (String tokenAddress in newOne.keys) {
-    newOne[tokenAddress] = newOne[tokenAddress].copyWith(
+    newOne[tokenAddress] = newOne[tokenAddress]!.copyWith(
       walletActions: WalletActions.initial(),
     );
   }
@@ -130,17 +130,19 @@ ProWalletState _startListenToTransferEventsSuccess(
 
 ProWalletState _clearTokenList(ProWalletState state, ClearTokenList action) {
   Map<String, Token> newOne = Map<String, Token>.from(
-      state.erc20Tokens..removeWhere(clearTokensWithZero));
+      state.erc20Tokens!..removeWhere(clearTokensWithZero));
   return state.copyWith(erc20Tokens: newOne);
 }
 
 ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
   Token token = action.token;
   Map<String, Token> newOne = Map<String, Token>.from(
-      state.erc20Tokens..removeWhere(clearTokensWithZero));
+      state.erc20Tokens!..removeWhere(clearTokensWithZero));
   if (newOne.containsKey(token.address)) {
-    newOne[token.address] = newOne[token.address]
-        .copyWith(amount: token.amount, timestamp: token.timestamp);
+    newOne[token.address] = newOne[token.address]!.copyWith(
+      amount: token.amount,
+      timestamp: token.timestamp,
+    );
   } else if (!newOne.containsKey(token.address)) {
     newOne[token.address] = token;
   }
@@ -148,7 +150,7 @@ ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
 }
 
 ProWalletState _updateToken(ProWalletState state, UpdateToken action) {
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens!);
   newOne[action.tokenToUpdate.address] = action.tokenToUpdate;
   return state.copyWith(erc20Tokens: newOne);
 }

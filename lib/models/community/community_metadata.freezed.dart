@@ -22,10 +22,10 @@ class _$CommunityMetadataTearOff {
 
   _CommunityMetadata call(
       {bool isDefaultImage = false,
-      String image = null,
-      String coverPhoto = null,
-      String coverPhotoUri = null,
-      String imageUri = null}) {
+      String image = '',
+      String coverPhoto = '',
+      String coverPhotoUri = '',
+      String imageUri = ''}) {
     return _CommunityMetadata(
       isDefaultImage: isDefaultImage,
       image: image,
@@ -178,10 +178,10 @@ class _$_CommunityMetadata extends _CommunityMetadata
     with DiagnosticableTreeMixin {
   _$_CommunityMetadata(
       {this.isDefaultImage = false,
-      this.image = null,
-      this.coverPhoto = null,
-      this.coverPhotoUri = null,
-      this.imageUri = null})
+      this.image = '',
+      this.coverPhoto = '',
+      this.coverPhotoUri = '',
+      this.imageUri = ''})
       : super._();
 
   factory _$_CommunityMetadata.fromJson(Map<String, dynamic> json) =>
@@ -190,16 +190,16 @@ class _$_CommunityMetadata extends _CommunityMetadata
   @JsonKey(defaultValue: false)
   @override
   final bool isDefaultImage;
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: '')
   @override
   final String image;
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: '')
   @override
   final String coverPhoto;
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: '')
   @override
   final String coverPhotoUri;
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: '')
   @override
   final String imageUri;
 

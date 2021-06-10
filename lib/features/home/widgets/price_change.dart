@@ -63,7 +63,7 @@ class TokenPriceChange extends StatelessWidget {
                     ],
                   );
                 }
-                if (priceChange != null && priceChange.isNegative) {
+                if (priceChange.isNegative) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,

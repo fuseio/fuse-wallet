@@ -1,8 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/utils/send.dart';
+// import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {

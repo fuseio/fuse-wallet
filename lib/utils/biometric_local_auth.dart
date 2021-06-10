@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/l10n.dart';

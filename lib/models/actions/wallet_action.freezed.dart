@@ -41,7 +41,7 @@ class _$WalletActionTearOff {
   CreateWallet createWallet(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'createWallet',
+      String name = 'createWallet',
       String? txHash = null,
       required String status,
       required int blockNumber}) {
@@ -58,7 +58,7 @@ class _$WalletActionTearOff {
   FiatDeposit fiatDeposit(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'fiat-deposit',
+      String name = 'fiat-deposit',
       String? txHash = null,
       required String status,
       required int blockNumber,
@@ -89,7 +89,7 @@ class _$WalletActionTearOff {
   JoinCommunity joinCommunity(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'joinCommunity',
+      String name = 'joinCommunity',
       String? txHash = null,
       required String status,
       required int blockNumber,
@@ -112,7 +112,7 @@ class _$WalletActionTearOff {
   Bonus bonus(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'tokenBonus',
+      String name = 'tokenBonus',
       String? txHash = null,
       required String status,
       required int blockNumber,
@@ -145,7 +145,7 @@ class _$WalletActionTearOff {
   Send send(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'sendTokens',
+      String name = 'sendTokens',
       String? txHash = null,
       required String status,
       required int blockNumber,
@@ -176,7 +176,7 @@ class _$WalletActionTearOff {
   Receive receive(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'receiveTokens',
+      String name = 'receiveTokens',
       String? txHash = null,
       required String status,
       required int blockNumber,
@@ -205,9 +205,9 @@ class _$WalletActionTearOff {
   }
 
   Swap swap(
-      {required int timestamp = null,
+      {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name = 'swapTokens',
+      String name = 'swapTokens',
       String? txHash = null,
       required String status,
       required int blockNumber,
@@ -578,7 +578,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   const _$CreateWallet(
       {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'createWallet',
+      this.name = 'createWallet',
       this.txHash = null,
       required this.status,
       required this.blockNumber})
@@ -884,7 +884,7 @@ abstract class CreateWallet extends WalletAction {
   const factory CreateWallet(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber}) = _$CreateWallet;
@@ -1025,7 +1025,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   const _$FiatDeposit(
       {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'fiat-deposit',
+      this.name = 'fiat-deposit',
       this.txHash = null,
       required this.status,
       required this.blockNumber,
@@ -1386,7 +1386,7 @@ abstract class FiatDeposit extends WalletAction {
   const factory FiatDeposit(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber,
@@ -1517,7 +1517,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   const _$JoinCommunity(
       {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'joinCommunity',
+      this.name = 'joinCommunity',
       this.txHash = null,
       required this.status,
       required this.blockNumber,
@@ -1850,7 +1850,7 @@ abstract class JoinCommunity extends WalletAction {
   const factory JoinCommunity(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber,
@@ -2000,7 +2000,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   const _$Bonus(
       {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'tokenBonus',
+      this.name = 'tokenBonus',
       this.txHash = null,
       required this.status,
       required this.blockNumber,
@@ -2383,7 +2383,7 @@ abstract class Bonus extends WalletAction {
   const factory Bonus(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber,
@@ -2535,7 +2535,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   const _$Send(
       {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'sendTokens',
+      this.name = 'sendTokens',
       this.txHash = null,
       required this.status,
       required this.blockNumber,
@@ -2895,7 +2895,7 @@ abstract class Send extends WalletAction {
   const factory Send(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber,
@@ -3045,7 +3045,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   const _$Receive(
       {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'receiveTokens',
+      this.name = 'receiveTokens',
       this.txHash = null,
       required this.status,
       required this.blockNumber,
@@ -3406,7 +3406,7 @@ abstract class Receive extends WalletAction {
   const factory Receive(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber,
@@ -3531,9 +3531,9 @@ class _$SwapCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Swap extends Swap with DiagnosticableTreeMixin {
   const _$Swap(
-      {required this.timestamp = null,
+      {required this.timestamp,
       @JsonKey(name: '_id') required this.id,
-      required this.name = 'swapTokens',
+      this.name = 'swapTokens',
       this.txHash = null,
       required this.status,
       required this.blockNumber,
@@ -3542,7 +3542,6 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
 
   factory _$Swap.fromJson(Map<String, dynamic> json) => _$_$SwapFromJson(json);
 
-  @JsonKey(defaultValue: null)
   @override
   final int timestamp;
   @override
@@ -3848,7 +3847,7 @@ abstract class Swap extends WalletAction {
   const factory Swap(
       {required int timestamp,
       @JsonKey(name: '_id') required String id,
-      required String name,
+      String name,
       String? txHash,
       required String status,
       required int blockNumber,

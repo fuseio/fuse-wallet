@@ -1,14 +1,31 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Router;
-import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/app.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/state/store.dart';
+// import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/reducers/app_reducer.dart';
+import 'package:fusecash/redux/state/secure_storage.dart';
+import 'package:redux_persist/redux_persist.dart';
+import 'package:redux_thunk/redux_thunk.dart';
+// import 'package:redux/redux.dart';
+import 'package:redux_logging/redux_logging.dart';
+
+Future<AppState> _loadState(persistor) async {
+  try {
+    final initialState = await persistor.load();
+    return initialState;
+  } on Exception {
+    return AppState.initial();
+  }
+}
 
 Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,14 +33,37 @@ Future<void> mainCommon(String env) async {
     DeviceOrientation.portraitUp,
   ]);
   final envFile = env == 'prod' ? '.env' : '.env_qa';
-  await DotEnv.load(fileName: 'environment/$envFile');
+  await dotenv.load(
+    fileName: 'environment/$envFile',
+    // mergeWith: {},
+  );
   configureDependencies();
-  final Store<AppState> store = await AppFactory().getStore();
+  FlutterSecureStorage storage = new FlutterSecureStorage();
+  final Persistor<AppState> persistor = Persistor<AppState>(
+    storage: SecureStorage(storage = storage),
+    serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
+    debug: kDebugMode,
+  );
+  AppState initialState = await _loadState(persistor);
+  final List<Middleware<AppState>> wms = [
+    thunkMiddleware,
+    persistor.createMiddleware(),
+  ];
+
+  if (kDebugMode) {
+    wms.add(LoggingMiddleware.printer());
+  }
+
+  final Store<AppState> store = Store<AppState>(
+    appReducer,
+    initialState: initialState,
+    middleware: wms,
+  );
   await SentryFlutter.init(
     (options) {
       options.debug = !kReleaseMode;
-      options.dsn = DotEnv.env['SENTRY_DSN'];
-      options.serverName = DotEnv.env['API_BASE_URL'];
+      options.dsn = dotenv.env['SENTRY_DSN'];
+      options.serverName = dotenv.env['API_BASE_URL'];
       options.environment = env;
     },
     appRunner: () => runApp(

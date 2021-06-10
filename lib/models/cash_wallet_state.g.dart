@@ -8,13 +8,13 @@ part of 'cash_wallet_state.dart';
 
 _$_CashWalletState _$_$_CashWalletStateFromJson(Map<String, dynamic> json) {
   return _$_CashWalletState(
-    communityAddress: json['communityAddress'] as String,
+    communityAddress: json['communityAddress'] as String? ?? '',
     isDepositBanner: json['isDepositBanner'] as bool? ?? true,
-    tokens: tokensFromJson(json['tokens'] as Map<String, dynamic>),
+    tokens: tokensFromJson(json['tokens'] as Map<String, dynamic>?),
     communities:
         communitiesFromJson(json['communities'] as Map<String, dynamic>?),
     walletActions:
-        walletActionsFromJson(json['walletActions'] as Map<String, dynamic>),
+        walletActionsFromJson(json['walletActions'] as Map<String, dynamic>?),
   );
 }
 

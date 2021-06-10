@@ -21,10 +21,10 @@ class _$AppStateTearOff {
   const _$AppStateTearOff();
 
   _AppState call(
-      {@UserStateConverter() UserState userState = null,
-      @CashWalletStateConverter() CashWalletState cashWalletState = null,
-      @ProWalletStateConverter() ProWalletState proWalletState = null,
-      SwapState swapState = null}) {
+      {@UserStateConverter() required UserState userState,
+      @CashWalletStateConverter() required CashWalletState cashWalletState,
+      @ProWalletStateConverter() required ProWalletState proWalletState,
+      required SwapState swapState}) {
     return _AppState(
       userState: userState,
       cashWalletState: cashWalletState,
@@ -200,28 +200,24 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   _$_AppState(
-      {@UserStateConverter() this.userState = null,
-      @CashWalletStateConverter() this.cashWalletState = null,
-      @ProWalletStateConverter() this.proWalletState = null,
-      this.swapState = null})
+      {@UserStateConverter() required this.userState,
+      @CashWalletStateConverter() required this.cashWalletState,
+      @ProWalletStateConverter() required this.proWalletState,
+      required this.swapState})
       : super._();
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$_$_AppStateFromJson(json);
 
-  @JsonKey(defaultValue: null)
   @override
   @UserStateConverter()
   final UserState userState;
-  @JsonKey(defaultValue: null)
   @override
   @CashWalletStateConverter()
   final CashWalletState cashWalletState;
-  @JsonKey(defaultValue: null)
   @override
   @ProWalletStateConverter()
   final ProWalletState proWalletState;
-  @JsonKey(defaultValue: null)
   @override
   final SwapState swapState;
 
@@ -280,10 +276,10 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
 
 abstract class _AppState extends AppState {
   factory _AppState(
-      {@UserStateConverter() UserState userState,
-      @CashWalletStateConverter() CashWalletState cashWalletState,
-      @ProWalletStateConverter() ProWalletState proWalletState,
-      SwapState swapState}) = _$_AppState;
+      {@UserStateConverter() required UserState userState,
+      @CashWalletStateConverter() required CashWalletState cashWalletState,
+      @ProWalletStateConverter() required ProWalletState proWalletState,
+      required SwapState swapState}) = _$_AppState;
   _AppState._() : super._();
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;

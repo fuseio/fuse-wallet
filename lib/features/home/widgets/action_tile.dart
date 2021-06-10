@@ -16,7 +16,7 @@ import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/transfer.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:intl/intl.dart';
 
 class ActionTile extends StatelessWidget {
@@ -36,7 +36,7 @@ class ActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(action?.timestamp ?? 0);
+        DateTime.fromMillisecondsSinceEpoch(action.timestamp);
     return new StoreConnector<AppState, TransferTileViewModel>(
       distinct: true,
       converter: TransferTileViewModel.fromStore,
@@ -50,7 +50,7 @@ class ActionTile extends StatelessWidget {
         final Community? community = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) =>
-              viewModel.communities[value.communityAddress?.toLowerCase()],
+              viewModel.communities[value.communityAddress.toLowerCase()],
           fiatDeposit: (value) =>
               viewModel.communities[defaultCommunityAddress.toLowerCase()],
           bonus: (value) => null,
@@ -73,25 +73,23 @@ class ActionTile extends StatelessWidget {
           createWallet: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
-              viewModel?.tokens[fuseDollarToken.address?.toLowerCase()] ?? null,
-          bonus: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
-          send: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+              viewModel.tokens[fuseDollarToken.address.toLowerCase()],
+          bonus: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
+          send: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           receive: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
-          swap: (value) => viewModel?.tokens?.values?.firstWhere(
+              viewModel.tokens[value.tokenAddress.toLowerCase()],
+          swap: (value) => viewModel.tokens.values.firstWhere(
             (element) => element.symbol == value.tradeInfo!.outputToken,
           ),
         );
         final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(token!.priceInfo!.quote);
         final String displayName = action.map(
-          createWallet: (value) => value.getText(),
-          joinCommunity: (value) => value.getText(),
-          fiatDeposit: (value) => value.getText(),
-          bonus: (value) => value.getText(),
-          swap: (value) => value.getText(),
+          createWallet: (value) => value.getText(context),
+          joinCommunity: (value) => value.getText(context),
+          fiatDeposit: (value) => value.getText(context),
+          bonus: (value) => value.getText(context),
+          swap: (value) => value.getText(context),
           send: (value) =>
               contact?.displayName ??
               deducePhoneNumber(
@@ -99,7 +97,7 @@ class ActionTile extends StatelessWidget {
                 viewModel.reverseContacts,
                 businesses: community?.businesses,
               ) ??
-              action.getText(),
+              value.getText(context),
           receive: (value) =>
               contact?.displayName ??
               deducePhoneNumber(
@@ -107,13 +105,13 @@ class ActionTile extends StatelessWidget {
                 viewModel.reverseContacts,
                 businesses: community?.businesses,
               ) ??
-              action.getText(),
+              value.getText(context),
         );
         final String symbol = action.map(
           createWallet: (value) => '',
           joinCommunity: (value) => '',
           fiatDeposit: (value) => value.tokenSymbol,
-          bonus: (value) => token!.symbol,
+          bonus: (value) => token.symbol,
           send: (value) => value.tokenSymbol,
           receive: (value) => value.tokenSymbol,
           swap: (value) => value.tradeInfo!.outputToken,
@@ -122,7 +120,7 @@ class ActionTile extends StatelessWidget {
         final String amount = hasPriceInfo
             ? '\$' +
                 action.getAmount(
-                  priceInfo: token?.priceInfo,
+                  priceInfo: token.priceInfo,
                 )
             : action.getAmount();
         final Widget trailing = Column(
@@ -280,9 +278,9 @@ class ActionTile extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
-                          action.getText() != null
+                          action.getText(context) != ''
                               ? TextSpan(
-                                  text: ' \‘${action.getText()}\’ ',
+                                  text: ' \‘${action.getText(context)}\’ ',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -310,26 +308,28 @@ class ActionTile extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        I10n.of(context).swap + ' ',
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
+                      Flexible(
+                        child: Text(
+                          I10n.of(context).swap + ' ',
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
                         ),
                       ),
-                      Text(
-                        action.map(
-                          createWallet: (value) => '',
-                          joinCommunity: (value) => '',
-                          fiatDeposit: (value) => '',
-                          bonus: (value) => '',
-                          send: (value) => '',
-                          receive: (value) => '',
-                          swap: (value) => value.tradeInfo!.inputToken,
-                        ),
-                        style: TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 16,
+                      Flexible(
+                        child: Text(
+                          action.map(
+                            createWallet: (value) => '',
+                            joinCommunity: (value) => '',
+                            fiatDeposit: (value) => '',
+                            bonus: (value) => '',
+                            send: (value) => '',
+                            receive: (value) => '',
+                            swap: (value) => value.tradeInfo!.inputToken,
+                          ),
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -345,8 +345,8 @@ class ActionTile extends StatelessWidget {
                       SizedBox(
                         width: 5,
                       ),
-                      Expanded(
-                        child: AutoSizeText(
+                      Flexible(
+                        child: Text(
                           action.map(
                             createWallet: (value) => '',
                             joinCommunity: (value) => '',
@@ -357,8 +357,7 @@ class ActionTile extends StatelessWidget {
                             swap: (value) => value.tradeInfo!.outputToken,
                           ),
                           style: TextStyle(
-                            color: Color(0xFF333333),
-                            fontSize: 16,
+                            fontSize: 17,
                           ),
                         ),
                       )
@@ -368,10 +367,10 @@ class ActionTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
-                        child: AutoSizeText(
+                        child: Text(
                           displayName,
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 17,
                           ),
                         ),
                       ),
@@ -382,51 +381,67 @@ class ActionTile extends StatelessWidget {
             ? Text(
                 I10n.of(context).up_to_10,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               )
-            : action.isSwapAction()
-                ? AutoSizeText(
-                    action.map(
-                          createWallet: (value) => '',
-                          joinCommunity: (value) => '',
-                          fiatDeposit: (value) => '',
-                          bonus: (value) => '',
-                          send: (value) => '',
-                          receive: (value) => '',
-                          swap: (value) {
-                            final String amount = smallNumberTest(
-                                    Decimal.parse(value.tradeInfo.inputAmount))
-                                ? value.tradeInfo.inputAmount
-                                : smallValuesConvertor(
-                                    Decimal.parse(value.tradeInfo.inputAmount));
+            : action.map(
+                createWallet: (value) => null,
+                joinCommunity: (value) => null,
+                fiatDeposit: (value) => null,
+                bonus: (value) => Text(
+                  '+' + value.getAmount() + ' $symbol',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                send: (value) => null,
+                receive: (value) => null,
+                swap: (value) => Text(
+                  action.map(
+                        createWallet: (value) => '',
+                        joinCommunity: (value) => '',
+                        fiatDeposit: (value) => '',
+                        bonus: (value) => '',
+                        send: (value) => '',
+                        receive: (value) => '',
+                        swap: (value) {
+                          final String amount = smallNumberTest(
+                                  Decimal.parse(value.tradeInfo!.inputAmount))
+                              ? value.tradeInfo!.inputAmount
+                              : smallValuesConvertor(
+                                  Decimal.parse(value.tradeInfo!.inputAmount));
 
-                            return amount + ' ' + value.tradeInfo.inputToken;
-                          },
-                        ) +
-                        ' ${I10n.of(context).to.toLowerCase()} ' +
-                        action.map(
-                          createWallet: (value) => '',
-                          joinCommunity: (value) => '',
-                          fiatDeposit: (value) => '',
-                          bonus: (value) => '',
-                          send: (value) => '',
-                          receive: (value) => '',
-                          swap: (value) {
-                            final String outputAmount = smallNumberTest(
-                                    Decimal.parse(value.tradeInfo.outputAmount))
-                                ? value.tradeInfo.outputAmount
-                                : smallValuesConvertor(Decimal.parse(
-                                    value.tradeInfo.outputAmount));
+                          return amount + ' ' + value.tradeInfo!.inputToken;
+                        },
+                      ) +
+                      ' ${I10n.of(context).to.toLowerCase()} ' +
+                      action.map(
+                        createWallet: (value) => '',
+                        joinCommunity: (value) => '',
+                        fiatDeposit: (value) => '',
+                        bonus: (value) => '',
+                        send: (value) => '',
+                        receive: (value) => '',
+                        swap: (value) {
+                          final String outputAmount = smallNumberTest(
+                                  Decimal.parse(value.tradeInfo!.outputAmount))
+                              ? value.tradeInfo!.outputAmount
+                              : smallValuesConvertor(
+                                  Decimal.parse(value.tradeInfo!.outputAmount));
 
-                            return outputAmount +
-                                ' ' +
-                                value.tradeInfo.outputToken;
-                          },
-                        ),
-                    maxLines: 1,
-                  )
-                : null;
+                          return outputAmount +
+                              ' ' +
+                              value.tradeInfo!.outputToken;
+                        },
+                      ),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
+              );
+        ;
 
         return ListTile(
           contentPadding: contentPadding,
@@ -436,14 +451,16 @@ class ActionTile extends StatelessWidget {
           subtitle: subtitle,
           onTap: () {
             if (!action.isGenerateWallet() && !action.isJoinCommunity()) {
-              // ExtendedNavigator.root.pushActionDetailsScreen(
-              //   accountAddress: action.getSender(),
-              //   contact: contact,
-              //   displayName: displayName,
-              //   action: action,
-              //   image: image,
-              //   symbol: symbol,
-              // );
+              context.router.push(
+                ActionDetailsScreen(
+                  action: action,
+                  displayName: displayName,
+                  accountAddress: action.getSender(),
+                  symbol: symbol,
+                  image: image,
+                  contact: contact!,
+                ),
+              );
             }
           },
         );

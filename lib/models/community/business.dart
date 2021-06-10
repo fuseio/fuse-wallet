@@ -11,7 +11,7 @@ part 'business.g.dart';
 class Business with _$Business {
   @JsonSerializable()
   factory Business({
-    @Default(null) BusinessMetadata? metadata,
+    required BusinessMetadata metadata,
     @Default('') String account,
     @Default('') String id,
     @Default('') String name,

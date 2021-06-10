@@ -8,9 +8,7 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-// import 'package:fusecash/features/buy/router/router.gr.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -44,7 +42,12 @@ class BuyScreen extends StatelessWidget {
   }
 }
 
-class BusinessesListView extends StatelessWidget {
+class BusinessesListView extends StatefulWidget {
+  @override
+  _BusinessesListViewState createState() => _BusinessesListViewState();
+}
+
+class _BusinessesListViewState extends State<BusinessesListView> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BuyViewModel>(
@@ -64,9 +67,7 @@ class BusinessesListView extends StatelessWidget {
   }
 
   Widget banner(BuildContext context, BuyViewModel vm) {
-    return vm.walletBanner != null &&
-            vm.walletBanner.walletBannerHash != null &&
-            vm.walletBanner.walletBannerHash.isNotEmpty
+    return vm.walletBanner.walletBannerHash.isNotEmpty
         ? Container(
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
@@ -78,7 +79,6 @@ class BusinessesListView extends StatelessWidget {
                   Webview(
                     url: vm.walletBanner.link,
                     title: '',
-                    withBack: true,
                   ),
                 );
               },
@@ -122,7 +122,6 @@ class BusinessesListView extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: vm.businesses.length,
                     itemBuilder: (context, index) => businessTile(
-                      context,
                       vm.businesses[index],
                       vm.communityAddress,
                       vm.token,
@@ -135,7 +134,6 @@ class BusinessesListView extends StatelessWidget {
   }
 
   ListTile businessTile(
-    context,
     Business business,
     String communityAddress,
     Token token,
@@ -148,7 +146,7 @@ class BusinessesListView extends StatelessWidget {
         decoration: BoxDecoration(),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: ImageUrl.getLink(business.metadata!.image),
+            imageUrl: ImageUrl.getLink(business.metadata.image),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -168,7 +166,7 @@ class BusinessesListView extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        business.metadata!.description,
+        business.metadata.description,
         style: TextStyle(
           // color: Theme.of(context).accentColor,
           fontSize: 12,
@@ -176,6 +174,7 @@ class BusinessesListView extends StatelessWidget {
         ),
       ),
       onTap: () {
+        // context.router.push(BusinessPage());
         // TODO = pushBusinessPage
         // ExtendedNavigator.named('buyRouter').pushBusinessPage(
         //   business: business,
@@ -187,10 +186,12 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.all(10.0),
+              backgroundColor: Theme.of(context).buttonColor,
+              shape: CircleBorder(),
+            ),
             child: Text(
               I10n.of(context).pay,
               style: TextStyle(

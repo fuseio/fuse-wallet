@@ -23,7 +23,7 @@ class ProWalletState with _$ProWalletState {
 
   @JsonSerializable()
   factory ProWalletState({
-    @Default(null) @JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
+    @Default(null) @JsonKey(fromJson: balanceFromJson) BigInt? etherBalance,
     @JsonKey(fromJson: erc20TokensFromJson)
     @Default({})
         Map<String, Token>? erc20Tokens,
@@ -52,7 +52,7 @@ class ProWalletStateConverter
   const ProWalletStateConverter();
 
   @override
-  ProWalletState fromJson(Map<String, dynamic> json) =>
+  ProWalletState fromJson(Map<String, dynamic>? json) =>
       json != null ? ProWalletState.fromJson(json) : ProWalletState.initial();
 
   @override

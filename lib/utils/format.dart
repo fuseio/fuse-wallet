@@ -60,7 +60,6 @@ String formatValue(
   int decimals, [
   bool withPrecision = false,
 ]) {
-  if (value == null || decimals == null) return '0';
   Decimal formattedValue =
       Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
@@ -88,7 +87,7 @@ String formatAddress(String? address, [int endIndex = 6]) {
   return '${address.substring(0, endIndex)}...${address.substring(address.length - 4, address.length)}';
 }
 
-BigInt toBigInt(dynamic value, int decimals) {
+BigInt toBigInt(dynamic value, int? decimals) {
   if (value == null || decimals == null) return BigInt.zero;
   Decimal tokensAmountDecimal = Decimal.parse(value.toString());
   Decimal decimalsPow = Decimal.parse(pow(10, decimals).toString());

@@ -18,7 +18,7 @@ import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TokenTile extends StatefulWidget {
@@ -152,7 +152,7 @@ class _TokenTileState extends State<TokenTile> {
                                     softWrap: true,
                                   ),
                                   Text(
-                                    '\$${display(num.parse(widget.token.priceInfo.quote))}',
+                                    '\$${display(num.parse(widget.token.priceInfo!.quote))}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Europa',
@@ -183,7 +183,7 @@ class _TokenTileState extends State<TokenTile> {
                               children: [
                                 Flexible(
                                   child: AutoSizeText(
-                                    token.getBalance(),
+                                    widget.token.getBalance(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -225,9 +225,11 @@ class _TokenTileState extends State<TokenTile> {
                               icon: 'swap_action',
                               onPressed: () {
                                 viewModel.getSwapList();
-                                // ExtendedNavigator.root.pushSwapScreen(
-                                //   primaryToken: token,
-                                // );
+                                context.router.push(
+                                  SwapScreen(
+                                    primaryToken: widget.token,
+                                  ),
+                                );
                               },
                             )
                           : SizedBox.shrink(),
@@ -240,12 +242,14 @@ class _TokenTileState extends State<TokenTile> {
                                 ? null
                                 : MediaQuery.of(context).size.width * .9,
                         onPressed: () {
-                          // ExtendedNavigator.root.pushContactsList(
-                          //   automaticallyImplyLeading: true,
-                          //   pageArgs: SendFlowArguments(
-                          //     tokenToSend: token,
-                          //   ),
-                          // );
+                          context.router.push(
+                            ContactsList(
+                              automaticallyImplyLeading: true,
+                              pageArgs: SendFlowArguments(
+                                tokenToSend: widget.token,
+                              ),
+                            ),
+                          );
                         },
                       ),
                       isFUSD
@@ -273,7 +277,7 @@ class _TokenTileState extends State<TokenTile> {
                   ),
                 ),
                 PriceDiff(
-                  tokenAddress: token?.address,
+                  tokenAddress: widget.token.address,
                 ),
                 // (token?.stats?.isEmpty ?? [])
                 //     ? SizedBox.shrink()
@@ -299,13 +303,12 @@ class _TokenTileState extends State<TokenTile> {
       converter: TokenTileViewModel.fromStore,
       builder: (_, viewModel) {
         final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(widget.token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(widget.token.priceInfo!.quote);
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
-              element?.homeTokenAddress?.toLowerCase() != null &&
-              element?.homeTokenAddress?.toLowerCase() ==
-                  widget.token?.address &&
-              ![false, null].contains(element?.metadata?.isDefaultImage),
+              element.homeTokenAddress.toLowerCase() != '' &&
+              element.homeTokenAddress.toLowerCase() == widget.token.address &&
+              ![false, null].contains(element.metadata!.isDefaultImage),
         );
         final Widget leading = Stack(
           alignment: Alignment.center,

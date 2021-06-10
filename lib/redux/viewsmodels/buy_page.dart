@@ -33,14 +33,14 @@ class BuyViewModel extends Equatable {
   static BuyViewModel fromStore(Store<AppState> store) {
     String? communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddress];
-    Token? token =
-        store.state.cashWalletState.tokens[community.homeTokenAddress];
+        store.state.cashWalletState.communities[communityAddress]!;
+    Token token =
+        store.state.cashWalletState.tokens[community.homeTokenAddress]!;
     return BuyViewModel(
       communityAddress: communityAddress,
       token: token,
-      businesses: community?.businesses ?? [],
-      walletBanner: community.plugins.walletBanner,
+      businesses: community.businesses,
+      walletBanner: community.plugins!.walletBanner!,
       isCommunityBusinessesFetched:
           store.state.cashWalletState.isCommunityBusinessesFetched,
     );

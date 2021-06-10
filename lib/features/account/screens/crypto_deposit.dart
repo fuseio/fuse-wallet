@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -13,7 +12,11 @@ import 'package:fusecash/widgets/snackbars.dart';
 
 class CryptoDepositScreen extends StatelessWidget {
   final String link;
-  CryptoDepositScreen(this.link);
+  final String text;
+  CryptoDepositScreen(
+    this.link,
+    this.text,
+  );
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -45,7 +48,7 @@ class CryptoDepositScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      I10n.of(context).crypto_deposit_explained,
+                      text,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18,
@@ -125,15 +128,15 @@ class CryptoDepositScreen extends StatelessWidget {
                       child: PrimaryButton(
                         label: I10n.of(context).ok,
                         onPressed: () {
-                          if (ExtendedNavigator.named('accountRouter')
-                              .canPop()) {
-                            ExtendedNavigator.named('accountRouter')
-                                .popUntilRoot();
-                          } else if (ExtendedNavigator.named('homeRouter')
-                              .canPop()) {
-                            ExtendedNavigator.named('homeRouter')
-                                .popUntilRoot();
-                          }
+                          // if (ExtendedNavigator.named('accountRouter')
+                          //     .canPop()) {
+                          //   ExtendedNavigator.named('accountRouter')
+                          //       .popUntilRoot();
+                          // } else if (ExtendedNavigator.named('homeRouter')
+                          //     .canPop()) {
+                          //   ExtendedNavigator.named('homeRouter')
+                          //       .popUntilRoot();
+                          // }
                         },
                       ),
                     ),

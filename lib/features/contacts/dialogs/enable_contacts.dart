@@ -137,8 +137,10 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           },
                         )),
                         Center(
-                          child: FlatButton(
-                            padding: EdgeInsets.only(top: 10),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(top: 10),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               viewModel.syncContactsRejected();

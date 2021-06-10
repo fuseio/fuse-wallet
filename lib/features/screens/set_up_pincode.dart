@@ -35,7 +35,7 @@ class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
 
   @override
   void dispose() {
-    errorController?.close();
+    errorController.close();
     super.dispose();
   }
 

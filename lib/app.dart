@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:fusecash/common/router/route_guards.dart';
 import 'common/router/routes.gr.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -9,9 +10,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-// import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/common/router/route_guards.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
@@ -25,8 +24,8 @@ class MyApp extends StatefulWidget {
   });
 
   static void setLocale(BuildContext context, Locale newLocale) {
-    // _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
-    // state.setLocale(newLocale);
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state!.setLocale(newLocale);
   }
 
   @override
@@ -34,7 +33,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _rootRouter = RootRouter();
+  final _rootRouter = RootRouter(authGuard: AuthGuard());
+  final _authService = AuthService();
   // late StreamSubscription<Map> streamSubscription;
   late Locale _locale;
   setLocale(Locale locale) {
@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     setJwtToken(widget.store);
     // listenDynamicLinks(widget.store);
-    _locale = widget.store.state.userState.locale;
+    _locale = widget.store.state.userState.locale!;
   }
 
   @override
@@ -79,7 +79,10 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
       store: widget.store,
       child: MaterialApp.router(
+        locale: _locale,
         title: Strings.APP_NAME,
+        themeMode: ThemeMode.system,
+        routeInformationParser: _rootRouter.defaultRouteParser(),
         theme: FlexColorScheme.light(
           fontFamily: 'Europa',
           colors: FlexSchemeColor.from(
@@ -91,20 +94,15 @@ class _MyAppState extends State<MyApp> {
             appBarColor: Color(0xFFFFFFFF),
           ),
         ).toTheme,
-        themeMode: ThemeMode.system,
-        locale: _locale,
         routerDelegate: AutoRouterDelegate(
           _rootRouter,
           navigatorObservers: () => [
             AutoRouteObserver(),
-            // FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
-            // SegmentObserver(),
-            SentryNavigatorObserver(),
+            // SentryNavigatorObserver(),
           ],
         ),
-        routeInformationParser: _rootRouter.defaultRouteParser(),
         builder: (_, router) => ResponsiveWrapper.builder(
-          router,
+          router!,
           maxWidth: 1200,
           minWidth: 400,
           defaultScale: true,

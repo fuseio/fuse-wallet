@@ -21,7 +21,7 @@ class _$BusinessTearOff {
   const _$BusinessTearOff();
 
   _Business call(
-      {BusinessMetadata? metadata = null,
+      {required BusinessMetadata metadata,
       String account = '',
       String id = '',
       String name = ''}) {
@@ -43,7 +43,7 @@ const $Business = _$BusinessTearOff();
 
 /// @nodoc
 mixin _$Business {
-  BusinessMetadata? get metadata => throw _privateConstructorUsedError;
+  BusinessMetadata get metadata => throw _privateConstructorUsedError;
   String get account => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -59,9 +59,9 @@ abstract class $BusinessCopyWith<$Res> {
   factory $BusinessCopyWith(Business value, $Res Function(Business) then) =
       _$BusinessCopyWithImpl<$Res>;
   $Res call(
-      {BusinessMetadata? metadata, String account, String id, String name});
+      {BusinessMetadata metadata, String account, String id, String name});
 
-  $BusinessMetadataCopyWith<$Res>? get metadata;
+  $BusinessMetadataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -83,7 +83,7 @@ class _$BusinessCopyWithImpl<$Res> implements $BusinessCopyWith<$Res> {
       metadata: metadata == freezed
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
-              as BusinessMetadata?,
+              as BusinessMetadata,
       account: account == freezed
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
@@ -100,12 +100,8 @@ class _$BusinessCopyWithImpl<$Res> implements $BusinessCopyWith<$Res> {
   }
 
   @override
-  $BusinessMetadataCopyWith<$Res>? get metadata {
-    if (_value.metadata == null) {
-      return null;
-    }
-
-    return $BusinessMetadataCopyWith<$Res>(_value.metadata!, (value) {
+  $BusinessMetadataCopyWith<$Res> get metadata {
+    return $BusinessMetadataCopyWith<$Res>(_value.metadata, (value) {
       return _then(_value.copyWith(metadata: value));
     });
   }
@@ -117,10 +113,10 @@ abstract class _$BusinessCopyWith<$Res> implements $BusinessCopyWith<$Res> {
       __$BusinessCopyWithImpl<$Res>;
   @override
   $Res call(
-      {BusinessMetadata? metadata, String account, String id, String name});
+      {BusinessMetadata metadata, String account, String id, String name});
 
   @override
-  $BusinessMetadataCopyWith<$Res>? get metadata;
+  $BusinessMetadataCopyWith<$Res> get metadata;
 }
 
 /// @nodoc
@@ -143,7 +139,7 @@ class __$BusinessCopyWithImpl<$Res> extends _$BusinessCopyWithImpl<$Res>
       metadata: metadata == freezed
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
-              as BusinessMetadata?,
+              as BusinessMetadata,
       account: account == freezed
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
@@ -165,14 +161,16 @@ class __$BusinessCopyWithImpl<$Res> extends _$BusinessCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Business with DiagnosticableTreeMixin implements _Business {
   _$_Business(
-      {this.metadata = null, this.account = '', this.id = '', this.name = ''});
+      {required this.metadata,
+      this.account = '',
+      this.id = '',
+      this.name = ''});
 
   factory _$_Business.fromJson(Map<String, dynamic> json) =>
       _$_$_BusinessFromJson(json);
 
-  @JsonKey(defaultValue: null)
   @override
-  final BusinessMetadata? metadata;
+  final BusinessMetadata metadata;
   @JsonKey(defaultValue: '')
   @override
   final String account;
@@ -236,7 +234,7 @@ class _$_Business with DiagnosticableTreeMixin implements _Business {
 
 abstract class _Business implements Business {
   factory _Business(
-      {BusinessMetadata? metadata,
+      {required BusinessMetadata metadata,
       String account,
       String id,
       String name}) = _$_Business;
@@ -244,7 +242,7 @@ abstract class _Business implements Business {
   factory _Business.fromJson(Map<String, dynamic> json) = _$_Business.fromJson;
 
   @override
-  BusinessMetadata? get metadata => throw _privateConstructorUsedError;
+  BusinessMetadata get metadata => throw _privateConstructorUsedError;
   @override
   String get account => throw _privateConstructorUsedError;
   @override

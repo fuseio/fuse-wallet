@@ -8,14 +8,14 @@ part of 'swap.dart';
 
 _$_TradeInfo _$_$_TradeInfoFromJson(Map<String, dynamic> json) {
   return _$_TradeInfo(
-    json['inputAmount'] as String,
-    json['outputAmount'] as String,
-    (json['route'] as List<dynamic>).map((e) => e as String).toList(),
-    json['inputToken'] as String,
-    json['outputToken'] as String,
-    json['executionPrice'] as String,
-    json['nextMidPrice'] as String,
-    json['priceImpact'] as String,
+    inputAmount: json['inputAmount'] as String,
+    outputAmount: json['outputAmount'] as String,
+    route: (json['route'] as List<dynamic>).map((e) => e as String).toList(),
+    inputToken: json['inputToken'] as String,
+    outputToken: json['outputToken'] as String,
+    executionPrice: json['executionPrice'] as String,
+    nextMidPrice: json['nextMidPrice'] as String,
+    priceImpact: json['priceImpact'] as String,
   );
 }
 
@@ -34,10 +34,10 @@ Map<String, dynamic> _$_$_TradeInfoToJson(_$_TradeInfo instance) =>
 _$_SwapCallParameters _$_$_SwapCallParametersFromJson(
     Map<String, dynamic> json) {
   return _$_SwapCallParameters(
-    json['methodName'] as String,
-    json['args'] as List<dynamic>,
-    json['value'] as String,
-    json['rawTxn'] as Map<String, dynamic>,
+    methodName: json['methodName'] as String,
+    args: json['args'] as List<dynamic>,
+    value: json['value'] as String,
+    rawTxn: json['rawTxn'] as Map<String, dynamic>,
   );
 }
 

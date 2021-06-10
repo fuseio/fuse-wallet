@@ -12,23 +12,30 @@ import 'package:json_annotation/json_annotation.dart';
 part 'cash_wallet_state.freezed.dart';
 part 'cash_wallet_state.g.dart';
 
-WalletActions walletActionsFromJson(Map<String, dynamic> walletActions) =>
+WalletActions walletActionsFromJson(Map<String, dynamic>? walletActions) =>
     walletActions == null
         ? WalletActions.initial()
         : WalletActions.fromJson(walletActions);
 
-Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens == null
-    ? Map<String, Token>()
-    : tokens
-        .map((k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)))
-  ..putIfAbsent(
-    Addresses.ZERO_ADDRESS,
-    () => fuseToken.copyWith(),
-  )
-  ..putIfAbsent(
-    Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
-    () => fuseDollarToken.copyWith(),
-  );
+Map<String, Token> tokensFromJson(Map<String, dynamic>? tokens) =>
+    tokens == null
+        ? Map<String, Token>()
+        : tokens.map(
+            (k, e) => MapEntry(
+              k,
+              Token.fromJson(
+                e as Map<String, dynamic>,
+              ),
+            ),
+          )
+      ..putIfAbsent(
+        Addresses.ZERO_ADDRESS,
+        () => fuseToken.copyWith(),
+      )
+      ..putIfAbsent(
+        Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+        () => fuseDollarToken.copyWith(),
+      );
 
 Map<String, Community> communitiesFromJson(Map<String, dynamic>? list) {
   if (list == null) {
@@ -55,7 +62,7 @@ class CashWalletState with _$CashWalletState {
 
   @JsonSerializable()
   factory CashWalletState({
-    @Default(null) String communityAddress,
+    @Default('') String communityAddress,
     @Default(true) bool isDepositBanner,
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @JsonKey(fromJson: communitiesFromJson)

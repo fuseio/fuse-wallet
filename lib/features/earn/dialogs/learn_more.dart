@@ -1,9 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/utils/url.dart';
 import 'dart:core';
 
-import 'package:span_builder/span_builder.dart';
+// import 'package:span_builder/span_builder.dart';
 
 class LearnMoreDialog extends StatefulWidget {
   @override
@@ -42,15 +42,6 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
 
   @override
   Widget build(BuildContext _context) {
-    final spans = SpanBuilder(I10n.of(context).visit_fuseio).apply(
-      TextSpan(
-        text: "fuse.io",
-        style: TextStyle(color: Color(0xFF006CFF)),
-      ),
-      onTap: () {
-        launchUrl('https://fuse.io');
-      },
-    ).build();
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(
@@ -65,7 +56,7 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Stack(
-                overflow: Overflow.visible,
+                clipBehavior: Clip.hardEdge,
                 alignment: AlignmentDirectional.bottomCenter,
                 children: <Widget>[
                   Container(
@@ -188,9 +179,13 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    RichText(
-                      text: TextSpan(
-                        children: spans,
+                    AutoSizeText.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: I10n.of(context).visit_fuseio,
+                          ),
+                        ],
                         style: TextStyle(
                           fontFamily: 'Europa',
                           color: Theme.of(context).colorScheme.onSurface,

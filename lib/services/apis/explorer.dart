@@ -18,7 +18,7 @@ class Explorer {
     if (apiKey != null) {
       dio.options.queryParameters = Map.from({'apiKey': apiKey});
     }
-    dio.options.baseUrl = base ?? '';
+    dio.options.baseUrl = base!;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
     // if (kDebugMode) {

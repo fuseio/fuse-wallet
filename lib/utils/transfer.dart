@@ -16,7 +16,7 @@ Contact? getContact(
     String? phoneNumber = reverseContacts[accountAddress.toLowerCase()];
     if (contacts == null) return null;
     for (Contact? contact in contacts) {
-      for (Item contactPhoneNumber in (contact.phones?.toList() ?? [])) {
+      for (Item contactPhoneNumber in (contact!.phones!.toList())) {
         if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value) ==
             phoneNumber) {
           return contact;
@@ -34,15 +34,14 @@ Contact? getContact(
 String? deducePhoneNumber(
   String? accountAddress,
   Map<String, String> reverseContacts, {
-  List<Business>? businesses,
+  List<Business?>? businesses,
 }) {
   if (accountAddress == null) {
     return null;
   }
   if (businesses != null && businesses.isNotEmpty) {
     Business? business = businesses.firstWhere(
-      (business) => business.account == accountAddress,
-      ,
+      (business) => business?.account == accountAddress,
     );
     if (business != null) {
       return business.name;

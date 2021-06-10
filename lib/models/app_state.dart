@@ -16,10 +16,10 @@ class AppState with _$AppState {
 
   @JsonSerializable()
   factory AppState({
-    @UserStateConverter() @Default(null) UserState userState,
-    @CashWalletStateConverter() @Default(null) CashWalletState cashWalletState,
-    @ProWalletStateConverter() @Default(null) ProWalletState proWalletState,
-    @Default(null) SwapState swapState,
+    @UserStateConverter() required UserState userState,
+    @CashWalletStateConverter() required CashWalletState cashWalletState,
+    @ProWalletStateConverter() required ProWalletState proWalletState,
+    required SwapState swapState,
   }) = _AppState;
 
   factory AppState.initial() {
@@ -27,6 +27,10 @@ class AppState with _$AppState {
       userState: UserState.initial(),
       cashWalletState: CashWalletState.initial(),
       proWalletState: ProWalletState.initial(),
+      swapState: SwapState(
+        tokens: {},
+        tokensImages: {},
+      ),
     );
   }
 

@@ -21,7 +21,7 @@ import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class SwapScreen extends StatefulWidget {
@@ -473,9 +473,8 @@ class _SwapScreenState extends State<SwapScreen> {
                                             } else {
                                               setState(() {
                                                 tokenInController.text =
-                                                    display(num.tryParse(info
-                                                            .outputAmount) ??
-                                                        '0');
+                                                    display(num.tryParse(
+                                                        info.outputAmount));
                                               });
                                             }
                                           },
@@ -516,9 +515,8 @@ class _SwapScreenState extends State<SwapScreen> {
                                             } else {
                                               setState(() {
                                                 tokenOutController.text =
-                                                    display(num.tryParse(info
-                                                            .outputAmount) ??
-                                                        '0');
+                                                    display(num.tryParse(
+                                                        info.outputAmount));
                                               });
                                             }
                                           },
@@ -581,11 +579,13 @@ class _SwapScreenState extends State<SwapScreen> {
                               preload: isFetchingPrice,
                               label: I10n.of(context).review_swap,
                               onPressed: () {
-                                // ExtendedNavigator.root.pushReviewSwapScreen(
-                                //   rateInfo: rateInfo,
-                                //   swapRequestBody: swapRequestBody,
-                                //   tradeInfo: info,
-                                // );
+                                context.router.push(
+                                  ReviewSwapScreen(
+                                    tradeInfo: info!,
+                                    rateInfo: rateInfo!,
+                                    swapRequestBody: swapRequestBody,
+                                  ),
+                                );
                               },
                             )
                           ],

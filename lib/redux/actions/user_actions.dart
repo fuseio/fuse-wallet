@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
-import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
@@ -30,12 +27,12 @@ import 'package:wallet_core/wallet_core.dart' show Web3;
 
 class UpdateCurrency {
   final String currency;
-  UpdateCurrency({this.currency});
+  UpdateCurrency({required this.currency});
 }
 
 class UpdateLocale {
   final Locale locale;
-  UpdateLocale({this.locale});
+  UpdateLocale({required this.locale});
 }
 
 class HomeBackupDialogShowed {
@@ -52,7 +49,7 @@ class DepositBannerShowed {
 
 class SetSecurityType {
   BiometricAuth biometricAuth;
-  SetSecurityType({this.biometricAuth});
+  SetSecurityType({required this.biometricAuth});
 }
 
 class CreateLocalAccountSuccess {
@@ -128,7 +125,7 @@ class BackupSuccess {
 }
 
 class SetCredentials {
-  AuthCredential? credentials;
+  PhoneAuthCredential? credentials;
   SetCredentials(this.credentials);
 }
 
@@ -344,7 +341,7 @@ ThunkAction reLoginCall() {
 ThunkAction syncContactsCall() {
   return (Store store) async {
     try {
-      List<Contact> contacts = await Contacts.getContacts();
+      List<Contact> contacts = List.from(await Contacts.getContacts());
       store.dispatch(SaveContacts(contacts));
       List<String> syncedContacts = store.state.userState.syncedContacts;
       List<String> newPhones = <String>[];

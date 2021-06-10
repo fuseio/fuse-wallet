@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'swap.freezed.dart';
@@ -10,16 +9,16 @@ part 'swap.g.dart';
 @freezed
 class TradeInfo with _$TradeInfo {
   @JsonSerializable()
-  factory TradeInfo(
-    String inputAmount,
-    String outputAmount,
-    List<String> route,
-    String inputToken,
-    String outputToken,
-    String executionPrice,
-    String nextMidPrice,
-    String priceImpact,
-  ) = _TradeInfo;
+  factory TradeInfo({
+    required String inputAmount,
+    required String outputAmount,
+    required List<String> route,
+    required String inputToken,
+    required String outputToken,
+    required String executionPrice,
+    required String nextMidPrice,
+    required String priceImpact,
+  }) = _TradeInfo;
 
   factory TradeInfo.fromJson(Map<String, dynamic> json) =>
       _$TradeInfoFromJson(json);
@@ -29,12 +28,12 @@ class TradeInfo with _$TradeInfo {
 @freezed
 class SwapCallParameters with _$SwapCallParameters {
   @JsonSerializable()
-  factory SwapCallParameters(
-    String methodName,
-    List<dynamic> args,
-    String value,
-    Map<String, dynamic> rawTxn,
-  ) = _SwapCallParameters;
+  factory SwapCallParameters({
+    required String methodName,
+    required List<dynamic> args,
+    required String value,
+    required Map<String, dynamic> rawTxn,
+  }) = _SwapCallParameters;
 
   factory SwapCallParameters.fromJson(Map<String, dynamic> json) =>
       _$SwapCallParametersFromJson(json);

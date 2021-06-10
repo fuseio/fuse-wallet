@@ -61,7 +61,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.hardEdge,
                       alignment: AlignmentDirectional.bottomCenter,
                       children: <Widget>[
                         ClipRRect(
@@ -117,14 +117,10 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                                 image: imageProvider,
                                               ),
                                             )),
-                                        // Todo - isDefaultImage
                                         widget.community.metadata!
-                                                        .isDefaultImage !=
-                                                    null &&
-                                                widget.community.metadata!
-                                                    .isDefaultImage
+                                                .isDefaultImage
                                             ? Text(
-                                                widget.token.symbol ?? '',
+                                                widget.token.symbol,
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
@@ -159,13 +155,13 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                         .onSurface),
                               ),
                             ),
-                            ![null, ''].contains(widget?.community?.description)
+                            ![null, ''].contains(widget.community.description)
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 10),
                                     child: Column(
                                       children: <Widget>[
                                         Text(
-                                          widget.community.description ?? '',
+                                          widget.community.description!,
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: Theme.of(context)
@@ -177,7 +173,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                     ),
                                   )
                                 : SizedBox.shrink(),
-                            ![null, ''].contains(widget?.community?.description)
+                            ![null, ''].contains(widget.community.description)
                                 ? SizedBox(height: 30.0)
                                 : SizedBox.shrink(),
                             Center(

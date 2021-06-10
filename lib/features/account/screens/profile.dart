@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             SizedBox(height: 5),
-                            Text(viewModel?.displayName ?? '',
+                            Text(viewModel.displayName,
                                 style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onTap: () {
                                 Clipboard.setData(
                                   ClipboardData(
-                                    text: viewModel?.walletAddress,
+                                    text: viewModel.walletAddress,
                                   ),
                                 );
                                 showCopiedFlushbar(context);

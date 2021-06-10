@@ -7,7 +7,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/send_amount.dart';
 import 'package:fusecash/features/home/widgets/token_tile.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -97,7 +97,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             separatorBuilder: (_, int index) => Divider(
                               height: 0,
                             ),
-                            itemCount: viewModel.tokens?.length ?? 0,
+                            itemCount: viewModel.tokens.length,
                             itemBuilder: (context, index) => TokenTile(
                               token: viewModel.tokens[index],
                               onTap: () {
@@ -164,19 +164,21 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     return ButtonTheme(
       minWidth: 68,
       height: 28,
-      child: OutlineButton(
-        focusColor: Theme.of(context).colorScheme.onSurface,
-        hoverColor: Theme.of(context).colorScheme.onSurface,
-        highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
-        padding: EdgeInsets.all(0),
-        textColor: Theme.of(context).colorScheme.onSurface,
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2.0,
+      child: OutlinedButton(
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
+          ),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6.0),
-        ),
+        // focusColor: Theme.of(context).colorScheme.onSurface,
+        // hoverColor: Theme.of(context).colorScheme.onSurface,
+        // highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
+        // padding: EdgeInsets.all(0),
+        // textColor: Theme.of(context).colorScheme.onSurface,
+        // borderSide: BorderSide(
+        //   color: Theme.of(context).colorScheme.onSurface,
+        //   width: 2.0,
+        // ),
         child: Text(
           I10n.of(context).use_max,
           style: TextStyle(
@@ -310,8 +312,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                                       MainAxisSize.min,
                                                   children: <Widget>[
                                                     Text(
-                                                      selectedToken?.symbol ??
-                                                          '',
+                                                      selectedToken.symbol,
                                                       style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -393,8 +394,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                 args.amount = double.parse(amountText);
                                 context.router
                                     .push(SendReviewScreen(pageArgs: args));
-                                // ExtendedNavigator.root
-                                //     .pushSendReviewScreen(pageArgs: args);
                               },
                               preload: isPreloading,
                               disabled: isPreloading || !hasFund,

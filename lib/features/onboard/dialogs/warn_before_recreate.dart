@@ -51,14 +51,18 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
         ),
         content: Text(I10n.of(context).reset_account),
         actions: <Widget>[
-          FlatButton(
-            textColor: Color(0xFF009DFF),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(
+                color: Color(0xFF009DFF),
+              ),
+            ),
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
             child: Text(I10n.of(context).yes, style: TextStyle(fontSize: 16)),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(false);
             },

@@ -18,7 +18,9 @@ _$_Plugins _$_$_PluginsFromJson(Map<String, dynamic> json) {
     transak: json['transak'] == null
         ? null
         : TransakPlugin.fromJson(json['transak'] as Map<String, dynamic>),
-    walletBanner: WalletBannerPlugin.fromJson(json['walletBanner']),
+    walletBanner: json['walletBanner'] == null
+        ? null
+        : WalletBannerPlugin.fromJson(json['walletBanner']),
     joinBonus: joinBonusPluginFromJson(json['joinBonus']),
     backupBonus: backupBonusPluginFromJson(json['backupBonus']),
     inviteBonus: inviteBonusPluginFromJson(json['inviteBonus']),
@@ -37,9 +39,9 @@ Map<String, dynamic> _$_$_PluginsToJson(_$_Plugins instance) {
   writeNotNull('rampInstant', instance.rampInstant?.toJson());
   writeNotNull('moonpay', instance.moonpay?.toJson());
   writeNotNull('transak', instance.transak?.toJson());
-  val['walletBanner'] = instance.walletBanner.toJson();
-  val['joinBonus'] = instance.joinBonus.toJson();
-  val['backupBonus'] = instance.backupBonus.toJson();
-  val['inviteBonus'] = instance.inviteBonus.toJson();
+  writeNotNull('walletBanner', instance.walletBanner?.toJson());
+  writeNotNull('joinBonus', instance.joinBonus?.toJson());
+  writeNotNull('backupBonus', instance.backupBonus?.toJson());
+  writeNotNull('inviteBonus', instance.inviteBonus?.toJson());
   return val;
 }

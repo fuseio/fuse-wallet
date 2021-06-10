@@ -27,7 +27,7 @@ class SplashViewModel extends Equatable {
     return SplashViewModel(
       privateKey: store.state.userState.privateKey,
       jwtToken: store.state.userState.jwtToken,
-      isLoggedOut: store.state.userState.isLoggedOut ?? false,
+      isLoggedOut: store.state.userState.isLoggedOut,
       createLocalAccount: (
         VoidCallback successCallback,
         VoidCallback errorCallback,

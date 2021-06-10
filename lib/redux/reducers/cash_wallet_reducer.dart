@@ -58,7 +58,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 CashWalletState _getTokenPriceDiffSuccess(
     CashWalletState state, GetTokenPriceDiffSuccess action) {
   final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[action.tokenAddress];
+  Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne[tokenAddress] = current.copyWith(
     priceDiff: action.priceDiff,
@@ -71,9 +71,9 @@ CashWalletState _updateTokenPrice(
   CashWalletState state,
   UpdateTokenPrice action,
 ) {
-  Token? token = state.tokens[action.tokenAddress];
+  Token token = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[token?.address] = token!.copyWith(priceInfo: action.price);
+  newOne[token.address] = token.copyWith(priceInfo: action.price);
   return state.copyWith(tokens: newOne);
 }
 
@@ -81,16 +81,16 @@ CashWalletState _getTokenWalletActionsSuccess(
   CashWalletState state,
   GetTokenWalletActionsSuccess action,
 ) {
-  Token token = state.tokens[action.token.address];
-  List<WalletAction> walletActions = token.walletActions.list ?? [];
+  Token token = state.tokens[action.token.address]!;
+  List<WalletAction> walletActions = token.walletActions!.list;
   for (WalletAction walletAction in action.walletActions) {
-    int savedIndex = walletActions?.indexWhere(
+    int savedIndex = walletActions.indexWhere(
       (action) => action.id == walletAction.id,
     );
     if (savedIndex != -1) {
       walletActions[savedIndex] = walletAction;
     } else {
-      walletActions?.add(walletAction);
+      walletActions.add(walletAction);
     }
   }
 
@@ -110,15 +110,15 @@ CashWalletState _getActionsSuccess(
   CashWalletState state,
   GetActionsSuccess action,
 ) {
-  List<WalletAction> list = state?.walletActions?.list ?? [];
+  List<WalletAction> list = state.walletActions!.list;
   for (WalletAction walletAction in action.walletActions) {
-    int savedIndex = list?.indexWhere(
+    int savedIndex = list.indexWhere(
       (action) => action.id == walletAction.id,
     );
     if (savedIndex != -1) {
       list[savedIndex] = walletAction.copyWith();
     } else {
-      list?.add(walletAction);
+      list.add(walletAction);
     }
   }
   return state.copyWith(
@@ -134,10 +134,11 @@ CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
   newOne.removeWhere(clearTokensWithZero);
   for (String tokenAddress in action.tokens.keys) {
     if (newOne.containsKey(tokenAddress)) {
-      newOne[tokenAddress] = newOne[tokenAddress]
-          .copyWith(amount: action.tokens[tokenAddress].amount);
+      newOne[tokenAddress] = newOne[tokenAddress]!.copyWith(
+        amount: action.tokens[tokenAddress]!.amount,
+      );
     } else {
-      newOne[tokenAddress] = action.tokens[tokenAddress];
+      newOne[tokenAddress] = action.tokens[tokenAddress]!;
     }
   }
   return state.copyWith(tokens: newOne);
@@ -150,8 +151,10 @@ CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
   if (!newOne.containsKey(token.address)) {
     newOne[token.address] = token;
   } else {
-    newOne[token.address] = newOne[token.address]
-        .copyWith(name: token.name, communityAddress: token.communityAddress);
+    newOne[token.address] = newOne[token.address]!.copyWith(
+      name: token.name,
+      communityAddress: token.communityAddress,
+    );
   }
   return state.copyWith(tokens: newOne);
 }
@@ -164,17 +167,17 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
   for (String tokenAddress in tokenAddresses) {
     final Token token =
         newOne.containsKey(checksumEthereumAddress(tokenAddress))
-            ? newOne[checksumEthereumAddress(tokenAddress)]
-            : newOne[tokenAddress];
+            ? newOne[checksumEthereumAddress(tokenAddress)]!
+            : newOne[tokenAddress]!;
     tokens[tokenAddress] = token.copyWith(
-      walletActions: token.walletActions.copyWith(
+      walletActions: token.walletActions!.copyWith(
         updatedAt: 0,
       ),
     );
   }
   return state.copyWith(
     tokens: tokens,
-    walletActions: state.walletActions.copyWith(
+    walletActions: state.walletActions!.copyWith(
       updatedAt: 0,
     ),
   );
@@ -183,10 +186,10 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
 CashWalletState _refreshCommunityData(
     CashWalletState state, RefreshCommunityData action) {
   String communityAddress = action.communityAddress.toLowerCase();
-  Community current = state.communities[communityAddress];
+  Community current = state.communities[communityAddress]!;
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = current?.copyWith(
+  newOne[communityAddress] = current.copyWith(
     plugins: action.plugins,
     webUrl: action.webUrl,
   );
@@ -197,7 +200,7 @@ CashWalletState _fetchCommunityMetadataSuccess(
     CashWalletState state, FetchCommunityMetadataSuccess action) {
   Community current = state.communities[action.communityAddress] ??
       Community(address: action.communityAddress);
-  Community newCommunity = current?.copyWith(metadata: action.metadata);
+  Community newCommunity = current.copyWith(metadata: action.metadata);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   newOne[action.communityAddress] = newCommunity;
@@ -221,7 +224,7 @@ CashWalletState _setDefaultCommunity(
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
   final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[action.tokenAddress];
+  Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne[tokenAddress] = current.copyWith(amount: action.tokenBalance);
   return state.copyWith(tokens: newOne);
@@ -230,7 +233,7 @@ CashWalletState _getTokenBalanceSuccess(
 CashWalletState _getTokenPriceChangeSuccess(
     CashWalletState state, GetTokenPriceChangeSuccess action) {
   final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[action.tokenAddress];
+  Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne[tokenAddress] = current.copyWith(priceChange: action.priceChange);
   return state.copyWith(tokens: newOne);
@@ -239,7 +242,7 @@ CashWalletState _getTokenPriceChangeSuccess(
 CashWalletState _getTokenStatsSuccess(
     CashWalletState state, GetTokenStatsSuccess action) {
   final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[action.tokenAddress];
+  Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne[tokenAddress] = current.copyWith(stats: action.stats);
   return state.copyWith(tokens: newOne);
@@ -276,7 +279,7 @@ CashWalletState _getBusinessListSuccess(
   final String communityAddress = action.communityAddress;
   Community current = state.communities[communityAddress] ??
       Community(address: communityAddress);
-  Community newCommunity = current?.copyWith(businesses: action?.businessList);
+  Community newCommunity = current.copyWith(businesses: action.businessList);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = newCommunity;

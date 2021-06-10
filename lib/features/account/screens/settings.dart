@@ -9,7 +9,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/settings.dart';
 import 'package:fusecash/widgets/language_selector.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -42,7 +42,6 @@ class SettingsScreen extends StatelessWidget {
                 onTap: () {
                   viewModel.logout();
                   context.router.replace(OnBoardScreen());
-                  // ExtendedNavigator.root.replace(Routes.onBoardScreen);
                 },
                 title: Row(
                   children: <Widget>[

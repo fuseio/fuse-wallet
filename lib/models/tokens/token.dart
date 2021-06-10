@@ -19,7 +19,7 @@ class Token with _$Token implements Comparable<Token> {
   const Token._();
 
   @override
-  int compareTo(Token other) {
+  int compareTo(Token? other) {
     if (other == null) return 1;
     return num.parse(this.getBalance(true))
         .compareTo(num.parse(other.getBalance(true)));
@@ -27,18 +27,18 @@ class Token with _$Token implements Comparable<Token> {
 
   @JsonSerializable()
   factory Token({
-    @Default('') String address,
-    @Default('') String name,
+    required String address,
+    required String name,
+    required String symbol,
+    required BigInt amount,
+    required int decimals,
     @Default(false) bool isNative,
-    @Default('') String symbol,
     String? imageUrl,
-    @Default(18) int decimals,
-    @Default(0) BigInt amount,
-    @JsonKey(ignore: true) @Default(null) String subtitle,
-    @Default(null) int timestamp,
-    @Default(null) Price priceInfo,
-    @Default(null) String communityAddress,
-    @Default(null) String originNetwork,
+    @JsonKey(ignore: true) @Default(null) String? subtitle,
+    @Default(null) int? timestamp,
+    @Default(null) Price? priceInfo,
+    @Default(null) String? communityAddress,
+    @Default(null) String? originNetwork,
     @Default(0) num priceChange,
     @JsonKey(ignore: true) @Default(0) num priceDiff,
     @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
@@ -52,7 +52,7 @@ class Token with _$Token implements Comparable<Token> {
         withPrecision,
       );
   String getFiatBalance() {
-    if (priceInfo != null && priceInfo?.quote != 'NaN') {
+    if (priceInfo!.quote != 'NaN') {
       return getFiatValue(
         amount,
         decimals,

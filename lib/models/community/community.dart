@@ -16,21 +16,21 @@ Plugins? pluginsFromJson(json) =>
 class Community with _$Community {
   @JsonSerializable()
   factory Community({
-    @Default(null) String name,
-    @Default(null) String address,
+    @Default('') String name,
+    @Default('') String address,
     @Default(false) bool isMultiBridge,
     @Default(false) bool isClosed,
     @Default(false) bool isMember,
-    @JsonKey(includeIfNull: false) String? homeTokenAddress,
+    @JsonKey(includeIfNull: false) @Default('') String homeTokenAddress,
     @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
-    @JsonKey(includeIfNull: false) String? webUrl,
-    @JsonKey(includeIfNull: false) String? bridgeType,
-    @JsonKey(includeIfNull: false) String? bridgeDirection,
-    @JsonKey(includeIfNull: false) String? homeBridgeAddress,
-    @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
-    @JsonKey(includeIfNull: false) String? foreignTokenAddress,
+    @JsonKey(includeIfNull: false) @Default('') String webUrl,
+    @JsonKey(includeIfNull: false) @Default('') String bridgeType,
+    @JsonKey(includeIfNull: false) @Default('') String bridgeDirection,
+    @JsonKey(includeIfNull: false) @Default('') String homeBridgeAddress,
+    @JsonKey(includeIfNull: false) @Default('') String foreignBridgeAddress,
+    @JsonKey(includeIfNull: false) @Default('') String foreignTokenAddress,
     @JsonKey(includeIfNull: false, fromJson: pluginsFromJson) Plugins? plugins,
-    @JsonKey(includeIfNull: false) @Default([]) List<Business>? businesses,
+    @JsonKey(includeIfNull: false) @Default([]) List<Business> businesses,
     @JsonKey(includeIfNull: false) String? description,
   }) = _Community;
 

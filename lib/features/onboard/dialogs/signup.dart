@@ -100,7 +100,6 @@ class SignUpDialogState extends State<SignUpDialog>
                           builder: (context) => WebViewScreen(
                             'https://fuse.cash/privacy',
                             I10n.of(context).legal,
-                            withBack: true,
                           ),
                           fullscreenDialog: true,
                         ),

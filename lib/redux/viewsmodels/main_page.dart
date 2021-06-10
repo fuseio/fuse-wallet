@@ -5,7 +5,7 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class HomeScreenViewModel extends Equatable {
-  final bool isContactsSynced;
+  final bool? isContactsSynced;
   final bool backup;
   final bool isBackupDialogShowed;
   final Function setShowDialog;
@@ -22,9 +22,8 @@ class HomeScreenViewModel extends Equatable {
   static HomeScreenViewModel fromStore(Store<AppState> store) {
     return HomeScreenViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
-      backup: store.state.userState?.backup ?? false,
-      isBackupDialogShowed:
-          store.state.userState?.receiveBackupDialogShowed ?? false,
+      backup: store.state.userState.backup,
+      isBackupDialogShowed: store.state.userState.receiveBackupDialogShowed,
       setShowDialog: () {
         store.dispatch(ReceiveBackupDialogShowed());
       },
@@ -36,8 +35,7 @@ class HomeScreenViewModel extends Equatable {
 
   @override
   List<Object> get props => [
-        isContactsSynced,
+        isContactsSynced!,
         backup,
-        isContactsSynced,
       ];
 }

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
@@ -6,7 +5,6 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/send.dart';
 
 class CashHeader extends StatelessWidget {
   @override
@@ -30,7 +28,7 @@ class CashHeader extends StatelessWidget {
             children: <Widget>[
               Flexible(
                 child: Text(
-                  '${I10n.of(context).hi} ${viewModel?.firstName() ?? ''}',
+                  '${I10n.of(context).hi} ${viewModel.firstName()}',
                   style: TextStyle(
                     fontSize: 22,
                   ),

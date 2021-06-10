@@ -6,7 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/recovery.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
@@ -17,7 +17,6 @@ class RestoreFromBackupScreen extends StatefulWidget {
 }
 
 class _RestoreFromBackupScreenState extends State<RestoreFromBackupScreen> {
-  GlobalKey<ScaffoldState> scaffoldState;
   bool isLoading = false;
   final wordsController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
@@ -128,7 +127,7 @@ class _RestoreFromBackupScreenState extends State<RestoreFromBackupScreen> {
                             setState(() {
                               isPreloading = false;
                             });
-                            // ExtendedNavigator.root.pushSignUpScreen();
+                            context.router.push(SignUpScreen());
                           });
                         }
                       },

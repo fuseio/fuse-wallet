@@ -2,9 +2,8 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 
@@ -23,10 +22,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 2500), () {
-      // BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
-      // navigationBar.onTap(0);
-      // ExtendedNavigator.named('homeRouter').popUntilRoot();
-      // ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
+      context.router.popUntilRoot();
     });
   }
 
@@ -43,7 +39,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
               backgroundColor: Color(0xFFE0E0E0),
               radius: 100,
               backgroundImage:
-                  args?.avatar ?? AssetImage('assets/images/anom.png'),
+                  args.avatar ?? AssetImage('assets/images/anom.png'),
               child: Transform.scale(
                 scale: 6,
                 origin: Offset(-9, 7),

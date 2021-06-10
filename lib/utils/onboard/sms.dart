@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+
 
 class SmsStrategy implements IOnBoardStrategy {
   final OnboardStrategy strategy;

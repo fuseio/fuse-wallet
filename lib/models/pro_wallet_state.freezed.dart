@@ -22,7 +22,7 @@ class _$ProWalletStateTearOff {
 
   _ProWalletState call(
       {@JsonKey(fromJson: balanceFromJson)
-          BigInt etherBalance = null,
+          BigInt? etherBalance = null,
       @JsonKey(fromJson: erc20TokensFromJson)
           Map<String, Token>? erc20Tokens = const {},
       @JsonKey(ignore: true)
@@ -63,7 +63,7 @@ const $ProWalletState = _$ProWalletStateTearOff();
 /// @nodoc
 mixin _$ProWalletState {
   @JsonKey(fromJson: balanceFromJson)
-  BigInt get etherBalance => throw _privateConstructorUsedError;
+  BigInt? get etherBalance => throw _privateConstructorUsedError;
   @JsonKey(fromJson: erc20TokensFromJson)
   Map<String, Token>? get erc20Tokens => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -93,7 +93,7 @@ abstract class $ProWalletStateCopyWith<$Res> {
           ProWalletState value, $Res Function(ProWalletState) then) =
       _$ProWalletStateCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) BigInt? etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token>? erc20Tokens,
       @JsonKey(ignore: true) bool isFetchTransferEvents,
       @JsonKey(ignore: true) bool isListenToTransferEvents,
@@ -129,7 +129,7 @@ class _$ProWalletStateCopyWithImpl<$Res>
       etherBalance: etherBalance == freezed
           ? _value.etherBalance
           : etherBalance // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as BigInt?,
       erc20Tokens: erc20Tokens == freezed
           ? _value.erc20Tokens
           : erc20Tokens // ignore: cast_nullable_to_non_nullable
@@ -174,7 +174,7 @@ abstract class _$ProWalletStateCopyWith<$Res>
       __$ProWalletStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) BigInt? etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token>? erc20Tokens,
       @JsonKey(ignore: true) bool isFetchTransferEvents,
       @JsonKey(ignore: true) bool isListenToTransferEvents,
@@ -212,7 +212,7 @@ class __$ProWalletStateCopyWithImpl<$Res>
       etherBalance: etherBalance == freezed
           ? _value.etherBalance
           : etherBalance // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+              as BigInt?,
       erc20Tokens: erc20Tokens == freezed
           ? _value.erc20Tokens
           : erc20Tokens // ignore: cast_nullable_to_non_nullable
@@ -270,7 +270,7 @@ class _$_ProWalletState extends _ProWalletState with DiagnosticableTreeMixin {
 
   @override
   @JsonKey(fromJson: balanceFromJson)
-  final BigInt etherBalance;
+  final BigInt? etherBalance;
   @override
   @JsonKey(fromJson: erc20TokensFromJson)
   final Map<String, Token>? erc20Tokens;
@@ -385,7 +385,7 @@ class _$_ProWalletState extends _ProWalletState with DiagnosticableTreeMixin {
 
 abstract class _ProWalletState extends ProWalletState {
   factory _ProWalletState(
-      {@JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) BigInt? etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token>? erc20Tokens,
       @JsonKey(ignore: true) bool isFetchTransferEvents,
       @JsonKey(ignore: true) bool isListenToTransferEvents,
@@ -401,7 +401,7 @@ abstract class _ProWalletState extends ProWalletState {
 
   @override
   @JsonKey(fromJson: balanceFromJson)
-  BigInt get etherBalance => throw _privateConstructorUsedError;
+  BigInt? get etherBalance => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: erc20TokensFromJson)
   Map<String, Token>? get erc20Tokens => throw _privateConstructorUsedError;

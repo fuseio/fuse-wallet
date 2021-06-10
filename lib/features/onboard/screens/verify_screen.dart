@@ -40,13 +40,6 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
       body: StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
-        onInitialBuild: (viewModel) {
-          if (viewModel.credentials != null &&
-              viewModel.verificationId != null) {
-            autoCode = viewModel.credentials.smsCode ?? "";
-            viewModel.verify(autoCode);
-          }
-        },
         onWillChange: (previousViewModel, newViewModel) {
           if (previousViewModel?.verifyErrorMessage !=
               newViewModel.verifyErrorMessage) {
@@ -137,7 +130,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                           label: I10n.of(context).next_button,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
-                            formKey.currentState.validate();
+                            formKey.currentState!.validate();
                             if (currentText.length != 6) {
                               // errorController.add(ErrorAnimationType
                               //     .shake); // Triggering error shake animation
@@ -155,8 +148,10 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                             I10n.of(context).didnt_get_message,
                             style: TextStyle(fontSize: 12),
                           ),
-                          FlatButton(
-                            padding: EdgeInsets.only(right: 10),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(right: 10),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },

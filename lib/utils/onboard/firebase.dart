@@ -1,10 +1,10 @@
-import 'package:auto_route/auto_route.dart';
+// import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+//
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:sentry_flutter/sentry_flutter.dart' show Sentry;
@@ -16,7 +16,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
   @override
   Future login(store, phoneNumber) async {
     final PhoneVerificationCompleted verificationCompleted = (
-      AuthCredential credentials,
+      PhoneAuthCredential credentials,
     ) async {
       store.dispatch(SetCredentials(credentials));
       UserCredential userCredential = await firebaseAuth.signInWithCredential(
@@ -95,7 +95,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
   Future verify(store, verificationCode, onSuccess) async {
     store.dispatch(setDeviceId());
     store.dispatch(SetIsVerifyRequest(isLoading: true));
-    PhoneAuthCredential credential = store.state.userState.credentials;
+    AuthCredential? credential = store.state.userState.credentials;
     final String verificationId = store.state.userState.verificationId;
     if (credential == null) {
       credential = PhoneAuthProvider.credential(

@@ -13,37 +13,36 @@ final swapReducers = combineReducers<SwapState>([
 ]);
 
 SwapState _updateTokenPrices(SwapState state, UpdateTokenPrices action) {
-  final Token token = state.tokens[action.tokenAddress].copyWith(
+  final Token token = state.tokens[action.tokenAddress]!.copyWith(
     priceInfo: action.priceInfo,
     priceChange: action.priceChange,
   );
   Map<String, Token> tokens = Map<String, Token>.from(state.tokens);
   tokens[action.tokenAddress] = token.copyWith();
-  return (state ?? SwapState())?.copyWith(
+  return state.copyWith(
     tokens: tokens,
   );
 }
 
 SwapState _updateTokenBalance(SwapState state, UpdateTokenBalance action) {
-  final Token token = state.tokens[action.tokenAddress].copyWith(
-    amount: action.balance
-  );
+  final Token token =
+      state.tokens[action.tokenAddress]!.copyWith(amount: action.balance);
   Map<String, Token> tokens = Map<String, Token>.from(state.tokens);
   tokens[action.tokenAddress] = token.copyWith();
-  return (state ?? SwapState())?.copyWith(
+  return state.copyWith(
     tokens: tokens,
   );
 }
 
 SwapState _resetTokenList(SwapState state, ResetTokenList action) {
-  return (state ?? SwapState())?.copyWith(
+  return state.copyWith(
     tokens: {},
   );
 }
 
 SwapState _getSwappableTokensSuccess(
     SwapState state, GetSwappableTokensSuccess action) {
-  return (state ?? SwapState())?.copyWith(
+  return state.copyWith(
     tokens: action.swappableTokens,
   );
 }
@@ -53,10 +52,10 @@ SwapState _getTokensImagesSuccess(
   Map<String, String> newOne = Map();
   for (String tokenAddress in action.tokensImages.keys) {
     if (!state.tokensImages.containsKey(tokenAddress)) {
-      newOne[tokenAddress] = action.tokensImages[tokenAddress];
+      newOne[tokenAddress] = action.tokensImages[tokenAddress]!;
     } else if (state.tokensImages.containsKey(tokenAddress) &&
         state.tokensImages[tokenAddress] != action.tokensImages[tokenAddress]) {
-      newOne[tokenAddress] = action.tokensImages[tokenAddress];
+      newOne[tokenAddress] = action.tokensImages[tokenAddress]!;
     }
   }
   if (newOne.isEmpty) {
@@ -64,7 +63,7 @@ SwapState _getTokensImagesSuccess(
   }
   Map<String, String> tokensImages =
       Map<String, String>.from(state.tokensImages)..addAll(newOne);
-  return (state ?? SwapState())?.copyWith(
+  return state.copyWith(
     tokensImages: tokensImages,
   );
 }

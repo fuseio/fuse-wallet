@@ -9,7 +9,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/utils/url.dart';
@@ -18,7 +18,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class BusinessPage extends StatefulWidget {
   final Business business;
   final Token token;
-  BusinessPage({required this.business, required this.token});
+  BusinessPage({
+    required this.business,
+    required this.token,
+  });
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
@@ -60,8 +63,8 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: SizedBox.expand(
                                   child: CachedNetworkImage(
                                 imageUrl: ImageUrl.getLink(
-                                  widget.business.metadata!.coverPhoto,
-                                ), // widget.business.metadata.getCoverPhotoUri(),
+                                  widget.business.metadata.coverPhoto,
+                                ),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
@@ -94,7 +97,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             child: ClipOval(
                                 child: CachedNetworkImage(
                               imageUrl: ImageUrl.getLink(
-                                widget.business.metadata!.image,
+                                widget.business.metadata.image,
                               ),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
@@ -122,7 +125,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         MediaQuery.of(context).size.width -
                                             120),
                                 child: Text(
-                                  widget.business.metadata!.address,
+                                  widget.business.metadata.address,
                                   softWrap: true,
                                   style: TextStyle(
                                     fontSize: 13,
@@ -131,10 +134,10 @@ class _BusinessPageState extends State<BusinessPage> {
                                 ),
                               ),
                               ![null, '']
-                                      .contains(widget.business.metadata!.type)
+                                      .contains(widget.business.metadata.type)
                                   ? Text(
                                       '#' +
-                                          widget.business.metadata!.type
+                                          widget.business.metadata.type
                                               .capitalize(),
                                       overflow: TextOverflow.fade,
                                       style: TextStyle(
@@ -161,7 +164,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             ),
                             Column(
                               children: <Widget>[
-                                widget.business.metadata!.website != ''
+                                widget.business.metadata.website != ''
                                     ? Container(
                                         child: Row(
                                           children: <Widget>[
@@ -180,16 +183,16 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   Theme.of(context).canvasColor,
                                               onTap: () {
                                                 launchUrl(widget
-                                                    .business.metadata!.website);
+                                                    .business.metadata.website);
                                               },
                                               child: Text(widget
-                                                  .business.metadata!.website),
+                                                  .business.metadata.website),
                                             ),
                                           ],
                                         ),
                                       )
                                     : SizedBox.shrink(),
-                                widget.business.metadata!.phoneNumber != ''
+                                widget.business.metadata.phoneNumber != ''
                                     ? Container(
                                         padding: EdgeInsets.only(
                                             top: 10, bottom: 10),
@@ -209,11 +212,11 @@ class _BusinessPageState extends State<BusinessPage> {
                                               highlightColor:
                                                   Theme.of(context).canvasColor,
                                               child: Text(widget.business
-                                                  .metadata!.phoneNumber),
+                                                  .metadata.phoneNumber),
                                               onTap: () {
                                                 final Uri _phoneLaunchUri = Uri(
                                                   scheme: 'tel',
-                                                  path: widget.business.metadata!
+                                                  path: widget.business.metadata
                                                       .phoneNumber,
                                                 );
                                                 launchUrl(
@@ -224,7 +227,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         ),
                                       )
                                     : SizedBox.shrink(),
-                                widget.business.metadata!.description != ''
+                                widget.business.metadata.description != ''
                                     ? Container(
                                         padding: EdgeInsets.only(
                                             top: 10, bottom: 10),
@@ -252,7 +255,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                                       bottom: 5),
                                                   child: Text(widget
                                                               .business
-                                                              .metadata!
+                                                              .metadata
                                                               .description !=
                                                           ''
                                                       ? 'More details'
@@ -262,7 +265,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   padding: EdgeInsets.only(
                                                       bottom: 5),
                                                   child: Text(
-                                                    widget.business.metadata!
+                                                    widget.business.metadata
                                                         .description,
                                                     style: TextStyle(
                                                         color: Theme.of(context)
@@ -288,26 +291,27 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                          widget.business.metadata!.latLng != null &&
-                                  widget.business.metadata!.latLng.isNotEmpty
+                          widget.business.metadata.latLng.isNotEmpty
                               ? GoogleMap(
                                   onMapCreated: _onMapCreated,
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
-                                        widget.business.metadata!.latLng[0],
-                                        widget.business.metadata!.latLng[1]),
+                                        widget.business.metadata.latLng[0],
+                                        widget.business.metadata.latLng[1]),
                                     zoom: 13.0,
                                   ),
                                 )
                               : SizedBox.shrink(),
                           Padding(
                             padding: EdgeInsets.only(bottom: 20.0),
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              color: Theme.of(context).buttonColor,
-                              padding: EdgeInsets.only(
-                                  left: 100, right: 100, top: 15, bottom: 15),
+                            child: ElevatedButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Theme.of(context).buttonColor,
+                                padding: EdgeInsets.only(
+                                    left: 100, right: 100, top: 15, bottom: 15),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
                               child: Text(
                                 I10n.of(context).pay,
                                 style: TextStyle(
@@ -319,18 +323,20 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                // ExtendedNavigator.root.pushSendAmountScreen(
-                                //   pageArgs: SendFlowArguments(
-                                //     tokenToSend: widget.token,
-                                //     name: widget.business.name ?? '',
-                                //     accountAddress: widget.business.account,
-                                //     avatar: NetworkImage(
-                                //       ImageUrl.getLink(
-                                //         widget.business.metadata!.image,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // );
+                                context.router.push(
+                                  SendAmountScreen(
+                                    pageArgs: SendFlowArguments(
+                                      tokenToSend: widget.token,
+                                      name: widget.business.name,
+                                      accountAddress: widget.business.account,
+                                      avatar: NetworkImage(
+                                        ImageUrl.getLink(
+                                          widget.business.metadata.image,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           )

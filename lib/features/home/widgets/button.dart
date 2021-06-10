@@ -20,15 +20,17 @@ class Button extends StatelessWidget {
       width: width ?? MediaQuery.of(context).size.width * .425,
       child: TextButton(
         onPressed: onPressed,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.all(
-        //     Radius.circular(
-        //       12.0,
-        //     ),
-        //   ),
-        // ),
-        // color: Theme.of(context).colorScheme.secondary,
-        // padding: EdgeInsets.all(15.0),
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                12.0,
+              ),
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          padding: EdgeInsets.all(15.0),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

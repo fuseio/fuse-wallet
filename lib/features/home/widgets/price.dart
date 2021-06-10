@@ -43,7 +43,7 @@ class TokenPrice extends StatelessWidget {
               case ConnectionState.active:
                 return Text('..');
               case ConnectionState.done:
-                final num quote = num.tryParse(snapshot.data?.quote ?? '0')!;
+                final num quote = num.tryParse(snapshot.data!.quote)!;
                 return Row(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,

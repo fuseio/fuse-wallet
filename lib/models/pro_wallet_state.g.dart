@@ -16,7 +16,7 @@ _$_ProWalletState _$_$_ProWalletStateFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$_ProWalletStateToJson(_$_ProWalletState instance) =>
     <String, dynamic>{
-      'etherBalance': instance.etherBalance.toString(),
+      'etherBalance': instance.etherBalance?.toString(),
       'erc20Tokens':
           instance.erc20Tokens?.map((k, e) => MapEntry(k, e.toJson())),
     };

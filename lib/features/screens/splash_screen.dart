@@ -6,24 +6,29 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 
 class SplashScreen extends StatefulWidget {
+  final void Function(bool isLoggedIn)? onLoginResult;
+  const SplashScreen({
+    Key? key,
+    this.onLoginResult,
+  }) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   late BiometricAuth _biometricType;
-  Flushbar? flush;
+  late Flushbar flush;
 
   @override
   void initState() {
@@ -41,18 +46,19 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   onInit(Store<AppState> store) async {
-    String privateKey = store?.state?.userState?.privateKey ?? '';
-    String jwtToken = store?.state?.userState?.jwtToken ?? '';
-    bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      // ExtendedNavigator.root.replace(Routes.onBoardScreen);
+      widget.onLoginResult!(false);
+      context.router.replace(OnBoardScreen());
     } else {
+      widget.onLoginResult!(true);
       UserState userState = store.state.userState;
-      if (userState?.authType != BiometricAuth.none) {
+      if (userState.authType != BiometricAuth.none) {
         Segment.track(
           eventName: 'Session Start: Authentication request for existed user',
         );
-        store.dispatch(registerNotification());
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
@@ -67,9 +73,9 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         );
       } else if (userState.authType == BiometricAuth.pincode) {
-        // ExtendedNavigator.root.replace(Routes.pinCodeScreen);
+        context.router.replace(PinCodeScreen());
       } else {
-        // ExtendedNavigator.root.replace(Routes.homeScreen);
+        context.router.replace(MainHomeScreen());
       }
     }
   }
@@ -81,11 +87,10 @@ class _SplashScreenState extends State<SplashScreen> {
       stickyAuth: true,
       callback: (bool result) {
         if (result) {
-          // ExtendedNavigator.root.replace(Routes.homeScreen);
           Segment.track(
             eventName: 'Session Start: Authentication success',
           );
-          // ExtendedNavigator.root.replace(Routes.homeScreen);
+          context.router.push(MainHomeScreen());
         } else {
           flush = Flushbar<bool>(
             title: I10n.of(context).auth_failed_title,
@@ -96,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             mainButton: TextButton(
               onPressed: () {
-                flush?.dismiss(true);
+                flush.dismiss(true);
               },
               child: Text(
                 I10n.of(context).try_again,
@@ -105,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           )..show(context).then(
               (result) async {
-                if (result) {
+                if (result == true) {
                   await _showLocalAuthPopup(
                     BiometricUtils.getBiometricString(
                       context,

@@ -11,7 +11,7 @@ class CashHeaderViewModel {
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     return CashHeaderViewModel(
       firstName: () {
-        String fullName = store.state.userState.displayName ?? '';
+        String fullName = store.state.userState.displayName;
         return fullName.split(' ')[0];
       },
     );

@@ -12,10 +12,10 @@ class CommunityMetadata with _$CommunityMetadata {
   @JsonSerializable()
   factory CommunityMetadata({
     @Default(false) bool isDefaultImage,
-    @Default(null) String image,
-    @Default(null) String coverPhoto,
-    @Default(null) String coverPhotoUri,
-    @Default(null) String imageUri,
+    @Default('') String image,
+    @Default('') String coverPhoto,
+    @Default('') String coverPhotoUri,
+    @Default('') String imageUri,
   }) = _CommunityMetadata;
 
   const CommunityMetadata._();

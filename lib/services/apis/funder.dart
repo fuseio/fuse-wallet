@@ -11,7 +11,7 @@ class Funder {
   final Dio dio;
 
   Funder(this.dio) {
-    dio.options.baseUrl = env['FUNDER_BASE_URL'] ?? '';
+    dio.options.baseUrl = dotenv.env['FUNDER_BASE_URL']!;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
     // if (kDebugMode) {

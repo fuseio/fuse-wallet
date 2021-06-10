@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/home/dialogs/receive.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -31,7 +31,6 @@ class Avatar extends StatelessWidget {
             onTap: () {
               context.router.push(ProfileScreen());
             },
-            // onTap: ExtendedNavigator.named('accountRouter').pushProfileScreen,
             child: Column(
               children: [
                 ClipRRect(
@@ -82,22 +81,25 @@ class Avatar extends StatelessWidget {
                     Flexible(
                       child: Container(
                         width: MediaQuery.of(context).size.width * .425,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             Clipboard.setData(
-                              ClipboardData(text: viewModel?.walletAddress),
+                              ClipboardData(text: viewModel.walletAddress),
                             );
                             showCopiedFlushbar(context);
                           },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                12.0,
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(15.0),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  12.0,
+                                ),
                               ),
                             ),
                           ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          padding: EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,24 +134,27 @@ class Avatar extends StatelessWidget {
                     Flexible(
                       child: Container(
                         width: MediaQuery.of(context).size.width * .475,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) => ReceiveDialog(
-                                'fuse:${viewModel?.walletAddress}',
+                                'fuse:${viewModel.walletAddress}',
                               ),
                             );
                           },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                12.0,
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(15.0),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  12.0,
+                                ),
                               ),
                             ),
                           ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          padding: EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

@@ -44,19 +44,22 @@ class EarnComingSoonScreen extends StatelessWidget {
             ),
             Positioned(
               bottom: 30,
-              child: OutlineButton(
-                focusColor: Theme.of(context).colorScheme.onSurface,
-                hoverColor: Theme.of(context).colorScheme.onSurface,
-                highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                textColor: Theme.of(context).colorScheme.onSurface,
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  width: 2.0,
+              child: OutlinedButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0),
-                ),
+                // focusColor: Theme.of(context).colorScheme.onSurface,
+                // hoverColor: Theme.of(context).colorScheme.onSurface,
+                // highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
+                // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                // textColor: Theme.of(context).colorScheme.onSurface,
+                // borderSide: BorderSide(
+                //   color: Theme.of(context).colorScheme.onSurface,
+                //   width: 2.0,
+                // ),
+
                 child: Text(
                   I10n.of(context).coming_soon + '!',
                   style: TextStyle(

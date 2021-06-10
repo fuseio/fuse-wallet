@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -34,7 +32,7 @@ class ContactsList extends StatefulWidget {
 class _ContactsListState extends State<ContactsList> {
   List<Contact> filteredUsers = [];
   TextEditingController searchController = TextEditingController();
-  late List<Contact> _contacts;
+  late List<Contact>? _contacts;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +103,7 @@ class _ContactsListState extends State<ContactsList> {
 
   filterList() {
     List<Contact> users = [];
-    users.addAll(_contacts);
+    users.addAll(_contacts!);
     if (searchController.text.isNotEmpty) {
       users.retainWhere((user) => user.displayName!
           .toLowerCase()
@@ -147,10 +145,9 @@ class _ContactsListState extends State<ContactsList> {
               resetSearch();
               sendToContact(
                 context,
-                // ExtendedNavigator.named('contactsRouter').context,
                 user.displayName!,
                 phone.value!,
-                // tokenToSend: widget.pageArgs!.tokenToSend,
+                tokenToSend: widget.pageArgs!.tokenToSend,
                 isoCode: viewModel.isoCode,
                 countryCode: viewModel.countryCode,
                 // avatar: (user.avatar != null && user.avatar!.isNotEmpty
@@ -178,8 +175,7 @@ class _ContactsListState extends State<ContactsList> {
       searchController: searchController,
     ));
 
-    final String accountAddress = searchController.text != null &&
-            searchController.text.isNotEmpty &&
+    final String accountAddress = searchController.text.isNotEmpty &&
             searchController.text.length > 1 &&
             searchController.text[1] == 'f'
         ? searchController.text.replaceFirst('f', 'x')
@@ -212,7 +208,7 @@ class _ContactsListState extends State<ContactsList> {
           listItems.insert(
             1,
             RecentContacts(
-              token: widget.pageArgs?.tokenToSend,
+              token: widget.pageArgs!.tokenToSend,
             ),
           );
         }

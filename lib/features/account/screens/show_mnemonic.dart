@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -71,8 +71,7 @@ class ShowMnemonic extends StatelessWidget {
                   distinct: true,
                   converter: BackupViewModel.fromStore,
                   builder: (_, viewModel) {
-                    return (viewModel.user != null &&
-                            viewModel.user.mnemonic.length > 0)
+                    return viewModel.user.mnemonic.length > 0
                         ? Column(
                             children: <Widget>[
                               Padding(
@@ -178,8 +177,6 @@ class ShowMnemonic extends StatelessWidget {
                     onPressed: () {
                       context.router.push(VerifyMnemonic());
                     },
-                    // onPressed: ExtendedNavigator.named('accountRouter')
-                    //     .pushVerifyMnemonic,
                   ),
                 ),
                 SizedBox(

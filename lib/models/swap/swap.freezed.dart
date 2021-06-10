@@ -21,23 +21,23 @@ class _$TradeInfoTearOff {
   const _$TradeInfoTearOff();
 
   _TradeInfo call(
-      String inputAmount,
-      String outputAmount,
-      List<String> route,
-      String inputToken,
-      String outputToken,
-      String executionPrice,
-      String nextMidPrice,
-      String priceImpact) {
+      {required String inputAmount,
+      required String outputAmount,
+      required List<String> route,
+      required String inputToken,
+      required String outputToken,
+      required String executionPrice,
+      required String nextMidPrice,
+      required String priceImpact}) {
     return _TradeInfo(
-      inputAmount,
-      outputAmount,
-      route,
-      inputToken,
-      outputToken,
-      executionPrice,
-      nextMidPrice,
-      priceImpact,
+      inputAmount: inputAmount,
+      outputAmount: outputAmount,
+      route: route,
+      inputToken: inputToken,
+      outputToken: outputToken,
+      executionPrice: executionPrice,
+      nextMidPrice: nextMidPrice,
+      priceImpact: priceImpact,
     );
   }
 
@@ -175,35 +175,35 @@ class __$TradeInfoCopyWithImpl<$Res> extends _$TradeInfoCopyWithImpl<$Res>
     Object? priceImpact = freezed,
   }) {
     return _then(_TradeInfo(
-      inputAmount == freezed
+      inputAmount: inputAmount == freezed
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outputAmount == freezed
+      outputAmount: outputAmount == freezed
           ? _value.outputAmount
           : outputAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      route == freezed
+      route: route == freezed
           ? _value.route
           : route // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      inputToken == freezed
+      inputToken: inputToken == freezed
           ? _value.inputToken
           : inputToken // ignore: cast_nullable_to_non_nullable
               as String,
-      outputToken == freezed
+      outputToken: outputToken == freezed
           ? _value.outputToken
           : outputToken // ignore: cast_nullable_to_non_nullable
               as String,
-      executionPrice == freezed
+      executionPrice: executionPrice == freezed
           ? _value.executionPrice
           : executionPrice // ignore: cast_nullable_to_non_nullable
               as String,
-      nextMidPrice == freezed
+      nextMidPrice: nextMidPrice == freezed
           ? _value.nextMidPrice
           : nextMidPrice // ignore: cast_nullable_to_non_nullable
               as String,
-      priceImpact == freezed
+      priceImpact: priceImpact == freezed
           ? _value.priceImpact
           : priceImpact // ignore: cast_nullable_to_non_nullable
               as String,
@@ -214,16 +214,16 @@ class __$TradeInfoCopyWithImpl<$Res> extends _$TradeInfoCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable()
-class _$_TradeInfo with DiagnosticableTreeMixin implements _TradeInfo {
+class _$_TradeInfo implements _TradeInfo {
   _$_TradeInfo(
-      this.inputAmount,
-      this.outputAmount,
-      this.route,
-      this.inputToken,
-      this.outputToken,
-      this.executionPrice,
-      this.nextMidPrice,
-      this.priceImpact);
+      {required this.inputAmount,
+      required this.outputAmount,
+      required this.route,
+      required this.inputToken,
+      required this.outputToken,
+      required this.executionPrice,
+      required this.nextMidPrice,
+      required this.priceImpact});
 
   factory _$_TradeInfo.fromJson(Map<String, dynamic> json) =>
       _$_$_TradeInfoFromJson(json);
@@ -246,23 +246,8 @@ class _$_TradeInfo with DiagnosticableTreeMixin implements _TradeInfo {
   final String priceImpact;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'TradeInfo(inputAmount: $inputAmount, outputAmount: $outputAmount, route: $route, inputToken: $inputToken, outputToken: $outputToken, executionPrice: $executionPrice, nextMidPrice: $nextMidPrice, priceImpact: $priceImpact)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'TradeInfo'))
-      ..add(DiagnosticsProperty('inputAmount', inputAmount))
-      ..add(DiagnosticsProperty('outputAmount', outputAmount))
-      ..add(DiagnosticsProperty('route', route))
-      ..add(DiagnosticsProperty('inputToken', inputToken))
-      ..add(DiagnosticsProperty('outputToken', outputToken))
-      ..add(DiagnosticsProperty('executionPrice', executionPrice))
-      ..add(DiagnosticsProperty('nextMidPrice', nextMidPrice))
-      ..add(DiagnosticsProperty('priceImpact', priceImpact));
   }
 
   @override
@@ -319,14 +304,14 @@ class _$_TradeInfo with DiagnosticableTreeMixin implements _TradeInfo {
 
 abstract class _TradeInfo implements TradeInfo {
   factory _TradeInfo(
-      String inputAmount,
-      String outputAmount,
-      List<String> route,
-      String inputToken,
-      String outputToken,
-      String executionPrice,
-      String nextMidPrice,
-      String priceImpact) = _$_TradeInfo;
+      {required String inputAmount,
+      required String outputAmount,
+      required List<String> route,
+      required String inputToken,
+      required String outputToken,
+      required String executionPrice,
+      required String nextMidPrice,
+      required String priceImpact}) = _$_TradeInfo;
 
   factory _TradeInfo.fromJson(Map<String, dynamic> json) =
       _$_TradeInfo.fromJson;
@@ -361,13 +346,16 @@ SwapCallParameters _$SwapCallParametersFromJson(Map<String, dynamic> json) {
 class _$SwapCallParametersTearOff {
   const _$SwapCallParametersTearOff();
 
-  _SwapCallParameters call(String methodName, List<dynamic> args, String value,
-      Map<String, dynamic> rawTxn) {
+  _SwapCallParameters call(
+      {required String methodName,
+      required List<dynamic> args,
+      required String value,
+      required Map<String, dynamic> rawTxn}) {
     return _SwapCallParameters(
-      methodName,
-      args,
-      value,
-      rawTxn,
+      methodName: methodName,
+      args: args,
+      value: value,
+      rawTxn: rawTxn,
     );
   }
 
@@ -474,19 +462,19 @@ class __$SwapCallParametersCopyWithImpl<$Res>
     Object? rawTxn = freezed,
   }) {
     return _then(_SwapCallParameters(
-      methodName == freezed
+      methodName: methodName == freezed
           ? _value.methodName
           : methodName // ignore: cast_nullable_to_non_nullable
               as String,
-      args == freezed
+      args: args == freezed
           ? _value.args
           : args // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
-      value == freezed
+      value: value == freezed
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      rawTxn == freezed
+      rawTxn: rawTxn == freezed
           ? _value.rawTxn
           : rawTxn // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
@@ -497,10 +485,12 @@ class __$SwapCallParametersCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable()
-class _$_SwapCallParameters
-    with DiagnosticableTreeMixin
-    implements _SwapCallParameters {
-  _$_SwapCallParameters(this.methodName, this.args, this.value, this.rawTxn);
+class _$_SwapCallParameters implements _SwapCallParameters {
+  _$_SwapCallParameters(
+      {required this.methodName,
+      required this.args,
+      required this.value,
+      required this.rawTxn});
 
   factory _$_SwapCallParameters.fromJson(Map<String, dynamic> json) =>
       _$_$_SwapCallParametersFromJson(json);
@@ -515,19 +505,8 @@ class _$_SwapCallParameters
   final Map<String, dynamic> rawTxn;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'SwapCallParameters(methodName: $methodName, args: $args, value: $value, rawTxn: $rawTxn)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'SwapCallParameters'))
-      ..add(DiagnosticsProperty('methodName', methodName))
-      ..add(DiagnosticsProperty('args', args))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('rawTxn', rawTxn));
   }
 
   @override
@@ -565,8 +544,11 @@ class _$_SwapCallParameters
 }
 
 abstract class _SwapCallParameters implements SwapCallParameters {
-  factory _SwapCallParameters(String methodName, List<dynamic> args,
-      String value, Map<String, dynamic> rawTxn) = _$_SwapCallParameters;
+  factory _SwapCallParameters(
+      {required String methodName,
+      required List<dynamic> args,
+      required String value,
+      required Map<String, dynamic> rawTxn}) = _$_SwapCallParameters;
 
   factory _SwapCallParameters.fromJson(Map<String, dynamic> json) =
       _$_SwapCallParameters.fromJson;
@@ -732,9 +714,7 @@ class __$SwapRequestBodyCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable()
-class _$_SwapRequestBody
-    with DiagnosticableTreeMixin
-    implements _SwapRequestBody {
+class _$_SwapRequestBody implements _SwapRequestBody {
   _$_SwapRequestBody(
       {this.currencyIn = '',
       this.currencyOut = '',
@@ -758,19 +738,8 @@ class _$_SwapRequestBody
   final String recipient;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'SwapRequestBody(currencyIn: $currencyIn, currencyOut: $currencyOut, amountIn: $amountIn, recipient: $recipient)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'SwapRequestBody'))
-      ..add(DiagnosticsProperty('currencyIn', currencyIn))
-      ..add(DiagnosticsProperty('currencyOut', currencyOut))
-      ..add(DiagnosticsProperty('amountIn', amountIn))
-      ..add(DiagnosticsProperty('recipient', recipient));
   }
 
   @override

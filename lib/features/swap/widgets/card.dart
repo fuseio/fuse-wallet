@@ -12,7 +12,7 @@ import 'package:fusecash/widgets/default_logo.dart';
 class TradeCard extends StatelessWidget {
   final Token token;
   final String title;
-  final Widget useMaxWidget;
+  final Widget? useMaxWidget;
   final bool showCurrent;
   final void Function(String) onChanged;
   final TextEditingController textEditingController;
@@ -20,14 +20,14 @@ class TradeCard extends StatelessWidget {
   final bool isSwapped;
 
   TradeCard({
-    this.title,
-    this.isSwapped,
-    this.onTap,
-    this.useMaxWidget,
-    this.onChanged,
-    this.token,
-    this.textEditingController,
+    required this.title,
+    required this.isSwapped,
+    required this.onTap,
+    required this.onChanged,
+    required this.token,
+    required this.textEditingController,
     this.showCurrent = false,
+    this.useMaxWidget,
   });
 
   @override
@@ -53,7 +53,7 @@ class TradeCard extends StatelessWidget {
                     title,
                     style: TextStyle(fontSize: 13),
                   ),
-                  useMaxWidget != null ? useMaxWidget : SizedBox.shrink(),
+                  useMaxWidget != null ? useMaxWidget! : SizedBox.shrink(),
                 ],
               ),
               Row(
@@ -63,7 +63,7 @@ class TradeCard extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.hardEdge,
                       children: [
                         Row(
                           children: [
@@ -79,7 +79,8 @@ class TradeCard extends StatelessWidget {
                                       width: 35,
                                       height: 35,
                                       imageUrl: (viewModel
-                                          .tokensImages[token.address]),
+                                              .tokensImages[token.address]) ??
+                                          '',
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>

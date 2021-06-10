@@ -21,7 +21,7 @@ class _$CashWalletStateTearOff {
   const _$CashWalletStateTearOff();
 
   _CashWalletState call(
-      {String communityAddress = null,
+      {String communityAddress = '',
       bool isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens = const {},
@@ -375,7 +375,7 @@ class __$CashWalletStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   _$_CashWalletState(
-      {this.communityAddress = null,
+      {this.communityAddress = '',
       this.isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson) this.tokens = const {},
       @JsonKey(fromJson: communitiesFromJson) this.communities = const {},
@@ -394,7 +394,7 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   factory _$_CashWalletState.fromJson(Map<String, dynamic> json) =>
       _$_$_CashWalletStateFromJson(json);
 
-  @JsonKey(defaultValue: null)
+  @JsonKey(defaultValue: '')
   @override
   final String communityAddress;
   @JsonKey(defaultValue: true)

@@ -68,7 +68,7 @@ class _PriceDiffState extends State<PriceDiff> {
     final Display display = createDisplay(
       decimal: 1,
     );
-    if (priceChange != null && priceChange.isNegative) {
+    if (priceChange.isNegative) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -149,7 +149,7 @@ class _PriceDiffState extends State<PriceDiff> {
         );
       },
       builder: (_, viewModel) {
-        final Token token = viewModel.tokens[widget.tokenAddress];
+        final Token? token = viewModel.tokens[widget.tokenAddress];
         final num priceChange = token?.priceDiff ?? 0;
         return Padding(
           padding: EdgeInsets.only(left: 20, right: 20),
@@ -168,7 +168,7 @@ class _PriceDiffState extends State<PriceDiff> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         _limitButton(
-                          token,
+                          token!,
                           viewModel.fetchPriceDiff,
                           '24H',
                           '1',

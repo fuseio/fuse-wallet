@@ -33,7 +33,7 @@ class TransferTileViewModel extends Equatable {
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .toList();
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
-        .map((Token token) => token?.copyWith(
+        .map((Token token) => token.copyWith(
             imageUrl: store.state.cashWalletState.communities
                     .containsKey(token.communityAddress)
                 ? store.state.cashWalletState
@@ -43,7 +43,7 @@ class TransferTileViewModel extends Equatable {
         .toList();
     Map<String, Token> tokens =
         [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
-      previousValue.putIfAbsent(element?.address?.toLowerCase(), () => element);
+      previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
       return previousValue;
     });
 
@@ -57,10 +57,10 @@ class TransferTileViewModel extends Equatable {
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       countryCode: store.state.userState.countryCode,
-      erc20Tokens: store.state.proWalletState.erc20Tokens,
+      erc20Tokens: store.state.proWalletState.erc20Tokens!,
       communitiesMap: communitiesMap,
       communities: store.state.cashWalletState.communities,
-      tokensImages: store.state.swapState?.tokensImages ?? Map(),
+      tokensImages: store.state.swapState.tokensImages,
     );
   }
 

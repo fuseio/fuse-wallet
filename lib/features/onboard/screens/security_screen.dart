@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/screens/set_up_pincode.dart';
 import 'package:fusecash/redux/viewsmodels/security.dart';
@@ -18,7 +18,7 @@ class ChooseSecurityOption extends StatefulWidget {
 }
 
 class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
-  BiometricAuth _biometricType;
+  late BiometricAuth _biometricType;
 
   Future<void> _checkBiometrical() async {
     _biometricType = await BiometricUtils.getAvailableBiometrics();
@@ -166,16 +166,12 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                         );
                                         viewModel
                                             .setSecurityType(_biometricType);
-                                        // Todo = Routes.homeScreen
-                                        // ExtendedNavigator.root.popUntilRoot();
-                                        // ExtendedNavigator.root
-                                        //     .replace(Routes.homeScreen);
-                                        // ExtendedNavigator.root.popUntilRoot();
+                                        context.router.popUntilRoot();
                                         Segment.track(
                                           eventName: 'Sign up: Protection Done',
                                         );
-                                        // ExtendedNavigator.root
-                                        //     .replace(Routes.homeScreen);
+                                        context.router
+                                            .replace(MainHomeScreen());
                                       }
                                     },
                                   );
@@ -226,17 +222,12 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                     MaterialPageRoute(
                                       builder: (context) => SetUpPinCodeScreen(
                                         onSuccess: () {
-                                          // Todo = Routes.homeScreen
-                                          // ExtendedNavigator.root.popUntilRoot();
-                                          // ExtendedNavigator.root
-                                          //     .replace(Routes.homeScreen);
-                                          // ExtendedNavigator.root.popUntilRoot();
                                           Segment.track(
                                             eventName:
                                                 'Sign up: Protection Done',
                                           );
-                                          // ExtendedNavigator.root
-                                          //     .replace(Routes.homeScreen);
+                                          context.router.popUntilRoot();
+                                          context.router.push(MainHomeScreen());
                                         },
                                       ),
                                     ),

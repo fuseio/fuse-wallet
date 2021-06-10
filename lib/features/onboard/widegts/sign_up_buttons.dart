@@ -6,7 +6,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/onboard/dialogs/warn_before_recreate.dart';
 import 'package:fusecash/redux/viewsmodels/splash.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/show_up.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
@@ -58,10 +58,10 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                     onPressed: () {
                       if (viewModel.isLoggedOut) {
                         viewModel.loginAgain();
-                        // if (ExtendedNavigator.root.canPop()) {
-                        //   ExtendedNavigator.root.popUntilRoot();
-                        // }
-                        // ExtendedNavigator.root.replace(Routes.homeScreen);
+                        if (context.router.canPopSelfOrChildren) {
+                          context.router.popUntilRoot();
+                        }
+                        context.router.replace(MainHomeScreen());
                       } else {
                         setState(() {
                           isPrimaryPreloading = true;
@@ -70,7 +70,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                           setState(() {
                             isPrimaryPreloading = false;
                           });
-                          // ExtendedNavigator.root.pushSignUpScreen();
+                          context.router.replace(SignUpScreen());
                         }, () {
                           setState(() {
                             isPrimaryPreloading = false;
@@ -90,13 +90,12 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                                 fontSize: 14,
                                 label: I10n.of(context).restore_backup,
                                 onPressed: () {
-                                  // ExtendedNavigator.root.pushRecoveryPage();
                                   Segment.track(
                                     eventName:
                                         'Existing User: Restore wallet from backup',
                                   );
-                                  // ExtendedNavigator.root
-                                  //     .pushRestoreFromBackupScreen();
+                                  context.router
+                                      .replace(RestoreFromBackupScreen());
                                 },
                               ),
                               Text(
@@ -120,7 +119,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                                       isTransparentPreloading = true;
                                     });
                                     viewModel.createLocalAccount(() {
-                                      // ExtendedNavigator.root.pushSignUpScreen();
+                                      context.router.push(SignUpScreen());
                                     }, () {
                                       setState(() {
                                         isTransparentPreloading = false;
@@ -135,13 +134,11 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                             fontSize: 20,
                             label: I10n.of(context).restore_from_backup,
                             onPressed: () {
-                              // ExtendedNavigator.root.pushRecoveryPage();
                               Segment.track(
                                 eventName:
                                     'Existing User: Restore wallet from backup',
                               );
-                              // ExtendedNavigator.root
-                              //     .pushRestoreFromBackupScreen();
+                              context.router.push(RestoreFromBackupScreen());
                             },
                           ),
                   )

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/features/screens/set_up_pincode.dart';
@@ -60,8 +60,6 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                   onTap: () {
                     context.router.push(ShowMnemonic());
                   },
-                  // onTap:
-                  //     ExtendedNavigator.named('accountRouter').pushShowMnemonic,
                   title: Row(
                     children: <Widget>[
                       SvgPicture.asset(
@@ -134,7 +132,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                           '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
                       callback: (bool result) {
                         if (result) {
-                          viewModel.setSecurityType(_biometricType!);
+                          viewModel.setSecurityType(_biometricType);
                           Navigator.of(context).pop();
                         }
                       },

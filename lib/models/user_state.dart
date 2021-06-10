@@ -18,7 +18,7 @@ authTypeFromJson(String auth) =>
 Locale localeFromJson(Map<String, dynamic> map) =>
     Locale(map['languageCode'], map['countryCode']);
 
-Map<String, dynamic> localeToJson(Locale locale) => locale == null
+Map<String, dynamic> localeToJson(Locale? locale) => locale == null
     ? {'languageCode': 'en', 'countryCode': 'US'}
     : {'languageCode': locale.languageCode, 'countryCode': locale.countryCode};
 
@@ -28,9 +28,9 @@ class UserState with _$UserState {
   const UserState._();
 
   @JsonSerializable()
-  factory UserState(
-    DateTime installedAt, {
-    @Default(null) bool isContactsSynced,
+  factory UserState({
+    DateTime? installedAt,
+    @Default(null) bool? isContactsSynced,
     @Default(false) bool isLoggedOut,
     @Default(false) bool backup,
     @Default(false) bool depositBannerShowed,
@@ -61,15 +61,13 @@ class UserState with _$UserState {
     @Default(BiometricAuth.none)
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
-    @Default({'languageCode': 'en', 'countryCode': 'US'})
     @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-        Locale locale,
+        Locale? locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
-    @Default(null) @JsonKey(ignore: true) PhoneAuthCredential credentials,
+    @Default(null) @JsonKey(ignore: true) PhoneAuthCredential? credentials,
   }) = _UserState;
 
   factory UserState.initial() => UserState(
-        DateTime.now().toUtc(),
         networks: [],
         mnemonic: [],
         contacts: [],

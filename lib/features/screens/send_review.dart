@@ -4,7 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/send_amount.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -55,21 +55,21 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     VoidCallback sendFailureCallback,
   ) {
     final bool isFuseToken =
-        ![null, ''].contains(args?.tokenToSend?.originNetwork);
+        ![null, ''].contains(args.tokenToSend!.originNetwork);
     if (args.useBridge && args.isMultiBridge) {
       if (isFuseToken) {
         viewModel.sendToForeignMultiBridge(
-          args.tokenToSend,
-          args.accountAddress,
-          args.amount,
+          args.tokenToSend!,
+          args.accountAddress!,
+          args.amount!,
           sendSuccessCallback,
           sendFailureCallback,
         );
       } else {
         viewModel.sendToHomeMultiBridge(
-          args.tokenToSend,
-          args.accountAddress,
-          args.amount,
+          args.tokenToSend!,
+          args.accountAddress!,
+          args.amount!,
           sendSuccessCallback,
           sendFailureCallback,
         );
@@ -79,20 +79,20 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         if (args.accountAddress == null ||
             args.accountAddress == '' && args.phoneNumber != null) {
           viewModel.sendERC20ToContact(
-            args.tokenToSend,
-            args.name,
-            args.phoneNumber,
-            args.amount,
+            args.tokenToSend!,
+            args.name!,
+            args.phoneNumber!,
+            args.amount!,
             sendSuccessCallback,
             sendFailureCallback,
-            receiverName: args.name,
+            receiverName: args.name!,
             transferNote: transferNote,
           );
         } else {
           viewModel.sendToErc20Token(
-            args.tokenToSend,
-            args.accountAddress,
-            args.amount,
+            args.tokenToSend!,
+            args.accountAddress!,
+            args.amount!,
             sendSuccessCallback,
             sendFailureCallback,
           );
@@ -101,22 +101,22 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         if (args.accountAddress == null ||
             args.accountAddress == '' && args.phoneNumber != null) {
           viewModel.sendToContact(
-            args.tokenToSend,
-            args.phoneNumber,
-            args.amount,
+            args.tokenToSend!,
+            args.phoneNumber!,
+            args.amount!,
             sendSuccessCallback,
             sendFailureCallback,
-            receiverName: args.name,
+            receiverName: args.name!,
             transferNote: transferNote,
           );
         } else {
           viewModel.sendToAccountAddress(
-            args.tokenToSend,
-            args.accountAddress,
-            args.amount,
+            args.tokenToSend!,
+            args.accountAddress!,
+            args.amount!,
             sendSuccessCallback,
             sendFailureCallback,
-            receiverName: args.name,
+            receiverName: args.name!,
             transferNote: transferNote,
           );
         }
@@ -132,29 +132,29 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       body: StoreConnector<AppState, SendAmountViewModel>(
         converter: SendAmountViewModel.fromStore,
         builder: (_, viewModel) {
-          final String symbol = args.tokenToSend.symbol;
+          final String symbol = args.tokenToSend!.symbol;
           final bool withFee = args.isMultiBridge ||
               args.useBridge ||
               (fees.containsKey(symbol) &&
-                  args.tokenToSend.originNetwork == null) ||
+                  args.tokenToSend?.originNetwork == null) ||
               (viewModel.communities.any((element) =>
                   (args.accountAddress != null &&
-                      args.accountAddress.toLowerCase() ==
-                          element.homeBridgeAddress?.toLowerCase()) ||
+                      args.accountAddress?.toLowerCase() ==
+                          element.homeBridgeAddress.toLowerCase()) ||
                   (args.accountAddress != null &&
-                      args.accountAddress.toLowerCase() ==
-                          element.foreignBridgeAddress?.toLowerCase()) ||
-                  args.tokenToSend.address != null &&
-                      args.tokenToSend.address.toLowerCase() ==
-                          element.foreignTokenAddress?.toLowerCase()));
+                      args.accountAddress?.toLowerCase() ==
+                          element.foreignBridgeAddress.toLowerCase()) ||
+                  args.tokenToSend?.address != null &&
+                      args.tokenToSend?.address.toLowerCase() ==
+                          element.foreignTokenAddress.toLowerCase()));
           final num feeAmount =
               (withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0)!;
           final bool hasFund =
-              (Decimal.tryParse((args.amount + feeAmount).toString()) ??
+              (Decimal.tryParse((args.amount! + feeAmount).toString()) ??
                           Decimal.zero)
                       .compareTo(
                     Decimal.parse(
-                      args.tokenToSend.getBalance(true),
+                      args.tokenToSend!.getBalance(true),
                     ),
                   ) <=
                   0;
@@ -269,19 +269,19 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     children: args.name != null
                                         ? <Widget>[
                                             Text(
-                                              args.name,
+                                              args.name!,
                                               style: TextStyle(fontSize: 18),
                                             ),
                                             args.phoneNumber == null ||
-                                                    args.phoneNumber.isEmpty
+                                                    args.phoneNumber!.isEmpty
                                                 ? SizedBox.shrink()
                                                 : Text(
-                                                    args.phoneNumber,
+                                                    args.phoneNumber!,
                                                     style:
                                                         TextStyle(fontSize: 13),
                                                   ),
                                             args.accountAddress == null ||
-                                                    args.accountAddress.isEmpty
+                                                    args.accountAddress!.isEmpty
                                                 ? SizedBox.shrink()
                                                 : Text(
                                                     I10n.of(context).address +
@@ -336,7 +336,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                   ),
                                   Text(
                                       I10n.of(context).total_amount +
-                                          ' ${(args.amount + feeAmount).toStringAsFixed(1)} $symbol',
+                                          ' ${(args.amount! + feeAmount).toStringAsFixed(1)} $symbol',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -374,17 +374,17 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 ],
                               )
                             : SizedBox.shrink(),
-                        args.tokenToSend.originNetwork == null
+                        args.tokenToSend?.originNetwork == null
                             ? SizedBox.shrink()
                             : (args.accountAddress == null ||
-                                    args.accountAddress.isEmpty)
+                                    args.accountAddress!.isEmpty)
                                 ? Padding(
                                     padding: EdgeInsets.only(
                                         top: 20.0, left: 30, right: 30),
                                     child: Text(
                                       I10n.of(context).invite_text(
                                         args.name != null
-                                            ? args.name
+                                            ? args.name!
                                             : I10n.of(context).friend,
                                       ),
                                       textAlign: TextAlign.center,
@@ -409,10 +409,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           if (withFee && !hasFund) return;
                           send(viewModel, args, transferNoteController.text,
                               () {
-                            // ExtendedNavigator.root.replace(
-                            //     Routes.sendSuccessScreen,
-                            //     arguments:
-                            //         SendSuccessScreenArguments(pageArgs: args));
+                            context.router.replace(
+                              SendSuccessScreen(
+                                pageArgs: args,
+                              ),
+                            );
                           }, () {
                             setState(() {
                               isPreloading = false;

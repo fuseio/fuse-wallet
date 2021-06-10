@@ -1,15 +1,9 @@
-import 'package:auto_route/auto_route.dart';
-// import 'package:barcode_scan/barcode_scan.dart';
-import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/widgets/preloader.dart';
@@ -23,7 +17,7 @@ Future<Map> fetchWalletByPhone(
 ) async {
   try {
     PhoneNumber phoneNumber = await phoneNumberUtil.parse(phone);
-    Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
+    Map? wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
     String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
 
     return {
@@ -38,7 +32,7 @@ Future<Map> fetchWalletByPhone(
         formatted,
         regionCode: isoCode,
       );
-      Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
+      Map? wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
         'phoneNumber': phoneNumber.e164,

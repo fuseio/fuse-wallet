@@ -35,16 +35,16 @@ class Plugins with _$Plugins {
     @Default(null) @JsonKey(includeIfNull: false) TransakPlugin? transak,
     @Default(null)
     @JsonKey(includeIfNull: false)
-        WalletBannerPlugin walletBanner,
+        WalletBannerPlugin? walletBanner,
     @Default(null)
     @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
-        JoinBonusPlugin joinBonus,
+        JoinBonusPlugin? joinBonus,
     @Default(null)
     @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
-        BackupBonusPlugin backupBonus,
+        BackupBonusPlugin? backupBonus,
     @Default(null)
     @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
-        InviteBonusPlugin inviteBonus,
+        InviteBonusPlugin? inviteBonus,
   }) = _Plugins;
 
   factory Plugins.fromJson(dynamic json) => _$PluginsFromJson(json);

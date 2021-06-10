@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/generated/l10n.dart';
 
 class BottomBar extends StatelessWidget {
@@ -52,7 +51,7 @@ class BottomBar extends StatelessWidget {
         onTap: tabsRouter.setActiveIndex,
         selectedItemColor: Theme.of(context).colorScheme.onSurface,
         unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-        key: AppKeys.bottomBarKey,
+        key: tabsRouter.key,
         selectedFontSize: 16,
         unselectedFontSize: 16,
         type: BottomNavigationBarType.fixed,

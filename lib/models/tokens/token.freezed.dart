@@ -21,18 +21,18 @@ class _$TokenTearOff {
   const _$TokenTearOff();
 
   _Token call(
-      {String address = '',
-      String name = '',
+      {required String address,
+      required String name,
+      required String symbol,
+      required BigInt amount,
+      required int decimals,
       bool isNative = false,
-      String symbol = '',
       String? imageUrl,
-      int decimals = 18,
-      BigInt amount = 0,
-      @JsonKey(ignore: true) String subtitle = null,
-      int timestamp = null,
-      Price priceInfo = null,
-      String communityAddress = null,
-      String originNetwork = null,
+      @JsonKey(ignore: true) String? subtitle = null,
+      int? timestamp = null,
+      Price? priceInfo = null,
+      String? communityAddress = null,
+      String? originNetwork = null,
       num priceChange = 0,
       @JsonKey(ignore: true) num priceDiff = 0,
       @JsonKey(ignore: true) int priceDiffLimitInDays = 0,
@@ -41,11 +41,11 @@ class _$TokenTearOff {
     return _Token(
       address: address,
       name: name,
-      isNative: isNative,
       symbol: symbol,
-      imageUrl: imageUrl,
-      decimals: decimals,
       amount: amount,
+      decimals: decimals,
+      isNative: isNative,
+      imageUrl: imageUrl,
       subtitle: subtitle,
       timestamp: timestamp,
       priceInfo: priceInfo,
@@ -71,17 +71,17 @@ const $Token = _$TokenTearOff();
 mixin _$Token {
   String get address => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  bool get isNative => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
-  String? get imageUrl => throw _privateConstructorUsedError;
-  int get decimals => throw _privateConstructorUsedError;
   BigInt get amount => throw _privateConstructorUsedError;
+  int get decimals => throw _privateConstructorUsedError;
+  bool get isNative => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  String get subtitle => throw _privateConstructorUsedError;
-  int get timestamp => throw _privateConstructorUsedError;
-  Price get priceInfo => throw _privateConstructorUsedError;
-  String get communityAddress => throw _privateConstructorUsedError;
-  String get originNetwork => throw _privateConstructorUsedError;
+  String? get subtitle => throw _privateConstructorUsedError;
+  int? get timestamp => throw _privateConstructorUsedError;
+  Price? get priceInfo => throw _privateConstructorUsedError;
+  String? get communityAddress => throw _privateConstructorUsedError;
+  String? get originNetwork => throw _privateConstructorUsedError;
   num get priceChange => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   num get priceDiff => throw _privateConstructorUsedError;
@@ -103,23 +103,23 @@ abstract class $TokenCopyWith<$Res> {
   $Res call(
       {String address,
       String name,
-      bool isNative,
       String symbol,
-      String? imageUrl,
-      int decimals,
       BigInt amount,
-      @JsonKey(ignore: true) String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
+      int decimals,
+      bool isNative,
+      String? imageUrl,
+      @JsonKey(ignore: true) String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
       num priceChange,
       @JsonKey(ignore: true) num priceDiff,
       @JsonKey(ignore: true) int priceDiffLimitInDays,
       List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
-  $PriceCopyWith<$Res> get priceInfo;
+  $PriceCopyWith<$Res>? get priceInfo;
   $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
@@ -135,11 +135,11 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
   $Res call({
     Object? address = freezed,
     Object? name = freezed,
-    Object? isNative = freezed,
     Object? symbol = freezed,
-    Object? imageUrl = freezed,
-    Object? decimals = freezed,
     Object? amount = freezed,
+    Object? decimals = freezed,
+    Object? isNative = freezed,
+    Object? imageUrl = freezed,
     Object? subtitle = freezed,
     Object? timestamp = freezed,
     Object? priceInfo = freezed,
@@ -160,46 +160,46 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isNative: isNative == freezed
-          ? _value.isNative
-          : isNative // ignore: cast_nullable_to_non_nullable
-              as bool,
       symbol: symbol == freezed
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: imageUrl == freezed
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      decimals: decimals == freezed
-          ? _value.decimals
-          : decimals // ignore: cast_nullable_to_non_nullable
-              as int,
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as BigInt,
+      decimals: decimals == freezed
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      isNative: isNative == freezed
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool,
+      imageUrl: imageUrl == freezed
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       subtitle: subtitle == freezed
           ? _value.subtitle
           : subtitle // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       timestamp: timestamp == freezed
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       priceInfo: priceInfo == freezed
           ? _value.priceInfo
           : priceInfo // ignore: cast_nullable_to_non_nullable
-              as Price,
+              as Price?,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
           : originNetwork // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       priceChange: priceChange == freezed
           ? _value.priceChange
           : priceChange // ignore: cast_nullable_to_non_nullable
@@ -224,8 +224,12 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
   }
 
   @override
-  $PriceCopyWith<$Res> get priceInfo {
-    return $PriceCopyWith<$Res>(_value.priceInfo, (value) {
+  $PriceCopyWith<$Res>? get priceInfo {
+    if (_value.priceInfo == null) {
+      return null;
+    }
+
+    return $PriceCopyWith<$Res>(_value.priceInfo!, (value) {
       return _then(_value.copyWith(priceInfo: value));
     });
   }
@@ -250,16 +254,16 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
   $Res call(
       {String address,
       String name,
-      bool isNative,
       String symbol,
-      String? imageUrl,
-      int decimals,
       BigInt amount,
-      @JsonKey(ignore: true) String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
+      int decimals,
+      bool isNative,
+      String? imageUrl,
+      @JsonKey(ignore: true) String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
       num priceChange,
       @JsonKey(ignore: true) num priceDiff,
       @JsonKey(ignore: true) int priceDiffLimitInDays,
@@ -267,7 +271,7 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
   @override
-  $PriceCopyWith<$Res> get priceInfo;
+  $PriceCopyWith<$Res>? get priceInfo;
   @override
   $WalletActionsCopyWith<$Res>? get walletActions;
 }
@@ -285,11 +289,11 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
   $Res call({
     Object? address = freezed,
     Object? name = freezed,
-    Object? isNative = freezed,
     Object? symbol = freezed,
-    Object? imageUrl = freezed,
-    Object? decimals = freezed,
     Object? amount = freezed,
+    Object? decimals = freezed,
+    Object? isNative = freezed,
+    Object? imageUrl = freezed,
     Object? subtitle = freezed,
     Object? timestamp = freezed,
     Object? priceInfo = freezed,
@@ -310,46 +314,46 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      isNative: isNative == freezed
-          ? _value.isNative
-          : isNative // ignore: cast_nullable_to_non_nullable
-              as bool,
       symbol: symbol == freezed
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: imageUrl == freezed
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      decimals: decimals == freezed
-          ? _value.decimals
-          : decimals // ignore: cast_nullable_to_non_nullable
-              as int,
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as BigInt,
+      decimals: decimals == freezed
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      isNative: isNative == freezed
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool,
+      imageUrl: imageUrl == freezed
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       subtitle: subtitle == freezed
           ? _value.subtitle
           : subtitle // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       timestamp: timestamp == freezed
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       priceInfo: priceInfo == freezed
           ? _value.priceInfo
           : priceInfo // ignore: cast_nullable_to_non_nullable
-              as Price,
+              as Price?,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       originNetwork: originNetwork == freezed
           ? _value.originNetwork
           : originNetwork // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       priceChange: priceChange == freezed
           ? _value.priceChange
           : priceChange // ignore: cast_nullable_to_non_nullable
@@ -379,13 +383,13 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Token extends _Token with DiagnosticableTreeMixin {
   _$_Token(
-      {this.address = '',
-      this.name = '',
+      {required this.address,
+      required this.name,
+      required this.symbol,
+      required this.amount,
+      required this.decimals,
       this.isNative = false,
-      this.symbol = '',
       this.imageUrl,
-      this.decimals = 18,
-      this.amount = 0,
       @JsonKey(ignore: true) this.subtitle = null,
       this.timestamp = null,
       this.priceInfo = null,
@@ -401,41 +405,36 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
       _$_$_TokenFromJson(json);
 
-  @JsonKey(defaultValue: '')
   @override
   final String address;
-  @JsonKey(defaultValue: '')
   @override
   final String name;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool isNative;
-  @JsonKey(defaultValue: '')
   @override
   final String symbol;
   @override
-  final String? imageUrl;
-  @JsonKey(defaultValue: 18)
-  @override
-  final int decimals;
-  @JsonKey(defaultValue: 0)
-  @override
   final BigInt amount;
   @override
+  final int decimals;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isNative;
+  @override
+  final String? imageUrl;
+  @override
   @JsonKey(ignore: true)
-  final String subtitle;
+  final String? subtitle;
   @JsonKey(defaultValue: null)
   @override
-  final int timestamp;
+  final int? timestamp;
   @JsonKey(defaultValue: null)
   @override
-  final Price priceInfo;
+  final Price? priceInfo;
   @JsonKey(defaultValue: null)
   @override
-  final String communityAddress;
+  final String? communityAddress;
   @JsonKey(defaultValue: null)
   @override
-  final String originNetwork;
+  final String? originNetwork;
   @JsonKey(defaultValue: 0)
   @override
   final num priceChange;
@@ -454,7 +453,7 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, priceDiff: $priceDiff, priceDiffLimitInDays: $priceDiffLimitInDays, stats: $stats, walletActions: $walletActions)';
+    return 'Token(address: $address, name: $name, symbol: $symbol, amount: $amount, decimals: $decimals, isNative: $isNative, imageUrl: $imageUrl, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, originNetwork: $originNetwork, priceChange: $priceChange, priceDiff: $priceDiff, priceDiffLimitInDays: $priceDiffLimitInDays, stats: $stats, walletActions: $walletActions)';
   }
 
   @override
@@ -464,11 +463,11 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'Token'))
       ..add(DiagnosticsProperty('address', address))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('isNative', isNative))
       ..add(DiagnosticsProperty('symbol', symbol))
-      ..add(DiagnosticsProperty('imageUrl', imageUrl))
-      ..add(DiagnosticsProperty('decimals', decimals))
       ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('decimals', decimals))
+      ..add(DiagnosticsProperty('isNative', isNative))
+      ..add(DiagnosticsProperty('imageUrl', imageUrl))
       ..add(DiagnosticsProperty('subtitle', subtitle))
       ..add(DiagnosticsProperty('timestamp', timestamp))
       ..add(DiagnosticsProperty('priceInfo', priceInfo))
@@ -490,19 +489,19 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
                     .equals(other.address, address)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.isNative, isNative) ||
-                const DeepCollectionEquality()
-                    .equals(other.isNative, isNative)) &&
             (identical(other.symbol, symbol) ||
                 const DeepCollectionEquality().equals(other.symbol, symbol)) &&
-            (identical(other.imageUrl, imageUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.imageUrl, imageUrl)) &&
+            (identical(other.amount, amount) ||
+                const DeepCollectionEquality().equals(other.amount, amount)) &&
             (identical(other.decimals, decimals) ||
                 const DeepCollectionEquality()
                     .equals(other.decimals, decimals)) &&
-            (identical(other.amount, amount) ||
-                const DeepCollectionEquality().equals(other.amount, amount)) &&
+            (identical(other.isNative, isNative) ||
+                const DeepCollectionEquality()
+                    .equals(other.isNative, isNative)) &&
+            (identical(other.imageUrl, imageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.imageUrl, imageUrl)) &&
             (identical(other.subtitle, subtitle) ||
                 const DeepCollectionEquality()
                     .equals(other.subtitle, subtitle)) &&
@@ -539,11 +538,11 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(isNative) ^
       const DeepCollectionEquality().hash(symbol) ^
-      const DeepCollectionEquality().hash(imageUrl) ^
-      const DeepCollectionEquality().hash(decimals) ^
       const DeepCollectionEquality().hash(amount) ^
+      const DeepCollectionEquality().hash(decimals) ^
+      const DeepCollectionEquality().hash(isNative) ^
+      const DeepCollectionEquality().hash(imageUrl) ^
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(timestamp) ^
       const DeepCollectionEquality().hash(priceInfo) ^
@@ -568,19 +567,19 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
 
 abstract class _Token extends Token {
   factory _Token(
-      {String address,
-      String name,
+      {required String address,
+      required String name,
+      required String symbol,
+      required BigInt amount,
+      required int decimals,
       bool isNative,
-      String symbol,
       String? imageUrl,
-      int decimals,
-      BigInt amount,
       @JsonKey(ignore: true)
-          String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String communityAddress,
-      String originNetwork,
+          String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
       num priceChange,
       @JsonKey(ignore: true)
           num priceDiff,
@@ -598,26 +597,26 @@ abstract class _Token extends Token {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  bool get isNative => throw _privateConstructorUsedError;
-  @override
   String get symbol => throw _privateConstructorUsedError;
-  @override
-  String? get imageUrl => throw _privateConstructorUsedError;
-  @override
-  int get decimals => throw _privateConstructorUsedError;
   @override
   BigInt get amount => throw _privateConstructorUsedError;
   @override
+  int get decimals => throw _privateConstructorUsedError;
+  @override
+  bool get isNative => throw _privateConstructorUsedError;
+  @override
+  String? get imageUrl => throw _privateConstructorUsedError;
+  @override
   @JsonKey(ignore: true)
-  String get subtitle => throw _privateConstructorUsedError;
+  String? get subtitle => throw _privateConstructorUsedError;
   @override
-  int get timestamp => throw _privateConstructorUsedError;
+  int? get timestamp => throw _privateConstructorUsedError;
   @override
-  Price get priceInfo => throw _privateConstructorUsedError;
+  Price? get priceInfo => throw _privateConstructorUsedError;
   @override
-  String get communityAddress => throw _privateConstructorUsedError;
+  String? get communityAddress => throw _privateConstructorUsedError;
   @override
-  String get originNetwork => throw _privateConstructorUsedError;
+  String? get originNetwork => throw _privateConstructorUsedError;
   @override
   num get priceChange => throw _privateConstructorUsedError;
   @override

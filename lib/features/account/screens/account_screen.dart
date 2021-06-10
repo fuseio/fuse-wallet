@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
@@ -55,11 +55,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               menuIcon: 'settings_icon.svg',
                               onTap: () {
                                 context.router.push(SettingsScreen());
-                                // context.router
-                                //     .navigateNamed('/settings/newSegment');
                               },
-                              // onTap: ExtendedNavigator.named('accountRouter')
-                              //     .pushSettingsScreen,
                               trailing: SvgPicture.asset(
                                 'assets/images/go_to_pro.svg',
                                 width: 10,
@@ -72,8 +68,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               onTap: () {
                                 context.router.push(ProtectYourWallet());
                               },
-                              // onTap: ExtendedNavigator.named('accountRouter')
-                              //     .pushProtectYourWallet,
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment:
@@ -126,8 +120,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               onTap: () {
                                 context.router.push(SocialScreen());
                               },
-                              // onTap: ExtendedNavigator.named('accountRouter')
-                              //     .pushSocialScreen,
                               trailing: SvgPicture.asset(
                                 'assets/images/go_to_pro.svg',
                                 width: 10,
@@ -170,7 +162,6 @@ class _AccountScreenState extends State<AccountScreen> {
                                     builder: (context) => WebViewScreen(
                                       'https://fuse.cash/privacy',
                                       I10n.of(context).legal,
-                                      withBack: true,
                                     ),
                                     fullscreenDialog: true,
                                   ),

@@ -53,6 +53,8 @@
 	<string>Not in use right now</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Not in use right now</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required for barcode scanning.</string>
 	<key>NSContactsUsageDescription</key>

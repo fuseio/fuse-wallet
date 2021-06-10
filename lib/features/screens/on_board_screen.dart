@@ -45,7 +45,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
     _lottieController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         cont++;
-        final int currentPage = ((page.toInt() + 1) ?? 1);
+        final int currentPage = page.toInt() + 1;
         if (cont < double.infinity) {
           if (currentPage == 1) {
             _lottieController.reset();
@@ -123,7 +123,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
       ),
       SignUpButtons()
     ];
-    final String currentPage = ((page.toInt() + 1) ?? 1).toString();
+    final String currentPage = (page.toInt() + 1).toString();
     return Scaffold(
       body: SafeArea(
         child: Stack(

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -157,62 +156,61 @@ class WalletAction with _$WalletAction {
     }
   }
 
-  String getText() {
-    return '';
-    // return this.map(
-    //   createWallet: (value) {
-    //     if (value.isFailed()) {
-    //       return I10n.of(ExtendedNavigator.root.context).generate_wallet_failed;
-    //     } else if (value.isConfirmed()) {
-    //       return I10n.of(ExtendedNavigator.root.context).generated_wallet;
-    //     } else {
-    //       return I10n.of(ExtendedNavigator.root.context).generating_wallet;
-    //     }
-    //   },
-    //   joinCommunity: (value) => value.communityName,
-    //   fiatDeposit: (value) {
-    //     if (value.isFailed()) {
-    //       return 'fUSD - ${I10n.of(ExtendedNavigator.root.context).deposit_failed}';
-    //     } else if (value.isConfirmed()) {
-    //       return 'fUSD - ${I10n.of(ExtendedNavigator.root.context).deposit}';
-    //     } else {
-    //       return I10n.of(ExtendedNavigator.root.context).waiting_for_deposit;
-    //     }
-    //   },
-    //   bonus: (value) {
-    //     if (value.isFailed()) {
-    //       return '${I10n.of(ExtendedNavigator.root.context).receiving} ${value.bonusType} ${I10n.of(ExtendedNavigator.root.context).bonus} failed';
-    //     } else if (value.isConfirmed()) {
-    //       return '${I10n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I10n.of(ExtendedNavigator.root.context).bonus}';
-    //     } else {
-    //       return '${I10n.of(ExtendedNavigator.root.context).you_got_a} ${value.bonusType} ${I10n.of(ExtendedNavigator.root.context).bonus}';
-    //     }
-    //   },
-    //   send: (value) {
-    //     if (value.isFailed()) {
-    //       return '${I10n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I10n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
-    //     } else if (value.isConfirmed()) {
-    //       return '${I10n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
-    //     } else {
-    //       return '${I10n.of(ExtendedNavigator.root.context).send_to} ${formatAddress(value.to)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
-    //     }
-    //   },
-    //   receive: (value) {
-    //     if (value.isFailed()) {
-    //       return '${I10n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)}  ${I10n.of(ExtendedNavigator.root.context).failed.toLowerCase()}';
-    //     } else if (value.isConfirmed()) {
-    //       return '${I10n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
-    //     } else {
-    //       return '${I10n.of(ExtendedNavigator.root.context).receive_from} ${formatAddress(value.from)} ${I10n.of(ExtendedNavigator.root.context).success.toLowerCase()}';
-    //     }
-    //   },
-    //   swap: (value) {
-    //     final String text = value.tradeInfo.inputToken +
-    //         I10n.of(ExtendedNavigator.root.context).for_text +
-    //         ' ${value.tradeInfo.outputToken}';
-    //     return text;
-    //   },
-    // );
+  String getText(BuildContext context) {
+    return this.map(
+      createWallet: (value) {
+        if (value.isFailed()) {
+          return I10n.of(context).generate_wallet_failed;
+        } else if (value.isConfirmed()) {
+          return I10n.of(context).generated_wallet;
+        } else {
+          return I10n.of(context).generating_wallet;
+        }
+      },
+      joinCommunity: (value) => value.communityName!,
+      fiatDeposit: (value) {
+        if (value.isFailed()) {
+          return 'fUSD - ${I10n.of(context).deposit_failed}';
+        } else if (value.isConfirmed()) {
+          return 'fUSD - ${I10n.of(context).deposit}';
+        } else {
+          return I10n.of(context).waiting_for_deposit;
+        }
+      },
+      bonus: (value) {
+        if (value.isFailed()) {
+          return '${I10n.of(context).receiving} ${value.bonusType} ${I10n.of(context).bonus} failed';
+        } else if (value.isConfirmed()) {
+          return '${I10n.of(context).you_got_a} ${value.bonusType} ${I10n.of(context).bonus}!';
+        } else {
+          return '${I10n.of(context).you_got_a} ${value.bonusType} ${I10n.of(context).bonus}';
+        }
+      },
+      send: (value) {
+        if (value.isFailed()) {
+          return '${I10n.of(context).send_to} ${formatAddress(value.to)} ${I10n.of(context).failed.toLowerCase()}';
+        } else if (value.isConfirmed()) {
+          return '${I10n.of(context).send_to} ${formatAddress(value.to)} ${I10n.of(context).success.toLowerCase()}';
+        } else {
+          return '${I10n.of(context).send_to} ${formatAddress(value.to)} ${I10n.of(context).success.toLowerCase()}';
+        }
+      },
+      receive: (value) {
+        if (value.isFailed()) {
+          return '${I10n.of(context).receive_from} ${formatAddress(value.from)}  ${I10n.of(context).failed.toLowerCase()}';
+        } else if (value.isConfirmed()) {
+          return '${I10n.of(context).receive_from} ${formatAddress(value.from)} ${I10n.of(context).success.toLowerCase()}';
+        } else {
+          return '${I10n.of(context).receive_from} ${formatAddress(value.from)} ${I10n.of(context).success.toLowerCase()}';
+        }
+      },
+      swap: (value) {
+        final String text = value.tradeInfo!.inputToken +
+            I10n.of(context).for_text +
+            ' ${value.tradeInfo!.outputToken}';
+        return text;
+      },
+    );
   }
 
   String getSender() {
@@ -246,7 +244,7 @@ class WalletAction with _$WalletAction {
   const factory WalletAction.createWallet({
     required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('createWallet') required String name,
+    @Default('createWallet') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,
@@ -256,7 +254,7 @@ class WalletAction with _$WalletAction {
   const factory WalletAction.fiatDeposit({
     required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('fiat-deposit') required String name,
+    @Default('fiat-deposit') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,
@@ -273,7 +271,7 @@ class WalletAction with _$WalletAction {
   const factory WalletAction.joinCommunity({
     required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('joinCommunity') required String name,
+    @Default('joinCommunity') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,
@@ -286,7 +284,7 @@ class WalletAction with _$WalletAction {
   const factory WalletAction.bonus({
     required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('tokenBonus') required String name,
+    @Default('tokenBonus') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,
@@ -304,7 +302,7 @@ class WalletAction with _$WalletAction {
   const factory WalletAction.send({
     required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('sendTokens') required String name,
+    @Default('sendTokens') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,
@@ -321,7 +319,7 @@ class WalletAction with _$WalletAction {
   const factory WalletAction.receive({
     required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('receiveTokens') required String name,
+    @Default('receiveTokens') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,
@@ -336,9 +334,9 @@ class WalletAction with _$WalletAction {
 
   @JsonSerializable()
   const factory WalletAction.swap({
-    @Default(null) required int timestamp,
+    required int timestamp,
     @JsonKey(name: '_id') required String id,
-    @Default('swapTokens') required String name,
+    @Default('swapTokens') String name,
     @Default(null) String? txHash,
     required String status,
     required int blockNumber,

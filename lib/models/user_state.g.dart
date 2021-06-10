@@ -8,8 +8,10 @@ part of 'user_state.dart';
 
 _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
   return _$_UserState(
-    DateTime.parse(json['installedAt'] as String),
-    isContactsSynced: json['isContactsSynced'] as bool,
+    installedAt: json['installedAt'] == null
+        ? null
+        : DateTime.parse(json['installedAt'] as String),
+    isContactsSynced: json['isContactsSynced'] as bool?,
     isLoggedOut: json['isLoggedOut'] as bool? ?? false,
     backup: json['backup'] as bool? ?? false,
     depositBannerShowed: json['depositBannerShowed'] as bool? ?? false,
@@ -53,7 +55,7 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
     <String, dynamic>{
-      'installedAt': instance.installedAt.toIso8601String(),
+      'installedAt': instance.installedAt?.toIso8601String(),
       'isContactsSynced': instance.isContactsSynced,
       'isLoggedOut': instance.isLoggedOut,
       'backup': instance.backup,
