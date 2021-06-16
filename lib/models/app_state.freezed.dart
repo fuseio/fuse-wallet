@@ -24,7 +24,7 @@ class _$AppStateTearOff {
       {@UserStateConverter() required UserState userState,
       @CashWalletStateConverter() required CashWalletState cashWalletState,
       @ProWalletStateConverter() required ProWalletState proWalletState,
-      required SwapState swapState}) {
+      @SwapStateConverter() required SwapState swapState}) {
     return _AppState(
       userState: userState,
       cashWalletState: cashWalletState,
@@ -49,6 +49,7 @@ mixin _$AppState {
   CashWalletState get cashWalletState => throw _privateConstructorUsedError;
   @ProWalletStateConverter()
   ProWalletState get proWalletState => throw _privateConstructorUsedError;
+  @SwapStateConverter()
   SwapState get swapState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -65,7 +66,7 @@ abstract class $AppStateCopyWith<$Res> {
       {@UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
       @ProWalletStateConverter() ProWalletState proWalletState,
-      SwapState swapState});
+      @SwapStateConverter() SwapState swapState});
 
   $UserStateCopyWith<$Res> get userState;
   $CashWalletStateCopyWith<$Res> get cashWalletState;
@@ -146,7 +147,7 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       {@UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
       @ProWalletStateConverter() ProWalletState proWalletState,
-      SwapState swapState});
+      @SwapStateConverter() SwapState swapState});
 
   @override
   $UserStateCopyWith<$Res> get userState;
@@ -203,7 +204,7 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
       {@UserStateConverter() required this.userState,
       @CashWalletStateConverter() required this.cashWalletState,
       @ProWalletStateConverter() required this.proWalletState,
-      required this.swapState})
+      @SwapStateConverter() required this.swapState})
       : super._();
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
@@ -219,6 +220,7 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   @ProWalletStateConverter()
   final ProWalletState proWalletState;
   @override
+  @SwapStateConverter()
   final SwapState swapState;
 
   @override
@@ -279,7 +281,7 @@ abstract class _AppState extends AppState {
       {@UserStateConverter() required UserState userState,
       @CashWalletStateConverter() required CashWalletState cashWalletState,
       @ProWalletStateConverter() required ProWalletState proWalletState,
-      required SwapState swapState}) = _$_AppState;
+      @SwapStateConverter() required SwapState swapState}) = _$_AppState;
   _AppState._() : super._();
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
@@ -294,6 +296,7 @@ abstract class _AppState extends AppState {
   @ProWalletStateConverter()
   ProWalletState get proWalletState => throw _privateConstructorUsedError;
   @override
+  @SwapStateConverter()
   SwapState get swapState => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

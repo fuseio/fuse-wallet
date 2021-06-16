@@ -18,5 +18,24 @@ class SwapState with _$SwapState {
     @Default({}) Map<String, String> tokensImages,
   }) = _SwapState;
 
+  factory SwapState.initial() {
+    return SwapState(
+      tokens: {},
+      tokensImages: {},
+    );
+  }
+
   factory SwapState.fromJson(dynamic json) => _$SwapStateFromJson(json);
+}
+
+class SwapStateConverter
+    implements JsonConverter<SwapState, Map<String, dynamic>?> {
+  const SwapStateConverter();
+
+  @override
+  SwapState fromJson(Map<String, dynamic>? json) =>
+      json != null ? SwapState.fromJson(json) : SwapState.initial();
+
+  @override
+  Map<String, dynamic> toJson(SwapState instance) => instance.toJson();
 }

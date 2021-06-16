@@ -10,6 +10,7 @@ import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/numeric_keyboard.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -31,7 +32,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   late AnimationController controller;
   late Animation<Offset> offset;
   bool isPreloading = false;
-  late Token selectedToken;
+  Token? selectedToken;
 
   @override
   void dispose() {
@@ -146,7 +147,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
       final bool hasFund = ![null, '', '0'].contains(amountText) &&
           (Decimal.parse(amountText)).compareTo(
                 Decimal.parse(
-                  selectedToken.getBalance(true),
+                  selectedToken?.getBalance(true) ?? '0',
                 ),
               ) <=
               0;
@@ -166,31 +167,29 @@ class _SendAmountScreenState extends State<SendAmountScreen>
       height: 28,
       child: OutlinedButton(
         style: TextButton.styleFrom(
+          primary: Theme.of(context).colorScheme.onSurface,
+          textStyle: TextStyle(
+            letterSpacing: 0,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6.0),
           ),
-        ),
-        // focusColor: Theme.of(context).colorScheme.onSurface,
-        // hoverColor: Theme.of(context).colorScheme.onSurface,
-        // highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
-        // padding: EdgeInsets.all(0),
-        // textColor: Theme.of(context).colorScheme.onSurface,
-        // borderSide: BorderSide(
-        //   color: Theme.of(context).colorScheme.onSurface,
-        //   width: 2.0,
-        // ),
-        child: Text(
-          I10n.of(context).use_max,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0,
+          side: BorderSide(
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 2.0,
           ),
         ),
+        child: Text(
+          I10n.of(context).use_max,
+        ),
         onPressed: () {
-          String max = selectedToken.getBalance(true);
-          if (Decimal.parse(max).compareTo(Decimal.parse(amountText)) != 0) {
-            _onKeyPress(max, max: true);
+          String max = selectedToken?.getBalance(true) ?? '0';
+          log.info('max $max');
+          if (num.parse(max).compareTo(num.parse(amountText)) != 0) {
+            _onKeyPress(num.parse(max).toStringAsPrecision(15), max: true);
           }
         },
       ),
@@ -223,7 +222,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         final bool hasFund =
             (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
                       Decimal.parse(
-                        selectedToken.getBalance(true),
+                        (selectedToken?.getBalance(true) ?? '0'),
                       ),
                     ) <=
                     0 &&
@@ -312,7 +311,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                                       MainAxisSize.min,
                                                   children: <Widget>[
                                                     Text(
-                                                      selectedToken.symbol,
+                                                      selectedToken?.symbol ??
+                                                          '',
                                                       style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -337,7 +337,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               Padding(
                                 padding: EdgeInsets.only(
                                   left: 40,
-                                  top: 40,
+                                  top: 20,
                                   right: 40,
                                 ),
                                 child: Divider(

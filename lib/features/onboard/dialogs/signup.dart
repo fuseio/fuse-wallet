@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/screens/webview_screen.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
@@ -94,14 +95,10 @@ class SignUpDialogState extends State<SignUpDialog>
                     focusColor: Theme.of(context).canvasColor,
                     highlightColor: Theme.of(context).canvasColor,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WebViewScreen(
-                            'https://fuse.cash/privacy',
-                            I10n.of(context).legal,
-                          ),
-                          fullscreenDialog: true,
+                      AutoRouter.of(context).push(
+                        Webview(
+                          title: I10n.of(context).legal,
+                          url: 'https://fuse.cash/privacy',
                         ),
                       );
                     },

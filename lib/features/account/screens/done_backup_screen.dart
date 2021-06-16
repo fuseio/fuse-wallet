@@ -18,6 +18,7 @@ class DoneBackup extends StatelessWidget {
         converter: BackupViewModel.fromStore,
         builder: (_, viewModal) {
           return Container(
+            height: MediaQuery.of(context).size.height * 0.75,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -69,9 +70,6 @@ class DoneBackup extends StatelessWidget {
                           context.router.popUntilRoot();
                         },
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
                     ),
                   ],
                 ),

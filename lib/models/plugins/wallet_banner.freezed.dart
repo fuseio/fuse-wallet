@@ -22,10 +22,10 @@ class _$WalletBannerPluginTearOff {
 
   _WalletBannerPlugin call(
       {String type = 'walletBanner',
-      required String walletBannerHash,
-      required String name,
-      required String link,
-      required bool isActive}) {
+      String? walletBannerHash = null,
+      String? name = null,
+      String? link = null,
+      bool isActive = false}) {
     return _WalletBannerPlugin(
       type: type,
       walletBannerHash: walletBannerHash,
@@ -46,9 +46,9 @@ const $WalletBannerPlugin = _$WalletBannerPluginTearOff();
 /// @nodoc
 mixin _$WalletBannerPlugin {
   String get type => throw _privateConstructorUsedError;
-  String get walletBannerHash => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get link => throw _privateConstructorUsedError;
+  String? get walletBannerHash => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get link => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,9 +64,9 @@ abstract class $WalletBannerPluginCopyWith<$Res> {
       _$WalletBannerPluginCopyWithImpl<$Res>;
   $Res call(
       {String type,
-      String walletBannerHash,
-      String name,
-      String link,
+      String? walletBannerHash,
+      String? name,
+      String? link,
       bool isActive});
 }
 
@@ -95,15 +95,15 @@ class _$WalletBannerPluginCopyWithImpl<$Res>
       walletBannerHash: walletBannerHash == freezed
           ? _value.walletBannerHash
           : walletBannerHash // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       link: link == freezed
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -121,9 +121,9 @@ abstract class _$WalletBannerPluginCopyWith<$Res>
   @override
   $Res call(
       {String type,
-      String walletBannerHash,
-      String name,
-      String link,
+      String? walletBannerHash,
+      String? name,
+      String? link,
       bool isActive});
 }
 
@@ -154,15 +154,15 @@ class __$WalletBannerPluginCopyWithImpl<$Res>
       walletBannerHash: walletBannerHash == freezed
           ? _value.walletBannerHash
           : walletBannerHash // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       link: link == freezed
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -180,10 +180,10 @@ class _$_WalletBannerPlugin
     implements _WalletBannerPlugin {
   _$_WalletBannerPlugin(
       {this.type = 'walletBanner',
-      required this.walletBannerHash,
-      required this.name,
-      required this.link,
-      required this.isActive});
+      this.walletBannerHash = null,
+      this.name = null,
+      this.link = null,
+      this.isActive = false});
 
   factory _$_WalletBannerPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_WalletBannerPluginFromJson(json);
@@ -191,12 +191,16 @@ class _$_WalletBannerPlugin
   @JsonKey(defaultValue: 'walletBanner')
   @override
   final String type;
+  @JsonKey(defaultValue: null)
   @override
-  final String walletBannerHash;
+  final String? walletBannerHash;
+  @JsonKey(defaultValue: null)
   @override
-  final String name;
+  final String? name;
+  @JsonKey(defaultValue: null)
   @override
-  final String link;
+  final String? link;
+  @JsonKey(defaultValue: false)
   @override
   final bool isActive;
 
@@ -258,10 +262,10 @@ class _$_WalletBannerPlugin
 abstract class _WalletBannerPlugin implements WalletBannerPlugin, Plugin {
   factory _WalletBannerPlugin(
       {String type,
-      required String walletBannerHash,
-      required String name,
-      required String link,
-      required bool isActive}) = _$_WalletBannerPlugin;
+      String? walletBannerHash,
+      String? name,
+      String? link,
+      bool isActive}) = _$_WalletBannerPlugin;
 
   factory _WalletBannerPlugin.fromJson(Map<String, dynamic> json) =
       _$_WalletBannerPlugin.fromJson;
@@ -269,11 +273,11 @@ abstract class _WalletBannerPlugin implements WalletBannerPlugin, Plugin {
   @override
   String get type => throw _privateConstructorUsedError;
   @override
-  String get walletBannerHash => throw _privateConstructorUsedError;
+  String? get walletBannerHash => throw _privateConstructorUsedError;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @override
-  String get link => throw _privateConstructorUsedError;
+  String? get link => throw _privateConstructorUsedError;
   @override
   bool get isActive => throw _privateConstructorUsedError;
   @override

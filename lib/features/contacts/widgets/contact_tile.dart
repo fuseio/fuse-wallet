@@ -4,14 +4,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class ContactTile extends StatelessWidget {
   final ImageProvider<Object>? image;
   final String displayName;
-  // final String phoneNumber;
   final void Function() onTap;
   final Widget? trailing;
   const ContactTile({
     Key? key,
     this.image,
     required this.displayName,
-    // required this.phoneNumber,
     required this.onTap,
     this.trailing,
   }) : super(key: key);
@@ -39,7 +37,7 @@ class ContactTile extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: Color(0xFFE0E0E0),
             radius: 25,
-            backgroundImage: image,
+            backgroundImage: image ?? AssetImage('assets/images/anom.png'),
           ),
           title: Text(
             displayName,

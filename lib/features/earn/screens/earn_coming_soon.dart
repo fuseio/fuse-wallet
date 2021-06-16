@@ -46,8 +46,14 @@ class EarnComingSoonScreen extends StatelessWidget {
               bottom: 30,
               child: OutlinedButton(
                 style: TextButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.width * .7, 50),
+                  primary: Theme.of(context).colorScheme.onSurface,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    width: 2.0,
                   ),
                 ),
                 // focusColor: Theme.of(context).colorScheme.onSurface,
@@ -102,7 +108,7 @@ class EarnComingSoonScreen extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => LearnMoreDialog(),
+                        builder: (_) => LearnMoreDialog(),
                       );
                     },
                     focusColor: Theme.of(context).canvasColor,

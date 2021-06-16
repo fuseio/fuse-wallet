@@ -44,7 +44,7 @@ class _$WalletActionTearOff {
       String name = 'createWallet',
       String? txHash = null,
       required String status,
-      required int blockNumber}) {
+      int? blockNumber = 0}) {
     return CreateWallet(
       timestamp: timestamp,
       id: id,
@@ -61,7 +61,7 @@ class _$WalletActionTearOff {
       String name = 'fiat-deposit',
       String? txHash = null,
       required String status,
-      required int blockNumber,
+      int? blockNumber = 0,
       required String tokenAddress,
       required String from,
       required String to,
@@ -92,7 +92,7 @@ class _$WalletActionTearOff {
       String name = 'joinCommunity',
       String? txHash = null,
       required String status,
-      required int blockNumber,
+      int? blockNumber = 0,
       required String communityAddress,
       required String tokenAddress,
       String? communityName = null}) {
@@ -115,7 +115,7 @@ class _$WalletActionTearOff {
       String name = 'tokenBonus',
       String? txHash = null,
       required String status,
-      required int blockNumber,
+      int? blockNumber = 0,
       required String tokenAddress,
       required String from,
       required String to,
@@ -148,7 +148,7 @@ class _$WalletActionTearOff {
       String name = 'sendTokens',
       String? txHash = null,
       required String status,
-      required int blockNumber,
+      int? blockNumber = 0,
       required String tokenAddress,
       required String from,
       required String to,
@@ -179,7 +179,7 @@ class _$WalletActionTearOff {
       String name = 'receiveTokens',
       String? txHash = null,
       required String status,
-      required int blockNumber,
+      int? blockNumber = 0,
       required String tokenAddress,
       required String from,
       required String to,
@@ -210,7 +210,7 @@ class _$WalletActionTearOff {
       String name = 'swapTokens',
       String? txHash = null,
       required String status,
-      required int blockNumber,
+      int? blockNumber = 0,
       @JsonKey(name: 'metadata') TradeInfo? tradeInfo = null}) {
     return Swap(
       timestamp: timestamp,
@@ -239,12 +239,12 @@ mixin _$WalletAction {
   String get name => throw _privateConstructorUsedError;
   String? get txHash => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -252,7 +252,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -267,7 +267,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -278,7 +278,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -294,7 +294,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -309,7 +309,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -324,7 +324,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) =>
@@ -332,7 +332,7 @@ mixin _$WalletAction {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -340,7 +340,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -355,7 +355,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -366,7 +366,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -382,7 +382,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -397,7 +397,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -412,7 +412,7 @@ mixin _$WalletAction {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -458,7 +458,7 @@ abstract class $WalletActionCopyWith<$Res> {
       String name,
       String? txHash,
       String status,
-      int blockNumber});
+      int? blockNumber});
 }
 
 /// @nodoc
@@ -502,7 +502,7 @@ class _$WalletActionCopyWithImpl<$Res> implements $WalletActionCopyWith<$Res> {
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -520,7 +520,7 @@ abstract class $CreateWalletCopyWith<$Res>
       String name,
       String? txHash,
       String status,
-      int blockNumber});
+      int? blockNumber});
 }
 
 /// @nodoc
@@ -566,7 +566,7 @@ class _$CreateWalletCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -581,7 +581,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
       this.name = 'createWallet',
       this.txHash = null,
       required this.status,
-      required this.blockNumber})
+      this.blockNumber = 0})
       : super._();
 
   factory _$CreateWallet.fromJson(Map<String, dynamic> json) =>
@@ -600,8 +600,9 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -660,7 +661,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -668,7 +669,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -683,7 +684,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -694,7 +695,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -710,7 +711,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -725,7 +726,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -740,7 +741,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -751,7 +752,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -759,7 +760,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -774,7 +775,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -785,7 +786,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -801,7 +802,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -816,7 +817,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -831,7 +832,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -887,7 +888,7 @@ abstract class CreateWallet extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber}) = _$CreateWallet;
+      int? blockNumber}) = _$CreateWallet;
   const CreateWallet._() : super._();
 
   factory CreateWallet.fromJson(Map<String, dynamic> json) =
@@ -905,7 +906,7 @@ abstract class CreateWallet extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $CreateWalletCopyWith<CreateWallet> get copyWith =>
@@ -925,7 +926,7 @@ abstract class $FiatDepositCopyWith<$Res>
       String name,
       String? txHash,
       String status,
-      int blockNumber,
+      int? blockNumber,
       String tokenAddress,
       String from,
       String to,
@@ -985,7 +986,7 @@ class _$FiatDepositCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       tokenAddress: tokenAddress == freezed
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -1028,7 +1029,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
       this.name = 'fiat-deposit',
       this.txHash = null,
       required this.status,
-      required this.blockNumber,
+      this.blockNumber = 0,
       required this.tokenAddress,
       required this.from,
       required this.to,
@@ -1054,8 +1055,9 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
   @override
   final String tokenAddress;
   @override
@@ -1160,7 +1162,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -1168,7 +1170,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1183,7 +1185,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -1194,7 +1196,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1210,7 +1212,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1225,7 +1227,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1240,7 +1242,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -1252,7 +1254,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -1260,7 +1262,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1275,7 +1277,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -1286,7 +1288,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1302,7 +1304,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1317,7 +1319,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1332,7 +1334,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -1389,7 +1391,7 @@ abstract class FiatDeposit extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber,
+      int? blockNumber,
       required String tokenAddress,
       required String from,
       required String to,
@@ -1414,7 +1416,7 @@ abstract class FiatDeposit extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
   String get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
@@ -1441,7 +1443,7 @@ abstract class $JoinCommunityCopyWith<$Res>
       String name,
       String? txHash,
       String status,
-      int blockNumber,
+      int? blockNumber,
       String communityAddress,
       String tokenAddress,
       String? communityName});
@@ -1493,7 +1495,7 @@ class _$JoinCommunityCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress // ignore: cast_nullable_to_non_nullable
@@ -1520,7 +1522,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
       this.name = 'joinCommunity',
       this.txHash = null,
       required this.status,
-      required this.blockNumber,
+      this.blockNumber = 0,
       required this.communityAddress,
       required this.tokenAddress,
       this.communityName = null})
@@ -1542,8 +1544,9 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
   @override
   final String communityAddress;
   @override
@@ -1624,7 +1627,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -1632,7 +1635,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1647,7 +1650,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -1658,7 +1661,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1674,7 +1677,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1689,7 +1692,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1704,7 +1707,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -1716,7 +1719,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -1724,7 +1727,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1739,7 +1742,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -1750,7 +1753,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1766,7 +1769,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1781,7 +1784,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -1796,7 +1799,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -1853,7 +1856,7 @@ abstract class JoinCommunity extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber,
+      int? blockNumber,
       required String communityAddress,
       required String tokenAddress,
       String? communityName}) = _$JoinCommunity;
@@ -1874,7 +1877,7 @@ abstract class JoinCommunity extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   String get communityAddress => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
   String? get communityName => throw _privateConstructorUsedError;
@@ -1895,7 +1898,7 @@ abstract class $BonusCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String name,
       String? txHash,
       String status,
-      int blockNumber,
+      int? blockNumber,
       String tokenAddress,
       String from,
       String to,
@@ -1956,7 +1959,7 @@ class _$BonusCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       tokenAddress: tokenAddress == freezed
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -2003,7 +2006,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
       this.name = 'tokenBonus',
       this.txHash = null,
       required this.status,
-      required this.blockNumber,
+      this.blockNumber = 0,
       required this.tokenAddress,
       required this.from,
       required this.to,
@@ -2030,8 +2033,9 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
   @override
   final String tokenAddress;
   @override
@@ -2144,7 +2148,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -2152,7 +2156,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2167,7 +2171,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -2178,7 +2182,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2194,7 +2198,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2209,7 +2213,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2224,7 +2228,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -2236,7 +2240,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -2244,7 +2248,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2259,7 +2263,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -2270,7 +2274,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2286,7 +2290,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2301,7 +2305,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2316,7 +2320,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -2386,7 +2390,7 @@ abstract class Bonus extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber,
+      int? blockNumber,
       required String tokenAddress,
       required String from,
       required String to,
@@ -2411,7 +2415,7 @@ abstract class Bonus extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
   String get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
@@ -2436,7 +2440,7 @@ abstract class $SendCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String name,
       String? txHash,
       String status,
-      int blockNumber,
+      int? blockNumber,
       String tokenAddress,
       String from,
       String to,
@@ -2495,7 +2499,7 @@ class _$SendCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       tokenAddress: tokenAddress == freezed
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -2538,7 +2542,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
       this.name = 'sendTokens',
       this.txHash = null,
       required this.status,
-      required this.blockNumber,
+      this.blockNumber = 0,
       required this.tokenAddress,
       required this.from,
       required this.to,
@@ -2563,8 +2567,9 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
   @override
   final String tokenAddress;
   @override
@@ -2669,7 +2674,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -2677,7 +2682,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2692,7 +2697,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -2703,7 +2708,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2719,7 +2724,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2734,7 +2739,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2749,7 +2754,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -2761,7 +2766,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -2769,7 +2774,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2784,7 +2789,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -2795,7 +2800,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2811,7 +2816,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2826,7 +2831,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -2841,7 +2846,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -2898,7 +2903,7 @@ abstract class Send extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber,
+      int? blockNumber,
       required String tokenAddress,
       required String from,
       required String to,
@@ -2922,7 +2927,7 @@ abstract class Send extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
   String get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
@@ -2946,7 +2951,7 @@ abstract class $ReceiveCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String name,
       String? txHash,
       String status,
-      int blockNumber,
+      int? blockNumber,
       String tokenAddress,
       String from,
       String to,
@@ -3005,7 +3010,7 @@ class _$ReceiveCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       tokenAddress: tokenAddress == freezed
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -3048,7 +3053,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
       this.name = 'receiveTokens',
       this.txHash = null,
       required this.status,
-      required this.blockNumber,
+      this.blockNumber = 0,
       required this.tokenAddress,
       required this.from,
       required this.to,
@@ -3074,8 +3079,9 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
   @override
   final String tokenAddress;
   @override
@@ -3180,7 +3186,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -3188,7 +3194,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3203,7 +3209,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -3214,7 +3220,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3230,7 +3236,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3245,7 +3251,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3260,7 +3266,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -3272,7 +3278,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -3280,7 +3286,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3295,7 +3301,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -3306,7 +3312,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3322,7 +3328,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3337,7 +3343,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3352,7 +3358,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -3409,7 +3415,7 @@ abstract class Receive extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber,
+      int? blockNumber,
       required String tokenAddress,
       required String from,
       required String to,
@@ -3433,7 +3439,7 @@ abstract class Receive extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
   String get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
@@ -3457,7 +3463,7 @@ abstract class $SwapCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String name,
       String? txHash,
       String status,
-      int blockNumber,
+      int? blockNumber,
       @JsonKey(name: 'metadata') TradeInfo? tradeInfo});
 
   $TradeInfoCopyWith<$Res>? get tradeInfo;
@@ -3506,7 +3512,7 @@ class _$SwapCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       blockNumber: blockNumber == freezed
           ? _value.blockNumber
           : blockNumber // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       tradeInfo: tradeInfo == freezed
           ? _value.tradeInfo
           : tradeInfo // ignore: cast_nullable_to_non_nullable
@@ -3536,7 +3542,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
       this.name = 'swapTokens',
       this.txHash = null,
       required this.status,
-      required this.blockNumber,
+      this.blockNumber = 0,
       @JsonKey(name: 'metadata') this.tradeInfo = null})
       : super._();
 
@@ -3555,8 +3561,9 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
   final String? txHash;
   @override
   final String status;
+  @JsonKey(defaultValue: 0)
   @override
-  final int blockNumber;
+  final int? blockNumber;
   @override
   @JsonKey(name: 'metadata')
   final TradeInfo? tradeInfo;
@@ -3623,7 +3630,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)
+            String name, String? txHash, String status, int? blockNumber)
         createWallet,
     required TResult Function(
             int timestamp,
@@ -3631,7 +3638,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3646,7 +3653,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)
@@ -3657,7 +3664,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3673,7 +3680,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3688,7 +3695,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3703,7 +3710,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -3714,7 +3721,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int timestamp, @JsonKey(name: '_id') String id,
-            String name, String? txHash, String status, int blockNumber)?
+            String name, String? txHash, String status, int? blockNumber)?
         createWallet,
     TResult Function(
             int timestamp,
@@ -3722,7 +3729,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3737,7 +3744,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String communityAddress,
             String tokenAddress,
             String? communityName)?
@@ -3748,7 +3755,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3764,7 +3771,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3779,7 +3786,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             String tokenAddress,
             String from,
             String to,
@@ -3794,7 +3801,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String name,
             String? txHash,
             String status,
-            int blockNumber,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -3850,7 +3857,7 @@ abstract class Swap extends WalletAction {
       String name,
       String? txHash,
       required String status,
-      required int blockNumber,
+      int? blockNumber,
       @JsonKey(name: 'metadata') TradeInfo? tradeInfo}) = _$Swap;
   const Swap._() : super._();
 
@@ -3868,7 +3875,7 @@ abstract class Swap extends WalletAction {
   @override
   String get status => throw _privateConstructorUsedError;
   @override
-  int get blockNumber => throw _privateConstructorUsedError;
+  int? get blockNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'metadata')
   TradeInfo? get tradeInfo => throw _privateConstructorUsedError;
   @override

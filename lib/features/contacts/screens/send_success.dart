@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
 
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
@@ -23,12 +24,20 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     super.initState();
     Future.delayed(Duration(milliseconds: 2500), () {
       context.router.popUntilRoot();
+      context.navigateTo(
+        HomeTab(
+          children: [
+            HomeScreen(
+              initialIndex: 0,
+            ),
+          ],
+        ),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final SendFlowArguments args = this.widget.pageArgs;
     return MyScaffold(
       title: I10n.of(context).success,
       body: Container(
@@ -38,8 +47,8 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
             child: CircleAvatar(
               backgroundColor: Color(0xFFE0E0E0),
               radius: 100,
-              backgroundImage:
-                  args.avatar ?? AssetImage('assets/images/anom.png'),
+              backgroundImage: this.widget.pageArgs.avatar ??
+                  AssetImage('assets/images/anom.png'),
               child: Transform.scale(
                 scale: 6,
                 origin: Offset(-9, 7),

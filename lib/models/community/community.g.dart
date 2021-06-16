@@ -17,15 +17,16 @@ _$_Community _$_$_CommunityFromJson(Map<String, dynamic> json) {
     metadata: json['metadata'] == null
         ? null
         : CommunityMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    webUrl: json['webUrl'] as String,
-    bridgeType: json['bridgeType'] as String,
-    bridgeDirection: json['bridgeDirection'] as String,
-    homeBridgeAddress: json['homeBridgeAddress'] as String,
-    foreignBridgeAddress: json['foreignBridgeAddress'] as String,
-    foreignTokenAddress: json['foreignTokenAddress'] as String,
-    plugins: pluginsFromJson(json['plugins']),
-    businesses: (json['businesses'] as List<dynamic>)
-        .map((e) => Business.fromJson(e as Map<String, dynamic>))
+    webUrl: json['webUrl'] as String?,
+    bridgeType: json['bridgeType'] as String?,
+    bridgeDirection: json['bridgeDirection'] as String?,
+    homeBridgeAddress: json['homeBridgeAddress'] as String?,
+    foreignBridgeAddress: json['foreignBridgeAddress'] as String?,
+    foreignTokenAddress: json['foreignTokenAddress'] as String?,
+    plugins: const PluginsConverter()
+        .fromJson(json['plugins'] as Map<String, dynamic>?),
+    businesses: (json['businesses'] as List<dynamic>?)
+        ?.map((e) => Business.fromJson(e as Map<String, dynamic>))
         .toList(),
     description: json['description'] as String?,
   );
@@ -48,14 +49,15 @@ Map<String, dynamic> _$_$_CommunityToJson(_$_Community instance) {
   }
 
   writeNotNull('metadata', instance.metadata?.toJson());
-  val['webUrl'] = instance.webUrl;
-  val['bridgeType'] = instance.bridgeType;
-  val['bridgeDirection'] = instance.bridgeDirection;
-  val['homeBridgeAddress'] = instance.homeBridgeAddress;
-  val['foreignBridgeAddress'] = instance.foreignBridgeAddress;
-  val['foreignTokenAddress'] = instance.foreignTokenAddress;
-  writeNotNull('plugins', instance.plugins?.toJson());
-  val['businesses'] = instance.businesses.map((e) => e.toJson()).toList();
+  writeNotNull('webUrl', instance.webUrl);
+  writeNotNull('bridgeType', instance.bridgeType);
+  writeNotNull('bridgeDirection', instance.bridgeDirection);
+  writeNotNull('homeBridgeAddress', instance.homeBridgeAddress);
+  writeNotNull('foreignBridgeAddress', instance.foreignBridgeAddress);
+  writeNotNull('foreignTokenAddress', instance.foreignTokenAddress);
+  writeNotNull('plugins', const PluginsConverter().toJson(instance.plugins));
+  writeNotNull(
+      'businesses', instance.businesses?.map((e) => e.toJson()).toList());
   writeNotNull('description', instance.description);
   return val;
 }

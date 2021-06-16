@@ -10,7 +10,7 @@ import 'package:fusecash/redux/viewsmodels/trade_card.dart';
 import 'package:fusecash/widgets/default_logo.dart';
 
 class TradeCard extends StatelessWidget {
-  final Token token;
+  final Token? token;
   final String title;
   final Widget? useMaxWidget;
   final bool showCurrent;
@@ -24,7 +24,7 @@ class TradeCard extends StatelessWidget {
     required this.isSwapped,
     required this.onTap,
     required this.onChanged,
-    required this.token,
+    this.token,
     required this.textEditingController,
     this.showCurrent = false,
     this.useMaxWidget,
@@ -63,7 +63,7 @@ class TradeCard extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Stack(
-                      clipBehavior: Clip.hardEdge,
+                      clipBehavior: Clip.none,
                       children: [
                         Row(
                           children: [
@@ -78,14 +78,13 @@ class TradeCard extends StatelessWidget {
                                     child: CachedNetworkImage(
                                       width: 35,
                                       height: 35,
-                                      imageUrl: (viewModel
-                                              .tokensImages[token.address]) ??
-                                          '',
+                                      imageUrl: viewModel
+                                          .tokensImages[token?.address]!,
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
                                           DefaultLogo(
-                                        symbol: token.symbol,
+                                        symbol: token?.symbol ?? '',
                                         width: 35,
                                         height: 35,
                                       ),
@@ -95,7 +94,7 @@ class TradeCard extends StatelessWidget {
                                     width: 5,
                                   ),
                                   Text(
-                                    token.symbol,
+                                    token?.symbol ?? '',
                                     style: TextStyle(fontSize: 27),
                                   ),
                                   Icon(Icons.arrow_drop_down)
@@ -113,7 +112,7 @@ class TradeCard extends StatelessWidget {
                                       height: 5,
                                     ),
                                     Text(
-                                      token.getBalance() +
+                                      (token?.getBalance() ?? '') +
                                           ' ' +
                                           I10n.of(context).available,
                                     ),

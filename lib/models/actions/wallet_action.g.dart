@@ -13,7 +13,7 @@ _$CreateWallet _$_$CreateWalletFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'createWallet',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
   );
 }
 
@@ -34,7 +34,7 @@ _$FiatDeposit _$_$FiatDepositFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'fiat-deposit',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
     tokenAddress: json['tokenAddress'] as String,
     from: json['from'] as String,
     to: json['to'] as String,
@@ -69,7 +69,7 @@ _$JoinCommunity _$_$JoinCommunityFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'joinCommunity',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
     communityAddress: json['communityAddress'] as String,
     tokenAddress: json['tokenAddress'] as String,
     communityName: json['communityName'] as String?,
@@ -96,7 +96,7 @@ _$Bonus _$_$BonusFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'tokenBonus',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
     tokenAddress: json['tokenAddress'] as String,
     from: json['from'] as String,
     to: json['to'] as String,
@@ -132,7 +132,7 @@ _$Send _$_$SendFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'sendTokens',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
     tokenAddress: json['tokenAddress'] as String,
     from: json['from'] as String,
     to: json['to'] as String,
@@ -166,7 +166,7 @@ _$Receive _$_$ReceiveFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'receiveTokens',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
     tokenAddress: json['tokenAddress'] as String,
     from: json['from'] as String,
     to: json['to'] as String,
@@ -200,7 +200,7 @@ _$Swap _$_$SwapFromJson(Map<String, dynamic> json) {
     name: json['name'] as String? ?? 'swapTokens',
     txHash: json['txHash'] as String?,
     status: json['status'] as String,
-    blockNumber: json['blockNumber'] as int,
+    blockNumber: json['blockNumber'] as int? ?? 0,
     tradeInfo: json['metadata'] == null
         ? null
         : TradeInfo.fromJson(json['metadata'] as Map<String, dynamic>),

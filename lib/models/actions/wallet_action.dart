@@ -247,7 +247,7 @@ class WalletAction with _$WalletAction {
     @Default('createWallet') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
   }) = CreateWallet;
 
   @JsonSerializable()
@@ -257,7 +257,7 @@ class WalletAction with _$WalletAction {
     @Default('fiat-deposit') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
     required String tokenAddress,
     required String from,
     required String to,
@@ -274,7 +274,7 @@ class WalletAction with _$WalletAction {
     @Default('joinCommunity') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
     required String communityAddress,
     required String tokenAddress,
     @Default(null) String? communityName,
@@ -287,7 +287,7 @@ class WalletAction with _$WalletAction {
     @Default('tokenBonus') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
     required String tokenAddress,
     required String from,
     required String to,
@@ -305,7 +305,7 @@ class WalletAction with _$WalletAction {
     @Default('sendTokens') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
     required String tokenAddress,
     required String from,
     required String to,
@@ -322,7 +322,7 @@ class WalletAction with _$WalletAction {
     @Default('receiveTokens') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
     required String tokenAddress,
     required String from,
     required String to,
@@ -339,7 +339,7 @@ class WalletAction with _$WalletAction {
     @Default('swapTokens') String name,
     @Default(null) String? txHash,
     required String status,
-    required int blockNumber,
+    @Default(0) int? blockNumber,
     @Default(null) @JsonKey(name: 'metadata') TradeInfo? tradeInfo,
   }) = Swap;
 }

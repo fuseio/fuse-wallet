@@ -1,6 +1,7 @@
 // import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
@@ -40,7 +41,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
-      // ExtendedNavigator.root.pushUserNameScreen();
+      rootRouter.push(UserNameScreen());
     };
 
     final PhoneVerificationFailed verificationFailed = (
@@ -77,9 +78,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       store.dispatch(SetIsLoginRequest(isLoading: false));
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
-      // Todo - .pushVerifyScreen(verificationId: verificationId);
-
-      // ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
+      rootRouter.push(VerifyPhoneNumber(verificationId: verificationId));
     };
 
     await firebaseAuth.verifyPhoneNumber(
@@ -95,7 +94,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
   Future verify(store, verificationCode, onSuccess) async {
     store.dispatch(setDeviceId());
     store.dispatch(SetIsVerifyRequest(isLoading: true));
-    AuthCredential? credential = store.state.userState.credentials;
+    PhoneAuthCredential? credential = store.state.userState.credentials;
     final String verificationId = store.state.userState.verificationId;
     if (credential == null) {
       credential = PhoneAuthProvider.credential(

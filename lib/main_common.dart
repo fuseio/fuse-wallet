@@ -4,25 +4,24 @@ import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/app.dart';
 import 'package:fusecash/models/app_state.dart';
-// import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/common/di/di.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-// import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/secure_storage.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-// import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 
 Future<AppState> _loadState(persistor) async {
   try {
     final initialState = await persistor.load();
     return initialState;
-  } on Exception {
+  } catch (e, s) {
+    print('Load AppState failed ${e.toString()} ${s.toString()}');
     return AppState.initial();
   }
 }
@@ -33,10 +32,7 @@ Future<void> mainCommon(String env) async {
     DeviceOrientation.portraitUp,
   ]);
   final envFile = env == 'prod' ? '.env' : '.env_qa';
-  await dotenv.load(
-    fileName: 'environment/$envFile',
-    // mergeWith: {},
-  );
+  await dotenv.load(fileName: 'environment/$envFile');
   configureDependencies();
   FlutterSecureStorage storage = new FlutterSecureStorage();
   final Persistor<AppState> persistor = Persistor<AppState>(
@@ -59,17 +55,22 @@ Future<void> mainCommon(String env) async {
     initialState: initialState,
     middleware: wms,
   );
-  await SentryFlutter.init(
-    (options) {
-      options.debug = !kReleaseMode;
-      options.dsn = dotenv.env['SENTRY_DSN'];
-      options.serverName = dotenv.env['API_BASE_URL'];
-      options.environment = env;
-    },
-    appRunner: () => runApp(
-      MyApp(
-        store: store,
-      ),
-    ),
-  );
+
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.debug = !kReleaseMode;
+        options.dsn = dotenv.env['SENTRY_DSN'];
+        options.environment = env;
+      },
+    );
+    runApp(MyApp(store));
+  }, (exception, stackTrace) async {
+    if (kReleaseMode) {
+      await Sentry.captureException(exception, stackTrace: stackTrace);
+    } else {
+      log.error('FlutterError exception: ${exception.toString()}');
+      log.error('FlutterError stackTrace: ${stackTrace.toString()}');
+    }
+  });
 }

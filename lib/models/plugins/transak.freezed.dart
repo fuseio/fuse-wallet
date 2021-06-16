@@ -21,7 +21,7 @@ class _$TransakPluginTearOff {
   const _$TransakPluginTearOff();
 
   _TransakPlugin call(
-      {required String name,
+      {String name = 'transak',
       required String widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
@@ -154,7 +154,7 @@ class __$TransakPluginCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
   _$_TransakPlugin(
-      {required this.name,
+      {this.name = 'transak',
       required this.widgetUrl,
       this.type = 'deposit',
       this.isActive = false});
@@ -162,6 +162,7 @@ class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
   factory _$_TransakPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_TransakPluginFromJson(json);
 
+  @JsonKey(defaultValue: 'transak')
   @override
   final String name;
   @override
@@ -226,7 +227,7 @@ class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
 
 abstract class _TransakPlugin implements TransakPlugin, Plugin {
   factory _TransakPlugin(
-      {required String name,
+      {String name,
       required String widgetUrl,
       String type,
       bool isActive}) = _$_TransakPlugin;

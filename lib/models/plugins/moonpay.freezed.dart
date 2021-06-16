@@ -21,7 +21,7 @@ class _$MoonpayPluginTearOff {
   const _$MoonpayPluginTearOff();
 
   _MoonpayPlugin call(
-      {required String name,
+      {String name = 'moonpay',
       required String widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
@@ -154,7 +154,7 @@ class __$MoonpayPluginCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MoonpayPlugin with DiagnosticableTreeMixin implements _MoonpayPlugin {
   _$_MoonpayPlugin(
-      {required this.name,
+      {this.name = 'moonpay',
       required this.widgetUrl,
       this.type = 'deposit',
       this.isActive = false});
@@ -162,6 +162,7 @@ class _$_MoonpayPlugin with DiagnosticableTreeMixin implements _MoonpayPlugin {
   factory _$_MoonpayPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_MoonpayPluginFromJson(json);
 
+  @JsonKey(defaultValue: 'moonpay')
   @override
   final String name;
   @override
@@ -226,7 +227,7 @@ class _$_MoonpayPlugin with DiagnosticableTreeMixin implements _MoonpayPlugin {
 
 abstract class _MoonpayPlugin implements MoonpayPlugin, Plugin {
   factory _MoonpayPlugin(
-      {required String name,
+      {String name,
       required String widgetUrl,
       String type,
       bool isActive}) = _$_MoonpayPlugin;

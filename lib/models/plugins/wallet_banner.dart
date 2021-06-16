@@ -12,10 +12,10 @@ class WalletBannerPlugin with _$WalletBannerPlugin {
   @JsonSerializable()
   factory WalletBannerPlugin({
     @Default('walletBanner') String type,
-    required String walletBannerHash,
-    required String name,
-    required String link,
-    required bool isActive,
+    @Default(null) String? walletBannerHash,
+    @Default(null) String? name,
+    @Default(null) String? link,
+    @Default(false) bool isActive,
   }) = _WalletBannerPlugin;
 
   factory WalletBannerPlugin.fromJson(dynamic json) =>
@@ -23,17 +23,24 @@ class WalletBannerPlugin with _$WalletBannerPlugin {
 }
 
 class WalletBannerPluginConverter
-    implements JsonConverter<WalletBannerPlugin, Map<String, dynamic>> {
+    implements JsonConverter<WalletBannerPlugin?, Map<String, dynamic>?> {
   const WalletBannerPluginConverter();
 
   @override
-  WalletBannerPlugin fromJson(Map<String, dynamic> json) => WalletBannerPlugin(
+  WalletBannerPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return WalletBannerPlugin(
         name: json['name'],
         walletBannerHash: json['walletBannerHash'],
         link: json['link'],
         isActive: json["isActive"] ?? false,
       );
+    }
+  }
 
   @override
-  Map<String, dynamic> toJson(WalletBannerPlugin instance) => instance.toJson();
+  Map<String, dynamic>? toJson(WalletBannerPlugin? instance) =>
+      instance?.toJson();
 }

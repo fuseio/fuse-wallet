@@ -11,7 +11,7 @@ class MoonpayPlugin with _$MoonpayPlugin {
   @Implements(Plugin)
   @JsonSerializable()
   factory MoonpayPlugin({
-    required String name,
+    @Default('moonpay') String name,
     required String widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,

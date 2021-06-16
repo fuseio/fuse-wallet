@@ -1,5 +1,5 @@
-String formatPhoneNumber(String? phoneNumber, String myCountryCode) {
-  phoneNumber = removeUnicodes(phoneNumber!);
+String formatPhoneNumber(String phoneNumber, String myCountryCode) {
+  phoneNumber = removeUnicodes(phoneNumber);
   myCountryCode = removeUnicodes(myCountryCode);
   String countryCodeNumeric = myCountryCode.replaceFirst('+', '');
   phoneNumber = phoneNumber.startsWith(countryCodeNumeric)
@@ -26,6 +26,6 @@ String removeUnicodes(String value) {
   return value.replaceAll(new RegExp(r"[^\s\w]"), '');
 }
 
-String clearNotNumbersAndPlusSymbol(String? phoneNumber) {
-  return phoneNumber!.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
+String clearNotNumbersAndPlusSymbol(String phoneNumber) {
+  return phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
 }

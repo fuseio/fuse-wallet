@@ -5,16 +5,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
-import 'package:fusecash/features/screens/webview_screen.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
-// import 'package:fusecash/features/account/router/router.gr.dart';
 import 'package:share/share.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -56,11 +55,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               onTap: () {
                                 context.router.push(SettingsScreen());
                               },
-                              trailing: SvgPicture.asset(
-                                'assets/images/go_to_pro.svg',
-                                width: 10,
-                                height: 10,
-                              ),
                             ),
                             MenuTile(
                               label: I10n.of(context).protect_wallet,
@@ -120,11 +114,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               onTap: () {
                                 context.router.push(SocialScreen());
                               },
-                              trailing: SvgPicture.asset(
-                                'assets/images/go_to_pro.svg',
-                                width: 10,
-                                height: 10,
-                              ),
                             ),
                             MenuTile(
                               label: I10n.of(context).contact_us,
@@ -156,14 +145,10 @@ class _AccountScreenState extends State<AccountScreen> {
                               label: I10n.of(context).legal,
                               menuIcon: 'legal_icon.svg',
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WebViewScreen(
-                                      'https://fuse.cash/privacy',
-                                      I10n.of(context).legal,
-                                    ),
-                                    fullscreenDialog: true,
+                                context.router.push(
+                                  Webview(
+                                    title: I10n.of(context).legal,
+                                    url: 'https://fuse.cash/privacy',
                                   ),
                                 );
                               },

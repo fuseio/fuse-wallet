@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/common/di/di.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/services/apis/explorer.dart';
 import 'package:fusecash/services/apis/fuseswap.dart';
@@ -8,8 +9,9 @@ import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
 
-late Web3 fuseWeb3;
-late Web3 ethereumWeb3;
+Web3? fuseWeb3;
+Web3? ethereumWeb3;
+final RootRouter rootRouter = getIt<RootRouter>();
 
 final Explorer fuseExplorerApi = getIt<Explorer>(
   param1: UrlConstants.FUSE_EXPLORER_URL,

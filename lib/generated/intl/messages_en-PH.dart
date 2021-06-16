@@ -78,8 +78,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("Gumawa ng iyong passcode"),
         "credit_card": MessageLookupByLibrary.simpleMessage("Credit Card"),
-        "crypto_deposit_explained": MessageLookupByLibrary.simpleMessage(
-            "If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:"),
         "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
             "Please note that this is a personal link that will bridge the funds directly to your account."),
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(

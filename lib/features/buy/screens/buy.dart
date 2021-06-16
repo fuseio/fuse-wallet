@@ -67,7 +67,9 @@ class _BusinessesListViewState extends State<BusinessesListView> {
   }
 
   Widget banner(BuildContext context, BuyViewModel vm) {
-    return vm.walletBanner.walletBannerHash.isNotEmpty
+    return vm.walletBanner != null &&
+            vm.walletBanner?.walletBannerHash != null &&
+            vm.walletBanner?.walletBannerHash != ''
         ? Container(
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
@@ -77,13 +79,13 @@ class _BusinessesListViewState extends State<BusinessesListView> {
               onTap: () {
                 context.router.push(
                   Webview(
-                    url: vm.walletBanner.link,
+                    url: vm.walletBanner?.link ?? '',
                     title: '',
                   ),
                 );
               },
               child: CachedNetworkImage(
-                imageUrl: ImageUrl.getLink(vm.walletBanner.walletBannerHash),
+                imageUrl: ImageUrl.getLink(vm.walletBanner?.walletBannerHash),
                 imageBuilder: (context, imageProvider) => Container(
                   width: MediaQuery.of(context).size.width,
                   height: 140,

@@ -6,10 +6,11 @@ import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
-num combiner(num previousValue, Token token) => token.priceInfo!.quote != 'NaN'
-    ? previousValue +
-        num.parse(Decimal.parse(token.getFiatBalance()).toString())
-    : previousValue + 0;
+num combiner(num previousValue, Token token) =>
+    ![null, '', '0', 0, 'NaN'].contains(token.priceInfo?.quote)
+        ? previousValue +
+            num.parse(Decimal.parse(token.getFiatBalance()).toString())
+        : previousValue + 0;
 
 class BalanceViewModel extends Equatable {
   final String usdValue;

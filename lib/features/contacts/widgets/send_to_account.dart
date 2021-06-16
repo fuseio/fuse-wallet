@@ -25,6 +25,7 @@ class SendToAccount extends StatelessWidget {
           onTap: () {
             resetSearch!();
             sendToPastedAddress(
+              context,
               accountAddress,
               token: token,
             );
@@ -39,6 +40,7 @@ class SendToAccount extends StatelessWidget {
             onTap: () {
               resetSearch!();
               sendToPastedAddress(
+                context,
                 accountAddress,
                 token: token,
               );

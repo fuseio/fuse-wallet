@@ -36,11 +36,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
   TypedReducer<CashWalletState, SwitchToNewCommunity>(_switchToNewCommunity),
-  TypedReducer<CashWalletState, BranchListening>(_branchListening),
-  TypedReducer<CashWalletState, BranchListeningStopped>(
-      _branchListeningStopped),
-  TypedReducer<CashWalletState, BranchCommunityToUpdate>(
-      _branchCommunityToUpdate),
   TypedReducer<CashWalletState, SetIsTransfersFetching>(
       _setIsTransfersFetching),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
@@ -215,7 +210,6 @@ CashWalletState _setDefaultCommunity(
   return state.copyWith(
     communityAddress: action.defaultCommunity,
     communities: newOne,
-    branchAddress: '',
     walletActions: WalletActions.initial(),
     isBranchDataReceived: false,
   );
@@ -331,7 +325,6 @@ CashWalletState _switchCommunityRequest(
   return state.copyWith(
       isCommunityLoading: true,
       communityAddress: action.communityAddress.toLowerCase(),
-      branchAddress: "",
       isBranchDataReceived: false);
 }
 
@@ -343,26 +336,9 @@ CashWalletState _switchToNewCommunity(
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = newCommunity;
   return state.copyWith(
-      branchAddress: "",
       isCommunityLoading: true,
       communities: newOne,
       isBranchDataReceived: false);
-}
-
-CashWalletState _branchCommunityToUpdate(
-    CashWalletState state, BranchCommunityToUpdate action) {
-  return state.copyWith(
-      branchAddress: action.communityAddress, isBranchDataReceived: true);
-}
-
-CashWalletState _branchListening(
-    CashWalletState state, BranchListening action) {
-  return state.copyWith(isListeningToBranch: true);
-}
-
-CashWalletState _branchListeningStopped(
-    CashWalletState state, BranchListeningStopped action) {
-  return state.copyWith(isListeningToBranch: false);
 }
 
 CashWalletState _setIsTransfersFetching(
@@ -412,7 +388,6 @@ CashWalletState _createNewWalletSuccess(
     CashWalletState state, CreateLocalAccountSuccess action) {
   return CashWalletState(
     isBranchDataReceived: state.isBranchDataReceived,
-    branchAddress: state.branchAddress,
   );
 }
 

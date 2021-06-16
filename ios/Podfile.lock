@@ -15,17 +15,26 @@ PODS:
   - Firebase/Messaging (8.0.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.0.0)
-  - firebase_auth (1.3.0):
+  - Firebase/RemoteConfig (8.0.0):
+    - Firebase/CoreOnly
+    - FirebaseRemoteConfig (~> 8.0.0)
+  - firebase_auth (1.4.1):
     - Firebase/Auth (= 8.0.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.2.1):
+  - firebase_core (1.3.0):
     - Firebase/CoreOnly (= 8.0.0)
     - Flutter
-  - firebase_messaging (10.0.1):
+  - firebase_messaging (10.0.2):
     - Firebase/Messaging (= 8.0.0)
     - firebase_core
     - Flutter
+  - firebase_remote_config (0.10.0-2):
+    - Firebase/RemoteConfig (= 8.0.0)
+    - firebase_core
+    - Flutter
+  - FirebaseABTesting (8.1.0):
+    - FirebaseCore (~> 8.0)
   - FirebaseAuth (8.0.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -52,6 +61,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Reachability (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
+  - FirebaseRemoteConfig (8.0.0):
+    - FirebaseABTesting (~> 8.0)
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - "GoogleUtilities/NSData+zlib (~> 7.4)"
   - Flutter (1.0.0)
   - flutter_secure_storage (3.3.1):
     - Flutter
@@ -69,15 +84,15 @@ PODS:
   - FMDB/standard (2.7.5)
   - google_maps_flutter (0.0.1):
     - Flutter
-    - GoogleMaps (< 3.10)
+    - GoogleMaps
   - GoogleDataTransport (9.0.1):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (~> 1.2)
-  - GoogleMaps (3.9.0):
-    - GoogleMaps/Maps (= 3.9.0)
-  - GoogleMaps/Base (3.9.0)
-  - GoogleMaps/Maps (3.9.0):
+  - GoogleMaps (4.2.0):
+    - GoogleMaps/Maps (= 4.2.0)
+  - GoogleMaps/Base (4.2.0)
+  - GoogleMaps/Maps (4.2.0):
     - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (7.4.1):
     - GoogleUtilities/Environment
@@ -101,7 +116,6 @@ PODS:
     - Flutter
   - local_auth (0.0.1):
     - Flutter
-  - MTBBarcodeScanner (5.0.11)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -120,9 +134,6 @@ PODS:
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
   - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
   - PromisesObjC (1.2.12)
-  - qr_code_scanner (0.2.0):
-    - Flutter
-    - MTBBarcodeScanner
   - rate_my_app (1.1.0):
     - Flutter
   - SAMKeychain (1.5.3)
@@ -155,6 +166,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
+  - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_segment (from `.symlinks/plugins/flutter_segment/ios`)
@@ -168,7 +180,6 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - phone_number (from `.symlinks/plugins/phone_number/ios`)
-  - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
   - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
@@ -182,17 +193,18 @@ SPEC REPOS:
     - Amplitude-iOS
     - Analytics
     - Firebase
+    - FirebaseABTesting
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
     - FirebaseMessaging
+    - FirebaseRemoteConfig
     - FMDB
     - GoogleDataTransport
     - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
-    - MTBBarcodeScanner
     - nanopb
     - PhoneNumberKit
     - PromisesObjC
@@ -213,6 +225,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
+  firebase_remote_config:
+    :path: ".symlinks/plugins/firebase_remote_config/ios"
   Flutter:
     :path: Flutter
   flutter_secure_storage:
@@ -239,8 +253,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
   phone_number:
     :path: ".symlinks/plugins/phone_number/ios"
-  qr_code_scanner:
-    :path: ".symlinks/plugins/qr_code_scanner/ios"
   rate_my_app:
     :path: ".symlinks/plugins/rate_my_app/ios"
   sentry_flutter:
@@ -263,28 +275,30 @@ SPEC CHECKSUMS:
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
-  firebase_auth: df06751eb6e66686f6f2af4f2d36c9c381b26ed0
-  firebase_core: a9b69f8583dc992f1b15f376b4918537c1804bb4
-  firebase_messaging: f45b468c889bdc3191bc47368329ae22cda536da
+  firebase_auth: 6532658f5a4f76be32cd5e7518753ebedd4544d2
+  firebase_core: cda81ae37eda6df2bc2d16027fda527987c4bd33
+  firebase_messaging: bdc64f21cd3e9e174164b1417530c723fd128958
+  firebase_remote_config: 6cf81266981ea8fe8cb3a7e01c8270b04e31f9d1
+  FirebaseABTesting: 5b22abfa9a55d5b9cd3d1e500a3ca29f6b1264cb
   FirebaseAuth: b8cd992fca5b53dc6eec09e873a3f375f000c5a1
   FirebaseCore: 3f09591d51292843e2a46f18358d60bf4e996255
   FirebaseCoreDiagnostics: 3e249cee3de5c5f9cfd6cc2a19997231286fec11
   FirebaseInstallations: 7f31798a8198c354eadcb87176d2090b62edc187
   FirebaseMessaging: 1a33b4af3c8042ed6ddacb6c031894af2064bfab
+  FirebaseRemoteConfig: 055f6b5ba1751547596ded5032c4d5c6054ca501
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: f20a38d465030de0f1b2aa9325cef9c1442b0721
   flutter_udid: 0848809dbed4c055175747ae6a45a8b4f6771e1c
   flutter_web_browser: a719eca01d00bdc9a0e13e42194f86b90a5b8729
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  google_maps_flutter: c7f9c73576de1fbe152a227bfd6e6c4ae8088619
+  google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
-  GoogleMaps: 4b5346bddfe6911bb89155d43c903020170523ac
+  GoogleMaps: eb03e327edfd70b06de1e6e321653f73712df7ad
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
-  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
@@ -293,7 +307,6 @@ SPEC CHECKSUMS:
   phone_number: aaf1197d6ff991ac59640e7f73472e06f2efac95
   PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   rate_my_app: b2b5847177b024ab7fcfd02ced7a84a9b67eeaf2
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   Segment-Amplitude: 1b3b02a2e92f4b08a413a72bf7aa44f78566ab3b

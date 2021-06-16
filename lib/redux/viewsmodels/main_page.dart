@@ -35,7 +35,7 @@ class HomeScreenViewModel extends Equatable {
 
   @override
   List<Object> get props => [
-        isContactsSynced!,
+        isBackupDialogShowed,
         backup,
       ];
 }

@@ -140,13 +140,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
               (viewModel.communities.any((element) =>
                   (args.accountAddress != null &&
                       args.accountAddress?.toLowerCase() ==
-                          element.homeBridgeAddress.toLowerCase()) ||
+                          element.homeBridgeAddress?.toLowerCase()) ||
                   (args.accountAddress != null &&
                       args.accountAddress?.toLowerCase() ==
-                          element.foreignBridgeAddress.toLowerCase()) ||
+                          element.foreignBridgeAddress?.toLowerCase()) ||
                   args.tokenToSend?.address != null &&
                       args.tokenToSend?.address.toLowerCase() ==
-                          element.foreignTokenAddress.toLowerCase()));
+                          element.foreignTokenAddress?.toLowerCase()));
           final num feeAmount =
               (withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0)!;
           final bool hasFund =
@@ -409,7 +409,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           if (withFee && !hasFund) return;
                           send(viewModel, args, transferNoteController.text,
                               () {
-                            context.router.replace(
+                            context.router.push(
                               SendSuccessScreen(
                                 pageArgs: args,
                               ),

@@ -12,9 +12,9 @@ class BackupBonusPlugin with _$BackupBonusPlugin {
   @JsonSerializable()
   factory BackupBonusPlugin({
     @Default('backupBonus') String type,
-    required String amount,
-    required String name,
-    required bool isActive,
+    @Default(null) String? amount,
+    @Default(null) String? name,
+    @Default(false) bool isActive,
   }) = _BackupBonusPlugin;
 
   factory BackupBonusPlugin.fromJson(dynamic json) =>
@@ -22,18 +22,25 @@ class BackupBonusPlugin with _$BackupBonusPlugin {
 }
 
 class BackupBonusPluginConverter
-    implements JsonConverter<BackupBonusPlugin, Map<String, dynamic>> {
+    implements JsonConverter<BackupBonusPlugin?, Map<String, dynamic>?> {
   const BackupBonusPluginConverter();
 
   @override
-  BackupBonusPlugin fromJson(Map<String, dynamic> json) => BackupBonusPlugin(
+  BackupBonusPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return BackupBonusPlugin(
         name: json['name'],
         amount: json.containsKey('backupInfo')
             ? json['backupInfo']['amount']
             : json['amount'],
         isActive: json["isActive"] ?? false,
       );
+    }
+  }
 
   @override
-  Map<String, dynamic> toJson(BackupBonusPlugin instance) => instance.toJson();
+  Map<String, dynamic>? toJson(BackupBonusPlugin? instance) =>
+      instance?.toJson();
 }

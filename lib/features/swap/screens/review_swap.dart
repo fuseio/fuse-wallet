@@ -1,9 +1,8 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/redux/viewsmodels/review_swap.dart';
 import 'package:fusecash/services.dart';
@@ -51,6 +50,15 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
       widget.tradeInfo,
       () {
         context.router.popUntilRoot();
+        context.navigateTo(
+          HomeTab(
+            children: [
+              HomeScreen(
+                initialIndex: 0,
+              ),
+            ],
+          ),
+        );
         WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
       },
       () {
@@ -63,12 +71,12 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
 
   Widget infoCard() {
     final String payWithAmount =
-        smallNumberTest(Decimal.parse(widget.tradeInfo.inputAmount))
+        smallNumberTest(num.parse(widget.tradeInfo.inputAmount))
             ? '${widget.tradeInfo.inputAmount} '
             : '${display(num.parse(widget.tradeInfo.inputAmount))} ';
 
     final String receiveAmount =
-        smallNumberTest(Decimal.parse(widget.tradeInfo.outputAmount))
+        smallNumberTest(num.parse(widget.tradeInfo.outputAmount))
             ? '${widget.tradeInfo.outputAmount} '
             : '${display(num.parse(widget.tradeInfo.outputAmount))} ';
     return Container(
@@ -165,12 +173,12 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
 
   Widget extraInfo() {
     final String payWithRate =
-        smallNumberTest(Decimal.parse(widget.rateInfo.inputAmount))
+        smallNumberTest(num.parse(widget.rateInfo.inputAmount))
             ? '${widget.rateInfo.inputAmount} '
             : '${display(num.parse(widget.rateInfo.inputAmount))}';
 
     final String receiveRate =
-        smallNumberTest(Decimal.parse(widget.rateInfo.outputAmount))
+        smallNumberTest(num.parse(widget.rateInfo.outputAmount))
             ? '${widget.rateInfo.outputAmount} '
             : '${display(num.parse(widget.rateInfo.outputAmount))}';
     return ListView(
@@ -270,6 +278,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     return MyScaffold(
       title: I10n.of(context).review_swap,
       body: Container(
+        height: MediaQuery.of(context).size.height * 0.75,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -296,9 +305,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                       onPressed: () => _onPress(viewModel),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 40,
                 ),
               ],
             ),

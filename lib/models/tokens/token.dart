@@ -70,7 +70,10 @@ class Token with _$Token implements Comparable<Token> {
     if ([null, ''].contains(accountAddress) || [null, ''].contains(address))
       return;
     if (isNative) {
-      Web3 web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
+      Web3? web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
+      if (web3 == null) {
+        throw 'web3 is empty';
+      }
       try {
         EtherAmount balance = await web3.getBalance(
           address: accountAddress,
@@ -83,8 +86,8 @@ class Token with _$Token implements Comparable<Token> {
       }
     } else {
       try {
-        Web3 web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
-        final BigInt balance = await web3.getTokenBalance(
+        Web3? web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
+        final BigInt balance = await web3!.getTokenBalance(
           address,
           address: accountAddress,
         );

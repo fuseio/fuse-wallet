@@ -9,6 +9,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -27,33 +28,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late BiometricAuth _biometricType;
   late Flushbar flush;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkBiometrical();
-  }
-
-  Future<void> _checkBiometrical() async {
-    _biometricType = await BiometricUtils.getAvailableBiometrics();
-    if (_biometricType != BiometricAuth.none) {
-      setState(() {
-        _biometricType = _biometricType;
-      });
-    }
-  }
 
   onInit(Store<AppState> store) async {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      widget.onLoginResult!(false);
-      context.router.replace(OnBoardScreen());
+      log.info('OnBoardScreen');
+      context.router.replaceAll([OnBoardScreen()]);
+      widget.onLoginResult?.call(false);
     } else {
-      widget.onLoginResult!(true);
       UserState userState = store.state.userState;
       if (userState.authType != BiometricAuth.none) {
         Segment.track(
@@ -69,13 +54,19 @@ class _SplashScreenState extends State<SplashScreen> {
         await _showLocalAuthPopup(
           BiometricUtils.getBiometricString(
             context,
-            _biometricType,
+            userState.authType,
           ),
         );
+        log.info('_showLocalAuthPopup');
+        widget.onLoginResult?.call(true);
       } else if (userState.authType == BiometricAuth.pincode) {
-        context.router.replace(PinCodeScreen());
+        log.info('PinCodeScreen');
+        context.router.replaceAll([PinCodeScreen()]);
+        widget.onLoginResult?.call(true);
       } else {
-        context.router.replace(MainHomeScreen());
+        log.info('MainScreen');
+        context.router.replaceAll([MainScreen()]);
+        widget.onLoginResult?.call(true);
       }
     }
   }
@@ -90,7 +81,9 @@ class _SplashScreenState extends State<SplashScreen> {
           Segment.track(
             eventName: 'Session Start: Authentication success',
           );
-          context.router.push(MainHomeScreen());
+          log.info('widget.onLoginResult?.call(true);');
+          context.router.replaceAll([MainScreen()]);
+          widget.onLoginResult?.call(true);
         } else {
           flush = Flushbar<bool>(
             title: I10n.of(context).auth_failed_title,
@@ -111,12 +104,15 @@ class _SplashScreenState extends State<SplashScreen> {
           )..show(context).then(
               (result) async {
                 if (result == true) {
+                  BiometricAuth _biometricType =
+                      await BiometricUtils.getAvailableBiometrics();
                   await _showLocalAuthPopup(
                     BiometricUtils.getBiometricString(
                       context,
                       _biometricType,
                     ),
                   );
+                  widget.onLoginResult?.call(true);
                 }
               },
             );
@@ -127,54 +123,84 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, LockScreenViewModel>(
-      distinct: true,
-      onInit: onInit,
-      converter: LockScreenViewModel.fromStore,
-      builder: (_, viewModel) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            centerTitle: true,
-            title: SvgPicture.asset(
-              'assets/images/fusecash.svg',
-              width: 140,
-            ),
-          ),
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Theme.of(context).colorScheme.primary,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * .5,
+    return FutureBuilder<BiometricAuth>(
+      future: BiometricUtils.getAvailableBiometrics(),
+      builder: (context, AsyncSnapshot<BiometricAuth> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          return StoreConnector<AppState, LockScreenViewModel>(
+            distinct: true,
+            onInit: onInit,
+            onInitialBuild: (LockScreenViewModel viewModel) {
+              log.info('onInitialBuild');
+            },
+            converter: LockScreenViewModel.fromStore,
+            builder: (_, viewModel) {
+              return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  centerTitle: true,
+                  title: SvgPicture.asset(
+                    'assets/images/fusecash.svg',
+                    width: 140,
+                  ),
+                ),
+                body: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Theme.of(context).colorScheme.primary,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(
-                        height: 100,
-                      ),
-                      Expanded(
+                      Container(
+                        height: MediaQuery.of(context).size.height * .5,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Image.asset(
-                              'assets/images/splash.png',
-                              width: 85,
+                            SizedBox(
+                              height: 100,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/splash.png',
+                                    width: 85,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-        );
+                ),
+              );
+            },
+          );
+        } else {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+                width: 10,
+                height: 10,
+                // margin: EdgeInsets.only(left: 28, right: 28),
+              ),
+            ],
+          );
+        }
       },
     );
   }

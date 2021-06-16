@@ -48,7 +48,7 @@ class ProWalletState with _$ProWalletState {
 }
 
 class ProWalletStateConverter
-    implements JsonConverter<ProWalletState, Map<String, dynamic>> {
+    implements JsonConverter<ProWalletState, Map<String, dynamic>?> {
   const ProWalletStateConverter();
 
   @override

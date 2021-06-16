@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -8,6 +11,7 @@ import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/recent_contacts.dart';
 import 'package:fusecash/utils/images.dart';
+import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/utils/transfer.dart';
 
 class RecentContacts extends StatelessWidget {
@@ -57,30 +61,31 @@ class RecentContacts extends StatelessWidget {
               return ContactTile(
                 image: image,
                 displayName: displayName,
-                // phoneNumber: phoneNumber,
                 trailing: Text(
                   phoneNumber,
                   style: TextStyle(fontSize: 13),
                 ),
                 onTap: () {
                   if (contact == null) {
-                    // ExtendedNavigator.root.pushSendAmountScreen(
-                    //   pageArgs: SendFlowArguments(
-                    //     name: displayName,
-                    //     accountAddress: transfer.getRecipient(),
-                    //     avatar: image,
-                    //     tokenToSend: token,
-                    //   ),
-                    // );
+                    AutoRouter.of(context).push(
+                      SendAmountScreen(
+                        pageArgs: SendFlowArguments(
+                          name: displayName,
+                          accountAddress: transfer.getRecipient(),
+                          avatar: image,
+                          tokenToSend: token,
+                        ),
+                      ),
+                    );
                   } else {
-                    // sendToContact(
-                    //   ExtendedNavigator.named('contactsRouter').context,
-                    //   displayName,
-                    //   '',
-                    //   avatar: image,
-                    //   address: transfer.getRecipient(),
-                    //   tokenToSend: token,
-                    // );
+                    sendToContact(
+                      context,
+                      displayName,
+                      phoneNumber,
+                      viewModel.countryCode,
+                      viewModel.isoCode,
+                      tokenToSend: token,
+                    );
                   }
                 },
               );

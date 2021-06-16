@@ -29,11 +29,14 @@ class _$PluginsTearOff {
           TransakPlugin? transak = null,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner = null,
-      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
           JoinBonusPlugin? joinBonus = null,
-      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
           BackupBonusPlugin? backupBonus = null,
-      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
           InviteBonusPlugin? inviteBonus = null}) {
     return _Plugins(
       rampInstant: rampInstant,
@@ -64,11 +67,14 @@ mixin _$Plugins {
   TransakPlugin? get transak => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
   WalletBannerPlugin? get walletBanner => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @JoinBonusPluginConverter()
   JoinBonusPlugin? get joinBonus => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @BackupBonusPluginConverter()
   BackupBonusPlugin? get backupBonus => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @InviteBonusPluginConverter()
   InviteBonusPlugin? get inviteBonus => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -89,11 +95,14 @@ abstract class $PluginsCopyWith<$Res> {
           TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner,
-      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
           JoinBonusPlugin? joinBonus,
-      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
           BackupBonusPlugin? backupBonus,
-      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
           InviteBonusPlugin? inviteBonus});
 
   $RampInstantPluginCopyWith<$Res>? get rampInstant;
@@ -247,11 +256,14 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
           TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner,
-      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
           JoinBonusPlugin? joinBonus,
-      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
           BackupBonusPlugin? backupBonus,
-      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
           InviteBonusPlugin? inviteBonus});
 
   @override
@@ -335,11 +347,14 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
           this.transak = null,
       @JsonKey(includeIfNull: false)
           this.walletBanner = null,
-      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
           this.joinBonus = null,
-      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
           this.backupBonus = null,
-      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
           this.inviteBonus = null})
       : super._();
 
@@ -359,13 +374,16 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
   @JsonKey(includeIfNull: false)
   final WalletBannerPlugin? walletBanner;
   @override
-  @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @JoinBonusPluginConverter()
   final JoinBonusPlugin? joinBonus;
   @override
-  @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @BackupBonusPluginConverter()
   final BackupBonusPlugin? backupBonus;
   @override
-  @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @InviteBonusPluginConverter()
   final InviteBonusPlugin? inviteBonus;
 
   @override
@@ -446,11 +464,14 @@ abstract class _Plugins extends Plugins {
           TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner,
-      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
           JoinBonusPlugin? joinBonus,
-      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
           BackupBonusPlugin? backupBonus,
-      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
           InviteBonusPlugin? inviteBonus}) = _$_Plugins;
   _Plugins._() : super._();
 
@@ -469,13 +490,16 @@ abstract class _Plugins extends Plugins {
   @JsonKey(includeIfNull: false)
   WalletBannerPlugin? get walletBanner => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @JoinBonusPluginConverter()
   JoinBonusPlugin? get joinBonus => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @BackupBonusPluginConverter()
   BackupBonusPlugin? get backupBonus => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+  @JsonKey(includeIfNull: false)
+  @InviteBonusPluginConverter()
   InviteBonusPlugin? get inviteBonus => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)

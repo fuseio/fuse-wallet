@@ -22,9 +22,9 @@ class _$JoinBonusPluginTearOff {
 
   _JoinBonusPlugin call(
       {String type = 'joinBonus',
-      required String amount,
-      required String name,
-      required bool isActive}) {
+      String? amount = null,
+      String? name = null,
+      bool isActive = false}) {
     return _JoinBonusPlugin(
       type: type,
       amount: amount,
@@ -44,8 +44,8 @@ const $JoinBonusPlugin = _$JoinBonusPluginTearOff();
 /// @nodoc
 mixin _$JoinBonusPlugin {
   String get type => throw _privateConstructorUsedError;
-  String get amount => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $JoinBonusPluginCopyWith<$Res> {
   factory $JoinBonusPluginCopyWith(
           JoinBonusPlugin value, $Res Function(JoinBonusPlugin) then) =
       _$JoinBonusPluginCopyWithImpl<$Res>;
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -86,11 +86,11 @@ class _$JoinBonusPluginCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$JoinBonusPluginCopyWith<$Res>
           _JoinBonusPlugin value, $Res Function(_JoinBonusPlugin) then) =
       __$JoinBonusPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -135,11 +135,11 @@ class __$JoinBonusPluginCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -157,9 +157,9 @@ class _$_JoinBonusPlugin
     implements _JoinBonusPlugin {
   _$_JoinBonusPlugin(
       {this.type = 'joinBonus',
-      required this.amount,
-      required this.name,
-      required this.isActive});
+      this.amount = null,
+      this.name = null,
+      this.isActive = false});
 
   factory _$_JoinBonusPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_JoinBonusPluginFromJson(json);
@@ -167,10 +167,13 @@ class _$_JoinBonusPlugin
   @JsonKey(defaultValue: 'joinBonus')
   @override
   final String type;
+  @JsonKey(defaultValue: null)
   @override
-  final String amount;
+  final String? amount;
+  @JsonKey(defaultValue: null)
   @override
-  final String name;
+  final String? name;
+  @JsonKey(defaultValue: false)
   @override
   final bool isActive;
 
@@ -227,9 +230,9 @@ class _$_JoinBonusPlugin
 abstract class _JoinBonusPlugin implements JoinBonusPlugin, Plugin {
   factory _JoinBonusPlugin(
       {String type,
-      required String amount,
-      required String name,
-      required bool isActive}) = _$_JoinBonusPlugin;
+      String? amount,
+      String? name,
+      bool isActive}) = _$_JoinBonusPlugin;
 
   factory _JoinBonusPlugin.fromJson(Map<String, dynamic> json) =
       _$_JoinBonusPlugin.fromJson;
@@ -237,9 +240,9 @@ abstract class _JoinBonusPlugin implements JoinBonusPlugin, Plugin {
   @override
   String get type => throw _privateConstructorUsedError;
   @override
-  String get amount => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @override
   bool get isActive => throw _privateConstructorUsedError;
   @override

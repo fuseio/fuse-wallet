@@ -11,31 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-// import 'package:fusecash/features/account/router/router.gr.dart';
 
-class ProtectYourWallet extends StatefulWidget {
-  @override
-  _ProtectYourWalletState createState() => _ProtectYourWalletState();
-}
-
-class _ProtectYourWalletState extends State<ProtectYourWallet> {
-  late BiometricAuth _biometricType;
-
-  Future<void> _checkBiometricable() async {
-    _biometricType = await BiometricUtils.getAvailableBiometrics();
-    if (_biometricType != BiometricAuth.none) {
-      setState(() {
-        _biometricType = _biometricType;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    _checkBiometricable();
-    super.initState();
-  }
-
+class ProtectYourWallet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -114,25 +91,28 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                 MenuTile(
                   label: BiometricUtils.getBiometricString(
                     context,
-                    _biometricType,
+                    viewModel.authType,
                   ),
                   menuIcon:
-                      '${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg',
+                      '${BiometricAuth.faceID == viewModel.authType ? 'face_id' : 'fingerprint'}.svg',
                   trailing: isBiometric
                       ? SvgPicture.asset(
                           'assets/images/checkmark.svg',
                         )
                       : null,
                   onTap: () async {
+                    final BiometricAuth biometricAuth =
+                        await BiometricUtils.getAvailableBiometrics();
                     final String biometric = BiometricUtils.getBiometricString(
-                        context, _biometricType);
-
+                      context,
+                      biometricAuth,
+                    );
                     await BiometricUtils.showDefaultPopupCheckBiometricAuth(
                       message:
                           '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
                       callback: (bool result) {
                         if (result) {
-                          viewModel.setSecurityType(_biometricType);
+                          viewModel.setSecurityType(biometricAuth);
                           Navigator.of(context).pop();
                         }
                       },

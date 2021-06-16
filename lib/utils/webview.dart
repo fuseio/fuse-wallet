@@ -8,7 +8,6 @@ import 'package:fusecash/generated/l10n.dart';
 void openDepositWebview({
   required BuildContext context,
   required String url,
-  required bool withBack,
 }) {
   final String link = url.contains('ramp')
       ? '$url&finalUrl=https://fuse.cash'

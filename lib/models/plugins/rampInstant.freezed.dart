@@ -21,7 +21,7 @@ class _$RampInstantPluginTearOff {
   const _$RampInstantPluginTearOff();
 
   _RampInstantPlugin call(
-      {required String name,
+      {String name = 'rampInstant',
       required String widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
@@ -156,7 +156,7 @@ class _$_RampInstantPlugin
     with DiagnosticableTreeMixin
     implements _RampInstantPlugin {
   _$_RampInstantPlugin(
-      {required this.name,
+      {this.name = 'rampInstant',
       required this.widgetUrl,
       this.type = 'deposit',
       this.isActive = false});
@@ -164,6 +164,7 @@ class _$_RampInstantPlugin
   factory _$_RampInstantPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_RampInstantPluginFromJson(json);
 
+  @JsonKey(defaultValue: 'rampInstant')
   @override
   final String name;
   @override
@@ -228,7 +229,7 @@ class _$_RampInstantPlugin
 
 abstract class _RampInstantPlugin implements RampInstantPlugin, Plugin {
   factory _RampInstantPlugin(
-      {required String name,
+      {String name,
       required String widgetUrl,
       String type,
       bool isActive}) = _$_RampInstantPlugin;

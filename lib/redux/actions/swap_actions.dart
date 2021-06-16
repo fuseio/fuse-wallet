@@ -142,8 +142,11 @@ ThunkAction fetchSwapBalances() {
     try {
       SwapState swapState = store.state.swapState;
       String walletAddress = store.state.userState.walletAddress;
+      if (fuseWeb3 == null) {
+        throw 'web3 is empty';
+      }
       for (Token token in swapState.tokens.values) {
-        final BigInt balance = await fuseWeb3.getTokenBalance(
+        final BigInt balance = await fuseWeb3!.getTokenBalance(
           token.address,
           address: walletAddress,
         );

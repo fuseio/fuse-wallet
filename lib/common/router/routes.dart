@@ -4,7 +4,7 @@ import 'package:fusecash/features/account/router/router.dart';
 import 'package:fusecash/features/contacts/router/router.dart';
 import 'package:fusecash/features/earn/router/router.dart';
 import 'package:fusecash/features/home/router/router.dart';
-import 'package:fusecash/features/screens/home_screen.dart';
+import 'package:fusecash/features/screens/main_screen.dart';
 import 'package:fusecash/features/onboard/screens/security_screen.dart';
 import 'package:fusecash/features/onboard/screens/restore_wallet_screen.dart';
 import 'package:fusecash/features/onboard/screens/username_screen.dart';
@@ -31,8 +31,8 @@ export 'routes.gr.dart';
     AutoRoute(page: UserNameScreen),
     AutoRoute(page: WebViewScreen, name: 'webview', fullscreenDialog: true),
     AutoRoute(
-      path: '/',
-      page: MainHomeScreen,
+      page: MainScreen,
+      guards: [AuthGuard],
       children: [
         homeTab,
         contactsTab,
@@ -40,7 +40,6 @@ export 'routes.gr.dart';
         earnTab,
         accountTab,
       ],
-      guards: [AuthGuard],
     ),
     RedirectRoute(path: '*', redirectTo: '/'),
   ],

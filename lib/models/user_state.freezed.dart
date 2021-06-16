@@ -25,8 +25,8 @@ class _$UserStateTearOff {
       bool? isContactsSynced = null,
       bool isLoggedOut = false,
       bool backup = false,
-      bool depositBannerShowed = false,
-      bool homeBackupDialogShowed = false,
+      bool? depositBannerShowed = false,
+      bool? homeBackupDialogShowed = false,
       String walletAddress = '',
       List<String> networks = const [],
       List<String> mnemonic = const [],
@@ -41,7 +41,7 @@ class _$UserStateTearOff {
       String displayName = 'Anom',
       String avatarUrl = '',
       String email = '',
-      String verificationId = '',
+      String? verificationId = null,
       String identifier = '',
       List<String> syncedContacts = const [],
       Map<String, String> reverseContacts = const {},
@@ -58,7 +58,7 @@ class _$UserStateTearOff {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           BiometricAuth authType = BiometricAuth.none,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          Locale? locale,
+          Locale? locale = null,
       @JsonKey(ignore: true)
           List<Contact> contacts = const [],
       @JsonKey(ignore: true)
@@ -114,8 +114,8 @@ mixin _$UserState {
   bool? get isContactsSynced => throw _privateConstructorUsedError;
   bool get isLoggedOut => throw _privateConstructorUsedError;
   bool get backup => throw _privateConstructorUsedError;
-  bool get depositBannerShowed => throw _privateConstructorUsedError;
-  bool get homeBackupDialogShowed => throw _privateConstructorUsedError;
+  bool? get depositBannerShowed => throw _privateConstructorUsedError;
+  bool? get homeBackupDialogShowed => throw _privateConstructorUsedError;
   String get walletAddress => throw _privateConstructorUsedError;
   List<String> get networks => throw _privateConstructorUsedError;
   List<String> get mnemonic => throw _privateConstructorUsedError;
@@ -130,7 +130,7 @@ mixin _$UserState {
   String get displayName => throw _privateConstructorUsedError;
   String get avatarUrl => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get verificationId => throw _privateConstructorUsedError;
+  String? get verificationId => throw _privateConstructorUsedError;
   String get identifier => throw _privateConstructorUsedError;
   List<String> get syncedContacts => throw _privateConstructorUsedError;
   Map<String, String> get reverseContacts => throw _privateConstructorUsedError;
@@ -168,8 +168,8 @@ abstract class $UserStateCopyWith<$Res> {
       bool? isContactsSynced,
       bool isLoggedOut,
       bool backup,
-      bool depositBannerShowed,
-      bool homeBackupDialogShowed,
+      bool? depositBannerShowed,
+      bool? homeBackupDialogShowed,
       String walletAddress,
       List<String> networks,
       List<String> mnemonic,
@@ -184,7 +184,7 @@ abstract class $UserStateCopyWith<$Res> {
       String displayName,
       String avatarUrl,
       String email,
-      String verificationId,
+      String? verificationId,
       String identifier,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
@@ -272,11 +272,11 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       depositBannerShowed: depositBannerShowed == freezed
           ? _value.depositBannerShowed
           : depositBannerShowed // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       homeBackupDialogShowed: homeBackupDialogShowed == freezed
           ? _value.homeBackupDialogShowed
           : homeBackupDialogShowed // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       walletAddress: walletAddress == freezed
           ? _value.walletAddress
           : walletAddress // ignore: cast_nullable_to_non_nullable
@@ -336,7 +336,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       verificationId: verificationId == freezed
           ? _value.verificationId
           : verificationId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       identifier: identifier == freezed
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
@@ -400,8 +400,8 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       bool? isContactsSynced,
       bool isLoggedOut,
       bool backup,
-      bool depositBannerShowed,
-      bool homeBackupDialogShowed,
+      bool? depositBannerShowed,
+      bool? homeBackupDialogShowed,
       String walletAddress,
       List<String> networks,
       List<String> mnemonic,
@@ -416,7 +416,7 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       String displayName,
       String avatarUrl,
       String email,
-      String verificationId,
+      String? verificationId,
       String identifier,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
@@ -505,11 +505,11 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       depositBannerShowed: depositBannerShowed == freezed
           ? _value.depositBannerShowed
           : depositBannerShowed // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       homeBackupDialogShowed: homeBackupDialogShowed == freezed
           ? _value.homeBackupDialogShowed
           : homeBackupDialogShowed // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       walletAddress: walletAddress == freezed
           ? _value.walletAddress
           : walletAddress // ignore: cast_nullable_to_non_nullable
@@ -569,7 +569,7 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       verificationId: verificationId == freezed
           ? _value.verificationId
           : verificationId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       identifier: identifier == freezed
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
@@ -647,7 +647,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       this.displayName = 'Anom',
       this.avatarUrl = '',
       this.email = '',
-      this.verificationId = '',
+      this.verificationId = null,
       this.identifier = '',
       this.syncedContacts = const [],
       this.reverseContacts = const {},
@@ -664,7 +664,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
           this.authType = BiometricAuth.none,
       @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-          this.locale,
+          this.locale = null,
       @JsonKey(ignore: true)
           this.contacts = const [],
       @JsonKey(ignore: true)
@@ -687,10 +687,10 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   final bool backup;
   @JsonKey(defaultValue: false)
   @override
-  final bool depositBannerShowed;
+  final bool? depositBannerShowed;
   @JsonKey(defaultValue: false)
   @override
-  final bool homeBackupDialogShowed;
+  final bool? homeBackupDialogShowed;
   @JsonKey(defaultValue: '')
   @override
   final String walletAddress;
@@ -733,9 +733,9 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   @JsonKey(defaultValue: '')
   @override
   final String email;
-  @JsonKey(defaultValue: '')
+  @JsonKey(defaultValue: null)
   @override
-  final String verificationId;
+  final String? verificationId;
   @JsonKey(defaultValue: '')
   @override
   final String identifier;
@@ -954,8 +954,8 @@ abstract class _UserState extends UserState {
       bool? isContactsSynced,
       bool isLoggedOut,
       bool backup,
-      bool depositBannerShowed,
-      bool homeBackupDialogShowed,
+      bool? depositBannerShowed,
+      bool? homeBackupDialogShowed,
       String walletAddress,
       List<String> networks,
       List<String> mnemonic,
@@ -970,7 +970,7 @@ abstract class _UserState extends UserState {
       String displayName,
       String avatarUrl,
       String email,
-      String verificationId,
+      String? verificationId,
       String identifier,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
@@ -1006,9 +1006,9 @@ abstract class _UserState extends UserState {
   @override
   bool get backup => throw _privateConstructorUsedError;
   @override
-  bool get depositBannerShowed => throw _privateConstructorUsedError;
+  bool? get depositBannerShowed => throw _privateConstructorUsedError;
   @override
-  bool get homeBackupDialogShowed => throw _privateConstructorUsedError;
+  bool? get homeBackupDialogShowed => throw _privateConstructorUsedError;
   @override
   String get walletAddress => throw _privateConstructorUsedError;
   @override
@@ -1038,7 +1038,7 @@ abstract class _UserState extends UserState {
   @override
   String get email => throw _privateConstructorUsedError;
   @override
-  String get verificationId => throw _privateConstructorUsedError;
+  String? get verificationId => throw _privateConstructorUsedError;
   @override
   String get identifier => throw _privateConstructorUsedError;
   @override

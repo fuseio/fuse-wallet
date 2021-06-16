@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/contacts/widgets/empty_state.dart';
-import 'package:fusecash/features/contacts/widgets/recent_contacts.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
@@ -12,6 +11,7 @@ import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
 import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/features/contacts/widgets/list_header.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/send.dart';
 import "package:ethereum_address/ethereum_address.dart";
@@ -20,10 +20,8 @@ import 'package:fusecash/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
   final SendFlowArguments? pageArgs;
-  final bool? automaticallyImplyLeading;
   ContactsList({
     this.pageArgs,
-    this.automaticallyImplyLeading = false,
   });
   @override
   _ContactsListState createState() => _ContactsListState();
@@ -32,7 +30,7 @@ class ContactsList extends StatefulWidget {
 class _ContactsListState extends State<ContactsList> {
   List<Contact> filteredUsers = [];
   TextEditingController searchController = TextEditingController();
-  late List<Contact>? _contacts;
+  List<Contact>? _contacts;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +48,6 @@ class _ContactsListState extends State<ContactsList> {
       builder: (_, viewModel) {
         return _contacts != null
             ? MyScaffold(
-                automaticallyImplyLeading: (widget.automaticallyImplyLeading)!,
                 title: I10n.of(context).send_to,
                 body: InkWell(
                   focusColor: Theme.of(context).canvasColor,
@@ -103,7 +100,7 @@ class _ContactsListState extends State<ContactsList> {
 
   filterList() {
     List<Contact> users = [];
-    users.addAll(_contacts!);
+    users.addAll(_contacts ?? []);
     if (searchController.text.isNotEmpty) {
       users.retainWhere((user) => user.displayName!
           .toLowerCase()
@@ -136,23 +133,19 @@ class _ContactsListState extends State<ContactsList> {
       for (Item phone in phones) {
         listItems.add(
           ContactTile(
-            image: (user.avatar != null && user.avatar!.isNotEmpty
-                ? MemoryImage(user.avatar!)
-                : null)!,
+            image: user.avatar!.isNotEmpty ? MemoryImage(user.avatar!) : null,
             displayName: user.displayName!,
-            // phoneNumber: phone.value!,
             onTap: () {
+              log.info(
+                  'widget.pageArgs?.tokenToSend ${widget.pageArgs?.tokenToSend?.name}');
               resetSearch();
               sendToContact(
                 context,
                 user.displayName!,
                 phone.value!,
-                tokenToSend: widget.pageArgs!.tokenToSend,
-                isoCode: viewModel.isoCode,
-                countryCode: viewModel.countryCode,
-                // avatar: (user.avatar != null && user.avatar!.isNotEmpty
-                //     ? MemoryImage(user.avatar!)
-                //     : new AssetImage('assets/images/anom.png')),
+                viewModel.countryCode,
+                viewModel.isoCode,
+                tokenToSend: widget.pageArgs?.tokenToSend,
               );
             },
             trailing: Text(
@@ -185,7 +178,7 @@ class _ContactsListState extends State<ContactsList> {
         SendToAccount(
           accountAddress: accountAddress,
           resetSearch: resetSearch,
-          token: widget.pageArgs!.tokenToSend,
+          token: widget.pageArgs?.tokenToSend,
         ),
       );
     } else {
@@ -204,14 +197,14 @@ class _ContactsListState extends State<ContactsList> {
             EmptyState(),
           ]),
         ));
-        if (searchController.text.isEmpty) {
-          listItems.insert(
-            1,
-            RecentContacts(
-              token: widget.pageArgs!.tokenToSend,
-            ),
-          );
-        }
+        // if (searchController.text.isEmpty) {
+        //   listItems.insert(
+        //     1,
+        //     RecentContacts(
+        //       token: widget.pageArgs?.tokenToSend,
+        //     ),
+        //   );
+        // }
       } else {
         List<String> titles = groups.keys.toList()..sort();
         for (String title in titles) {
@@ -219,14 +212,14 @@ class _ContactsListState extends State<ContactsList> {
           listItems.add(ListHeader(title: title));
           listItems.add(listBody(viewModel, group));
         }
-        if (searchController.text.isEmpty) {
-          listItems.insert(
-            1,
-            RecentContacts(
-              token: widget.pageArgs!.tokenToSend,
-            ),
-          );
-        }
+        // if (searchController.text.isEmpty) {
+        //   listItems.insert(
+        //     1,
+        //     RecentContacts(
+        //       token: widget.pageArgs?.tokenToSend,
+        //     ),
+        //   );
+        // }
       }
     }
 

@@ -61,7 +61,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                         if (context.router.canPopSelfOrChildren) {
                           context.router.popUntilRoot();
                         }
-                        context.router.replace(MainHomeScreen());
+                        context.router.replace(MainScreen());
                       } else {
                         setState(() {
                           isPrimaryPreloading = true;

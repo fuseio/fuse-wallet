@@ -11,7 +11,7 @@ class TransakPlugin with _$TransakPlugin {
   @Implements(Plugin)
   @JsonSerializable()
   factory TransakPlugin({
-    required String name,
+    @Default('transak') String name,
     required String widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,

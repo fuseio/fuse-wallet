@@ -12,9 +12,9 @@ class JoinBonusPlugin with _$JoinBonusPlugin {
   @JsonSerializable()
   factory JoinBonusPlugin({
     @Default('joinBonus') String type,
-    required String amount,
-    required String name,
-    required bool isActive,
+    @Default(null) String? amount,
+    @Default(null) String? name,
+    @Default(false) bool isActive,
   }) = _JoinBonusPlugin;
 
   factory JoinBonusPlugin.fromJson(dynamic json) =>
@@ -22,18 +22,24 @@ class JoinBonusPlugin with _$JoinBonusPlugin {
 }
 
 class JoinBonusPluginConverter
-    implements JsonConverter<JoinBonusPlugin, Map<String, dynamic>> {
+    implements JsonConverter<JoinBonusPlugin?, Map<String, dynamic>?> {
   const JoinBonusPluginConverter();
 
   @override
-  JoinBonusPlugin fromJson(Map<String, dynamic> json) => JoinBonusPlugin(
+  JoinBonusPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return JoinBonusPlugin(
         name: json['name'],
         amount: json.containsKey('joinInfo')
             ? json['joinInfo']['amount']
             : json['amount'],
         isActive: json["isActive"] ?? false,
       );
+    }
+  }
 
   @override
-  Map<String, dynamic> toJson(JoinBonusPlugin instance) => instance.toJson();
+  Map<String, dynamic>? toJson(JoinBonusPlugin? instance) => instance?.toJson();
 }

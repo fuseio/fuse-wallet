@@ -75,8 +75,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("צור את קוד הסיסמה שלך"),
         "credit_card": MessageLookupByLibrary.simpleMessage("Credit Card"),
-        "crypto_deposit_explained": MessageLookupByLibrary.simpleMessage(
-            "If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:"),
+        "crypto_deposit_bsc": MessageLookupByLibrary.simpleMessage(
+            "If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+        "crypto_deposit_eth": MessageLookupByLibrary.simpleMessage(
+            "If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
         "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
             "Please note that this is a personal link that will bridge the funds directly to your account."),
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
@@ -137,7 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!"),
         "fuse_dollar": MessageLookupByLibrary.simpleMessage("Fuse Dollar"),
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash."),
+            "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. "),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
             "הנך יכול לעבור בין קהילות על-ידי הכנסת כתובת"),
         "future_stablecoins":
@@ -151,7 +153,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("בית"),
         "how_much": MessageLookupByLibrary.simpleMessage("כמה תרצה לשלוח?"),
         "how_to_use_fusd":
-            MessageLookupByLibrary.simpleMessage("How you can use fUSD?"),
+            MessageLookupByLibrary.simpleMessage("How you can use FuseDollar?"),
         "important": MessageLookupByLibrary.simpleMessage("חשוב!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
             "Initializing your wallet on Fuse"),
@@ -213,7 +215,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pay": MessageLookupByLibrary.simpleMessage("שלם"),
         "pay_with": MessageLookupByLibrary.simpleMessage("לשלם עם"),
         "peg_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space."),
+            "FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space."),
         "pending": MessageLookupByLibrary.simpleMessage("ממתין"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("מספר נייד"),
         "pickup_display_name":
@@ -309,12 +311,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "txn": MessageLookupByLibrary.simpleMessage("Txn"),
         "up_to_10": MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
         "use_fusd_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income."),
+            "FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income."),
         "use_max": MessageLookupByLibrary.simpleMessage("Use max"),
         "useful": MessageLookupByLibrary.simpleMessage("שימושי"),
         "version": MessageLookupByLibrary.simpleMessage("גרסא"),
         "visit_fuseio": MessageLookupByLibrary.simpleMessage(
-            "Visit fuse.io to learn more about Fuse and how things work behind the scene."),
+            "Visit fuse.io to learn more about Fuse and how things work behind the scenes."),
         "waiting_for_deposit": MessageLookupByLibrary.simpleMessage(
             "Waiting for your deposit to arrive"),
         "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),

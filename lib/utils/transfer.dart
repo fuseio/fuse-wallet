@@ -17,11 +17,11 @@ Contact? getContact(
     if (contacts == null) return null;
     for (Contact? contact in contacts) {
       for (Item contactPhoneNumber in (contact!.phones!.toList())) {
-        if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value) ==
+        if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value ?? '') ==
             phoneNumber) {
           return contact;
         }
-        if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
+        if (formatPhoneNumber(contactPhoneNumber.value ?? '', countryCode) ==
             phoneNumber) {
           return contact;
         }

@@ -33,8 +33,8 @@ class UserState with _$UserState {
     @Default(null) bool? isContactsSynced,
     @Default(false) bool isLoggedOut,
     @Default(false) bool backup,
-    @Default(false) bool depositBannerShowed,
-    @Default(false) bool homeBackupDialogShowed,
+    @Default(false) bool? depositBannerShowed,
+    @Default(false) bool? homeBackupDialogShowed,
     @Default('') String walletAddress,
     @Default([]) List<String> networks,
     @Default([]) List<String> mnemonic,
@@ -49,7 +49,7 @@ class UserState with _$UserState {
     @Default('Anom') String displayName,
     @Default('') String avatarUrl,
     @Default('') String email,
-    @Default('') String verificationId,
+    @Default(null) String? verificationId,
     @Default('') String identifier,
     @Default([]) List<String> syncedContacts,
     @Default({}) Map<String, String> reverseContacts,
@@ -62,6 +62,7 @@ class UserState with _$UserState {
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
     @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+    @Default(null)
         Locale? locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
     @Default(null) @JsonKey(ignore: true) PhoneAuthCredential? credentials,
@@ -75,7 +76,6 @@ class UserState with _$UserState {
         reverseContacts: Map<String, String>(),
         displayName: "Anom",
         backup: false,
-        locale: Locale('en', 'US'),
         authType: BiometricAuth.none,
         receiveBackupDialogShowed: false,
         homeBackupDialogShowed: false,
@@ -86,7 +86,7 @@ class UserState with _$UserState {
 }
 
 class UserStateConverter
-    implements JsonConverter<UserState, Map<String, dynamic>> {
+    implements JsonConverter<UserState, Map<String, dynamic>?> {
   const UserStateConverter();
 
   @override

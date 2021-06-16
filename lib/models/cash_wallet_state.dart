@@ -69,7 +69,6 @@ class CashWalletState with _$CashWalletState {
     @Default({})
         Map<String, Community> communities,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
-    @JsonKey(ignore: true) String? branchAddress,
     @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
     @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
     @JsonKey(ignore: true) @Default(false) bool isTransfersFetchingStarted,
@@ -96,7 +95,7 @@ class CashWalletState with _$CashWalletState {
 }
 
 class CashWalletStateConverter
-    implements JsonConverter<CashWalletState, Map<String, dynamic>> {
+    implements JsonConverter<CashWalletState, Map<String, dynamic>?> {
   const CashWalletStateConverter();
 
   @override

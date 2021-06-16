@@ -152,7 +152,7 @@ class _TokenTileState extends State<TokenTile> {
                                     softWrap: true,
                                   ),
                                   Text(
-                                    '\$${display(num.parse(widget.token.priceInfo!.quote))}',
+                                    '\$${display(num.parse(widget.token.priceInfo?.quote ?? '0'))}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Europa',
@@ -224,10 +224,15 @@ class _TokenTileState extends State<TokenTile> {
                               text: I10n.of(context).swap,
                               icon: 'swap_action',
                               onPressed: () {
-                                viewModel.getSwapList();
-                                context.router.push(
-                                  SwapScreen(
-                                    primaryToken: widget.token,
+                                viewModel.getSwapListBalances();
+                                context.router.pop();
+                                context.navigateTo(
+                                  SwapTab(
+                                    children: [
+                                      SwapScreen(
+                                        primaryToken: widget.token,
+                                      ),
+                                    ],
                                   ),
                                 );
                               },
@@ -242,12 +247,16 @@ class _TokenTileState extends State<TokenTile> {
                                 ? null
                                 : MediaQuery.of(context).size.width * .9,
                         onPressed: () {
-                          context.router.push(
-                            ContactsList(
-                              automaticallyImplyLeading: true,
-                              pageArgs: SendFlowArguments(
-                                tokenToSend: widget.token,
-                              ),
+                          context.router.pop();
+                          context.navigateTo(
+                            ContactsTab(
+                              children: [
+                                ContactsList(
+                                  pageArgs: SendFlowArguments(
+                                    tokenToSend: widget.token,
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },
@@ -303,12 +312,12 @@ class _TokenTileState extends State<TokenTile> {
       converter: TokenTileViewModel.fromStore,
       builder: (_, viewModel) {
         final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(widget.token.priceInfo!.quote);
+            ![null, '', '0', 0, 'NaN'].contains(widget.token.priceInfo?.quote);
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
               element.homeTokenAddress.toLowerCase() != '' &&
               element.homeTokenAddress.toLowerCase() == widget.token.address &&
-              ![false, null].contains(element.metadata!.isDefaultImage),
+              ![false, null].contains(element.metadata?.isDefaultImage),
         );
         final Widget leading = Stack(
           alignment: Alignment.center,
@@ -316,16 +325,15 @@ class _TokenTileState extends State<TokenTile> {
             ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: (widget.token.imageUrl != null &&
+                          widget.token.imageUrl!.isNotEmpty ||
                       viewModel.tokensImages
-                          .containsKey(widget.token.address.toLowerCase()))
+                          .containsKey(widget.token.address.toLowerCase())
                   ? CachedNetworkImage(
                       width: widget.symbolWidth,
                       height: widget.symbolHeight,
-                      imageUrl: (viewModel.tokensImages
-                              .containsKey(widget.token.address.toLowerCase())
-                          ? viewModel
-                              .tokensImages[widget.token.address.toLowerCase()]
-                          : widget.token.imageUrl)!,
+                      imageUrl: (viewModel.tokensImages[
+                              widget.token.address.toLowerCase()] ??
+                          widget.token.imageUrl)!,
                       placeholder: (context, url) =>
                           CircularProgressIndicator(),
                       errorWidget: (context, url, error) => DefaultLogo(
@@ -338,7 +346,7 @@ class _TokenTileState extends State<TokenTile> {
                       symbol: widget.token.symbol,
                       width: widget.symbolWidth,
                       height: widget.symbolHeight,
-                    ),
+                    )),
             ),
             isCommunityToken
                 ? Text(

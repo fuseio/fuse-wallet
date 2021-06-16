@@ -12,9 +12,9 @@ class InviteBonusPlugin with _$InviteBonusPlugin {
   @JsonSerializable()
   factory InviteBonusPlugin({
     @Default('inviteBonus') String type,
-    required String amount,
-    required String name,
-    required bool isActive,
+    @Default(null) String? amount,
+    @Default(null) String? name,
+    @Default(false) bool isActive,
   }) = _InviteBonusPlugin;
 
   factory InviteBonusPlugin.fromJson(dynamic json) =>
@@ -22,18 +22,25 @@ class InviteBonusPlugin with _$InviteBonusPlugin {
 }
 
 class InviteBonusPluginConverter
-    implements JsonConverter<InviteBonusPlugin, Map<String, dynamic>> {
+    implements JsonConverter<InviteBonusPlugin?, Map<String, dynamic>?> {
   const InviteBonusPluginConverter();
 
   @override
-  InviteBonusPlugin fromJson(Map<String, dynamic> json) => InviteBonusPlugin(
+  InviteBonusPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return InviteBonusPlugin(
         name: json['name'],
         amount: json.containsKey('inviteInfo')
             ? json['inviteInfo']['amount']
             : json['amount'],
         isActive: json["isActive"] ?? false,
       );
+    }
+  }
 
   @override
-  Map<String, dynamic> toJson(InviteBonusPlugin instance) => instance.toJson();
+  Map<String, dynamic>? toJson(InviteBonusPlugin? instance) =>
+      instance?.toJson();
 }

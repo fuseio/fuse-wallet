@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
@@ -79,11 +78,11 @@ class ActionTile extends StatelessWidget {
           receive: (value) =>
               viewModel.tokens[value.tokenAddress.toLowerCase()],
           swap: (value) => viewModel.tokens.values.firstWhere(
-            (element) => element.symbol == value.tradeInfo!.outputToken,
+            (element) => element.symbol == value.tradeInfo?.outputToken,
           ),
         );
         final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(token!.priceInfo!.quote);
+            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
         final String displayName = action.map(
           createWallet: (value) => value.getText(context),
           joinCommunity: (value) => value.getText(context),
@@ -109,18 +108,19 @@ class ActionTile extends StatelessWidget {
         );
         final String symbol = action.map(
           createWallet: (value) => '',
-          joinCommunity: (value) => '',
+          joinCommunity: (value) =>
+              viewModel.tokens[value.tokenAddress.toLowerCase()]?.symbol ?? '',
           fiatDeposit: (value) => value.tokenSymbol,
-          bonus: (value) => token.symbol,
+          bonus: (value) => value.tokenSymbol,
           send: (value) => value.tokenSymbol,
           receive: (value) => value.tokenSymbol,
-          swap: (value) => value.tradeInfo!.outputToken,
+          swap: (value) => value.tradeInfo?.outputToken ?? '',
         );
 
         final String amount = hasPriceInfo
             ? '\$' +
                 action.getAmount(
-                  priceInfo: token.priceInfo,
+                  priceInfo: token?.priceInfo,
                 )
             : action.getAmount();
         final Widget trailing = Column(
@@ -228,16 +228,7 @@ class ActionTile extends StatelessWidget {
                 : SizedBox.shrink(),
             isCommunityToken && action.isJoinCommunity()
                 ? Text(
-                    action.map(
-                      createWallet: (value) => '',
-                      joinCommunity: (value) => viewModel
-                          .tokens[value.tokenAddress.toLowerCase()]!.symbol,
-                      fiatDeposit: (value) => value.tokenSymbol,
-                      bonus: (value) => value.tokenSymbol,
-                      send: (value) => value.tokenSymbol,
-                      receive: (value) => value.tokenSymbol,
-                      swap: (value) => '',
-                    ),
+                    symbol,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -308,28 +299,24 @@ class ActionTile extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Flexible(
-                        child: Text(
-                          I10n.of(context).swap + ' ',
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
+                      Text(
+                        I10n.of(context).swap + ' ',
+                        style: TextStyle(
+                          fontSize: 17,
                         ),
                       ),
-                      Flexible(
-                        child: Text(
-                          action.map(
-                            createWallet: (value) => '',
-                            joinCommunity: (value) => '',
-                            fiatDeposit: (value) => '',
-                            bonus: (value) => '',
-                            send: (value) => '',
-                            receive: (value) => '',
-                            swap: (value) => value.tradeInfo!.inputToken,
-                          ),
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
+                      Text(
+                        action.map(
+                          createWallet: (value) => '',
+                          joinCommunity: (value) => '',
+                          fiatDeposit: (value) => '',
+                          bonus: (value) => '',
+                          send: (value) => '',
+                          receive: (value) => '',
+                          swap: (value) => value.tradeInfo?.inputToken ?? '',
+                        ),
+                        style: TextStyle(
+                          fontSize: 17,
                         ),
                       ),
                       SizedBox(
@@ -345,22 +332,20 @@ class ActionTile extends StatelessWidget {
                       SizedBox(
                         width: 5,
                       ),
-                      Flexible(
-                        child: Text(
-                          action.map(
-                            createWallet: (value) => '',
-                            joinCommunity: (value) => '',
-                            fiatDeposit: (value) => '',
-                            bonus: (value) => '',
-                            send: (value) => '',
-                            receive: (value) => '',
-                            swap: (value) => value.tradeInfo!.outputToken,
-                          ),
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
+                      Text(
+                        action.map(
+                          createWallet: (value) => '',
+                          joinCommunity: (value) => '',
+                          fiatDeposit: (value) => '',
+                          bonus: (value) => '',
+                          send: (value) => '',
+                          receive: (value) => '',
+                          swap: (value) => value.tradeInfo?.outputToken ?? '',
                         ),
-                      )
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
+                      ),
                     ],
                   )
                 : Row(
@@ -407,10 +392,10 @@ class ActionTile extends StatelessWidget {
                         receive: (value) => '',
                         swap: (value) {
                           final String amount = smallNumberTest(
-                                  Decimal.parse(value.tradeInfo!.inputAmount))
+                                  num.parse(value.tradeInfo!.inputAmount))
                               ? value.tradeInfo!.inputAmount
                               : smallValuesConvertor(
-                                  Decimal.parse(value.tradeInfo!.inputAmount));
+                                  num.parse(value.tradeInfo!.inputAmount));
 
                           return amount + ' ' + value.tradeInfo!.inputToken;
                         },
@@ -425,14 +410,14 @@ class ActionTile extends StatelessWidget {
                         receive: (value) => '',
                         swap: (value) {
                           final String outputAmount = smallNumberTest(
-                                  Decimal.parse(value.tradeInfo!.outputAmount))
+                                  num.parse(value.tradeInfo!.outputAmount))
                               ? value.tradeInfo!.outputAmount
                               : smallValuesConvertor(
-                                  Decimal.parse(value.tradeInfo!.outputAmount));
+                                  num.parse(value.tradeInfo!.outputAmount));
 
                           return outputAmount +
                               ' ' +
-                              value.tradeInfo!.outputToken;
+                              (value.tradeInfo?.outputToken ?? '');
                         },
                       ),
                   maxLines: 1,
@@ -458,7 +443,7 @@ class ActionTile extends StatelessWidget {
                   accountAddress: action.getSender(),
                   symbol: symbol,
                   image: image,
-                  contact: contact!,
+                  contact: contact,
                 ),
               );
             }

@@ -20,16 +20,19 @@ import '../../services/apis/explorer.dart' as _i6;
 import '../../services/apis/funder.dart' as _i10;
 import '../../services/apis/fuseswap.dart' as _i11;
 import '../../services/apis/market.dart' as _i14;
-import '../../utils/log/log_it.dart' as _i17;
+import '../../utils/log/log_it.dart' as _i18;
 import '../../utils/onboard/Istrategy.dart' as _i12;
-import '../network/services.dart' as _i18;
-import '../network/web3.dart' as _i25;
-import 'dio.dart' as _i19;
-import 'firebase.dart' as _i20;
-import 'logger_di.dart' as _i22;
-import 'onboard.dart' as _i21;
-import 'package_info.dart' as _i23;
-import 'phone.dart' as _i24; // ignore_for_file: unnecessary_lambdas
+import '../../utils/remote_config.dart' as _i19;
+import '../network/services.dart' as _i20;
+import '../network/web3.dart' as _i28;
+import '../router/router.di.dart' as _i27;
+import '../router/routes.dart' as _i17;
+import 'dio.dart' as _i21;
+import 'firebase.dart' as _i22;
+import 'logger_di.dart' as _i24;
+import 'onboard.dart' as _i23;
+import 'package_info.dart' as _i25;
+import 'phone.dart' as _i26; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -43,6 +46,7 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   final loggerDi = _$LoggerDi();
   final packageInfoDi = _$PackageInfoDi();
   final phone = _$Phone();
+  final routerDi = _$RouterDi();
   final web3Di = _$Web3Di();
   gh.lazySingleton<_i3.API>(() => servicesModule.api);
   gh.factory<_i4.Dio>(() => dioDi.dio);
@@ -67,6 +71,7 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   await gh.factoryAsync<_i15.PackageInfo>(() => packageInfoDi.packageInfo,
       preResolve: true);
   gh.lazySingleton<_i16.PhoneNumberUtil>(() => phone.phoneNumberUtil);
+  gh.lazySingleton<_i17.RootRouter>(() => routerDi.logger);
   gh.factory<String>(() => web3Di.defaultCommunityAddress,
       instanceName: 'defaultCommunityAddress');
   gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>?, dynamic>(
@@ -77,22 +82,26 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       (walletModules, _) => web3Di.ethereumWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
       instanceName: 'ethereumWeb3');
-  gh.lazySingleton<_i17.LogIt>(() => _i17.LogIt(get<_i13.Logger>()));
+  gh.lazySingleton<_i18.LogIt>(() => _i18.LogIt(get<_i13.Logger>()));
+  gh.singletonAsync<_i19.RemoteConfigService>(
+      () => _i19.RemoteConfigService.getInstance());
   return get;
 }
 
-class _$ServicesModule extends _i18.ServicesModule {}
+class _$ServicesModule extends _i20.ServicesModule {}
 
-class _$DioDi extends _i19.DioDi {}
+class _$DioDi extends _i21.DioDi {}
 
-class _$FirebaseInjectableModule extends _i20.FirebaseInjectableModule {}
+class _$FirebaseInjectableModule extends _i22.FirebaseInjectableModule {}
 
-class _$OnBoardStrategy extends _i21.OnBoardStrategy {}
+class _$OnBoardStrategy extends _i23.OnBoardStrategy {}
 
-class _$LoggerDi extends _i22.LoggerDi {}
+class _$LoggerDi extends _i24.LoggerDi {}
 
-class _$PackageInfoDi extends _i23.PackageInfoDi {}
+class _$PackageInfoDi extends _i25.PackageInfoDi {}
 
-class _$Phone extends _i24.Phone {}
+class _$Phone extends _i26.Phone {}
 
-class _$Web3Di extends _i25.Web3Di {}
+class _$RouterDi extends _i27.RouterDi {}
+
+class _$Web3Di extends _i28.Web3Di {}

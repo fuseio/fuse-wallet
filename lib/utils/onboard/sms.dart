@@ -1,19 +1,21 @@
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
-
 
 class SmsStrategy implements IOnBoardStrategy {
   final OnboardStrategy strategy;
   SmsStrategy({this.strategy = OnboardStrategy.sms});
 
   @override
-  Future login(store, phoneNumber) async {
+  Future login(
+    store,
+    phoneNumber,
+  ) async {
     await api.loginWithSMS(phoneNumber);
     store.dispatch(SetIsLoginRequest(isLoading: false));
-    // Todo - pushVerifyScreen
-    // ExtendedNavigator.root.pushVerifyScreen();
+    rootRouter.push(VerifyPhoneNumber());
   }
 
   @override

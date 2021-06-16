@@ -34,7 +34,7 @@ class ContactsViewModel extends Equatable {
             Community();
     return ContactsViewModel(
       isoCode: store.state.userState.isoCode,
-      businesses: community.businesses,
+      businesses: community.businesses ?? [],
       contacts: store.state.userState.contacts,
       community: community,
       reverseContacts: store.state.userState.reverseContacts,

@@ -116,47 +116,47 @@ class SetIsFetchTokensBalances {
 
 ThunkAction startListenToTransferEvents() {
   return (Store store) async {
-    bool isListenToTransferEvents =
-        store.state.proWalletState?.isListenToTransferEvents ?? false;
+    // bool isListenToTransferEvents =
+    //     store.state.proWalletState?.isListenToTransferEvents ?? false;
 
-    if (!isListenToTransferEvents) {
-      log.info('Timer start - startListenToTransferEvents');
-      new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
-          (Timer timer) async {
-        if (store.state.userState.walletAddress == '') {
-          log.error('Timer stopped - startListenToTransferEvents');
-          timer.cancel();
-          return;
-        }
-        try {
-          String walletAddress = store.state.userState.walletAddress;
-          List transfersEvents = await ethereumExplorerApi
-              .getTransferEventsByAccountAddress(walletAddress);
-          ProWalletState proWalletState = store.state.proWalletState;
-          if (transfersEvents.isNotEmpty) {
-            List<String> tokenAddresses = [
-              ...transfersEvents.map((transferEvent) =>
-                  transferEvent['tokenAddress'].toLowerCase())
-                ..toSet()
-                ..toList()
-            ];
-            tokenAddresses
-              ..removeWhere(
-                (address) => proWalletState.erc20Tokens!.containsKey(address),
-              );
-            log.info('tokenAddresses ${tokenAddresses.length}');
-            if (tokenAddresses.isNotEmpty) {
-              store.dispatch(addTokens(contractAddresses: tokenAddresses));
-              store.dispatch(startFetchBalancesOnForeign());
-            }
-            timer.cancel();
-          }
-        } catch (error) {
-          log.error('Error in startListenToTransferEvents ${error.toString()}');
-        }
-      });
-      store.dispatch(new SetIsListenToTransferEvents(isFetching: true));
-    }
+    // if (!isListenToTransferEvents) {
+    //   log.info('Timer start - startListenToTransferEvents');
+    //   new Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
+    //       (Timer timer) async {
+    //     if (store.state.userState.walletAddress == '') {
+    //       log.error('Timer stopped - startListenToTransferEvents');
+    //       timer.cancel();
+    //       return;
+    //     }
+    //     try {
+    //       String walletAddress = store.state.userState.walletAddress;
+    //       List transfersEvents = await ethereumExplorerApi
+    //           .getTransferEventsByAccountAddress(walletAddress);
+    //       ProWalletState proWalletState = store.state.proWalletState;
+    //       if (transfersEvents.isNotEmpty) {
+    //         List<String> tokenAddresses = [
+    //           ...transfersEvents.map((transferEvent) =>
+    //               transferEvent['tokenAddress'].toLowerCase())
+    //             ..toSet()
+    //             ..toList()
+    //         ];
+    //         tokenAddresses
+    //           ..removeWhere(
+    //             (address) => proWalletState.erc20Tokens!.containsKey(address),
+    //           );
+    //         log.info('tokenAddresses ${tokenAddresses.length}');
+    //         if (tokenAddresses.isNotEmpty) {
+    //           store.dispatch(addTokens(contractAddresses: tokenAddresses));
+    //           store.dispatch(startFetchBalancesOnForeign());
+    //         }
+    //         timer.cancel();
+    //       }
+    //     } catch (error) {
+    //       log.error('Error in startListenToTransferEvents ${error.toString()}');
+    //     }
+    //   });
+    //   store.dispatch(new SetIsListenToTransferEvents(isFetching: true));
+    // }
   };
 }
 
@@ -318,7 +318,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
     Community? community = communities.firstWhere(
       (Community element) =>
           tokenAddress.toLowerCase() ==
-          element.foreignTokenAddress.toLowerCase(),
+          element.foreignTokenAddress?.toLowerCase(),
     );
     if (community.name != '') {
       Token token =
@@ -345,7 +345,8 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
       );
     } else {
       try {
-        dynamic tokenDetails = await ethereumWeb3.getTokenDetails(tokenAddress);
+        dynamic tokenDetails =
+            await ethereumWeb3!.getTokenDetails(tokenAddress);
         final int decimals = tokenDetails['decimals'].toInt();
         Token newToken = Token(
           amount: BigInt.zero,
@@ -370,7 +371,7 @@ ThunkAction getEtherBalance() {
       BigInt etherBalance =
           store.state.proWalletState.etherBalance ?? BigInt.zero;
       String walletAddress = store.state.userState.walletAddress;
-      EtherAmount balance = await ethereumWeb3.getBalance(
+      EtherAmount balance = await ethereumWeb3!.getBalance(
         address: walletAddress,
       );
       if (etherBalance.compareTo(balance.getInWei) != 0) {
@@ -452,14 +453,14 @@ ThunkAction sendErc20TokenCall(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       num feeAmount = fees[token.symbol] ?? 1;
       Map<String, dynamic> approveTokenData =
-          await ethereumWeb3.approveTokenOffChain(
+          await ethereumWeb3!.approveTokenOffChain(
         walletAddress,
         token.address,
         tokensAmount,
         network: foreignNetwork,
       );
       Map<String, dynamic> transferTokenData =
-          await ethereumWeb3.transferTokenOffChain(
+          await ethereumWeb3!.transferTokenOffChain(
         walletAddress,
         token.address,
         receiverAddress,
@@ -467,7 +468,7 @@ ThunkAction sendErc20TokenCall(
         network: foreignNetwork,
       );
       Map<String, dynamic> feeTransferData =
-          await ethereumWeb3.transferTokenOffChain(
+          await ethereumWeb3!.transferTokenOffChain(
         walletAddress,
         token.address,
         Addresses.FEE_ADDRESS,
@@ -504,7 +505,7 @@ ThunkAction sendTokenToHomeMultiBridge(
       num feeAmount = 20;
       log.info(
           'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-      List transferData = await ethereumWeb3.transferTokenToHome(
+      List transferData = await ethereumWeb3!.transferTokenToHome(
         walletAddress,
         receiverAddress,
         tokenAddress,
@@ -513,7 +514,7 @@ ThunkAction sendTokenToHomeMultiBridge(
         network: token.originNetwork!,
       );
       Map<String, dynamic> feeTransferData =
-          await ethereumWeb3.transferTokenOffChain(
+          await ethereumWeb3!.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,

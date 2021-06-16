@@ -61,7 +61,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Stack(
-                      clipBehavior: Clip.hardEdge,
+                      clipBehavior: Clip.none,
                       alignment: AlignmentDirectional.bottomCenter,
                       children: <Widget>[
                         ClipRRect(

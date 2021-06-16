@@ -12,15 +12,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'plugins.freezed.dart';
 part 'plugins.g.dart';
 
-JoinBonusPlugin joinBonusPluginFromJson(json) =>
-    JoinBonusPluginConverter().fromJson(json);
-
-BackupBonusPlugin backupBonusPluginFromJson(json) =>
-    BackupBonusPluginConverter().fromJson(json);
-
-InviteBonusPlugin inviteBonusPluginFromJson(json) =>
-    InviteBonusPluginConverter().fromJson(json);
-
 @immutable
 @freezed
 class Plugins with _$Plugins {
@@ -37,13 +28,16 @@ class Plugins with _$Plugins {
     @JsonKey(includeIfNull: false)
         WalletBannerPlugin? walletBanner,
     @Default(null)
-    @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
+    @JsonKey(includeIfNull: false)
+    @JoinBonusPluginConverter()
         JoinBonusPlugin? joinBonus,
     @Default(null)
-    @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
+    @JsonKey(includeIfNull: false)
+    @BackupBonusPluginConverter()
         BackupBonusPlugin? backupBonus,
     @Default(null)
-    @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
+    @JsonKey(includeIfNull: false)
+    @InviteBonusPluginConverter()
         InviteBonusPlugin? inviteBonus,
   }) = _Plugins;
 
@@ -64,13 +58,14 @@ class Plugins with _$Plugins {
   }
 }
 
-class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
+class PluginsConverter
+    implements JsonConverter<Plugins?, Map<String, dynamic>?> {
   const PluginsConverter();
 
   @override
-  Plugins fromJson(Map<String, dynamic>? json) {
+  Plugins? fromJson(Map<String, dynamic>? json) {
     if (json == null) {
-      return Plugins();
+      return null;
     } else {
       Map getServicesMap(dynamic json) {
         if (json.containsKey('onramp')) {
@@ -86,19 +81,18 @@ class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
 
       dynamic services = getServicesMap(json);
       return Plugins(
-        moonpay: MoonpayPlugin.fromJson(services["moonpay"] ?? {}),
-        rampInstant: RampInstantPlugin.fromJson(services["rampInstant"] ?? {}),
-        transak: TransakPlugin.fromJson(services["transak"] ?? {}),
-        joinBonus: JoinBonusPluginConverter().fromJson(json['joinBonus'] ?? {}),
+        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
+        rampInstant: RampInstantPlugin.fromJson(services["rampInstant"]),
+        transak: TransakPlugin.fromJson(services["transak"]),
+        joinBonus: JoinBonusPluginConverter().fromJson(json['joinBonus']),
         walletBanner:
             WalletBannerPluginConverter().fromJson(json['walletBanner']),
         backupBonus: BackupBonusPluginConverter().fromJson(json['backupBonus']),
-        inviteBonus:
-            InviteBonusPluginConverter().fromJson(json['inviteBonus'] ?? {}),
+        inviteBonus: InviteBonusPluginConverter().fromJson(json['inviteBonus']),
       );
     }
   }
 
   @override
-  Map<String, dynamic> toJson(Plugins instance) => instance.toJson();
+  Map<String, dynamic>? toJson(Plugins? instance) => instance?.toJson();
 }

@@ -59,9 +59,9 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         children: <Widget>[
                           Padding(
-                              padding: EdgeInsets.only(bottom: 20),
-                              child: SizedBox.expand(
-                                  child: CachedNetworkImage(
+                            padding: EdgeInsets.only(bottom: 20),
+                            child: SizedBox.expand(
+                              child: CachedNetworkImage(
                                 imageUrl: ImageUrl.getLink(
                                   widget.business.metadata.coverPhoto,
                                 ),
@@ -73,7 +73,9 @@ class _BusinessPageState extends State<BusinessPage> {
                                   image: imageProvider,
                                   fit: BoxFit.fill,
                                 ),
-                              ))),
+                              ),
+                            ),
+                          ),
                           Positioned(
                               top: 60,
                               left: 20,

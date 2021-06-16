@@ -1,5 +1,4 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,10 +15,10 @@ import 'package:fusecash/widgets/snackbars.dart';
 import 'package:intl/intl.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
-  final String accountAddress;
+  final String? accountAddress;
   final String displayName;
-  late final ImageProvider<Object>? image;
-  final Contact contact;
+  final ImageProvider<Object>? image;
+  final Contact? contact;
   final WalletAction action;
   final String symbol;
 
@@ -27,9 +26,9 @@ class ActionDetailsScreen extends StatelessWidget {
     required this.action,
     this.image,
     required this.displayName,
-    required this.accountAddress,
+    this.accountAddress,
     required this.symbol,
-    required this.contact,
+    this.contact,
   });
 
   @override
@@ -184,13 +183,13 @@ class ActionDetailsScreen extends StatelessWidget {
                                                     value.tradeInfo!.inputToken,
                                               );
                                               final String amount =
-                                                  smallNumberTest(Decimal.parse(
+                                                  smallNumberTest(num.parse(
                                                           value.tradeInfo!
                                                               .inputAmount))
                                                       ? value.tradeInfo!
                                                           .inputAmount
                                                       : smallValuesConvertor(
-                                                          Decimal.parse(value
+                                                          num.parse(value
                                                               .tradeInfo!
                                                               .inputAmount));
 
@@ -242,10 +241,10 @@ class ActionDetailsScreen extends StatelessWidget {
                                 receive: (value) => '',
                                 swap: (value) {
                                   final String amount = smallNumberTest(
-                                          Decimal.parse(
+                                          num.parse(
                                               value.tradeInfo!.outputAmount))
                                       ? value.tradeInfo!.outputAmount
-                                      : smallValuesConvertor(Decimal.parse(
+                                      : smallValuesConvertor(num.parse(
                                           value.tradeInfo!.outputAmount));
 
                                   double val = double.parse(

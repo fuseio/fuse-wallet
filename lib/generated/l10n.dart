@@ -440,11 +440,21 @@ class I10n {
     );
   }
 
-  /// `If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:`
-  String get crypto_deposit_explained {
+  /// `If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:`
+  String get crypto_deposit_bsc {
     return Intl.message(
-      'If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:',
-      name: 'crypto_deposit_explained',
+      'If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+      name: 'crypto_deposit_bsc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:`
+  String get crypto_deposit_eth {
+    return Intl.message(
+      'If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+      name: 'crypto_deposit_eth',
       desc: '',
       args: [],
     );
@@ -850,10 +860,10 @@ class I10n {
     );
   }
 
-  /// `FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash.`
+  /// `FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. `
   String get fuse_dollar_explain {
     return Intl.message(
-      'FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash.',
+      'FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. ',
       name: 'fuse_dollar_explain',
       desc: '',
       args: [],
@@ -950,10 +960,10 @@ class I10n {
     );
   }
 
-  /// `How you can use fUSD?`
+  /// `How you can use FuseDollar?`
   String get how_to_use_fusd {
     return Intl.message(
-      'How you can use fUSD?',
+      'How you can use FuseDollar?',
       name: 'how_to_use_fusd',
       desc: '',
       args: [],
@@ -1400,10 +1410,10 @@ class I10n {
     );
   }
 
-  /// `FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space.`
+  /// `FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space.`
   String get peg_explain {
     return Intl.message(
-      'FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space.',
+      'FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space.',
       name: 'peg_explain',
       desc: '',
       args: [],
@@ -2160,10 +2170,10 @@ class I10n {
     );
   }
 
-  /// `FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income.`
+  /// `FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income.`
   String get use_fusd_explain {
     return Intl.message(
-      'FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income.',
+      'FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income.',
       name: 'use_fusd_explain',
       desc: '',
       args: [],
@@ -2190,10 +2200,10 @@ class I10n {
     );
   }
 
-  /// `Visit fuse.io to learn more about Fuse and how things work behind the scene.`
+  /// `Visit fuse.io to learn more about Fuse and how things work behind the scenes.`
   String get visit_fuseio {
     return Intl.message(
-      'Visit fuse.io to learn more about Fuse and how things work behind the scene.',
+      'Visit fuse.io to learn more about Fuse and how things work behind the scenes.',
       name: 'visit_fuseio',
       desc: '',
       args: [],
@@ -2439,8 +2449,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'my'),
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
-      Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
-      Locale.fromSubtags(languageCode: 'sr', countryCode: 'RS'),
+      Locale.fromSubtags(languageCode: 'tl'),
     ];
   }
 

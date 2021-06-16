@@ -126,7 +126,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                       eventName:
                                           'Session Start: Authentication success',
                                     );
-                                    context.router.push(MainHomeScreen());
+                                    context.router.replaceAll([MainScreen()]);
                                     pincodeController.clear();
                                   } else {
                                     flush = Flushbar<bool>(

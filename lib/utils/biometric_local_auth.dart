@@ -19,7 +19,7 @@ class BiometricUtils {
 
   static Future<void> showDefaultPopupCheckBiometricAuth({
     String message = '',
-    Function(bool)? callback,
+    required Function(bool) callback,
     bool stickyAuth = false,
   }) async {
     final localAuth = LocalAuthentication();
@@ -27,7 +27,7 @@ class BiometricUtils {
       localizedReason: message,
       stickyAuth: stickyAuth,
     );
-    callback?.call(result);
+    callback.call(result);
   }
 
   static String getBiometricString(

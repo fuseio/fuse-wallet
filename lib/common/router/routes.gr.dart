@@ -17,6 +17,9 @@ import '../../features/account/screens/show_mnemonic.dart' as _i25;
 import '../../features/account/screens/social_screen.dart' as _i31;
 import '../../features/account/screens/verify_mnemonic.dart' as _i26;
 import '../../features/contacts/screens/contacts_list.dart' as _i16;
+import '../../features/contacts/screens/send_amount.dart' as _i17;
+import '../../features/contacts/screens/send_review.dart' as _i18;
+import '../../features/contacts/screens/send_success.dart' as _i19;
 import '../../features/contacts/send_amount_arguments.dart' as _i34;
 import '../../features/earn/screens/earn.dart' as _i22;
 import '../../features/earn/screens/earn_coming_soon.dart' as _i23;
@@ -27,12 +30,9 @@ import '../../features/onboard/screens/security_screen.dart' as _i5;
 import '../../features/onboard/screens/signup_screen.dart' as _i9;
 import '../../features/onboard/screens/username_screen.dart' as _i11;
 import '../../features/onboard/screens/verify_screen.dart' as _i10;
-import '../../features/screens/home_screen.dart' as _i13;
+import '../../features/screens/main_screen.dart' as _i13;
 import '../../features/screens/on_board_screen.dart' as _i8;
 import '../../features/screens/pincode_screen.dart' as _i6;
-import '../../features/screens/send_amount.dart' as _i17;
-import '../../features/screens/send_review.dart' as _i18;
-import '../../features/screens/send_success.dart' as _i19;
 import '../../features/screens/splash_screen.dart' as _i4;
 import '../../features/screens/webview_screen.dart' as _i12;
 import '../../features/swap/screens/review_swap.dart' as _i21;
@@ -88,8 +88,9 @@ class RootRouter extends _i1.RootStackRouter {
     VerifyPhoneNumber.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<VerifyPhoneNumberArgs>();
-          return _i10.VerifyPhoneNumber(args.verificationId);
+          final args = data.argsAs<VerifyPhoneNumberArgs>(
+              orElse: () => const VerifyPhoneNumberArgs());
+          return _i10.VerifyPhoneNumber(verificationId: args.verificationId);
         }),
     UserNameScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -103,12 +104,12 @@ class RootRouter extends _i1.RootStackRouter {
           return _i12.WebViewScreen(args.url, args.title);
         },
         fullscreenDialog: true),
-    MainHomeScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
+    MainScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<MainHomeScreenArgs>(
-              orElse: () => const MainHomeScreenArgs());
-          return _i13.MainHomeScreen(key: args.key);
+          final args =
+              data.argsAs<MainScreenArgs>(orElse: () => const MainScreenArgs());
+          return _i13.MainScreen(key: args.key);
         }),
     HomeTab.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -137,8 +138,11 @@ class RootRouter extends _i1.RootStackRouter {
         }),
     HomeScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
-        builder: (_) {
-          return _i14.HomeScreen();
+        builder: (data) {
+          final args =
+              data.argsAs<HomeScreenArgs>(orElse: () => const HomeScreenArgs());
+          return _i14.HomeScreen(
+              key: args.key, initialIndex: args.initialIndex);
         }),
     ActionDetailsScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -157,9 +161,7 @@ class RootRouter extends _i1.RootStackRouter {
         builder: (data) {
           final args = data.argsAs<ContactsListArgs>(
               orElse: () => const ContactsListArgs());
-          return _i16.ContactsList(
-              pageArgs: args.pageArgs,
-              automaticallyImplyLeading: args.automaticallyImplyLeading);
+          return _i16.ContactsList(pageArgs: args.pageArgs);
         }),
     SendAmountScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -263,7 +265,7 @@ class RootRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(VerifyPhoneNumber.name, path: '/verify-phone-number'),
         _i1.RouteConfig(UserNameScreen.name, path: '/user-name-screen'),
         _i1.RouteConfig(Webview.name, path: '/web-view-screen'),
-        _i1.RouteConfig(MainHomeScreen.name, path: '/', guards: [
+        _i1.RouteConfig(MainScreen.name, path: '/main-screen', guards: [
           authGuard
         ], children: [
           _i1.RouteConfig(HomeTab.name, path: 'home', guards: [
@@ -278,11 +280,11 @@ class RootRouter extends _i1.RootStackRouter {
           ], children: [
             _i1.RouteConfig(ContactsList.name, path: '', guards: [authGuard]),
             _i1.RouteConfig(SendAmountScreen.name,
-                path: 'send-amount-screen', guards: [authGuard]),
+                path: 'send-amount', guards: [authGuard]),
             _i1.RouteConfig(SendReviewScreen.name,
-                path: 'send-review-screen', guards: [authGuard]),
+                path: 'send-review', guards: [authGuard]),
             _i1.RouteConfig(SendSuccessScreen.name,
-                path: 'send-success-screen', guards: [authGuard])
+                path: 'send-success', guards: [authGuard])
           ]),
           _i1.RouteConfig(SwapTab.name, path: 'swap', guards: [
             authGuard
@@ -373,7 +375,7 @@ class SignUpScreen extends _i1.PageRouteInfo {
 }
 
 class VerifyPhoneNumber extends _i1.PageRouteInfo<VerifyPhoneNumberArgs> {
-  VerifyPhoneNumber({required String verificationId})
+  VerifyPhoneNumber({String? verificationId})
       : super(name,
             path: '/verify-phone-number',
             args: VerifyPhoneNumberArgs(verificationId: verificationId));
@@ -382,9 +384,9 @@ class VerifyPhoneNumber extends _i1.PageRouteInfo<VerifyPhoneNumberArgs> {
 }
 
 class VerifyPhoneNumberArgs {
-  const VerifyPhoneNumberArgs({required this.verificationId});
+  const VerifyPhoneNumberArgs({this.verificationId});
 
-  final String verificationId;
+  final String? verificationId;
 }
 
 class UserNameScreen extends _i1.PageRouteInfo {
@@ -410,18 +412,18 @@ class WebviewArgs {
   final String title;
 }
 
-class MainHomeScreen extends _i1.PageRouteInfo<MainHomeScreenArgs> {
-  MainHomeScreen({_i2.Key? key, List<_i1.PageRouteInfo>? children})
+class MainScreen extends _i1.PageRouteInfo<MainScreenArgs> {
+  MainScreen({_i2.Key? key, List<_i1.PageRouteInfo>? children})
       : super(name,
-            path: '/',
-            args: MainHomeScreenArgs(key: key),
+            path: '/main-screen',
+            args: MainScreenArgs(key: key),
             initialChildren: children);
 
-  static const String name = 'MainHomeScreen';
+  static const String name = 'MainScreen';
 }
 
-class MainHomeScreenArgs {
-  const MainHomeScreenArgs({this.key});
+class MainScreenArgs {
+  const MainScreenArgs({this.key});
 
   final _i2.Key? key;
 }
@@ -461,10 +463,21 @@ class AccountTab extends _i1.PageRouteInfo {
   static const String name = 'AccountTab';
 }
 
-class HomeScreen extends _i1.PageRouteInfo {
-  const HomeScreen() : super(name, path: '');
+class HomeScreen extends _i1.PageRouteInfo<HomeScreenArgs> {
+  HomeScreen({_i2.Key? key, int initialIndex = 0})
+      : super(name,
+            path: '',
+            args: HomeScreenArgs(key: key, initialIndex: initialIndex));
 
   static const String name = 'HomeScreen';
+}
+
+class HomeScreenArgs {
+  const HomeScreenArgs({this.key, this.initialIndex = 0});
+
+  final _i2.Key? key;
+
+  final int initialIndex;
 }
 
 class ActionDetailsScreen extends _i1.PageRouteInfo<ActionDetailsScreenArgs> {
@@ -472,9 +485,9 @@ class ActionDetailsScreen extends _i1.PageRouteInfo<ActionDetailsScreenArgs> {
       {required _i32.WalletAction action,
       _i2.ImageProvider<Object>? image,
       required String displayName,
-      required String accountAddress,
+      String? accountAddress,
       required String symbol,
-      required _i33.Contact contact})
+      _i33.Contact? contact})
       : super(name,
             path: 'action-details-screen',
             args: ActionDetailsScreenArgs(
@@ -493,9 +506,9 @@ class ActionDetailsScreenArgs {
       {required this.action,
       this.image,
       required this.displayName,
-      required this.accountAddress,
+      this.accountAddress,
       required this.symbol,
-      required this.contact});
+      this.contact});
 
   final _i32.WalletAction action;
 
@@ -503,39 +516,30 @@ class ActionDetailsScreenArgs {
 
   final String displayName;
 
-  final String accountAddress;
+  final String? accountAddress;
 
   final String symbol;
 
-  final _i33.Contact contact;
+  final _i33.Contact? contact;
 }
 
 class ContactsList extends _i1.PageRouteInfo<ContactsListArgs> {
-  ContactsList(
-      {_i34.SendFlowArguments? pageArgs,
-      bool? automaticallyImplyLeading = false})
-      : super(name,
-            path: '',
-            args: ContactsListArgs(
-                pageArgs: pageArgs,
-                automaticallyImplyLeading: automaticallyImplyLeading));
+  ContactsList({_i34.SendFlowArguments? pageArgs})
+      : super(name, path: '', args: ContactsListArgs(pageArgs: pageArgs));
 
   static const String name = 'ContactsList';
 }
 
 class ContactsListArgs {
-  const ContactsListArgs(
-      {this.pageArgs, this.automaticallyImplyLeading = false});
+  const ContactsListArgs({this.pageArgs});
 
   final _i34.SendFlowArguments? pageArgs;
-
-  final bool? automaticallyImplyLeading;
 }
 
 class SendAmountScreen extends _i1.PageRouteInfo<SendAmountScreenArgs> {
   SendAmountScreen({required _i34.SendFlowArguments pageArgs})
       : super(name,
-            path: 'send-amount-screen',
+            path: 'send-amount',
             args: SendAmountScreenArgs(pageArgs: pageArgs));
 
   static const String name = 'SendAmountScreen';
@@ -550,7 +554,7 @@ class SendAmountScreenArgs {
 class SendReviewScreen extends _i1.PageRouteInfo<SendReviewScreenArgs> {
   SendReviewScreen({required _i34.SendFlowArguments pageArgs})
       : super(name,
-            path: 'send-review-screen',
+            path: 'send-review',
             args: SendReviewScreenArgs(pageArgs: pageArgs));
 
   static const String name = 'SendReviewScreen';
@@ -565,7 +569,7 @@ class SendReviewScreenArgs {
 class SendSuccessScreen extends _i1.PageRouteInfo<SendSuccessScreenArgs> {
   SendSuccessScreen({required _i34.SendFlowArguments pageArgs})
       : super(name,
-            path: 'send-success-screen',
+            path: 'send-success',
             args: SendSuccessScreenArgs(pageArgs: pageArgs));
 
   static const String name = 'SendSuccessScreen';

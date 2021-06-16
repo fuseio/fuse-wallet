@@ -5,8 +5,14 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/utils/send.dart';
 
-class CashHeader extends StatelessWidget {
+class CashHeader extends StatefulWidget {
+  @override
+  _CashHeaderState createState() => _CashHeaderState();
+}
+
+class _CashHeaderState extends State<CashHeader> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CashHeaderViewModel>(
@@ -61,8 +67,7 @@ class CashHeader extends StatelessWidget {
                           'assets/images/scan.svg',
                         ),
                         onTap: () {
-                          // barcodeScannerHandler(
-                          //     ExtendedNavigator.named('homeRouter').context);
+                          barcodeScannerHandler(context);
                         },
                       ),
                     )

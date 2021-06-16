@@ -4,6 +4,7 @@ import 'package:fusecash/common/di/di.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -162,20 +163,24 @@ class DeviceIdSuccess {
   DeviceIdSuccess(this.identifier);
 }
 
-ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
+ThunkAction loginHandler(
+  CountryCode countryCode,
+  PhoneNumber phoneNumber,
+  VoidCallback loginFailureCallback,
+) {
   return (Store store) async {
     try {
       store.dispatch(SetIsLoginRequest(isLoading: true));
-      await onBoardStrategy.login(store, phoneNumber.e164);
+      await onBoardStrategy.login(
+        store,
+        phoneNumber.e164,
+      );
       store.dispatch(LoginRequestSuccess(
         countryCode: countryCode,
         phoneNumber: phoneNumber.e164,
       ));
-      Segment.alias(alias: phoneNumber.e164);
-      Segment.track(
-        eventName: 'Sign up: Phone_NextBtn_Press',
-      );
     } catch (e, s) {
+      loginFailureCallback();
       store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
       log.error('ERROR - LoginRequest $e');
       Segment.track(
@@ -191,22 +196,27 @@ ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
   };
 }
 
-ThunkAction verifyHandler(String verificationCode) {
+ThunkAction verifyHandler(
+  String verificationCode,
+) {
   return (Store store) async {
     try {
       Segment.track(
         eventName: 'Sign up: Verify phone code next button pressed',
       );
-      final Function onSuccess = (jwtToken) {
-        log.info('jwtToken $jwtToken');
-        Segment.track(
-          eventName: 'Sign up: VerificationCode_NextBtn_Press',
-        );
-        store.dispatch(LoginVerifySuccess(jwtToken));
-        store.dispatch(SetIsVerifyRequest(isLoading: false));
-        // ExtendedNavigator.root.pushUserNameScreen();
-      };
-      await onBoardStrategy.verify(store, verificationCode, onSuccess);
+      await onBoardStrategy.verify(
+        store,
+        verificationCode,
+        (String jwtToken) {
+          log.info('jwtToken $jwtToken');
+          Segment.track(
+            eventName: 'Sign up: VerificationCode_NextBtn_Press',
+          );
+          store.dispatch(LoginVerifySuccess(jwtToken));
+          store.dispatch(SetIsVerifyRequest(isLoading: false));
+          rootRouter.push(UserNameScreen());
+        },
+      );
     } catch (error, s) {
       store.dispatch(SetIsVerifyRequest(
         isLoading: false,
@@ -265,7 +275,8 @@ ThunkAction restoreWalletCall(
           accountAddress.toString(),
         ),
       );
-      store.dispatch(setDefaultCommunity());
+      store
+          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
       successCallback();
       Segment.track(
         eventName: 'Existing User: Successful Restore wallet from backup',
@@ -308,7 +319,8 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(setDefaultCommunity());
+      store
+          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
       Segment.track(
         eventName: 'New User: Create Wallet',
       );
@@ -485,7 +497,7 @@ ThunkAction setupWalletCall(walletData) {
       bool backup = walletData['backup'] ?? false;
       fuseWeb3 = getIt<Web3>(instanceName: 'fuseWeb3', param1: walletData);
       final String privateKey = store.state.userState.privateKey;
-      fuseWeb3.setCredentials(privateKey);
+      fuseWeb3!.setCredentials(privateKey);
       store.dispatch(GetWalletAddressesSuccess(
         backup: backup,
         walletAddress: walletAddress,
@@ -494,7 +506,7 @@ ThunkAction setupWalletCall(walletData) {
       if (networks.contains(foreignNetwork)) {
         ethereumWeb3 =
             getIt<Web3>(instanceName: 'ethereumWeb3', param1: walletData);
-        ethereumWeb3.setCredentials(privateKey);
+        ethereumWeb3!.setCredentials(privateKey);
         Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
           store.dispatch(startListenToTransferEvents());
           store.dispatch(startFetchBalancesOnForeign());

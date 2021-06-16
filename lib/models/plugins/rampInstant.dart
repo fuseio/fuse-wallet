@@ -11,7 +11,7 @@ class RampInstantPlugin with _$RampInstantPlugin {
   @Implements(Plugin)
   @JsonSerializable()
   factory RampInstantPlugin({
-    required String name,
+    @Default('rampInstant') String name,
     required String widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,

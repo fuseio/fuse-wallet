@@ -37,7 +37,7 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
     displayName: json['displayName'] as String? ?? 'Anom',
     avatarUrl: json['avatarUrl'] as String? ?? '',
     email: json['email'] as String? ?? '',
-    verificationId: json['verificationId'] as String? ?? '',
+    verificationId: json['verificationId'] as String?,
     identifier: json['identifier'] as String? ?? '',
     syncedContacts: (json['syncedContacts'] as List<dynamic>?)
             ?.map((e) => e as String)

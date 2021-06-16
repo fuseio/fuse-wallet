@@ -43,12 +43,11 @@ bool isNumeric(String? s) {
   return Decimal.tryParse(s) != null;
 }
 
-bool smallNumberTest(Decimal value) {
-  return value.compareTo(Decimal.zero) == 1 &&
-      value.compareTo(Decimal.parse('0.01')) <= 0;
+bool smallNumberTest(num value) {
+  return value.compareTo(0) == 1 && value.compareTo(0.01) <= 0;
 }
 
-String smallValuesConvertor(Decimal value) {
+String smallValuesConvertor(num value) {
   if (smallNumberTest(value)) {
     return '< 0.01';
   }
@@ -60,8 +59,8 @@ String formatValue(
   int decimals, [
   bool withPrecision = false,
 ]) {
-  Decimal formattedValue =
-      Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
+  num formattedValue =
+      num.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
   return smallValuesConvertor(formattedValue);
 }

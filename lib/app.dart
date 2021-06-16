@@ -1,16 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/route_guards.dart';
-import 'common/router/routes.gr.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/material.dart' hide Router;
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
@@ -19,9 +17,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-  MyApp({
-    required this.store,
-  });
+  MyApp(this.store);
 
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
@@ -33,10 +29,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _rootRouter = RootRouter(authGuard: AuthGuard());
-  final _authService = AuthService();
-  // late StreamSubscription<Map> streamSubscription;
-  late Locale _locale;
+  Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -46,32 +39,17 @@ class _MyAppState extends State<MyApp> {
   void setJwtToken(Store<AppState> store) {
     final String jwtToken = store.state.userState.jwtToken;
     if (![null, ''].contains(jwtToken)) {
+      isAuthenticated = true;
       log.info('JWT: $jwtToken');
       api.setJwtToken(jwtToken);
     }
-  }
-
-  // void listenDynamicLinks(Store<AppState> store) {
-  //   streamSubscription = FlutterBranchSdk.initSession().listen((linkData) {
-  //     log.info("branch listening.");
-  //     store.dispatch(BranchListening());
-  //     log.info("Got link data: ${linkData.toString()}");
-  //     if (linkData["~feature"] == "invite_user") {}
-  //   });
-  // }
-
-  @override
-  void dispose() {
-    // streamSubscription.cancel();
-    super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
     setJwtToken(widget.store);
-    // listenDynamicLinks(widget.store);
-    _locale = widget.store.state.userState.locale!;
+    _locale = widget.store.state.userState.locale;
   }
 
   @override
@@ -82,7 +60,7 @@ class _MyAppState extends State<MyApp> {
         locale: _locale,
         title: Strings.APP_NAME,
         themeMode: ThemeMode.system,
-        routeInformationParser: _rootRouter.defaultRouteParser(),
+        routeInformationParser: rootRouter.defaultRouteParser(),
         theme: FlexColorScheme.light(
           fontFamily: 'Europa',
           colors: FlexSchemeColor.from(
@@ -94,11 +72,10 @@ class _MyAppState extends State<MyApp> {
             appBarColor: Color(0xFFFFFFFF),
           ),
         ).toTheme,
-        routerDelegate: AutoRouterDelegate(
-          _rootRouter,
+        routerDelegate: rootRouter.delegate(
           navigatorObservers: () => [
             AutoRouteObserver(),
-            // SentryNavigatorObserver(),
+            SentryNavigatorObserver(),
           ],
         ),
         builder: (_, router) => ResponsiveWrapper.builder(
@@ -123,6 +100,14 @@ class _MyAppState extends State<MyApp> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: I10n.delegate.supportedLocales,
+        localeListResolutionCallback: (locales, supportedLocales) {
+          for (Locale locale in locales!) {
+            if (supportedLocales.contains(locale)) {
+              return locale;
+            }
+          }
+          return Locale('en', 'US');
+        },
         localeResolutionCallback: (locale, supportedLocales) {
           for (var supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale?.languageCode &&

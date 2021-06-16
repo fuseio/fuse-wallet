@@ -89,7 +89,9 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
         converter: BackupViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
+            height: MediaQuery.of(context).size.height * 0.75,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
@@ -149,18 +151,19 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     Padding(
                       padding: EdgeInsets.only(top: 40),
                       child: Center(
-                          child: PrimaryButton(
-                        label: I10n.of(context).next_button,
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.router.push(DoneBackup());
-                          }
-                        },
-                      )),
+                        child: PrimaryButton(
+                          label: I10n.of(context).next_button,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              context.router.push(DoneBackup());
+                            }
+                          },
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 30.0),
+                    // SizedBox(height: 30.0),
                   ],
-                )
+                ),
               ],
             ),
           );

@@ -22,9 +22,9 @@ class _$BackupBonusPluginTearOff {
 
   _BackupBonusPlugin call(
       {String type = 'backupBonus',
-      required String amount,
-      required String name,
-      required bool isActive}) {
+      String? amount = null,
+      String? name = null,
+      bool isActive = false}) {
     return _BackupBonusPlugin(
       type: type,
       amount: amount,
@@ -44,8 +44,8 @@ const $BackupBonusPlugin = _$BackupBonusPluginTearOff();
 /// @nodoc
 mixin _$BackupBonusPlugin {
   String get type => throw _privateConstructorUsedError;
-  String get amount => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $BackupBonusPluginCopyWith<$Res> {
   factory $BackupBonusPluginCopyWith(
           BackupBonusPlugin value, $Res Function(BackupBonusPlugin) then) =
       _$BackupBonusPluginCopyWithImpl<$Res>;
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -86,11 +86,11 @@ class _$BackupBonusPluginCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$BackupBonusPluginCopyWith<$Res>
           _BackupBonusPlugin value, $Res Function(_BackupBonusPlugin) then) =
       __$BackupBonusPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -135,11 +135,11 @@ class __$BackupBonusPluginCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -157,9 +157,9 @@ class _$_BackupBonusPlugin
     implements _BackupBonusPlugin {
   _$_BackupBonusPlugin(
       {this.type = 'backupBonus',
-      required this.amount,
-      required this.name,
-      required this.isActive});
+      this.amount = null,
+      this.name = null,
+      this.isActive = false});
 
   factory _$_BackupBonusPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_BackupBonusPluginFromJson(json);
@@ -167,10 +167,13 @@ class _$_BackupBonusPlugin
   @JsonKey(defaultValue: 'backupBonus')
   @override
   final String type;
+  @JsonKey(defaultValue: null)
   @override
-  final String amount;
+  final String? amount;
+  @JsonKey(defaultValue: null)
   @override
-  final String name;
+  final String? name;
+  @JsonKey(defaultValue: false)
   @override
   final bool isActive;
 
@@ -227,9 +230,9 @@ class _$_BackupBonusPlugin
 abstract class _BackupBonusPlugin implements BackupBonusPlugin, Plugin {
   factory _BackupBonusPlugin(
       {String type,
-      required String amount,
-      required String name,
-      required bool isActive}) = _$_BackupBonusPlugin;
+      String? amount,
+      String? name,
+      bool isActive}) = _$_BackupBonusPlugin;
 
   factory _BackupBonusPlugin.fromJson(Map<String, dynamic> json) =
       _$_BackupBonusPlugin.fromJson;
@@ -237,9 +240,9 @@ abstract class _BackupBonusPlugin implements BackupBonusPlugin, Plugin {
   @override
   String get type => throw _privateConstructorUsedError;
   @override
-  String get amount => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @override
   bool get isActive => throw _privateConstructorUsedError;
   @override

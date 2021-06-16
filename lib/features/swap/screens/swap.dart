@@ -38,14 +38,13 @@ class _SwapScreenState extends State<SwapScreen> {
   TextEditingController tokenInController = TextEditingController();
   TextEditingController tokenOutController = TextEditingController();
   SwapRequestBody swapRequestBody = SwapRequestBody();
-  late TradeInfo? info;
-  late TradeInfo? rateInfo;
-  late bool isFetchingPrice = false;
-  late Token tokenOut;
-  late Token tokenIn;
-  late List<Token> tokenList;
-  late bool isSwapped = false;
-  late bool? hasFund;
+  TradeInfo? info;
+  TradeInfo? rateInfo;
+  bool isFetchingPrice = false;
+  Token? tokenOut;
+  Token? tokenIn;
+  bool isSwapped = false;
+  bool? hasFund;
 
   @override
   void dispose() {
@@ -256,8 +255,8 @@ class _SwapScreenState extends State<SwapScreen> {
       highlightColor: Theme.of(context).canvasColor,
       onTap: () {
         if (this.mounted) {
-          Token tokenPayWith = tokenOut.copyWith();
-          Token tokenReceive = tokenIn.copyWith();
+          Token tokenPayWith = tokenOut!.copyWith();
+          Token tokenReceive = tokenIn!.copyWith();
           String amountOut = tokenOutController.text;
           String amountIn = tokenInController.text;
           setState(() {
@@ -295,13 +294,13 @@ class _SwapScreenState extends State<SwapScreen> {
         focusColor: Theme.of(context).canvasColor,
         highlightColor: Theme.of(context).canvasColor,
         onTap: () {
-          String max = tokenOut.getBalance(true);
+          String max = tokenOut!.getBalance(true);
           if ((Decimal.tryParse(max) ?? Decimal.zero) > Decimal.zero) {
             setState(() {
               tokenOutController.text = display(num.tryParse(max));
             });
             getTradeInfo(
-              max,
+              num.parse(max).toStringAsPrecision(15),
               (info) => setState(() {
                 tokenInController.text =
                     display(num.tryParse(info.outputAmount));
@@ -380,11 +379,36 @@ class _SwapScreenState extends State<SwapScreen> {
     final bool hasEnough = rateInfo != null &&
         info != null &&
         (Decimal.parse(swapRequestBody.amountIn)).compareTo(
-              Decimal.parse(tokenOut.getBalance(true)),
+              Decimal.parse(tokenOut!.getBalance(true)),
             ) <=
             0;
     setState(() {
       hasFund = hasEnough;
+    });
+  }
+
+  void onInitialBuild(SwapViewModel viewModel) {
+    final Token payWith = widget.primaryToken != null
+        ? viewModel.tokens.firstWhere(
+            (element) => widget.primaryToken?.address == element.address)
+        : viewModel.tokens.firstWhere(
+            (element) => element.address == fuseDollarToken.address);
+    final Token receiveToken = viewModel.receiveTokens
+        .firstWhere((element) => element.address != payWith.address);
+    setState(() {
+      hasFund = null;
+      tokenOutController.text = '';
+      tokenInController.text = '';
+      info = null;
+      rateInfo = null;
+      tokenOut = payWith;
+      tokenIn = receiveToken;
+      swapRequestBody = swapRequestBody.copyWith(
+        recipient: viewModel.walletAddress,
+        currencyOut: receiveToken.address,
+        currencyIn: payWith.address,
+        amountIn: '0',
+      );
     });
   }
 
@@ -395,34 +419,12 @@ class _SwapScreenState extends State<SwapScreen> {
       body: StoreConnector<AppState, SwapViewModel>(
         distinct: true,
         converter: SwapViewModel.fromStore,
+        onInitialBuild: onInitialBuild,
         // onInit: (store) {
         //   store.dispatch(fetchSwapList());
         // },
         onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel?.tokens != newViewModel.tokens) {
-            final Token payWith = widget.primaryToken != null
-                ? newViewModel.tokens.firstWhere((element) =>
-                    widget.primaryToken?.address == element.address)
-                : newViewModel.tokens.firstWhere(
-                    (element) => element.address == fuseDollarToken.address);
-            final Token receiveToken = newViewModel.receiveTokens
-                .firstWhere((element) => element.address != payWith.address);
-            setState(() {
-              hasFund = null;
-              tokenOutController.text = '';
-              tokenInController.text = '';
-              info = null;
-              rateInfo = null;
-              tokenOut = payWith;
-              tokenIn = receiveToken;
-              swapRequestBody = swapRequestBody.copyWith(
-                recipient: newViewModel.walletAddress,
-                currencyOut: receiveToken.address,
-                currencyIn: payWith.address,
-                amountIn: '0',
-              );
-            });
-          }
+          onInitialBuild(newViewModel);
         },
         builder: (_, viewModel) {
           if (viewModel.tokens.isEmpty &&
@@ -464,8 +466,8 @@ class _SwapScreenState extends State<SwapScreen> {
                                         () => getTradeInfo(
                                           value,
                                           (info) {
-                                            if (smallNumberTest(Decimal.parse(
-                                                info.outputAmount))) {
+                                            if (smallNumberTest(
+                                                num.parse(info.outputAmount))) {
                                               setState(() {
                                                 tokenInController.text =
                                                     info.outputAmount;
@@ -494,7 +496,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                       viewModel.receiveTokens
                                         ..removeWhere((element) =>
                                             element.address ==
-                                            tokenOut.address),
+                                            tokenOut!.address),
                                       onTokenInChanged,
                                       true,
                                       I10n.of(context).receive,
@@ -506,8 +508,8 @@ class _SwapScreenState extends State<SwapScreen> {
                                         () => getTradeInfo(
                                           value,
                                           (info) {
-                                            if (smallNumberTest(Decimal.parse(
-                                                info.outputAmount))) {
+                                            if (smallNumberTest(
+                                                num.parse(info.outputAmount))) {
                                               setState(() {
                                                 tokenOutController.text =
                                                     info.outputAmount;

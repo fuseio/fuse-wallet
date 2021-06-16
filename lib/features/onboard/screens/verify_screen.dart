@@ -5,12 +5,11 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyPhoneNumber extends StatefulWidget {
-  final String verificationId;
-  VerifyPhoneNumber(this.verificationId);
+  final String? verificationId;
+  VerifyPhoneNumber({this.verificationId});
   @override
   _VerifyPhoneNumberState createState() => _VerifyPhoneNumberState();
 }
@@ -40,18 +39,11 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
       body: StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
-        onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel?.verifyErrorMessage !=
-              newViewModel.verifyErrorMessage) {
-            showErrorSnack(
-              title: I10n.of(context).oops,
-              message: newViewModel.verifyErrorMessage,
-              context: context,
-              margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120),
-            );
-            // Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
-            //   newViewModel.resetErrors();
-            // });
+        onInitialBuild: (viewModel) {
+          if (viewModel.credentials != null &&
+              viewModel.verificationId != null) {
+            autoCode = viewModel.credentials?.smsCode ?? "";
+            viewModel.verify(autoCode);
           }
         },
         builder: (_, viewModel) {
@@ -135,7 +127,9 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                               // errorController.add(ErrorAnimationType
                               //     .shake); // Triggering error shake animation
                             } else {
-                              viewModel.verify(codeController.text);
+                              viewModel.verify(
+                                codeController.text,
+                              );
                             }
                           },
                         ),

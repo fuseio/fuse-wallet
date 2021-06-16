@@ -9,8 +9,8 @@ import 'package:fusecash/features/account/screens/crypto_deposit.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/utils/onramp.dart';
 import 'package:fusecash/utils/log/log.dart';
+import 'package:fusecash/utils/remote_config.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -67,6 +67,7 @@ class TopUpScreen extends StatefulWidget {
 class _TopUpScreenState extends State<TopUpScreen> {
   bool showWireTransfer = false;
   bool showTransak = false;
+
   onInit(store) async {
     try {
       final dio = getIt<Dio>();
@@ -74,9 +75,11 @@ class _TopUpScreenState extends State<TopUpScreen> {
       Map countryData = Map.from(response.data);
       final String currentCountry = countryData['country'];
       setState(() {
-        showTransak =
-            countriesWithTransak.any((country) => country == currentCountry);
-        showWireTransfer = countriesWithWireTransfer
+        showTransak = getIt<RemoteConfigService>()
+            .getWithTransak
+            .any((country) => country == currentCountry);
+        showWireTransfer = getIt<RemoteConfigService>()
+            .getWithWireTransfer
             .any((country) => country == currentCountry);
       });
     } catch (e) {
@@ -106,14 +109,13 @@ class _TopUpScreenState extends State<TopUpScreen> {
                     CustomTile(
                       title: I10n.of(context).credit_card,
                       menuIcon: 'credit_card',
-                      subtitle: showTransak ? '(Transak)' : '(Ramp network)',
+                      subtitle: showTransak ? 'Transak' : 'Ramp network',
                       onTap: () {
                         final String url = showTransak
                             ? viewModel.plugins.transak!.widgetUrl
                             : viewModel.plugins.rampInstant!.widgetUrl;
                         openDepositWebview(
                           context: context,
-                          withBack: true,
                           url: url,
                         );
                         Segment.track(
@@ -128,13 +130,12 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         ? CustomTile(
                             title: I10n.of(context).wire_transfer,
                             menuIcon: 'credit_card',
-                            subtitle: '(Ramp network)',
+                            subtitle: 'Ramp network',
                             onTap: () {
                               final String url =
                                   viewModel.plugins.rampInstant!.widgetUrl;
                               openDepositWebview(
                                 context: context,
-                                withBack: true,
                                 url: url,
                               );
                               Segment.track(
@@ -158,7 +159,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                           MaterialPageRoute(
                             builder: (context) => CryptoDepositScreen(
                               'https://fuseswap.com/#/bridge?sourceChain=1&recipient=${viewModel.walletAddress}',
-                              'If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+                              I10n.of(context).crypto_deposit_eth,
                             ),
                           ),
                         );
@@ -174,7 +175,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                           MaterialPageRoute(
                             builder: (context) => CryptoDepositScreen(
                               'https://fuseswap.com/#/bridge?sourceChain=56&recipient=${viewModel.walletAddress}',
-                              'If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+                              I10n.of(context).crypto_deposit_bsc,
                             ),
                           ),
                         );

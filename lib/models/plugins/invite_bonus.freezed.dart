@@ -22,9 +22,9 @@ class _$InviteBonusPluginTearOff {
 
   _InviteBonusPlugin call(
       {String type = 'inviteBonus',
-      required String amount,
-      required String name,
-      required bool isActive}) {
+      String? amount = null,
+      String? name = null,
+      bool isActive = false}) {
     return _InviteBonusPlugin(
       type: type,
       amount: amount,
@@ -44,8 +44,8 @@ const $InviteBonusPlugin = _$InviteBonusPluginTearOff();
 /// @nodoc
 mixin _$InviteBonusPlugin {
   String get type => throw _privateConstructorUsedError;
-  String get amount => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $InviteBonusPluginCopyWith<$Res> {
   factory $InviteBonusPluginCopyWith(
           InviteBonusPlugin value, $Res Function(InviteBonusPlugin) then) =
       _$InviteBonusPluginCopyWithImpl<$Res>;
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -86,11 +86,11 @@ class _$InviteBonusPluginCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$InviteBonusPluginCopyWith<$Res>
           _InviteBonusPlugin value, $Res Function(_InviteBonusPlugin) then) =
       __$InviteBonusPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -135,11 +135,11 @@ class __$InviteBonusPluginCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isActive: isActive == freezed
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -157,9 +157,9 @@ class _$_InviteBonusPlugin
     implements _InviteBonusPlugin {
   _$_InviteBonusPlugin(
       {this.type = 'inviteBonus',
-      required this.amount,
-      required this.name,
-      required this.isActive});
+      this.amount = null,
+      this.name = null,
+      this.isActive = false});
 
   factory _$_InviteBonusPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_InviteBonusPluginFromJson(json);
@@ -167,10 +167,13 @@ class _$_InviteBonusPlugin
   @JsonKey(defaultValue: 'inviteBonus')
   @override
   final String type;
+  @JsonKey(defaultValue: null)
   @override
-  final String amount;
+  final String? amount;
+  @JsonKey(defaultValue: null)
   @override
-  final String name;
+  final String? name;
+  @JsonKey(defaultValue: false)
   @override
   final bool isActive;
 
@@ -227,9 +230,9 @@ class _$_InviteBonusPlugin
 abstract class _InviteBonusPlugin implements InviteBonusPlugin, Plugin {
   factory _InviteBonusPlugin(
       {String type,
-      required String amount,
-      required String name,
-      required bool isActive}) = _$_InviteBonusPlugin;
+      String? amount,
+      String? name,
+      bool isActive}) = _$_InviteBonusPlugin;
 
   factory _InviteBonusPlugin.fromJson(Map<String, dynamic> json) =
       _$_InviteBonusPlugin.fromJson;
@@ -237,9 +240,9 @@ abstract class _InviteBonusPlugin implements InviteBonusPlugin, Plugin {
   @override
   String get type => throw _privateConstructorUsedError;
   @override
-  String get amount => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @override
   bool get isActive => throw _privateConstructorUsedError;
   @override
