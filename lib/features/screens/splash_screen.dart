@@ -123,84 +123,57 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BiometricAuth>(
-      future: BiometricUtils.getAvailableBiometrics(),
-      builder: (context, AsyncSnapshot<BiometricAuth> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          return StoreConnector<AppState, LockScreenViewModel>(
-            distinct: true,
-            onInit: onInit,
-            onInitialBuild: (LockScreenViewModel viewModel) {
-              log.info('onInitialBuild');
-            },
-            converter: LockScreenViewModel.fromStore,
-            builder: (_, viewModel) {
-              return Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  centerTitle: true,
-                  title: SvgPicture.asset(
-                    'assets/images/fusecash.svg',
-                    width: 140,
-                  ),
-                ),
-                body: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  color: Theme.of(context).colorScheme.primary,
+    return StoreConnector<AppState, LockScreenViewModel>(
+      distinct: true,
+      onInit: onInit,
+      onInitialBuild: (LockScreenViewModel viewModel) {
+        log.info('onInitialBuild');
+      },
+      converter: LockScreenViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            centerTitle: true,
+            title: SvgPicture.asset(
+              'assets/images/fusecash.svg',
+              width: 140,
+            ),
+          ),
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Theme.of(context).colorScheme.primary,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * .5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height * .5,
+                      SizedBox(
+                        height: 100,
+                      ),
+                      Expanded(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/splash.png',
-                                    width: 85,
-                                  ),
-                                ],
-                              ),
+                            Image.asset(
+                              'assets/images/splash.png',
+                              width: 85,
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
-                ),
-              );
-            },
-          );
-        } else {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).primaryColor),
-                ),
-                width: 10,
-                height: 10,
-                // margin: EdgeInsets.only(left: 28, right: 28),
-              ),
-            ],
-          );
-        }
+                )
+              ],
+            ),
+          ),
+        );
       },
     );
   }
