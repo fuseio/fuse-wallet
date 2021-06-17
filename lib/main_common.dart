@@ -6,6 +6,7 @@ import 'package:fusecash/app.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/utils/log/log.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -28,6 +29,11 @@ Future<AppState> _loadState(persistor) async {
 
 Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Intercom.initialize(
+    'sg9ivn0q',
+    iosApiKey: 'ios_sdk-89c0f641881c39661aca9fd566898c054d061090',
+    androidApiKey: 'android_sdk-a9f226699aab6c0f83e0e8a147234744929d2d0b',
+  );
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

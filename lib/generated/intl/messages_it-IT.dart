@@ -44,9 +44,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "balance": MessageLookupByLibrary.simpleMessage("Equilibrio"),
         "bonus": MessageLookupByLibrary.simpleMessage("bonus"),
         "bridge_from_BSC": MessageLookupByLibrary.simpleMessage(
-            "Bridge ETH or BNB from Binance Smart Chain"),
+            "\nBridge ETH o BNB da Binance Smart Chain"),
         "bridge_from_ethereum": MessageLookupByLibrary.simpleMessage(
-            "Bridge assets from Ethereum network"),
+            "Collega le risorse dalla rete Ethereum."),
         "bridge_to": MessageLookupByLibrary.simpleMessage("Bridge to"),
         "buy": MessageLookupByLibrary.simpleMessage("Acquistare"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
@@ -65,7 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "please fix your internet connection and try again!"),
         "contact_us": MessageLookupByLibrary.simpleMessage("Contattaci"),
         "contact_us_for_support":
-            MessageLookupByLibrary.simpleMessage("Contact us for support"),
+            MessageLookupByLibrary.simpleMessage("Contattaci per supporto"),
         "continue_with": MessageLookupByLibrary.simpleMessage("Continua con"),
         "copied_to_clipboard":
             MessageLookupByLibrary.simpleMessage("Copied to clipboard"),
@@ -77,15 +77,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Crea un nuovo portafoglio"),
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("Crea il tuo passcode"),
-        "credit_card": MessageLookupByLibrary.simpleMessage("Credit Card"),
+        "credit_card": MessageLookupByLibrary.simpleMessage("Carta di credito"),
         "crypto_deposit_bsc": MessageLookupByLibrary.simpleMessage(
-            "If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+            "Se hai ETH, BNB o FUSE su Binance Smart Chain (BSC), utilizza l\'URL di seguito con il tuo account Metamask su un browser desktop per depositare su Fuse:"),
         "crypto_deposit_eth": MessageLookupByLibrary.simpleMessage(
-            "If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+            "Se avete USDC su Ethereum per favore usate il URLsotto con il vostro conto Metamask su un browser desktop per depositarlo a Fuse:"),
         "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
-            "Please note that this is a personal link that will bridge the funds directly to your account."),
+            "Tieni presente che questo è un collegamento personale che collegherà i fondi direttamente al tuo account."),
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
-            "Please use it responsibly and at your own risk."),
+            "Si prega di utilizzarlo in modo responsabile e a proprio rischio."),
         "current_community":
             MessageLookupByLibrary.simpleMessage("Current community"),
         "date_and_time": MessageLookupByLibrary.simpleMessage("Date & Time"),
@@ -93,11 +93,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "deposit_failed":
             MessageLookupByLibrary.simpleMessage("deposit failed"),
         "deposit_from_BSC":
-            MessageLookupByLibrary.simpleMessage("Deposit from BSC"),
+            MessageLookupByLibrary.simpleMessage("Deposita da BSC"),
         "deposit_from_ethereum":
-            MessageLookupByLibrary.simpleMessage("Deposit from Ethereum"),
+            MessageLookupByLibrary.simpleMessage("Deposita da Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
-            "Deposit from Ethereum or BSC"),
+            "\nDeposito da Ethereum o BSC"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Deposit your"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("Deposit your first Dollars"),
@@ -106,7 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
         "dont_worry":
             MessageLookupByLibrary.simpleMessage("Non ti preoccupare:"),
-        "earn": MessageLookupByLibrary.simpleMessage("Earn"),
+        "earn": MessageLookupByLibrary.simpleMessage("Guadagnare"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
             "Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance."),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -141,14 +141,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "friend": MessageLookupByLibrary.simpleMessage("friend"),
         "from": MessageLookupByLibrary.simpleMessage("A partire dal"),
         "fusd_stablecoins_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!"),
+            "FuseDollar e il pirmo Fuse-native stablecoin. Nel futuro. staimo pianificando di aggiungere stablecoins ancorati a altre principali volute per gonfiare l\'adozione e ridurre frizioni per utenti in in tutto il mondo. Rimanete sintonizzati!"),
         "fuse_dollar": MessageLookupByLibrary.simpleMessage("Fuse Dollar"),
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. "),
+            "FuseDollar (fUSD) è una stablecoin ancorata al dollaro USA coniata sulla blockchain di Fuse Network. È stato creato per rendere le criptovalute e la DeFi semplici per le persone comuni."),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
             "Puoi passare a una nuova comunità inserendo il tuo ID risorsa (disponibile da Fuse Studio) o scansionando un codice QR"),
         "future_stablecoins":
-            MessageLookupByLibrary.simpleMessage("Future stablecoins"),
+            MessageLookupByLibrary.simpleMessage("Futuri stablecoins."),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
         "generate_wallet_failed":
             MessageLookupByLibrary.simpleMessage("Generate wallet failed"),
@@ -159,8 +159,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hi": MessageLookupByLibrary.simpleMessage("Ciao"),
         "home": MessageLookupByLibrary.simpleMessage("Casa"),
         "how_much": MessageLookupByLibrary.simpleMessage("Quanto?"),
-        "how_to_use_fusd":
-            MessageLookupByLibrary.simpleMessage("How you can use FuseDollar?"),
+        "how_to_use_fusd": MessageLookupByLibrary.simpleMessage(
+            "Come si puo usare FuseDollar?\n"),
         "important": MessageLookupByLibrary.simpleMessage("Importante!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
             "Initializing your wallet on Fuse"),
@@ -193,12 +193,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Unirsi alla comunità"),
         "language": MessageLookupByLibrary.simpleMessage("linguaggio"),
         "learn_about_fuse_dollar":
-            MessageLookupByLibrary.simpleMessage("Learn about Fuse Dollar"),
+            MessageLookupByLibrary.simpleMessage("imparate fuse dollar"),
         "learn_more":
             MessageLookupByLibrary.simpleMessage("Per saperne di più"),
         "legal": MessageLookupByLibrary.simpleMessage("legale"),
         "lets_start":
             MessageLookupByLibrary.simpleMessage("That\'s it! Let\'s start"),
+        "limit_discalimer":
+            MessageLookupByLibrary.simpleMessage("(for deposits above 200 \$)"),
+        "limit_offer": MessageLookupByLibrary.simpleMessage(
+            "Limited time offer! 50 \$ deposit bonus 💸"),
         "login": MessageLookupByLibrary.simpleMessage("Accesso"),
         "logout": MessageLookupByLibrary.simpleMessage("Disconnettersi"),
         "map": MessageLookupByLibrary.simpleMessage("Carta geografica"),
@@ -228,7 +232,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pay": MessageLookupByLibrary.simpleMessage("PAGARE"),
         "pay_with": MessageLookupByLibrary.simpleMessage("Pay with"),
         "peg_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space."),
+            "FuseDollar è completamente garantito da USD Coin (USDC) su Fuse. Emesso da circle.com, USDC è una stablecoin regolamentata e completamente sostenuta dal dollaro, ampiamente riconosciuta nello spazio delle criptovalute."),
         "pending": MessageLookupByLibrary.simpleMessage("IN ATTESA DI"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
         "pickup_display_name":
@@ -240,7 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pin code doesn\'t match"),
         "please_choose_security": MessageLookupByLibrary.simpleMessage(
             "Please choose how you prefer to unlock the wallet:"),
-        "please_use": MessageLookupByLibrary.simpleMessage("Please use"),
+        "please_use": MessageLookupByLibrary.simpleMessage("Per favore usi"),
         "price": MessageLookupByLibrary.simpleMessage("Price"),
         "privacy": MessageLookupByLibrary.simpleMessage("Fuse.io/privacy"),
         "protect_wallet":
@@ -315,7 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("Per"),
         "to_protect": MessageLookupByLibrary.simpleMessage(
             "To protect your money and wallet go now to the settings and back up your wallet in few easy steps"),
-        "to_unlock": MessageLookupByLibrary.simpleMessage("to unlock!"),
+        "to_unlock": MessageLookupByLibrary.simpleMessage("per sbloccare!"),
         "token": MessageLookupByLibrary.simpleMessage("Token"),
         "top_up":
             MessageLookupByLibrary.simpleMessage("Ricarica il tuo account"),
@@ -333,12 +337,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "txn": MessageLookupByLibrary.simpleMessage("Txn"),
         "up_to_10": MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
         "use_fusd_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income."),
+            "I FuseDollars possono essere spostati liberamente tra conti su FuseCash, nonché su conti Fuse al di fuori di Fuse Cash. Possono anche essere scambiati con altre criptovalute direttamente da Fuse Cash utilizzando FuseSwap DEX e saranno presto utilizzabili per guadagnare reddito passivo."),
         "use_max": MessageLookupByLibrary.simpleMessage("Use max"),
         "useful": MessageLookupByLibrary.simpleMessage("Utile"),
         "version": MessageLookupByLibrary.simpleMessage("Versione"),
         "visit_fuseio": MessageLookupByLibrary.simpleMessage(
-            "Visit fuse.io to learn more about Fuse and how things work behind the scenes."),
+            "Visita fuse.io per saperne di più su Fuse e su come funzionano le cose dietro le quinte."),
         "waiting_for_deposit": MessageLookupByLibrary.simpleMessage(
             "Waiting for your deposit to arrive"),
         "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
@@ -353,14 +357,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "we_notice": MessageLookupByLibrary.simpleMessage(
             "We notice you haven’t backup your wallet yet."),
         "what_is_fuse_dollar":
-            MessageLookupByLibrary.simpleMessage("What is FuseDollar?"),
+            MessageLookupByLibrary.simpleMessage("Cosa e FuseDollar?"),
         "what_is_peg": MessageLookupByLibrary.simpleMessage(
-            "How the FuseDollar peg is maintained?"),
+            "Come viene mantenuto il piolo FuseDollar?"),
         "why_do_we_need_this":
             MessageLookupByLibrary.simpleMessage("perché ne abbiamo bisogno?"),
         "will_never_share": MessageLookupByLibrary.simpleMessage(
             "Fuse will never share this information with 3rd party."),
-        "wire_transfer": MessageLookupByLibrary.simpleMessage("Wire Transfer"),
+        "wire_transfer":
+            MessageLookupByLibrary.simpleMessage("Bonifico bancario"),
         "word": MessageLookupByLibrary.simpleMessage("parola "),
         "word_not_match":
             MessageLookupByLibrary.simpleMessage("La parola non corrisponde"),

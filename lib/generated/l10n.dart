@@ -1190,6 +1190,26 @@ class I10n {
     );
   }
 
+  /// `(for deposits above 200 $)`
+  String get limit_discalimer {
+    return Intl.message(
+      '(for deposits above 200 \$)',
+      name: 'limit_discalimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Limited time offer! 50 $ deposit bonus 💸`
+  String get limit_offer {
+    return Intl.message(
+      'Limited time offer! 50 \$ deposit bonus 💸',
+      name: 'limit_offer',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Login`
   String get login {
     return Intl.message(
@@ -2449,6 +2469,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'my'),
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
+      Locale.fromSubtags(languageCode: 'sr', countryCode: 'RS'),
       Locale.fromSubtags(languageCode: 'tl'),
     ];
   }

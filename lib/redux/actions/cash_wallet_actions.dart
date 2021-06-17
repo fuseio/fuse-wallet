@@ -280,7 +280,7 @@ ThunkAction startFetchTokensBalances() {
         store.state.cashWalletState.isFetchingBalances ?? false;
     final String walletAddress = store.state.userState.walletAddress;
     if (!isFetchingBalances) {
-      log.info('Start Fetching token balances');
+      // log.info('Start Fetching token balances');
       Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
           (Timer timer) async {
         String currentWalletAddress = store.state.userState.walletAddress;
@@ -1099,7 +1099,7 @@ ThunkAction getTokenPriceChangeCall(Token token) {
           (Object error, StackTrace stackTrace) {
         log.error('Error getTokenPriceChangeCall - ${token.name} - $error ');
       };
-      log.info('Fetching token price change ${token.name}');
+      // log.info('Fetching token price change ${token.name}');
       await token.fetchPriceChange(
         onDone: onDone,
         onError: onError,

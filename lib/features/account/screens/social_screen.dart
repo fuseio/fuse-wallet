@@ -12,9 +12,9 @@ class SocialScreen extends StatelessWidget {
   final RateMyApp rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
     minDays: 0,
-    minLaunches: 2,
-    remindDays: 7,
-    remindLaunches: 10,
+    minLaunches: 1,
+    remindDays: 1,
+    remindLaunches: 1,
     googlePlayIdentifier: 'io.fuse.cash',
     appStoreIdentifier: '1559937899',
   );

@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -128,6 +129,7 @@ class CryptoDepositScreen extends StatelessWidget {
                       child: PrimaryButton(
                         label: I10n.of(context).ok,
                         onPressed: () {
+                          AutoRouter.of(context).popUntilRoot();
                           // if (ExtendedNavigator.named('accountRouter')
                           //     .canPop()) {
                           //   ExtendedNavigator.named('accountRouter')

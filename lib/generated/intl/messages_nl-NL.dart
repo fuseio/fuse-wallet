@@ -82,7 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "crypto_deposit_bsc": MessageLookupByLibrary.simpleMessage(
             "If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
         "crypto_deposit_eth": MessageLookupByLibrary.simpleMessage(
-            "If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+            "Als je USDC op het Ethereum netwerk hebt staan, gebruik dan de onderstaande URL met je Metamask-account in een desktopbrowser om Fuse te storten:"),
         "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
             "Please note that this is a personal link that will bridge the funds directly to your account."),
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
@@ -142,14 +142,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "friend": MessageLookupByLibrary.simpleMessage("friend"),
         "from": MessageLookupByLibrary.simpleMessage("Van"),
         "fusd_stablecoins_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!"),
+            "FuseDollar is de eerste netwerk-eigen stablecoin. In de toekomst zullen stablecoins gekoppeld aan andere grote valuta\'s toegevoegd worden. Zo verhogen we de adoptie en het gebruiksgemak voor gebruikers van over de hele wereld. Binnenkort meer!"),
         "fuse_dollar": MessageLookupByLibrary.simpleMessage("Fuse Dollar"),
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
             "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. "),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
             "Je kunt wisselen naar een nieuwe community door je Asset ID (verkrijgbaar in de Studio) in te voeren of door een QR code te scannen"),
         "future_stablecoins":
-            MessageLookupByLibrary.simpleMessage("Future stablecoins"),
+            MessageLookupByLibrary.simpleMessage("Toekomstige stablecoins\n"),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
         "generate_wallet_failed":
             MessageLookupByLibrary.simpleMessage("Generate wallet failed"),
@@ -160,8 +160,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hi": MessageLookupByLibrary.simpleMessage("Hallo"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "how_much": MessageLookupByLibrary.simpleMessage("Hoeveel?"),
-        "how_to_use_fusd":
-            MessageLookupByLibrary.simpleMessage("How you can use FuseDollar?"),
+        "how_to_use_fusd": MessageLookupByLibrary.simpleMessage(
+            "Hoe kun je FuseDollar gebruiken?\n"),
         "important": MessageLookupByLibrary.simpleMessage("Belangrijk!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
             "Initializing your wallet on Fuse"),
@@ -197,6 +197,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "legal": MessageLookupByLibrary.simpleMessage("Legal"),
         "lets_start":
             MessageLookupByLibrary.simpleMessage("That\'s it! Let\'s start"),
+        "limit_discalimer":
+            MessageLookupByLibrary.simpleMessage("(for deposits above 200 \$)"),
+        "limit_offer": MessageLookupByLibrary.simpleMessage(
+            "Limited time offer! 50 \$ deposit bonus 💸"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "map": MessageLookupByLibrary.simpleMessage("Мапа"),
@@ -332,7 +336,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "txn": MessageLookupByLibrary.simpleMessage("Txn"),
         "up_to_10": MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
         "use_fusd_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income."),
+            "FuseDollars kunnen vrij worden verplaatst tussen accounts op FuseCash, evenals naar Fuse-accounts buiten FuseCash. Ze kunnen ook rechtstreeks vanuit FuseCash worden geruild voor andere cryptocurrencies met behulp van de FuseSwap DEX, en zullen binnenkort bruikbaar zijn voor het verdienen van een passief inkomen."),
         "use_max": MessageLookupByLibrary.simpleMessage("Gebruik alles"),
         "useful": MessageLookupByLibrary.simpleMessage("Nuttig"),
         "version": MessageLookupByLibrary.simpleMessage("Versie"),

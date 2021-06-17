@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
+import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -422,12 +424,13 @@ ThunkAction syncContactsCall() {
 }
 
 ThunkAction identifyCall() {
-  return (Store store) {
-    String displayName = store.state.userState.displayName;
-    String phoneNumber = store.state.userState.phoneNumber;
-    String walletAddress = store.state.userState.walletAddress;
-    String accountAddress = store.state.userState.accountAddress;
-    String identifier = store.state.userState.identifier;
+  return (Store store) async {
+    UserState userState = store.state.userState;
+    String displayName = userState.displayName;
+    String phoneNumber = userState.phoneNumber;
+    String walletAddress = userState.walletAddress;
+    String accountAddress = userState.accountAddress;
+    String identifier = userState.identifier;
     Sentry.configureScope((scope) {
       scope.setContexts(
         'user',
@@ -438,6 +441,18 @@ ThunkAction identifyCall() {
         }),
       );
     });
+    await Intercom.registerIdentifiedUser(
+      userId: phoneNumber,
+    );
+    await Intercom.updateUser(
+        userId: phoneNumber,
+        phone: phoneNumber,
+        name: displayName,
+        language: userState.locale.toString(),
+        signedUpAt: userState.installedAt?.millisecondsSinceEpoch,
+        customAttributes: Map.from({
+          'walletAddress': walletAddress,
+        }));
     store.dispatch(segmentIdentifyCall(
       Map<String, dynamic>.from({
         "Phone Number": phoneNumber,

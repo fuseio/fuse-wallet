@@ -101,7 +101,8 @@ class RootRouter extends _i1.RootStackRouter {
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<WebviewArgs>();
-          return _i12.WebViewScreen(args.url, args.title);
+          return _i12.WebViewScreen(args.url, args.title,
+              onPageStarted: args.onPageStarted);
         },
         fullscreenDialog: true),
     MainScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -396,20 +397,27 @@ class UserNameScreen extends _i1.PageRouteInfo {
 }
 
 class Webview extends _i1.PageRouteInfo<WebviewArgs> {
-  Webview({required String url, required String title})
+  Webview(
+      {required String url,
+      required String title,
+      void Function(String)? onPageStarted})
       : super(name,
             path: '/web-view-screen',
-            args: WebviewArgs(url: url, title: title));
+            args: WebviewArgs(
+                url: url, title: title, onPageStarted: onPageStarted));
 
   static const String name = 'Webview';
 }
 
 class WebviewArgs {
-  const WebviewArgs({required this.url, required this.title});
+  const WebviewArgs(
+      {required this.url, required this.title, this.onPageStarted});
 
   final String url;
 
   final String title;
+
+  final void Function(String)? onPageStarted;
 }
 
 class MainScreen extends _i1.PageRouteInfo<MainScreenArgs> {

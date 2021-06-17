@@ -40,7 +40,11 @@ class ShowMnemonic extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
+                    left: 20.0,
+                    right: 20.0,
+                    bottom: 20.0,
+                    top: 0.0,
+                  ),
                   child: Column(
                     children: <Widget>[
                       Padding(

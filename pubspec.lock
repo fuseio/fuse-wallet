@@ -328,7 +328,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "8a5703a7c2fd1eb17c891c754f0852b124b277e9"
+      resolved-ref: fc5d5b7d94834884c55ac9ce1f82c3bf9611b63b
       url: "https://github.com/fuseio/dart-ethereum_address.git"
     source: git
     version: "1.0.1"
@@ -816,6 +816,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.1"
+  intercom_flutter:
+    dependency: "direct main"
+    description:
+      name: intercom_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.1"
+  intercom_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: intercom_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   intl:
     dependency: transitive
     description:
@@ -1510,9 +1524,11 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
+      path: "."
+      ref: "feat/null-safety"
+      resolved-ref: "656f45fad55d0988ae8128e5cb6ea9f12d60d9eb"
+      url: "https://github.com/fuseio/wallet_core.git"
+    source: git
     version: "0.3.0"
   watcher:
     dependency: transitive

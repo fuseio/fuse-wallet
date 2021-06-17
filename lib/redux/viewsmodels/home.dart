@@ -19,10 +19,18 @@ class HomeViewModel extends Equatable {
     final bool isCommunityFetched =
         store.state.cashWalletState.isCommunityFetched;
     final String walletAddress = store.state.userState.walletAddress;
-    final List<WalletAction> walletActions =
+    final List<WalletAction>? walletActions =
         store.state.cashWalletState.walletActions?.list ?? [];
-    final WalletAction? walletAction = walletActions.firstWhere(
-      (element) => element is CreateWallet,
+    final WalletAction? walletAction = walletActions?.firstWhere(
+      (element) => element.map(
+        createWallet: (_) => true,
+        fiatDeposit: (_) => false,
+        joinCommunity: (_) => false,
+        bonus: (_) => false,
+        send: (_) => false,
+        receive: (_) => false,
+        swap: (_) => false,
+      ),
     );
     final bool isDepositBanner =
         [true, null].contains(store.state.cashWalletState.isDepositBanner);

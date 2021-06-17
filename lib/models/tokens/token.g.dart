@@ -22,10 +22,6 @@ _$_Token _$_$_TokenFromJson(Map<String, dynamic> json) {
     communityAddress: json['communityAddress'] as String?,
     originNetwork: json['originNetwork'] as String?,
     priceChange: json['priceChange'] as num? ?? 0,
-    stats: (json['stats'] as List<dynamic>?)
-            ?.map((e) => Stats.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [],
     walletActions:
         walletActionsFromJson(json['walletActions'] as Map<String, dynamic>?),
   );
@@ -44,6 +40,5 @@ Map<String, dynamic> _$_$_TokenToJson(_$_Token instance) => <String, dynamic>{
       'communityAddress': instance.communityAddress,
       'originNetwork': instance.originNetwork,
       'priceChange': instance.priceChange,
-      'stats': instance.stats.map((e) => e.toJson()).toList(),
       'walletActions': instance.walletActions?.toJson(),
     };

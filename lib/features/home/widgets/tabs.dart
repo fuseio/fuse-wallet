@@ -14,17 +14,8 @@ class Tabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      initialIndex: initialIndex,
       child: Builder(
         builder: (_) {
-          // final TabController tabController = DefaultTabController.of(_)!;
-          // tabController.addListener(() {
-          //   if (!tabController.indexIsChanging) {
-          //     log.info(tabController.index);
-          //     // Your code goes here.
-          //     // To get index of current tab use tabController.index
-          //   }
-          // });
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 70,

@@ -42,7 +42,7 @@ class Token with _$Token implements Comparable<Token> {
     @Default(0) num priceChange,
     @JsonKey(ignore: true) @Default(0) num priceDiff,
     @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
-    @Default([]) List<Stats> stats,
+    @JsonKey(ignore: true) @Default([]) List<Stats> stats,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
   }) = _Token;
 

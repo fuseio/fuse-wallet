@@ -19,6 +19,11 @@ void openDepositWebview({
       Webview(
         url: '$url&finalUrl=https://fuse.cash',
         title: I10n.of(context).top_up,
+        onPageStarted: (String url) {
+          if (url.contains('https://fuse.cash/')) {
+            context.router.popUntilRoot();
+          }
+        },
       ),
     );
   } else {

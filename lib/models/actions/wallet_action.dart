@@ -217,8 +217,8 @@ class WalletAction with _$WalletAction {
     return this.map(
       createWallet: (value) => '',
       joinCommunity: (value) => '',
-      fiatDeposit: (value) => value.from,
-      bonus: (value) => value.from,
+      fiatDeposit: (value) => value.from ?? '',
+      bonus: (value) => value.from ?? '',
       send: (value) => value.to,
       receive: (value) => value.from,
       swap: (value) => '',
@@ -237,12 +237,9 @@ class WalletAction with _$WalletAction {
     );
   }
 
-  // @override
-  // int get timestamp;
-
   @JsonSerializable()
   const factory WalletAction.createWallet({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('createWallet') String name,
     @Default(null) String? txHash,
@@ -252,14 +249,14 @@ class WalletAction with _$WalletAction {
 
   @JsonSerializable()
   const factory WalletAction.fiatDeposit({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('fiat-deposit') String name,
     @Default(null) String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    required String from,
+    String? from,
     required String to,
     required BigInt value,
     required String tokenName,
@@ -269,38 +266,38 @@ class WalletAction with _$WalletAction {
 
   @JsonSerializable()
   const factory WalletAction.joinCommunity({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('joinCommunity') String name,
     @Default(null) String? txHash,
     required String status,
     @Default(0) int? blockNumber,
-    required String communityAddress,
+    String? communityAddress,
     required String tokenAddress,
     @Default(null) String? communityName,
   }) = JoinCommunity;
 
   @JsonSerializable()
   const factory WalletAction.bonus({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('tokenBonus') String name,
     @Default(null) String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    required String from,
+    String? from,
     required String to,
     required BigInt value,
     required String tokenName,
     required String tokenSymbol,
     required int tokenDecimal,
-    @Default(null) String? bonusType,
+    String? bonusType,
   }) = Bonus;
 
   @JsonSerializable()
   const factory WalletAction.send({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('sendTokens') String name,
     @Default(null) String? txHash,
@@ -317,7 +314,7 @@ class WalletAction with _$WalletAction {
 
   @JsonSerializable()
   const factory WalletAction.receive({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('receiveTokens') String name,
     @Default(null) String? txHash,
@@ -334,7 +331,7 @@ class WalletAction with _$WalletAction {
 
   @JsonSerializable()
   const factory WalletAction.swap({
-    required int timestamp,
+    @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('swapTokens') String name,
     @Default(null) String? txHash,

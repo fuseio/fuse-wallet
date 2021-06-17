@@ -329,7 +329,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                 showCopiedFlushbar(context);
                               },
                             ),
-                      [null, ''].contains(action.timestamp)
+                      [null, '', 0].contains(action.timestamp)
                           ? SizedBox.shrink()
                           : Padding(
                               padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -338,7 +338,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                 height: 1,
                               ),
                             ),
-                      [null, ''].contains(action.timestamp)
+                      [null, '', 0].contains(action.timestamp)
                           ? SizedBox.shrink()
                           : rowItem(
                               context,

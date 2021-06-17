@@ -36,7 +36,7 @@ class _$TokenTearOff {
       num priceChange = 0,
       @JsonKey(ignore: true) num priceDiff = 0,
       @JsonKey(ignore: true) int priceDiffLimitInDays = 0,
-      List<Stats> stats = const [],
+      @JsonKey(ignore: true) List<Stats> stats = const [],
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions}) {
     return _Token(
       address: address,
@@ -87,6 +87,7 @@ mixin _$Token {
   num get priceDiff => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   int get priceDiffLimitInDays => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
   List<Stats> get stats => throw _privateConstructorUsedError;
   @JsonKey(fromJson: walletActionsFromJson)
   WalletActions? get walletActions => throw _privateConstructorUsedError;
@@ -116,7 +117,7 @@ abstract class $TokenCopyWith<$Res> {
       num priceChange,
       @JsonKey(ignore: true) num priceDiff,
       @JsonKey(ignore: true) int priceDiffLimitInDays,
-      List<Stats> stats,
+      @JsonKey(ignore: true) List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
   $PriceCopyWith<$Res>? get priceInfo;
@@ -267,7 +268,7 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       num priceChange,
       @JsonKey(ignore: true) num priceDiff,
       @JsonKey(ignore: true) int priceDiffLimitInDays,
-      List<Stats> stats,
+      @JsonKey(ignore: true) List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions});
 
   @override
@@ -398,7 +399,7 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       this.priceChange = 0,
       @JsonKey(ignore: true) this.priceDiff = 0,
       @JsonKey(ignore: true) this.priceDiffLimitInDays = 0,
-      this.stats = const [],
+      @JsonKey(ignore: true) this.stats = const [],
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions})
       : super._();
 
@@ -444,8 +445,8 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
   @override
   @JsonKey(ignore: true)
   final int priceDiffLimitInDays;
-  @JsonKey(defaultValue: const [])
   @override
+  @JsonKey(ignore: true)
   final List<Stats> stats;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
@@ -585,7 +586,8 @@ abstract class _Token extends Token {
           num priceDiff,
       @JsonKey(ignore: true)
           int priceDiffLimitInDays,
-      List<Stats> stats,
+      @JsonKey(ignore: true)
+          List<Stats> stats,
       @JsonKey(fromJson: walletActionsFromJson)
           WalletActions? walletActions}) = _$_Token;
   _Token._() : super._();
@@ -626,6 +628,7 @@ abstract class _Token extends Token {
   @JsonKey(ignore: true)
   int get priceDiffLimitInDays => throw _privateConstructorUsedError;
   @override
+  @JsonKey(ignore: true)
   List<Stats> get stats => throw _privateConstructorUsedError;
   @override
   @JsonKey(fromJson: walletActionsFromJson)

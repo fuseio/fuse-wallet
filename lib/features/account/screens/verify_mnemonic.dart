@@ -89,7 +89,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
         converter: BackupViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.75,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -149,7 +148,10 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                 Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 40),
+                      padding: EdgeInsets.only(
+                        top: 40,
+                        bottom: 40,
+                      ),
                       child: Center(
                         child: PrimaryButton(
                           label: I10n.of(context).next_button,

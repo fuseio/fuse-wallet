@@ -167,8 +167,7 @@ class _ContactsListState extends State<ContactsList> {
     listItems.add(SearchPanel(
       searchController: searchController,
     ));
-
-    final String accountAddress = searchController.text.isNotEmpty &&
+    final String accountAddress = ![null, ''].contains(searchController.text) &&
             searchController.text.length > 1 &&
             searchController.text[1] == 'f'
         ? searchController.text.replaceFirst('f', 'x')

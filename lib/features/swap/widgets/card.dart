@@ -79,7 +79,8 @@ class TradeCard extends StatelessWidget {
                                       width: 35,
                                       height: 35,
                                       imageUrl: viewModel
-                                          .tokensImages[token?.address]!,
+                                              .tokensImages[token?.address] ??
+                                          '',
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>

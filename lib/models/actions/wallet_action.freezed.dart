@@ -39,7 +39,7 @@ class _$WalletActionTearOff {
   const _$WalletActionTearOff();
 
   CreateWallet createWallet(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'createWallet',
       String? txHash = null,
@@ -56,14 +56,14 @@ class _$WalletActionTearOff {
   }
 
   FiatDeposit fiatDeposit(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'fiat-deposit',
       String? txHash = null,
       required String status,
       int? blockNumber = 0,
       required String tokenAddress,
-      required String from,
+      String? from,
       required String to,
       required BigInt value,
       required String tokenName,
@@ -87,13 +87,13 @@ class _$WalletActionTearOff {
   }
 
   JoinCommunity joinCommunity(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'joinCommunity',
       String? txHash = null,
       required String status,
       int? blockNumber = 0,
-      required String communityAddress,
+      String? communityAddress,
       required String tokenAddress,
       String? communityName = null}) {
     return JoinCommunity(
@@ -110,20 +110,20 @@ class _$WalletActionTearOff {
   }
 
   Bonus bonus(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'tokenBonus',
       String? txHash = null,
       required String status,
       int? blockNumber = 0,
       required String tokenAddress,
-      required String from,
+      String? from,
       required String to,
       required BigInt value,
       required String tokenName,
       required String tokenSymbol,
       required int tokenDecimal,
-      String? bonusType = null}) {
+      String? bonusType}) {
     return Bonus(
       timestamp: timestamp,
       id: id,
@@ -143,7 +143,7 @@ class _$WalletActionTearOff {
   }
 
   Send send(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'sendTokens',
       String? txHash = null,
@@ -174,7 +174,7 @@ class _$WalletActionTearOff {
   }
 
   Receive receive(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'receiveTokens',
       String? txHash = null,
@@ -205,7 +205,7 @@ class _$WalletActionTearOff {
   }
 
   Swap swap(
-      {required int timestamp,
+      {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
       String name = 'swapTokens',
       String? txHash = null,
@@ -254,7 +254,7 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -268,7 +268,7 @@ mixin _$WalletAction {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -280,7 +280,7 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -342,7 +342,7 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -356,7 +356,7 @@ mixin _$WalletAction {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -368,7 +368,7 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -576,7 +576,7 @@ class _$CreateWalletCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   const _$CreateWallet(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'createWallet',
       this.txHash = null,
@@ -587,6 +587,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   factory _$CreateWallet.fromJson(Map<String, dynamic> json) =>
       _$_$CreateWalletFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -671,7 +672,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -685,7 +686,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -697,7 +698,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -762,7 +763,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -776,7 +777,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -788,7 +789,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -883,7 +884,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
 
 abstract class CreateWallet extends WalletAction {
   const factory CreateWallet(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,
@@ -928,7 +929,7 @@ abstract class $FiatDepositCopyWith<$Res>
       String status,
       int? blockNumber,
       String tokenAddress,
-      String from,
+      String? from,
       String to,
       BigInt value,
       String tokenName,
@@ -994,7 +995,7 @@ class _$FiatDepositCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
@@ -1024,14 +1025,14 @@ class _$FiatDepositCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   const _$FiatDeposit(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'fiat-deposit',
       this.txHash = null,
       required this.status,
       this.blockNumber = 0,
       required this.tokenAddress,
-      required this.from,
+      this.from,
       required this.to,
       required this.value,
       required this.tokenName,
@@ -1042,6 +1043,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   factory _$FiatDeposit.fromJson(Map<String, dynamic> json) =>
       _$_$FiatDepositFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -1061,7 +1063,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   @override
   final String tokenAddress;
   @override
-  final String from;
+  final String? from;
   @override
   final String to;
   @override
@@ -1172,7 +1174,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1186,7 +1188,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -1198,7 +1200,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1264,7 +1266,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1278,7 +1280,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -1290,7 +1292,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1386,14 +1388,14 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
 
 abstract class FiatDeposit extends WalletAction {
   const factory FiatDeposit(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,
       required String status,
       int? blockNumber,
       required String tokenAddress,
-      required String from,
+      String? from,
       required String to,
       required BigInt value,
       required String tokenName,
@@ -1418,7 +1420,7 @@ abstract class FiatDeposit extends WalletAction {
   @override
   int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
-  String get from => throw _privateConstructorUsedError;
+  String? get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
   BigInt get value => throw _privateConstructorUsedError;
   String get tokenName => throw _privateConstructorUsedError;
@@ -1444,7 +1446,7 @@ abstract class $JoinCommunityCopyWith<$Res>
       String? txHash,
       String status,
       int? blockNumber,
-      String communityAddress,
+      String? communityAddress,
       String tokenAddress,
       String? communityName});
 }
@@ -1499,7 +1501,7 @@ class _$JoinCommunityCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenAddress: tokenAddress == freezed
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -1517,13 +1519,13 @@ class _$JoinCommunityCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   const _$JoinCommunity(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'joinCommunity',
       this.txHash = null,
       required this.status,
       this.blockNumber = 0,
-      required this.communityAddress,
+      this.communityAddress,
       required this.tokenAddress,
       this.communityName = null})
       : super._();
@@ -1531,6 +1533,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   factory _$JoinCommunity.fromJson(Map<String, dynamic> json) =>
       _$_$JoinCommunityFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -1548,7 +1551,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
   @override
   final int? blockNumber;
   @override
-  final String communityAddress;
+  final String? communityAddress;
   @override
   final String tokenAddress;
   @JsonKey(defaultValue: null)
@@ -1637,7 +1640,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1651,7 +1654,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -1663,7 +1666,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1729,7 +1732,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1743,7 +1746,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -1755,7 +1758,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -1851,13 +1854,13 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
 
 abstract class JoinCommunity extends WalletAction {
   const factory JoinCommunity(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,
       required String status,
       int? blockNumber,
-      required String communityAddress,
+      String? communityAddress,
       required String tokenAddress,
       String? communityName}) = _$JoinCommunity;
   const JoinCommunity._() : super._();
@@ -1878,7 +1881,7 @@ abstract class JoinCommunity extends WalletAction {
   String get status => throw _privateConstructorUsedError;
   @override
   int? get blockNumber => throw _privateConstructorUsedError;
-  String get communityAddress => throw _privateConstructorUsedError;
+  String? get communityAddress => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
   String? get communityName => throw _privateConstructorUsedError;
   @override
@@ -1900,7 +1903,7 @@ abstract class $BonusCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String status,
       int? blockNumber,
       String tokenAddress,
-      String from,
+      String? from,
       String to,
       BigInt value,
       String tokenName,
@@ -1967,7 +1970,7 @@ class _$BonusCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
@@ -2001,25 +2004,26 @@ class _$BonusCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   const _$Bonus(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'tokenBonus',
       this.txHash = null,
       required this.status,
       this.blockNumber = 0,
       required this.tokenAddress,
-      required this.from,
+      this.from,
       required this.to,
       required this.value,
       required this.tokenName,
       required this.tokenSymbol,
       required this.tokenDecimal,
-      this.bonusType = null})
+      this.bonusType})
       : super._();
 
   factory _$Bonus.fromJson(Map<String, dynamic> json) =>
       _$_$BonusFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -2039,7 +2043,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   @override
   final String tokenAddress;
   @override
-  final String from;
+  final String? from;
   @override
   final String to;
   @override
@@ -2050,7 +2054,6 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   final String tokenSymbol;
   @override
   final int tokenDecimal;
-  @JsonKey(defaultValue: null)
   @override
   final String? bonusType;
 
@@ -2158,7 +2161,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2172,7 +2175,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -2184,7 +2187,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2250,7 +2253,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2264,7 +2267,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -2276,7 +2279,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2385,14 +2388,14 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
 
 abstract class Bonus extends WalletAction {
   const factory Bonus(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,
       required String status,
       int? blockNumber,
       required String tokenAddress,
-      required String from,
+      String? from,
       required String to,
       required BigInt value,
       required String tokenName,
@@ -2417,7 +2420,7 @@ abstract class Bonus extends WalletAction {
   @override
   int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
-  String get from => throw _privateConstructorUsedError;
+  String? get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
   BigInt get value => throw _privateConstructorUsedError;
   String get tokenName => throw _privateConstructorUsedError;
@@ -2537,7 +2540,7 @@ class _$SendCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Send extends Send with DiagnosticableTreeMixin {
   const _$Send(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'sendTokens',
       this.txHash = null,
@@ -2554,6 +2557,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
 
   factory _$Send.fromJson(Map<String, dynamic> json) => _$_$SendFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -2684,7 +2688,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2698,7 +2702,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -2710,7 +2714,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2776,7 +2780,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2790,7 +2794,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -2802,7 +2806,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -2898,7 +2902,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
 
 abstract class Send extends WalletAction {
   const factory Send(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,
@@ -3048,7 +3052,7 @@ class _$ReceiveCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Receive extends Receive with DiagnosticableTreeMixin {
   const _$Receive(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'receiveTokens',
       this.txHash = null,
@@ -3066,6 +3070,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   factory _$Receive.fromJson(Map<String, dynamic> json) =>
       _$_$ReceiveFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -3196,7 +3201,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3210,7 +3215,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -3222,7 +3227,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3288,7 +3293,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3302,7 +3307,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -3314,7 +3319,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3410,7 +3415,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
 
 abstract class Receive extends WalletAction {
   const factory Receive(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,
@@ -3537,7 +3542,7 @@ class _$SwapCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 @JsonSerializable()
 class _$Swap extends Swap with DiagnosticableTreeMixin {
   const _$Swap(
-      {required this.timestamp,
+      {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
       this.name = 'swapTokens',
       this.txHash = null,
@@ -3548,6 +3553,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
 
   factory _$Swap.fromJson(Map<String, dynamic> json) => _$_$SwapFromJson(json);
 
+  @JsonKey(defaultValue: 0)
   @override
   final int timestamp;
   @override
@@ -3640,7 +3646,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3654,7 +3660,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)
         joinCommunity,
@@ -3666,7 +3672,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3731,7 +3737,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3745,7 +3751,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
-            String communityAddress,
+            String? communityAddress,
             String tokenAddress,
             String? communityName)?
         joinCommunity,
@@ -3757,7 +3763,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
             String tokenName,
@@ -3852,7 +3858,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
 
 abstract class Swap extends WalletAction {
   const factory Swap(
-      {required int timestamp,
+      {int timestamp,
       @JsonKey(name: '_id') required String id,
       String name,
       String? txHash,

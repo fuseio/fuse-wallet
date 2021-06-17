@@ -11,9 +11,9 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/remote_config.dart';
-import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 
 class CustomTile extends StatelessWidget {
   final void Function() onTap;
@@ -190,16 +190,13 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         top: 5,
                         bottom: 5,
                       ),
-                      onTap: () {
-                        final Uri _emailLaunchUri = Uri(
-                          scheme: 'mailto',
-                          path: 'hello@fuse.io',
-                        );
-                        launchUrl(_emailLaunchUri.toString());
+                      onTap: () async {
+                        await Intercom.displayMessenger();
                         Segment.track(
                             eventName: 'Contact us',
-                            properties:
-                                Map.from({"fromScreen": 'TopUpScreen'}));
+                            properties: Map.from({
+                              "fromScreen": 'TopUpScreen',
+                            }));
                       },
                       title: Text(
                         I10n.of(context).contact_us_for_support,

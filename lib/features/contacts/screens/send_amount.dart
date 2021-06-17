@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -43,11 +42,20 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
 
-    offset = Tween<Offset>(begin: Offset(0.0, 2.0), end: Offset.zero).animate(
-        new CurvedAnimation(parent: controller, curve: Curves.easeInOutQuad));
+    offset = Tween<Offset>(
+      begin: Offset(0.0, 2.0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.easeInOutQuad,
+      ),
+    );
   }
 
   showBottomMenu(SendAmountViewModel viewModel) {
@@ -139,14 +147,15 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         amountText = '0';
       } else {
         String newAmount = amountText + value;
-        amountText = Decimal.parse(newAmount).toString();
+        amountText = newAmount;
+        // amountText = Decimal.parse(newAmount).toString();
       }
     }
     setState(() {});
     try {
       final bool hasFund = ![null, '', '0'].contains(amountText) &&
-          (Decimal.parse(amountText)).compareTo(
-                Decimal.parse(
+          (num.parse(amountText)).compareTo(
+                num.parse(
                   selectedToken?.getBalance(true) ?? '0',
                 ),
               ) <=
@@ -219,14 +228,13 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final bool hasFund =
-            (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
-                      Decimal.parse(
-                        (selectedToken?.getBalance(true) ?? '0'),
-                      ),
-                    ) <=
-                    0 &&
-                viewModel.tokens.isNotEmpty;
+        final bool hasFund = num.parse(amountText).compareTo(
+                  num.parse(
+                    (selectedToken?.getBalance(true) ?? '0'),
+                  ),
+                ) <=
+                0 &&
+            viewModel.tokens.isNotEmpty;
 
         if (!hasFund) {
           controller.forward();

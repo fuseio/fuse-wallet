@@ -202,6 +202,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "legal": MessageLookupByLibrary.simpleMessage("Legal"),
         "lets_start":
             MessageLookupByLibrary.simpleMessage("¡Eso es! Empecemos"),
+        "limit_discalimer":
+            MessageLookupByLibrary.simpleMessage("(for deposits above 200 \$)"),
+        "limit_offer": MessageLookupByLibrary.simpleMessage(
+            "Limited time offer! 50 \$ deposit bonus 💸"),
         "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
         "logout": MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),

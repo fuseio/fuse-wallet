@@ -48,8 +48,9 @@ class ActionTile extends StatelessWidget {
         );
         final Community? community = action.map(
           createWallet: (value) => null,
-          joinCommunity: (value) =>
-              viewModel.communities[value.communityAddress.toLowerCase()],
+          joinCommunity: (value) => viewModel.communities[
+              value.communityAddress?.toLowerCase() ??
+                  defaultCommunityAddress.toLowerCase()],
           fiatDeposit: (value) =>
               viewModel.communities[defaultCommunityAddress.toLowerCase()],
           bonus: (value) => null,
@@ -370,7 +371,14 @@ class ActionTile extends StatelessWidget {
                 ),
               )
             : action.map(
-                createWallet: (value) => null,
+                createWallet: (value) => Text(
+                  I10n.of(context).limit_offer +
+                      '\n' +
+                      I10n.of(context).limit_discalimer,
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
                 joinCommunity: (value) => null,
                 fiatDeposit: (value) => null,
                 bonus: (value) => Text(
@@ -426,7 +434,6 @@ class ActionTile extends StatelessWidget {
                   ),
                 ),
               );
-        ;
 
         return ListTile(
           contentPadding: contentPadding,
