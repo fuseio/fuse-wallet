@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
+import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -66,8 +67,14 @@ class _CashHeaderState extends State<CashHeader> {
                         child: SvgPicture.asset(
                           'assets/images/scan.svg',
                         ),
-                        onTap: () {
-                          barcodeScannerHandler(context);
+                        onTap: () async {
+                          String? result = await showDialog<String>(
+                            context: context,
+                            builder: (context) => ScanQRDialog(),
+                          );
+                          if (result != null) {
+                            barcodeScannerHandler(context, result);
+                          }
                         },
                       ),
                     )

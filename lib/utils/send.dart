@@ -14,7 +14,6 @@ import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 
 Future<Map> fetchWalletByPhone(
   String phone,
@@ -141,11 +140,14 @@ void sendToPastedAddress(
   );
 }
 
-void barcodeScannerHandler(context) async {
+void barcodeScannerHandler(
+  BuildContext context,
+  String scanResult,
+) async {
+  log.info('scanResult $scanResult');
   try {
     PermissionStatus permission = await Permission.camera.request();
     if (permission == PermissionStatus.granted) {
-      String scanResult = await scanner.scan();
       final bool hasColon = scanResult.contains(':');
       if (hasColon) {
         List<String> parts = scanResult.split(':');
@@ -166,8 +168,8 @@ void barcodeScannerHandler(context) async {
         sendToPastedAddress(context, scanResult);
       }
     }
-  } catch (e) {
-    log.error('ERROR - BarcodeScanner');
+  } catch (e, s) {
+    log.error('ERROR - BarcodeScanner ${e.toString()} ${s.toString()}');
     Flushbar(
       duration: Duration(seconds: 2),
       boxShadows: [

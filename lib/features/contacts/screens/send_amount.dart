@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -16,6 +16,45 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter/services.dart';
+
+class RegExInputFormatter implements TextInputFormatter {
+  final RegExp _regExp;
+
+  RegExInputFormatter._(this._regExp);
+
+  factory RegExInputFormatter.withRegex(String regexString) {
+    final regex = RegExp(regexString);
+    return RegExInputFormatter._(regex);
+  }
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final oldValueValid = isValid(oldValue.text);
+    final newValueValid = isValid(newValue.text);
+    if (oldValueValid && !newValueValid) {
+      return oldValue;
+    }
+    return newValue;
+  }
+
+  bool isValid(String value) {
+    try {
+      final matches = _regExp.allMatches(value);
+      for (Match match in matches) {
+        if (match.start == 0 && match.end == value.length) {
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      // Invalid regex
+      assert(false, e.toString());
+      return true;
+    }
+  }
+}
 
 class SendAmountScreen extends StatefulWidget {
   final SendFlowArguments pageArgs;
@@ -26,12 +65,14 @@ class SendAmountScreen extends StatefulWidget {
 
 class _SendAmountScreenState extends State<SendAmountScreen>
     with SingleTickerProviderStateMixin {
-  String amountText = "0";
+  TextEditingController textEditingController = TextEditingController();
   bool hasBalance = true;
   late AnimationController controller;
   late Animation<Offset> offset;
   bool isPreloading = false;
   Token? selectedToken;
+  final _amountValidator = RegExInputFormatter.withRegex(
+      '^\$|^(0|([1-9][0-9]{0,}))(\\.[0-9]{0,})?\$');
 
   @override
   void dispose() {
@@ -112,7 +153,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               onTap: () {
                                 Navigator.of(context).pop();
                                 setState(() {
-                                  amountText = "0";
+                                  textEditingController.text = "0";
                                   selectedToken = viewModel.tokens[index];
                                 });
                               },
@@ -134,32 +175,28 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     );
   }
 
-  _onKeyPress(String value, {bool max = false, bool back = false}) {
-    if (max) {
-      amountText = value;
-    } else if (back) {
-      if (amountText.length == 0) return;
-      amountText = amountText.substring(0, amountText.length - 1);
-    } else if (amountText == '.') {
-      amountText = amountText + value;
+  _onKeyPress(String value, {bool back = false}) {
+    if (back) {
+      if (textEditingController.text.length == 0) return;
+      textEditingController.text = textEditingController.text
+          .substring(0, textEditingController.text.length - 1);
     } else {
-      if (amountText == '0' && value == '0') {
-        amountText = '0';
+      if (textEditingController.text == '0' && value == '0') {
+        textEditingController.text = textEditingController.text;
       } else {
-        String newAmount = amountText + value;
-        amountText = newAmount;
-        // amountText = Decimal.parse(newAmount).toString();
+        textEditingController.text = textEditingController.text + value;
       }
     }
     setState(() {});
     try {
-      final bool hasFund = ![null, '', '0'].contains(amountText) &&
-          (num.parse(amountText)).compareTo(
-                num.parse(
-                  selectedToken?.getBalance(true) ?? '0',
-                ),
-              ) <=
-              0;
+      final bool hasFund =
+          ![null, '', '0'].contains(textEditingController.text) &&
+              (num.parse(textEditingController.text)).compareTo(
+                    num.parse(
+                      selectedToken?.getBalance(true) ?? '0',
+                    ),
+                  ) <=
+                  0;
       if (hasFund) {
         controller.forward();
       } else {
@@ -172,8 +209,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   Widget useMax() {
     return ButtonTheme(
-      minWidth: 68,
-      height: 28,
       child: OutlinedButton(
         style: TextButton.styleFrom(
           primary: Theme.of(context).colorScheme.onSurface,
@@ -197,9 +232,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         onPressed: () {
           String max = selectedToken?.getBalance(true) ?? '0';
           log.info('max $max');
-          if (num.parse(max).compareTo(num.parse(amountText)) != 0) {
-            _onKeyPress(num.parse(max).toStringAsPrecision(15), max: true);
-          }
+          setState(() {
+            textEditingController.text = max;
+          });
         },
       ),
     );
@@ -228,13 +263,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final bool hasFund = num.parse(amountText).compareTo(
-                  num.parse(
-                    (selectedToken?.getBalance(true) ?? '0'),
-                  ),
-                ) <=
-                0 &&
-            viewModel.tokens.isNotEmpty;
+        final bool hasFund =
+            (num.tryParse(textEditingController.text) ?? 0).compareTo(
+                      num.parse(
+                        (selectedToken?.getBalance(true) ?? '0'),
+                      ),
+                    ) <=
+                    0 &&
+                viewModel.tokens.isNotEmpty;
 
         if (!hasFund) {
           controller.forward();
@@ -242,8 +278,13 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         return MyScaffold(
           title: title,
           body: Container(
+            padding: EdgeInsets.only(
+              top: 20,
+              bottom: 20,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -253,9 +294,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          SizedBox(
-                            height: 30,
-                          ),
                           Column(
                             children: <Widget>[
                               Container(
@@ -277,19 +315,40 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                 ),
                               ),
                               SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(horizontal: 40),
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Expanded(
-                                      child: AutoSizeText(
-                                        amountText,
-                                        style: TextStyle(
-                                            fontSize: 40.0,
-                                            fontWeight: FontWeight.bold),
+                                      child: AutoSizeTextField(
                                         maxLines: 1,
+                                        readOnly: true,
+                                        presetFontSizes: [
+                                          40,
+                                          30,
+                                          20,
+                                          18,
+                                          16,
+                                        ],
+                                        inputFormatters: [_amountValidator],
+                                        controller: textEditingController,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          fillColor:
+                                              Theme.of(context).canvasColor,
+                                          hintText: '0',
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
                                       ),
                                     ),
                                     !args.useBridge &&
@@ -342,17 +401,18 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: 40,
-                                  top: 20,
-                                  right: 40,
-                                ),
-                                child: Divider(
-                                  thickness: 1.5,
-                                ),
-                              ),
                             ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 40,
+                              top: 20,
+                              bottom: 20,
+                              right: 40,
+                            ),
+                            child: Divider(
+                              thickness: 1.5,
+                            ),
                           ),
                           NumericKeyboard(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -362,15 +422,15 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             },
                             rightIcon: SvgPicture.asset(
                               'assets/images/backspace.svg',
-                              width: 28,
+                              // width: 28,
                             ),
                             leftButtonFn: () {
-                              if (amountText.contains('.')) {
+                              if (textEditingController.text.contains('.')) {
                                 return;
                               } else {
-                                String newAmount = amountText + '.';
                                 setState(() {
-                                  amountText = newAmount;
+                                  textEditingController.text =
+                                      textEditingController.text + '.';
                                 });
                               }
                             },
@@ -399,15 +459,13 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   : I10n.of(context).insufficient_fund,
                               onPressed: () {
                                 args.tokenToSend = selectedToken;
-                                args.amount = double.parse(amountText);
+                                args.amount =
+                                    double.parse(textEditingController.text);
                                 context.router
                                     .push(SendReviewScreen(pageArgs: args));
                               },
                               preload: isPreloading,
                               disabled: isPreloading || !hasFund,
-                            ),
-                            SizedBox(
-                              height: 70,
                             ),
                           ],
                         ),

@@ -6,11 +6,11 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 
 class HomeViewModel extends Equatable {
-  final Function(bool initial) onReceiveBranchData;
+  final Function() onStart;
   final bool showDepositBanner;
 
   HomeViewModel({
-    required this.onReceiveBranchData,
+    required this.onStart,
     required this.showDepositBanner,
   });
 
@@ -39,18 +39,16 @@ class HomeViewModel extends Equatable {
 
     return HomeViewModel(
       showDepositBanner: showDepositBanner,
-      onReceiveBranchData: (initial) {
-        if (initial) {
-          if (store.state.cashWalletState.tokens.isEmpty &&
-              !isCommunityLoading &&
-              isCommunityFetched) {
-            store.dispatch(switchCommunityCall(defaultCommunityAddress));
-          }
-          if (!isCommunityLoading &&
-              !isCommunityFetched &&
-              ![null, ''].contains(walletAddress)) {
-            store.dispatch(refetchCommunityData());
-          }
+      onStart: () {
+        if (store.state.cashWalletState.tokens.isEmpty &&
+            !isCommunityLoading &&
+            isCommunityFetched) {
+          store.dispatch(switchCommunityCall(defaultCommunityAddress));
+        }
+        if (!isCommunityLoading &&
+            !isCommunityFetched &&
+            ![null, ''].contains(walletAddress)) {
+          store.dispatch(refetchCommunityData());
         }
       },
     );

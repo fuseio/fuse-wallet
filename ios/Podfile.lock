@@ -5,8 +5,6 @@ PODS:
     - Flutter
   - contacts_service (0.2.2):
     - Flutter
-  - device_info (0.0.1):
-    - Flutter
   - Firebase/Auth (8.0.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.0.0)
@@ -141,6 +139,8 @@ PODS:
   - rate_my_app (1.1.0):
     - Flutter
   - SAMKeychain (1.5.3)
+  - scan (0.0.1):
+    - Flutter
   - Segment-Amplitude (3.0.1):
     - Amplitude-iOS (~> 4.8.0)
     - Analytics (~> 3.7.0)
@@ -166,7 +166,6 @@ PODS:
 DEPENDENCIES:
   - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
-  - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
@@ -186,6 +185,7 @@ DEPENDENCIES:
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - phone_number (from `.symlinks/plugins/phone_number/ios`)
   - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
+  - scan (from `.symlinks/plugins/scan/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -223,8 +223,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/app_tracking_transparency/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
-  device_info:
-    :path: ".symlinks/plugins/device_info/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -263,6 +261,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/phone_number/ios"
   rate_my_app:
     :path: ".symlinks/plugins/rate_my_app/ios"
+  scan:
+    :path: ".symlinks/plugins/scan/ios"
   sentry_flutter:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   share:
@@ -281,7 +281,6 @@ SPEC CHECKSUMS:
   Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
-  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
   firebase_auth: 6532658f5a4f76be32cd5e7518753ebedd4544d2
   firebase_core: cda81ae37eda6df2bc2d16027fda527987c4bd33
@@ -319,6 +318,7 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   rate_my_app: b2b5847177b024ab7fcfd02ced7a84a9b67eeaf2
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+  scan: aea35bb4aa59ccc8839c576a18cd57c7d492cc86
   Segment-Amplitude: 1b3b02a2e92f4b08a413a72bf7aa44f78566ab3b
   Sentry: 6d963d64804dd06d96e778be729613f481394312
   sentry_flutter: f20d4f199442900fbdab2b8496f1d2091d8b94d9
@@ -328,6 +328,6 @@ SPEC CHECKSUMS:
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
 
-PODFILE CHECKSUM: 53795643eb735a0d0175462b30225495fe46f9e1
+PODFILE CHECKSUM: 5d5342182f9225abd9358bc2b34ca1d9b8ff03d8
 
 COCOAPODS: 1.10.1

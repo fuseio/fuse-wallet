@@ -20,7 +20,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late String displayName;
+  String? displayName;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       distinct: true,
       converter: ProfileViewModel.fromStore,
       onDispose: (store) {
-        if (store.state.userState.displayName != displayName) {
-          final viewModel = ProfileViewModel.fromStore(store);
-          viewModel.updateDisplayName(displayName);
+        if (displayName != null) {
+          if (store.state.userState.displayName != displayName) {
+            final viewModel = ProfileViewModel.fromStore(store);
+            viewModel.updateDisplayName(displayName!);
+          }
         }
       },
       builder: (_, viewModel) {

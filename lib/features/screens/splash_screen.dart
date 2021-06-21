@@ -1,6 +1,7 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,6 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      log.info('OnBoardScreen');
+      await Segment.setContext({});
       context.router.replaceAll([OnBoardScreen()]);
       widget.onLoginResult?.call(false);
     } else {
@@ -57,14 +57,11 @@ class _SplashScreenState extends State<SplashScreen> {
             userState.authType,
           ),
         );
-        log.info('_showLocalAuthPopup');
         widget.onLoginResult?.call(true);
       } else if (userState.authType == BiometricAuth.pincode) {
-        log.info('PinCodeScreen');
         context.router.replaceAll([PinCodeScreen()]);
         widget.onLoginResult?.call(true);
       } else {
-        log.info('MainScreen');
         context.router.replaceAll([MainScreen()]);
         widget.onLoginResult?.call(true);
       }
@@ -81,7 +78,6 @@ class _SplashScreenState extends State<SplashScreen> {
           Segment.track(
             eventName: 'Session Start: Authentication success',
           );
-          log.info('widget.onLoginResult?.call(true);');
           context.router.replaceAll([MainScreen()]);
           widget.onLoginResult?.call(true);
         } else {
@@ -126,9 +122,6 @@ class _SplashScreenState extends State<SplashScreen> {
     return StoreConnector<AppState, LockScreenViewModel>(
       distinct: true,
       onInit: onInit,
-      onInitialBuild: (LockScreenViewModel viewModel) {
-        log.info('onInitialBuild');
-      },
       converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(

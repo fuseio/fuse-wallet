@@ -78,10 +78,9 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        if (_tabsRouter.activeIndex == 0) {
+        if (_tabsRouter.canPopSelfOrChildren) {
           return Future.value(true);
         } else {
-          _tabsRouter.setActiveIndex(0);
           return Future.value(false);
         }
       },

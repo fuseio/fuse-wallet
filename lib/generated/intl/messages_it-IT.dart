@@ -20,26 +20,27 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'it_IT';
 
   static String m0(name) =>
-      "Sending money to ${name} will automatically invite them to Fuse and let them redeem the funds you sent";
+      "Mandando soldi a ${name} li inviterà automaticamente a Fuse e permetterà loro di riscattare i fondi che hai inviato";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Di"),
         "account": MessageLookupByLibrary.simpleMessage("Account"),
         "activate": MessageLookupByLibrary.simpleMessage("Attivare"),
-        "activity": MessageLookupByLibrary.simpleMessage("Activity"),
+        "activity": MessageLookupByLibrary.simpleMessage("Attivita"),
         "address": MessageLookupByLibrary.simpleMessage("Indirizzo"),
         "amount": MessageLookupByLibrary.simpleMessage("Quantità"),
         "approved": MessageLookupByLibrary.simpleMessage("APPROVATO"),
         "assets_and_contracts":
             MessageLookupByLibrary.simpleMessage("Attività e contratti"),
         "auth_failed_message": MessageLookupByLibrary.simpleMessage(
-            "Please try again to continue"),
+            "Per favora riprova per continuare"),
         "auth_failed_title":
-            MessageLookupByLibrary.simpleMessage("Authentication failed"),
-        "available": MessageLookupByLibrary.simpleMessage("available"),
+            MessageLookupByLibrary.simpleMessage("Autenticazione fallita"),
+        "available": MessageLookupByLibrary.simpleMessage("a disposizione"),
         "back_up": MessageLookupByLibrary.simpleMessage("Eseguire il backup"),
-        "back_up_now": MessageLookupByLibrary.simpleMessage("Back up now"),
+        "back_up_now":
+            MessageLookupByLibrary.simpleMessage("Esegui il back up ora"),
         "backup_wallet": MessageLookupByLibrary.simpleMessage("di riserva"),
         "balance": MessageLookupByLibrary.simpleMessage("Equilibrio"),
         "bonus": MessageLookupByLibrary.simpleMessage("bonus"),
@@ -47,30 +48,30 @@ class MessageLookup extends MessageLookupByLibrary {
             "\nBridge ETH o BNB da Binance Smart Chain"),
         "bridge_from_ethereum": MessageLookupByLibrary.simpleMessage(
             "Collega le risorse dalla rete Ethereum."),
-        "bridge_to": MessageLookupByLibrary.simpleMessage("Bridge to"),
+        "bridge_to": MessageLookupByLibrary.simpleMessage("bridge a"),
         "buy": MessageLookupByLibrary.simpleMessage("Acquistare"),
         "camera": MessageLookupByLibrary.simpleMessage("Camera"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Annulla"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
-            "Please choose how your prefer to protect your wallet by selecting the following methods"),
-        "close": MessageLookupByLibrary.simpleMessage("Close"),
-        "coming_soon": MessageLookupByLibrary.simpleMessage("Coming soon"),
-        "community": MessageLookupByLibrary.simpleMessage("community"),
+            "Scegli come preferisci proteggere il tuo portafoglio selezionando i seguenti metodi"),
+        "close": MessageLookupByLibrary.simpleMessage("Chiudere"),
+        "coming_soon": MessageLookupByLibrary.simpleMessage("Prossimamente"),
+        "community": MessageLookupByLibrary.simpleMessage("Communita"),
         "community_address":
             MessageLookupByLibrary.simpleMessage("Indirizzo della comunità"),
         "community_webpage":
-            MessageLookupByLibrary.simpleMessage("Community webpage"),
+            MessageLookupByLibrary.simpleMessage("Pagina web della communita"),
         "confirmed": MessageLookupByLibrary.simpleMessage("CONFERMATO"),
         "connection": MessageLookupByLibrary.simpleMessage(
-            "please fix your internet connection and try again!"),
+            "per favore aggiusta la tua connessione internet e riprova!"),
         "contact_us": MessageLookupByLibrary.simpleMessage("Contattaci"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("Contattaci per supporto"),
         "continue_with": MessageLookupByLibrary.simpleMessage("Continua con"),
         "copied_to_clipboard":
-            MessageLookupByLibrary.simpleMessage("Copied to clipboard"),
+            MessageLookupByLibrary.simpleMessage("Copiato negli appunti"),
         "copy_to_clipboard":
-            MessageLookupByLibrary.simpleMessage("Copy to clipboard"),
+            MessageLookupByLibrary.simpleMessage("Coppia negli appunti"),
         "create__wallet":
             MessageLookupByLibrary.simpleMessage("Crea portafoglio"),
         "create_new_wallet":
@@ -87,29 +88,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
             "Si prega di utilizzarlo in modo responsabile e a proprio rischio."),
         "current_community":
-            MessageLookupByLibrary.simpleMessage("Current community"),
-        "date_and_time": MessageLookupByLibrary.simpleMessage("Date & Time"),
-        "deposit": MessageLookupByLibrary.simpleMessage("deposit"),
+            MessageLookupByLibrary.simpleMessage("Communita attuale"),
+        "date_and_time": MessageLookupByLibrary.simpleMessage("Data e ora"),
+        "deposit": MessageLookupByLibrary.simpleMessage("deposito"),
         "deposit_failed":
-            MessageLookupByLibrary.simpleMessage("deposit failed"),
+            MessageLookupByLibrary.simpleMessage("deposito fallito"),
         "deposit_from_BSC":
             MessageLookupByLibrary.simpleMessage("Deposita da BSC"),
         "deposit_from_ethereum":
             MessageLookupByLibrary.simpleMessage("Deposita da Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "\nDeposito da Ethereum o BSC"),
-        "deposit_your": MessageLookupByLibrary.simpleMessage("Deposit your"),
-        "deposit_your_first_dollars":
-            MessageLookupByLibrary.simpleMessage("Deposit your first Dollars"),
+        "deposit_your": MessageLookupByLibrary.simpleMessage("Deposita il tuo"),
+        "deposit_your_first_dollars": MessageLookupByLibrary.simpleMessage(
+            "Deposita i tuoi primi dollari"),
         "didnt_get_message": MessageLookupByLibrary.simpleMessage(
             "Non hai ricevuto il messaggio? -"),
-        "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+        "dismiss": MessageLookupByLibrary.simpleMessage("Respingere"),
         "dont_worry":
             MessageLookupByLibrary.simpleMessage("Non ti preoccupare:"),
         "earn": MessageLookupByLibrary.simpleMessage("Guadagnare"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
-            "Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance."),
-        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+            "I possessori di Fuse Dollars possono guadagnare un rendimento del 5% all\'anno semplicemente tenendo quei Dollari nel tuo saldo."),
+        "edit": MessageLookupByLibrary.simpleMessage("Modificare"),
         "enable_contacts_access":
             MessageLookupByLibrary.simpleMessage("Abilita accesso ai contatti"),
         "enable_contacts_text": MessageLookupByLibrary.simpleMessage(
@@ -120,25 +121,25 @@ class MessageLookup extends MessageLookupByLibrary {
             "Inserisci l\'indirizzo della comunità"),
         "enter_phone_number": MessageLookupByLibrary.simpleMessage(
             "Inserisci il tuo numero di telefono per consentirci di configurare il tuo account"),
-        "enter_pincode":
-            MessageLookupByLibrary.simpleMessage("Enter your Pincode:"),
+        "enter_pincode": MessageLookupByLibrary.simpleMessage(
+            "Inserisci il tuo codice PIN:"),
         "enter_verification_code": MessageLookupByLibrary.simpleMessage(
             "Inserisci qui il codice a 6 cifre da \n quel messaggio"),
-        "error": MessageLookupByLibrary.simpleMessage("Error"),
-        "face_id": MessageLookupByLibrary.simpleMessage("Face ID"),
+        "error": MessageLookupByLibrary.simpleMessage("Errore"),
+        "face_id": MessageLookupByLibrary.simpleMessage("ID Faccia"),
         "failed": MessageLookupByLibrary.simpleMessage("FALLITO"),
-        "fee_amount": MessageLookupByLibrary.simpleMessage("Fee amount:"),
+        "fee_amount": MessageLookupByLibrary.simpleMessage("Importo tassa:"),
         "feed": MessageLookupByLibrary.simpleMessage("Feed"),
-        "first_dollars": MessageLookupByLibrary.simpleMessage("first Dollars"),
+        "first_dollars": MessageLookupByLibrary.simpleMessage("primi dollari"),
         "flash_off": MessageLookupByLibrary.simpleMessage("Flash off"),
         "flash_on": MessageLookupByLibrary.simpleMessage("Flash on"),
         "follow_us_on_twitter":
-            MessageLookupByLibrary.simpleMessage("Follow us on Twitter."),
+            MessageLookupByLibrary.simpleMessage("Seguiteci su Twitter."),
         "for_more_info":
-            MessageLookupByLibrary.simpleMessage("For more information: "),
-        "for_text": MessageLookupByLibrary.simpleMessage("for"),
-        "free": MessageLookupByLibrary.simpleMessage("Free"),
-        "friend": MessageLookupByLibrary.simpleMessage("friend"),
+            MessageLookupByLibrary.simpleMessage("Per olteriori informazioni"),
+        "for_text": MessageLookupByLibrary.simpleMessage("per"),
+        "free": MessageLookupByLibrary.simpleMessage("Gratis"),
+        "friend": MessageLookupByLibrary.simpleMessage("amico"),
         "from": MessageLookupByLibrary.simpleMessage("A partire dal"),
         "fusd_stablecoins_explain": MessageLookupByLibrary.simpleMessage(
             "FuseDollar e il pirmo Fuse-native stablecoin. Nel futuro. staimo pianificando di aggiungere stablecoins ancorati a altre principali volute per gonfiare l\'adozione e ridurre frizioni per utenti in in tutto il mondo. Rimanete sintonizzati!"),
@@ -149,9 +150,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Puoi passare a una nuova comunità inserendo il tuo ID risorsa (disponibile da Fuse Studio) o scansionando un codice QR"),
         "future_stablecoins":
             MessageLookupByLibrary.simpleMessage("Futuri stablecoins."),
-        "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
-        "generate_wallet_failed":
-            MessageLookupByLibrary.simpleMessage("Generate wallet failed"),
+        "gallery": MessageLookupByLibrary.simpleMessage("Galleria"),
+        "generate_wallet_failed": MessageLookupByLibrary.simpleMessage(
+            "Generare portafoglio non riuscito"),
         "generated_wallet":
             MessageLookupByLibrary.simpleMessage("Portafoglio generato"),
         "generating_wallet":
@@ -163,9 +164,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Come si puo usare FuseDollar?\n"),
         "important": MessageLookupByLibrary.simpleMessage("Importante!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
-            "Initializing your wallet on Fuse"),
+            "Inizializzare il tuo portafoglio su Fuse"),
         "insufficient_fund":
-            MessageLookupByLibrary.simpleMessage("Insufficient funds"),
+            MessageLookupByLibrary.simpleMessage("Fondi insufficienti"),
         "intro_text_one": MessageLookupByLibrary.simpleMessage(
             "Utilizza il portafoglio per inviare denaro \n agli amici senza commissioni o attriti"),
         "intro_text_three": MessageLookupByLibrary.simpleMessage(
@@ -173,22 +174,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "intro_text_two": MessageLookupByLibrary.simpleMessage(
             "Paga e ricevi pagamenti utilizzando crypto \n e vedi dove puoi fare acquisti nelle vicinanze"),
         "invalid_number":
-            MessageLookupByLibrary.simpleMessage("Invalid number"),
+            MessageLookupByLibrary.simpleMessage("Numero invalido"),
         "invalid_pincode":
-            MessageLookupByLibrary.simpleMessage("Invalid pincode"),
+            MessageLookupByLibrary.simpleMessage("Codice pin invalido"),
         "invalid_qa_code":
-            MessageLookupByLibrary.simpleMessage("Invalid QA Code"),
+            MessageLookupByLibrary.simpleMessage("Codice QA Invalido"),
         "invite_friend":
-            MessageLookupByLibrary.simpleMessage("Invite a friend"),
+            MessageLookupByLibrary.simpleMessage("Invita un amico"),
         "invite_friend_text": MessageLookupByLibrary.simpleMessage(
-            "Hey, your friend shared with you the fuse.cash wallet: "),
+            "Ehi, il tuo amico ha condiviso con te il portafoglio fuse.cash:"),
         "invite_text": m0,
         "join_bonus":
             MessageLookupByLibrary.simpleMessage("Hai un bonus di iscrizione!"),
-        "joined": MessageLookupByLibrary.simpleMessage("Joined"),
+        "joined": MessageLookupByLibrary.simpleMessage("Iscritto"),
         "joined_community":
             MessageLookupByLibrary.simpleMessage("Comunità unita"),
-        "joining": MessageLookupByLibrary.simpleMessage("Joining"),
+        "joining": MessageLookupByLibrary.simpleMessage("Unirsi"),
         "joining_community":
             MessageLookupByLibrary.simpleMessage("Unirsi alla comunità"),
         "language": MessageLookupByLibrary.simpleMessage("linguaggio"),
@@ -198,7 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Per saperne di più"),
         "legal": MessageLookupByLibrary.simpleMessage("legale"),
         "lets_start":
-            MessageLookupByLibrary.simpleMessage("That\'s it! Let\'s start"),
+            MessageLookupByLibrary.simpleMessage("Questo è tutto! Iniziamo"),
         "limit_discalimer":
             MessageLookupByLibrary.simpleMessage("(for deposits above 200 \$)"),
         "limit_offer": MessageLookupByLibrary.simpleMessage(
@@ -206,90 +207,93 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Accesso"),
         "logout": MessageLookupByLibrary.simpleMessage("Disconnettersi"),
         "map": MessageLookupByLibrary.simpleMessage("Carta geografica"),
-        "move_to": MessageLookupByLibrary.simpleMessage("Move to"),
+        "move_to": MessageLookupByLibrary.simpleMessage("Spostare a"),
         "my_communities":
-            MessageLookupByLibrary.simpleMessage("My communities"),
-        "name": MessageLookupByLibrary.simpleMessage("Name"),
-        "network": MessageLookupByLibrary.simpleMessage("Network"),
-        "network_fee": MessageLookupByLibrary.simpleMessage("Network Fee"),
+            MessageLookupByLibrary.simpleMessage("Le mie communita"),
+        "name": MessageLookupByLibrary.simpleMessage("Nome"),
+        "network": MessageLookupByLibrary.simpleMessage("Rete"),
+        "network_fee": MessageLookupByLibrary.simpleMessage("Tassa di rete"),
         "next_button": MessageLookupByLibrary.simpleMessage("Il prossimo"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
-        "no_activity": MessageLookupByLibrary.simpleMessage("No activity"),
+        "no_activity": MessageLookupByLibrary.simpleMessage("Nessuna attivita"),
         "no_businesses":
             MessageLookupByLibrary.simpleMessage("Nessuna attività trovata"),
         "no_funds_available":
-            MessageLookupByLibrary.simpleMessage("No funds available"),
+            MessageLookupByLibrary.simpleMessage("Nessun fondo disponibile"),
         "no_swap_option": MessageLookupByLibrary.simpleMessage(
-            "You don\'t have tokens to swap yet"),
+            "Non hai ancora token da cambiare"),
         "not_enough_balance": MessageLookupByLibrary.simpleMessage(
-            "Not enough balance in your account"),
+            "saldo insufficiente nel tuo account"),
         "offline":
-            MessageLookupByLibrary.simpleMessage("it\'s seems you are offline"),
+            MessageLookupByLibrary.simpleMessage("Sembra che sei offline"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
-        "ok_thanks": MessageLookupByLibrary.simpleMessage("OK Thanks"),
-        "oops": MessageLookupByLibrary.simpleMessage("Oops"),
+        "ok_thanks": MessageLookupByLibrary.simpleMessage("Ok grazie"),
+        "oops": MessageLookupByLibrary.simpleMessage("oops"),
         "or": MessageLookupByLibrary.simpleMessage("o"),
         "pay": MessageLookupByLibrary.simpleMessage("PAGARE"),
-        "pay_with": MessageLookupByLibrary.simpleMessage("Pay with"),
+        "pay_with": MessageLookupByLibrary.simpleMessage("Paga con"),
         "peg_explain": MessageLookupByLibrary.simpleMessage(
             "FuseDollar è completamente garantito da USD Coin (USDC) su Fuse. Emesso da circle.com, USDC è una stablecoin regolamentata e completamente sostenuta dal dollaro, ampiamente riconosciuta nello spazio delle criptovalute."),
         "pending": MessageLookupByLibrary.simpleMessage("IN ATTESA DI"),
-        "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
+        "phoneNumber":
+            MessageLookupByLibrary.simpleMessage("Numero di telefono"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("Scegli il nome visualizzato"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(
             "Questo nome verrà mostrato ai contatti che ti inviano denaro per identificare il tuo account"),
         "pincode": MessageLookupByLibrary.simpleMessage("Codice PIN"),
-        "pincode_dont_match":
-            MessageLookupByLibrary.simpleMessage("Pin code doesn\'t match"),
+        "pincode_dont_match": MessageLookupByLibrary.simpleMessage(
+            "Il codice PIN non corrisponde"),
         "please_choose_security": MessageLookupByLibrary.simpleMessage(
-            "Please choose how you prefer to unlock the wallet:"),
+            "Scegli come preferisci sbloccare il portafoglio:"),
         "please_use": MessageLookupByLibrary.simpleMessage("Per favore usi"),
-        "price": MessageLookupByLibrary.simpleMessage("Price"),
+        "price": MessageLookupByLibrary.simpleMessage("Prezzo"),
         "privacy": MessageLookupByLibrary.simpleMessage("Fuse.io/privacy"),
         "protect_wallet":
             MessageLookupByLibrary.simpleMessage("Proteggi il tuo portafoglio"),
-        "rate": MessageLookupByLibrary.simpleMessage("Rate"),
-        "rate_us": MessageLookupByLibrary.simpleMessage("Rate us in the store"),
+        "rate": MessageLookupByLibrary.simpleMessage("Vota"),
+        "rate_us": MessageLookupByLibrary.simpleMessage("Valutaci nel negozio"),
         "re_type_passcode": MessageLookupByLibrary.simpleMessage(
             "Digita nuovamente il passcode"),
         "receive": MessageLookupByLibrary.simpleMessage("Ricevere"),
-        "receive_from": MessageLookupByLibrary.simpleMessage("Receive from"),
+        "receive_from": MessageLookupByLibrary.simpleMessage("ricevuto da"),
         "received_from_ethereum":
-            MessageLookupByLibrary.simpleMessage("Received from Ethereum"),
-        "receiving": MessageLookupByLibrary.simpleMessage("Receiving"),
+            MessageLookupByLibrary.simpleMessage("Ricevuto da Ethereum"),
+        "receiving": MessageLookupByLibrary.simpleMessage("ricevendo"),
         "recent": MessageLookupByLibrary.simpleMessage("Recente"),
-        "recommended": MessageLookupByLibrary.simpleMessage("Recommended"),
+        "recommended": MessageLookupByLibrary.simpleMessage("consigliato"),
         "resend_code":
             MessageLookupByLibrary.simpleMessage("Codice di rispedizione"),
         "reset_account": MessageLookupByLibrary.simpleMessage(
-            "Creating a new account will reset your existing account - are you sure you want to continue?"),
+            "La creazione di un nuovo account reimposterà il tuo account esistente: sei sicuro di voler continuare?"),
         "restore_backup":
             MessageLookupByLibrary.simpleMessage("Ripristinare il backup"),
         "restore_from_backup":
             MessageLookupByLibrary.simpleMessage("Ripristinare dal backup"),
         "restore_words": MessageLookupByLibrary.simpleMessage(
             "Questa è una frase di 12 parole che ti è stata data quando hai creato il tuo portafoglio precedente"),
-        "review_swap": MessageLookupByLibrary.simpleMessage("Review swap"),
-        "review_trade": MessageLookupByLibrary.simpleMessage(""),
+        "review_swap":
+            MessageLookupByLibrary.simpleMessage("scambio di recensioni"),
+        "review_trade":
+            MessageLookupByLibrary.simpleMessage("rivedere il commercio\n"),
         "review_transfer":
             MessageLookupByLibrary.simpleMessage("Rivedi il trasferimento"),
         "save_button": MessageLookupByLibrary.simpleMessage("Salva"),
         "scan_to_receive": MessageLookupByLibrary.simpleMessage(
             "Scansiona il codice QR per ricevere denaro"),
         "search": MessageLookupByLibrary.simpleMessage("Nome o indirizzo"),
-        "selected": MessageLookupByLibrary.simpleMessage("Selected"),
-        "sell": MessageLookupByLibrary.simpleMessage("Sell"),
-        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "selected": MessageLookupByLibrary.simpleMessage("Selezionato"),
+        "sell": MessageLookupByLibrary.simpleMessage("Vendere"),
+        "send": MessageLookupByLibrary.simpleMessage("Mandare"),
         "send_button": MessageLookupByLibrary.simpleMessage("Spedire"),
         "send_to": MessageLookupByLibrary.simpleMessage("Inviare a"),
         "send_to_address":
-            MessageLookupByLibrary.simpleMessage("Send to an address"),
+            MessageLookupByLibrary.simpleMessage("Mandato a un indirizzo"),
         "sending_to_ethereum": MessageLookupByLibrary.simpleMessage(
-            "Sent to your Ethereum wallet"),
-        "sent_to": MessageLookupByLibrary.simpleMessage("Send to"),
+            "Manadaro al tuo portafoglio Ethereum"),
+        "sent_to": MessageLookupByLibrary.simpleMessage("mandare a"),
         "sent_to_ethereum":
-            MessageLookupByLibrary.simpleMessage("Sent to Ethereum"),
+            MessageLookupByLibrary.simpleMessage("Mandato a Ethereum"),
         "settings": MessageLookupByLibrary.simpleMessage("impostazioni"),
         "share_button": MessageLookupByLibrary.simpleMessage("Condividere"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Iscriviti"),
@@ -297,17 +301,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "skip_button": MessageLookupByLibrary.simpleMessage("Salta"),
         "slippage": MessageLookupByLibrary.simpleMessage("Slippage"),
         "smart": MessageLookupByLibrary.simpleMessage("Inteligente"),
-        "social": MessageLookupByLibrary.simpleMessage("Social"),
+        "social": MessageLookupByLibrary.simpleMessage("Sociale"),
         "something_went_wrong":
-            MessageLookupByLibrary.simpleMessage("Something went wrong"),
+            MessageLookupByLibrary.simpleMessage("Qualcosa e andato storto"),
         "sqan_qr_code":
             MessageLookupByLibrary.simpleMessage("Scansiona QR per passare"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
+            "Il portafoglio dei fusibili memorizza le informazioni private localmente sul dispositivo. Solo il numero di telefono viene utilizzato per poter verificare la tua identità e ridurre l\'attrito durante l\'invio di denaro ai contatti telefonici."),
         "success": MessageLookupByLibrary.simpleMessage("Successo"),
-        "swap": MessageLookupByLibrary.simpleMessage("Swap"),
-        "swapped": MessageLookupByLibrary.simpleMessage("Swapped"),
-        "swapping": MessageLookupByLibrary.simpleMessage("Swapping"),
+        "swap": MessageLookupByLibrary.simpleMessage("scmabio"),
+        "swapped": MessageLookupByLibrary.simpleMessage("Scambiato"),
+        "swapping": MessageLookupByLibrary.simpleMessage("Scambiare"),
         "switch_community":
             MessageLookupByLibrary.simpleMessage("Cambia comunità"),
         "sync_contacts":
@@ -315,39 +319,39 @@ class MessageLookup extends MessageLookupByLibrary {
         "sync_your_contacts":
             MessageLookupByLibrary.simpleMessage("Sincronizza il tuo contatto"),
         "ten_seconds":
-            MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
+            MessageLookupByLibrary.simpleMessage("(fino a 10 secondi)"),
         "to": MessageLookupByLibrary.simpleMessage("Per"),
         "to_protect": MessageLookupByLibrary.simpleMessage(
-            "To protect your money and wallet go now to the settings and back up your wallet in few easy steps"),
+            "Per proteggere i tuoi soldi e il tuo portafoglio, vai ora alle impostazioni ed esegui il backup del tuo portafoglio in pochi semplici passaggi"),
         "to_unlock": MessageLookupByLibrary.simpleMessage("per sbloccare!"),
         "token": MessageLookupByLibrary.simpleMessage("Token"),
         "top_up":
             MessageLookupByLibrary.simpleMessage("Ricarica il tuo account"),
         "top_up_your_account":
-            MessageLookupByLibrary.simpleMessage("Top up your account"),
-        "total_amount": MessageLookupByLibrary.simpleMessage("Total amount:"),
-        "touch_id": MessageLookupByLibrary.simpleMessage("Touch ID"),
+            MessageLookupByLibrary.simpleMessage("Ricarica il tuo conto"),
+        "total_amount": MessageLookupByLibrary.simpleMessage("Somma totale:"),
+        "touch_id": MessageLookupByLibrary.simpleMessage("ID Tocco"),
         "trade": MessageLookupByLibrary.simpleMessage("Commercio"),
         "transaction_details":
             MessageLookupByLibrary.simpleMessage("Dettagli di Transazione"),
         "transaction_failed":
-            MessageLookupByLibrary.simpleMessage("Transaction failed"),
+            MessageLookupByLibrary.simpleMessage("Transazione fallita"),
         "transactions": MessageLookupByLibrary.simpleMessage("Le transazioni"),
-        "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Provate di nuovo"),
         "txn": MessageLookupByLibrary.simpleMessage("Txn"),
-        "up_to_10": MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
+        "up_to_10": MessageLookupByLibrary.simpleMessage("(fino a 10 secondi)"),
         "use_fusd_explain": MessageLookupByLibrary.simpleMessage(
             "I FuseDollars possono essere spostati liberamente tra conti su FuseCash, nonché su conti Fuse al di fuori di Fuse Cash. Possono anche essere scambiati con altre criptovalute direttamente da Fuse Cash utilizzando FuseSwap DEX e saranno presto utilizzabili per guadagnare reddito passivo."),
-        "use_max": MessageLookupByLibrary.simpleMessage("Use max"),
+        "use_max": MessageLookupByLibrary.simpleMessage("Usa il massimo"),
         "useful": MessageLookupByLibrary.simpleMessage("Utile"),
         "version": MessageLookupByLibrary.simpleMessage("Versione"),
         "visit_fuseio": MessageLookupByLibrary.simpleMessage(
             "Visita fuse.io per saperne di più su Fuse e su come funzionano le cose dietro le quinte."),
         "waiting_for_deposit": MessageLookupByLibrary.simpleMessage(
-            "Waiting for your deposit to arrive"),
-        "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
+            "In attesa che arrivi il tuo deposito"),
+        "wallet": MessageLookupByLibrary.simpleMessage("Portafoglio"),
         "wallet_address":
-            MessageLookupByLibrary.simpleMessage("Wallet address"),
+            MessageLookupByLibrary.simpleMessage("Indirizzo portafoglio"),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
             "Il tuo portafoglio con fusibili è protetto!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
@@ -355,7 +359,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "we_just_sent": MessageLookupByLibrary.simpleMessage(
             "Abbiamo appena inviato un messaggio a \n"),
         "we_notice": MessageLookupByLibrary.simpleMessage(
-            "We notice you haven’t backup your wallet yet."),
+            "Abbiamo notato che non hai ancora eseguito il backup del tuo portafoglio."),
         "what_is_fuse_dollar":
             MessageLookupByLibrary.simpleMessage("Cosa e FuseDollar?"),
         "what_is_peg": MessageLookupByLibrary.simpleMessage(
@@ -363,7 +367,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "why_do_we_need_this":
             MessageLookupByLibrary.simpleMessage("perché ne abbiamo bisogno?"),
         "will_never_share": MessageLookupByLibrary.simpleMessage(
-            "Fuse will never share this information with 3rd party."),
+            "Fuse non condividerà mai queste informazioni con terze parti."),
         "wire_transfer":
             MessageLookupByLibrary.simpleMessage("Bonifico bancario"),
         "word": MessageLookupByLibrary.simpleMessage("parola "),
@@ -375,12 +379,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Per favore, scrivi le parole \n"),
         "write_words": MessageLookupByLibrary.simpleMessage(
             "annotare le parole in ordine e tenere al sicuro. Non sarai in grado di recuperare il tuo account senza di esso."),
-        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-        "you_got_a": MessageLookupByLibrary.simpleMessage("You got a"),
-        "your_balance": MessageLookupByLibrary.simpleMessage("Your balance"),
+        "yes": MessageLookupByLibrary.simpleMessage("Si"),
+        "you_got_a": MessageLookupByLibrary.simpleMessage("Hain un"),
+        "your_balance": MessageLookupByLibrary.simpleMessage("Il tuo bilancio"),
         "your_balance_is_empty":
-            MessageLookupByLibrary.simpleMessage("You have no balance"),
+            MessageLookupByLibrary.simpleMessage("Non hai bilancio"),
         "your_wallet_is_empty":
-            MessageLookupByLibrary.simpleMessage("Your wallet is empty!")
+            MessageLookupByLibrary.simpleMessage("Il tuo portafoglio e vuoto")
       };
 }

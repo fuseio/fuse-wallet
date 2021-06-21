@@ -10,10 +10,8 @@ import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  final int initialIndex;
   const HomeScreen({
     Key? key,
-    this.initialIndex = 0,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       distinct: true,
       converter: HomeViewModel.fromStore,
       onInitialBuild: (viewModel) {
-        viewModel.onReceiveBranchData(true);
+        viewModel.onStart();
       },
       onInit: (store) {
         final communities = store.state.cashWalletState.communities;
@@ -41,9 +39,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       top: 100,
-                      child: Tabs(
-                        initialIndex: initialIndex,
-                      ),
+                      child: Tabs(),
                     ),
                     Positioned(
                       top: 0,
@@ -54,9 +50,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 )
-              : Tabs(
-                  initialIndex: initialIndex,
-                ),
+              : Tabs(),
         );
       },
     );

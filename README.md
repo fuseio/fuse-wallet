@@ -13,7 +13,7 @@ The Fuse Wallet built upon the [wallet-core SDK](https://github.com/fuseio/walle
 - Dio for fetching APIs (https://pub.dev/packages/dio)
 - GetIt/Injectable for Dependecy Injection (DI) (https://pub.dev/packages/get_It and https://pub.dev/packages/injectable)
 - auto_route for routing (https://pub.dev/packages/auto_route)
-- Multi language support (i18n)(https://marketplace.visualstudio.com/items?itemName=localizely.flutter-intl)
+- Multi language support (i18n)(https://github.com/esskar/vscode-flutter-i18n-json)
 - Logging using [logger](https://pub.dev/packages/logger "logger") (lib/utils/log)
 
 ## Smart Contracts
@@ -38,6 +38,10 @@ You can download the beta version of our app from the [Google Play](https://play
 
       git clone https://github.com/fuseio/fuse-wallet.git
       cd fuse-wallet
+
+### Configuring the environment
+
+1. Make a copy of `.env_example` named `.env` - `cd environment && cp .env_example .env`
 
 - For Android development, create a file at `./android/key.properties`, [as described here](https://flutter.dev/docs/deployment/android), containing the keystore path and passwords, as set up earlier.
 - Run the app.

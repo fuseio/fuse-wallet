@@ -27,12 +27,11 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
       context.navigateTo(
         HomeTab(
           children: [
-            HomeScreen(
-              initialIndex: 0,
-            ),
+            HomeScreen(),
           ],
         ),
       );
+      WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
     });
   }
 

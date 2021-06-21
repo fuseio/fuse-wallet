@@ -53,9 +53,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         context.navigateTo(
           HomeTab(
             children: [
-              HomeScreen(
-                initialIndex: 0,
-              ),
+              HomeScreen(),
             ],
           ),
         );
@@ -80,9 +78,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             ? '${widget.tradeInfo.outputAmount} '
             : '${display(num.parse(widget.tradeInfo.outputAmount))} ';
     return Container(
-      margin: EdgeInsets.only(
-        top: 20,
-      ),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -278,7 +273,10 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     return MyScaffold(
       title: I10n.of(context).review_swap,
       body: Container(
-        height: MediaQuery.of(context).size.height * 0.75,
+        margin: EdgeInsets.only(
+          top: 20,
+          bottom: 20,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

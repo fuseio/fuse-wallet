@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:country_code_picker/country_code.dart';
@@ -462,6 +463,18 @@ ThunkAction identifyCall() {
         "Identifier": identifier,
       }),
     ));
+
+    if (Platform.isAndroid) {
+      try {
+        final String token = (await getIt<FirebaseMessaging>().getToken())!;
+        log.info("Firebase messaging token $token");
+        await Segment.setContext({
+          'device': {'token': token},
+        });
+      } catch (e, s) {
+        log.error('Error in identifyCall: ${e.toString()} ${s.toString()}');
+      }
+    }
   };
 }
 

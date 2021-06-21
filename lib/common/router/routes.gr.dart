@@ -139,11 +139,8 @@ class RootRouter extends _i1.RootStackRouter {
         }),
     HomeScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
-        builder: (data) {
-          final args =
-              data.argsAs<HomeScreenArgs>(orElse: () => const HomeScreenArgs());
-          return _i14.HomeScreen(
-              key: args.key, initialIndex: args.initialIndex);
+        builder: (_) {
+          return const _i14.HomeScreen();
         }),
     ActionDetailsScreen.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -471,21 +468,10 @@ class AccountTab extends _i1.PageRouteInfo {
   static const String name = 'AccountTab';
 }
 
-class HomeScreen extends _i1.PageRouteInfo<HomeScreenArgs> {
-  HomeScreen({_i2.Key? key, int initialIndex = 0})
-      : super(name,
-            path: '',
-            args: HomeScreenArgs(key: key, initialIndex: initialIndex));
+class HomeScreen extends _i1.PageRouteInfo {
+  const HomeScreen() : super(name, path: '');
 
   static const String name = 'HomeScreen';
-}
-
-class HomeScreenArgs {
-  const HomeScreenArgs({this.key, this.initialIndex = 0});
-
-  final _i2.Key? key;
-
-  final int initialIndex;
 }
 
 class ActionDetailsScreen extends _i1.PageRouteInfo<ActionDetailsScreenArgs> {

@@ -2,6 +2,7 @@ import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/features/contacts/screens/send_amount.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,17 @@ class TradeCard extends StatelessWidget {
   final Token? token;
   final String title;
   final Widget? useMaxWidget;
+  final bool autofocus;
   final bool showCurrent;
   final void Function(String) onChanged;
   final TextEditingController textEditingController;
   final void Function() onTap;
   final bool isSwapped;
+  final _amountValidator = RegExInputFormatter.withRegex(
+      '^\$|^(0|([1-9][0-9]{0,}))(\\.[0-9]{0,})?\$');
 
   TradeCard({
+    this.autofocus = false,
     required this.title,
     required this.isSwapped,
     required this.onTap,
@@ -38,7 +43,10 @@ class TradeCard extends StatelessWidget {
       builder: (_, viewModel) {
         return Container(
           height: 150,
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 20,
+          ),
           color: isSwapped
               ? Theme.of(context).canvasColor
               : Theme.of(context).colorScheme.secondary,
@@ -127,8 +135,8 @@ class TradeCard extends StatelessWidget {
                   Expanded(
                     child: AutoSizeTextField(
                       maxLines: 1,
-                      minFontSize: 15,
-                      maxFontSize: 25,
+                      autofocus: autofocus,
+                      inputFormatters: [_amountValidator],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
