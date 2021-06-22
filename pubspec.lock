@@ -318,6 +318,13 @@ packages:
       url: "https://github.com/fuseio/dart-ethereum_address.git"
     source: git
     version: "1.0.1"
+  facebook_app_events:
+    dependency: "direct main"
+    description:
+      name: facebook_app_events
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.12.0"
   fake_async:
     dependency: transitive
     description:
@@ -479,13 +486,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
-  flutter_facebook_sdk:
-    dependency: "direct main"
-    description:
-      name: flutter_facebook_sdk
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   flutter_gen_core:
     dependency: transitive
     description:
