@@ -96,10 +96,10 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (~> 1.2)
-  - GoogleMaps (4.2.0):
-    - GoogleMaps/Maps (= 4.2.0)
-  - GoogleMaps/Base (4.2.0)
-  - GoogleMaps/Maps (4.2.0):
+  - GoogleMaps (5.0.0):
+    - GoogleMaps/Maps (= 5.0.0)
+  - GoogleMaps/Base (5.0.0)
+  - GoogleMaps/Maps (5.0.0):
     - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (7.4.1):
     - GoogleUtilities/Environment
@@ -316,7 +316,7 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleDataTransport: 04c3e9a480bbcaa2ec3f5d27f1cdeb6a92f20c8d
-  GoogleMaps: eb03e327edfd70b06de1e6e321653f73712df7ad
+  GoogleMaps: 600e5e69bdf7f4ed7cac4d6aa96c7ec08a5aa254
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
@@ -343,6 +343,6 @@ SPEC CHECKSUMS:
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
 
-PODFILE CHECKSUM: 5d5342182f9225abd9358bc2b34ca1d9b8ff03d8
+PODFILE CHECKSUM: 7affebd2afee58bc81e5a8b4ae3dac24d1f54a2f
 
 COCOAPODS: 1.10.1
