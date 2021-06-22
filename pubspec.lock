@@ -479,6 +479,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_facebook_sdk:
+    dependency: "direct main"
+    description:
+      name: flutter_facebook_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_gen_core:
     dependency: transitive
     description:
