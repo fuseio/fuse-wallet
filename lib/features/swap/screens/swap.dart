@@ -275,9 +275,7 @@ class _SwapScreenState extends State<SwapScreen> {
           });
           getTradeInfo(
             swapRequestBody.amountIn,
-            (info) {
-              // log.info(info.toString());
-            },
+            (info) {},
           );
         }
       },

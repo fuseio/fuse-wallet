@@ -17,7 +17,7 @@ import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux_logging/redux_logging.dart';
 
-Future<AppState> _loadState(persistor) async {
+Future<AppState> loadState(persistor) async {
   try {
     final initialState = await persistor.load();
     return initialState;
@@ -46,7 +46,7 @@ Future<void> mainCommon(String env) async {
     serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
     debug: kDebugMode,
   );
-  AppState initialState = await _loadState(persistor);
+  AppState initialState = await loadState(persistor);
   final List<Middleware<AppState>> wms = [
     thunkMiddleware,
     persistor.createMiddleware(),

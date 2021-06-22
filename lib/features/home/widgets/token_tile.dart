@@ -54,7 +54,6 @@ class _TokenTileState extends State<TokenTile> {
     final bool isFUSD = (widget.token.address == fuseDollarToken.address) &&
         depositPlugins.isNotEmpty;
     showBarModalBottomSheet(
-      // useRootNavigator: true,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -473,14 +472,6 @@ class _TokenTileState extends State<TokenTile> {
                   viewModel.fetchTokenAction(widget.token);
                   showBottomMenu(viewModel, context, hasPriceInfo);
                 },
-          // subtitle: !showBalance
-          //     ? Text(
-          //         token.symbol,
-          //         style: TextStyle(
-          //           fontSize: 12,
-          //         ),
-          //       )
-          //     : SizedBox.shrink(),
         );
       },
     );

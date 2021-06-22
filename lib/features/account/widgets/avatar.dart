@@ -12,7 +12,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/snackbars.dart';
-// // import 'package:fusecash/features/account/router/router.gr.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({Key? key}) : super(key: key);

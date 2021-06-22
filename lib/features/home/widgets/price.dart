@@ -24,7 +24,6 @@ class TokenPrice extends StatelessWidget {
                 return Text('..');
               case ConnectionState.waiting:
                 return Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -36,7 +35,6 @@ class TokenPrice extends StatelessWidget {
                       ),
                       width: 10,
                       height: 10,
-                      // margin: EdgeInsets.only(left: 28, right: 28),
                     ),
                   ],
                 );
@@ -45,13 +43,9 @@ class TokenPrice extends StatelessWidget {
               case ConnectionState.done:
                 final num quote = num.tryParse(snapshot.data!.quote)!;
                 return Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // SizedBox(
-                    //   width: 50,
-                    // ),
                     Text(
                       '\$' +
                           display(
@@ -65,7 +59,6 @@ class TokenPrice extends StatelessWidget {
                 );
               default:
                 return Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -77,7 +70,6 @@ class TokenPrice extends StatelessWidget {
                       ),
                       width: 10,
                       height: 10,
-                      // margin: EdgeInsets.only(left: 28, right: 28),
                     ),
                   ],
                 );

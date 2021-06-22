@@ -10,7 +10,6 @@ import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-// import 'package:fusecash/features/account/router/router.gr.dart';
 
 class ShowMnemonic extends StatelessWidget {
   Widget wordWidget(

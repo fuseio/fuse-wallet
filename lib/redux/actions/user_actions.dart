@@ -539,7 +539,6 @@ ThunkAction setupWalletCall(walletData) {
           store.dispatch(startListenToTransferEvents());
           store.dispatch(startFetchBalancesOnForeign());
           store.dispatch(fetchTokensBalances());
-          // store.dispatch(startFetchTransferEventsCall());
           store.dispatch(startFetchTokensLatestPrices());
         });
       }

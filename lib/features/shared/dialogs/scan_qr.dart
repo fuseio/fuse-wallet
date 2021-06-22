@@ -59,7 +59,7 @@ class _ScanQRDialogState extends State<ScanQRDialog>
                 children: <Widget>[
                   Center(
                     child: Container(
-                      width: 250, // custom wrap size
+                      width: 250,
                       height: 250,
                       child: ScanView(
                         controller: scanController,

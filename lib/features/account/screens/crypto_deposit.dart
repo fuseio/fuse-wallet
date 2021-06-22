@@ -103,23 +103,21 @@ class CryptoDepositScreen extends StatelessWidget {
                       I10n.of(context).crypto_deposit_risk,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 15,
-                          color: Color(
-                            0xFF797979,
-                          )
-                          // fontWeight: FontWeight.bold,
-                          ),
+                        fontSize: 15,
+                        color: Color(
+                          0xFF797979,
+                        ),
+                      ),
                     ),
                     Text(
                       I10n.of(context).crypto_deposit_risk_2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 15,
-                          color: Color(
-                            0xFF797979,
-                          )
-                          // fontWeight: FontWeight.bold,
-                          ),
+                        fontSize: 15,
+                        color: Color(
+                          0xFF797979,
+                        ),
+                      ),
                     ),
                   ],
                 ),

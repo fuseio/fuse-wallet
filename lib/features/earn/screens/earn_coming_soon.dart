@@ -56,16 +56,6 @@ class EarnComingSoonScreen extends StatelessWidget {
                     width: 2.0,
                   ),
                 ),
-                // focusColor: Theme.of(context).colorScheme.onSurface,
-                // hoverColor: Theme.of(context).colorScheme.onSurface,
-                // highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
-                // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                // textColor: Theme.of(context).colorScheme.onSurface,
-                // borderSide: BorderSide(
-                //   color: Theme.of(context).colorScheme.onSurface,
-                //   width: 2.0,
-                // ),
-
                 child: Text(
                   I10n.of(context).coming_soon + '!',
                   style: TextStyle(

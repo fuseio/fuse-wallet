@@ -158,11 +158,6 @@ ThunkAction fetchSwapBalances() {
       store.dispatch(fetchSwapListPrices());
     } catch (e, s) {
       log.error('ERROR - fetchSwapBalances ${e.toString()} ${s.toString()}');
-      // await Sentry.captureException(
-      //   e,
-      //   stackTrace: s,
-      //   hint: 'ERROR - fetchSwapBalances $e',
-      // );
     }
   };
 }

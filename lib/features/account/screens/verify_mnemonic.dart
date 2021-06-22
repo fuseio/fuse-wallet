@@ -163,7 +163,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                         ),
                       ),
                     ),
-                    // SizedBox(height: 30.0),
                   ],
                 ),
               ],

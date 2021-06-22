@@ -106,8 +106,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   children: [
                     TextSpan(
                       text: payWithAmount,
-                      // text:
-                      //     '${display(num.parse(widget.tradeInfo.inputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,

@@ -46,15 +46,12 @@ class Button extends StatelessWidget {
                 text,
                 style: TextStyle(
                   letterSpacing: 0.3,
-                  // fontSize: 20,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 maxLines: 1,
                 presetFontSizes: [
                   20,
                   17,
-                  // 15,
-                  // 12,
                 ],
               ),
             )

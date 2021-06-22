@@ -7,8 +7,6 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-// import 'package:fusecash/models/transactions/transaction.dart';
-// import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
@@ -26,26 +24,6 @@ class UpdateEtherBalance {
     required this.balance,
   });
 }
-
-// class GetTokenTransfersEventsListSuccess {
-//   List<Transfer> tokenTransfers;
-//   String tokenAddress;
-//   GetTokenTransfersEventsListSuccess({this.tokenTransfers, this.tokenAddress});
-// }
-
-// class ReplaceProTransaction {
-//   final String tokenAddress;
-//   final Transaction transaction;
-//   final Transaction transactionToReplace;
-//   ReplaceProTransaction(
-//       {this.tokenAddress, this.transaction, this.transactionToReplace});
-// }
-
-// class AddProTransaction {
-//   final String tokenAddress;
-//   final Transaction transaction;
-//   AddProTransaction({this.transaction, this.tokenAddress});
-// }
 
 class UpdateToken {
   Token tokenToUpdate;
@@ -90,29 +68,6 @@ class SetIsFetchTokensBalances {
   final bool isFetching;
   SetIsFetchTokensBalances({required this.isFetching});
 }
-
-// ThunkAction proTransactionFailed(String tokenAddress, transfer) {
-//   return (Store store) async {
-//     Transfer failedTx = transfer.copyWith(status: 'FAILED');
-//     store.dispatch(new ReplaceProTransaction(
-//         tokenAddress: tokenAddress,
-//         transactionToReplace: failedTx,
-//         transaction: transfer));
-//   };
-// }
-
-// ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddress, transfer) {
-//   return (Store store) async {
-//     Transfer confirmedTx = transfer.copyWith(
-//         status: 'CONFIRMED',
-//         txHash: txHash,
-//         timestamp: DateTime.now().millisecondsSinceEpoch);
-//     store.dispatch(new ReplaceProTransaction(
-//         tokenAddress: tokenAddress,
-//         transaction: transfer,
-//         transactionToReplace: confirmedTx));
-//   };
-// }
 
 ThunkAction startListenToTransferEvents() {
   return (Store store) async {

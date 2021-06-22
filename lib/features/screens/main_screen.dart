@@ -113,7 +113,7 @@ class _MainScreenState extends State<MainScreen> {
                 Colors.orange,
                 Colors.purple
               ],
-              createParticlePath: drawStar, // define a custom shape/path.
+              createParticlePath: drawStar,
             ),
           ),
         ],

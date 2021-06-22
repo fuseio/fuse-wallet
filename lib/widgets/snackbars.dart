@@ -13,7 +13,6 @@ void showErrorSnack({
   Flushbar(
       boxShadows: [
         BoxShadow(
-          // color: Colors.grey[500],
           offset: Offset(0.5, 0.5),
           blurRadius: 5,
         ),
@@ -45,7 +44,6 @@ void showCopiedFlushbar(context) {
     duration: Duration(seconds: 1),
     boxShadows: [
       BoxShadow(
-        // color: Colors.grey[500],
         offset: Offset(0.5, 0.5),
         blurRadius: 5,
       ),

@@ -18,18 +18,11 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   String autoCode = "";
   TextEditingController codeController = TextEditingController(text: '');
   String currentText = "";
-  // StreamController<ErrorAnimationType> errorController;
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // errorController.close();
-    super.dispose();
   }
 
   @override
@@ -49,7 +42,6 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
         builder: (_, viewModel) {
           return Container(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.all(20),
@@ -124,8 +116,6 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                           onPressed: () {
                             formKey.currentState!.validate();
                             if (currentText.length != 6) {
-                              // errorController.add(ErrorAnimationType
-                              //     .shake); // Triggering error shake animation
                             } else {
                               viewModel.verify(
                                 codeController.text,

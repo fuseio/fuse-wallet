@@ -49,26 +49,6 @@ class ImageUrl {
         : "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/$tokenAddress/logo.png";
   }
 
-  // static ImageProvider getContactImage(
-  //   // Transaction transfer,
-  //   Contact contact, {
-  //   List<Business> businesses = const [],
-  // }) {
-  //   if (contact?.avatar != null && contact.avatar.isNotEmpty) {
-  //     return new MemoryImage(contact.avatar);
-  //   } else if (businesses.isNotEmpty) {
-  //     String accountAddress =
-  //         transfer.type == 'SEND' ? transfer.to : transfer.from;
-  //     Business business = businesses.firstWhere(
-  //         (business) => business.account == accountAddress,
-  //         );
-  //     if (business != null) {
-  //       return NetworkImage(ImageUrl.getLink(business.metadata.image));
-  //     }
-  //   }
-  //   return new AssetImage('assets/images/anom.png');
-  // }
-
   static String? getTokenByAddress(
     String? address,
     Map<String, String>? tokensImages,
@@ -94,11 +74,11 @@ class ImageUrl {
       ),
       joinCommunity: (value) =>
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
-      fiatDeposit: (value) =>
-          getTokenByAddress(value.tokenAddress, tokensImages) != null
-              ? NetworkImage(
-                  getTokenByAddress(value.tokenAddress, tokensImages)!)
-              : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
+      fiatDeposit: (value) => getTokenByAddress(
+                  value.tokenAddress, tokensImages) !=
+              null
+          ? NetworkImage(getTokenByAddress(value.tokenAddress, tokensImages)!)
+          : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       bonus: (value) => AssetImage(
         'assets/images/join.png',
       ),

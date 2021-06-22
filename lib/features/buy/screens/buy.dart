@@ -170,18 +170,13 @@ class _BusinessesListViewState extends State<BusinessesListView> {
       subtitle: Text(
         business.metadata.description,
         style: TextStyle(
-          // color: Theme.of(context).accentColor,
           fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
       ),
       onTap: () {
-        // context.router.push(BusinessPage());
         // TODO = pushBusinessPage
-        // ExtendedNavigator.named('buyRouter').pushBusinessPage(
-        //   business: business,
-        //   token: token,
-        // );
+        // context.router.push(BusinessPage());
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

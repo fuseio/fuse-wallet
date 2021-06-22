@@ -85,9 +85,6 @@ class TokenPriceChange extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // SizedBox(
-                      //   width: 30,
-                      // ),
                       Text(
                         display(priceChange) + '%',
                         style: TextStyle(color: Color(0xFF292929)),

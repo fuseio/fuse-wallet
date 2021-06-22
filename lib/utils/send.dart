@@ -174,7 +174,6 @@ void barcodeScannerHandler(
       duration: Duration(seconds: 2),
       boxShadows: [
         BoxShadow(
-          // color: Colors.grey[500],
           offset: Offset(0.5, 0.5),
           blurRadius: 5,
         ),
