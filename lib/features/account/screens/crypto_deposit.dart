@@ -128,18 +128,7 @@ class CryptoDepositScreen extends StatelessWidget {
                     Center(
                       child: PrimaryButton(
                         label: I10n.of(context).ok,
-                        onPressed: () {
-                          AutoRouter.of(context).popUntilRoot();
-                          // if (ExtendedNavigator.named('accountRouter')
-                          //     .canPop()) {
-                          //   ExtendedNavigator.named('accountRouter')
-                          //       .popUntilRoot();
-                          // } else if (ExtendedNavigator.named('homeRouter')
-                          //     .canPop()) {
-                          //   ExtendedNavigator.named('homeRouter')
-                          //       .popUntilRoot();
-                          // }
-                        },
+                        onPressed: AutoRouter.of(context).popUntilRoot,
                       ),
                     ),
                     SizedBox(
