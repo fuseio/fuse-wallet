@@ -13,7 +13,7 @@ The Fuse Wallet built upon the [wallet-core SDK](https://github.com/fuseio/walle
 - Dio for fetching APIs (https://pub.dev/packages/dio)
 - GetIt/Injectable for Dependecy Injection (DI) (https://pub.dev/packages/get_It and https://pub.dev/packages/injectable)
 - auto_route for routing (https://pub.dev/packages/auto_route)
-- Multi language support (i18n)(https://github.com/esskar/vscode-flutter-i18n-json)
+- Multi language support (i18n)(https://marketplace.visualstudio.com/items?itemName=localizely.flutter-intl)
 - Logging using [logger](https://pub.dev/packages/logger "logger") (lib/utils/log)
 
 ## Smart Contracts
