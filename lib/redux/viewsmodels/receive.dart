@@ -5,13 +5,12 @@ import 'package:redux/redux.dart';
 class ReceiveModel extends Equatable {
   final String walletAddress;
   ReceiveModel({
-    this.walletAddress,
+    required this.walletAddress,
   });
 
   static ReceiveModel fromStore(Store<AppState> store) {
     return ReceiveModel(
-      walletAddress:
-          store.state.userState?.walletAddress?.replaceFirst('x', 'f') ?? '',
+      walletAddress: store.state.userState.walletAddress.replaceFirst('x', 'f'),
     );
   }
 

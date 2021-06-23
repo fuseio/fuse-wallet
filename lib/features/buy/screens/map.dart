@@ -8,13 +8,12 @@ import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
-
   @override
   _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  GlobalKey<ScaffoldState> scaffoldState;
+  GlobalKey<ScaffoldState>? scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(45.521563, -122.677433);
 

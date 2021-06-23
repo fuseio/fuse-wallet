@@ -9,7 +9,7 @@ abstract class FirebaseInjectableModule {
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 
   @lazySingleton
-  FirebaseMessaging get firebaseMessaging => FirebaseMessaging();
+  FirebaseMessaging get firebaseMessaging => FirebaseMessaging.instance;
 
   @preResolve
   Future<FirebaseApp> get firebaseApp => Firebase.initializeApp();

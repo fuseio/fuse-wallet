@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/utils/url.dart';
 import 'dart:core';
-
-import 'package:span_builder/span_builder.dart';
 
 class LearnMoreDialog extends StatefulWidget {
   @override
@@ -12,9 +9,9 @@ class LearnMoreDialog extends StatefulWidget {
 
 class LearnMoreDialogState extends State<LearnMoreDialog>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -36,21 +33,12 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext _context) {
-    final spans = SpanBuilder(I10n.of(context).visit_fuseio).apply(
-      TextSpan(
-        text: "fuse.io",
-        style: TextStyle(color: Color(0xFF006CFF)),
-      ),
-      onTap: () {
-        launchUrl('https://fuse.io');
-      },
-    ).build();
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(
@@ -61,145 +49,151 @@ class LearnMoreDialogState extends State<LearnMoreDialog>
         )),
         insetPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
         content: Container(
+          width: double.maxFinite,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Stack(
-                overflow: Overflow.visible,
-                alignment: AlignmentDirectional.bottomCenter,
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xFFB1FDC0),
-                          Color(0xFFFEFD86),
-                        ],
+              Flexible(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  alignment: AlignmentDirectional.bottomCenter,
+                  children: <Widget>[
+                    Container(
+                      height: 100,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFFB1FDC0),
+                            Color(0xFFFEFD86),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                        ),
                       ),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
+                      child: Container(),
+                    ),
+                    Positioned(
+                      bottom: -50,
+                      child: Image.asset(
+                        "assets/images/fuse-dollar.png",
+                        width: 100,
                       ),
-                    ),
-                    child: Container(),
-                  ),
-                  Positioned(
-                    bottom: -50,
-                    child: Image.asset(
-                      "assets/images/fuse-dollar.png",
-                      width: 100,
-                      // width: 150,
-                      // height: 150,
-                    ),
-                  )
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                  top: 0,
-                  bottom: 10,
-                  left: 20,
-                  right: 20,
+                    )
+                  ],
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 60.0),
-                    Center(
-                      child: Text(
-                        I10n.of(context).fuse_dollar,
+              ),
+              Flexible(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top: 0,
+                    bottom: 10,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      SizedBox(height: 60.0),
+                      Center(
+                        child: Text(
+                          I10n.of(context).fuse_dollar,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        I10n.of(context).what_is_fuse_dollar,
+                        textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      I10n.of(context).what_is_fuse_dollar,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      I10n.of(context).fuse_dollar_explain,
-                      style: TextStyle(
-                        fontFamily: 'Europa',
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    // what_is_peg
-                    Text(
-                      I10n.of(context).what_is_peg,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      I10n.of(context).peg_explain,
-                      style: TextStyle(
-                        fontFamily: 'Europa',
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      I10n.of(context).how_to_use_fusd,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      I10n.of(context).use_fusd_explain,
-                      style: TextStyle(
-                        fontFamily: 'Europa',
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      I10n.of(context).future_stablecoins,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      I10n.of(context).fusd_stablecoins_explain,
-                      style: TextStyle(
-                        fontFamily: 'Europa',
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 14,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    RichText(
-                      text: TextSpan(
-                        children: spans,
+                      Text(
+                        I10n.of(context).fuse_dollar_explain,
                         style: TextStyle(
                           fontFamily: 'Europa',
                           color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 14,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20.0),
-                  ],
+                      SizedBox(height: 20.0),
+                      // what_is_peg
+                      Text(
+                        I10n.of(context).what_is_peg,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        I10n.of(context).peg_explain,
+                        style: TextStyle(
+                          fontFamily: 'Europa',
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        I10n.of(context).how_to_use_fusd,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        I10n.of(context).use_fusd_explain,
+                        style: TextStyle(
+                          fontFamily: 'Europa',
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        I10n.of(context).future_stablecoins,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        I10n.of(context).fusd_stablecoins_explain,
+                        style: TextStyle(
+                          fontFamily: 'Europa',
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: I10n.of(context).visit_fuseio,
+                            ),
+                          ],
+                          style: TextStyle(
+                            fontFamily: 'Europa',
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                    ],
+                  ),
                 ),
               ),
             ],

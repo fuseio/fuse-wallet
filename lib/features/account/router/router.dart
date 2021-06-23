@@ -1,4 +1,5 @@
-import 'package:auto_route/auto_route_annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/features/account/screens/account_screen.dart';
 import 'package:fusecash/features/account/screens/done_backup_screen.dart';
 import 'package:fusecash/features/account/screens/profile.dart';
@@ -8,22 +9,45 @@ import 'package:fusecash/features/account/screens/show_mnemonic.dart';
 import 'package:fusecash/features/account/screens/social_screen.dart';
 import 'package:fusecash/features/account/screens/verify_mnemonic.dart';
 
-@MaterialAutoRouter(
-  routesClassName: "AccountRoutes",
-  generateNavigationHelperExtension: true,
-  routes: <AutoRoute>[
-    MaterialRoute(
+const accountTab = AutoRoute(
+  path: 'account',
+  name: 'accountTab',
+  page: EmptyRouterPage,
+  guards: [AuthGuard],
+  children: [
+    AutoRoute(
       page: AccountScreen,
       name: 'accountScreen',
       initial: true,
+      guards: [AuthGuard],
     ),
-    MaterialRoute(page: ShowMnemonic),
-    MaterialRoute(page: VerifyMnemonic),
-    MaterialRoute(page: DoneBackup),
-    MaterialRoute(page: SettingsScreen),
-    MaterialRoute(page: ProtectYourWallet),
-    MaterialRoute(page: ProfileScreen),
-    MaterialRoute(page: SocialScreen),
+    AutoRoute(
+      page: ShowMnemonic,
+      guards: [AuthGuard],
+    ),
+    AutoRoute(
+      page: VerifyMnemonic,
+      guards: [AuthGuard],
+    ),
+    AutoRoute(
+      page: DoneBackup,
+      guards: [AuthGuard],
+    ),
+    AutoRoute(
+      page: SettingsScreen,
+      guards: [AuthGuard],
+    ),
+    AutoRoute(
+      page: ProtectYourWallet,
+      guards: [AuthGuard],
+    ),
+    AutoRoute(
+      page: ProfileScreen,
+      guards: [AuthGuard],
+    ),
+    AutoRoute(
+      page: SocialScreen,
+      guards: [AuthGuard],
+    ),
   ],
-)
-class $AccountRouter {}
+);

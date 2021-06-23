@@ -10,16 +10,16 @@ class NumericKeyboard extends StatefulWidget {
   final Function() leftButtonFn;
   final KeyboardTapCallback onKeyboardTap;
   final MainAxisAlignment mainAxisAlignment;
-  final double height;
+  final double? height;
 
   NumericKeyboard({
-    Key key,
-    @required this.onKeyboardTap,
+    Key? key,
+    required this.onKeyboardTap,
     this.textColor = Colors.black,
-    this.rightButtonFn,
-    this.rightIcon,
-    this.leftButtonFn,
-    this.leftIcon,
+    required this.rightButtonFn,
+    required this.rightIcon,
+    required this.leftButtonFn,
+    required this.leftIcon,
     this.height,
     this.mainAxisAlignment = MainAxisAlignment.spaceEvenly,
   }) : super(key: key);
@@ -36,7 +36,6 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
       padding: EdgeInsets.only(
         left: 40,
         right: 40,
-        top: 40,
       ),
       alignment: Alignment.center,
       child: Column(
@@ -69,22 +68,26 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
             alignment: widget.mainAxisAlignment,
             children: <Widget>[
               InkWell(
-                  borderRadius: BorderRadius.circular(45),
-                  onTap: widget.leftButtonFn,
-                  child: Container(
-                      alignment: Alignment.center,
-                      width: 50,
-                      height: 50,
-                      child: widget.leftIcon)),
+                borderRadius: BorderRadius.circular(45),
+                onTap: widget.leftButtonFn,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 50,
+                  height: 50,
+                  child: widget.leftIcon,
+                ),
+              ),
               _calcButton('0'),
               InkWell(
-                  borderRadius: BorderRadius.circular(45),
-                  onTap: widget.rightButtonFn,
-                  child: Container(
-                      alignment: Alignment.center,
-                      width: 50,
-                      height: 50,
-                      child: widget.rightIcon))
+                borderRadius: BorderRadius.circular(45),
+                onTap: widget.rightButtonFn,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 50,
+                  height: 50,
+                  child: widget.rightIcon,
+                ),
+              )
             ],
           ),
         ],
@@ -101,7 +104,7 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
       child: Container(
         alignment: Alignment.center,
         width: 50,
-        height: 65,
+        height: 60,
         child: Text(
           value,
           style: TextStyle(

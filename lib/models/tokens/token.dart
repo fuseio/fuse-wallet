@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
@@ -14,11 +15,11 @@ part 'token.g.dart';
 
 @immutable
 @freezed
-abstract class Token implements _$Token, Comparable<Token> {
+class Token with _$Token implements Comparable<Token> {
   const Token._();
 
   @override
-  int compareTo(Token other) {
+  int compareTo(Token? other) {
     if (other == null) return 1;
     return num.parse(this.getBalance(true))
         .compareTo(num.parse(other.getBalance(true)));
@@ -26,23 +27,23 @@ abstract class Token implements _$Token, Comparable<Token> {
 
   @JsonSerializable()
   factory Token({
-    String address,
-    String name,
+    required String address,
+    required String name,
+    required String symbol,
+    required BigInt amount,
+    required int decimals,
     @Default(false) bool isNative,
-    String symbol,
-    String imageUrl,
-    int decimals,
-    BigInt amount,
-    @JsonKey(ignore: true) String subtitle,
-    int timestamp,
-    Price priceInfo,
-    String communityAddress,
-    String originNetwork,
-    num priceChange,
+    String? imageUrl,
+    @JsonKey(ignore: true) @Default(null) String? subtitle,
+    @Default(null) int? timestamp,
+    @Default(null) Price? priceInfo,
+    @Default(null) String? communityAddress,
+    @Default(null) String? originNetwork,
+    @Default(0) num priceChange,
     @JsonKey(ignore: true) @Default(0) num priceDiff,
     @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
-    List<Stats> stats,
-    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
+    @JsonKey(ignore: true) @Default([]) List<Stats> stats,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
   }) = _Token;
 
   String getBalance([withPrecision = false]) => formatValue(
@@ -51,11 +52,11 @@ abstract class Token implements _$Token, Comparable<Token> {
         withPrecision,
       );
   String getFiatBalance() {
-    if (priceInfo != null && priceInfo?.quote != 'NaN') {
+    if (priceInfo!.quote != 'NaN') {
       return getFiatValue(
         amount,
         decimals,
-        double.tryParse(priceInfo?.quote) ?? 0.0,
+        double.tryParse(priceInfo!.quote) ?? 0.0,
       );
     }
     return '0';
@@ -63,18 +64,21 @@ abstract class Token implements _$Token, Comparable<Token> {
 
   Future<dynamic> fetchBalance(
     String accountAddress, {
-    Function(BigInt) onDone,
-    Function onError,
+    required Function(BigInt) onDone,
+    required Function onError,
   }) async {
     if ([null, ''].contains(accountAddress) || [null, ''].contains(address))
       return;
-    if (isNative != null && isNative == true) {
-      Web3 web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
+    if (isNative) {
+      Web3? web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
+      if (web3 == null) {
+        throw 'web3 is empty';
+      }
       try {
         EtherAmount balance = await web3.getBalance(
           address: accountAddress,
         );
-        if (amount?.compareTo(balance.getInWei) != 0) {
+        if (amount.compareTo(balance.getInWei) != 0) {
           onDone(balance.getInWei);
         }
       } catch (e, s) {
@@ -82,12 +86,12 @@ abstract class Token implements _$Token, Comparable<Token> {
       }
     } else {
       try {
-        Web3 web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
-        final BigInt balance = await web3.getTokenBalance(
+        Web3? web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
+        final BigInt balance = await web3!.getTokenBalance(
           address,
           address: accountAddress,
         );
-        if (amount?.compareTo(balance) != 0) {
+        if (amount.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -98,8 +102,8 @@ abstract class Token implements _$Token, Comparable<Token> {
 
   Future<dynamic> fetchLatestPrice({
     String currency = 'usd',
-    void Function(Price) onDone,
-    Function onError,
+    required void Function(Price) onDone,
+    required Function onError,
   }) async {
     try {
       Price price = await fuseSwapService.price(address);
@@ -110,8 +114,8 @@ abstract class Token implements _$Token, Comparable<Token> {
   }
 
   Future<dynamic> fetchPriceChange({
-    void Function(num) onDone,
-    Function onError,
+    required void Function(num) onDone,
+    required Function onError,
   }) async {
     try {
       final num priceChange = await fuseSwapService.priceChange(address);
@@ -122,8 +126,8 @@ abstract class Token implements _$Token, Comparable<Token> {
   }
 
   Future<dynamic> fetchStats({
-    void Function(List<Stats>) onDone,
-    Function onError,
+    required void Function(List<Stats>) onDone,
+    required Function onError,
   }) async {
     try {
       final List<Stats> stats = await fuseSwapService.stats(address);

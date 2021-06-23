@@ -3,14 +3,14 @@ import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
 class SendFlowArguments {
-  String name;
+  String? name;
   final bool isMultiBridge;
-  String phoneNumber;
-  String accountAddress;
-  double amount;
-  ImageProvider avatar;
-  SendType sendType;
-  Token tokenToSend;
+  String? phoneNumber;
+  String? accountAddress;
+  double? amount;
+  ImageProvider? avatar;
+  SendType? sendType;
+  Token? tokenToSend;
   final bool useBridge;
 
   SendFlowArguments({

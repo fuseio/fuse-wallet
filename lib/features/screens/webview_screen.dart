@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -7,12 +6,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 class WebViewScreen extends StatefulWidget {
   final String url;
   final String title;
-  final bool withBack;
+  final void Function(String)? onPageStarted;
 
-  WebViewScreen({
+  WebViewScreen(
     this.url,
-    this.title,
-    this.withBack = false,
+    this.title, {
+    this.onPageStarted,
   });
 
   @override
@@ -34,11 +33,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: widget.url,
-        onPageStarted: (String url) {
-          if (url.contains('https://fuse.cash/')) {
-            ExtendedNavigator.root.popUntilRoot();
-          }
-        },
+        onPageStarted: widget.onPageStarted,
       ),
     );
   }

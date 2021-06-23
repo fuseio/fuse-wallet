@@ -16,13 +16,13 @@ class ContactsConfirmationScreen extends StatefulWidget {
 
 class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -137,8 +137,10 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           },
                         )),
                         Center(
-                          child: FlatButton(
-                            padding: EdgeInsets.only(top: 10),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(top: 10),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               viewModel.syncContactsRejected();

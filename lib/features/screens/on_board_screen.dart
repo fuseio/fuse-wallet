@@ -13,10 +13,10 @@ class OnBoardScreen extends StatefulWidget {
 
 class _OnBoardScreenState extends State<OnBoardScreen>
     with TickerProviderStateMixin {
-  PageController _pageController;
-  AnimationController _lottieController;
-  AnimationController _titleController;
-  Animation<Offset> _offset;
+  late PageController _pageController;
+  late AnimationController _lottieController;
+  late AnimationController _titleController;
+  late Animation<Offset> _offset;
   static const _kDuration = Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
   double page = 0;
@@ -45,7 +45,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
     _lottieController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         cont++;
-        final int currentPage = ((page.toInt() + 1) ?? 1);
+        final int currentPage = page.toInt() + 1;
         if (cont < double.infinity) {
           if (currentPage == 1) {
             _lottieController.reset();
@@ -62,15 +62,15 @@ class _OnBoardScreenState extends State<OnBoardScreen>
     });
 
     _pageController.addListener(() {
-      final int currentPage = ((_pageController.page.toInt() + 1) ?? 1);
+      final int currentPage = ((_pageController.page!.toInt() + 1));
       if (currentPage == 1) {
         _lottieController.forward(from: 0.25);
       } else {
         _lottieController.reset();
         _lottieController.forward();
       }
-
-      if (_pageController.page > 2.9) {
+      final double p = _pageController.page ?? 0;
+      if (p > 2.9) {
         _titleController.forward();
         setState(() {
           animate = true;
@@ -83,7 +83,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
       }
       setState(() {
         cont = 0;
-        page = _pageController.page;
+        page = p;
       });
     });
     super.initState();
@@ -123,7 +123,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
       ),
       SignUpButtons()
     ];
-    final String currentPage = ((page.toInt() + 1) ?? 1).toString();
+    final String currentPage = (page.toInt() + 1).toString();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -184,7 +184,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
                 ),
                 tween: Tween<double>(begin: 0, end: 1),
                 duration: Duration(milliseconds: 2000),
-                builder: (BuildContext context, double _val, Widget child) =>
+                builder: (BuildContext context, double _val, Widget? child) =>
                     Opacity(
                   opacity: _val,
                   child: child,

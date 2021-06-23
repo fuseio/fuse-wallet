@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
 
 void openDepositWebview({
-  String url,
-  bool withBack,
+  required BuildContext context,
+  required String url,
 }) {
   final String link = url.contains('ramp')
       ? '$url&finalUrl=https://fuse.cash'
@@ -14,10 +15,16 @@ void openDepositWebview({
           ? '$url&redirectURL=https://fuse.cash'
           : url;
   if (Platform.isIOS) {
-    ExtendedNavigator.root.pushWebview(
-      withBack: withBack,
-      url: link,
-      title: I10n.of(ExtendedNavigator.root.context).top_up,
+    context.router.push(
+      Webview(
+        url: '$url&finalUrl=https://fuse.cash',
+        title: I10n.of(context).top_up,
+        onPageStarted: (String url) {
+          if (url.contains('https://fuse.cash/')) {
+            context.router.popUntilRoot();
+          }
+        },
+      ),
     );
   } else {
     FlutterWebBrowser.openWebPage(

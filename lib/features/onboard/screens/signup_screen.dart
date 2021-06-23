@@ -11,7 +11,6 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/features/onboard/dialogs/signup.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/snackbars.dart';
-import 'package:phone_number/phone_number.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -26,7 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
+    WidgetsBinding.instance!.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
@@ -34,9 +33,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
-          (Map code) => code['code'] == myLocale.countryCode,
-          orElse: () => null);
-      if (mounted && localeData != null) {
+        (Map code) => code['code'] == myLocale.countryCode,
+      );
+      if (mounted &&
+          localeData.containsKey('dial_code') &&
+          localeData.containsKey('code')) {
         setState(() {
           countryCode = CountryCode(
             dialCode: localeData['dial_code'],
@@ -47,25 +48,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
-    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
-    phoneNumberUtil.parse(phoneNumber).then((value) {
-      signUp(countryCode, value);
-    }, onError: (e) {
-      showErrorSnack(
-        message: I10n.of(context).invalid_number,
-        title: I10n.of(context).something_went_wrong,
-        context: context,
-        margin: EdgeInsets.only(
-          top: 8,
-          right: 8,
-          left: 8,
-          bottom: 120,
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -73,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       title: I10n.of(context).sign_up,
       body: InkWell(
         onTap: () {
-          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+          WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
         },
         child: Container(
           child: Column(
@@ -206,9 +188,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       controller: phoneController,
                                       keyboardType: TextInputType.number,
                                       autofocus: true,
-                                      validator: (String value) => value.isEmpty
-                                          ? "Please enter mobile number"
-                                          : null,
+                                      validator: (String? value) =>
+                                          value!.isEmpty
+                                              ? "Please enter mobile number"
+                                              : null,
                                       style: TextStyle(
                                           fontSize: 18,
                                           color: Theme.of(context)
@@ -238,30 +221,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(height: 40.0),
                           StoreConnector<AppState, OnboardViewModel>(
                             distinct: true,
-                            onWillChange: (previousViewModel, newViewModel) {
-                              if (previousViewModel.signupErrorMessage !=
-                                  newViewModel.signupErrorMessage) {
-                                showErrorSnack(
-                                  title: I10n.of(context).oops,
-                                  message: newViewModel.signupErrorMessage,
-                                  context: context,
-                                  margin: EdgeInsets.only(
-                                      top: 8, right: 8, left: 8, bottom: 120),
-                                );
-                                // Future.delayed(
-                                //     Duration(seconds: Variables.INTERVAL_SECONDS),
-                                //     () {
-                                //   newViewModel.resetErrors();
-                                // });
-                              }
-                            },
                             converter: OnboardViewModel.fromStore,
                             builder: (_, viewModel) => Center(
                               child: PrimaryButton(
                                 label: I10n.of(context).next_button,
                                 preload: viewModel.isLoginRequest,
                                 onPressed: () {
-                                  onPressed(viewModel.signUp);
+                                  final String phoneNumber =
+                                      '${countryCode.dialCode}${phoneController.text}';
+                                  phoneNumberUtil.parse(phoneNumber).then(
+                                      (value) {
+                                    viewModel.signUp(
+                                      countryCode,
+                                      value,
+                                      () {
+                                        showErrorSnack(
+                                          message:
+                                              I10n.of(context).invalid_number,
+                                          title: I10n.of(context)
+                                              .something_went_wrong,
+                                          context: context,
+                                          margin: EdgeInsets.only(
+                                            top: 8,
+                                            right: 8,
+                                            left: 8,
+                                            bottom: 120,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }, onError: (e) {
+                                    showErrorSnack(
+                                      message: I10n.of(context).invalid_number,
+                                      title:
+                                          I10n.of(context).something_went_wrong,
+                                      context: context,
+                                      margin: EdgeInsets.only(
+                                        top: 8,
+                                        right: 8,
+                                        left: 8,
+                                        bottom: 120,
+                                      ),
+                                    );
+                                  });
                                 },
                               ),
                             ),

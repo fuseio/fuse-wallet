@@ -1,12 +1,15 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
-  SearchPanel({Key key, this.searchController}) : super(key: key);
+  SearchPanel({
+    Key? key,
+    required this.searchController,
+  }) : super(key: key);
   final TextEditingController searchController;
 
   @override
@@ -79,10 +82,14 @@ class SearchPanel extends StatelessWidget {
                     'assets/images/scan_black.svg',
                     width: 25.0,
                   ),
-                  onTap: () {
-                    barcodeScannerHandler(
-                      ExtendedNavigator.named('contactsRouter').context,
+                  onTap: () async {
+                    String? result = await showDialog<String>(
+                      context: context,
+                      builder: (context) => ScanQRDialog(),
                     );
+                    if (result != null) {
+                      barcodeScannerHandler(context, result);
+                    }
                   },
                 ),
               )

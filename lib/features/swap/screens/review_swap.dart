@@ -1,10 +1,8 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/constants/keys.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/redux/viewsmodels/review_swap.dart';
 import 'package:fusecash/services.dart';
@@ -22,9 +20,9 @@ class ReviewSwapScreen extends StatefulWidget {
   final SwapRequestBody swapRequestBody;
 
   const ReviewSwapScreen({
-    this.tradeInfo,
-    this.rateInfo,
-    this.swapRequestBody,
+    required this.tradeInfo,
+    required this.rateInfo,
+    required this.swapRequestBody,
   });
 
   @override
@@ -51,12 +49,15 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
       swapCallParameters,
       widget.tradeInfo,
       () {
-        ExtendedNavigator.named('swapRouter').popUntilRoot();
-        BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
-        navigationBar.onTap(0);
-        ExtendedNavigator.named('homeRouter').popUntilRoot();
-        ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        context.router.popUntilRoot();
+        context.navigateTo(
+          HomeTab(
+            children: [
+              HomeScreen(),
+            ],
+          ),
+        );
+        WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
       },
       () {
         setState(() {
@@ -68,18 +69,15 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
 
   Widget infoCard() {
     final String payWithAmount =
-        smallNumberTest(Decimal.parse(widget.tradeInfo.inputAmount))
+        smallNumberTest(num.parse(widget.tradeInfo.inputAmount))
             ? '${widget.tradeInfo.inputAmount} '
             : '${display(num.parse(widget.tradeInfo.inputAmount))} ';
 
     final String receiveAmount =
-        smallNumberTest(Decimal.parse(widget.tradeInfo.outputAmount))
+        smallNumberTest(num.parse(widget.tradeInfo.outputAmount))
             ? '${widget.tradeInfo.outputAmount} '
             : '${display(num.parse(widget.tradeInfo.outputAmount))} ';
     return Container(
-      margin: EdgeInsets.only(
-        top: 20,
-      ),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -108,8 +106,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   children: [
                     TextSpan(
                       text: payWithAmount,
-                      // text:
-                      //     '${display(num.parse(widget.tradeInfo.inputAmount))} ',
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -170,12 +166,12 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
 
   Widget extraInfo() {
     final String payWithRate =
-        smallNumberTest(Decimal.parse(widget.rateInfo.inputAmount))
+        smallNumberTest(num.parse(widget.rateInfo.inputAmount))
             ? '${widget.rateInfo.inputAmount} '
             : '${display(num.parse(widget.rateInfo.inputAmount))}';
 
     final String receiveRate =
-        smallNumberTest(Decimal.parse(widget.rateInfo.outputAmount))
+        smallNumberTest(num.parse(widget.rateInfo.outputAmount))
             ? '${widget.rateInfo.outputAmount} '
             : '${display(num.parse(widget.rateInfo.outputAmount))}';
     return ListView(
@@ -275,6 +271,10 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     return MyScaffold(
       title: I10n.of(context).review_swap,
       body: Container(
+        margin: EdgeInsets.only(
+          top: 20,
+          bottom: 20,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -301,9 +301,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                       onPressed: () => _onPress(viewModel),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 40,
                 ),
               ],
             ),

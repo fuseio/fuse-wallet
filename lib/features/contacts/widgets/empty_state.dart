@@ -8,7 +8,7 @@ import 'package:fusecash/redux/viewsmodels/contacts.dart';
 import 'package:fusecash/utils/contacts.dart';
 
 class EmptyState extends StatelessWidget {
-  const EmptyState({Key key}) : super(key: key);
+  const EmptyState({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

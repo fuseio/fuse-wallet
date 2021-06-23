@@ -9,7 +9,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/utils/url.dart';
@@ -18,15 +18,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class BusinessPage extends StatefulWidget {
   final Business business;
   final Token token;
-  BusinessPage({this.business, this.token});
+  BusinessPage({
+    required this.business,
+    required this.token,
+  });
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
 }
 
 class _BusinessPageState extends State<BusinessPage> {
-  GlobalKey<ScaffoldState> scaffoldState;
-  Completer<GoogleMapController> _controller = Completer();
+  GlobalKey<ScaffoldState>? scaffoldState;
+  late Completer<GoogleMapController> _controller;
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -34,6 +37,7 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   void initState() {
+    _controller = Completer();
     super.initState();
   }
 
@@ -55,12 +59,12 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         children: <Widget>[
                           Padding(
-                              padding: EdgeInsets.only(bottom: 20),
-                              child: SizedBox.expand(
-                                  child: CachedNetworkImage(
+                            padding: EdgeInsets.only(bottom: 20),
+                            child: SizedBox.expand(
+                              child: CachedNetworkImage(
                                 imageUrl: ImageUrl.getLink(
                                   widget.business.metadata.coverPhoto,
-                                ), // widget.business.metadata.getCoverPhotoUri(),
+                                ),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
@@ -69,7 +73,9 @@ class _BusinessPageState extends State<BusinessPage> {
                                   image: imageProvider,
                                   fit: BoxFit.fill,
                                 ),
-                              ))),
+                              ),
+                            ),
+                          ),
                           Positioned(
                               top: 60,
                               left: 20,
@@ -287,8 +293,7 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                          widget.business.metadata.latLng != null &&
-                                  widget.business.metadata.latLng.isNotEmpty
+                          widget.business.metadata.latLng.isNotEmpty
                               ? GoogleMap(
                                   onMapCreated: _onMapCreated,
                                   initialCameraPosition: CameraPosition(
@@ -301,31 +306,35 @@ class _BusinessPageState extends State<BusinessPage> {
                               : SizedBox.shrink(),
                           Padding(
                             padding: EdgeInsets.only(bottom: 20.0),
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              color: Theme.of(context).buttonColor,
-                              padding: EdgeInsets.only(
-                                  left: 100, right: 100, top: 15, bottom: 15),
+                            child: ElevatedButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Theme.of(context).buttonColor,
+                                padding: EdgeInsets.only(
+                                    left: 100, right: 100, top: 15, bottom: 15),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
                               child: Text(
                                 I10n.of(context).pay,
                                 style: TextStyle(
                                     color: Theme.of(context)
                                         .textTheme
-                                        .button
+                                        .button!
                                         .color,
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                ExtendedNavigator.root.pushSendAmountScreen(
-                                  pageArgs: SendFlowArguments(
-                                    tokenToSend: widget.token,
-                                    name: widget.business.name ?? '',
-                                    accountAddress: widget.business.account,
-                                    avatar: NetworkImage(
-                                      ImageUrl.getLink(
-                                        widget.business.metadata.image,
+                                context.router.push(
+                                  SendAmountScreen(
+                                    pageArgs: SendFlowArguments(
+                                      tokenToSend: widget.token,
+                                      name: widget.business.name,
+                                      accountAddress: widget.business.account,
+                                      avatar: NetworkImage(
+                                        ImageUrl.getLink(
+                                          widget.business.metadata.image,
+                                        ),
                                       ),
                                     ),
                                   ),

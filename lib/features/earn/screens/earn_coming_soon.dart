@@ -44,18 +44,17 @@ class EarnComingSoonScreen extends StatelessWidget {
             ),
             Positioned(
               bottom: 30,
-              child: OutlineButton(
-                focusColor: Theme.of(context).colorScheme.onSurface,
-                hoverColor: Theme.of(context).colorScheme.onSurface,
-                highlightedBorderColor: Theme.of(context).colorScheme.onSurface,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                textColor: Theme.of(context).colorScheme.onSurface,
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  width: 2.0,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6.0),
+              child: OutlinedButton(
+                style: TextButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.width * .7, 50),
+                  primary: Theme.of(context).colorScheme.onSurface,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    width: 2.0,
+                  ),
                 ),
                 child: Text(
                   I10n.of(context).coming_soon + '!',
@@ -99,7 +98,7 @@ class EarnComingSoonScreen extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => LearnMoreDialog(),
+                        builder: (_) => LearnMoreDialog(),
                       );
                     },
                     focusColor: Theme.of(context).canvasColor,

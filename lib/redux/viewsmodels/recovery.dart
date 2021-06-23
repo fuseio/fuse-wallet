@@ -7,7 +7,9 @@ import 'package:fusecash/models/app_state.dart';
 class RecoveryViewModel {
   final Function(String, VoidCallback) generateWalletFromBackup;
 
-  RecoveryViewModel({this.generateWalletFromBackup});
+  RecoveryViewModel({
+    required this.generateWalletFromBackup,
+  });
 
   static RecoveryViewModel fromStore(Store<AppState> store) {
     return RecoveryViewModel(

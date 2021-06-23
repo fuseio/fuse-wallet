@@ -7,11 +7,11 @@ import 'package:fusecash/utils/send.dart';
 
 class SendToAccount extends StatelessWidget {
   final String accountAddress;
-  final Token token;
-  final VoidCallback resetSearch;
+  final Token? token;
+  final VoidCallback? resetSearch;
   const SendToAccount({
-    Key key,
-    this.accountAddress,
+    Key? key,
+    required this.accountAddress,
     this.resetSearch,
     this.token,
   }) : super(key: key);
@@ -23,8 +23,9 @@ class SendToAccount extends StatelessWidget {
         ContactTile(
           displayName: formatAddress(accountAddress),
           onTap: () {
-            resetSearch();
+            resetSearch!();
             sendToPastedAddress(
+              context,
               accountAddress,
               token: token,
             );
@@ -37,8 +38,9 @@ class SendToAccount extends StatelessWidget {
               style: TextStyle(color: Color(0xFF0377FF)),
             ),
             onTap: () {
-              resetSearch();
+              resetSearch!();
               sendToPastedAddress(
+                context,
                 accountAddress,
                 token: token,
               );

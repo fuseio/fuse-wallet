@@ -6,7 +6,7 @@ import 'package:fusecash/models/community/community.dart';
 class ProTokenHeaderViewModel extends Equatable {
   final List<Community> communities;
   ProTokenHeaderViewModel({
-    this.communities,
+    required this.communities,
   });
 
   static ProTokenHeaderViewModel fromStore(Store<AppState> store) {

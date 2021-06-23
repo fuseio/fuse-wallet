@@ -7,25 +7,24 @@ import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
 num combiner(num previousValue, Token token) =>
-    token?.priceInfo != null && token?.priceInfo?.quote != 'NaN'
+    ![null, '', '0', 0, 'NaN'].contains(token.priceInfo?.quote)
         ? previousValue +
-            num.parse(Decimal.parse(token?.getFiatBalance()).toString())
+            num.parse(Decimal.parse(token.getFiatBalance()).toString())
         : previousValue + 0;
 
 class BalanceViewModel extends Equatable {
   final String usdValue;
 
   BalanceViewModel({
-    this.usdValue,
+    required this.usdValue,
   });
 
   static BalanceViewModel fromStore(Store<AppState> store) {
     CashWalletState cashWalletState = store.state.cashWalletState;
-    List<Token> homeTokens =
-        List<Token>.from(cashWalletState.tokens?.values ?? Iterable.empty())
-            .where((Token token) =>
-                num.parse(token.getBalance(true)).compareTo(0) == 1)
-            .toList();
+    List<Token> homeTokens = List<Token>.from(cashWalletState.tokens.values)
+        .where((Token token) =>
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
+        .toList();
 
     final num value = homeTokens.fold<num>(0, combiner);
 

@@ -6,8 +6,8 @@ import 'package:fusecash/utils/format.dart';
 class TokenPrice extends StatelessWidget {
   final String address;
   const TokenPrice({
-    Key key,
-    this.address,
+    Key? key,
+    required this.address,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,6 @@ class TokenPrice extends StatelessWidget {
                 return Text('..');
               case ConnectionState.waiting:
                 return Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -36,22 +35,17 @@ class TokenPrice extends StatelessWidget {
                       ),
                       width: 10,
                       height: 10,
-                      // margin: EdgeInsets.only(left: 28, right: 28),
                     ),
                   ],
                 );
               case ConnectionState.active:
                 return Text('..');
               case ConnectionState.done:
-                final num quote = num.tryParse(snapshot?.data?.quote ?? '0');
+                final num quote = num.tryParse(snapshot.data!.quote)!;
                 return Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // SizedBox(
-                    //   width: 50,
-                    // ),
                     Text(
                       '\$' +
                           display(
@@ -65,7 +59,6 @@ class TokenPrice extends StatelessWidget {
                 );
               default:
                 return Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -77,7 +70,6 @@ class TokenPrice extends StatelessWidget {
                       ),
                       width: 10,
                       height: 10,
-                      // margin: EdgeInsets.only(left: 28, right: 28),
                     ),
                   ],
                 );

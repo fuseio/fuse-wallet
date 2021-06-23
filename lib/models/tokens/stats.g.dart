@@ -8,9 +8,9 @@ part of 'stats.dart';
 
 _$_Stats _$_$_StatsFromJson(Map<String, dynamic> json) {
   return _$_Stats(
-    volume: json['volume'] as String,
-    price: json['price'] as String,
-    timestamp: json['timestamp'] as int,
+    volume: json['volume'] as String?,
+    price: json['price'] as String?,
+    timestamp: json['timestamp'] as int?,
     date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
   );
 }

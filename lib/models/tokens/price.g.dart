@@ -8,8 +8,8 @@ part of 'price.dart';
 
 _$_Price _$_$_PriceFromJson(Map<String, dynamic> json) {
   return _$_Price(
-    currency: json['currency'] as String,
-    quote: json['quote'] as String,
+    currency: json['currency'] as String? ?? 'usd',
+    quote: json['quote'] as String? ?? '0',
   );
 }
 

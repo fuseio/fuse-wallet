@@ -14,10 +14,10 @@ import 'package:fusecash/widgets/snackbars.dart';
 class CryptoDepositScreen extends StatelessWidget {
   final String link;
   final String text;
-  CryptoDepositScreen({
+  CryptoDepositScreen(
     this.link,
     this.text,
-  });
+  );
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -103,23 +103,21 @@ class CryptoDepositScreen extends StatelessWidget {
                       I10n.of(context).crypto_deposit_risk,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 15,
-                          color: Color(
-                            0xFF797979,
-                          )
-                          // fontWeight: FontWeight.bold,
-                          ),
+                        fontSize: 15,
+                        color: Color(
+                          0xFF797979,
+                        ),
+                      ),
                     ),
                     Text(
                       I10n.of(context).crypto_deposit_risk_2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 15,
-                          color: Color(
-                            0xFF797979,
-                          )
-                          // fontWeight: FontWeight.bold,
-                          ),
+                        fontSize: 15,
+                        color: Color(
+                          0xFF797979,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -128,17 +126,7 @@ class CryptoDepositScreen extends StatelessWidget {
                     Center(
                       child: PrimaryButton(
                         label: I10n.of(context).ok,
-                        onPressed: () {
-                          if (ExtendedNavigator.named('accountRouter')
-                              .canPop()) {
-                            ExtendedNavigator.named('accountRouter')
-                                .popUntilRoot();
-                          } else if (ExtendedNavigator.named('homeRouter')
-                              .canPop()) {
-                            ExtendedNavigator.named('homeRouter')
-                                .popUntilRoot();
-                          }
-                        },
+                        onPressed: AutoRouter.of(context).popUntilRoot,
                       ),
                     ),
                     SizedBox(

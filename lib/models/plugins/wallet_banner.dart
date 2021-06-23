@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/plugins/plugin_base.dart';
 
 part 'wallet_banner.freezed.dart';
@@ -6,15 +7,15 @@ part 'wallet_banner.g.dart';
 
 @immutable
 @freezed
-abstract class WalletBannerPlugin with _$WalletBannerPlugin {
+class WalletBannerPlugin with _$WalletBannerPlugin {
   @Implements(Plugin)
   @JsonSerializable()
   factory WalletBannerPlugin({
     @Default('walletBanner') String type,
-    String walletBannerHash,
-    String name,
-    String link,
-    bool isActive,
+    @Default(null) String? walletBannerHash,
+    @Default(null) String? name,
+    @Default(null) String? link,
+    @Default(false) bool isActive,
   }) = _WalletBannerPlugin;
 
   factory WalletBannerPlugin.fromJson(dynamic json) =>
@@ -22,20 +23,24 @@ abstract class WalletBannerPlugin with _$WalletBannerPlugin {
 }
 
 class WalletBannerPluginConverter
-    implements JsonConverter<WalletBannerPlugin, Map<String, dynamic>> {
+    implements JsonConverter<WalletBannerPlugin?, Map<String, dynamic>?> {
   const WalletBannerPluginConverter();
 
   @override
-  WalletBannerPlugin fromJson(Map<String, dynamic> json) => json != null
-      ? WalletBannerPlugin(
-          name: json['name'],
-          walletBannerHash: json['walletBannerHash'],
-          link: json['link'],
-          isActive: json["isActive"] ?? false,
-        )
-      : null;
+  WalletBannerPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return WalletBannerPlugin(
+        name: json['name'],
+        walletBannerHash: json['walletBannerHash'],
+        link: json['link'],
+        isActive: json["isActive"] ?? false,
+      );
+    }
+  }
 
   @override
-  Map<String, dynamic> toJson(WalletBannerPlugin instance) =>
+  Map<String, dynamic>? toJson(WalletBannerPlugin? instance) =>
       instance?.toJson();
 }

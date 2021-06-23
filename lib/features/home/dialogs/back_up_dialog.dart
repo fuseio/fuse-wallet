@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constants/keys.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
@@ -17,11 +16,9 @@ class BackUpDialog extends StatefulWidget {
 
 class BackUpDialogState extends State<BackUpDialog>
     with SingleTickerProviderStateMixin {
-  BackUpDialogState();
-
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -43,7 +40,7 @@ class BackUpDialogState extends State<BackUpDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -88,12 +85,8 @@ class BackUpDialogState extends State<BackUpDialog>
                   SizedBox(height: 20.0),
                   PrimaryButton(
                     label: I10n.of(context).back_up_now,
-                    onPressed: () async {
-                      final BottomNavigationBar navigationBar =
-                          AppKeys.bottomBarKey.currentWidget;
-                      Navigator.of(context).pop();
-                      navigationBar.onTap(0);
-                      ExtendedNavigator.named('homeRouter').pushShowMnemonic();
+                    onPressed: () {
+                      context.router.push(ShowMnemonic());
                     },
                   )
                 ],

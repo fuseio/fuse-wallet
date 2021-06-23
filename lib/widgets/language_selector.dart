@@ -14,7 +14,7 @@ class LanguageSelector extends StatefulWidget {
 }
 
 class _LanguageSelectorState extends State<LanguageSelector> {
-  int _key;
+  int? _key;
 
   void _changeLanguage(Locale _locale) async {
     MyApp.setLocale(context, _locale);
@@ -33,6 +33,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       converter: LanguageSelectorViewModel.fromStore,
       builder: (_, viewModel) {
         return ExpansionTile(
+          textColor: Theme.of(context).colorScheme.onSurface,
+          collapsedIconColor: Theme.of(context).colorScheme.onSurface,
+          collapsedTextColor: Theme.of(context).colorScheme.onSurface,
+          iconColor: Theme.of(context).colorScheme.onSurface,
           tilePadding: EdgeInsets.zero,
           title: Row(
             children: <Widget>[
@@ -51,13 +55,15 @@ class _LanguageSelectorState extends State<LanguageSelector> {
               ),
             ],
           ),
-          children: _languageItems(viewModel),
+          children: _languageItems(
+            viewModel.updateLocale,
+          ),
         );
       },
     );
   }
 
-  List<Widget> _languageItems(LanguageSelectorViewModel viewModel) {
+  List<Widget> _languageItems(dynamic Function(Locale) updateLocale) {
     Locale currentLocal = Localizations.localeOf(context);
     return I10n.delegate.supportedLocales.map((locale) {
       bool isSelected = currentLocal == locale;
@@ -67,13 +73,13 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           bottom: 5,
         ),
         title: Text(
-          LocaleNames.of(context).nameOf(locale.toString()),
+          LocaleNames.of(context)!.nameOf(locale.toString())!,
         ),
         trailing: isSelected ? Icon(Icons.check, color: Colors.green) : null,
         selected: isSelected,
         onTap: () {
           _changeLanguage(locale);
-          viewModel.updateLocale(locale);
+          updateLocale(locale);
           setState(() {
             _collapse();
           });
@@ -83,7 +89,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   _collapse() {
-    int newKey;
+    int? newKey;
     do {
       _key = Random().nextInt(10000);
     } while (newKey == _key);

@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -104,9 +104,8 @@ class UserNameScreen extends StatelessWidget {
                         label: I10n.of(context).next_button,
                         onPressed: () {
                           viewModel.setDisplayName(
-                              displayNameController.text.capitalize() ??
-                                  'Anom');
-                          ExtendedNavigator.root.pushChooseSecurityOption();
+                              displayNameController.text.capitalize());
+                          context.router.push(ChooseSecurityOption());
                         },
                       ),
                     ),

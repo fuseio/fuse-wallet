@@ -10,7 +10,9 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class SetUpPinCodeScreen extends StatefulWidget {
   final Function onSuccess;
-  SetUpPinCodeScreen({this.onSuccess});
+  SetUpPinCodeScreen({
+    required this.onSuccess,
+  });
   @override
   _SetUpPinCodeScreenState createState() => _SetUpPinCodeScreenState();
 }
@@ -18,8 +20,8 @@ class SetUpPinCodeScreen extends StatefulWidget {
 class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
   final textEditingController = TextEditingController(text: "");
   final formKey = GlobalKey<FormState>();
-  StreamController<ErrorAnimationType> errorController;
-  String lastPinCode;
+  late StreamController<ErrorAnimationType> errorController;
+  late String lastPinCode;
   bool isRetype = false;
   String currentText = "";
   FocusNode textNode = FocusNode();
@@ -33,7 +35,7 @@ class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
 
   @override
   void dispose() {
-    errorController?.close();
+    errorController.close();
     super.dispose();
   }
 

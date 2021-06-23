@@ -10,8 +10,8 @@ import 'package:number_display/number_display.dart';
 class PriceDiff extends StatefulWidget {
   final String tokenAddress;
   const PriceDiff({
-    Key key,
-    this.tokenAddress,
+    Key? key,
+    required this.tokenAddress,
   }) : super(key: key);
 
   @override
@@ -55,8 +55,6 @@ class _PriceDiffState extends State<PriceDiff> {
               color: token.priceDiffLimitInDays.toString() == l
                   ? Theme.of(context).canvasColor
                   : Theme.of(context).colorScheme.onSurface,
-              // fontWeight: FontWeight.bold,
-              // color: ,
             ),
           ),
         ),
@@ -68,7 +66,7 @@ class _PriceDiffState extends State<PriceDiff> {
     final Display display = createDisplay(
       decimal: 1,
     );
-    if (priceChange != null && priceChange.isNegative) {
+    if (priceChange.isNegative) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -149,7 +147,7 @@ class _PriceDiffState extends State<PriceDiff> {
         );
       },
       builder: (_, viewModel) {
-        final Token token = viewModel.tokens[widget.tokenAddress];
+        final Token? token = viewModel.tokens[widget.tokenAddress];
         final num priceChange = token?.priceDiff ?? 0;
         return Padding(
           padding: EdgeInsets.only(left: 20, right: 20),
@@ -168,7 +166,7 @@ class _PriceDiffState extends State<PriceDiff> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         _limitButton(
-                          token,
+                          token!,
                           viewModel.fetchPriceDiff,
                           '24H',
                           '1',

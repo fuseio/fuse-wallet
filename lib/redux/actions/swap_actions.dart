@@ -15,7 +15,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 class GetSwappableTokensSuccess {
   final Map<String, Token> swappableTokens;
   GetSwappableTokensSuccess({
-    this.swappableTokens,
+    required this.swappableTokens,
   });
 }
 
@@ -24,9 +24,9 @@ class UpdateTokenPrices {
   final Price priceInfo;
   final String tokenAddress;
   UpdateTokenPrices({
-    this.priceInfo,
-    this.priceChange,
-    this.tokenAddress,
+    required this.priceInfo,
+    required this.priceChange,
+    required this.tokenAddress,
   });
 }
 
@@ -34,15 +34,15 @@ class UpdateTokenBalance {
   final BigInt balance;
   final String tokenAddress;
   UpdateTokenBalance({
-    this.balance,
-    this.tokenAddress,
+    required this.balance,
+    required this.tokenAddress,
   });
 }
 
 class GetTokensImagesSuccess {
   final Map<String, String> tokensImages;
   GetTokensImagesSuccess({
-    this.tokensImages,
+    required this.tokensImages,
   });
 }
 
@@ -55,7 +55,7 @@ ThunkAction fetchSwapList() {
       final dio = getIt<Dio>();
       Response<String> response =
           await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
-      Map data = jsonDecode(response.data);
+      Map data = jsonDecode(response.data!);
       Map<String, Token> tokens = Map();
       Map<String, String> tokensImages = Map();
       for (Map token in data['tokens']) {
@@ -110,11 +110,7 @@ ThunkAction fetchSwapListPrices() {
   return (Store store) async {
     try {
       SwapState swapState = store.state.swapState;
-      final List<Token> payWithTokens = swapState?.tokens?.values
-          ?.where((Token token) =>
-              num.parse(token.getBalance(true)).compareTo(0) == 1)
-          ?.toList();
-      for (Token token in payWithTokens) {
+      for (Token token in swapState.tokens.values) {
         Future<List<dynamic>> prices = Future.wait([
           fuseSwapService.price(token.address),
           fuseSwapService.priceChange(token.address)
@@ -142,8 +138,11 @@ ThunkAction fetchSwapBalances() {
     try {
       SwapState swapState = store.state.swapState;
       String walletAddress = store.state.userState.walletAddress;
+      if (fuseWeb3 == null) {
+        throw 'web3 is empty';
+      }
       for (Token token in swapState.tokens.values) {
-        final BigInt balance = await fuseWeb3.getTokenBalance(
+        final BigInt balance = await fuseWeb3!.getTokenBalance(
           token.address,
           address: walletAddress,
         );
@@ -154,12 +153,7 @@ ThunkAction fetchSwapBalances() {
       }
       store.dispatch(fetchSwapListPrices());
     } catch (e, s) {
-      log.error('ERROR - fetchSwapBalances $e');
-      await Sentry.captureException(
-        e,
-        stackTrace: s,
-        hint: 'ERROR - fetchSwapBalances $e',
-      );
+      log.error('ERROR - fetchSwapBalances ${e.toString()} ${s.toString()}');
     }
   };
 }

@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'swap_state.dart';
 
@@ -8,6 +8,10 @@ part of 'swap_state.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 SwapState _$SwapStateFromJson(Map<String, dynamic> json) {
   return _SwapState.fromJson(json);
 }
@@ -16,7 +20,6 @@ SwapState _$SwapStateFromJson(Map<String, dynamic> json) {
 class _$SwapStateTearOff {
   const _$SwapStateTearOff();
 
-// ignore: unused_element
   _SwapState call(
       {@JsonKey(ignore: true) Map<String, Token> tokens = const {},
       Map<String, String> tokensImages = const {}}) {
@@ -26,25 +29,24 @@ class _$SwapStateTearOff {
     );
   }
 
-// ignore: unused_element
   SwapState fromJson(Map<String, Object> json) {
     return SwapState.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $SwapState = _$SwapStateTearOff();
 
 /// @nodoc
 mixin _$SwapState {
   @JsonKey(ignore: true)
-  Map<String, Token> get tokens;
-  Map<String, String> get tokensImages;
+  Map<String, Token> get tokens => throw _privateConstructorUsedError;
+  Map<String, String> get tokensImages => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SwapStateCopyWith<SwapState> get copyWith;
+  $SwapStateCopyWith<SwapState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -66,14 +68,18 @@ class _$SwapStateCopyWithImpl<$Res> implements $SwapStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object tokens = freezed,
-    Object tokensImages = freezed,
+    Object? tokens = freezed,
+    Object? tokensImages = freezed,
   }) {
     return _then(_value.copyWith(
-      tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
+      tokens: tokens == freezed
+          ? _value.tokens
+          : tokens // ignore: cast_nullable_to_non_nullable
+              as Map<String, Token>,
       tokensImages: tokensImages == freezed
           ? _value.tokensImages
-          : tokensImages as Map<String, String>,
+          : tokensImages // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -100,28 +106,30 @@ class __$SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object tokens = freezed,
-    Object tokensImages = freezed,
+    Object? tokens = freezed,
+    Object? tokensImages = freezed,
   }) {
     return _then(_SwapState(
-      tokens: tokens == freezed ? _value.tokens : tokens as Map<String, Token>,
+      tokens: tokens == freezed
+          ? _value.tokens
+          : tokens // ignore: cast_nullable_to_non_nullable
+              as Map<String, Token>,
       tokensImages: tokensImages == freezed
           ? _value.tokensImages
-          : tokensImages as Map<String, String>,
+          : tokensImages // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_SwapState extends _SwapState {
+
+@JsonSerializable()
+class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
   _$_SwapState(
       {@JsonKey(ignore: true) this.tokens = const {},
       this.tokensImages = const {}})
-      : assert(tokens != null),
-        assert(tokensImages != null),
-        super._();
+      : super._();
 
   factory _$_SwapState.fromJson(Map<String, dynamic> json) =>
       _$_$_SwapStateFromJson(json);
@@ -134,8 +142,17 @@ class _$_SwapState extends _SwapState {
   final Map<String, String> tokensImages;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SwapState(tokens: $tokens, tokensImages: $tokensImages)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SwapState'))
+      ..add(DiagnosticsProperty('tokens', tokens))
+      ..add(DiagnosticsProperty('tokensImages', tokensImages));
   }
 
   @override
@@ -167,20 +184,21 @@ class _$_SwapState extends _SwapState {
 }
 
 abstract class _SwapState extends SwapState {
-  _SwapState._() : super._();
   factory _SwapState(
       {@JsonKey(ignore: true) Map<String, Token> tokens,
       Map<String, String> tokensImages}) = _$_SwapState;
+  _SwapState._() : super._();
 
   factory _SwapState.fromJson(Map<String, dynamic> json) =
       _$_SwapState.fromJson;
 
   @override
   @JsonKey(ignore: true)
-  Map<String, Token> get tokens;
+  Map<String, Token> get tokens => throw _privateConstructorUsedError;
   @override
-  Map<String, String> get tokensImages;
+  Map<String, String> get tokensImages => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$SwapStateCopyWith<_SwapState> get copyWith;
+  _$SwapStateCopyWith<_SwapState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -13,14 +13,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String displayName;
+  String? displayName;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       distinct: true,
       converter: ProfileViewModel.fromStore,
       onDispose: (store) {
-        if (displayName != null &&
-            store.state.userState.displayName != displayName) {
-          final viewModel = ProfileViewModel.fromStore(store);
-          viewModel.updateDisplayName(displayName);
+        if (displayName != null) {
+          if (store.state.userState.displayName != displayName) {
+            final viewModel = ProfileViewModel.fromStore(store);
+            viewModel.updateDisplayName(displayName!);
+          }
         }
       },
       builder: (_, viewModel) {
@@ -41,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             focusColor: Theme.of(context).canvasColor,
             highlightColor: Theme.of(context).canvasColor,
             onTap: () {
-              WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+              WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
             },
             child: Material(
               color: Theme.of(context).canvasColor,
@@ -114,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             SizedBox(height: 5),
-                            Text(viewModel?.displayName ?? '',
+                            Text(viewModel.displayName,
                                 style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
@@ -180,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              formatAddress(viewModel?.walletAddress),
+                              formatAddress(viewModel.walletAddress),
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.grey,
@@ -192,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onTap: () {
                                 Clipboard.setData(
                                   ClipboardData(
-                                    text: viewModel?.walletAddress,
+                                    text: viewModel.walletAddress,
                                   ),
                                 );
                                 showCopiedFlushbar(context);
@@ -210,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildGroup(
                         I10n.of(context).phoneNumber,
                         Text(
-                          viewModel?.phone,
+                          viewModel.phone,
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,

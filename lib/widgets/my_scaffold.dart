@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class MyScaffold extends StatelessWidget {
   MyScaffold({
-    this.title,
-    this.body,
+    required this.title,
+    required this.body,
     this.automaticallyImplyLeading = true,
     this.resizeToAvoidBottomInset = true,
   });

@@ -9,15 +9,18 @@ import 'package:fusecash/widgets/primary_button.dart';
 class CommunityDescription extends StatefulWidget {
   final Token token;
   final Community community;
-  CommunityDescription({this.community, this.token});
+  CommunityDescription({
+    required this.community,
+    required this.token,
+  });
   @override
   _CommunityDescriptionState createState() => _CommunityDescriptionState();
 }
 
 class _CommunityDescriptionState extends State<CommunityDescription>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimatoin;
+  late AnimationController controller;
+  late Animation<double> scaleAnimatoin;
   bool isPreloading = false;
 
   @override
@@ -38,7 +41,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -58,7 +61,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Stack(
-                      overflow: Overflow.visible,
+                      clipBehavior: Clip.none,
                       alignment: AlignmentDirectional.bottomCenter,
                       children: <Widget>[
                         ClipRRect(
@@ -66,8 +69,8 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                 topLeft: Radius.circular(12.0),
                                 topRight: Radius.circular(12.0)),
                             child: CachedNetworkImage(
-                              imageUrl: widget?.community?.metadata
-                                  ?.getCoverPhotoUri(),
+                              imageUrl:
+                                  widget.community.metadata!.getCoverPhotoUri(),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) => Icon(
@@ -98,8 +101,8 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                                 Radius.circular(50)),
                                             child: CachedNetworkImage(
                                               imageUrl: widget
-                                                  ?.community?.metadata
-                                                  ?.getImageUri(),
+                                                  .community.metadata!
+                                                  .getImageUri(),
                                               placeholder: (context, url) =>
                                                   CircularProgressIndicator(),
                                               errorWidget:
@@ -114,14 +117,10 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                                 image: imageProvider,
                                               ),
                                             )),
-                                        // Todo - isDefaultImage
-                                        widget.community.metadata
-                                                        .isDefaultImage !=
-                                                    null &&
-                                                widget.community.metadata
-                                                    .isDefaultImage
+                                        widget.community.metadata!
+                                                .isDefaultImage
                                             ? Text(
-                                                widget?.token?.symbol ?? '',
+                                                widget.token.symbol,
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
@@ -156,13 +155,13 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                         .onSurface),
                               ),
                             ),
-                            ![null, ''].contains(widget?.community?.description)
+                            ![null, ''].contains(widget.community.description)
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 10),
                                     child: Column(
                                       children: <Widget>[
                                         Text(
-                                          widget.community.description,
+                                          widget.community.description!,
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: Theme.of(context)
@@ -174,7 +173,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                     ),
                                   )
                                 : SizedBox.shrink(),
-                            ![null, ''].contains(widget?.community?.description)
+                            ![null, ''].contains(widget.community.description)
                                 ? SizedBox(height: 30.0)
                                 : SizedBox.shrink(),
                             Center(

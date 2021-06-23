@@ -16,10 +16,10 @@ class Wallet extends StatelessWidget {
           onRefresh: () async {
             viewModel.refreshFeed();
             await Future.delayed(Duration(milliseconds: 1000));
-            return 'success';
+            return;
           },
           child: ListView.separated(
-            itemCount: viewModel.tokens?.length,
+            itemCount: viewModel.tokens.length,
             separatorBuilder: (BuildContext context, int index) => Padding(
               padding: EdgeInsets.only(
                 left: 15,
@@ -31,7 +31,7 @@ class Wallet extends StatelessWidget {
               ),
             ),
             itemBuilder: (context, index) => TokenTile(
-              token: viewModel?.tokens[index],
+              token: viewModel.tokens[index],
             ),
           ),
         );

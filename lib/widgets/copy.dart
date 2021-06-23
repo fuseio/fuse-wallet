@@ -4,10 +4,12 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 
 class CopyToClipboard extends StatelessWidget {
-  CopyToClipboard({this.context, this.content, this.textColor});
-  final BuildContext context;
+  CopyToClipboard({
+    required this.content,
+    this.textColor,
+  });
   final String content;
-  final Color textColor;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {

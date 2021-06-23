@@ -10,28 +10,43 @@ import 'intl/messages_all.dart';
 
 // ignore_for_file: non_constant_identifier_names, lines_longer_than_80_chars
 // ignore_for_file: join_return_with_assignment, prefer_final_in_for_each
-// ignore_for_file: avoid_redundant_argument_values
+// ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class I10n {
   I10n();
-  
-  static I10n current;
-  
-  static const AppLocalizationDelegate delegate =
-    AppLocalizationDelegate();
+
+  static I10n? _current;
+
+  static I10n get current {
+    assert(_current != null,
+        'No instance of I10n was loaded. Try to initialize the I10n delegate before accessing I10n.current.');
+    return _current!;
+  }
+
+  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<I10n> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name); 
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      I10n.current = I10n();
-      
-      return I10n.current;
+      final instance = I10n();
+      I10n._current = instance;
+
+      return instance;
     });
-  } 
+  }
 
   static I10n of(BuildContext context) {
+    final instance = I10n.maybeOf(context);
+    assert(instance != null,
+        'No instance of I10n present in the widget tree. Did you add I10n.delegate in localizationsDelegates?');
+    return instance!;
+  }
+
+  static I10n? maybeOf(BuildContext context) {
     return Localizations.of<I10n>(context, I10n);
   }
 
@@ -425,11 +440,21 @@ class I10n {
     );
   }
 
-  /// `If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:`
-  String get crypto_deposit_explained {
+  /// `If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:`
+  String get crypto_deposit_bsc {
     return Intl.message(
-      'If you have USDC on Mainnet or BSC please use this url with your wallet enabled browser to use the bridge to Fuse:',
-      name: 'crypto_deposit_explained',
+      'If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+      name: 'crypto_deposit_bsc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:`
+  String get crypto_deposit_eth {
+    return Intl.message(
+      'If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+      name: 'crypto_deposit_eth',
       desc: '',
       args: [],
     );
@@ -835,10 +860,10 @@ class I10n {
     );
   }
 
-  /// `FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash.`
+  /// `FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. `
   String get fuse_dollar_explain {
     return Intl.message(
-      'FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to lower the barriers for mainstream users who wish to use crypto assets, so that they could use them just like cash.',
+      'FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. ',
       name: 'fuse_dollar_explain',
       desc: '',
       args: [],
@@ -935,10 +960,10 @@ class I10n {
     );
   }
 
-  /// `How you can use fUSD?`
+  /// `How you can use FuseDollar?`
   String get how_to_use_fusd {
     return Intl.message(
-      'How you can use fUSD?',
+      'How you can use FuseDollar?',
       name: 'how_to_use_fusd',
       desc: '',
       args: [],
@@ -995,10 +1020,10 @@ class I10n {
     );
   }
 
-  /// `Deposit $ and swap to other currencies with little to no fees`
+  /// `Deposit \b$ and swap to other currencies with little to no fees`
   String get intro_text_two {
     return Intl.message(
-      'Deposit \$ and swap to other currencies with little to no fees',
+      'Deposit \b\$ and swap to other currencies with little to no fees',
       name: 'intro_text_two',
       desc: '',
       args: [],
@@ -1160,6 +1185,26 @@ class I10n {
     return Intl.message(
       'That\'s it! Let\'s start',
       name: 'lets_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(for deposits above 200 $)`
+  String get limit_discalimer {
+    return Intl.message(
+      '(for deposits above 200 \$)',
+      name: 'limit_discalimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Limited time offer! 50 $ deposit bonus 💸`
+  String get limit_offer {
+    return Intl.message(
+      'Limited time offer! 50 \$ deposit bonus 💸',
+      name: 'limit_offer',
       desc: '',
       args: [],
     );
@@ -1385,10 +1430,10 @@ class I10n {
     );
   }
 
-  /// `FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space.`
+  /// `FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space.`
   String get peg_explain {
     return Intl.message(
-      'FuseDollar is fully collateralized by the USDC stablecoin on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely popular in the cryptocurrency space.',
+      'FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space.',
       name: 'peg_explain',
       desc: '',
       args: [],
@@ -2145,10 +2190,10 @@ class I10n {
     );
   }
 
-  /// `FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income.`
+  /// `FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income.`
   String get use_fusd_explain {
     return Intl.message(
-      'FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and they will soon be usable for earning passive income.',
+      'FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income.',
       name: 'use_fusd_explain',
       desc: '',
       args: [],
@@ -2175,10 +2220,10 @@ class I10n {
     );
   }
 
-  /// `Visit fuse.io to learn more about Fuse and how things work behind the scene.`
+  /// `Visit fuse.io to learn more about Fuse and how things work behind the scenes.`
   String get visit_fuseio {
     return Intl.message(
-      'Visit fuse.io to learn more about Fuse and how things work behind the scene.',
+      'Visit fuse.io to learn more about Fuse and how things work behind the scenes.',
       name: 'visit_fuseio',
       desc: '',
       args: [],
@@ -2416,13 +2461,14 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'en', countryCode: 'PH'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
-      Locale.fromSubtags(languageCode: 'he', countryCode: 'IL'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),
+      Locale.fromSubtags(languageCode: 'my'),
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
-      Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
-      Locale.fromSubtags(languageCode: 'sr', countryCode: 'RS'),
+      Locale.fromSubtags(languageCode: 'th', countryCode: 'TH'),
+      Locale.fromSubtags(languageCode: 'tl'),
+      Locale.fromSubtags(languageCode: 'zh', countryCode: 'CN'),
     ];
   }
 
@@ -2434,11 +2480,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
   bool shouldReload(AppLocalizationDelegate old) => false;
 
   bool _isSupported(Locale locale) {
-    if (locale != null) {
-      for (var supportedLocale in supportedLocales) {
-        if (supportedLocale.languageCode == locale.languageCode) {
-          return true;
-        }
+    for (var supportedLocale in supportedLocales) {
+      if (supportedLocale.languageCode == locale.languageCode) {
+        return true;
       }
     }
     return false;

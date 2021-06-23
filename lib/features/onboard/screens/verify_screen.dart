@@ -5,11 +5,10 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyPhoneNumber extends StatefulWidget {
-  final String verificationId;
+  final String? verificationId;
   VerifyPhoneNumber({this.verificationId});
   @override
   _VerifyPhoneNumberState createState() => _VerifyPhoneNumberState();
@@ -19,18 +18,11 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   String autoCode = "";
   TextEditingController codeController = TextEditingController(text: '');
   String currentText = "";
-  // StreamController<ErrorAnimationType> errorController;
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // errorController.close();
-    super.dispose();
   }
 
   @override
@@ -43,28 +35,13 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null &&
               viewModel.verificationId != null) {
-            autoCode = viewModel.credentials.smsCode ?? "";
+            autoCode = viewModel.credentials?.smsCode ?? "";
             viewModel.verify(autoCode);
-          }
-        },
-        onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel.verifyErrorMessage !=
-              newViewModel.verifyErrorMessage) {
-            showErrorSnack(
-              title: I10n.of(context).oops,
-              message: newViewModel.verifyErrorMessage,
-              context: context,
-              margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120),
-            );
-            // Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
-            //   newViewModel.resetErrors();
-            // });
           }
         },
         builder: (_, viewModel) {
           return Container(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.all(20),
@@ -137,12 +114,12 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                           label: I10n.of(context).next_button,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
-                            formKey.currentState.validate();
+                            formKey.currentState!.validate();
                             if (currentText.length != 6) {
-                              // errorController.add(ErrorAnimationType
-                              //     .shake); // Triggering error shake animation
                             } else {
-                              viewModel.verify(codeController.text);
+                              viewModel.verify(
+                                codeController.text,
+                              );
                             }
                           },
                         ),
@@ -155,8 +132,10 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                             I10n.of(context).didnt_get_message,
                             style: TextStyle(fontSize: 12),
                           ),
-                          FlatButton(
-                            padding: EdgeInsets.only(right: 10),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(right: 10),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },

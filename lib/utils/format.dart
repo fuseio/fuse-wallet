@@ -11,7 +11,7 @@ final Display display = createDisplay(
 String calcPrice(
   BigInt value,
   int decimals,
-  Price priceInfo,
+  Price? priceInfo,
 ) {
   final bool hasPriceInfo =
       ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
@@ -19,7 +19,7 @@ String calcPrice(
     return getFiatValue(
       value,
       decimals,
-      double.parse(priceInfo.quote),
+      double.parse(priceInfo!.quote),
     );
   } else {
     return formatValue(value, decimals);
@@ -36,19 +36,18 @@ final Map<String, num> fees = {
   "TUSD": 1,
 };
 
-bool isNumeric(String s) {
+bool isNumeric(String? s) {
   if (s == null) {
     return false;
   }
   return Decimal.tryParse(s) != null;
 }
 
-bool smallNumberTest(Decimal value) {
-  return value.compareTo(Decimal.zero) == 1 &&
-      value.compareTo(Decimal.parse('0.01')) <= 0;
+bool smallNumberTest(num value) {
+  return value.compareTo(0) == 1 && value.compareTo(0.01) <= 0;
 }
 
-String smallValuesConvertor(Decimal value) {
+String smallValuesConvertor(num value) {
   if (smallNumberTest(value)) {
     return '< 0.01';
   }
@@ -60,17 +59,16 @@ String formatValue(
   int decimals, [
   bool withPrecision = false,
 ]) {
-  if (value == null || decimals == null) return '0';
-  Decimal formattedValue =
-      Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
+  num formattedValue =
+      num.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
   return smallValuesConvertor(formattedValue);
 }
 
 String getFiatValue(
-  BigInt value,
-  int decimals,
-  double price, {
+  BigInt? value,
+  int? decimals,
+  double? price, {
   int fractionDigits = 2,
 }) {
   if (value == null || decimals == null || price == null) return '0';
@@ -83,12 +81,12 @@ String getFiatValue(
   return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
-String formatAddress(String address, [int endIndex = 6]) {
+String formatAddress(String? address, [int endIndex = 6]) {
   if (address == null || address.isEmpty) return '';
   return '${address.substring(0, endIndex)}...${address.substring(address.length - 4, address.length)}';
 }
 
-BigInt toBigInt(dynamic value, int decimals) {
+BigInt toBigInt(dynamic value, int? decimals) {
   if (value == null || decimals == null) return BigInt.zero;
   Decimal tokensAmountDecimal = Decimal.parse(value.toString());
   Decimal decimalsPow = Decimal.parse(pow(10, decimals).toString());

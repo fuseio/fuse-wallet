@@ -1,115 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>fuse.cash</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fuse</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.173415370451-7b7eijml6jvnoicd7e4htsitcq17ohld</string>
-			</array>
-		</dict>
-	</array>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app requires microphone access for KYC Onboarding and 3D Face Matching for Ongoing Authentication.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library to upload your profile photo.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera permission is required for barcode scanning.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Contacts data will be uploaded to our servers to be able to send them money.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>FaceId permission is required for protect your wallet.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>branch_app_domain</key>
-	<string>app.fuse.cash</string>
-	<key>branch_key</key>
-	<string>key_live_ei3pINZQchWGN7VDrB1njgcfzshiwvmX</string>
-	<key>com.claimsforce.segment.WRITE_KEY</key>
-	<string>KzFIKc0VjOnnhoVclBFzyvoaeCpJOOiS</string>
-	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
-	<true/>
-	<key>com.claimsforce.segment.ENABLE_AMPLITUDE_INTEGRATION</key>
-	<true/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>itms</string>
-	</array>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>This identifier will be used to track errors occur to you and for our internal analytics.</string>
-	<key>SKAdNetworkItems</key>
-  <array>
-    <dict>
-      <key>SKAdNetworkIdentifier</key>
-      <string>cstr6suwn9.skadnetwork</string>
-    </dict>
-  </array>
-</dict>
+	<dict>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>de_DE</string>
+			<string>en_PH</string>
+			<string>en_US</string>
+			<string>es_ES</string>
+			<string>es_MX</string>
+			<string>id_ID</string>
+			<string>it_IT</string>
+			<string>my</string>
+			<string>nl_NL</string>
+			<string>pt_BR</string>
+			<string>th_TH</string>
+			<string>tl</string>
+			<string>zh_CH</string>
+		</array>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>fuse.cash</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>fuse</string>
+				</array>
+			</dict>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.173415370451-7b7eijml6jvnoicd7e4htsitcq17ohld</string>
+				</array>
+			</dict>
+			<dict>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>fb538714197096202</string>
+				</array>
+			</dict>
+		</array>
+		<key>FacebookAppID</key>
+		<string>538714197096202</string>
+		<key>FacebookDisplayName</key>
+		<string>fuse.cash</string>
+		<key>FirebaseAppDelegateProxyEnabled</key>
+		<false/>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app requires microphone access for KYC Onboarding and 3D Face Matching for Ongoing Authentication.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app requires access to the photo library to upload your profile photo.</string>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>NSCalendarsUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Camera permission is required for barcode scanning.</string>
+		<key>io.flutter.embedded_views_preview</key>
+		<true/>
+		<key>NSContactsUsageDescription</key>
+		<string>Contacts data will be uploaded to our servers to be able to send them money.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>FaceId permission is required for protect your wallet.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>branch_app_domain</key>
+		<string>app.fuse.cash</string>
+		<key>branch_key</key>
+		<string>key_live_ei3pINZQchWGN7VDrB1njgcfzshiwvmX</string>
+		<key>com.claimsforce.segment.WRITE_KEY</key>
+		<string>KzFIKc0VjOnnhoVclBFzyvoaeCpJOOiS</string>
+		<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
+		<true/>
+		<key>com.claimsforce.segment.ENABLE_AMPLITUDE_INTEGRATION</key>
+		<true/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>itms</string>
+		</array>
+		<key>UIStatusBarHidden</key>
+		<false/>
+		<key>NSUserTrackingUsageDescription</key>
+		<string>This identifier will be used to track errors occur to you and for our internal analytics.</string>
+		<key>SKAdNetworkItems</key>
+		<array>
+			<dict>
+				<key>SKAdNetworkIdentifier</key>
+				<string>cstr6suwn9.skadnetwork</string>
+			</dict>
+		</array>
+	</dict>
 </plist>

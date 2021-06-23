@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/account/screens/top_up.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
-import 'package:fusecash/features/screens/webview_screen.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
-import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:share/share.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -52,14 +52,16 @@ class _AccountScreenState extends State<AccountScreen> {
                             MenuTile(
                               label: I10n.of(context).settings,
                               menuIcon: 'settings_icon.svg',
-                              onTap: ExtendedNavigator.named('accountRouter')
-                                  .pushSettingsScreen,
+                              onTap: () {
+                                context.router.push(SettingsScreen());
+                              },
                             ),
                             MenuTile(
                               label: I10n.of(context).protect_wallet,
                               menuIcon: 'protect_wallet.svg',
-                              onTap: ExtendedNavigator.named('accountRouter')
-                                  .pushProtectYourWallet,
+                              onTap: () {
+                                context.router.push(ProtectYourWallet());
+                              },
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment:
@@ -109,18 +111,15 @@ class _AccountScreenState extends State<AccountScreen> {
                             MenuTile(
                               label: I10n.of(context).social,
                               menuIcon: 'social_icon.svg',
-                              onTap: ExtendedNavigator.named('accountRouter')
-                                  .pushSocialScreen,
+                              onTap: () {
+                                context.router.push(SocialScreen());
+                              },
                             ),
                             MenuTile(
                               label: I10n.of(context).contact_us,
                               menuIcon: 'contact_us_icon.svg',
-                              onTap: () {
-                                final Uri _emailLaunchUri = Uri(
-                                  scheme: 'mailto',
-                                  path: 'hello@fuse.io',
-                                );
-                                launchUrl(_emailLaunchUri.toString());
+                              onTap: () async {
+                                await Intercom.displayMessenger();
                                 Segment.track(
                                   eventName: 'Contact us',
                                   properties: Map.from(
@@ -142,15 +141,10 @@ class _AccountScreenState extends State<AccountScreen> {
                               label: I10n.of(context).legal,
                               menuIcon: 'legal_icon.svg',
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WebViewScreen(
-                                      title: I10n.of(context).legal,
-                                      withBack: true,
-                                      url: 'https://fuse.cash/privacy',
-                                    ),
-                                    fullscreenDialog: true,
+                                context.router.root.push(
+                                  Webview(
+                                    title: I10n.of(context).legal,
+                                    url: 'https://fuse.cash/privacy',
                                   ),
                                 );
                               },

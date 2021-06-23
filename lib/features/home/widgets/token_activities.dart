@@ -13,7 +13,7 @@ class TokenActivities extends StatelessWidget {
   final String tokenAddress;
 
   TokenActivities({
-    this.tokenAddress,
+    required this.tokenAddress,
   });
 
   @override
@@ -24,7 +24,7 @@ class TokenActivities extends StatelessWidget {
       builder: (_, viewModel) {
         final token = viewModel.tokens
             .firstWhere((element) => element.address == tokenAddress);
-        final bool hasActivity = token.walletActions?.list?.isNotEmpty ?? false;
+        final bool hasActivity = token.walletActions!.list.isNotEmpty;
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: !hasActivity

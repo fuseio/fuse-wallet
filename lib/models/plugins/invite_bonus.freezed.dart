@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'invite_bonus.dart';
 
@@ -8,6 +8,10 @@ part of 'invite_bonus.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 InviteBonusPlugin _$InviteBonusPluginFromJson(Map<String, dynamic> json) {
   return _InviteBonusPlugin.fromJson(json);
 }
@@ -16,12 +20,11 @@ InviteBonusPlugin _$InviteBonusPluginFromJson(Map<String, dynamic> json) {
 class _$InviteBonusPluginTearOff {
   const _$InviteBonusPluginTearOff();
 
-// ignore: unused_element
   _InviteBonusPlugin call(
       {String type = 'inviteBonus',
-      String amount,
-      String name,
-      bool isActive}) {
+      String? amount = null,
+      String? name = null,
+      bool isActive = false}) {
     return _InviteBonusPlugin(
       type: type,
       amount: amount,
@@ -30,26 +33,25 @@ class _$InviteBonusPluginTearOff {
     );
   }
 
-// ignore: unused_element
   InviteBonusPlugin fromJson(Map<String, Object> json) {
     return InviteBonusPlugin.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $InviteBonusPlugin = _$InviteBonusPluginTearOff();
 
 /// @nodoc
 mixin _$InviteBonusPlugin {
-  String get type;
-  String get amount;
-  String get name;
-  bool get isActive;
+  String get type => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $InviteBonusPluginCopyWith<InviteBonusPlugin> get copyWith;
+  $InviteBonusPluginCopyWith<InviteBonusPlugin> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -57,7 +59,7 @@ abstract class $InviteBonusPluginCopyWith<$Res> {
   factory $InviteBonusPluginCopyWith(
           InviteBonusPlugin value, $Res Function(InviteBonusPlugin) then) =
       _$InviteBonusPluginCopyWithImpl<$Res>;
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -71,16 +73,28 @@ class _$InviteBonusPluginCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object type = freezed,
-    Object amount = freezed,
-    Object name = freezed,
-    Object isActive = freezed,
+    Object? type = freezed,
+    Object? amount = freezed,
+    Object? name = freezed,
+    Object? isActive = freezed,
   }) {
     return _then(_value.copyWith(
-      type: type == freezed ? _value.type : type as String,
-      amount: amount == freezed ? _value.amount : amount as String,
-      name: name == freezed ? _value.name : name as String,
-      isActive: isActive == freezed ? _value.isActive : isActive as bool,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -92,7 +106,7 @@ abstract class _$InviteBonusPluginCopyWith<$Res>
           _InviteBonusPlugin value, $Res Function(_InviteBonusPlugin) then) =
       __$InviteBonusPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String type, String amount, String name, bool isActive});
+  $Res call({String type, String? amount, String? name, bool isActive});
 }
 
 /// @nodoc
@@ -108,28 +122,44 @@ class __$InviteBonusPluginCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object type = freezed,
-    Object amount = freezed,
-    Object name = freezed,
-    Object isActive = freezed,
+    Object? type = freezed,
+    Object? amount = freezed,
+    Object? name = freezed,
+    Object? isActive = freezed,
   }) {
     return _then(_InviteBonusPlugin(
-      type: type == freezed ? _value.type : type as String,
-      amount: amount == freezed ? _value.amount : amount as String,
-      name: name == freezed ? _value.name : name as String,
-      isActive: isActive == freezed ? _value.isActive : isActive as bool,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
+/// @nodoc
+
 @Implements(Plugin)
 @JsonSerializable()
-
-/// @nodoc
-class _$_InviteBonusPlugin implements _InviteBonusPlugin {
+class _$_InviteBonusPlugin
+    with DiagnosticableTreeMixin
+    implements _InviteBonusPlugin {
   _$_InviteBonusPlugin(
-      {this.type = 'inviteBonus', this.amount, this.name, this.isActive})
-      : assert(type != null);
+      {this.type = 'inviteBonus',
+      this.amount = null,
+      this.name = null,
+      this.isActive = false});
 
   factory _$_InviteBonusPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_InviteBonusPluginFromJson(json);
@@ -137,16 +167,30 @@ class _$_InviteBonusPlugin implements _InviteBonusPlugin {
   @JsonKey(defaultValue: 'inviteBonus')
   @override
   final String type;
+  @JsonKey(defaultValue: null)
   @override
-  final String amount;
+  final String? amount;
+  @JsonKey(defaultValue: null)
   @override
-  final String name;
+  final String? name;
+  @JsonKey(defaultValue: false)
   @override
   final bool isActive;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'InviteBonusPlugin(type: $type, amount: $amount, name: $name, isActive: $isActive)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'InviteBonusPlugin'))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('isActive', isActive));
   }
 
   @override
@@ -186,22 +230,23 @@ class _$_InviteBonusPlugin implements _InviteBonusPlugin {
 abstract class _InviteBonusPlugin implements InviteBonusPlugin, Plugin {
   factory _InviteBonusPlugin(
       {String type,
-      String amount,
-      String name,
+      String? amount,
+      String? name,
       bool isActive}) = _$_InviteBonusPlugin;
 
   factory _InviteBonusPlugin.fromJson(Map<String, dynamic> json) =
       _$_InviteBonusPlugin.fromJson;
 
   @override
-  String get type;
+  String get type => throw _privateConstructorUsedError;
   @override
-  String get amount;
+  String? get amount => throw _privateConstructorUsedError;
   @override
-  String get name;
+  String? get name => throw _privateConstructorUsedError;
   @override
-  bool get isActive;
+  bool get isActive => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$InviteBonusPluginCopyWith<_InviteBonusPlugin> get copyWith;
+  _$InviteBonusPluginCopyWith<_InviteBonusPlugin> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -7,17 +7,17 @@ part 'swap.g.dart';
 
 @immutable
 @freezed
-abstract class TradeInfo with _$TradeInfo {
+class TradeInfo with _$TradeInfo {
   @JsonSerializable()
   factory TradeInfo({
-    String inputAmount,
-    String outputAmount,
-    List<String> route,
-    String inputToken,
-    String outputToken,
-    String executionPrice,
-    String nextMidPrice,
-    String priceImpact,
+    required String inputAmount,
+    required String outputAmount,
+    required List<String> route,
+    required String inputToken,
+    required String outputToken,
+    required String executionPrice,
+    required String nextMidPrice,
+    required String priceImpact,
   }) = _TradeInfo;
 
   factory TradeInfo.fromJson(Map<String, dynamic> json) =>
@@ -26,13 +26,13 @@ abstract class TradeInfo with _$TradeInfo {
 
 @immutable
 @freezed
-abstract class SwapCallParameters with _$SwapCallParameters {
+class SwapCallParameters with _$SwapCallParameters {
   @JsonSerializable()
   factory SwapCallParameters({
-    String methodName,
-    List<dynamic> args,
-    String value,
-    Map<String, dynamic> rawTxn,
+    required String methodName,
+    required List<dynamic> args,
+    required String value,
+    required Map<String, dynamic> rawTxn,
   }) = _SwapCallParameters;
 
   factory SwapCallParameters.fromJson(Map<String, dynamic> json) =>
@@ -41,13 +41,13 @@ abstract class SwapCallParameters with _$SwapCallParameters {
 
 @immutable
 @freezed
-abstract class SwapRequestBody with _$SwapRequestBody {
+class SwapRequestBody with _$SwapRequestBody {
   @JsonSerializable()
   factory SwapRequestBody({
-    String currencyIn,
-    String currencyOut,
-    String amountIn,
-    String recipient,
+    @Default('') String currencyIn,
+    @Default('') String currencyOut,
+    @Default('') String amountIn,
+    @Default('') String recipient,
   }) = _SwapRequestBody;
 
   factory SwapRequestBody.fromJson(Map<String, dynamic> json) =>

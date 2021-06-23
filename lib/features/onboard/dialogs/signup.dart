@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/screens/webview_screen.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
@@ -14,11 +15,9 @@ class SignUpDialog extends StatefulWidget {
 
 class SignUpDialogState extends State<SignUpDialog>
     with SingleTickerProviderStateMixin {
-  SignUpDialogState();
-
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -40,7 +39,7 @@ class SignUpDialogState extends State<SignUpDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -96,15 +95,10 @@ class SignUpDialogState extends State<SignUpDialog>
                     focusColor: Theme.of(context).canvasColor,
                     highlightColor: Theme.of(context).canvasColor,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WebViewScreen(
-                            title: I10n.of(context).legal,
-                            withBack: true,
-                            url: 'https://fuse.cash/privacy',
-                          ),
-                          fullscreenDialog: true,
+                      AutoRouter.of(context).push(
+                        Webview(
+                          title: I10n.of(context).legal,
+                          url: 'https://fuse.cash/privacy',
                         ),
                       );
                     },

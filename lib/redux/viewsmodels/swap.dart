@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -15,43 +14,44 @@ class SwapViewModel extends Equatable {
   final Plugins plugins;
 
   SwapViewModel({
-    this.walletAddress,
-    this.tokens,
-    this.receiveTokens,
-    this.payWithTokens,
-    this.plugins,
+    required this.walletAddress,
+    required this.tokens,
+    required this.receiveTokens,
+    required this.payWithTokens,
+    required this.plugins,
   });
 
   static SwapViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
+    Community? community =
         store.state.cashWalletState.communities[communityAddress];
-    final List<Token> tokens = store.state.swapState?.tokens?.values?.toList();
-    final Token fusd = store.state.swapState?.tokens[fuseDollarToken.address];
-    final Token wfuse = store.state.swapState?.tokens[wfuseTokenAddress];
-    final Token weth = store.state.swapState?.tokens[wethTokenAddress];
-    final Token wbtc = store.state.swapState?.tokens[wbtcTokenAddress];
+    final List<Token> tokens = store.state.swapState.tokens.values.toList();
+    final Token fusd = store.state.swapState.tokens[fuseDollarToken.address]!;
+    final Token wfuse = store.state.swapState.tokens[wfuseTokenAddress]!;
+    final Token weth = store.state.swapState.tokens[wethTokenAddress]!;
+    final Token wbtc = store.state.swapState.tokens[wbtcTokenAddress]!;
     final List<Token> payWithTokens = tokens
-        ?.where((Token token) =>
+        .where((Token token) =>
             num.parse(token.getBalance(true)).compareTo(0) == 1)
-        ?.toList();
+        .toList();
     final List<Token> receiveTokens = [
       fusd,
       wfuse,
       weth,
       wbtc,
-    ]..addAll(
+    ]
+      ..addAll(
         tokens
           ..removeWhere((element) =>
               element.address == fusd.address ||
               element.address == wfuse.address ||
               element.address == weth.address ||
               element.address == wbtc.address),
-      );
+      )
+      ..removeWhere(
+          (token) => [null, '', 'NaN'].contains(token.priceInfo?.quote));
 
-    final List<Token> tokenList = (store.state.swapState?.tokens?.values
-            ?.toList() ??
-        [])
+    final List<Token> tokenList = store.state.swapState.tokens.values.toList()
       ..where(
           (Token token) => num.parse(token.getBalance(true)).compareTo(0) == 1)
       ..sort();
@@ -61,7 +61,7 @@ class SwapViewModel extends Equatable {
       payWithTokens: payWithTokens,
       receiveTokens: receiveTokens,
       walletAddress: store.state.userState.walletAddress,
-      tokens: List<Token>.from(tokenList.reversed) ?? [],
+      tokens: List<Token>.from(tokenList.reversed),
     );
   }
 

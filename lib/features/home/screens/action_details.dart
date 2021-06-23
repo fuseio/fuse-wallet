@@ -1,5 +1,4 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,19 +15,19 @@ import 'package:fusecash/widgets/snackbars.dart';
 import 'package:intl/intl.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
-  final String accountAddress;
+  final String? accountAddress;
   final String displayName;
-  final ImageProvider<dynamic> image;
-  final Contact contact;
+  final ImageProvider<Object>? image;
+  final Contact? contact;
   final WalletAction action;
   final String symbol;
 
   ActionDetailsScreen({
-    this.action,
+    required this.action,
     this.image,
-    this.displayName,
+    required this.displayName,
     this.accountAddress,
-    this.symbol,
+    required this.symbol,
     this.contact,
   });
 
@@ -60,27 +59,25 @@ class ActionDetailsScreen extends StatelessWidget {
       distinct: true,
       converter: ActionDetailsViewModel.fromStore,
       builder: (_, viewModel) {
-        final Token token = action.map(
+        final Token? token = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
-              viewModel?.tokens[fuseDollarToken.address.toLowerCase()] ?? null,
-          bonus: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
-          send: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
+              viewModel.tokens[fuseDollarToken.address.toLowerCase()],
+          bonus: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
+          send: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           receive: (value) =>
-              viewModel?.tokens[value?.tokenAddress?.toLowerCase()] ?? null,
-          swap: (value) => viewModel?.tokens?.values?.firstWhere(
-              (element) => element.symbol == value.tradeInfo.outputToken,
-              orElse: () => null),
+              viewModel.tokens[value.tokenAddress.toLowerCase()],
+          swap: (value) => viewModel.tokens.values.firstWhere(
+            (element) => element.symbol == value.tradeInfo?.outputToken,
+          ),
         );
         final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
+            ![null, '', '0', 0, 'NaN'].contains(token!.priceInfo!.quote);
         final String amount = hasPriceInfo
             ? '\$' +
                 action.getAmount(
-                  priceInfo: token?.priceInfo,
+                  priceInfo: token.priceInfo,
                 )
             : action.getAmount();
         return MyScaffold(
@@ -101,9 +98,9 @@ class ActionDetailsScreen extends StatelessWidget {
                         children: <Widget>[
                           action.getStatusIcon(),
                           Text(
-                            action.isConfirmed()
+                            (action.isConfirmed()
                                 ? I10n.of(context).approved
-                                : action?.status,
+                                : action.status),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -179,29 +176,30 @@ class ActionDetailsScreen extends StatelessWidget {
                                             receive: (value) => '',
                                             swap: (value) {
                                               final Token _token = viewModel
-                                                  ?.tokens?.values
-                                                  ?.firstWhere(
-                                                      (element) =>
-                                                          element.symbol ==
-                                                          value.tradeInfo
-                                                              .inputToken,
-                                                      orElse: () => null);
+                                                  .tokens.values
+                                                  .firstWhere(
+                                                (element) =>
+                                                    element.symbol ==
+                                                    value.tradeInfo!.inputToken,
+                                              );
                                               final String amount =
-                                                  smallNumberTest(Decimal.parse(
-                                                          value.tradeInfo
+                                                  smallNumberTest(num.parse(
+                                                          value.tradeInfo!
                                                               .inputAmount))
-                                                      ? value
-                                                          .tradeInfo.inputAmount
+                                                      ? value.tradeInfo!
+                                                          .inputAmount
                                                       : smallValuesConvertor(
-                                                          Decimal.parse(value
-                                                              .tradeInfo
+                                                          num.parse(value
+                                                              .tradeInfo!
                                                               .inputAmount));
 
                                               double a = double.parse(value
-                                                      .tradeInfo.inputAmount) *
+                                                          .tradeInfo
+                                                          ?.inputAmount ??
+                                                      '0') *
                                                   double.parse(
-                                                      _token?.priceInfo?.quote);
-                                              return '${amount + ' ' + value.tradeInfo.inputToken} (\$${display(num.tryParse(a.toString()))})';
+                                                      _token.priceInfo!.quote);
+                                              return '${amount + ' ' + value.tradeInfo!.inputToken} (\$${display(num.tryParse(a.toString()))})';
                                             },
                                           )
                                         : displayName,
@@ -241,16 +239,16 @@ class ActionDetailsScreen extends StatelessWidget {
                                 receive: (value) => '',
                                 swap: (value) {
                                   final String amount = smallNumberTest(
-                                          Decimal.parse(
-                                              value.tradeInfo.outputAmount))
-                                      ? value.tradeInfo.outputAmount
-                                      : smallValuesConvertor(Decimal.parse(
-                                          value.tradeInfo.outputAmount));
+                                          num.parse(
+                                              value.tradeInfo!.outputAmount))
+                                      ? value.tradeInfo!.outputAmount
+                                      : smallValuesConvertor(num.parse(
+                                          value.tradeInfo!.outputAmount));
 
                                   double val = double.parse(
-                                          value.tradeInfo.outputAmount) *
-                                      double.parse(token?.priceInfo?.quote);
-                                  return '${amount + ' ' + value.tradeInfo.outputToken} (\$${display(num.tryParse(val.toString()))})';
+                                          value.tradeInfo!.outputAmount) *
+                                      double.parse(token.priceInfo!.quote);
+                                  return '${amount + ' ' + value.tradeInfo!.outputToken} (\$${display(num.tryParse(val.toString()))})';
                                 },
                               ),
                             ),
@@ -318,15 +316,15 @@ class ActionDetailsScreen extends StatelessWidget {
                           : rowItem(
                               context,
                               I10n.of(context).txn,
-                              formatAddress(action?.txHash),
+                              formatAddress(action.txHash),
                               withCopy: true,
                               onTap: () {
                                 Clipboard.setData(
-                                    ClipboardData(text: action?.txHash));
+                                    ClipboardData(text: action.txHash));
                                 showCopiedFlushbar(context);
                               },
                             ),
-                      [null, ''].contains(action.timestamp)
+                      [null, '', 0].contains(action.timestamp)
                           ? SizedBox.shrink()
                           : Padding(
                               padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -335,7 +333,7 @@ class ActionDetailsScreen extends StatelessWidget {
                                 height: 1,
                               ),
                             ),
-                      [null, ''].contains(action.timestamp)
+                      [null, '', 0].contains(action.timestamp)
                           ? SizedBox.shrink()
                           : rowItem(
                               context,
@@ -358,7 +356,7 @@ class ActionDetailsScreen extends StatelessWidget {
     BuildContext context,
     String title,
     String value, {
-    void Function() onTap,
+    void Function()? onTap,
     bool withCopy = false,
   }) {
     if (withCopy) {

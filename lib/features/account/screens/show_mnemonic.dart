@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -9,7 +10,6 @@ import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
 
 class ShowMnemonic extends StatelessWidget {
   Widget wordWidget(
@@ -39,7 +39,11 @@ class ShowMnemonic extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
+                    left: 20.0,
+                    right: 20.0,
+                    bottom: 20.0,
+                    top: 0.0,
+                  ),
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -70,8 +74,7 @@ class ShowMnemonic extends StatelessWidget {
                   distinct: true,
                   converter: BackupViewModel.fromStore,
                   builder: (_, viewModel) {
-                    return (viewModel.user != null &&
-                            viewModel.user.mnemonic.length > 0)
+                    return viewModel.user.mnemonic.length > 0
                         ? Column(
                             children: <Widget>[
                               Padding(
@@ -143,11 +146,10 @@ class ShowMnemonic extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
                                               CopyToClipboard(
-                                                context: context,
                                                 content: viewModel.user.mnemonic
                                                     .join(" "),
                                               ),
-                                              const SizedBox(width: 4.0),
+                                              SizedBox(width: 4.0),
                                               Icon(
                                                 Icons.content_copy,
                                                 size: 16,
@@ -175,8 +177,9 @@ class ShowMnemonic extends StatelessWidget {
                 Center(
                   child: PrimaryButton(
                     label: I10n.of(context).next_button,
-                    onPressed: ExtendedNavigator.named('accountRouter')
-                        .pushVerifyMnemonic,
+                    onPressed: () {
+                      context.router.push(VerifyMnemonic());
+                    },
                   ),
                 ),
                 SizedBox(

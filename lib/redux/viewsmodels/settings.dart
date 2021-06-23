@@ -6,7 +6,7 @@ class SettingsViewModel {
   final Function() logout;
 
   SettingsViewModel({
-    this.logout,
+    required this.logout,
   });
 
   static SettingsViewModel fromStore(Store<AppState> store) {

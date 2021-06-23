@@ -8,9 +8,7 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/features/buy/router/router.gr.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
@@ -44,7 +42,12 @@ class BuyScreen extends StatelessWidget {
   }
 }
 
-class BusinessesListView extends StatelessWidget {
+class BusinessesListView extends StatefulWidget {
+  @override
+  _BusinessesListViewState createState() => _BusinessesListViewState();
+}
+
+class _BusinessesListViewState extends State<BusinessesListView> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BuyViewModel>(
@@ -65,8 +68,8 @@ class BusinessesListView extends StatelessWidget {
 
   Widget banner(BuildContext context, BuyViewModel vm) {
     return vm.walletBanner != null &&
-            vm.walletBanner.walletBannerHash != null &&
-            vm.walletBanner.walletBannerHash.isNotEmpty
+            vm.walletBanner?.walletBannerHash != null &&
+            vm.walletBanner?.walletBannerHash != ''
         ? Container(
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
@@ -74,14 +77,15 @@ class BusinessesListView extends StatelessWidget {
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,
               onTap: () {
-                ExtendedNavigator.root.pushWebview(
-                  title: '',
-                  withBack: true,
-                  url: vm.walletBanner.link,
+                context.router.push(
+                  Webview(
+                    url: vm.walletBanner?.link ?? '',
+                    title: '',
+                  ),
                 );
               },
               child: CachedNetworkImage(
-                imageUrl: ImageUrl.getLink(vm.walletBanner.walletBannerHash),
+                imageUrl: ImageUrl.getLink(vm.walletBanner?.walletBannerHash),
                 imageBuilder: (context, imageProvider) => Container(
                   width: MediaQuery.of(context).size.width,
                   height: 140,
@@ -118,9 +122,8 @@ class BusinessesListView extends StatelessWidget {
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
                     shrinkWrap: true,
-                    itemCount: vm.businesses?.length ?? 0,
+                    itemCount: vm.businesses.length,
                     itemBuilder: (context, index) => businessTile(
-                      context,
                       vm.businesses[index],
                       vm.communityAddress,
                       vm.token,
@@ -133,7 +136,6 @@ class BusinessesListView extends StatelessWidget {
   }
 
   ListTile businessTile(
-    context,
     Business business,
     String communityAddress,
     Token token,
@@ -159,53 +161,53 @@ class BusinessesListView extends StatelessWidget {
         ),
       ),
       title: Text(
-        business.name ?? '',
+        business.name,
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
         ),
       ),
       subtitle: Text(
-        business.metadata.description ?? '',
+        business.metadata.description,
         style: TextStyle(
-          // color: Theme.of(context).accentColor,
           fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
       ),
       onTap: () {
-        ExtendedNavigator.named('buyRouter').pushBusinessPage(
-          business: business,
-          token: token,
-        );
+        // TODO = pushBusinessPage
+        // context.router.push(BusinessPage());
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.all(10.0),
+              backgroundColor: Theme.of(context).buttonColor,
+              shape: CircleBorder(),
+            ),
             child: Text(
               I10n.of(context).pay,
               style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
+                  color: Theme.of(context).textTheme.button!.color,
                   fontSize: 15,
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
-              ExtendedNavigator.root.pushSendAmountScreen(
-                pageArgs: SendFlowArguments(
-                  tokenToSend: token,
-                  name: business.name ?? '',
-                  accountAddress: business.account,
-                  avatar: NetworkImage(
-                    ImageUrl.getLink(business.metadata.image),
-                  ),
-                ),
-              );
+              // Todo - pushSendAmountScreen
+              // ExtendedNavigator.root.pushSendAmountScreen(
+              //   pageArgs: SendFlowArguments(
+              //     tokenToSend: token,
+              //     name: business.name,
+              //     accountAddress: business.account,
+              //     avatar: NetworkImage(
+              //       ImageUrl.getLink(business.metadata.image),
+              //     ),
+              //   ),
+              // );
             },
           ),
         ],

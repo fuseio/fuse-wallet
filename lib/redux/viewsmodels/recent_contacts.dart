@@ -11,38 +11,37 @@ class RecentContactsViewModel extends Equatable {
   final String countryCode;
   final String isoCode;
   RecentContactsViewModel({
-    this.contacts,
-    this.isoCode,
-    this.walletActions,
-    this.countryCode,
-    this.reverseContacts,
+    required this.contacts,
+    required this.isoCode,
+    required this.walletActions,
+    required this.countryCode,
+    required this.reverseContacts,
   });
 
   static RecentContactsViewModel fromStore(Store<AppState> store) {
     final List<WalletAction> walletActions =
-        List.from(store.state.cashWalletState?.walletActions?.list
-                ?.where(
-                  (t) =>
-                      t.map(
-                        createWallet: (value) => false,
-                        fiatDeposit: (value) => false,
-                        joinCommunity: (value) => false,
-                        bonus: (value) => false,
-                        send: (value) => true,
-                        receive: (value) => false,
-                        swap: (value) => false,
-                      ) &&
-                      t.isConfirmed(),
-                )
-                ?.toList()
-                ?.reversed) ??
-            [];
+        List.from(store.state.cashWalletState.walletActions!.list
+            .where(
+              (t) =>
+                  t.map(
+                    createWallet: (value) => false,
+                    fiatDeposit: (value) => false,
+                    joinCommunity: (value) => false,
+                    bonus: (value) => false,
+                    send: (value) => true,
+                    receive: (value) => false,
+                    swap: (value) => false,
+                  ) &&
+                  t.isConfirmed(),
+            )
+            .toList()
+            .reversed);
     return RecentContactsViewModel(
       walletActions: walletActions,
       isoCode: store.state.userState.isoCode,
       countryCode: store.state.userState.countryCode,
       reverseContacts: store.state.userState.reverseContacts,
-      contacts: store.state.userState?.contacts ?? [],
+      contacts: store.state.userState.contacts,
     );
   }
 

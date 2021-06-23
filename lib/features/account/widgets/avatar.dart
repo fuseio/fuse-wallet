@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/home/dialogs/receive.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/account.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/snackbars.dart';
-import 'package:fusecash/features/account/router/router.gr.dart';
 
 class Avatar extends StatelessWidget {
-  const Avatar({Key key}) : super(key: key);
+  const Avatar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,9 @@ class Avatar extends StatelessWidget {
             top: 20,
           ),
           child: InkWell(
-            onTap: ExtendedNavigator.named('accountRouter').pushProfileScreen,
+            onTap: () {
+              context.router.push(ProfileScreen());
+            },
             child: Column(
               children: [
                 ClipRRect(
@@ -37,7 +39,7 @@ class Avatar extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: 60,
                       height: 60,
-                      imageUrl: viewModel?.avatarUrl,
+                      imageUrl: viewModel.avatarUrl,
                       placeholder: (context, url) =>
                           CircularProgressIndicator(),
                       errorWidget: (context, url, error) => CircleAvatar(
@@ -57,7 +59,7 @@ class Avatar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      viewModel?.displayName ?? '',
+                      viewModel.displayName,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 22,
@@ -78,22 +80,25 @@ class Avatar extends StatelessWidget {
                     Flexible(
                       child: Container(
                         width: MediaQuery.of(context).size.width * .425,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             Clipboard.setData(
-                              ClipboardData(text: viewModel?.walletAddress),
+                              ClipboardData(text: viewModel.walletAddress),
                             );
                             showCopiedFlushbar(context);
                           },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                12.0,
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(15.0),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  12.0,
+                                ),
                               ),
                             ),
                           ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          padding: EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,24 +133,27 @@ class Avatar extends StatelessWidget {
                     Flexible(
                       child: Container(
                         width: MediaQuery.of(context).size.width * .475,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) => ReceiveDialog(
-                                'fuse:${viewModel?.walletAddress}',
+                                'fuse:${viewModel.walletAddress}',
                               ),
                             );
                           },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                12.0,
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(15.0),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  12.0,
+                                ),
                               ),
                             ),
                           ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          padding: EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,

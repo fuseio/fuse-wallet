@@ -7,13 +7,13 @@ import 'package:fusecash/models/app_state.dart';
 class LanguageSelectorViewModel {
   final Function(Locale) updateLocale;
   LanguageSelectorViewModel({
-    this.updateLocale,
+    required this.updateLocale,
   });
 
   static LanguageSelectorViewModel fromStore(Store<AppState> store) {
     return LanguageSelectorViewModel(
-      updateLocale: (biometricAuth) {
-        store.dispatch(UpdateLocale(locale: biometricAuth));
+      updateLocale: (Locale locale) {
+        store.dispatch(UpdateLocale(locale: locale));
       },
     );
   }

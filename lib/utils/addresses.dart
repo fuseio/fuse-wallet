@@ -2,12 +2,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/common/di/di.dart';
 
 final String foreignNetwork =
-    int.parse(env['FOREIGN_NETWORK_ID']) == 1 ? 'mainnet' : 'ropsten';
+    int.parse(dotenv.env['FOREIGN_NETWORK_ID']!) == 1 ? 'mainnet' : 'ropsten';
 
-bool isDefaultCommunity(String communityAddress) {
-  return (communityAddress != null && defaultCommunityAddress != null) &&
-      defaultCommunityAddress.toLowerCase() == communityAddress.toLowerCase();
-}
+bool isDefaultCommunity(String communityAddress) =>
+    defaultCommunityAddress.toLowerCase() == communityAddress.toLowerCase();
 
 final String defaultCommunityAddress =
     getIt<String>(instanceName: 'defaultCommunityAddress');
