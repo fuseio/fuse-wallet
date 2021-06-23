@@ -603,46 +603,13 @@ ThunkAction sendTokenCall(
         if (fuseWeb3 == null) {
           throw 'web3 is empty';
         }
-        // Map<String, Community> communities =
-        //     store.state.cashWalletState.communities;
-        String tokenAddress = token.address;
-        // Community community = communities.values.firstWhere(
-        //   (element) =>
-        //       element.homeTokenAddress.toLowerCase() ==
-        //       tokenAddress.toLowerCase(),
-        // );
 
-        // dynamic response;
-        // if (![null, ''].contains(token.communityAddress) &&
-        //     receiverAddress.toLowerCase() ==
-        //         community.homeBridgeAddress?.toLowerCase()) {
-        //   num feeAmount = 20;
-        //   log.info(
-        //       'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-        //   Map<String, dynamic> transferData =
-        //       await fuseWeb3!.transferTokenOffChain(
-        //     walletAddress,
-        //     tokenAddress,
-        //     receiverAddress,
-        //     tokensAmount,
-        //   );
-        //   Map<String, dynamic> feeTransferData =
-        //       await fuseWeb3!.transferTokenOffChain(
-        //     walletAddress,
-        //     tokenAddress,
-        //     Addresses.FEE_ADDRESS,
-        //     feeAmount,
-        //   );
-        //   response = await api.multiRelay([transferData, feeTransferData]);
-        // } else {
-
-        // }
         log.info(
-            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
+            'Sending ${token.name} $tokensAmount from $walletAddress to $receiverAddress');
         dynamic response = await api.tokenTransfer(
           fuseWeb3!,
           walletAddress,
-          tokenAddress,
+          token.address,
           receiverAddress,
           tokensAmount,
         );

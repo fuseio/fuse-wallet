@@ -109,10 +109,11 @@ class _TopUpScreenState extends State<TopUpScreen> {
                     CustomTile(
                       title: I10n.of(context).credit_card,
                       menuIcon: 'credit_card',
-                      subtitle: showTransak ? 'Transak' : 'Ramp network',
+                      subtitle: 'Ramp network',
                       onTap: () {
-                        final String url = showTransak
-                            ? viewModel.plugins.transak!.widgetUrl
+                        String url = showTransak
+                            ? viewModel.plugins.rampInstant!.widgetUrl
+                                .replaceAll(RegExp(r'FUSE_FUSD'), 'USDC')
                             : viewModel.plugins.rampInstant!.widgetUrl;
                         openDepositWebview(
                           context: context,
@@ -120,9 +121,10 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         );
                         Segment.track(
                           eventName: 'Deposit: Credit Card',
-                          properties: Map.from(
-                            {'provider': showTransak ? 'Transak' : 'Ramp'},
-                          ),
+                          properties: Map.from({
+                            'provider':
+                                showTransak ? 'Ramp - USDC' : 'Ramp - FUSD'
+                          }),
                         );
                       },
                     ),
@@ -141,9 +143,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                               Segment.track(
                                 eventName: 'Deposit: Wire Transfer',
                                 properties: Map.from(
-                                  {
-                                    'provider': showTransak ? 'Transak' : 'Ramp'
-                                  },
+                                  {'provider': 'Ramp'},
                                 ),
                               );
                             },
