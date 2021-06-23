@@ -33,6 +33,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       converter: LanguageSelectorViewModel.fromStore,
       builder: (_, viewModel) {
         return ExpansionTile(
+          textColor: Theme.of(context).colorScheme.onSurface,
+          collapsedIconColor: Theme.of(context).colorScheme.onSurface,
+          collapsedTextColor: Theme.of(context).colorScheme.onSurface,
+          iconColor: Theme.of(context).colorScheme.onSurface,
           tilePadding: EdgeInsets.zero,
           title: Row(
             children: <Widget>[
@@ -51,13 +55,15 @@ class _LanguageSelectorState extends State<LanguageSelector> {
               ),
             ],
           ),
-          children: _languageItems(viewModel),
+          children: _languageItems(
+            viewModel.updateLocale,
+          ),
         );
       },
     );
   }
 
-  List<Widget> _languageItems(LanguageSelectorViewModel viewModel) {
+  List<Widget> _languageItems(dynamic Function(Locale) updateLocale) {
     Locale currentLocal = Localizations.localeOf(context);
     return I10n.delegate.supportedLocales.map((locale) {
       bool isSelected = currentLocal == locale;
@@ -73,7 +79,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
         selected: isSelected,
         onTap: () {
           _changeLanguage(locale);
-          viewModel.updateLocale(locale);
+          updateLocale(locale);
           setState(() {
             _collapse();
           });

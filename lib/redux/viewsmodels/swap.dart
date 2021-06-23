@@ -39,14 +39,17 @@ class SwapViewModel extends Equatable {
       wfuse,
       weth,
       wbtc,
-    ]..addAll(
+    ]
+      ..addAll(
         tokens
           ..removeWhere((element) =>
               element.address == fusd.address ||
               element.address == wfuse.address ||
               element.address == weth.address ||
               element.address == wbtc.address),
-      );
+      )
+      ..removeWhere(
+          (token) => [null, '', 'NaN'].contains(token.priceInfo?.quote));
 
     final List<Token> tokenList = store.state.swapState.tokens.values.toList()
       ..where(

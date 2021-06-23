@@ -12,8 +12,8 @@ class LanguageSelectorViewModel {
 
   static LanguageSelectorViewModel fromStore(Store<AppState> store) {
     return LanguageSelectorViewModel(
-      updateLocale: (biometricAuth) {
-        store.dispatch(UpdateLocale(locale: biometricAuth));
+      updateLocale: (Locale locale) {
+        store.dispatch(UpdateLocale(locale: locale));
       },
     );
   }

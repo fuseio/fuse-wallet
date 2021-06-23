@@ -51,7 +51,7 @@ Future<Map> fetchWalletByPhone(
   }
 }
 
-void _openLoadingDialog(BuildContext context) {
+void openLoadingDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
@@ -89,8 +89,7 @@ void sendToContact(
       ),
     );
   } else {
-    _openLoadingDialog(context);
-    log.info('phone $phone, countryCode $countryCode, isoCode $isoCode');
+    openLoadingDialog(context);
     Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     context.router.pop();
     final args = SendFlowArguments(

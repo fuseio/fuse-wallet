@@ -110,11 +110,7 @@ ThunkAction fetchSwapListPrices() {
   return (Store store) async {
     try {
       SwapState swapState = store.state.swapState;
-      final List<Token> payWithTokens = swapState.tokens.values
-          .where((Token token) =>
-              num.parse(token.getBalance(true)).compareTo(0) == 1)
-          .toList();
-      for (Token token in payWithTokens) {
+      for (Token token in swapState.tokens.values) {
         Future<List<dynamic>> prices = Future.wait([
           fuseSwapService.price(token.address),
           fuseSwapService.priceChange(token.address)
