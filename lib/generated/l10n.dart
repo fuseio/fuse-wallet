@@ -2461,17 +2461,14 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'en', countryCode: 'PH'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
-      Locale.fromSubtags(languageCode: 'fr', countryCode: 'FR'),
-      Locale.fromSubtags(languageCode: 'he', countryCode: 'IL'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),
-      Locale.fromSubtags(languageCode: 'ko', countryCode: 'KR'),
       Locale.fromSubtags(languageCode: 'my'),
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
-      Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
-      Locale.fromSubtags(languageCode: 'sr', countryCode: 'RS'),
+      Locale.fromSubtags(languageCode: 'th', countryCode: 'TH'),
       Locale.fromSubtags(languageCode: 'tl'),
+      Locale.fromSubtags(languageCode: 'zh', countryCode: 'CN'),
     ];
   }
 

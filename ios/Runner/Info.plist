@@ -4,22 +4,19 @@
 	<dict>
 		<key>CFBundleLocalizations</key>
 		<array>
-			<string>en_US</string>
 			<string>de_DE</string>
-			<string>fr_FR</string>
+			<string>en_PH</string>
+			<string>en_US</string>
 			<string>es_ES</string>
 			<string>es_MX</string>
-			<string>pt_BR</string>
-			<string>en_PH</string>
-			<string>nl_NL</string>
-			<string>it_IT</string>
-			<string>tl</string>
 			<string>id_ID</string>
-			<string>ko_KR</string>
-			<string>zh</string>
+			<string>it_IT</string>
 			<string>my</string>
-			<string>he_IL</string>
-			<string>ru_RU</string>
+			<string>nl_NL</string>
+			<string>pt_BR</string>
+			<string>th_TH</string>
+			<string>tl</string>
+			<string>zh_CH</string>
 		</array>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>

@@ -20,364 +20,363 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'id_ID';
 
   static String m0(name) =>
-      "Sending money to ${name} will automatically invite them to Fuse and let them redeem the funds you sent";
+      "Mengirim uang ke ${name} akan secara otomatis mengundang mereka ke Fuse dan mengizinkannya menukarkan dana yang Anda kirim";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "about": MessageLookupByLibrary.simpleMessage("Tentang"),
-        "account": MessageLookupByLibrary.simpleMessage("Account"),
-        "activate": MessageLookupByLibrary.simpleMessage("Aktif"),
-        "activity": MessageLookupByLibrary.simpleMessage("Activity"),
+        "about": MessageLookupByLibrary.simpleMessage("Perihal"),
+        "account": MessageLookupByLibrary.simpleMessage("Akun"),
+        "activate": MessageLookupByLibrary.simpleMessage("Aktivasi"),
+        "activity": MessageLookupByLibrary.simpleMessage("Aktivitas"),
         "address": MessageLookupByLibrary.simpleMessage("Alamat"),
-        "amount": MessageLookupByLibrary.simpleMessage("Jumlah"),
+        "amount": MessageLookupByLibrary.simpleMessage("Nominal"),
         "approved": MessageLookupByLibrary.simpleMessage("Disetujui"),
         "assets_and_contracts":
             MessageLookupByLibrary.simpleMessage("Aset dan kontrak"),
         "auth_failed_message": MessageLookupByLibrary.simpleMessage(
-            "Please try again to continue"),
+            "Harap coba kembali untuk melanjutkan"),
         "auth_failed_title":
-            MessageLookupByLibrary.simpleMessage("Authentication failed"),
-        "available": MessageLookupByLibrary.simpleMessage("available"),
-        "back_up": MessageLookupByLibrary.simpleMessage("Perlindungan"),
-        "back_up_now": MessageLookupByLibrary.simpleMessage("Back up now"),
-        "backup_wallet": MessageLookupByLibrary.simpleMessage("Perlindungan"),
+            MessageLookupByLibrary.simpleMessage("Autentikasi gagal"),
+        "available": MessageLookupByLibrary.simpleMessage("tersedia"),
+        "back_up": MessageLookupByLibrary.simpleMessage("Cadangkan"),
+        "back_up_now":
+            MessageLookupByLibrary.simpleMessage("Cadangkan sekarang"),
+        "backup_wallet": MessageLookupByLibrary.simpleMessage("Cadangkan"),
         "balance": MessageLookupByLibrary.simpleMessage("Saldo"),
         "bonus": MessageLookupByLibrary.simpleMessage("bonus"),
         "bridge_from_BSC": MessageLookupByLibrary.simpleMessage(
-            "Bridge ETH or BNB from Binance Smart Chain"),
+            "Hubungkan ETH atau BNB dari Binance Smart Chain"),
         "bridge_from_ethereum": MessageLookupByLibrary.simpleMessage(
-            "Bridge assets from Ethereum network"),
-        "bridge_to": MessageLookupByLibrary.simpleMessage("Bridge to"),
+            "Hubungkan aset dari jaringan Ethereum"),
+        "bridge_to": MessageLookupByLibrary.simpleMessage("Hubungkan ke"),
         "buy": MessageLookupByLibrary.simpleMessage("Beli"),
-        "camera": MessageLookupByLibrary.simpleMessage("Camera"),
-        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "camera": MessageLookupByLibrary.simpleMessage("Kamera"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Batal"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
-            "Please choose how your prefer to protect your wallet by selecting the following methods"),
-        "close": MessageLookupByLibrary.simpleMessage("Close"),
-        "coming_soon": MessageLookupByLibrary.simpleMessage("Coming soon"),
-        "community": MessageLookupByLibrary.simpleMessage("community"),
+            "Silakan pilih cara Anda melindungi dompet dengan memilih metode berikut"),
+        "close": MessageLookupByLibrary.simpleMessage("Tutup"),
+        "coming_soon": MessageLookupByLibrary.simpleMessage("Segera hadir"),
+        "community": MessageLookupByLibrary.simpleMessage("komunitas"),
         "community_address":
-            MessageLookupByLibrary.simpleMessage("Alamat komunitas"),
+            MessageLookupByLibrary.simpleMessage("Alamat Komunitas"),
         "community_webpage":
-            MessageLookupByLibrary.simpleMessage("Community webpage"),
+            MessageLookupByLibrary.simpleMessage("Halaman web komunitas"),
         "confirmed": MessageLookupByLibrary.simpleMessage("TERKONFIRMASI"),
         "connection": MessageLookupByLibrary.simpleMessage(
-            "please fix your internet connection and try again!"),
-        "contact_us": MessageLookupByLibrary.simpleMessage("Hubungi Kami"),
+            "harap perbaiki koneksi internet Anda lalu coba kembali!"),
+        "contact_us": MessageLookupByLibrary.simpleMessage("Hubungi kami"),
         "contact_us_for_support":
-            MessageLookupByLibrary.simpleMessage("Contact us for support"),
-        "continue_with": MessageLookupByLibrary.simpleMessage("Melanjutkan"),
+            MessageLookupByLibrary.simpleMessage("Hubungi kami untuk bantuan"),
+        "continue_with":
+            MessageLookupByLibrary.simpleMessage("Lanjutkan dengan"),
         "copied_to_clipboard":
-            MessageLookupByLibrary.simpleMessage("Copied to clipboard"),
+            MessageLookupByLibrary.simpleMessage("Tersalin ke clipboard"),
         "copy_to_clipboard":
-            MessageLookupByLibrary.simpleMessage("Copy to clipboard"),
-        "create__wallet":
-            MessageLookupByLibrary.simpleMessage("Membuat dompet"),
+            MessageLookupByLibrary.simpleMessage("Salin ke clipboard"),
+        "create__wallet": MessageLookupByLibrary.simpleMessage("Buat dompet"),
         "create_new_wallet":
-            MessageLookupByLibrary.simpleMessage("Membuat dompet baru"),
+            MessageLookupByLibrary.simpleMessage("Buat dompet baru"),
         "create_passcode":
-            MessageLookupByLibrary.simpleMessage("Buat kode sandi anda"),
-        "credit_card": MessageLookupByLibrary.simpleMessage("Credit Card"),
+            MessageLookupByLibrary.simpleMessage("Buat kode sandi"),
+        "credit_card": MessageLookupByLibrary.simpleMessage("Kartu Kredit"),
         "crypto_deposit_bsc": MessageLookupByLibrary.simpleMessage(
-            "If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+            "Jika Anda punya ETH, BNB atau FUSE di Binance Smart Chain (BSC) harap gunakan URL di bawah dengan akun Metamask Anda di peramban desktop untuk melakukan deposit ke Fuse:"),
         "crypto_deposit_eth": MessageLookupByLibrary.simpleMessage(
-            "If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+            "Jika Anda punya USDC di Ethereum harap gunakan URL di bawah dengan akun Metamask Anda di peramban desktop untuk melakukan deposit ke Fuse:"),
         "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
-            "Please note that this is a personal link that will bridge the funds directly to your account."),
+            "Harap dicatat bahwa ini adalah tautan personal yang akan menghubungkan dana langsung ke akun Anda."),
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
-            "Please use it responsibly and at your own risk."),
+            "Harap gunakan dengan bertanggung jawab dan atas risiko sendiri."),
         "current_community":
-            MessageLookupByLibrary.simpleMessage("Current community"),
-        "date_and_time": MessageLookupByLibrary.simpleMessage("Date & Time"),
+            MessageLookupByLibrary.simpleMessage("Komunitas saat ini"),
+        "date_and_time":
+            MessageLookupByLibrary.simpleMessage("Tanggal & Waktu"),
         "deposit": MessageLookupByLibrary.simpleMessage("deposit"),
-        "deposit_failed":
-            MessageLookupByLibrary.simpleMessage("deposit failed"),
+        "deposit_failed": MessageLookupByLibrary.simpleMessage("deposit gagal"),
         "deposit_from_BSC":
-            MessageLookupByLibrary.simpleMessage("Deposit from BSC"),
+            MessageLookupByLibrary.simpleMessage("Deposit dari BSC"),
         "deposit_from_ethereum":
-            MessageLookupByLibrary.simpleMessage("Deposit from Ethereum"),
+            MessageLookupByLibrary.simpleMessage("Deposit dari Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
-            "Deposit from Ethereum or BSC"),
-        "deposit_your": MessageLookupByLibrary.simpleMessage("Deposit your"),
+            "Deposit dari Ethereum atau BSC"),
+        "deposit_your": MessageLookupByLibrary.simpleMessage("Deposit"),
         "deposit_your_first_dollars":
-            MessageLookupByLibrary.simpleMessage("Deposit your first Dollars"),
+            MessageLookupByLibrary.simpleMessage("Deposit Dollar pertama Anda"),
         "didnt_get_message":
-            MessageLookupByLibrary.simpleMessage("Tidak mendapatkan pesan? - "),
-        "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+            MessageLookupByLibrary.simpleMessage("Tidak menerima pesan? -"),
+        "dismiss": MessageLookupByLibrary.simpleMessage("Tutup"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("Jangan khawatir:"),
-        "earn": MessageLookupByLibrary.simpleMessage("Earn"),
+        "earn": MessageLookupByLibrary.simpleMessage("Hasilkan"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
-            "Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance."),
+            "Para pemegang Fuse Dollar berhak memperoleh imbal hasil 5% per tahun hanya dengan menyimpan Dollar tersebut di saldo Anda."),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "enable_contacts_access":
-            MessageLookupByLibrary.simpleMessage("Mengizinkan akses kontak"),
+            MessageLookupByLibrary.simpleMessage("Aktifkan Akses Kontak"),
         "enable_contacts_text": MessageLookupByLibrary.simpleMessage(
-            "Mengizinkan sinkron kontak untuk mengirim \n uang kepada nomer kontak anda"),
+            "Aktifkan sinkronisasi kontak untuk mengirim\n uang ke kontak telepon"),
         "enable_text": MessageLookupByLibrary.simpleMessage(
-            "Kontak anda tidak akan di simpan pada \n server kami dan tindakan ini tidak akan mengirimkan \n kepada mereka pesan apapun"),
+            "Kontak Anda tidak akan tersimpan di\n server kami dan aksi ini tidak akan mengirim\n pesan apa pun ke mereka"),
         "enter_community_address":
-            MessageLookupByLibrary.simpleMessage("Masukan alamat komunitas"),
+            MessageLookupByLibrary.simpleMessage("Masukkan Alamat Komunitas"),
         "enter_phone_number": MessageLookupByLibrary.simpleMessage(
-            "Mohon masukan nomor telephone anda sehingga kami dapat menyiapkan akun anda"),
+            "Harap masukkan nomor telepon agar kami dapat menata akun Anda"),
         "enter_pincode":
-            MessageLookupByLibrary.simpleMessage("Enter your Pincode:"),
+            MessageLookupByLibrary.simpleMessage("Masukkan Kode pin Anda:"),
         "enter_verification_code": MessageLookupByLibrary.simpleMessage(
-            " Silahkan masukan 6-digit kode dari \n pesan itu disini"),
-        "error": MessageLookupByLibrary.simpleMessage("Error"),
+            "Harap masukkan kode 6 digit dari \npesan tersebut di sini"),
+        "error": MessageLookupByLibrary.simpleMessage("Eror"),
         "face_id": MessageLookupByLibrary.simpleMessage("Face ID"),
         "failed": MessageLookupByLibrary.simpleMessage("GAGAL"),
-        "fee_amount": MessageLookupByLibrary.simpleMessage("Fee amount:"),
+        "fee_amount": MessageLookupByLibrary.simpleMessage("Nominal biaya:"),
         "feed": MessageLookupByLibrary.simpleMessage("Feed"),
-        "first_dollars": MessageLookupByLibrary.simpleMessage("first Dollars"),
-        "flash_off": MessageLookupByLibrary.simpleMessage("Flash off"),
-        "flash_on": MessageLookupByLibrary.simpleMessage("Flash on"),
+        "first_dollars": MessageLookupByLibrary.simpleMessage("Dollar pertama"),
+        "flash_off": MessageLookupByLibrary.simpleMessage("Flash mati"),
+        "flash_on": MessageLookupByLibrary.simpleMessage("Flash nyala"),
         "follow_us_on_twitter":
-            MessageLookupByLibrary.simpleMessage("Follow us on Twitter."),
+            MessageLookupByLibrary.simpleMessage("Ikuti kami di Twitter."),
         "for_more_info":
-            MessageLookupByLibrary.simpleMessage("For more information: "),
-        "for_text": MessageLookupByLibrary.simpleMessage("for"),
-        "free": MessageLookupByLibrary.simpleMessage("Free"),
-        "friend": MessageLookupByLibrary.simpleMessage("friend"),
+            MessageLookupByLibrary.simpleMessage("Untuk informasi lebih jauh:"),
+        "for_text": MessageLookupByLibrary.simpleMessage("untuk"),
+        "free": MessageLookupByLibrary.simpleMessage("Gratis"),
+        "friend": MessageLookupByLibrary.simpleMessage("teman"),
         "from": MessageLookupByLibrary.simpleMessage("Dari"),
         "fusd_stablecoins_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar is the first Fuse-native stablecoin. In the future, we are planning to add stablecoins pegged to other major currencies to bolster the adoption and reduce friction for users around the world. Stay tuned!"),
+            "FuseDollar adalah stablecoin asli asal Fuse pertama. Di masa mendatang, kami berencana menambahkan stablecoin yang dipatok ke mata uang utama lainnya guna mendorong pengadopsian dan mengurangi friksi bagi para pengguna di seluruh dunia. Nantikan!"),
         "fuse_dollar": MessageLookupByLibrary.simpleMessage("Fuse Dollar"),
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. "),
+            "FuseDollar (fUSD) adalah stablecoin berpatokan USD yang dicetak di blockchain Fuse Network. Koin ini diciptakan untuk menjadikan mata uang kripto dan DeFi mudah bagi orang awam."),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
-            "Anda dapat ganti ke komunitas baru dengan memasukan aset ID anda(tersedia dari Fuse Studio) atau scan QR kode"),
+            "Anda beralih ke komunitas baru dengan memasukkan ID Aset (tersedia dari Fuse Studio) atau memindai kode QR"),
         "future_stablecoins":
-            MessageLookupByLibrary.simpleMessage("Future stablecoins"),
-        "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
+            MessageLookupByLibrary.simpleMessage("Stablecoin mendatang"),
+        "gallery": MessageLookupByLibrary.simpleMessage("Galeri"),
         "generate_wallet_failed":
-            MessageLookupByLibrary.simpleMessage("Generate wallet failed"),
-        "generated_wallet":
-            MessageLookupByLibrary.simpleMessage("Dompet di buat"),
+            MessageLookupByLibrary.simpleMessage("Gagal membuat dompet"),
+        "generated_wallet": MessageLookupByLibrary.simpleMessage(
+            "Selamat datang di dompet Fuse"),
         "generating_wallet":
-            MessageLookupByLibrary.simpleMessage("Sedang membuat dompet"),
+            MessageLookupByLibrary.simpleMessage("Membuat dompet Fuse"),
         "hi": MessageLookupByLibrary.simpleMessage("Halo"),
-        "home": MessageLookupByLibrary.simpleMessage("Home"),
-        "how_much": MessageLookupByLibrary.simpleMessage("Berapa jumlah?"),
-        "how_to_use_fusd":
-            MessageLookupByLibrary.simpleMessage("How you can use FuseDollar?"),
+        "home": MessageLookupByLibrary.simpleMessage("Beranda"),
+        "how_much": MessageLookupByLibrary.simpleMessage("Berapa banyak?"),
+        "how_to_use_fusd": MessageLookupByLibrary.simpleMessage(
+            "Bagaimana Anda dapat menggunakan FuseDollar?"),
         "important": MessageLookupByLibrary.simpleMessage("Penting!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
-            "Initializing your wallet on Fuse"),
+            "Menginisialisasi dompet Anda di Fuse"),
         "insufficient_fund":
-            MessageLookupByLibrary.simpleMessage("Insufficient funds"),
+            MessageLookupByLibrary.simpleMessage("Dana tidak cukup"),
         "intro_text_one": MessageLookupByLibrary.simpleMessage(
-            "Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih"),
+            "Bayar dan terima bayaran atau kirim uang ke teman tanpa biaya atau friksi"),
         "intro_text_three": MessageLookupByLibrary.simpleMessage(
-            "Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan"),
+            "Buat akun token aman dan cerdas untuk mengakses keuangan terdesentralisasi"),
         "intro_text_two": MessageLookupByLibrary.simpleMessage(
-            "Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar"),
-        "invalid_number":
-            MessageLookupByLibrary.simpleMessage("Invalid number"),
+            "Depositkan \$ dan tukarkan dengan mata uang lainnya dengan biaya minimal"),
+        "invalid_number": MessageLookupByLibrary.simpleMessage("Nomor salah"),
         "invalid_pincode":
-            MessageLookupByLibrary.simpleMessage("Invalid pincode"),
+            MessageLookupByLibrary.simpleMessage("Kode pin salah"),
         "invalid_qa_code":
-            MessageLookupByLibrary.simpleMessage("Invalid QA Code"),
-        "invite_friend":
-            MessageLookupByLibrary.simpleMessage("Invite a friend"),
+            MessageLookupByLibrary.simpleMessage("Kode QA tidak sah"),
+        "invite_friend": MessageLookupByLibrary.simpleMessage("Undang teman"),
         "invite_friend_text": MessageLookupByLibrary.simpleMessage(
-            "Hey, your friend shared with you the fuse.cash wallet: "),
+            "Hei, teman Anda berbagi dompet fuse.cash dengan Anda:"),
         "invite_text": m0,
-        "join_bonus": MessageLookupByLibrary.simpleMessage(
-            "Anda mendapatkan bonus bergabung!"),
-        "joined": MessageLookupByLibrary.simpleMessage("Joined"),
+        "join_bonus":
+            MessageLookupByLibrary.simpleMessage("Anda menerima bonus gabung!"),
+        "joined": MessageLookupByLibrary.simpleMessage("Bergabung"),
         "joined_community":
             MessageLookupByLibrary.simpleMessage("Gabung komunitas"),
-        "joining": MessageLookupByLibrary.simpleMessage("Joining"),
+        "joining": MessageLookupByLibrary.simpleMessage("Bergabung"),
         "joining_community":
-            MessageLookupByLibrary.simpleMessage("Bergabung komunitas"),
-        "language": MessageLookupByLibrary.simpleMessage("Bahasa Indonesia"),
-        "learn_about_fuse_dollar":
-            MessageLookupByLibrary.simpleMessage("Learn about Fuse Dollar"),
+            MessageLookupByLibrary.simpleMessage("Bergabung ke Komunitas"),
+        "language": MessageLookupByLibrary.simpleMessage("Bahasa"),
+        "learn_about_fuse_dollar": MessageLookupByLibrary.simpleMessage(
+            "Pelajari seputar Fuse Dollar"),
         "learn_more":
-            MessageLookupByLibrary.simpleMessage("Pelajari lebih lanjut"),
-        "legal": MessageLookupByLibrary.simpleMessage("Legalitas"),
+            MessageLookupByLibrary.simpleMessage("Pelajari lebih jauh"),
+        "legal": MessageLookupByLibrary.simpleMessage("Legal"),
         "lets_start":
-            MessageLookupByLibrary.simpleMessage("That\'s it! Let\'s start"),
-        "limit_discalimer":
-            MessageLookupByLibrary.simpleMessage("(for deposits above 200 \$)"),
+            MessageLookupByLibrary.simpleMessage("Itu saja! Mari mulai"),
+        "limit_discalimer": MessageLookupByLibrary.simpleMessage(
+            "(untuk deposit di atas 200 USD)"),
         "limit_offer": MessageLookupByLibrary.simpleMessage(
-            "Limited time offer! 50 \$ deposit bonus 💸"),
+            "Penawaran waktu terbatas! Bonus deposit 50 USD 💸"),
         "login": MessageLookupByLibrary.simpleMessage("Masuk"),
         "logout": MessageLookupByLibrary.simpleMessage("Keluar"),
         "map": MessageLookupByLibrary.simpleMessage("Peta"),
-        "move_to": MessageLookupByLibrary.simpleMessage("Move to"),
+        "move_to": MessageLookupByLibrary.simpleMessage("Pindahkan ke"),
         "my_communities":
-            MessageLookupByLibrary.simpleMessage("My communities"),
-        "name": MessageLookupByLibrary.simpleMessage("Name"),
-        "network": MessageLookupByLibrary.simpleMessage("Network"),
-        "network_fee": MessageLookupByLibrary.simpleMessage("Network Fee"),
-        "next_button": MessageLookupByLibrary.simpleMessage("Lanjutkan"),
-        "no": MessageLookupByLibrary.simpleMessage("No"),
-        "no_activity": MessageLookupByLibrary.simpleMessage("No activity"),
+            MessageLookupByLibrary.simpleMessage("Komunitas saya"),
+        "name": MessageLookupByLibrary.simpleMessage("Nama"),
+        "network": MessageLookupByLibrary.simpleMessage("Jaringan"),
+        "network_fee": MessageLookupByLibrary.simpleMessage("Biaya Jaringan"),
+        "next_button": MessageLookupByLibrary.simpleMessage("Lanjut"),
+        "no": MessageLookupByLibrary.simpleMessage("Tidak"),
+        "no_activity":
+            MessageLookupByLibrary.simpleMessage("Tidak ada aktivitas"),
         "no_businesses":
-            MessageLookupByLibrary.simpleMessage("Tidak ada bisnis di temukan"),
+            MessageLookupByLibrary.simpleMessage("Badan usaha tidak ditemukan"),
         "no_funds_available":
-            MessageLookupByLibrary.simpleMessage("No funds available"),
+            MessageLookupByLibrary.simpleMessage("Tidak ada dana"),
         "no_swap_option": MessageLookupByLibrary.simpleMessage(
-            "You don\'t have tokens to swap yet"),
-        "not_enough_balance": MessageLookupByLibrary.simpleMessage(
-            "Not enough balance in your account"),
+            "Anda belum punya token untuk ditukar"),
+        "not_enough_balance":
+            MessageLookupByLibrary.simpleMessage("Saldo akun tidak cukup"),
         "offline":
-            MessageLookupByLibrary.simpleMessage("it\'s seems you are offline"),
-        "ok": MessageLookupByLibrary.simpleMessage("Ok"),
-        "ok_thanks": MessageLookupByLibrary.simpleMessage("OK Thanks"),
-        "oops": MessageLookupByLibrary.simpleMessage("Oops"),
+            MessageLookupByLibrary.simpleMessage("Tampaknya Anda offline"),
+        "ok": MessageLookupByLibrary.simpleMessage("Oke"),
+        "ok_thanks": MessageLookupByLibrary.simpleMessage("Ok Terima Kasih"),
+        "oops": MessageLookupByLibrary.simpleMessage("Ups"),
         "or": MessageLookupByLibrary.simpleMessage("atau"),
-        "pay": MessageLookupByLibrary.simpleMessage("Bayar"),
-        "pay_with": MessageLookupByLibrary.simpleMessage("Pay with"),
+        "pay": MessageLookupByLibrary.simpleMessage("BAYAR"),
+        "pay_with": MessageLookupByLibrary.simpleMessage("Bayar dengan"),
         "peg_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space."),
+            "FuseDollar sepenuhnya dijamin oleh USD Coin (USDC) di Fuse. Diterbitkan oleh circle.com, USDC adalah stablecoin beregulasi yang sepenuhnya didukung oleh dollar dan diakui luas di dunia mata uang kripto."),
         "pending": MessageLookupByLibrary.simpleMessage("TERTUNDA"),
-        "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
+        "phoneNumber": MessageLookupByLibrary.simpleMessage("Nomor telepon"),
         "pickup_display_name":
-            MessageLookupByLibrary.simpleMessage("Pilih nama akun anda"),
+            MessageLookupByLibrary.simpleMessage("Pilih nama tampilan Anda"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(
-            "Nama ini akan di perlihatkan kepada kontak yang mengirimkan anda uang agar mengenali akun anda"),
+            "Nama ini akan ditampilkan pada kontak yang mengirim Anda uang untuk mengidentifikasi akun Anda"),
         "pincode": MessageLookupByLibrary.simpleMessage("Kode pin"),
         "pincode_dont_match":
-            MessageLookupByLibrary.simpleMessage("Pin code doesn\'t match"),
+            MessageLookupByLibrary.simpleMessage("Kode pin tidak sama"),
         "please_choose_security": MessageLookupByLibrary.simpleMessage(
-            "Please choose how you prefer to unlock the wallet:"),
-        "please_use": MessageLookupByLibrary.simpleMessage("Please use"),
-        "price": MessageLookupByLibrary.simpleMessage("Price"),
+            "Silakan pilih cara membuka dompet:"),
+        "please_use": MessageLookupByLibrary.simpleMessage("Harap gunakan"),
+        "price": MessageLookupByLibrary.simpleMessage("Harga"),
         "privacy": MessageLookupByLibrary.simpleMessage("Fuse.io/privacy"),
         "protect_wallet":
-            MessageLookupByLibrary.simpleMessage("Lindungi dompet anda"),
-        "rate": MessageLookupByLibrary.simpleMessage("Rate"),
-        "rate_us": MessageLookupByLibrary.simpleMessage("Rate us in the store"),
+            MessageLookupByLibrary.simpleMessage("Lindungi dompet Anda"),
+        "rate": MessageLookupByLibrary.simpleMessage("Nilai Tukar"),
+        "rate_us":
+            MessageLookupByLibrary.simpleMessage("Nilai kami di play store"),
         "re_type_passcode":
-            MessageLookupByLibrary.simpleMessage("Tulis kembali kode sandi "),
+            MessageLookupByLibrary.simpleMessage("Ketik ulang kode sandi"),
         "receive": MessageLookupByLibrary.simpleMessage("Terima"),
-        "receive_from": MessageLookupByLibrary.simpleMessage("Receive from"),
+        "receive_from": MessageLookupByLibrary.simpleMessage("Terima dari"),
         "received_from_ethereum":
-            MessageLookupByLibrary.simpleMessage("Received from Ethereum"),
-        "receiving": MessageLookupByLibrary.simpleMessage("Receiving"),
-        "recent": MessageLookupByLibrary.simpleMessage("Saat ini"),
-        "recommended": MessageLookupByLibrary.simpleMessage("Recommended"),
-        "resend_code":
-            MessageLookupByLibrary.simpleMessage("Kirim kembali kode"),
+            MessageLookupByLibrary.simpleMessage("Diterima dari Ethereum"),
+        "receiving": MessageLookupByLibrary.simpleMessage("Menerima"),
+        "recent": MessageLookupByLibrary.simpleMessage("Terkini"),
+        "recommended": MessageLookupByLibrary.simpleMessage("Disarankan"),
+        "resend_code": MessageLookupByLibrary.simpleMessage("Kirim ulang kode"),
         "reset_account": MessageLookupByLibrary.simpleMessage(
-            "Creating a new account will reset your existing account - are you sure you want to continue?"),
+            "Membuat akun baru akan mengatur ulang akun yang ada - yakin ingin melanjutkan?"),
         "restore_backup":
-            MessageLookupByLibrary.simpleMessage("Memulihkan perlindungan"),
-        "restore_from_backup": MessageLookupByLibrary.simpleMessage(
-            "Memulihkan dari perlindungan"),
+            MessageLookupByLibrary.simpleMessage("Pulihkan cadangan"),
+        "restore_from_backup":
+            MessageLookupByLibrary.simpleMessage("Pulihkan dari cadangan"),
         "restore_words": MessageLookupByLibrary.simpleMessage(
-            "Ini adalah 12 susunan kata yang di berikan kepada anda ketika anda membuat dompet sebelumnya"),
-        "review_swap": MessageLookupByLibrary.simpleMessage("Review swap"),
+            "Ini adalah frasa 12 kata yang Anda terima saat membuat dompet Anda sebelumnya"),
+        "review_swap": MessageLookupByLibrary.simpleMessage("Tinjau penukaran"),
         "review_trade": MessageLookupByLibrary.simpleMessage(""),
         "review_transfer":
-            MessageLookupByLibrary.simpleMessage("Tinjau pengiriman"),
+            MessageLookupByLibrary.simpleMessage("Tinjau transfer"),
         "save_button": MessageLookupByLibrary.simpleMessage("Simpan"),
         "scan_to_receive": MessageLookupByLibrary.simpleMessage(
-            "Scan Kode QR untuk terima uang"),
+            "Pindai kode QR untuk menerima uang"),
         "search": MessageLookupByLibrary.simpleMessage("Nama atau Alamat"),
-        "selected": MessageLookupByLibrary.simpleMessage("Selected"),
-        "sell": MessageLookupByLibrary.simpleMessage("Sell"),
-        "send": MessageLookupByLibrary.simpleMessage("Send"),
+        "selected": MessageLookupByLibrary.simpleMessage("Terpilih"),
+        "sell": MessageLookupByLibrary.simpleMessage("Jual"),
+        "send": MessageLookupByLibrary.simpleMessage("Kirim"),
         "send_button": MessageLookupByLibrary.simpleMessage("Kirim"),
-        "send_to": MessageLookupByLibrary.simpleMessage("Kirim kepada"),
+        "send_to": MessageLookupByLibrary.simpleMessage("Kirim ke"),
         "send_to_address":
-            MessageLookupByLibrary.simpleMessage("Send to an address"),
+            MessageLookupByLibrary.simpleMessage("Kirim ke sebuah alamat"),
         "sending_to_ethereum": MessageLookupByLibrary.simpleMessage(
-            "Sent to your Ethereum wallet"),
-        "sent_to": MessageLookupByLibrary.simpleMessage("Send to"),
+            "Terkirim ke dompet Ethereum Anda"),
+        "sent_to": MessageLookupByLibrary.simpleMessage("Kirim ke"),
         "sent_to_ethereum":
-            MessageLookupByLibrary.simpleMessage("Sent to Ethereum"),
+            MessageLookupByLibrary.simpleMessage("Terkirim ke Ethereum"),
         "settings": MessageLookupByLibrary.simpleMessage("Pengaturan"),
         "share_button": MessageLookupByLibrary.simpleMessage("Bagikan"),
         "sign_up": MessageLookupByLibrary.simpleMessage("Daftar"),
         "simple": MessageLookupByLibrary.simpleMessage("Mudah"),
-        "skip_button": MessageLookupByLibrary.simpleMessage("Lewatkan"),
-        "slippage": MessageLookupByLibrary.simpleMessage("Slippage"),
-        "smart": MessageLookupByLibrary.simpleMessage("Pintar"),
-        "social": MessageLookupByLibrary.simpleMessage("Social"),
+        "skip_button": MessageLookupByLibrary.simpleMessage("Lewati"),
+        "slippage": MessageLookupByLibrary.simpleMessage("Kesenjangan"),
+        "smart": MessageLookupByLibrary.simpleMessage("Cerdas"),
+        "social": MessageLookupByLibrary.simpleMessage("Sosial"),
         "something_went_wrong":
-            MessageLookupByLibrary.simpleMessage("Something went wrong"),
+            MessageLookupByLibrary.simpleMessage("Terjadi sesuatu"),
         "sqan_qr_code":
-            MessageLookupByLibrary.simpleMessage("Scan QR untuk ganti"),
+            MessageLookupByLibrary.simpleMessage("Pindai QR untuk beralih"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
+            "Dompet Fuse menyimpan informasi pribadi secara lokal di perangkat Anda. Hanya nomor telepon yang digunakan untuk dapat memverifikasi identitas dan mengurangi friksi saat mengirim uang ke kontak telepon."),
         "success": MessageLookupByLibrary.simpleMessage("Berhasil"),
-        "swap": MessageLookupByLibrary.simpleMessage("Swap"),
-        "swapped": MessageLookupByLibrary.simpleMessage("Swapped"),
-        "swapping": MessageLookupByLibrary.simpleMessage("Swapping"),
+        "swap": MessageLookupByLibrary.simpleMessage("Tukar"),
+        "swapped": MessageLookupByLibrary.simpleMessage("Ditukar"),
+        "swapping": MessageLookupByLibrary.simpleMessage("Menukar"),
         "switch_community":
-            MessageLookupByLibrary.simpleMessage("Ganti komunitas"),
+            MessageLookupByLibrary.simpleMessage("Beralih komunitas"),
         "sync_contacts":
-            MessageLookupByLibrary.simpleMessage("Sinkronisasi kontak"),
+            MessageLookupByLibrary.simpleMessage("Sinkronkan kontak"),
         "sync_your_contacts":
-            MessageLookupByLibrary.simpleMessage("Sinkronisasi kontak anda"),
+            MessageLookupByLibrary.simpleMessage("Sinkronkan kontak Anda"),
         "ten_seconds":
-            MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
-        "to": MessageLookupByLibrary.simpleMessage("Kepada"),
+            MessageLookupByLibrary.simpleMessage("(hingga 10 detik)"),
+        "to": MessageLookupByLibrary.simpleMessage("Ke"),
         "to_protect": MessageLookupByLibrary.simpleMessage(
-            "To protect your money and wallet go now to the settings and back up your wallet in few easy steps"),
-        "to_unlock": MessageLookupByLibrary.simpleMessage("to unlock!"),
+            "Untuk melindungi uang dan dompet Anda kini pergilah ke pengaturan dan cadangkan dompet Anda dengan beberapa langkah mudah"),
+        "to_unlock": MessageLookupByLibrary.simpleMessage("untuk membuka!"),
         "token": MessageLookupByLibrary.simpleMessage("Token"),
-        "top_up": MessageLookupByLibrary.simpleMessage("Isi ulang akun anda"),
+        "top_up": MessageLookupByLibrary.simpleMessage("Isi"),
         "top_up_your_account":
-            MessageLookupByLibrary.simpleMessage("Top up your account"),
-        "total_amount": MessageLookupByLibrary.simpleMessage("Total amount:"),
+            MessageLookupByLibrary.simpleMessage("Isi akun Anda"),
+        "total_amount": MessageLookupByLibrary.simpleMessage("Nominal total:"),
         "touch_id": MessageLookupByLibrary.simpleMessage("Touch ID"),
         "trade": MessageLookupByLibrary.simpleMessage("Perdagangan"),
         "transaction_details":
             MessageLookupByLibrary.simpleMessage("Rincian transaksi"),
         "transaction_failed":
-            MessageLookupByLibrary.simpleMessage("Transaction failed"),
+            MessageLookupByLibrary.simpleMessage("Transaksi gagal"),
         "transactions": MessageLookupByLibrary.simpleMessage("Transaksi"),
-        "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Coba lagi"),
         "txn": MessageLookupByLibrary.simpleMessage("Txn"),
-        "up_to_10": MessageLookupByLibrary.simpleMessage("(up to 10 seconds)"),
+        "up_to_10": MessageLookupByLibrary.simpleMessage("(hingga 10 detik)"),
         "use_fusd_explain": MessageLookupByLibrary.simpleMessage(
-            "FuseDollars can be freely moved between accounts on FuseCash, as well as to Fuse accounts outside Fuse Cash. They can also be swapped for other cryptocurrencies straight from Fuse Cash using the FuseSwap DEX, and will soon be usable for earning passive income."),
-        "use_max": MessageLookupByLibrary.simpleMessage("Use max"),
+            "FuseDollars dapat bebas dipindahkan antar akun di FuseCash, selain juga akun Fuse di luar FuseCash. Itu juga dapat ditukar dengan mata uang kripto lainnya langsung dari FuseCash menggunakan FuseSwap DEX, dan sebentar lagi akan dapat digunakan untuk memperoleh pemasukan pasif."),
+        "use_max": MessageLookupByLibrary.simpleMessage("Gunakan maks"),
         "useful": MessageLookupByLibrary.simpleMessage("Berguna"),
-        "version": MessageLookupByLibrary.simpleMessage("Versi"),
+        "version": MessageLookupByLibrary.simpleMessage("Versi aplikasi"),
         "visit_fuseio": MessageLookupByLibrary.simpleMessage(
-            "Visit fuse.io to learn more about Fuse and how things work behind the scenes."),
-        "waiting_for_deposit": MessageLookupByLibrary.simpleMessage(
-            "Waiting for your deposit to arrive"),
-        "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
-        "wallet_address":
-            MessageLookupByLibrary.simpleMessage("Wallet address"),
+            "Kunjungi fuse.io untuk mempelajari lebih lanjut tentang Fuse dan cara kerjanya di balik layar."),
+        "waiting_for_deposit":
+            MessageLookupByLibrary.simpleMessage("Menunggu deposit Anda tiba"),
+        "wallet": MessageLookupByLibrary.simpleMessage("Dompet"),
+        "wallet_address": MessageLookupByLibrary.simpleMessage("Alamat dompet"),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
-            "Dompet fuse anda terlindungi!"),
+            "Dompet Fuse Anda terlindungi!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
-            "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu."),
+            "Bagus, Anda sudah mencadangkan frasa rahasia. Simpan frasa rahasia di tempat aman dan terlindungi dan jangan beri tahukan ke siapa pun."),
         "we_just_sent": MessageLookupByLibrary.simpleMessage(
-            "Kami baru mengirimkan pesan ke \n"),
+            "Kami baru saja mengirim pesan ke"),
         "we_notice": MessageLookupByLibrary.simpleMessage(
-            "We notice you haven’t backup your wallet yet."),
+            "Kami lihat Anda belum mencadangkan dompet."),
         "what_is_fuse_dollar":
-            MessageLookupByLibrary.simpleMessage("What is FuseDollar?"),
+            MessageLookupByLibrary.simpleMessage("Apa itu FuseDollar?"),
         "what_is_peg": MessageLookupByLibrary.simpleMessage(
-            "How the FuseDollar peg is maintained?"),
+            "Bagaimana patokan FuseDollar dijaga?"),
         "why_do_we_need_this": MessageLookupByLibrary.simpleMessage(
             "Mengapa kami memerlukan ini?"),
         "will_never_share": MessageLookupByLibrary.simpleMessage(
-            "Fuse will never share this information with 3rd party."),
-        "wire_transfer": MessageLookupByLibrary.simpleMessage("Wire Transfer"),
-        "word": MessageLookupByLibrary.simpleMessage("kata "),
+            "Fuse tidak akan pernah menyebar informasi ini ke pihak ketiga."),
+        "wire_transfer": MessageLookupByLibrary.simpleMessage("Transfer Bank"),
+        "word": MessageLookupByLibrary.simpleMessage("Kata"),
         "word_not_match":
-            MessageLookupByLibrary.simpleMessage("Kata tidak cocok"),
-        "write_down_your_words": MessageLookupByLibrary.simpleMessage(
-            "Tuliskan 12 susunan kata anda..."),
+            MessageLookupByLibrary.simpleMessage("Kata tidak sama"),
+        "write_down_your_words":
+            MessageLookupByLibrary.simpleMessage("Tuliskan 12 kata..."),
         "write_word":
-            MessageLookupByLibrary.simpleMessage("Mohon tuliskan kata-kata \n"),
+            MessageLookupByLibrary.simpleMessage("Harap tuliskan kata"),
         "write_words": MessageLookupByLibrary.simpleMessage(
-            "tulislah secara berurutan dan jaga tetap aman. Anda tidak akan bisa memulihkan akun anda tanpa itu."),
-        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-        "you_got_a": MessageLookupByLibrary.simpleMessage("You got a"),
-        "your_balance": MessageLookupByLibrary.simpleMessage("Your balance"),
+            "tulis kata-kata secara berurutan dan dapatkan perlindungan. Anda tidak dapat memulihkan akun tanpanya."),
+        "yes": MessageLookupByLibrary.simpleMessage("Ya"),
+        "you_got_a": MessageLookupByLibrary.simpleMessage("Anda mendapat"),
+        "your_balance": MessageLookupByLibrary.simpleMessage("Saldo Anda"),
         "your_balance_is_empty":
-            MessageLookupByLibrary.simpleMessage("You have no balance"),
+            MessageLookupByLibrary.simpleMessage("Anda tidak punya saldo"),
         "your_wallet_is_empty":
-            MessageLookupByLibrary.simpleMessage("Your wallet is empty!")
+            MessageLookupByLibrary.simpleMessage("Dompet Anda kosong!")
       };
 }
