@@ -564,9 +564,11 @@ packages:
   flutter_segment:
     dependency: "direct main"
     description:
-      name: flutter_segment
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "1e617ef3a05a190e55afb12a09a3740196db4713"
+      url: "https://github.com/fuseio/flutter-segment.git"
+    source: git
     version: "3.1.0"
   flutter_slidable:
     dependency: "direct main"
