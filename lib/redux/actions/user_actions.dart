@@ -481,6 +481,18 @@ ThunkAction identifyCall() {
         log.error('Error in identifyCall: ${e.toString()} ${s.toString()}');
       }
     }
+
+    try {
+      await api.addUserContext({
+        'os': Platform.isAndroid
+            ? 'android'
+            : Platform.isIOS
+                ? 'ios'
+                : 'other',
+      });
+    } catch (e, s) {
+      log.error('Error in api.addUserContext: ${e.toString()} ${s.toString()}');
+    }
   };
 }
 

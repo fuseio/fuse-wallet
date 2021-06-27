@@ -1521,7 +1521,7 @@ packages:
     description:
       path: "."
       ref: "feat/null-safety"
-      resolved-ref: "91ddb1ddc96242bf7acc0b8044e004e3bbc54762"
+      resolved-ref: d04c94f8757bd4d9a2cc5402156ae21b1f73462e
       url: "https://github.com/fuseio/wallet_core.git"
     source: git
     version: "0.3.0"
