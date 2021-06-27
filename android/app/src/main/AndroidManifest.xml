@@ -44,8 +44,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="fuseio.app.link" />
-                <data android:scheme="https" android:host="app.fuse.io" />
+                <data android:scheme="https" android:host="app.fuse.cash" />
+                <data android:scheme="https" android:host="rkno4-alternate.app.link" />
             </intent-filter>
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK"/>

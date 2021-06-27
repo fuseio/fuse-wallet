@@ -126,6 +126,8 @@
 		<true/>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
+			<string>https</string>
+			<string>http</string>
 			<string>itms</string>
 		</array>
 		<key>UIStatusBarHidden</key>

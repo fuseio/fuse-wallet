@@ -40,9 +40,9 @@ Future<void> mainCommon(String env) async {
   final envFile = env == 'prod' ? '.env' : '.env_qa';
   await dotenv.load(fileName: 'environment/$envFile');
   configureDependencies();
-  FlutterSecureStorage storage = new FlutterSecureStorage();
+  await getIt.allReady();
   final Persistor<AppState> persistor = Persistor<AppState>(
-    storage: SecureStorage(storage = storage),
+    storage: SecureStorage(FlutterSecureStorage()),
     serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
     debug: kDebugMode,
   );
