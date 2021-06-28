@@ -173,6 +173,10 @@ ThunkAction loginHandler(
 ) {
   return (Store store) async {
     try {
+      Segment.alias(alias: phoneNumber.e164);
+      Segment.track(
+        eventName: 'Sign up: Phone_NextBtn_Press',
+      );
       store.dispatch(SetIsLoginRequest(isLoading: true));
       await onBoardStrategy.login(
         store,
@@ -183,10 +187,6 @@ ThunkAction loginHandler(
           countryCode: countryCode,
           phoneNumber: phoneNumber.e164,
         ),
-      );
-      Segment.alias(alias: phoneNumber.e164);
-      Segment.track(
-        eventName: 'Sign up: Phone_NextBtn_Press',
       );
     } catch (e, s) {
       loginFailureCallback();
