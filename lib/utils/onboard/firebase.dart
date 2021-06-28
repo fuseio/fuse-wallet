@@ -83,6 +83,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       phoneNumber: phoneNumber,
       codeAutoRetrievalTimeout: (String verificationId) {},
       codeSent: codeSent,
+      timeout: Duration(minutes: 2),
       verificationCompleted: verificationCompleted,
       verificationFailed: verificationFailed,
     );

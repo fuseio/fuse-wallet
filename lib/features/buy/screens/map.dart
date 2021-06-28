@@ -32,17 +32,15 @@ class _MapScreenState extends State<MapScreen> {
         distinct: true,
         converter: BuyViewModel.fromStore,
         builder: (_, viewModel) {
-          return MaterialApp(
-            home: Scaffold(
-              appBar: AppBar(
-                title: Text(I10n.of(context).map),
-              ),
-              body: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _center,
-                  zoom: 11.0,
-                ),
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(I10n.of(context).map),
+            ),
+            body: GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
               ),
             ),
           );

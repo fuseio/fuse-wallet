@@ -159,6 +159,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   ) <=
                   0;
           return Container(
+            padding: EdgeInsets.only(
+              top: 20,
+              bottom: 20,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -166,9 +170,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   children: [
                     Column(
                       children: <Widget>[
-                        SizedBox(
-                          height: 50,
-                        ),
                         Text(
                           I10n.of(context).amount,
                           textAlign: TextAlign.center,
@@ -424,9 +425,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           });
                         },
                       ),
-                    ),
-                    SizedBox(
-                      height: 70,
                     ),
                   ],
                 ),

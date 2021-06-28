@@ -68,7 +68,6 @@ class _MyAppState extends State<MyApp> {
             secondaryVariant: Color(0xFF777777),
             primary: Color(0xFF38D989),
             primaryVariant: Color(0xFF23B16A),
-            accentColor: Color(0xFF000000),
             appBarColor: Color(0xFFFFFFFF),
           ),
         ).toTheme,
