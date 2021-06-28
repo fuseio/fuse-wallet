@@ -195,7 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "legal": MessageLookupByLibrary.simpleMessage("ถูกกฎหมาย"),
         "lets_start": MessageLookupByLibrary.simpleMessage("แค่นั้น! เริ่มได้"),
         "limit_discalimer": MessageLookupByLibrary.simpleMessage(
-            "(สำหรับเงินฝากที่สูงกว่า 200 \$)"),
+            "(สำหรับเงินฝากที่สูงกว่า 200\$)"),
         "limit_offer": MessageLookupByLibrary.simpleMessage(
             "ข้อเสนอนี้มีเวลาจำกัด! โบนัสเงินฝาก 50 \$ 💸"),
         "login": MessageLookupByLibrary.simpleMessage("เข้าสู่ระบบ"),

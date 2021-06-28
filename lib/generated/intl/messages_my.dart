@@ -202,7 +202,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "lets_start":
             MessageLookupByLibrary.simpleMessage("ရပါပြီ! စလိုက်ရအောင်"),
         "limit_discalimer":
-            MessageLookupByLibrary.simpleMessage("(for deposits above 200 \$)"),
+            MessageLookupByLibrary.simpleMessage("(for deposits above 200\$)"),
         "limit_offer": MessageLookupByLibrary.simpleMessage(
             "Limited time offer! 50 \$ deposit bonus 💸"),
         "login": MessageLookupByLibrary.simpleMessage("အကောင့်ဝင်မည်"),
