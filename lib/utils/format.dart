@@ -1,11 +1,30 @@
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:number_display/number_display.dart';
 
 final Display display = createDisplay(
   decimal: 2,
 );
+
+String calcPrice(
+  BigInt value,
+  int decimals,
+  Price? priceInfo,
+) {
+  final bool hasPriceInfo =
+      ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
+  if (hasPriceInfo) {
+    return getFiatValue(
+      value,
+      decimals,
+      double.parse(priceInfo!.quote),
+    );
+  } else {
+    return formatValue(value, decimals);
+  }
+}
 
 final Map<String, num> fees = {
   "DZAR": 17,
@@ -17,39 +36,57 @@ final Map<String, num> fees = {
   "TUSD": 1,
 };
 
+bool isNumeric(String? s) {
+  if (s == null) {
+    return false;
+  }
+  return Decimal.tryParse(s) != null;
+}
+
+bool smallNumberTest(num value) {
+  return value.compareTo(0) == 1 && value.compareTo(0.01) <= 0;
+}
+
+String smallValuesConvertor(num value) {
+  if (smallNumberTest(value)) {
+    return '< 0.01';
+  }
+  return display(num.parse(value.toString()));
+}
+
 String formatValue(
   BigInt value,
-  int decimals, {
-  int fractionDigits = 2,
+  int decimals, [
   bool withPrecision = false,
-}) {
-  if (value == null || decimals == null) return '0';
-  Decimal formattedValue =
-      Decimal.parse((value / BigInt.from(pow(10, decimals))).toString());
+]) {
+  num formattedValue =
+      num.parse((value / BigInt.from(pow(10, decimals))).toString());
   if (withPrecision) return formattedValue.toString();
-  return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
+  return smallValuesConvertor(formattedValue);
 }
 
 String getFiatValue(
-  BigInt value,
-  int decimals,
-  double price, {
+  BigInt? value,
+  int? decimals,
+  double? price, {
   int fractionDigits = 2,
-  bool withPrecision = false,
 }) {
-  if (value == null || decimals == null) return '0';
+  if (value == null || decimals == null || price == null) return '0';
   Decimal formattedValue = Decimal.parse(
       ((value / BigInt.from(pow(10, decimals))) * price).toString());
-  if (withPrecision) return formattedValue.toString();
+  if (formattedValue.compareTo(Decimal.zero) == 1 &&
+      formattedValue.compareTo(Decimal.parse('0.01')) <= 0) {
+    return '< 0.01';
+  }
   return display(num.parse(formattedValue.toStringAsFixed(fractionDigits)));
 }
 
-String formatAddress(String address) {
+String formatAddress(String? address, [int endIndex = 6]) {
   if (address == null || address.isEmpty) return '';
-  return '${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}';
+  return '${address.substring(0, endIndex)}...${address.substring(address.length - 4, address.length)}';
 }
 
-BigInt toBigInt(dynamic value, int decimals) {
+BigInt toBigInt(dynamic value, int? decimals) {
   if (value == null || decimals == null) return BigInt.zero;
   Decimal tokensAmountDecimal = Decimal.parse(value.toString());
   Decimal decimalsPow = Decimal.parse(pow(10, decimals).toString());

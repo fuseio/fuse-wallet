@@ -5,7 +5,7 @@ import 'package:fusecash/redux/viewsmodels/balance.dart';
 import 'package:fusecash/models/app_state.dart';
 
 class Balance extends StatelessWidget {
-  const Balance({Key key}) : super(key: key);
+  const Balance({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,54 +13,19 @@ class Balance extends StatelessWidget {
       distinct: true,
       converter: BalanceViewModel.fromStore,
       builder: (_, viewModel) {
-        final hasToken = viewModel.token != null;
-        return viewModel.hasErc20Tokens
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  AutoSizeText(
-                    '\$${viewModel?.usdValue ?? '0'}',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              )
-            : AutoSizeText.rich(
-                TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'Europa',
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  children: !hasToken
-                      ? <TextSpan>[
-                          TextSpan(
-                            text: "\$0",
-                          )
-                        ]
-                      : <TextSpan>[
-                          TextSpan(
-                            text: viewModel.token.getBalance(),
-                          ),
-                          TextSpan(
-                            text: ' ' + viewModel.token?.symbol.toString(),
-                            style: TextStyle(
-                              fontSize: 8,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                ),
-                minFontSize: 30,
-                maxFontSize: 32,
-                maxLines: 1,
-                style: TextStyle(
-                  // fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
+        return Flexible(
+          child: AutoSizeText(
+            '\$${viewModel.usdValue}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+            presetFontSizes: [
+              30,
+              25,
+              22,
+            ],
+          ),
+        );
       },
     );
   }

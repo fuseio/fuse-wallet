@@ -18,10 +18,15 @@ _$_Plugins _$_$_PluginsFromJson(Map<String, dynamic> json) {
     transak: json['transak'] == null
         ? null
         : TransakPlugin.fromJson(json['transak'] as Map<String, dynamic>),
-    walletBanner: walletBannerFromJson(json['walletBanner']),
-    joinBonus: joinBonusPluginFromJson(json['joinBonus']),
-    backupBonus: backupBonusPluginFromJson(json['backupBonus']),
-    inviteBonus: inviteBonusPluginFromJson(json['inviteBonus']),
+    walletBanner: json['walletBanner'] == null
+        ? null
+        : WalletBannerPlugin.fromJson(json['walletBanner']),
+    joinBonus: const JoinBonusPluginConverter()
+        .fromJson(json['joinBonus'] as Map<String, dynamic>?),
+    backupBonus: const BackupBonusPluginConverter()
+        .fromJson(json['backupBonus'] as Map<String, dynamic>?),
+    inviteBonus: const InviteBonusPluginConverter()
+        .fromJson(json['inviteBonus'] as Map<String, dynamic>?),
   );
 }
 
@@ -38,8 +43,11 @@ Map<String, dynamic> _$_$_PluginsToJson(_$_Plugins instance) {
   writeNotNull('moonpay', instance.moonpay?.toJson());
   writeNotNull('transak', instance.transak?.toJson());
   writeNotNull('walletBanner', instance.walletBanner?.toJson());
-  writeNotNull('joinBonus', instance.joinBonus?.toJson());
-  writeNotNull('backupBonus', instance.backupBonus?.toJson());
-  writeNotNull('inviteBonus', instance.inviteBonus?.toJson());
+  writeNotNull(
+      'joinBonus', const JoinBonusPluginConverter().toJson(instance.joinBonus));
+  writeNotNull('backupBonus',
+      const BackupBonusPluginConverter().toJson(instance.backupBonus));
+  writeNotNull('inviteBonus',
+      const InviteBonusPluginConverter().toJson(instance.inviteBonus));
   return val;
 }

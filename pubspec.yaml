@@ -1,91 +1,106 @@
 name: fusecash
-version: 1.1.61+310
+version: 1.1.61+311
 description: Cross platform mobile Ethereum wallet.
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 dependencies:
-  responsive_framework: ^0.0.15
-  flutter_web_browser: ^0.13.1
-  modal_bottom_sheet: ^1.0.0+1
-  intl: ^0.16.1
-  grouped_list: ^3.7.0
-  charts_flutter: ^0.10.0
-  number_display: ^2.3.0
-  auto_size_text_field: ^0.1.7
-  pin_code_fields: ^6.1.0
-  flex_color_scheme: ^1.4.1
-  freezed_annotation: ^0.12.0
-  pretty_dio_logger: ^1.1.1
-  get_it: ^5.0.6
-  injectable: ^1.1.2
-  dio: ^3.0.10
-  smooth_page_indicator: ^0.2.1
-  font_awesome_flutter: ^8.10.0
-  flushbar: ^1.10.4
-  flutter_platform_widgets: ^0.71.0
-  enum_to_string: ^1.0.14
-  local_auth: ^0.6.3+4
-  auto_size_text: ^2.1.0
-  webview_flutter: ^1.0.7
-  phone_number: ^0.8.1
-  cached_network_image: ^2.5.0
-  auto_route: ^0.6.9
-  url_launcher: ^5.7.10
-  google_maps_flutter: ^1.2.0
-  equatable: ^1.2.6
-  package_info: ^0.4.3+2
-  share: ^0.6.5+4
-  flutter_svg: ^0.19.1
-  cupertino_icons: ^1.0.0
-  flutter_secure_storage: ^3.3.5
-  flutter_redux: ^0.7.0
-  flutter_dotenv: ^3.1.0
-  redux_thunk: ^0.3.0
-  redux_logging: ^0.4.0
-  redux_persist: ^0.8.4
-  country_code_picker: ^1.7.0
-  # wallet_core: ^0.2.4+21
-  # wallet_core:
-  #   path: ../wallet_core
-  wallet_core:
+  flutter_svg_provider: ^0.1.9
+  confetti: ^0.6.0-nullsafety
+  flutter_localized_locales: ^2.0.2
+  app_tracking_transparency: ^2.0.1
+  rate_my_app: ^1.1.0+1
+  responsive_framework: ^0.1.2
+  flutter_web_browser: ^0.14.0
+  modal_bottom_sheet: ^2.0.0
+  grouped_list: ^4.0.0
+  number_display: ^3.0.0
+  auto_size_text_field: ^1.0.0-nullsafety.1
+  pin_code_fields: ^7.2.0
+  flex_color_scheme: ^3.0.0
+  freezed_annotation: ^0.14.2
+  # pretty_dio_logger: ^1.2.0-beta-1
+  get_it: ^7.1.3
+  injectable: ^1.4.1
+  dio: ^4.0.0
+  smooth_page_indicator: ^0.3.0-nullsafety.0
+  font_awesome_flutter: ^9.1.0
+  # flushbar: ^1.10.4
+  # fluttertoast: ^8.0.7
+  flushbar:
     git:
-      url: https://github.com/fuseio/wallet_core.git
-      ref: next
-  barcode_scan: ^3.0.1
-  flutter_slidable: ^0.5.7
-  contacts_service: ^0.4.6
-  permission_handler: ^5.0.1+1
-  qr_flutter: ^3.2.0
-  logger: ^0.9.4
-  json_annotation: ^3.1.1
-  flare_flutter: ^2.0.6
-  decimal: ^0.3.5
-  flutter_segment: 2.1.1
-  firebase_messaging: ^7.0.3
-  firebase_auth: ^0.18.4+1
-  firebase_core: ^0.5.3
-  firebase_analytics: ^6.3.0
-  ethereum_address: ^1.0.1
-  sentry_flutter: ^4.0.6
-  device_info: ^1.0.0
-  image_picker: ^0.6.7+22
+      url: git://github.com/prasadsunny1/flushbar
+      ref: master
+  flutter_platform_widgets: ^1.9.5
+  enum_to_string: ^2.0.1
+  local_auth: ^1.1.6
+  auto_size_text: ^3.0.0-nullsafety.0
+  webview_flutter: ^2.0.8
+  phone_number: ^0.11.0+1
+  cached_network_image: ^3.0.0
+  auto_route: ^2.2.0
+  url_launcher: ^6.0.6
+  google_maps_flutter: ^2.0.6
+  equatable: ^2.0.3
+  package_info: ^2.0.2
+  share: ^2.0.4
+  flutter_svg: ^0.22.0
+  cupertino_icons: ^1.0.2
+  flutter_secure_storage: ^4.2.0
+  flutter_redux: ^0.8.2
+  flutter_dotenv: ^5.0.0
+  redux_thunk: ^0.4.0
+  redux_logging: ^0.5.0
+  redux_persist: ^0.9.0
+  country_code_picker: ^2.0.2
+  wallet_core:
+    path: ../wallet_core
+  # wallet_core:
+  #   git:
+  #     url: https://github.com/fuseio/wallet_core.git
+  #     ref: feat/null-safety
+  scan: ^1.4.3
+  flutter_slidable: ^0.6.0
+  contacts_service: ^0.6.1
+  permission_handler: ^8.1.1
+  qr_flutter: ^4.0.0
+  logger: ^1.0.0
+  json_annotation: ^4.0.1
+  flare_flutter: ^3.0.1
+  decimal: ^1.2.0
+  firebase_remote_config: ^0.10.0+2
+  firebase_messaging: ^10.0.2
+  firebase_auth: ^1.4.1
+  firebase_core: ^1.3.0
+  ethereum_address:
+    git:
+      url: https://github.com/fuseio/dart-ethereum_address.git
+      ref: master
+  sentry_flutter: ^5.1.0
+  image_picker: ^0.8.0+3
+  # flutter_segment: ^3.1.0
+  flutter_segment:
+    git:
+      url: https://github.com/fuseio/flutter-segment.git
+      ref: master
   flutter_cupertino_localizations: ^1.0.1
-  flutter_branch_sdk: 1.3.3
-  flutter_udid: ^1.0.1
+  flutter_branch_sdk: ^3.2.0
+  flutter_udid: ^2.0.0
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 dev_dependencies:
-  freezed: ^0.12.7
-  lint: ^1.3.1
-  injectable_generator: ^1.1.2
-  auto_route_generator: ^0.6.10
-  flutter_native_splash: ^0.3.0
-  dependency_validator: ^2.0.1
-  flutter_launcher_icons: ^0.8.1
-  build_runner: ^1.11.1
-  json_serializable: ^3.5.1
+  intl_utils: ^2.3.0
+  flutter_gen_runner: ^3.1.1
+  freezed: ^0.14.2
+  lint: ^1.5.3
+  injectable_generator: ^1.4.1
+  auto_route_generator: ^2.1.0
+  flutter_native_splash: ^1.1.8+4
+  dependency_validator: ^3.1.0
+  flutter_launcher_icons: ^0.9.0
+  build_runner: ^2.0.5
+  json_serializable: ^4.1.3
   flutter_test:
     sdk: flutter
 flutter:
@@ -112,3 +127,10 @@ flutter:
         - asset: assets/fonts/europa-bold-webfont.ttf
           weight: 900
   uses-material-design: true
+flutter_intl:
+  enabled: true
+  class_name: I10n
+  main_locale: en_US
+  localizely:
+    project_id: 059fb9dd-4449-4e79-92ef-4d786cf38e5a
+    download_empty_as: main

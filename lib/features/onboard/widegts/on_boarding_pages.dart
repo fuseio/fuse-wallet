@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class WelcomeFrame extends StatelessWidget {
   const WelcomeFrame({
-    Key key,
-    this.title,
-    this.subTitle,
+    Key? key,
+    required this.title,
+    required this.subTitle,
   }) : super(key: key);
 
   final String title;

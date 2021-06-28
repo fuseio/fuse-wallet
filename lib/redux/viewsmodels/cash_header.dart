@@ -5,13 +5,13 @@ class CashHeaderViewModel {
   final Function() firstName;
 
   CashHeaderViewModel({
-    this.firstName,
+    required this.firstName,
   });
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     return CashHeaderViewModel(
       firstName: () {
-        String fullName = store.state.userState.displayName ?? '';
+        String fullName = store.state.userState.displayName;
         return fullName.split(' ')[0];
       },
     );

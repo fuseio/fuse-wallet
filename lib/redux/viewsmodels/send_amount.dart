@@ -1,4 +1,3 @@
-import 'package:fusecash/utils/format.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -61,15 +60,6 @@ class SendAmountViewModel extends Equatable {
   }) sendToAccountAddress;
 
   final Function(
-    String eventName, {
-    Map<String, dynamic> properties,
-  }) trackTransferCall;
-
-  final Function(
-    Map<String, dynamic> traits,
-  ) identifyCall;
-
-  final Function(
     Token token,
     String receiverAddress,
     num amount,
@@ -83,16 +73,14 @@ class SendAmountViewModel extends Equatable {
   List<Object> get props => [tokens, communities];
 
   SendAmountViewModel({
-    this.tokens,
-    this.communities,
-    this.sendToContact,
-    this.sendToAccountAddress,
-    this.trackTransferCall,
-    this.identifyCall,
-    this.sendToErc20Token,
-    this.sendERC20ToContact,
-    this.sendToForeignMultiBridge,
-    this.sendToHomeMultiBridge,
+    required this.tokens,
+    required this.communities,
+    required this.sendToContact,
+    required this.sendToAccountAddress,
+    required this.sendToErc20Token,
+    required this.sendERC20ToContact,
+    required this.sendToForeignMultiBridge,
+    required this.sendToHomeMultiBridge,
   });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
@@ -101,14 +89,13 @@ class SendAmountViewModel extends Equatable {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
         .toList();
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
-        .map((Token token) => token?.copyWith(
+        .where((Token token) =>
+            num.parse(token.getBalance(true)).compareTo(0) == 1)
+        .map((Token token) => token.copyWith(
             imageUrl: token.imageUrl != null
                 ? token.imageUrl
                 : store.state.cashWalletState.communities
@@ -117,20 +104,11 @@ class SendAmountViewModel extends Equatable {
                         .communities[token.communityAddress]?.metadata
                         ?.getImageUri()
                     : null))
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
         .toList();
 
-    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort(
-        (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
-          tokenA?.amount ?? BigInt.zero,
-        ),
-      );
+    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort();
     return SendAmountViewModel(
-      tokens: tokens ?? [],
+      tokens: List<Token>.from(tokens.reversed),
       communities: communities,
       sendToContact: (
         Token token,
@@ -138,8 +116,8 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
-        String transferNote,
+        String? receiverName,
+        String? transferNote,
       }) {
         store.dispatch(sendTokenToContactCall(
           token,
@@ -158,8 +136,8 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
-        String transferNote,
+        String? receiverName,
+        String? transferNote,
       }) {
         store.dispatch(sendErc20TokenToContactCall(
           token,
@@ -177,8 +155,8 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
-        String transferNote,
+        String? receiverName,
+        String? transferNote,
       }) {
         store.dispatch(sendTokenCall(
           token,
@@ -196,8 +174,8 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
-        String transferNote,
+        String? receiverName,
+        String? transferNote,
       }) {
         store.dispatch(sendErc20TokenCall(
           token,
@@ -215,7 +193,7 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
+        String? receiverName,
       }) {
         store.dispatch(sendTokenToForeignMultiBridge(
           token,
@@ -232,7 +210,7 @@ class SendAmountViewModel extends Equatable {
         num amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback, {
-        String receiverName,
+        String? receiverName,
       }) {
         store.dispatch(sendTokenToHomeMultiBridge(
           token,
@@ -242,20 +220,6 @@ class SendAmountViewModel extends Equatable {
           sendFailureCallback,
           receiverName: receiverName,
         ));
-      },
-      trackTransferCall: (
-        String eventName, {
-        Map<String, dynamic> properties,
-      }) {
-        store.dispatch(segmentTrackCall(
-          eventName,
-          properties: properties,
-        ));
-      },
-      identifyCall: (
-        Map<String, dynamic> traits,
-      ) {
-        store.dispatch(segmentIdentifyCall(traits));
       },
     );
   }

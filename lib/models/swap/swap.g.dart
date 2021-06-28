@@ -10,7 +10,7 @@ _$_TradeInfo _$_$_TradeInfoFromJson(Map<String, dynamic> json) {
   return _$_TradeInfo(
     inputAmount: json['inputAmount'] as String,
     outputAmount: json['outputAmount'] as String,
-    route: (json['route'] as List)?.map((e) => e as String)?.toList(),
+    route: (json['route'] as List<dynamic>).map((e) => e as String).toList(),
     inputToken: json['inputToken'] as String,
     outputToken: json['outputToken'] as String,
     executionPrice: json['executionPrice'] as String,
@@ -35,7 +35,7 @@ _$_SwapCallParameters _$_$_SwapCallParametersFromJson(
     Map<String, dynamic> json) {
   return _$_SwapCallParameters(
     methodName: json['methodName'] as String,
-    args: json['args'] as List,
+    args: json['args'] as List<dynamic>,
     value: json['value'] as String,
     rawTxn: json['rawTxn'] as Map<String, dynamic>,
   );
@@ -52,10 +52,10 @@ Map<String, dynamic> _$_$_SwapCallParametersToJson(
 
 _$_SwapRequestBody _$_$_SwapRequestBodyFromJson(Map<String, dynamic> json) {
   return _$_SwapRequestBody(
-    currencyIn: json['currencyIn'] as String,
-    currencyOut: json['currencyOut'] as String,
-    amountIn: json['amountIn'] as String,
-    recipient: json['recipient'] as String,
+    currencyIn: json['currencyIn'] as String? ?? '',
+    currencyOut: json['currencyOut'] as String? ?? '',
+    amountIn: json['amountIn'] as String? ?? '',
+    recipient: json['recipient'] as String? ?? '',
   );
 }
 

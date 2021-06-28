@@ -1,5 +1,5 @@
 import 'package:flare_flutter/flare.dart';
-import 'package:flare_dart/math/mat2d.dart';
+// import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_controller.dart';
 
 typedef void OnUpdated();
@@ -10,13 +10,15 @@ class HouseController extends FlareController {
 
   final OnUpdated onUpdated;
 
-  HouseController({this.onUpdated});
+  HouseController({
+    required this.onUpdated,
+  });
 
   bool isDemoMode = true;
   double _rooms = 0;
-  FlutterActorArtboard _artboard;
+  late FlutterActorArtboard _artboard;
 
-  ActorAnimation _arrange;
+  late ActorAnimation _arrange;
 
   double _time = 0;
   double _speed = 4;
@@ -25,10 +27,10 @@ class HouseController extends FlareController {
 
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
-
     var def = (_startFrom + _time) - (_startFrom + step2 * _animationLength);
     if (def > 0.5 || def < -0.5) {
-      if ((_startFrom + _time).round() < _startFrom + step2 * _animationLength) {
+      if ((_startFrom + _time).round() <
+          _startFrom + step2 * _animationLength) {
         _time += elapsed * _speed;
         _arrange.apply(_startFrom + _time, artboard, 1);
       } else {
@@ -37,7 +39,7 @@ class HouseController extends FlareController {
       }
     } else {
       //if (_time > 18) {
-        //_arrange.apply(_startFrom + step2 * _animationLength, _artboard, 1);
+      //_arrange.apply(_startFrom + step2 * _animationLength, _artboard, 1);
       //}
     }
 
@@ -46,7 +48,7 @@ class HouseController extends FlareController {
 
   @override
   void initialize(FlutterActorArtboard artboard) {
-    _arrange = artboard.getAnimation("Animation");
+    _arrange = artboard.getAnimation("Animation")!;
     _artboard = artboard;
     _arrange.apply(_startFrom, _artboard, 1);
   }

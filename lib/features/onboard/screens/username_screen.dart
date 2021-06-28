@@ -1,14 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/utils/string.dart';
 
 class UserNameScreen extends StatelessWidget {
@@ -16,9 +15,8 @@ class UserNameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/user-name-screen');
     return MyScaffold(
-      title: I18n.of(context).sign_up,
+      title: I10n.of(context).sign_up,
       body: StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
@@ -48,14 +46,14 @@ class UserNameScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 20.0),
                           Text(
-                            I18n.of(context).pickup_display_name,
+                            I10n.of(context).pickup_display_name,
                             style: TextStyle(
                               fontSize: 20,
                             ),
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                            I18n.of(context).pickup_display_name_text,
+                            I10n.of(context).pickup_display_name_text,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
@@ -103,12 +101,11 @@ class UserNameScreen extends StatelessWidget {
                   children: [
                     Center(
                       child: PrimaryButton(
-                        label: I18n.of(context).next_button,
+                        label: I10n.of(context).next_button,
                         onPressed: () {
                           viewModel.setDisplayName(
-                              displayNameController.text.capitalize() ??
-                                  'Anom');
-                          ExtendedNavigator.root.pushSecurityScreen();
+                              displayNameController.text.capitalize());
+                          context.router.push(ChooseSecurityOption());
                         },
                       ),
                     ),

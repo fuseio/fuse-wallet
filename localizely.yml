@@ -1,0 +1,48 @@
+config_version: 1.0 # Required. Only 1.0 available
+project_id: 059fb9dd-4449-4e79-92ef-4d786cf38e5a
+file_type: flutter_arb # Required. Available values : android_xml, ios_strings, ios_stringsdict, java_properties, rails_yaml, flutter_arb, dotnet_resx, json
+upload: # Required.
+  files: # Required. List of files for upload to Localizely. Usually, it is just one file used for the main locale
+    - file: lib/l10n/intl_en_US.arb
+      locale_code: en-US
+  params: # Optional.
+    overwrite: true # Optional, default: false. If the translation in a given language should be overwritten with modified translation from uploading file.
+    reviewed: false # Optional, default: false. If uploading translations, that are added, should be marked as Reviewed. For uploading translations that are only modified it will have effect only if overwrite is set to true.
+    # tag_added: # Optional. List of tags to add to new translations from uploading file.
+    #   - added
+    # tag_removed: # Optional. List of tags to add to removed translations from uploading file.
+    #   - removed
+    # tag_updated: # Optional. List of tags to add to updated translations from uploading file.
+    #   - updated
+download: # Required.
+  files: # Required. List of files for download from Localizely.
+    - file: l10n/intl_de_DE.arb
+      locale_code: de-DE
+    - file: l10n/intl_en_PH.arb
+      locale_code: en-PH
+    - file: l10n/intl_es_ES.arb
+      locale_code: es-ES
+    - file: l10n/intl_es_MX.arb
+      locale_code: es-MX
+    - file: l10n/intl_il_IL.arb
+      locale_code: il-IL
+    - file: l10n/intl_id_ID.arb
+      locale_code: id-ID
+    - file: l10n/intl_it_IT.arb
+      locale_code: it-IT
+    - file: l10n/intl_nl_NL.arb
+      locale_code: nl-NL
+    - file: l10n/intl_pt_BR.arb
+      locale_code: pt-BR
+    # - file: l10n/intl_ru_RU.arb
+    #   locale_code: ru-RU
+    # - file: l10n/intl_sr_SR.arb
+    #   locale_code: sr-SR
+
+  params:
+    export_empty_as: main # Optional, default: empty. How you would like empty translations to be exported. Allowed values are `empty` to keep empty, `main` to replace with the main language value, or `skip` to omit.
+    # exclude_tags: # Optional. List of tags to be excluded from the download. If not set, all string keys will be considered for download.
+    #   - removed
+    # include_tags: # Optional. List of tags to be downloaded. If not set, all string keys will be considered for download.
+    #   - new
+    java_properties_encoding: utf_8 # Optional, default: latin_1. (Only for Java .properties files download) Character encoding. Available values : `utf_8`, `latin_1`

@@ -1,98 +1,113 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 
 class SplashScreen extends StatefulWidget {
+  final void Function(bool isLoggedIn)? onLoginResult;
+  const SplashScreen({
+    Key? key,
+    this.onLoginResult,
+  }) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  BiometricAuth _biometricType;
-  Flushbar flush;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkBiometrical();
-  }
-
-  Future<void> _checkBiometrical() async {
-    _biometricType = await BiometricUtils.getAvailableBiometrics();
-    if (_biometricType != BiometricAuth.none) {
-      setState(() {
-        _biometricType = _biometricType;
-      });
-    }
-  }
+  late Flushbar flush;
 
   onInit(Store<AppState> store) async {
-    String privateKey = store?.state?.userState?.privateKey ?? '';
-    String jwtToken = store?.state?.userState?.jwtToken ?? '';
-    bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      // ExtendedNavigator.root.replace(Routes.onBoardingScreen);
-      ExtendedNavigator.root.replace(Routes.onBoardingScreen);
+      await Segment.setContext({});
+      context.router.replaceAll([OnBoardScreen()]);
+      widget.onLoginResult?.call(false);
     } else {
       UserState userState = store.state.userState;
-      if (userState?.authType != BiometricAuth.none) {
+      if (userState.authType != BiometricAuth.none) {
+        Segment.track(
+          eventName: 'Session Start: Authentication request for existed user',
+        );
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
+        await AppTrackingTransparency.requestTrackingAuthorization();
       }
       if (BiometricAuth.faceID == userState.authType ||
           BiometricAuth.touchID == userState.authType) {
         await _showLocalAuthPopup(
-          BiometricUtils.getBiometricString(_biometricType),
+          BiometricUtils.getBiometricString(
+            context,
+            userState.authType,
+          ),
         );
-      } else if (userState?.authType == BiometricAuth.pincode) {
-        ExtendedNavigator.root.replace(Routes.pinCodeScreen);
+        widget.onLoginResult?.call(true);
+      } else if (userState.authType == BiometricAuth.pincode) {
+        context.router.replaceAll([PinCodeScreen()]);
+        widget.onLoginResult?.call(true);
       } else {
-        ExtendedNavigator.root.replace(Routes.homeScreen);
+        context.router.replaceAll([MainScreen()]);
+        widget.onLoginResult?.call(true);
       }
     }
   }
 
   Future<void> _showLocalAuthPopup(String biometric) async {
     await BiometricUtils.showDefaultPopupCheckBiometricAuth(
-      message: 'Please use $biometric to unlock!',
+      message:
+          '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
       stickyAuth: true,
       callback: (bool result) {
         if (result) {
-          ExtendedNavigator.root.replace(Routes.homeScreen);
+          Segment.track(
+            eventName: 'Session Start: Authentication success',
+          );
+          context.router.replaceAll([MainScreen()]);
+          widget.onLoginResult?.call(true);
         } else {
           flush = Flushbar<bool>(
-            title: I18n.of(context).auth_failed_title,
-            message: I18n.of(context).auth_failed_message,
+            title: I10n.of(context).auth_failed_title,
+            message: I10n.of(context).auth_failed_message,
             icon: Icon(
               Icons.info_outline,
               color: Theme.of(context).colorScheme.primary,
             ),
-            mainButton: FlatButton(
-              onPressed: () async {
+            mainButton: TextButton(
+              onPressed: () {
                 flush.dismiss(true);
               },
               child: Text(
-                I18n.of(context).try_again,
+                I10n.of(context).try_again,
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
           )..show(context).then(
               (result) async {
-                if (result) {
+                if (result == true) {
+                  BiometricAuth _biometricType =
+                      await BiometricUtils.getAvailableBiometrics();
                   await _showLocalAuthPopup(
-                    BiometricUtils.getBiometricString(_biometricType),
+                    BiometricUtils.getBiometricString(
+                      context,
+                      _biometricType,
+                    ),
                   );
+                  widget.onLoginResult?.call(true);
                 }
               },
             );
@@ -109,15 +124,6 @@ class _SplashScreenState extends State<SplashScreen> {
       converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
-          // appBar: AppBar(
-          //   backgroundColor: Theme.of(context).primaryColor,
-          //   centerTitle: true,
-          //   title: SvgPicture.asset(
-          //     'assets/images/fusecash.svg',
-          //     width: 140,
-          //     // height: 28,
-          //   ),
-          // ),
           body: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -132,7 +138,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            // color: Theme.of(context).colorScheme.primary,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[

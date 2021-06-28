@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/receive.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/copy.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/copy.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'dart:core';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
@@ -16,12 +15,9 @@ class ReceiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).receive,
+      title: I10n.of(context).receive,
       body: StoreConnector<AppState, ReceiveModel>(
         distinct: true,
-        onInitialBuild: (viewModel) {
-          Segment.screen(screenName: '/receive-screen');
-        },
         converter: ReceiveModel.fromStore,
         builder: (_, viewModel) {
           final String barcodeData = 'fuse:${viewModel.walletAddress}';
@@ -39,7 +35,7 @@ class ReceiveScreen extends StatelessWidget {
                     top: 20,
                   ),
                   child: Text(
-                    I18n.of(context).scan_to_receive,
+                    I10n.of(context).scan_to_receive,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
@@ -60,7 +56,7 @@ class ReceiveScreen extends StatelessWidget {
                     Container(
                       width: 220,
                       child: Text(
-                        formatAddress(viewModel?.walletAddress),
+                        formatAddress(viewModel.walletAddress),
                         softWrap: true,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -76,7 +72,7 @@ class ReceiveScreen extends StatelessWidget {
                         child: Center(
                           child: CopyToClipboard(
                             textColor: Color(0xFF0091ff),
-                            content: viewModel?.walletAddress,
+                            content: viewModel.walletAddress,
                           ),
                         ),
                       ),
@@ -85,9 +81,9 @@ class ReceiveScreen extends StatelessWidget {
                 ),
                 Center(
                   child: PrimaryButton(
-                    label: I18n.of(context).share_button,
+                    label: I10n.of(context).share_button,
                     onPressed: () {
-                      Share.share(viewModel?.walletAddress);
+                      Share.share(viewModel.walletAddress);
                     },
                   ),
                 )

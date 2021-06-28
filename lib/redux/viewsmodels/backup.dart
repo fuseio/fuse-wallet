@@ -9,8 +9,8 @@ class BackupViewModel extends Equatable {
   final Function() backupWallet;
 
   BackupViewModel({
-    this.user,
-    this.backupWallet,
+    required this.user,
+    required this.backupWallet,
   });
 
   static BackupViewModel fromStore(Store<AppState> store) {
@@ -28,11 +28,13 @@ class BackupViewModel extends Equatable {
 class LockScreenViewModel extends Equatable {
   final String pincode;
 
-  LockScreenViewModel({this.pincode});
+  LockScreenViewModel({
+    required this.pincode,
+  });
 
   static LockScreenViewModel fromStore(Store<AppState> store) {
     return LockScreenViewModel(
-      pincode: store.state?.userState?.pincode,
+      pincode: store.state.userState.pincode,
     );
   }
 

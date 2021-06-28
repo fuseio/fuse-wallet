@@ -9,11 +9,11 @@ part of 'wallet_banner.dart';
 _$_WalletBannerPlugin _$_$_WalletBannerPluginFromJson(
     Map<String, dynamic> json) {
   return _$_WalletBannerPlugin(
-    type: json['type'] as String ?? 'walletBanner',
-    walletBannerHash: json['walletBannerHash'] as String,
-    name: json['name'] as String,
-    link: json['link'] as String,
-    isActive: json['isActive'] as bool,
+    type: json['type'] as String? ?? 'walletBanner',
+    walletBannerHash: json['walletBannerHash'] as String?,
+    name: json['name'] as String?,
+    link: json['link'] as String?,
+    isActive: json['isActive'] as bool? ?? false,
   );
 }
 

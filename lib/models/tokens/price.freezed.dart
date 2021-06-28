@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'price.dart';
 
@@ -8,6 +8,10 @@ part of 'price.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 Price _$PriceFromJson(Map<String, dynamic> json) {
   return _Price.fromJson(json);
 }
@@ -16,41 +20,36 @@ Price _$PriceFromJson(Map<String, dynamic> json) {
 class _$PriceTearOff {
   const _$PriceTearOff();
 
-// ignore: unused_element
-  _Price call({String currency, String quote, String total}) {
+  _Price call({String currency = 'usd', String quote = '0'}) {
     return _Price(
       currency: currency,
       quote: quote,
-      total: total,
     );
   }
 
-// ignore: unused_element
   Price fromJson(Map<String, Object> json) {
     return Price.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $Price = _$PriceTearOff();
 
 /// @nodoc
 mixin _$Price {
-  String get currency;
-  String get quote;
-  String get total;
+  String get currency => throw _privateConstructorUsedError;
+  String get quote => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PriceCopyWith<Price> get copyWith;
+  $PriceCopyWith<Price> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PriceCopyWith<$Res> {
   factory $PriceCopyWith(Price value, $Res Function(Price) then) =
       _$PriceCopyWithImpl<$Res>;
-  $Res call({String currency, String quote, String total});
+  $Res call({String currency, String quote});
 }
 
 /// @nodoc
@@ -63,14 +62,18 @@ class _$PriceCopyWithImpl<$Res> implements $PriceCopyWith<$Res> {
 
   @override
   $Res call({
-    Object currency = freezed,
-    Object quote = freezed,
-    Object total = freezed,
+    Object? currency = freezed,
+    Object? quote = freezed,
   }) {
     return _then(_value.copyWith(
-      currency: currency == freezed ? _value.currency : currency as String,
-      quote: quote == freezed ? _value.quote : quote as String,
-      total: total == freezed ? _value.total : total as String,
+      currency: currency == freezed
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
+      quote: quote == freezed
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -80,7 +83,7 @@ abstract class _$PriceCopyWith<$Res> implements $PriceCopyWith<$Res> {
   factory _$PriceCopyWith(_Price value, $Res Function(_Price) then) =
       __$PriceCopyWithImpl<$Res>;
   @override
-  $Res call({String currency, String quote, String total});
+  $Res call({String currency, String quote});
 }
 
 /// @nodoc
@@ -94,37 +97,50 @@ class __$PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object currency = freezed,
-    Object quote = freezed,
-    Object total = freezed,
+    Object? currency = freezed,
+    Object? quote = freezed,
   }) {
     return _then(_Price(
-      currency: currency == freezed ? _value.currency : currency as String,
-      quote: quote == freezed ? _value.quote : quote as String,
-      total: total == freezed ? _value.total : total as String,
+      currency: currency == freezed
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
+      quote: quote == freezed
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_Price implements _Price {
-  _$_Price({this.currency, this.quote, this.total});
+
+@JsonSerializable()
+class _$_Price with DiagnosticableTreeMixin implements _Price {
+  _$_Price({this.currency = 'usd', this.quote = '0'});
 
   factory _$_Price.fromJson(Map<String, dynamic> json) =>
       _$_$_PriceFromJson(json);
 
+  @JsonKey(defaultValue: 'usd')
   @override
   final String currency;
+  @JsonKey(defaultValue: '0')
   @override
   final String quote;
-  @override
-  final String total;
 
   @override
-  String toString() {
-    return 'Price(currency: $currency, quote: $quote, total: $total)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Price(currency: $currency, quote: $quote)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Price'))
+      ..add(DiagnosticsProperty('currency', currency))
+      ..add(DiagnosticsProperty('quote', quote));
   }
 
   @override
@@ -135,17 +151,14 @@ class _$_Price implements _Price {
                 const DeepCollectionEquality()
                     .equals(other.currency, currency)) &&
             (identical(other.quote, quote) ||
-                const DeepCollectionEquality().equals(other.quote, quote)) &&
-            (identical(other.total, total) ||
-                const DeepCollectionEquality().equals(other.total, total)));
+                const DeepCollectionEquality().equals(other.quote, quote)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(currency) ^
-      const DeepCollectionEquality().hash(quote) ^
-      const DeepCollectionEquality().hash(total);
+      const DeepCollectionEquality().hash(quote);
 
   @JsonKey(ignore: true)
   @override
@@ -159,17 +172,15 @@ class _$_Price implements _Price {
 }
 
 abstract class _Price implements Price {
-  factory _Price({String currency, String quote, String total}) = _$_Price;
+  factory _Price({String currency, String quote}) = _$_Price;
 
   factory _Price.fromJson(Map<String, dynamic> json) = _$_Price.fromJson;
 
   @override
-  String get currency;
+  String get currency => throw _privateConstructorUsedError;
   @override
-  String get quote;
-  @override
-  String get total;
+  String get quote => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PriceCopyWith<_Price> get copyWith;
+  _$PriceCopyWith<_Price> get copyWith => throw _privateConstructorUsedError;
 }

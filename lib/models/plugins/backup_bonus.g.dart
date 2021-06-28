@@ -8,10 +8,10 @@ part of 'backup_bonus.dart';
 
 _$_BackupBonusPlugin _$_$_BackupBonusPluginFromJson(Map<String, dynamic> json) {
   return _$_BackupBonusPlugin(
-    type: json['type'] as String ?? 'backupBonus',
-    amount: json['amount'] as String,
-    name: json['name'] as String,
-    isActive: json['isActive'] as bool,
+    type: json['type'] as String? ?? 'backupBonus',
+    amount: json['amount'] as String?,
+    name: json['name'] as String?,
+    isActive: json['isActive'] as bool? ?? false,
   );
 }
 

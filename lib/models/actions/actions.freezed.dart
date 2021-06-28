@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'actions.dart';
 
@@ -8,6 +8,10 @@ part of 'actions.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 WalletActions _$WalletActionsFromJson(Map<String, dynamic> json) {
   return _WalletActions.fromJson(json);
 }
@@ -16,32 +20,31 @@ WalletActions _$WalletActionsFromJson(Map<String, dynamic> json) {
 class _$WalletActionsTearOff {
   const _$WalletActionsTearOff();
 
-// ignore: unused_element
-  _WalletActions call({List<WalletAction> list, num updatedAt = 0}) {
+  _WalletActions call(
+      {List<WalletAction> list = const <WalletAction>[], num updatedAt = 0}) {
     return _WalletActions(
       list: list,
       updatedAt: updatedAt,
     );
   }
 
-// ignore: unused_element
   WalletActions fromJson(Map<String, Object> json) {
     return WalletActions.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $WalletActions = _$WalletActionsTearOff();
 
 /// @nodoc
 mixin _$WalletActions {
-  List<WalletAction> get list;
-  num get updatedAt;
+  List<WalletAction> get list => throw _privateConstructorUsedError;
+  num get updatedAt => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $WalletActionsCopyWith<WalletActions> get copyWith;
+  $WalletActionsCopyWith<WalletActions> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -63,12 +66,18 @@ class _$WalletActionsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object list = freezed,
-    Object updatedAt = freezed,
+    Object? list = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      list: list == freezed ? _value.list : list as List<WalletAction>,
-      updatedAt: updatedAt == freezed ? _value.updatedAt : updatedAt as num,
+      list: list == freezed
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as List<WalletAction>,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as num,
     ));
   }
 }
@@ -96,25 +105,33 @@ class __$WalletActionsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object list = freezed,
-    Object updatedAt = freezed,
+    Object? list = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_WalletActions(
-      list: list == freezed ? _value.list : list as List<WalletAction>,
-      updatedAt: updatedAt == freezed ? _value.updatedAt : updatedAt as num,
+      list: list == freezed
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as List<WalletAction>,
+      updatedAt: updatedAt == freezed
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as num,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_WalletActions implements _WalletActions {
-  _$_WalletActions({this.list, this.updatedAt = 0}) : assert(updatedAt != null);
+
+@JsonSerializable()
+class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
+  _$_WalletActions({this.list = const <WalletAction>[], this.updatedAt = 0})
+      : super._();
 
   factory _$_WalletActions.fromJson(Map<String, dynamic> json) =>
       _$_$_WalletActionsFromJson(json);
 
+  @JsonKey(defaultValue: const <WalletAction>[])
   @override
   final List<WalletAction> list;
   @JsonKey(defaultValue: 0)
@@ -122,8 +139,17 @@ class _$_WalletActions implements _WalletActions {
   final num updatedAt;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WalletActions(list: $list, updatedAt: $updatedAt)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WalletActions'))
+      ..add(DiagnosticsProperty('list', list))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
   }
 
   @override
@@ -154,18 +180,20 @@ class _$_WalletActions implements _WalletActions {
   }
 }
 
-abstract class _WalletActions implements WalletActions {
+abstract class _WalletActions extends WalletActions {
   factory _WalletActions({List<WalletAction> list, num updatedAt}) =
       _$_WalletActions;
+  _WalletActions._() : super._();
 
   factory _WalletActions.fromJson(Map<String, dynamic> json) =
       _$_WalletActions.fromJson;
 
   @override
-  List<WalletAction> get list;
+  List<WalletAction> get list => throw _privateConstructorUsedError;
   @override
-  num get updatedAt;
+  num get updatedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$WalletActionsCopyWith<_WalletActions> get copyWith;
+  _$WalletActionsCopyWith<_WalletActions> get copyWith =>
+      throw _privateConstructorUsedError;
 }

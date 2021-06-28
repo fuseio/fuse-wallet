@@ -1,25 +1,21 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/utils/url.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
-class FusePointsExplainedScreen extends StatefulWidget {
-  @override
-  _FusePointsExplainedScreenState createState() =>
-      _FusePointsExplainedScreenState();
-}
-
-class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
+class FusePointsExplainedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
       automaticallyImplyLeading: false,
-      title: I18n.of(context).studio,
+      title: 'Fuse Studio',
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             // Container(
             //   width: MediaQuery.of(context).size.width * 0.9,
@@ -126,28 +122,26 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
             // SizedBox(
             //   height: 15,
             // ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFFB1FDC0),
-                    Color(0xFFFEFD86),
-                  ],
+            InkWell(
+              onTap: () {
+                launchUrl('https://studio.fuse.io');
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFB1FDC0),
+                      Color(0xFFFEFD86),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.0),
+                  ),
                 ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.0),
-                ),
-              ),
-              child: InkWell(
-                onTap: () {
-                  launchUrl('https://studio.fuse.io');
-                },
-                child: Container(
-                  child: SvgPicture.asset('assets/images/lanuch_community.svg'),
-                ),
+                child: SvgPicture.asset('assets/images/lanuch_community.svg'),
               ),
             ),
           ],

@@ -8,11 +8,11 @@ part of 'community_metadata.dart';
 
 _$_CommunityMetadata _$_$_CommunityMetadataFromJson(Map<String, dynamic> json) {
   return _$_CommunityMetadata(
-    isDefaultImage: json['isDefaultImage'] as bool,
-    image: json['image'] as String,
-    coverPhoto: json['coverPhoto'] as String,
-    coverPhotoUri: json['coverPhotoUri'] as String,
-    imageUri: json['imageUri'] as String,
+    isDefaultImage: json['isDefaultImage'] as bool? ?? false,
+    image: json['image'] as String? ?? '',
+    coverPhoto: json['coverPhoto'] as String? ?? '',
+    coverPhotoUri: json['coverPhotoUri'] as String? ?? '',
+    imageUri: json['imageUri'] as String? ?? '',
   );
 }
 

@@ -30,68 +30,20 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, UpdateEtherBalance>(_updateEtherBalance),
   TypedReducer<ProWalletState, SetIsFetchTokensLatestPrices>(
       _startFetchTokensLatestPrices),
-  // TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
-  // TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
   TypedReducer<ProWalletState, AddNewToken>(_addNewToken),
   TypedReducer<ProWalletState, SetIsFetchNewTokens>(_startFetchNewTokens),
   TypedReducer<ProWalletState, ClearTokenList>(_clearTokenList),
 ]);
 
 ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens!);
   for (String tokenAddress in newOne.keys) {
-    newOne[tokenAddress] = newOne[tokenAddress].copyWith(
+    newOne[tokenAddress] = newOne[tokenAddress]!.copyWith(
       walletActions: WalletActions.initial(),
     );
   }
   return state.copyWith(erc20Tokens: newOne);
 }
-
-// ProWalletState _replaceProTransaction(
-//     ProWalletState state, ReplaceProTransaction action) {
-//   Token current = state.erc20Tokens[action.tokenAddress];
-//   List<Transaction> oldTxs = List<Transaction>.from(current.transactions.list
-//       .where((tx) =>
-//           (tx.jobId != null && tx.jobId == action.transaction.jobId) ||
-//           (tx.txHash != null && tx.txHash == action.transaction.txHash) ||
-//           (tx.jobId != null && tx.jobId == action.transactionToReplace.jobId) ||
-//           (tx.txHash != null &&
-//               tx.txHash == action.transactionToReplace.txHash)));
-//   if (oldTxs.isEmpty) {
-//     return state;
-//   }
-//   int index = current.transactions.list.indexOf(oldTxs[0]);
-//   current.transactions.list[index] = action.transactionToReplace;
-//   oldTxs.removeAt(0);
-//   current.transactions.list.removeWhere((tx) => oldTxs.contains(tx));
-//   Token newToken = current.copyWith(
-//       transactions:
-//           current.transactions.copyWith(list: current.transactions.list));
-//   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
-//   newOne[action.tokenAddress] = newToken;
-//   return state.copyWith(erc20Tokens: newOne);
-// }
-
-// ProWalletState _addProTransaction(
-//     ProWalletState state, AddProTransaction action) {
-//   Token current = state.erc20Tokens[action.tokenAddress];
-//   Transaction saved = current.transactions.list.firstWhere(
-//       (tx) => ((tx.jobId != null && tx.jobId == action.transaction.jobId) ||
-//           (tx.txHash != null && tx.txHash == action.transaction.txHash)),
-//       orElse: () => null);
-//   Transactions transactions;
-//   if (saved == null) {
-//     transactions = current.transactions
-//         .copyWith(list: current.transactions.list..add(action.transaction));
-//   } else {
-//     int index = current.transactions.list.indexOf(saved);
-//     transactions = current.transactions.copyWith();
-//     transactions.list[index] = action.transaction;
-//   }
-//   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
-//   newOne[action.tokenAddress] = current.copyWith(transactions: transactions);
-//   return state.copyWith(erc20Tokens: newOne);
-// }
 
 ProWalletState _updateEtherBalance(
     ProWalletState state, UpdateEtherBalance action) {
@@ -130,17 +82,19 @@ ProWalletState _startListenToTransferEventsSuccess(
 
 ProWalletState _clearTokenList(ProWalletState state, ClearTokenList action) {
   Map<String, Token> newOne = Map<String, Token>.from(
-      state.erc20Tokens..removeWhere(clearTokensWithZero));
+      state.erc20Tokens!..removeWhere(clearTokensWithZero));
   return state.copyWith(erc20Tokens: newOne);
 }
 
 ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
   Token token = action.token;
   Map<String, Token> newOne = Map<String, Token>.from(
-      state.erc20Tokens..removeWhere(clearTokensWithZero));
+      state.erc20Tokens!..removeWhere(clearTokensWithZero));
   if (newOne.containsKey(token.address)) {
-    newOne[token.address] = newOne[token.address]
-        .copyWith(amount: token.amount, timestamp: token.timestamp);
+    newOne[token.address] = newOne[token.address]!.copyWith(
+      amount: token.amount,
+      timestamp: token.timestamp,
+    );
   } else if (!newOne.containsKey(token.address)) {
     newOne[token.address] = token;
   }
@@ -148,7 +102,7 @@ ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
 }
 
 ProWalletState _updateToken(ProWalletState state, UpdateToken action) {
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens!);
   newOne[action.tokenToUpdate.address] = action.tokenToUpdate;
   return state.copyWith(erc20Tokens: newOne);
 }

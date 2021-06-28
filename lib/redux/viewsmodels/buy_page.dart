@@ -11,7 +11,7 @@ class BuyViewModel extends Equatable {
   final bool isCommunityBusinessesFetched;
   final Token token;
   final String communityAddress;
-  final WalletBannerPlugin walletBanner;
+  final WalletBannerPlugin? walletBanner;
 
   @override
   List<Object> get props => [
@@ -19,29 +19,27 @@ class BuyViewModel extends Equatable {
         businesses,
         isCommunityBusinessesFetched,
         businesses,
-        walletBanner
       ];
 
   BuyViewModel({
-    this.communityAddress,
-    this.businesses,
-    this.token,
-    this.isCommunityBusinessesFetched,
-    this.walletBanner,
+    required this.communityAddress,
+    required this.businesses,
+    required this.token,
+    required this.isCommunityBusinessesFetched,
+    required this.walletBanner,
   });
 
   static BuyViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
+    String? communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            Community();
+        store.state.cashWalletState.communities[communityAddress]!;
     Token token =
-        store.state.cashWalletState.tokens[community?.homeTokenAddress];
+        store.state.cashWalletState.tokens[community.homeTokenAddress]!;
     return BuyViewModel(
       communityAddress: communityAddress,
       token: token,
-      businesses: community?.businesses ?? [],
-      walletBanner: community.plugins.walletBanner,
+      businesses: community.businesses ?? [],
+      walletBanner: community.plugins?.walletBanner,
       isCommunityBusinessesFetched:
           store.state.cashWalletState.isCommunityBusinessesFetched,
     );

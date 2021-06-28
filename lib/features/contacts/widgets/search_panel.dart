@@ -1,11 +1,14 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:fusecash/features/shared/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
-  SearchPanel({Key key, this.searchController}) : super(key: key);
+  SearchPanel({
+    Key? key,
+    required this.searchController,
+  }) : super(key: key);
   final TextEditingController searchController;
 
   @override
@@ -44,24 +47,24 @@ class SearchPanel extends StatelessWidget {
                       contentPadding: EdgeInsets.all(0.0),
                       border: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 1,
+                          width: 2,
                         ),
                       ),
                       fillColor: Theme.of(context).canvasColor,
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 1,
+                          width: 2,
                         ),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          width: 1,
+                          width: 2,
                         ),
                       ),
                       suffixIcon: Icon(
                         Icons.search,
                       ),
-                      labelText: I18n.of(context).search,
+                      labelText: I10n.of(context).search,
                       labelStyle: TextStyle(
                         fontSize: 14,
                         color: Color(0xFFAAAAAA),
@@ -82,13 +85,17 @@ class SearchPanel extends StatelessWidget {
                     width: 25.0,
                     color: Theme.of(context).scaffoldBackgroundColor,
                   ),
-                  onPressed: () {
-                    barcodeScannerHandler(
-                      ExtendedNavigator.named('contactsRouter').context,
+                  onPressed: () async {
+                    String? result = await showDialog<String>(
+                      context: context,
+                      builder: (context) => ScanQRDialog(),
                     );
+                    if (result != null) {
+                      barcodeScannerHandler(context, result);
+                    }
                   },
                 ),
-              ),
+              )
             ],
           ),
         ),

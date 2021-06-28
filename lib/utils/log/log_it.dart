@@ -13,7 +13,7 @@ class LogIt {
     dynamic message, {
     dynamic error,
     bool showInProd = false,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
       return;
@@ -27,7 +27,7 @@ class LogIt {
     dynamic message, {
     dynamic error,
     bool showInProd = false,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
       return;
@@ -41,7 +41,7 @@ class LogIt {
     dynamic message, {
     dynamic error,
     bool showInProd = false,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
       return;
@@ -55,7 +55,7 @@ class LogIt {
     dynamic message, {
     dynamic error,
     bool showInProd = false,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
       return;
@@ -69,7 +69,7 @@ class LogIt {
     dynamic message, {
     dynamic error,
     bool showInProd = false,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
       return;
@@ -83,7 +83,7 @@ class LogIt {
     dynamic message, {
     dynamic error,
     bool showInProd = false,
-    StackTrace stackTrace,
+    StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
       return;

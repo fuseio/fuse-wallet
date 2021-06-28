@@ -2,19 +2,17 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/features/buy/router/buy_router.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -25,19 +23,17 @@ class BuyScreen extends StatelessWidget {
       onInit: (store) {
         store.dispatch(getBusinessListCall());
       },
-      onInitialBuild: (viewModel) {
-        Segment.screen(screenName: '/buy-screen');
-      },
       builder: (_, viewModel) {
         return MyScaffold(
-          title: I18n.of(context).buy,
+          title: I10n.of(context).buy,
           body: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                banner(context, viewModel),
-                businessList(context, viewModel),
+              children: [
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    BusinessesListView(),
+                  ]),
+                ),
               ],
             ),
           ),
@@ -45,11 +41,36 @@ class BuyScreen extends StatelessWidget {
       },
     );
   }
+}
+
+class BusinessesListView extends StatefulWidget {
+  @override
+  _BusinessesListViewState createState() => _BusinessesListViewState();
+}
+
+class _BusinessesListViewState extends State<BusinessesListView> {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, BuyViewModel>(
+      distinct: true,
+      converter: BuyViewModel.fromStore,
+      builder: (_, vm) => Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            banner(context, vm),
+            businessList(context, vm),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget banner(BuildContext context, BuyViewModel vm) {
     return vm.walletBanner != null &&
-            vm.walletBanner.walletBannerHash != null &&
-            vm.walletBanner.walletBannerHash.isNotEmpty
+            vm.walletBanner?.walletBannerHash != null &&
+            vm.walletBanner?.walletBannerHash != ''
         ? Container(
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
@@ -57,14 +78,15 @@ class BuyScreen extends StatelessWidget {
               focusColor: Theme.of(context).canvasColor,
               highlightColor: Theme.of(context).canvasColor,
               onTap: () {
-                ExtendedNavigator.root.pushWebview(
-                  title: '',
-                  withBack: true,
-                  url: vm.walletBanner.link,
+                context.router.push(
+                  Webview(
+                    url: vm.walletBanner?.link ?? '',
+                    title: '',
+                  ),
                 );
               },
               child: CachedNetworkImage(
-                imageUrl: ImageUrl.getLink(vm.walletBanner.walletBannerHash),
+                imageUrl: ImageUrl.getLink(vm.walletBanner!.walletBannerHash!),
                 imageBuilder: (context, imageProvider) => Container(
                   width: MediaQuery.of(context).size.width,
                   height: 140,
@@ -88,7 +110,7 @@ class BuyScreen extends StatelessWidget {
         ? Container(
             padding: EdgeInsets.all(40.0),
             child: Center(
-              child: Text(I18n.of(context).no_businesses),
+              child: Text(I10n.of(context).no_businesses),
             ),
           )
         : Row(
@@ -101,9 +123,8 @@ class BuyScreen extends StatelessWidget {
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Divider(),
                     shrinkWrap: true,
-                    itemCount: vm.businesses?.length ?? 0,
+                    itemCount: vm.businesses.length,
                     itemBuilder: (context, index) => businessTile(
-                      context,
                       vm.businesses[index],
                       vm.communityAddress,
                       vm.token,
@@ -116,7 +137,6 @@ class BuyScreen extends StatelessWidget {
   }
 
   ListTile businessTile(
-    context,
     Business business,
     String communityAddress,
     Token token,
@@ -142,50 +162,53 @@ class BuyScreen extends StatelessWidget {
         ),
       ),
       title: Text(
-        business.name ?? '',
+        business.name,
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
         ),
       ),
       subtitle: Text(
-        business.metadata.description ?? '',
+        business.metadata.description,
         style: TextStyle(
-          // color: Theme.of(context).accentColor,
           fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
       ),
       onTap: () {
-        ExtendedNavigator.named('buyRouter').pushBusinessPage(
+        context.router.push(BusinessScreen(
           business: business,
           token: token,
-        );
+        ));
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.all(10.0),
+              backgroundColor: Theme.of(context).buttonColor,
+              shape: CircleBorder(),
+            ),
             child: Text(
-              I18n.of(context).pay,
+              I10n.of(context).pay,
               style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
+                  color: Theme.of(context).textTheme.button!.color,
                   fontSize: 15,
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
-              ExtendedNavigator.root.pushSendAmountScreen(
-                pageArgs: SendFlowArguments(
-                  tokenToSend: token,
-                  name: business.name ?? '',
-                  accountAddress: business.account,
-                  avatar: NetworkImage(
-                    ImageUrl.getLink(business.metadata.image),
+              context.router.push(
+                SendAmountScreen(
+                  pageArgs: SendFlowArguments(
+                    tokenToSend: token,
+                    name: business.name,
+                    accountAddress: business.account,
+                    avatar: NetworkImage(
+                      ImageUrl.getLink(business.metadata.image),
+                    ),
                   ),
                 ),
               );

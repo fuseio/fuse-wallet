@@ -9,9 +9,9 @@ abstract class IOnBoardStrategy {
   Future<dynamic> login(store, phoneNumber);
   Future<dynamic> verify(store, verificationCode, onSuccess);
 
-  IOnBoardStrategy({
+  IOnBoardStrategy(
     this.strategy,
-  });
+  );
 }
 
 class OnBoardStrategyFactory {

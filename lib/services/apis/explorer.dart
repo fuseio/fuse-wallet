@@ -12,13 +12,13 @@ class Explorer {
 
   Explorer(
     this.dio,
-    @factoryParam String base,
-    @factoryParam String apiKey,
+    @factoryParam String? base,
+    @factoryParam String? apiKey,
   ) {
     if (apiKey != null) {
       dio.options.queryParameters = Map.from({'apiKey': apiKey});
     }
-    dio.options.baseUrl = base;
+    dio.options.baseUrl = base!;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
     // if (kDebugMode) {
@@ -31,105 +31,6 @@ class Explorer {
     //     compact: true,
     //   ));
     // }
-  }
-
-  Future<List<dynamic>> getTokenTransferEventsByAccountAddress(
-    String tokenAddress,
-    String accountAddress, {
-    String sort = 'desc',
-    int startblock = 0,
-  }) async {
-    try {
-      Response response = await dio.get(
-          '?module=account&action=tokentx&contractaddress=$tokenAddress&address=$accountAddress&startblock=$startblock&sort=$sort');
-      if (response.data['message'] == 'OK' && response.data['status'] == '1') {
-        List transfers = [];
-        for (dynamic transferEvent in response.data['result']) {
-          transfers.add({
-            'blockNumber': num.parse(transferEvent['blockNumber']),
-            'txHash': transferEvent['hash'],
-            'to': transferEvent['to'],
-            'from': transferEvent["from"],
-            'status': "CONFIRMED",
-            'timestamp': DateTime.fromMillisecondsSinceEpoch(
-                    DateTime.fromMillisecondsSinceEpoch(
-                                int.parse(transferEvent['timeStamp']))
-                            .millisecondsSinceEpoch *
-                        1000)
-                .millisecondsSinceEpoch,
-            'value': transferEvent['value'],
-            'tokenAddress': tokenAddress,
-            'type': transferEvent["from"].toString().toLowerCase() ==
-                    accountAddress.toLowerCase()
-                ? 'SEND'
-                : 'RECEIVE',
-          });
-        }
-        return transfers;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      throw 'Error! Get token transfers events failed for - accountAddress: $accountAddress --- $e';
-    }
-  }
-
-  Future<List<dynamic>> getTransferEventsByAccountAddress(
-    String address, {
-    String sort = 'desc',
-    int startblock = 0,
-  }) async {
-    try {
-      Response response = await dio.get(
-          '?module=account&action=tokentx&address=$address&startblock=$startblock&sort=$sort');
-      if (response.data['message'] == 'OK' && response.data['status'] == '1') {
-        List transfers = [];
-        for (dynamic transferEvent in response.data['result']) {
-          transfers.add({
-            'blockNumber': num.parse(transferEvent['blockNumber']),
-            'txHash': transferEvent['hash'],
-            'to': transferEvent['to'],
-            'from': transferEvent["from"],
-            'status': "CONFIRMED",
-            'timestamp': DateTime.fromMillisecondsSinceEpoch(
-                    DateTime.fromMillisecondsSinceEpoch(
-                                int.parse(transferEvent['timeStamp']))
-                            .millisecondsSinceEpoch *
-                        1000)
-                .millisecondsSinceEpoch,
-            'value': transferEvent['value'],
-            'tokenAddress': transferEvent['contractAddress'],
-            'type': transferEvent["from"].toString().toLowerCase() ==
-                    address.toLowerCase()
-                ? 'SEND'
-                : 'RECEIVE',
-          });
-        }
-        return transfers;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      throw 'Error! Get token transfers events failed for - address: $address --- $e';
-    }
-  }
-
-  Future<Token> getTokenInfo(String tokenAddress) async {
-    Response response = await dio
-        .get('?module=token&action=getToken&contractaddress=$tokenAddress');
-    if (response.data['message'] == 'OK' && response.data['status'] == '1') {
-      return Token.fromJson({
-        ...response.data['result'],
-        "name": formatTokenName(response.data['result']["name"]),
-        "address": response.data['result']["contractAddress"],
-        'decimals': int.parse(response.data['result']['decimals'])
-      }).copyWith(
-        timestamp: 0,
-        amount: BigInt.zero,
-      );
-    } else {
-      return null;
-    }
   }
 
   Future<List<Token>> getListOfTokensByAddress(String address) async {

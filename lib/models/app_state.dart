@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -10,15 +11,15 @@ part 'app_state.g.dart';
 
 @immutable
 @freezed
-abstract class AppState implements _$AppState {
+class AppState with _$AppState {
   const AppState._();
 
   @JsonSerializable()
   factory AppState({
-    @UserStateConverter() UserState userState,
-    @CashWalletStateConverter() CashWalletState cashWalletState,
-    @ProWalletStateConverter() ProWalletState proWalletState,
-    SwapState swapState,
+    @UserStateConverter() required UserState userState,
+    @CashWalletStateConverter() required CashWalletState cashWalletState,
+    @ProWalletStateConverter() required ProWalletState proWalletState,
+    @SwapStateConverter() required SwapState swapState,
   }) = _AppState;
 
   factory AppState.initial() {
@@ -26,6 +27,7 @@ abstract class AppState implements _$AppState {
       userState: UserState.initial(),
       cashWalletState: CashWalletState.initial(),
       proWalletState: ProWalletState.initial(),
+      swapState: SwapState.initial(),
     );
   }
 

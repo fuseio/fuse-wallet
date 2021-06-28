@@ -8,7 +8,7 @@ part of 'swap_state.dart';
 
 _$_SwapState _$_$_SwapStateFromJson(Map<String, dynamic> json) {
   return _$_SwapState(
-    tokensImages: (json['tokensImages'] as Map<String, dynamic>)?.map(
+    tokensImages: (json['tokensImages'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(k, e as String),
         ) ??
         {},

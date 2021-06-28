@@ -1,16 +1,19 @@
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 
 part 'actions.freezed.dart';
 part 'actions.g.dart';
 
 @immutable
 @freezed
-abstract class WalletActions implements _$WalletActions {
+class WalletActions with _$WalletActions {
+  const WalletActions._();
+
   @JsonSerializable()
   factory WalletActions({
-    List<WalletAction> list,
+    @Default(<WalletAction>[]) List<WalletAction> list,
     @Default(0) num updatedAt,
   }) = _WalletActions;
 
@@ -46,8 +49,6 @@ class WalletActionFactory {
       return JoinCommunity.fromJson(json);
     } else if (json['name'] == 'sendTokens') {
       return Send.fromJson(json);
-    } else if (json['name'] == 'fiat-processing') {
-      return FiatProcess.fromJson(json);
     } else if (json['name'] == 'fiat-deposit') {
       return FiatDeposit.fromJson(json);
     } else if (json['name'] == 'receiveTokens') {

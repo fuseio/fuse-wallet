@@ -2,16 +2,15 @@ import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/constants/keys.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/redux/viewsmodels/review_swap.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -21,9 +20,9 @@ class ReviewSwapScreen extends StatefulWidget {
   final SwapRequestBody swapRequestBody;
 
   const ReviewSwapScreen({
-    this.tradeInfo,
-    this.rateInfo,
-    this.swapRequestBody,
+    required this.tradeInfo,
+    required this.rateInfo,
+    required this.swapRequestBody,
   });
 
   @override
@@ -42,23 +41,23 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
       isPreloading = true;
     });
     SwapCallParameters swapCallParameters =
-        await fuseSwapService.swapCallParameters(
-      widget.swapRequestBody.currencyIn,
-      widget.swapRequestBody.currencyOut,
-      widget.swapRequestBody.amountIn,
-      widget.swapRequestBody.recipient,
+        await fuseSwapService.requestParameters(
+      widget.swapRequestBody,
     );
     viewModel.swap(
       widget.swapRequestBody,
       swapCallParameters,
       widget.tradeInfo,
       () {
-        ExtendedNavigator.named('swapRouter').popUntilRoot();
-        BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
-        navigationBar.onTap(0);
-        ExtendedNavigator.named('homeRouter').popUntilRoot();
-        ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        context.router.popUntilRoot();
+        context.navigateTo(
+          HomeTab(
+            children: [
+              HomeScreen(),
+            ],
+          ),
+        );
+        WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
       },
       () {
         setState(() {
@@ -69,10 +68,16 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   }
 
   Widget infoCard() {
+    final String payWithAmount =
+        smallNumberTest(num.parse(widget.tradeInfo.inputAmount))
+            ? '${widget.tradeInfo.inputAmount} '
+            : '${display(num.parse(widget.tradeInfo.inputAmount))} ';
+
+    final String receiveAmount =
+        smallNumberTest(num.parse(widget.tradeInfo.outputAmount))
+            ? '${widget.tradeInfo.outputAmount} '
+            : '${display(num.parse(widget.tradeInfo.outputAmount))} ';
     return Container(
-      margin: EdgeInsets.only(
-        top: 20,
-      ),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -90,7 +95,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                I18n.of(context).pay_with,
+                I10n.of(context).pay_with,
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(
@@ -100,7 +105,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${display(num.parse(widget.tradeInfo.inputAmount))} ',
+                      text: payWithAmount,
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -126,7 +131,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                I18n.of(context).receive,
+                I10n.of(context).receive,
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(
@@ -136,7 +141,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '${display(num.parse(widget.tradeInfo.outputAmount))} ',
+                      text: receiveAmount,
                       style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -160,9 +165,18 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   }
 
   Widget extraInfo() {
+    final String payWithRate =
+        smallNumberTest(num.parse(widget.rateInfo.inputAmount))
+            ? '${widget.rateInfo.inputAmount} '
+            : '${display(num.parse(widget.rateInfo.inputAmount))}';
+
+    final String receiveRate =
+        smallNumberTest(num.parse(widget.rateInfo.outputAmount))
+            ? '${widget.rateInfo.outputAmount} '
+            : '${display(num.parse(widget.rateInfo.outputAmount))}';
     return ListView(
       shrinkWrap: true,
-      padding: EdgeInsets.only(left: 30, right: 30, top: 30),
+      padding: EdgeInsets.only(left: 10, right: 10, top: 30),
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -170,7 +184,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              I18n.of(context).network_fee,
+              I10n.of(context).network_fee,
               style: TextStyle(fontSize: 16),
             ),
             Row(
@@ -184,7 +198,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   width: 2,
                 ),
                 Text(
-                  I18n.of(context).free,
+                  I10n.of(context).free,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -207,16 +221,16 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              I18n.of(context).rate,
+              I10n.of(context).rate,
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
             AutoSizeText(
-              display(num.parse(widget.rateInfo.inputAmount)) +
+              payWithRate +
                   widget.rateInfo.inputToken +
                   '=' +
-                  display(num.parse(widget.rateInfo.outputAmount)) +
+                  receiveRate +
                   widget.rateInfo.outputToken,
               style: TextStyle(
                 fontSize: 16,
@@ -237,7 +251,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Text(
-              I18n.of(context).slippage,
+              I10n.of(context).slippage,
               style: TextStyle(fontSize: 16),
             ),
             Text(
@@ -255,17 +269,24 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).review_swap,
+      title: I10n.of(context).review_swap,
       body: Container(
+        margin: EdgeInsets.only(
+          top: 20,
+          bottom: 20,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                infoCard(),
-                extraInfo(),
-              ],
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  infoCard(),
+                  extraInfo(),
+                ],
+              ),
             ),
             Column(
               children: [
@@ -274,15 +295,12 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   converter: ReviewSwapViewModel.fromStore,
                   builder: (_, viewModel) => Center(
                     child: PrimaryButton(
-                      label: I18n.of(context).swap,
+                      label: I10n.of(context).swap,
                       disabled: isPreloading,
                       preload: isPreloading,
                       onPressed: () => _onPress(viewModel),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 40,
                 ),
               ],
             ),

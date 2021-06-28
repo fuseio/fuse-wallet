@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+// import 'package:fusecash/features/account/screens/top_up.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
-import 'package:fusecash/utils/webview.dart';
 
 class DepositBanner extends StatelessWidget {
   @override
@@ -13,7 +14,6 @@ class DepositBanner extends StatelessWidget {
       distinct: true,
       converter: TopUpViewModel.fromStore,
       builder: (_, viewModel) {
-        List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
         return Column(
           children: [
             SizedBox(height: 20),
@@ -46,15 +46,17 @@ class DepositBanner extends StatelessWidget {
                       focusColor: Theme.of(context).canvasColor,
                       highlightColor: Theme.of(context).canvasColor,
                       onTap: () {
-                        if (depositPlugins.isNotEmpty) {
-                          dynamic url = depositPlugins[0].widgetUrl;
-                          viewModel.setDepositBanner();
-                          openDepositWebview(
-                            withBack: true,
-                            url: url,
-                            title: I18n.of(context).deposit_your_first_dollars,
-                          );
-                        }
+                        // Todo - Top up button
+                        // Segment.track(
+                        //   eventName: 'Top up Button Press',
+                        //   properties: Map.from({"fromScreen": 'HomeScreen'}),
+                        // );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => TopUpScreen(),
+                        //   ),
+                        // );
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +66,7 @@ class DepositBanner extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                I18n.of(context).deposit_your,
+                                I10n.of(context).deposit_your,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -73,7 +75,7 @@ class DepositBanner extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    I18n.of(context).first_dollars,
+                                    I10n.of(context).first_dollars,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -93,21 +95,20 @@ class DepositBanner extends StatelessWidget {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    child: Text(
-                      I18n.of(context).dismiss,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Europa',
-                        letterSpacing: 0,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                    textColor: Theme.of(context).colorScheme.onSurface,
-                    hoverColor: Theme.of(context).canvasColor,
-                    focusColor: Theme.of(context).canvasColor,
-                    onPressed: viewModel.dismiss,
-                  ),
+                  viewModel.showDismiss
+                      ? TextButton(
+                          child: Text(
+                            I10n.of(context).dismiss,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'Europa',
+                              letterSpacing: 0,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                          onPressed: viewModel.dismiss,
+                        )
+                      : SizedBox.shrink(),
                 ],
               ),
             ),

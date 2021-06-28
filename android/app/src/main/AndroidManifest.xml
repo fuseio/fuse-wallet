@@ -53,6 +53,8 @@
             </intent-filter>
 
         </activity>
+        <!-- <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_ic_notification" /> -->
+        <!-- <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/splash_color" /> -->
         <!-- Branch init -->
         <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr" />
         <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_laLuH5hCCQKQjv5eM1Kugongssgw79iU" />
