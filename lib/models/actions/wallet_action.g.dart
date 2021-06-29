@@ -39,9 +39,9 @@ _$FiatDeposit _$_$FiatDepositFromJson(Map<String, dynamic> json) {
     from: json['from'] as String?,
     to: json['to'] as String,
     value: BigInt.parse(json['value'] as String),
-    tokenName: json['tokenName'] as String,
-    tokenSymbol: json['tokenSymbol'] as String,
-    tokenDecimal: json['tokenDecimal'] as int,
+    tokenName: json['tokenName'] as String?,
+    tokenSymbol: json['tokenSymbol'] as String?,
+    tokenDecimal: json['tokenDecimal'] as int? ?? 18,
   );
 }
 
@@ -103,7 +103,7 @@ _$Bonus _$_$BonusFromJson(Map<String, dynamic> json) {
     value: BigInt.parse(json['value'] as String),
     tokenName: json['tokenName'] as String?,
     tokenSymbol: json['tokenSymbol'] as String?,
-    tokenDecimal: json['tokenDecimal'] as int,
+    tokenDecimal: json['tokenDecimal'] as int? ?? 18,
     bonusType: json['bonusType'] as String?,
   );
 }
@@ -134,12 +134,12 @@ _$Send _$_$SendFromJson(Map<String, dynamic> json) {
     status: json['status'] as String,
     blockNumber: json['blockNumber'] as int? ?? 0,
     tokenAddress: json['tokenAddress'] as String,
-    from: json['from'] as String,
+    from: json['from'] as String?,
     to: json['to'] as String,
     value: BigInt.parse(json['value'] as String),
-    tokenName: json['tokenName'] as String,
-    tokenSymbol: json['tokenSymbol'] as String,
-    tokenDecimal: json['tokenDecimal'] as int,
+    tokenName: json['tokenName'] as String?,
+    tokenSymbol: json['tokenSymbol'] as String?,
+    tokenDecimal: json['tokenDecimal'] as int? ?? 18,
   );
 }
 
@@ -168,12 +168,12 @@ _$Receive _$_$ReceiveFromJson(Map<String, dynamic> json) {
     status: json['status'] as String,
     blockNumber: json['blockNumber'] as int? ?? 0,
     tokenAddress: json['tokenAddress'] as String,
-    from: json['from'] as String,
+    from: json['from'] as String?,
     to: json['to'] as String,
     value: BigInt.parse(json['value'] as String),
-    tokenName: json['tokenName'] as String,
-    tokenSymbol: json['tokenSymbol'] as String,
-    tokenDecimal: json['tokenDecimal'] as int,
+    tokenName: json['tokenName'] as String?,
+    tokenSymbol: json['tokenSymbol'] as String?,
+    tokenDecimal: json['tokenDecimal'] as int? ?? 18,
   );
 }
 

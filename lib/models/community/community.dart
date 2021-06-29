@@ -18,8 +18,11 @@ class Community with _$Community {
     @Default(false) bool isMultiBridge,
     @Default(false) bool isClosed,
     @Default(false) bool isMember,
-    @JsonKey(includeIfNull: false) @Default('') String homeTokenAddress,
-    @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
+    @JsonKey(includeIfNull: false, defaultValue: '') String? homeTokenAddress,
+    @JsonKey(includeIfNull: false)
+    @JsonKey(includeIfNull: false)
+    @CommunityMetadataConverter()
+        CommunityMetadata? metadata,
     @JsonKey(includeIfNull: false) String? webUrl,
     @JsonKey(includeIfNull: false) String? bridgeType,
     @JsonKey(includeIfNull: false) String? bridgeDirection,

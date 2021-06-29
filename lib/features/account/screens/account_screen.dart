@@ -118,50 +118,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                           ),
                                         );
                                       }
-                                      // Todo - Top up button
-                                      // Segment.track(
-                                      //   eventName: 'Top up Button Press',
-                                      //   properties:
-                                      //       Map.from({"fromScreen": 'AccountScreen'}),
-                                      // );
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => TopUpScreen(),
-                                      //   ),
-                                      // );
                                     },
                                   )
                                 : SizedBox.shrink(),
-                            // MenuTile(
-                            //   label: I10n.of(context).social,
-                            //   menuIcon: 'social_icon.svg',
-                            //   onTap: () {
-                            //     context.router.push(SocialScreen());
-                            //   },
-                            // ),
-                            // MenuTile(
-                            //   label: I10n.of(context).contact_us,
-                            //   menuIcon: 'contact_us_icon.svg',
-                            //   onTap: () async {
-                            //     await Intercom.displayMessenger();
-                            //     Segment.track(
-                            //       eventName: 'Contact us',
-                            //       properties: Map.from(
-                            //         {"fromScreen": 'AccountScreen'},
-                            //       ),
-                            //     );
-                            //   },
-                            // ),
-                            // MenuTile(
-                            //   label: I10n.of(context).invite_friend,
-                            //   menuIcon: 'invite_friend_icon.svg',
-                            //   onTap: () {
-                            //     Share.share(
-                            //       '${I10n.of(context).invite_friend_text} https://app.fuse.cash/NXzV6y1HLfb',
-                            //     );
-                            //   },
-                            // ),
                             MenuTile(
                               label: I10n.of(context).legal,
                               menuIcon: 'legal_icon.svg',

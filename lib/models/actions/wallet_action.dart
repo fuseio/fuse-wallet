@@ -220,7 +220,7 @@ class WalletAction with _$WalletAction {
       fiatDeposit: (value) => value.from ?? '',
       bonus: (value) => value.from ?? '',
       send: (value) => value.to,
-      receive: (value) => value.from,
+      receive: (value) => value.from ?? '',
       swap: (value) => '',
     );
   }
@@ -256,12 +256,12 @@ class WalletAction with _$WalletAction {
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    String? from,
+    @Default(null) String? from,
     required String to,
     required BigInt value,
-    required String tokenName,
-    required String tokenSymbol,
-    required int tokenDecimal,
+    String? tokenName,
+    String? tokenSymbol,
+    @Default(18) int tokenDecimal,
   }) = FiatDeposit;
 
   @JsonSerializable()
@@ -286,12 +286,12 @@ class WalletAction with _$WalletAction {
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    String? from,
+    @Default(null) String? from,
     required String to,
     required BigInt value,
     String? tokenName,
     String? tokenSymbol,
-    required int tokenDecimal,
+    @Default(18) int tokenDecimal,
     String? bonusType,
   }) = Bonus;
 
@@ -304,12 +304,12 @@ class WalletAction with _$WalletAction {
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    required String from,
+    @Default(null) String? from,
     required String to,
     required BigInt value,
-    required String tokenName,
-    required String tokenSymbol,
-    required int tokenDecimal,
+    String? tokenName,
+    String? tokenSymbol,
+    @Default(18) int tokenDecimal,
   }) = Send;
 
   @JsonSerializable()
@@ -321,12 +321,12 @@ class WalletAction with _$WalletAction {
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    required String from,
+    @Default(null) String? from,
     required String to,
     required BigInt value,
-    required String tokenName,
-    required String tokenSymbol,
-    required int tokenDecimal,
+    String? tokenName,
+    String? tokenSymbol,
+    @Default(18) int tokenDecimal,
   }) = Receive;
 
   @JsonSerializable()

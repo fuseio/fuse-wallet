@@ -25,7 +25,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   final transferNoteController = TextEditingController(text: "");
   late Animation<double> offset;
   bool isPreloading = false;
-  var squareScaleA = 1.0;
 
   @override
   void dispose() {

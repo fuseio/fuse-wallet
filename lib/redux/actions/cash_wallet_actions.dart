@@ -776,7 +776,7 @@ Future<Token> fetchToken(
       throw 'web3 is empty';
     }
     dynamic tokenDetails = await fuseWeb3!.getTokenDetails(
-      community.homeTokenAddress,
+      community.homeTokenAddress!,
     );
     final int decimals = tokenDetails['decimals'].toInt();
     Token? tokenInfo = new Token.fromJson({
@@ -784,7 +784,7 @@ Future<Token> fetchToken(
       'symbol': tokenDetails['symbol'],
       'decimals': decimals,
       'amount': '0',
-      'address': community.homeTokenAddress.toLowerCase(),
+      'address': community.homeTokenAddress!.toLowerCase(),
     });
     return tokenInfo.copyWith(
       originNetwork: originNetwork,

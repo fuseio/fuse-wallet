@@ -26,17 +26,31 @@ class _$CommunityTearOff {
       bool isMultiBridge = false,
       bool isClosed = false,
       bool isMember = false,
-      @JsonKey(includeIfNull: false) String homeTokenAddress = '',
-      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false) String? webUrl,
-      @JsonKey(includeIfNull: false) String? bridgeType,
-      @JsonKey(includeIfNull: false) String? bridgeDirection,
-      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
-      @JsonKey(includeIfNull: false) List<Business>? businesses,
-      @JsonKey(includeIfNull: false) String? description}) {
+      @JsonKey(includeIfNull: false, defaultValue: '')
+          String? homeTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @JsonKey(includeIfNull: false)
+      @CommunityMetadataConverter()
+          CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false)
+          String? webUrl,
+      @JsonKey(includeIfNull: false)
+          String? bridgeType,
+      @JsonKey(includeIfNull: false)
+          String? bridgeDirection,
+      @JsonKey(includeIfNull: false)
+          String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @PluginsConverter()
+          Plugins? plugins,
+      @JsonKey(includeIfNull: false)
+          List<Business>? businesses,
+      @JsonKey(includeIfNull: false)
+          String? description}) {
     return _Community(
       name: name,
       address: address,
@@ -72,9 +86,11 @@ mixin _$Community {
   bool get isMultiBridge => throw _privateConstructorUsedError;
   bool get isClosed => throw _privateConstructorUsedError;
   bool get isMember => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false, defaultValue: '')
+  String? get homeTokenAddress => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  String get homeTokenAddress => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
+  @CommunityMetadataConverter()
   CommunityMetadata? get metadata => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
   String? get webUrl => throw _privateConstructorUsedError;
@@ -112,17 +128,31 @@ abstract class $CommunityCopyWith<$Res> {
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
-      @JsonKey(includeIfNull: false) String homeTokenAddress,
-      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false) String? webUrl,
-      @JsonKey(includeIfNull: false) String? bridgeType,
-      @JsonKey(includeIfNull: false) String? bridgeDirection,
-      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
-      @JsonKey(includeIfNull: false) List<Business>? businesses,
-      @JsonKey(includeIfNull: false) String? description});
+      @JsonKey(includeIfNull: false, defaultValue: '')
+          String? homeTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @JsonKey(includeIfNull: false)
+      @CommunityMetadataConverter()
+          CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false)
+          String? webUrl,
+      @JsonKey(includeIfNull: false)
+          String? bridgeType,
+      @JsonKey(includeIfNull: false)
+          String? bridgeDirection,
+      @JsonKey(includeIfNull: false)
+          String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @PluginsConverter()
+          Plugins? plugins,
+      @JsonKey(includeIfNull: false)
+          List<Business>? businesses,
+      @JsonKey(includeIfNull: false)
+          String? description});
 
   $CommunityMetadataCopyWith<$Res>? get metadata;
   $PluginsCopyWith<$Res>? get plugins;
@@ -179,7 +209,7 @@ class _$CommunityCopyWithImpl<$Res> implements $CommunityCopyWith<$Res> {
       homeTokenAddress: homeTokenAddress == freezed
           ? _value.homeTokenAddress
           : homeTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       metadata: metadata == freezed
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -258,17 +288,31 @@ abstract class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Res> {
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
-      @JsonKey(includeIfNull: false) String homeTokenAddress,
-      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false) String? webUrl,
-      @JsonKey(includeIfNull: false) String? bridgeType,
-      @JsonKey(includeIfNull: false) String? bridgeDirection,
-      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
-      @JsonKey(includeIfNull: false) List<Business>? businesses,
-      @JsonKey(includeIfNull: false) String? description});
+      @JsonKey(includeIfNull: false, defaultValue: '')
+          String? homeTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @JsonKey(includeIfNull: false)
+      @CommunityMetadataConverter()
+          CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false)
+          String? webUrl,
+      @JsonKey(includeIfNull: false)
+          String? bridgeType,
+      @JsonKey(includeIfNull: false)
+          String? bridgeDirection,
+      @JsonKey(includeIfNull: false)
+          String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @PluginsConverter()
+          Plugins? plugins,
+      @JsonKey(includeIfNull: false)
+          List<Business>? businesses,
+      @JsonKey(includeIfNull: false)
+          String? description});
 
   @override
   $CommunityMetadataCopyWith<$Res>? get metadata;
@@ -328,7 +372,7 @@ class __$CommunityCopyWithImpl<$Res> extends _$CommunityCopyWithImpl<$Res>
       homeTokenAddress: homeTokenAddress == freezed
           ? _value.homeTokenAddress
           : homeTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       metadata: metadata == freezed
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -383,17 +427,31 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
       this.isMultiBridge = false,
       this.isClosed = false,
       this.isMember = false,
-      @JsonKey(includeIfNull: false) this.homeTokenAddress = '',
-      @JsonKey(includeIfNull: false) this.metadata,
-      @JsonKey(includeIfNull: false) this.webUrl,
-      @JsonKey(includeIfNull: false) this.bridgeType,
-      @JsonKey(includeIfNull: false) this.bridgeDirection,
-      @JsonKey(includeIfNull: false) this.homeBridgeAddress,
-      @JsonKey(includeIfNull: false) this.foreignBridgeAddress,
-      @JsonKey(includeIfNull: false) this.foreignTokenAddress,
-      @JsonKey(includeIfNull: false) @PluginsConverter() this.plugins,
-      @JsonKey(includeIfNull: false) this.businesses,
-      @JsonKey(includeIfNull: false) this.description});
+      @JsonKey(includeIfNull: false, defaultValue: '')
+          this.homeTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @JsonKey(includeIfNull: false)
+      @CommunityMetadataConverter()
+          this.metadata,
+      @JsonKey(includeIfNull: false)
+          this.webUrl,
+      @JsonKey(includeIfNull: false)
+          this.bridgeType,
+      @JsonKey(includeIfNull: false)
+          this.bridgeDirection,
+      @JsonKey(includeIfNull: false)
+          this.homeBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          this.foreignBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          this.foreignTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @PluginsConverter()
+          this.plugins,
+      @JsonKey(includeIfNull: false)
+          this.businesses,
+      @JsonKey(includeIfNull: false)
+          this.description});
 
   factory _$_Community.fromJson(Map<String, dynamic> json) =>
       _$_$_CommunityFromJson(json);
@@ -414,10 +472,12 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
   @override
   final bool isMember;
   @override
-  @JsonKey(includeIfNull: false)
-  final String homeTokenAddress;
+  @JsonKey(includeIfNull: false, defaultValue: '')
+  final String? homeTokenAddress;
   @override
   @JsonKey(includeIfNull: false)
+  @JsonKey(includeIfNull: false)
+  @CommunityMetadataConverter()
   final CommunityMetadata? metadata;
   @override
   @JsonKey(includeIfNull: false)
@@ -566,17 +626,31 @@ abstract class _Community implements Community {
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
-      @JsonKey(includeIfNull: false) String homeTokenAddress,
-      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false) String? webUrl,
-      @JsonKey(includeIfNull: false) String? bridgeType,
-      @JsonKey(includeIfNull: false) String? bridgeDirection,
-      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
-      @JsonKey(includeIfNull: false) List<Business>? businesses,
-      @JsonKey(includeIfNull: false) String? description}) = _$_Community;
+      @JsonKey(includeIfNull: false, defaultValue: '')
+          String? homeTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @JsonKey(includeIfNull: false)
+      @CommunityMetadataConverter()
+          CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false)
+          String? webUrl,
+      @JsonKey(includeIfNull: false)
+          String? bridgeType,
+      @JsonKey(includeIfNull: false)
+          String? bridgeDirection,
+      @JsonKey(includeIfNull: false)
+          String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false)
+          String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false)
+      @PluginsConverter()
+          Plugins? plugins,
+      @JsonKey(includeIfNull: false)
+          List<Business>? businesses,
+      @JsonKey(includeIfNull: false)
+          String? description}) = _$_Community;
 
   factory _Community.fromJson(Map<String, dynamic> json) =
       _$_Community.fromJson;
@@ -592,10 +666,12 @@ abstract class _Community implements Community {
   @override
   bool get isMember => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false)
-  String get homeTokenAddress => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false, defaultValue: '')
+  String? get homeTokenAddress => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)
+  @JsonKey(includeIfNull: false)
+  @CommunityMetadataConverter()
   CommunityMetadata? get metadata => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)

@@ -211,13 +211,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-  color:
-    dependency: transitive
-    description:
-      name: color
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   confetti:
     dependency: "direct main"
     description:
@@ -267,13 +260,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  dartx:
-    dependency: transitive
-    description:
-      name: dartx
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.1"
   decimal:
     dependency: "direct main"
     description:
@@ -458,13 +444,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.0"
-  flutter_branch_sdk:
-    dependency: "direct main"
-    description:
-      name: flutter_branch_sdk
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.3.0"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -486,20 +465,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
-  flutter_gen_core:
-    dependency: transitive
-    description:
-      name: flutter_gen_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.1"
-  flutter_gen_runner:
-    dependency: "direct dev"
-    description:
-      name: flutter_gen_runner
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -1411,13 +1376,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
-  time:
-    dependency: transitive
-    description:
-      name: time
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   timing:
     dependency: transitive
     description:
@@ -1507,7 +1465,7 @@ packages:
     description:
       path: "."
       ref: "feat/null-safety"
-      resolved-ref: e25b232d275d921a1808bda7a175e7b09e7a6284
+      resolved-ref: c6db9e0a1f1c416fea90f7578f2252207d1321c6
       url: "https://github.com/fuseio/wallet_core.git"
     source: git
     version: "0.3.0"

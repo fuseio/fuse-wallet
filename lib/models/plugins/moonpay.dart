@@ -12,7 +12,7 @@ class MoonpayPlugin with _$MoonpayPlugin {
   @JsonSerializable()
   factory MoonpayPlugin({
     @Default('moonpay') String name,
-    required String widgetUrl,
+    String? widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,
   }) = _MoonpayPlugin;

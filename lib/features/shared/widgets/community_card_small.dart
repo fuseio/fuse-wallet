@@ -78,10 +78,12 @@ class CommunityCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(community.name,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                )),
+                            Text(
+                              community.name,
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
                             SizedBox(
                               width: 3,
                             ),

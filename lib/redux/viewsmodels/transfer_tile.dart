@@ -49,7 +49,7 @@ class TransferTileViewModel extends Equatable {
 
     Map<String, Community> communitiesMap =
         communities.fold(Map(), (previousValue, element) {
-      previousValue.putIfAbsent(element.homeTokenAddress, () => element);
+      previousValue.putIfAbsent(element.homeTokenAddress!, () => element);
       return previousValue;
     });
     return TransferTileViewModel(

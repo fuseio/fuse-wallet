@@ -63,12 +63,12 @@ class _$WalletActionTearOff {
       required String status,
       int? blockNumber = 0,
       required String tokenAddress,
-      String? from,
+      String? from = null,
       required String to,
       required BigInt value,
-      required String tokenName,
-      required String tokenSymbol,
-      required int tokenDecimal}) {
+      String? tokenName,
+      String? tokenSymbol,
+      int tokenDecimal = 18}) {
     return FiatDeposit(
       timestamp: timestamp,
       id: id,
@@ -117,12 +117,12 @@ class _$WalletActionTearOff {
       required String status,
       int? blockNumber = 0,
       required String tokenAddress,
-      String? from,
+      String? from = null,
       required String to,
       required BigInt value,
       String? tokenName,
       String? tokenSymbol,
-      required int tokenDecimal,
+      int tokenDecimal = 18,
       String? bonusType}) {
     return Bonus(
       timestamp: timestamp,
@@ -150,12 +150,12 @@ class _$WalletActionTearOff {
       required String status,
       int? blockNumber = 0,
       required String tokenAddress,
-      required String from,
+      String? from = null,
       required String to,
       required BigInt value,
-      required String tokenName,
-      required String tokenSymbol,
-      required int tokenDecimal}) {
+      String? tokenName,
+      String? tokenSymbol,
+      int tokenDecimal = 18}) {
     return Send(
       timestamp: timestamp,
       id: id,
@@ -181,12 +181,12 @@ class _$WalletActionTearOff {
       required String status,
       int? blockNumber = 0,
       required String tokenAddress,
-      required String from,
+      String? from = null,
       required String to,
       required BigInt value,
-      required String tokenName,
-      required String tokenSymbol,
-      required int tokenDecimal}) {
+      String? tokenName,
+      String? tokenSymbol,
+      int tokenDecimal = 18}) {
     return Receive(
       timestamp: timestamp,
       id: id,
@@ -257,8 +257,8 @@ mixin _$WalletAction {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -296,11 +296,11 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -311,11 +311,11 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -345,8 +345,8 @@ mixin _$WalletAction {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -384,11 +384,11 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -399,11 +399,11 @@ mixin _$WalletAction {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -675,8 +675,8 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -714,11 +714,11 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -729,11 +729,11 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -766,8 +766,8 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -805,11 +805,11 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -820,11 +820,11 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -932,8 +932,8 @@ abstract class $FiatDepositCopyWith<$Res>
       String? from,
       String to,
       BigInt value,
-      String tokenName,
-      String tokenSymbol,
+      String? tokenName,
+      String? tokenSymbol,
       int tokenDecimal});
 }
 
@@ -1007,11 +1007,11 @@ class _$FiatDepositCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       tokenName: tokenName == freezed
           ? _value.tokenName
           : tokenName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenSymbol: tokenSymbol == freezed
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenDecimal: tokenDecimal == freezed
           ? _value.tokenDecimal
           : tokenDecimal // ignore: cast_nullable_to_non_nullable
@@ -1032,12 +1032,12 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
       required this.status,
       this.blockNumber = 0,
       required this.tokenAddress,
-      this.from,
+      this.from = null,
       required this.to,
       required this.value,
-      required this.tokenName,
-      required this.tokenSymbol,
-      required this.tokenDecimal})
+      this.tokenName,
+      this.tokenSymbol,
+      this.tokenDecimal = 18})
       : super._();
 
   factory _$FiatDeposit.fromJson(Map<String, dynamic> json) =>
@@ -1062,6 +1062,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   final int? blockNumber;
   @override
   final String tokenAddress;
+  @JsonKey(defaultValue: null)
   @override
   final String? from;
   @override
@@ -1069,9 +1070,10 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   @override
   final BigInt value;
   @override
-  final String tokenName;
+  final String? tokenName;
   @override
-  final String tokenSymbol;
+  final String? tokenSymbol;
+  @JsonKey(defaultValue: 18)
   @override
   final int tokenDecimal;
 
@@ -1177,8 +1179,8 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -1216,11 +1218,11 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -1231,11 +1233,11 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -1269,8 +1271,8 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -1308,11 +1310,11 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -1323,11 +1325,11 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -1398,9 +1400,9 @@ abstract class FiatDeposit extends WalletAction {
       String? from,
       required String to,
       required BigInt value,
-      required String tokenName,
-      required String tokenSymbol,
-      required int tokenDecimal}) = _$FiatDeposit;
+      String? tokenName,
+      String? tokenSymbol,
+      int tokenDecimal}) = _$FiatDeposit;
   const FiatDeposit._() : super._();
 
   factory FiatDeposit.fromJson(Map<String, dynamic> json) =
@@ -1423,8 +1425,8 @@ abstract class FiatDeposit extends WalletAction {
   String? get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
   BigInt get value => throw _privateConstructorUsedError;
-  String get tokenName => throw _privateConstructorUsedError;
-  String get tokenSymbol => throw _privateConstructorUsedError;
+  String? get tokenName => throw _privateConstructorUsedError;
+  String? get tokenSymbol => throw _privateConstructorUsedError;
   int get tokenDecimal => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -1643,8 +1645,8 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -1682,11 +1684,11 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -1697,11 +1699,11 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -1735,8 +1737,8 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -1774,11 +1776,11 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -1789,11 +1791,11 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -2011,12 +2013,12 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
       required this.status,
       this.blockNumber = 0,
       required this.tokenAddress,
-      this.from,
+      this.from = null,
       required this.to,
       required this.value,
       this.tokenName,
       this.tokenSymbol,
-      required this.tokenDecimal,
+      this.tokenDecimal = 18,
       this.bonusType})
       : super._();
 
@@ -2042,6 +2044,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   final int? blockNumber;
   @override
   final String tokenAddress;
+  @JsonKey(defaultValue: null)
   @override
   final String? from;
   @override
@@ -2052,6 +2055,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   final String? tokenName;
   @override
   final String? tokenSymbol;
+  @JsonKey(defaultValue: 18)
   @override
   final int tokenDecimal;
   @override
@@ -2164,8 +2168,8 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -2203,11 +2207,11 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -2218,11 +2222,11 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -2256,8 +2260,8 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -2295,11 +2299,11 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -2310,11 +2314,11 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -2400,7 +2404,7 @@ abstract class Bonus extends WalletAction {
       required BigInt value,
       String? tokenName,
       String? tokenSymbol,
-      required int tokenDecimal,
+      int tokenDecimal,
       String? bonusType}) = _$Bonus;
   const Bonus._() : super._();
 
@@ -2445,11 +2449,11 @@ abstract class $SendCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String status,
       int? blockNumber,
       String tokenAddress,
-      String from,
+      String? from,
       String to,
       BigInt value,
-      String tokenName,
-      String tokenSymbol,
+      String? tokenName,
+      String? tokenSymbol,
       int tokenDecimal});
 }
 
@@ -2510,7 +2514,7 @@ class _$SendCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
@@ -2522,11 +2526,11 @@ class _$SendCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       tokenName: tokenName == freezed
           ? _value.tokenName
           : tokenName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenSymbol: tokenSymbol == freezed
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenDecimal: tokenDecimal == freezed
           ? _value.tokenDecimal
           : tokenDecimal // ignore: cast_nullable_to_non_nullable
@@ -2547,12 +2551,12 @@ class _$Send extends Send with DiagnosticableTreeMixin {
       required this.status,
       this.blockNumber = 0,
       required this.tokenAddress,
-      required this.from,
+      this.from = null,
       required this.to,
       required this.value,
-      required this.tokenName,
-      required this.tokenSymbol,
-      required this.tokenDecimal})
+      this.tokenName,
+      this.tokenSymbol,
+      this.tokenDecimal = 18})
       : super._();
 
   factory _$Send.fromJson(Map<String, dynamic> json) => _$_$SendFromJson(json);
@@ -2576,16 +2580,18 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   final int? blockNumber;
   @override
   final String tokenAddress;
+  @JsonKey(defaultValue: null)
   @override
-  final String from;
+  final String? from;
   @override
   final String to;
   @override
   final BigInt value;
   @override
-  final String tokenName;
+  final String? tokenName;
   @override
-  final String tokenSymbol;
+  final String? tokenSymbol;
+  @JsonKey(defaultValue: 18)
   @override
   final int tokenDecimal;
 
@@ -2691,8 +2697,8 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -2730,11 +2736,11 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -2745,11 +2751,11 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -2783,8 +2789,8 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -2822,11 +2828,11 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -2837,11 +2843,11 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -2909,12 +2915,12 @@ abstract class Send extends WalletAction {
       required String status,
       int? blockNumber,
       required String tokenAddress,
-      required String from,
+      String? from,
       required String to,
       required BigInt value,
-      required String tokenName,
-      required String tokenSymbol,
-      required int tokenDecimal}) = _$Send;
+      String? tokenName,
+      String? tokenSymbol,
+      int tokenDecimal}) = _$Send;
   const Send._() : super._();
 
   factory Send.fromJson(Map<String, dynamic> json) = _$Send.fromJson;
@@ -2933,11 +2939,11 @@ abstract class Send extends WalletAction {
   @override
   int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
-  String get from => throw _privateConstructorUsedError;
+  String? get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
   BigInt get value => throw _privateConstructorUsedError;
-  String get tokenName => throw _privateConstructorUsedError;
-  String get tokenSymbol => throw _privateConstructorUsedError;
+  String? get tokenName => throw _privateConstructorUsedError;
+  String? get tokenSymbol => throw _privateConstructorUsedError;
   int get tokenDecimal => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -2957,11 +2963,11 @@ abstract class $ReceiveCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
       String status,
       int? blockNumber,
       String tokenAddress,
-      String from,
+      String? from,
       String to,
       BigInt value,
-      String tokenName,
-      String tokenSymbol,
+      String? tokenName,
+      String? tokenSymbol,
       int tokenDecimal});
 }
 
@@ -3022,7 +3028,7 @@ class _$ReceiveCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       from: from == freezed
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       to: to == freezed
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
@@ -3034,11 +3040,11 @@ class _$ReceiveCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       tokenName: tokenName == freezed
           ? _value.tokenName
           : tokenName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenSymbol: tokenSymbol == freezed
           ? _value.tokenSymbol
           : tokenSymbol // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       tokenDecimal: tokenDecimal == freezed
           ? _value.tokenDecimal
           : tokenDecimal // ignore: cast_nullable_to_non_nullable
@@ -3059,12 +3065,12 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
       required this.status,
       this.blockNumber = 0,
       required this.tokenAddress,
-      required this.from,
+      this.from = null,
       required this.to,
       required this.value,
-      required this.tokenName,
-      required this.tokenSymbol,
-      required this.tokenDecimal})
+      this.tokenName,
+      this.tokenSymbol,
+      this.tokenDecimal = 18})
       : super._();
 
   factory _$Receive.fromJson(Map<String, dynamic> json) =>
@@ -3089,16 +3095,18 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   final int? blockNumber;
   @override
   final String tokenAddress;
+  @JsonKey(defaultValue: null)
   @override
-  final String from;
+  final String? from;
   @override
   final String to;
   @override
   final BigInt value;
   @override
-  final String tokenName;
+  final String? tokenName;
   @override
-  final String tokenSymbol;
+  final String? tokenSymbol;
+  @JsonKey(defaultValue: 18)
   @override
   final int tokenDecimal;
 
@@ -3204,8 +3212,8 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -3243,11 +3251,11 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -3258,11 +3266,11 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -3296,8 +3304,8 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -3335,11 +3343,11 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -3350,11 +3358,11 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(
@@ -3422,12 +3430,12 @@ abstract class Receive extends WalletAction {
       required String status,
       int? blockNumber,
       required String tokenAddress,
-      required String from,
+      String? from,
       required String to,
       required BigInt value,
-      required String tokenName,
-      required String tokenSymbol,
-      required int tokenDecimal}) = _$Receive;
+      String? tokenName,
+      String? tokenSymbol,
+      int tokenDecimal}) = _$Receive;
   const Receive._() : super._();
 
   factory Receive.fromJson(Map<String, dynamic> json) = _$Receive.fromJson;
@@ -3446,11 +3454,11 @@ abstract class Receive extends WalletAction {
   @override
   int? get blockNumber => throw _privateConstructorUsedError;
   String get tokenAddress => throw _privateConstructorUsedError;
-  String get from => throw _privateConstructorUsedError;
+  String? get from => throw _privateConstructorUsedError;
   String get to => throw _privateConstructorUsedError;
   BigInt get value => throw _privateConstructorUsedError;
-  String get tokenName => throw _privateConstructorUsedError;
-  String get tokenSymbol => throw _privateConstructorUsedError;
+  String? get tokenName => throw _privateConstructorUsedError;
+  String? get tokenSymbol => throw _privateConstructorUsedError;
   int get tokenDecimal => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
@@ -3649,8 +3657,8 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         fiatDeposit,
     required TResult Function(
@@ -3688,11 +3696,11 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         send,
     required TResult Function(
@@ -3703,11 +3711,11 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)
         receive,
     required TResult Function(
@@ -3740,8 +3748,8 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         fiatDeposit,
     TResult Function(
@@ -3779,11 +3787,11 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         send,
     TResult Function(
@@ -3794,11 +3802,11 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String status,
             int? blockNumber,
             String tokenAddress,
-            String from,
+            String? from,
             String to,
             BigInt value,
-            String tokenName,
-            String tokenSymbol,
+            String? tokenName,
+            String? tokenSymbol,
             int tokenDecimal)?
         receive,
     TResult Function(

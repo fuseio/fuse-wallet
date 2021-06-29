@@ -12,7 +12,7 @@ class RampInstantPlugin with _$RampInstantPlugin {
   @JsonSerializable()
   factory RampInstantPlugin({
     @Default('rampInstant') String name,
-    required String widgetUrl,
+    String? widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,
   }) = _RampInstantPlugin;

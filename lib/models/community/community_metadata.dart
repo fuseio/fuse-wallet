@@ -39,3 +39,16 @@ class CommunityMetadata with _$CommunityMetadata {
   factory CommunityMetadata.fromJson(Map<String, dynamic> json) =>
       _$CommunityMetadataFromJson(json);
 }
+
+class CommunityMetadataConverter
+    implements JsonConverter<CommunityMetadata?, Map<String, dynamic>?> {
+  const CommunityMetadataConverter();
+
+  @override
+  CommunityMetadata? fromJson(Map<String, dynamic>? json) =>
+      json != null ? CommunityMetadata.fromJson(json) : null;
+
+  @override
+  Map<String, dynamic>? toJson(CommunityMetadata? instance) =>
+      instance?.toJson();
+}

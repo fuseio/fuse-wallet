@@ -15,8 +15,9 @@ String currencyJson(String? currency) => currency == null ? 'usd' : currency;
 authTypeFromJson(String auth) =>
     EnumToString.fromString(BiometricAuth.values, auth);
 
-Locale localeFromJson(Map<String, dynamic> map) =>
-    Locale(map['languageCode'], map['countryCode']);
+Locale localeFromJson(Map<String, dynamic>? map) => map == null
+    ? Locale('en', 'US')
+    : Locale(map['languageCode'], map['countryCode']);
 
 Map<String, dynamic> localeToJson(Locale? locale) => locale == null
     ? {'languageCode': 'en', 'countryCode': 'US'}

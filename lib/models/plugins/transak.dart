@@ -12,7 +12,7 @@ class TransakPlugin with _$TransakPlugin {
   @JsonSerializable()
   factory TransakPlugin({
     @Default('transak') String name,
-    required String widgetUrl,
+    String? widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,
   }) = _TransakPlugin;

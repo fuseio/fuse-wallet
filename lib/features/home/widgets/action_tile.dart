@@ -111,10 +111,10 @@ class ActionTile extends StatelessWidget {
           createWallet: (value) => '',
           joinCommunity: (value) =>
               viewModel.tokens[value.tokenAddress]?.symbol ?? '',
-          fiatDeposit: (value) => value.tokenSymbol,
+          fiatDeposit: (value) => value.tokenSymbol ?? '',
           bonus: (value) => value.tokenSymbol ?? '',
-          send: (value) => value.tokenSymbol,
-          receive: (value) => value.tokenSymbol,
+          send: (value) => value.tokenSymbol ?? '',
+          receive: (value) => value.tokenSymbol ?? '',
           swap: (value) => value.tradeInfo?.outputToken ?? '',
         );
 
