@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/app.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/common/di/di.dart';
