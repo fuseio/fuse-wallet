@@ -1,11 +1,9 @@
 name: fusecash
-version: 1.1.62+313
+version: 1.0.4+8
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.12.0 <3.0.0"
 dependencies:
-  flutter_svg_provider: ^0.1.9
-  confetti: ^0.6.0-nullsafety
   flutter_localized_locales: ^2.0.2
   app_tracking_transparency: ^2.0.1
   rate_my_app: ^1.1.0+1
@@ -51,7 +49,10 @@ dependencies:
   redux_thunk: ^0.4.0
   redux_logging: ^0.5.0
   redux_persist: ^0.9.0
-  country_code_picker: ^2.0.2
+  country_code_picker:
+    git:
+        url: https://github.com/fuseio/CountryCodePicker.git
+        ref: master
   # wallet_core:
   #   path: ../wallet_core
   wallet_core:
@@ -82,7 +83,6 @@ dependencies:
       url: https://github.com/fuseio/flutter-segment.git
       ref: master
   flutter_cupertino_localizations: ^1.0.1
-  # flutter_branch_sdk: ^3.3.0
   flutter_udid: ^2.0.0
   flutter:
     sdk: flutter

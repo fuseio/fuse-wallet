@@ -20,3 +20,21 @@ class RampInstantPlugin with _$RampInstantPlugin {
   factory RampInstantPlugin.fromJson(Map<String, dynamic> json) =>
       _$RampInstantPluginFromJson(json);
 }
+
+class RampInstantPluginConverter
+    implements JsonConverter<RampInstantPlugin?, Map<String, dynamic>?> {
+  const RampInstantPluginConverter();
+
+  @override
+  RampInstantPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return RampInstantPlugin.fromJson(json);
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(RampInstantPlugin? instance) =>
+      instance?.toJson();
+}

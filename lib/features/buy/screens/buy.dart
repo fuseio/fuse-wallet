@@ -10,7 +10,6 @@ import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/images.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 
@@ -27,15 +26,7 @@ class BuyScreen extends StatelessWidget {
         return MyScaffold(
           title: I10n.of(context).buy,
           body: Container(
-            child: Column(
-              children: [
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    BusinessesListView(),
-                  ]),
-                ),
-              ],
-            ),
+            child: BusinessesListView(),
           ),
         );
       },
@@ -59,7 +50,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            banner(context, vm),
+            // banner(context, vm),
             businessList(context, vm),
           ],
         ),
@@ -67,43 +58,43 @@ class _BusinessesListViewState extends State<BusinessesListView> {
     );
   }
 
-  Widget banner(BuildContext context, BuyViewModel vm) {
-    return vm.walletBanner != null &&
-            vm.walletBanner?.walletBannerHash != null &&
-            vm.walletBanner?.walletBannerHash != ''
-        ? Container(
-            constraints: BoxConstraints(maxHeight: 140),
-            padding: EdgeInsets.all(10),
-            child: InkWell(
-              focusColor: Theme.of(context).canvasColor,
-              highlightColor: Theme.of(context).canvasColor,
-              onTap: () {
-                context.router.push(
-                  Webview(
-                    url: vm.walletBanner?.link ?? '',
-                    title: '',
-                  ),
-                );
-              },
-              child: CachedNetworkImage(
-                imageUrl: ImageUrl.getLink(vm.walletBanner!.walletBannerHash!),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: imageProvider,
-                    ),
-                  ),
-                ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ),
-          )
-        : SizedBox.shrink();
-  }
+  // Widget banner(BuildContext context, BuyViewModel vm) {
+  //   return vm.walletBanner != null &&
+  //           vm.walletBanner?.walletBannerHash != null &&
+  //           vm.walletBanner?.walletBannerHash != ''
+  //       ? Container(
+  //           constraints: BoxConstraints(maxHeight: 140),
+  //           padding: EdgeInsets.all(10),
+  //           child: InkWell(
+  //             focusColor: Theme.of(context).canvasColor,
+  //             highlightColor: Theme.of(context).canvasColor,
+  //             onTap: () {
+  //               context.router.push(
+  //                 Webview(
+  //                   url: vm.walletBanner?.link ?? '',
+  //                   title: '',
+  //                 ),
+  //               );
+  //             },
+  //             child: CachedNetworkImage(
+  //               imageUrl: ImageUrl.getLink(vm.walletBanner!.walletBannerHash!),
+  //               imageBuilder: (context, imageProvider) => Container(
+  //                 width: MediaQuery.of(context).size.width,
+  //                 height: 140,
+  //                 decoration: BoxDecoration(
+  //                   image: DecorationImage(
+  //                     fit: BoxFit.cover,
+  //                     image: imageProvider,
+  //                   ),
+  //                 ),
+  //               ),
+  //               placeholder: (context, url) => CircularProgressIndicator(),
+  //               errorWidget: (context, url, error) => Icon(Icons.error),
+  //             ),
+  //           ),
+  //         )
+  //       : SizedBox.shrink();
+  // }
 
   Widget businessList(context, BuyViewModel vm) {
     return vm.businesses.isEmpty
@@ -113,33 +104,27 @@ class _BusinessesListViewState extends State<BusinessesListView> {
               child: Text(I10n.of(context).no_businesses),
             ),
           )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10, bottom: 5.0),
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => Divider(),
-                    shrinkWrap: true,
-                    itemCount: vm.businesses.length,
-                    itemBuilder: (context, index) => businessTile(
-                      vm.businesses[index],
-                      vm.communityAddress,
-                      vm.token,
-                    ),
-                  ),
+        : Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, bottom: 5.0),
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+                shrinkWrap: true,
+                itemCount: vm.businesses.length,
+                itemBuilder: (context, index) => businessTile(
+                  vm.businesses[index],
+                  vm.communityAddress,
+                  vm.token!,
                 ),
-              )
-            ],
+              ),
+            ),
           );
   }
 
   ListTile businessTile(
     Business business,
     String communityAddress,
-    Token token,
+    Token? token,
   ) {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
@@ -149,7 +134,8 @@ class _BusinessesListViewState extends State<BusinessesListView> {
         decoration: BoxDecoration(),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: ImageUrl.getLink(business.metadata.image),
+            imageUrl: business
+                .metadata.image, //ImageUrl.getLink(business.metadata.image),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -178,7 +164,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
       onTap: () {
         context.router.push(BusinessScreen(
           business: business,
-          token: token,
+          token: token!,
         ));
       },
       trailing: Row(
@@ -186,30 +172,33 @@ class _BusinessesListViewState extends State<BusinessesListView> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.all(10.0),
-              backgroundColor: Theme.of(context).buttonColor,
-              shape: CircleBorder(),
+          InkWell(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                'assets/images/go.png',
+                fit: BoxFit.fill,
+                width: 25,
+                height: 25,
+              ),
             ),
-            child: Text(
-              I10n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button!.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
-              context.router.push(
-                SendAmountScreen(
-                  pageArgs: SendFlowArguments(
-                    tokenToSend: token,
-                    name: business.name,
-                    accountAddress: business.account,
-                    avatar: NetworkImage(
-                      ImageUrl.getLink(business.metadata.image),
+            onTap: () {
+              final SendFlowArguments args = SendFlowArguments(
+                tokenToSend: token!,
+                name: business.name,
+                accountAddress: business.account,
+                avatar: NetworkImage(
+                  business.metadata.image,
+                ),
+              );
+              context.navigateTo(
+                ContactsTab(
+                  children: [
+                    ContactsList(
+                      pageArgs: args,
                     ),
-                  ),
+                    SendAmountScreen(pageArgs: args),
+                  ],
                 ),
               );
             },

@@ -51,7 +51,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      resizeToAvoidBottomInset: false,
       title: I10n.of(context).sign_up,
       body: InkWell(
         onTap: () {

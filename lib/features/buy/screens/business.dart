@@ -10,7 +10,6 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -62,9 +61,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                             padding: EdgeInsets.only(bottom: 20),
                             child: SizedBox.expand(
                               child: CachedNetworkImage(
-                                imageUrl: ImageUrl.getLink(
-                                  widget.business.metadata.coverPhoto,
-                                ),
+                                imageUrl: widget.business.metadata.coverPhoto,
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
@@ -98,9 +95,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                             padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
-                              imageUrl: ImageUrl.getLink(
-                                widget.business.metadata.image,
-                              ),
+                              imageUrl: widget.business.metadata.image,
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
@@ -317,26 +312,28 @@ class _BusinessScreenState extends State<BusinessScreen> {
                               child: Text(
                                 I10n.of(context).pay,
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .button!
-                                        .color,
+                                    color: Theme.of(context).canvasColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                context.router.push(
-                                  SendAmountScreen(
-                                    pageArgs: SendFlowArguments(
-                                      tokenToSend: widget.token,
-                                      name: widget.business.name,
-                                      accountAddress: widget.business.account,
-                                      avatar: NetworkImage(
-                                        ImageUrl.getLink(
-                                          widget.business.metadata.image,
-                                        ),
+                                final SendFlowArguments args =
+                                    SendFlowArguments(
+                                  tokenToSend: widget.token,
+                                  name: widget.business.name,
+                                  accountAddress: widget.business.account,
+                                  avatar: NetworkImage(
+                                    widget.business.metadata.image,
+                                  ),
+                                );
+                                context.navigateTo(
+                                  ContactsTab(
+                                    children: [
+                                      ContactsList(
+                                        pageArgs: args,
                                       ),
-                                    ),
+                                      SendAmountScreen(pageArgs: args),
+                                    ],
                                   ),
                                 );
                               },

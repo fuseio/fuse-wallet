@@ -1,9 +1,7 @@
-// import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -11,7 +9,6 @@ import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-// import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
@@ -49,58 +46,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // void listenDynamicLinks(Store<AppState> store) async {
-  //   streamSubscription =
-  //       FlutterBranchSdk.initSession().listen((linkData) async {
-  //     log.info("branch listening.");
-  //     store.dispatch(BranchListening());
-  //     log.info("Got link data: ${linkData.toString()}");
-  //     if (linkData["~feature"] == "switch_community") {
-  //       final String communityAddress = linkData['community_address'];
-  //       log.info("communityAddress $communityAddress");
-  //       store.dispatch(BranchCommunityToUpdate(communityAddress));
-  //       store.dispatch(
-  //         segmentIdentifyCall(
-  //           Map<String, dynamic>.from({
-  //             'Referral': linkData["~feature"],
-  //             'Referral link': linkData['~referring_link']
-  //           }),
-  //         ),
-  //       );
-  //       // store.dispatch(
-  //       //   segmentTrackCall(
-  //       //     "Wallet: Branch: Studio Invite",
-  //       //     properties: Map<String, dynamic>.from(linkData),
-  //       //   ),
-  //       // );
-  //     }
-  //     if (linkData["~feature"] == "invite_user") {
-  //       final String communityAddress = linkData["community_address"];
-  //       store.dispatch(BranchCommunityToUpdate(communityAddress));
-  //       store.dispatch(
-  //         segmentIdentifyCall(
-  //           Map<String, dynamic>.from({
-  //             'Referral': linkData["~feature"],
-  //             'Referral link': linkData['~referring_link']
-  //           }),
-  //         ),
-  //       );
-  //       // store.dispatch(
-  //       //   segmentTrackCall(
-  //       //     "Wallet: Branch: User Invite",
-  //       //     properties: Map<String, dynamic>.from(linkData),
-  //       //   ),
-  //       // );
-  //     }
-  //   });
-  // }
-
-  // @override
-  // void dispose() {
-  //   streamSubscription.cancel();
-  //   super.dispose();
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -122,8 +67,8 @@ class _MyAppState extends State<MyApp> {
           colors: FlexSchemeColor.from(
             secondary: Color(0xFFF5F5F5),
             secondaryVariant: Color(0xFF777777),
-            primary: Color(0xFFB1FDC0),
-            primaryVariant: Color(0xFFFEFD86),
+            primary: Color(0xFF2A8FB5),
+            primaryVariant: Color(0xFF0E2373),
             appBarColor: Color(0xFFFFFFFF),
           ),
         ).toTheme,

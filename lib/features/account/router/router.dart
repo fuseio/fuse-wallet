@@ -6,7 +6,6 @@ import 'package:fusecash/features/account/screens/profile.dart';
 import 'package:fusecash/features/account/screens/protect_your_wallet.dart';
 import 'package:fusecash/features/account/screens/settings.dart';
 import 'package:fusecash/features/account/screens/show_mnemonic.dart';
-import 'package:fusecash/features/account/screens/social_screen.dart';
 import 'package:fusecash/features/account/screens/verify_mnemonic.dart';
 import 'package:fusecash/features/home/screens/switch_community.dart';
 
@@ -48,10 +47,6 @@ const accountTab = AutoRoute(
     ),
     AutoRoute(
       page: ProfileScreen,
-      guards: [AuthGuard],
-    ),
-    AutoRoute(
-      page: SocialScreen,
       guards: [AuthGuard],
     ),
   ],

@@ -284,7 +284,8 @@ ThunkAction restoreWalletCall(
           accountAddress.toString(),
         ),
       );
-      store.dispatch(setDefaultCommunity());
+      store
+          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
       successCallback();
       Segment.track(
         eventName: 'Existing User: Successful Restore wallet from backup',
@@ -327,7 +328,8 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(setDefaultCommunity());
+      store
+          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
       Segment.track(
         eventName: 'New User: Create Wallet',
       );

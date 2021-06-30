@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: MyAppBar(
             height: 156,
+            backgroundColor: Colors.black,
             child: CashHeader(),
           ),
           body: Tabs(),

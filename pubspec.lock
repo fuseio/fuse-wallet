@@ -211,13 +211,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-  confetti:
-    dependency: "direct main"
-    description:
-      name: confetti
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.0-nullsafety"
   contacts_service:
     dependency: "direct main"
     description:
@@ -235,9 +228,11 @@ packages:
   country_code_picker:
     dependency: "direct main"
     description:
-      name: country_code_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "92c2edadbd380bbbe9556562474b622bfa9768be"
+      url: "https://github.com/fuseio/CountryCodePicker.git"
+    source: git
     version: "2.0.2"
   crypto:
     dependency: transitive
@@ -549,13 +544,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.22.0"
-  flutter_svg_provider:
-    dependency: "direct main"
-    description:
-      name: flutter_svg_provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.9"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1133,13 +1121,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  random_color:
-    dependency: transitive
-    description:
-      name: random_color
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6-nullsafety"
   rate_my_app:
     dependency: "direct main"
     description:

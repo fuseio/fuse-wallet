@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/balance.dart';
 import 'package:fusecash/models/app_state.dart';
 
@@ -13,19 +14,34 @@ class Balance extends StatelessWidget {
       distinct: true,
       converter: BalanceViewModel.fromStore,
       builder: (_, viewModel) {
-        return Flexible(
-          child: AutoSizeText(
-            '\$${viewModel.usdValue}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              I10n.of(context).balance,
+              style: TextStyle(
+                color: Theme.of(context).canvasColor.withAlpha(150),
+                fontSize: 13.0,
+              ),
             ),
-            presetFontSizes: [
-              30,
-              25,
-              22,
-            ],
-          ),
+            Flexible(
+              child: AutoSizeText(
+                '\$${viewModel.usdValue}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).canvasColor,
+                ),
+                presetFontSizes: [
+                  30,
+                  25,
+                  22,
+                ],
+              ),
+            ),
+          ],
         );
+        // return ;
       },
     );
   }

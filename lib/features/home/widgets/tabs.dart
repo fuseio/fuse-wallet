@@ -28,12 +28,14 @@ class Tabs extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: 30, right: 30),
                   child: TabBar(
-                    indicatorColor: Theme.of(context).canvasColor,
+                    labelColor: Theme.of(context).colorScheme.onSurface,
+                    indicatorColor: Theme.of(context).colorScheme.onSurface,
                     unselectedLabelStyle: TextStyle(
                       fontFamily: 'Europa',
                       fontSize: 17,
                     ),
-                    unselectedLabelColor: Color(0xFFA2A2A2),
+                    unselectedLabelColor:
+                        Theme.of(context).colorScheme.onSurface,
                     labelStyle: TextStyle(
                       fontFamily: 'Europa',
                       fontSize: 17,

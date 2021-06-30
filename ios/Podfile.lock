@@ -3,7 +3,6 @@ PODS:
   - Analytics (3.7.0)
   - app_tracking_transparency (0.0.1):
     - Flutter
-  - Branch (1.39.3)
   - contacts_service (0.2.2):
     - Flutter
   - Firebase/Auth (8.0.0):
@@ -67,9 +66,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - "GoogleUtilities/NSData+zlib (~> 7.4)"
   - Flutter (1.0.0)
-  - flutter_branch_sdk (2.0.0):
-    - Branch (~> 1.39.3)
-    - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
   - flutter_segment (0.0.1):
@@ -171,7 +167,6 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
-  - flutter_branch_sdk (from `.symlinks/plugins/flutter_branch_sdk/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_segment (from `.symlinks/plugins/flutter_segment/ios`)
   - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
@@ -197,7 +192,6 @@ SPEC REPOS:
   trunk:
     - Amplitude-iOS
     - Analytics
-    - Branch
     - Firebase
     - FirebaseABTesting
     - FirebaseAuth
@@ -233,8 +227,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_remote_config/ios"
   Flutter:
     :path: Flutter
-  flutter_branch_sdk:
-    :path: ".symlinks/plugins/flutter_branch_sdk/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_segment:
@@ -280,7 +272,6 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 46c8e6e65c49bb1ad1909a9add1a68e1f8562b3f
   Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
-  Branch: 13df8e1a6985745a03389146df1eeda723645a97
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
   firebase_auth: 6532658f5a4f76be32cd5e7518753ebedd4544d2
@@ -295,7 +286,6 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 1a33b4af3c8042ed6ddacb6c031894af2064bfab
   FirebaseRemoteConfig: 055f6b5ba1751547596ded5032c4d5c6054ca501
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_branch_sdk: 3d609ce62f51d975d477bce421339e0e59b38c92
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: ed8d1215725d0b4190e28105436f253b9e092934
   flutter_udid: 0848809dbed4c055175747ae6a45a8b4f6771e1c

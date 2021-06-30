@@ -116,9 +116,12 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                               Row(
                                                 children: <Widget>[
                                                   SvgPicture.asset(
-                                                      'assets/images/${BiometricAuth.faceID == {
-                                                            snapshot.requireData
-                                                          } ? 'face_id' : 'fingerprint'}.svg'),
+                                                    'assets/images/${BiometricAuth.faceID == {
+                                                          snapshot.requireData
+                                                        } ? 'face_id' : 'fingerprint'}.svg',
+                                                    color: Theme.of(context)
+                                                        .canvasColor,
+                                                  ),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
@@ -129,10 +132,10 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                       snapshot.requireData,
                                                     ),
                                                     style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSurface),
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .canvasColor,
+                                                    ),
                                                   )
                                                 ],
                                               ),
@@ -142,6 +145,8 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                 children: <Widget>[
                                                   SvgPicture.asset(
                                                     'assets/images/info_black.svg',
+                                                    color: Theme.of(context)
+                                                        .canvasColor,
                                                   ),
                                                   SizedBox(
                                                     width: 3,
@@ -150,10 +155,10 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                     I10n.of(context)
                                                         .recommended,
                                                     style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSurface),
+                                                      fontSize: 12,
+                                                      color: Theme.of(context)
+                                                          .canvasColor,
+                                                    ),
                                                   ),
                                                 ],
                                               )

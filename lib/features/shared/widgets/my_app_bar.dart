@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({
@@ -19,6 +20,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         ThemeData.estimateBrightnessForColor(backgroundColor) == Brightness.dark
             ? SystemUiOverlayStyle.light
             : SystemUiOverlayStyle.dark;
+    log.info('_overlayStyle ' + _overlayStyle.toString());
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: _overlayStyle,
       sized: false,

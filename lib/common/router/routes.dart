@@ -3,7 +3,6 @@ import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/features/account/router/router.dart';
 import 'package:fusecash/features/buy/router/router.dart';
 import 'package:fusecash/features/contacts/router/router.dart';
-// import 'package:fusecash/features/earn/router/router.dart';
 import 'package:fusecash/features/home/router/router.dart';
 import 'package:fusecash/features/screens/main_screen.dart';
 import 'package:fusecash/features/onboard/screens/security_screen.dart';

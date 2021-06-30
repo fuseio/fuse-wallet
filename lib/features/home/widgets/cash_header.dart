@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
 import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -30,63 +31,74 @@ class CashHeader extends StatelessWidget {
               bottomRight: Radius.circular(30.0),
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Flexible(
-                child: Text(
-                  '${I10n.of(context).hi} ${viewModel.firstName()}',
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          I10n.of(context).balance,
-                          style: TextStyle(
-                            color: Color(0xFF454545),
-                            fontSize: 13.0,
-                          ),
-                        ),
-                        Balance(),
-                      ],
-                    ),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      child: FloatingActionButton(
-                        heroTag: 'cash_header',
-                        backgroundColor: Color(0xFF292929),
-                        elevation: 0,
-                        child: Image.asset(
-                          'assets/images/scan.png',
-                          width: 25.0,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        onPressed: () async {
-                          String? result = await showDialog<String>(
-                            context: context,
-                            builder: (context) => ScanQRDialog(),
-                          );
-                          if (result != null) {
-                            barcodeScannerHandler(context, result);
-                          }
-                        },
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Flexible(
+                    child: Text(
+                      '${I10n.of(context).hi} ${viewModel.firstName()}',
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Theme.of(context).canvasColor,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Balance(),
+                        Container(
+                          width: 45,
+                          height: 45,
+                          child: FloatingActionButton(
+                            heroTag: 'cash_header',
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primaryVariant,
+                            elevation: 0,
+                            child: Image.asset(
+                              'assets/images/scan.png',
+                              width: 25.0,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            onPressed: () async {
+                              String? result = await showDialog<String>(
+                                context: context,
+                                builder: (context) => ScanQRDialog(),
+                              );
+                              if (result != null) {
+                                barcodeScannerHandler(context, result);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
+              Positioned(
+                right: 10,
+                top: 35,
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/images/CuraDAI-title.svg',
+                        width: 52,
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         );

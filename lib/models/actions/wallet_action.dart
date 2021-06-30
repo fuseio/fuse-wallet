@@ -167,7 +167,7 @@ class WalletAction with _$WalletAction {
           return I10n.of(context).generating_wallet;
         }
       },
-      joinCommunity: (value) => value.communityName!,
+      joinCommunity: (value) => value.communityName ?? 'CuraDAI',
       fiatDeposit: (value) {
         if (value.isFailed()) {
           return 'fUSD - ${I10n.of(context).deposit_failed}';

@@ -31,6 +31,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
         token,
         accountAddress,
         identifier,
+        appName: 'CuraDAI',
       );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
@@ -111,6 +112,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       token,
       accountAddress,
       identifier,
+      appName: 'CuraDAI',
     );
     onSuccess(jwtToken);
   }
