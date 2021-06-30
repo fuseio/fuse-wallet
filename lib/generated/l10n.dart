@@ -2390,10 +2390,10 @@ class I10n {
     );
   }
 
-  /// `write down the words in order and keep safe. You won’t be able to recover your account without it.`
+  /// `Write down the words in order and keep safe. You won’t be able to recover your account without it.`
   String get write_words {
     return Intl.message(
-      'write down the words in order and keep safe. You won’t be able to recover your account without it.',
+      'Write down the words in order and keep safe. You won’t be able to recover your account without it.',
       name: 'write_words',
       desc: '',
       args: [],
@@ -2462,10 +2462,10 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
       Locale.fromSubtags(languageCode: 'fr', countryCode: 'FR'),
+      Locale.fromSubtags(languageCode: 'he', countryCode: 'IL'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),
       Locale.fromSubtags(languageCode: 'ko'),
-      Locale.fromSubtags(languageCode: 'ko', countryCode: 'KR'),
       Locale.fromSubtags(languageCode: 'my'),
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),

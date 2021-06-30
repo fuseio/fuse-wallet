@@ -5,7 +5,7 @@ import 'package:fusecash/models/plugins/plugin_base.dart';
 part 'rampInstant.freezed.dart';
 part 'rampInstant.g.dart';
 
-// @immutable
+@immutable
 @freezed
 class RampInstantPlugin with _$RampInstantPlugin {
   @Implements(Plugin)
