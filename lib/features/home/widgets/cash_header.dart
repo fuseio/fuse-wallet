@@ -47,20 +47,7 @@ class CashHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          I10n.of(context).balance,
-                          style: TextStyle(
-                            color: Color(0xFF454545),
-                            fontSize: 13.0,
-                          ),
-                        ),
-                        Balance(),
-                      ],
-                    ),
+                    Balance(),
                     Container(
                       width: 45,
                       height: 45,

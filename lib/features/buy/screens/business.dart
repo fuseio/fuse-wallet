@@ -325,18 +325,23 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                context.router.push(
-                                  SendAmountScreen(
-                                    pageArgs: SendFlowArguments(
-                                      tokenToSend: widget.token,
-                                      name: widget.business.name,
-                                      accountAddress: widget.business.account,
-                                      avatar: NetworkImage(
-                                        ImageUrl.getLink(
-                                          widget.business.metadata.image,
-                                        ),
+                                final SendFlowArguments args =
+                                    SendFlowArguments(
+                                  tokenToSend: widget.token,
+                                  name: widget.business.name,
+                                  accountAddress: widget.business.account,
+                                  avatar: NetworkImage(
+                                    widget.business.metadata.image,
+                                  ),
+                                );
+                                context.navigateTo(
+                                  ContactsTab(
+                                    children: [
+                                      ContactsList(
+                                        pageArgs: args,
                                       ),
-                                    ),
+                                      SendAmountScreen(pageArgs: args),
+                                    ],
                                   ),
                                 );
                               },

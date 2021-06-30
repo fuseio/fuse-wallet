@@ -27,15 +27,7 @@ class BuyScreen extends StatelessWidget {
         return MyScaffold(
           title: I10n.of(context).buy,
           body: Container(
-            child: Column(
-              children: [
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    BusinessesListView(),
-                  ]),
-                ),
-              ],
-            ),
+            child: BusinessesListView(),
           ),
         );
       },
@@ -113,26 +105,20 @@ class _BusinessesListViewState extends State<BusinessesListView> {
               child: Text(I10n.of(context).no_businesses),
             ),
           )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10, bottom: 5.0),
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => Divider(),
-                    shrinkWrap: true,
-                    itemCount: vm.businesses.length,
-                    itemBuilder: (context, index) => businessTile(
-                      vm.businesses[index],
-                      vm.communityAddress,
-                      vm.token,
-                    ),
-                  ),
+        : Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, bottom: 5.0),
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+                shrinkWrap: true,
+                itemCount: vm.businesses.length,
+                itemBuilder: (context, index) => businessTile(
+                  vm.businesses[index],
+                  vm.communityAddress,
+                  vm.token,
                 ),
-              )
-            ],
+              ),
+            ),
           );
   }
 
@@ -200,16 +186,22 @@ class _BusinessesListViewState extends State<BusinessesListView> {
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
-              context.router.push(
-                SendAmountScreen(
-                  pageArgs: SendFlowArguments(
-                    tokenToSend: token,
-                    name: business.name,
-                    accountAddress: business.account,
-                    avatar: NetworkImage(
-                      ImageUrl.getLink(business.metadata.image),
+              final SendFlowArguments args = SendFlowArguments(
+                tokenToSend: token,
+                name: business.name,
+                accountAddress: business.account,
+                avatar: NetworkImage(
+                  business.metadata.image,
+                ),
+              );
+              context.navigateTo(
+                ContactsTab(
+                  children: [
+                    ContactsList(
+                      pageArgs: args,
                     ),
-                  ),
+                    SendAmountScreen(pageArgs: args),
+                  ],
                 ),
               );
             },

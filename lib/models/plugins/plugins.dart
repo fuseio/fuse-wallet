@@ -47,6 +47,7 @@ class Plugins with _$Plugins {
     @InviteBonusPluginConverter()
         InviteBonusPlugin? inviteBonus,
   }) = _Plugins;
+
   factory Plugins.fromJson(dynamic json) => _$PluginsFromJson(json);
 
   List getDepositPlugins() {

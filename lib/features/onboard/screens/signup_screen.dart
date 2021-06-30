@@ -156,6 +156,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                         ),
                                       ),
+                                      dialogSize: Size(
+                                          MediaQuery.of(context).size.width *
+                                              .9,
+                                          MediaQuery.of(context).size.height *
+                                              0.85),
                                       searchStyle: TextStyle(
                                         fontSize: 18,
                                         color: Theme.of(context)
@@ -165,6 +170,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       showFlag: true,
                                       initialSelection: countryCode.code,
                                       showCountryOnly: false,
+                                      dialogTextStyle: TextStyle(
+                                        fontSize: 18,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
                                       textStyle: TextStyle(
                                         fontSize: 18,
                                         color: Theme.of(context)
