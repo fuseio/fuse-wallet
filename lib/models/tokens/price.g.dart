@@ -8,14 +8,12 @@ part of 'price.dart';
 
 _$_Price _$_$_PriceFromJson(Map<String, dynamic> json) {
   return _$_Price(
-    currency: json['currency'] as String,
-    quote: json['quote'] as String,
-    total: json['total'] as String,
+    currency: json['currency'] as String? ?? 'usd',
+    quote: json['quote'] as String? ?? '0',
   );
 }
 
 Map<String, dynamic> _$_$_PriceToJson(_$_Price instance) => <String, dynamic>{
       'currency': instance.currency,
       'quote': instance.quote,
-      'total': instance.total,
     };

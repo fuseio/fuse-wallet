@@ -7,7 +7,7 @@ class BottomBarViewModel extends Equatable {
   final bool isDefaultCommunity;
 
   BottomBarViewModel({
-    this.isDefaultCommunity,
+    required this.isDefaultCommunity,
   });
 
   static BottomBarViewModel fromStore(Store<AppState> store) {

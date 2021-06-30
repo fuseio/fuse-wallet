@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
 
@@ -18,8 +17,10 @@ class SimpleStrategy implements IOnBoardStrategy {
     log.info('jwtToken $jwtToken');
     store.dispatch(LoginVerifySuccess(jwtToken));
     store.dispatch(SetIsVerifyRequest(isLoading: false));
-    store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-    ExtendedNavigator.root.pushUserNameScreen();
+    Segment.track(
+      eventName: 'Sign up: VerificationCode_NextBtn_Press',
+    );
+    rootRouter.push(UserNameScreen());
   }
 
   @override

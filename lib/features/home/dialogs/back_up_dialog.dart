@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constants/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
+import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 
 class BackUpDialog extends StatefulWidget {
   BackUpDialog();
@@ -17,11 +16,9 @@ class BackUpDialog extends StatefulWidget {
 
 class BackUpDialogState extends State<BackUpDialog>
     with SingleTickerProviderStateMixin {
-  BackUpDialogState();
-
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -43,7 +40,7 @@ class BackUpDialogState extends State<BackUpDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -70,30 +67,26 @@ class BackUpDialogState extends State<BackUpDialog>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(I18n.of(context).protect_wallet,
+                  Text(I10n.of(context).protect_wallet,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 20.0),
-                  Text(I18n.of(context).we_notice,
+                  Text(I10n.of(context).we_notice,
                       style: TextStyle(
                           color: Color(0xFF696969),
                           fontSize: 16,
                           fontWeight: FontWeight.normal)),
                   SizedBox(height: 20.0),
-                  Text(I18n.of(context).to_protect,
+                  Text(I10n.of(context).to_protect,
                       style: TextStyle(
                           color: Color(0xFF696969),
                           fontSize: 16,
                           fontWeight: FontWeight.normal)),
                   SizedBox(height: 20.0),
                   PrimaryButton(
-                    label: I18n.of(context).back_up_now,
-                    onPressed: () async {
-                      final BottomNavigationBar navigationBar =
-                          AppKeys.bottomBarKey.currentWidget;
-                      Navigator.of(context).pop();
-                      navigationBar.onTap(0);
-                      ExtendedNavigator.named('homeRouter').pushShowMnemonic();
+                    label: I10n.of(context).back_up_now,
+                    onPressed: () {
+                      context.router.push(ShowMnemonic());
                     },
                   )
                 ],

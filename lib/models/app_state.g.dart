@@ -9,14 +9,13 @@ part of 'app_state.dart';
 _$_AppState _$_$_AppStateFromJson(Map<String, dynamic> json) {
   return _$_AppState(
     userState: const UserStateConverter()
-        .fromJson(json['userState'] as Map<String, dynamic>),
+        .fromJson(json['userState'] as Map<String, dynamic>?),
     cashWalletState: const CashWalletStateConverter()
-        .fromJson(json['cashWalletState'] as Map<String, dynamic>),
+        .fromJson(json['cashWalletState'] as Map<String, dynamic>?),
     proWalletState: const ProWalletStateConverter()
-        .fromJson(json['proWalletState'] as Map<String, dynamic>),
-    swapState: json['swapState'] == null
-        ? null
-        : SwapState.fromJson(json['swapState']),
+        .fromJson(json['proWalletState'] as Map<String, dynamic>?),
+    swapState: const SwapStateConverter()
+        .fromJson(json['swapState'] as Map<String, dynamic>?),
   );
 }
 
@@ -27,5 +26,5 @@ Map<String, dynamic> _$_$_AppStateToJson(_$_AppState instance) =>
           const CashWalletStateConverter().toJson(instance.cashWalletState),
       'proWalletState':
           const ProWalletStateConverter().toJson(instance.proWalletState),
-      'swapState': instance.swapState?.toJson(),
+      'swapState': const SwapStateConverter().toJson(instance.swapState),
     };

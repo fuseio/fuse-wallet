@@ -12,10 +12,10 @@ class SwitchCommunityViewModel extends Equatable {
   final Function(String) switchCommunity;
 
   SwitchCommunityViewModel({
-    this.communities,
-    this.switchCommunity,
-    this.currentCommunity,
-    this.tokens,
+    required this.communities,
+    required this.switchCommunity,
+    required this.currentCommunity,
+    required this.tokens,
   });
 
   static SwitchCommunityViewModel fromStore(Store<AppState> store) {
@@ -24,7 +24,7 @@ class SwitchCommunityViewModel extends Equatable {
       tokens: store.state.cashWalletState.tokens,
       currentCommunity:
           store.state.cashWalletState.communities.containsKey(communityAddres)
-              ? store.state.cashWalletState.communities[communityAddres]
+              ? store.state.cashWalletState.communities[communityAddres]!
               : Community(),
       communities: store.state.cashWalletState.communities
         ..removeWhere((key, community) =>

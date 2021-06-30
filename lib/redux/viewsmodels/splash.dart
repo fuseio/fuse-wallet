@@ -10,32 +10,45 @@ class SplashViewModel extends Equatable {
   final bool isLoggedOut;
   final Function() loginAgain;
 
-  final Function(VoidCallback successCallback, VoidCallback errorCallback)
-      createLocalAccount;
+  final Function(
+    VoidCallback successCallback,
+    VoidCallback errorCallback,
+  ) createLocalAccount;
 
   SplashViewModel({
-    this.privateKey,
-    this.jwtToken,
-    this.isLoggedOut,
-    this.createLocalAccount,
-    this.loginAgain,
+    required this.privateKey,
+    required this.jwtToken,
+    required this.isLoggedOut,
+    required this.createLocalAccount,
+    required this.loginAgain,
   });
 
   static SplashViewModel fromStore(Store<AppState> store) {
     return SplashViewModel(
-        privateKey: store.state.userState.privateKey,
-        jwtToken: store.state.userState.jwtToken,
-        isLoggedOut: store.state.userState.isLoggedOut ?? false,
-        createLocalAccount:
-            (VoidCallback successCallback, VoidCallback errorCallback) {
-          store
-              .dispatch(createLocalAccountCall(successCallback, errorCallback));
-        },
-        loginAgain: () {
-          store.dispatch(reLoginCall());
-        });
+      privateKey: store.state.userState.privateKey,
+      jwtToken: store.state.userState.jwtToken,
+      isLoggedOut: store.state.userState.isLoggedOut,
+      createLocalAccount: (
+        VoidCallback successCallback,
+        VoidCallback errorCallback,
+      ) {
+        store.dispatch(
+          createLocalAccountCall(
+            successCallback,
+            errorCallback,
+          ),
+        );
+      },
+      loginAgain: () {
+        store.dispatch(reLoginCall());
+      },
+    );
   }
 
   @override
-  List<Object> get props => [privateKey, jwtToken, isLoggedOut];
+  List<Object> get props => [
+        privateKey,
+        jwtToken,
+        isLoggedOut,
+      ];
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
@@ -7,11 +7,11 @@ import 'package:fusecash/utils/send.dart';
 
 class SendToAccount extends StatelessWidget {
   final String accountAddress;
-  final Token token;
-  final VoidCallback resetSearch;
+  final Token? token;
+  final VoidCallback? resetSearch;
   const SendToAccount({
-    Key key,
-    this.accountAddress,
+    Key? key,
+    required this.accountAddress,
     this.resetSearch,
     this.token,
   }) : super(key: key);
@@ -23,8 +23,9 @@ class SendToAccount extends StatelessWidget {
         ContactTile(
           displayName: formatAddress(accountAddress),
           onTap: () {
-            resetSearch();
+            resetSearch!();
             sendToPastedAddress(
+              context,
               accountAddress,
               token: token,
             );
@@ -33,12 +34,13 @@ class SendToAccount extends StatelessWidget {
             focusColor: Theme.of(context).canvasColor,
             highlightColor: Theme.of(context).canvasColor,
             child: Text(
-              I18n.of(context).next_button,
+              I10n.of(context).next_button,
               style: TextStyle(color: Color(0xFF0377FF)),
             ),
             onTap: () {
-              resetSearch();
+              resetSearch!();
               sendToPastedAddress(
+                context,
                 accountAddress,
                 token: token,
               );

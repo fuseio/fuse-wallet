@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 
 class SignUpDialog extends StatefulWidget {
   SignUpDialog();
@@ -13,11 +15,9 @@ class SignUpDialog extends StatefulWidget {
 
 class SignUpDialogState extends State<SignUpDialog>
     with SingleTickerProviderStateMixin {
-  SignUpDialogState();
-
-  AnimationController controller;
-  Animation<double> opacityAnimation;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> opacityAnimation;
+  late Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class SignUpDialogState extends State<SignUpDialog>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -61,7 +61,7 @@ class SignUpDialogState extends State<SignUpDialog>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    I18n.of(context).why_do_we_need_this,
+                    I10n.of(context).why_do_we_need_this,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -69,7 +69,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    I18n.of(context).stores_private,
+                    I10n.of(context).stores_private,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
@@ -77,7 +77,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    I18n.of(context).will_never_share,
+                    I10n.of(context).will_never_share,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
@@ -85,7 +85,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   ),
                   SizedBox(height: 20.0),
                   Text(
-                    I18n.of(context).for_more_info,
+                    I10n.of(context).for_more_info,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.normal,
@@ -95,10 +95,15 @@ class SignUpDialogState extends State<SignUpDialog>
                     focusColor: Theme.of(context).canvasColor,
                     highlightColor: Theme.of(context).canvasColor,
                     onTap: () {
-                      // TODO - link to privacy policy
+                      AutoRouter.of(context).push(
+                        Webview(
+                          title: I10n.of(context).legal,
+                          url: 'https://fuse.cash/privacy',
+                        ),
+                      );
                     },
                     child: Text(
-                      I18n.of(context).privacy,
+                      I10n.of(context).privacy,
                       style: TextStyle(
                         color: Color(0xFF0076FF),
                         fontSize: 18,
@@ -109,7 +114,7 @@ class SignUpDialogState extends State<SignUpDialog>
                   SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: I18n.of(context).ok_thanks,
+                      label: I10n.of(context).ok_thanks,
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },

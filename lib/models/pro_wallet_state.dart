@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pro_wallet_state.freezed.dart';
 part 'pro_wallet_state.g.dart';
 
-BigInt balanceFromJson(String etherBalance) =>
+BigInt balanceFromJson(String? etherBalance) =>
     etherBalance == null ? BigInt.zero : BigInt.parse(etherBalance);
 
-Map<String, Token> erc20TokensFromJson(Map<String, dynamic> json) =>
+Map<String, Token> erc20TokensFromJson(Map<String, dynamic>? json) =>
     json == null
         ? Map<String, Token>()
         : json.map(
@@ -17,15 +18,15 @@ Map<String, Token> erc20TokensFromJson(Map<String, dynamic> json) =>
 
 @immutable
 @freezed
-abstract class ProWalletState implements _$ProWalletState {
+class ProWalletState with _$ProWalletState {
   const ProWalletState._();
 
   @JsonSerializable()
   factory ProWalletState({
-    @JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
+    @Default(null) @JsonKey(fromJson: balanceFromJson) BigInt? etherBalance,
     @JsonKey(fromJson: erc20TokensFromJson)
     @Default({})
-        Map<String, Token> erc20Tokens,
+        Map<String, Token>? erc20Tokens,
     @JsonKey(ignore: true) @Default(false) bool isFetchTransferEvents,
     @JsonKey(ignore: true) @Default(false) bool isListenToTransferEvents,
     @JsonKey(ignore: true) @Default(false) bool isProcessingTokensJobs,
@@ -47,13 +48,13 @@ abstract class ProWalletState implements _$ProWalletState {
 }
 
 class ProWalletStateConverter
-    implements JsonConverter<ProWalletState, Map<String, dynamic>> {
+    implements JsonConverter<ProWalletState, Map<String, dynamic>?> {
   const ProWalletStateConverter();
 
   @override
-  ProWalletState fromJson(Map<String, dynamic> json) =>
+  ProWalletState fromJson(Map<String, dynamic>? json) =>
       json != null ? ProWalletState.fromJson(json) : ProWalletState.initial();
 
   @override
-  Map<String, dynamic> toJson(ProWalletState instance) => instance?.toJson();
+  Map<String, dynamic> toJson(ProWalletState instance) => instance.toJson();
 }

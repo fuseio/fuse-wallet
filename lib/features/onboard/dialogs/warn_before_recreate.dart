@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 
 class WarnBeforeReCreation extends StatefulWidget {
   @override
@@ -9,13 +9,13 @@ class WarnBeforeReCreation extends StatefulWidget {
 
 class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimatoin;
+  late AnimationController controller;
+  late Animation<double> scaleAnimatoin;
   bool isPreloading = false;
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -49,21 +49,25 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
             height: 35,
           ),
         ),
-        content: Text(I18n.of(context).reset_account),
+        content: Text(I10n.of(context).reset_account),
         actions: <Widget>[
-          FlatButton(
-            textColor: Color(0xFF009DFF),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: TextStyle(
+                color: Color(0xFF009DFF),
+              ),
+            ),
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
-            child: Text(I18n.of(context).yes, style: TextStyle(fontSize: 16)),
+            child: Text(I10n.of(context).yes, style: TextStyle(fontSize: 16)),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(false);
             },
             child: Text(
-              I18n.of(context).no,
+              I10n.of(context).no,
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).colorScheme.onSurface,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {
@@ -16,13 +16,13 @@ class ContactsConfirmationScreen extends StatefulWidget {
 
 class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimation;
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -73,7 +73,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(I18n.of(context).sync_contacts,
+                            Text(I10n.of(context).sync_contacts,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
@@ -88,7 +88,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           ],
                         ),
                         Text(
-                          I18n.of(context).enable_contacts_text,
+                          I10n.of(context).enable_contacts_text,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -98,7 +98,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                         Container(
                           child: Column(
                             children: <Widget>[
-                              Text(I18n.of(context).dont_worry,
+                              Text(I10n.of(context).dont_worry,
                                   softWrap: true,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -106,7 +106,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                       fontWeight: FontWeight.normal)),
                               SizedBox(height: 5.0),
                               Text(
-                                I18n.of(context).enable_text,
+                                I10n.of(context).enable_text,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 12,
@@ -121,7 +121,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           preload: isPreloading,
                           disabled: isPreloading,
                           fontSize: 18,
-                          label: I18n.of(context).enable_contacts_access,
+                          label: I10n.of(context).enable_contacts_access,
                           onPressed: () async {
                             setState(() {
                               isPreloading = true;
@@ -129,15 +129,6 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             bool permission = await Contacts.getPermissions();
                             if (permission) {
                               viewModel.syncContacts();
-                              viewModel.trackCall(
-                                  "Wallet: Contacts Permission Granted");
-                              viewModel.identifyCall(Map.from(
-                                  {"Contacts Permission Granted": true}));
-                            } else {
-                              viewModel.trackCall(
-                                  "Wallet: Contacts Permission Rejected");
-                              viewModel.identifyCall(Map.from(
-                                  {"Contacts Permission Granted": false}));
                             }
                             Navigator.of(context).pop();
                             setState(() {
@@ -146,14 +137,16 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           },
                         )),
                         Center(
-                          child: FlatButton(
-                            padding: EdgeInsets.only(top: 10),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(top: 10),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                               viewModel.syncContactsRejected();
                             },
                             child: Text(
-                              I18n.of(context).skip_button,
+                              I10n.of(context).skip_button,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Theme.of(context).colorScheme.onSurface,

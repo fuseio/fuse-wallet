@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/home/widgets/action_tile.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -12,7 +13,7 @@ class TokenActivities extends StatelessWidget {
   final String tokenAddress;
 
   TokenActivities({
-    this.tokenAddress,
+    required this.tokenAddress,
   });
 
   @override
@@ -23,7 +24,7 @@ class TokenActivities extends StatelessWidget {
       builder: (_, viewModel) {
         final token = viewModel.tokens
             .firstWhere((element) => element.address == tokenAddress);
-        final bool hasActivity = token.walletActions?.list?.isNotEmpty ?? false;
+        final bool hasActivity = token.walletActions!.list.isNotEmpty;
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: !hasActivity
@@ -43,7 +44,7 @@ class TokenActivities extends StatelessWidget {
                           height: 40,
                         ),
                         Text(
-                          I18n.of(context).no_activity,
+                          I10n.of(context).no_activity,
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
@@ -52,8 +53,8 @@ class TokenActivities extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        Image.asset(
-                          'assets/images/no-activity.png',
+                        SvgPicture.asset(
+                          'assets/images/no-activity.svg',
                           fit: BoxFit.cover,
                           height: 100,
                         ),
@@ -63,7 +64,7 @@ class TokenActivities extends StatelessWidget {
                 : Container(
                     padding: EdgeInsets.only(top: 40, bottom: 30),
                     child: Text(
-                      I18n.of(context).activity,
+                      I10n.of(context).activity,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,

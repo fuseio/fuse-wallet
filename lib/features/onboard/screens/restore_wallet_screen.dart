@@ -3,21 +3,20 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/recovery.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 
-class RecoveryPage extends StatefulWidget {
+class RestoreFromBackupScreen extends StatefulWidget {
   @override
-  _RecoveryPageState createState() => _RecoveryPageState();
+  _RestoreFromBackupScreenState createState() =>
+      _RestoreFromBackupScreenState();
 }
 
-class _RecoveryPageState extends State<RecoveryPage> {
-  GlobalKey<ScaffoldState> scaffoldState;
+class _RestoreFromBackupScreenState extends State<RestoreFromBackupScreen> {
   bool isLoading = false;
   final wordsController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
@@ -25,7 +24,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/restore-wallet-screen');
     super.initState();
   }
 
@@ -38,7 +36,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).restore_from_backup,
+      title: I10n.of(context).restore_from_backup,
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +51,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Text(
-                          I18n.of(context).restore_words,
+                          I10n.of(context).restore_words,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20,
@@ -96,8 +94,8 @@ class _RecoveryPageState extends State<RecoveryPage> {
                               ),
                               fillColor: Colors.transparent,
                             ),
-                            validator: (String value) =>
-                                value.split(" ").length != 12
+                            validator: (String? value) =>
+                                value?.split(" ").length != 12
                                     ? 'Please enter 12 words'
                                     : null,
                           ),
@@ -118,9 +116,9 @@ class _RecoveryPageState extends State<RecoveryPage> {
                     child: PrimaryButton(
                       preload: isPreloading,
                       disabled: isPreloading,
-                      label: I18n.of(context).next_button,
+                      label: I10n.of(context).next_button,
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           setState(() {
                             isPreloading = true;
                           });
@@ -129,14 +127,14 @@ class _RecoveryPageState extends State<RecoveryPage> {
                             setState(() {
                               isPreloading = false;
                             });
-                            ExtendedNavigator.root.pushSignUpScreen();
+                            context.router.push(SignUpScreen());
                           });
                         }
                       },
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 30.0),
               ],
             )
           ],

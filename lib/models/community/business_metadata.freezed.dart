@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'business_metadata.dart';
 
@@ -8,6 +8,10 @@ part of 'business_metadata.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
   return _BusinessMetadata.fromJson(json);
 }
@@ -16,7 +20,6 @@ BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
 class _$BusinessMetadataTearOff {
   const _$BusinessMetadataTearOff();
 
-// ignore: unused_element
   _BusinessMetadata call(
       {String address = '',
       String description = '',
@@ -38,30 +41,29 @@ class _$BusinessMetadataTearOff {
     );
   }
 
-// ignore: unused_element
   BusinessMetadata fromJson(Map<String, Object> json) {
     return BusinessMetadata.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $BusinessMetadata = _$BusinessMetadataTearOff();
 
 /// @nodoc
 mixin _$BusinessMetadata {
-  String get address;
-  String get description;
-  String get image;
-  String get coverPhoto;
-  String get type;
-  String get phoneNumber;
-  String get website;
-  List<double> get latLng;
+  String get address => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
+  String get coverPhoto => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  String get phoneNumber => throw _privateConstructorUsedError;
+  String get website => throw _privateConstructorUsedError;
+  List<double> get latLng => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $BusinessMetadataCopyWith<BusinessMetadata> get copyWith;
+  $BusinessMetadataCopyWith<BusinessMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -91,27 +93,48 @@ class _$BusinessMetadataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object address = freezed,
-    Object description = freezed,
-    Object image = freezed,
-    Object coverPhoto = freezed,
-    Object type = freezed,
-    Object phoneNumber = freezed,
-    Object website = freezed,
-    Object latLng = freezed,
+    Object? address = freezed,
+    Object? description = freezed,
+    Object? image = freezed,
+    Object? coverPhoto = freezed,
+    Object? type = freezed,
+    Object? phoneNumber = freezed,
+    Object? website = freezed,
+    Object? latLng = freezed,
   }) {
     return _then(_value.copyWith(
-      address: address == freezed ? _value.address : address as String,
-      description:
-          description == freezed ? _value.description : description as String,
-      image: image == freezed ? _value.image : image as String,
-      coverPhoto:
-          coverPhoto == freezed ? _value.coverPhoto : coverPhoto as String,
-      type: type == freezed ? _value.type : type as String,
-      phoneNumber:
-          phoneNumber == freezed ? _value.phoneNumber : phoneNumber as String,
-      website: website == freezed ? _value.website : website as String,
-      latLng: latLng == freezed ? _value.latLng : latLng as List<double>,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverPhoto: coverPhoto == freezed
+          ? _value.coverPhoto
+          : coverPhoto // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber: phoneNumber == freezed
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      website: website == freezed
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String,
+      latLng: latLng == freezed
+          ? _value.latLng
+          : latLng // ignore: cast_nullable_to_non_nullable
+              as List<double>,
     ));
   }
 }
@@ -147,35 +170,58 @@ class __$BusinessMetadataCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object address = freezed,
-    Object description = freezed,
-    Object image = freezed,
-    Object coverPhoto = freezed,
-    Object type = freezed,
-    Object phoneNumber = freezed,
-    Object website = freezed,
-    Object latLng = freezed,
+    Object? address = freezed,
+    Object? description = freezed,
+    Object? image = freezed,
+    Object? coverPhoto = freezed,
+    Object? type = freezed,
+    Object? phoneNumber = freezed,
+    Object? website = freezed,
+    Object? latLng = freezed,
   }) {
     return _then(_BusinessMetadata(
-      address: address == freezed ? _value.address : address as String,
-      description:
-          description == freezed ? _value.description : description as String,
-      image: image == freezed ? _value.image : image as String,
-      coverPhoto:
-          coverPhoto == freezed ? _value.coverPhoto : coverPhoto as String,
-      type: type == freezed ? _value.type : type as String,
-      phoneNumber:
-          phoneNumber == freezed ? _value.phoneNumber : phoneNumber as String,
-      website: website == freezed ? _value.website : website as String,
-      latLng: latLng == freezed ? _value.latLng : latLng as List<double>,
+      address: address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: image == freezed
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      coverPhoto: coverPhoto == freezed
+          ? _value.coverPhoto
+          : coverPhoto // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber: phoneNumber == freezed
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+      website: website == freezed
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String,
+      latLng: latLng == freezed
+          ? _value.latLng
+          : latLng // ignore: cast_nullable_to_non_nullable
+              as List<double>,
     ));
   }
 }
 
-@JsonSerializable()
-
 /// @nodoc
-class _$_BusinessMetadata implements _BusinessMetadata {
+
+@JsonSerializable()
+class _$_BusinessMetadata
+    with DiagnosticableTreeMixin
+    implements _BusinessMetadata {
   _$_BusinessMetadata(
       {this.address = '',
       this.description = '',
@@ -184,15 +230,7 @@ class _$_BusinessMetadata implements _BusinessMetadata {
       this.type = '',
       this.phoneNumber = '',
       this.website = '',
-      this.latLng = const []})
-      : assert(address != null),
-        assert(description != null),
-        assert(image != null),
-        assert(coverPhoto != null),
-        assert(type != null),
-        assert(phoneNumber != null),
-        assert(website != null),
-        assert(latLng != null);
+      this.latLng = const []});
 
   factory _$_BusinessMetadata.fromJson(Map<String, dynamic> json) =>
       _$_$_BusinessMetadataFromJson(json);
@@ -223,8 +261,23 @@ class _$_BusinessMetadata implements _BusinessMetadata {
   final List<double> latLng;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'BusinessMetadata(address: $address, description: $description, image: $image, coverPhoto: $coverPhoto, type: $type, phoneNumber: $phoneNumber, website: $website, latLng: $latLng)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'BusinessMetadata'))
+      ..add(DiagnosticsProperty('address', address))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('image', image))
+      ..add(DiagnosticsProperty('coverPhoto', coverPhoto))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
+      ..add(DiagnosticsProperty('website', website))
+      ..add(DiagnosticsProperty('latLng', latLng));
   }
 
   @override
@@ -292,22 +345,23 @@ abstract class _BusinessMetadata implements BusinessMetadata {
       _$_BusinessMetadata.fromJson;
 
   @override
-  String get address;
+  String get address => throw _privateConstructorUsedError;
   @override
-  String get description;
+  String get description => throw _privateConstructorUsedError;
   @override
-  String get image;
+  String get image => throw _privateConstructorUsedError;
   @override
-  String get coverPhoto;
+  String get coverPhoto => throw _privateConstructorUsedError;
   @override
-  String get type;
+  String get type => throw _privateConstructorUsedError;
   @override
-  String get phoneNumber;
+  String get phoneNumber => throw _privateConstructorUsedError;
   @override
-  String get website;
+  String get website => throw _privateConstructorUsedError;
   @override
-  List<double> get latLng;
+  List<double> get latLng => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$BusinessMetadataCopyWith<_BusinessMetadata> get copyWith;
+  _$BusinessMetadataCopyWith<_BusinessMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
 }

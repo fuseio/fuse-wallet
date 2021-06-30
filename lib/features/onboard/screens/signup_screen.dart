@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/features/onboard/dialogs/signup.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
-import 'package:phone_number/phone_number.dart';
+import 'package:fusecash/features/shared/widgets/snackbars.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -27,8 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/signup-screen');
-    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
+    WidgetsBinding.instance!.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
@@ -36,9 +33,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
-          (Map code) => code['code'] == myLocale.countryCode,
-          orElse: () => null);
-      if (mounted && localeData != null) {
+        (Map code) => code['code'] == myLocale.countryCode,
+      );
+      if (mounted &&
+          localeData.containsKey('dial_code') &&
+          localeData.containsKey('code')) {
         setState(() {
           countryCode = CountryCode(
             dialCode: localeData['dial_code'],
@@ -49,33 +48,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
-    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
-    phoneNumberUtil.parse(phoneNumber).then((value) {
-      signUp(countryCode, value);
-    }, onError: (e) {
-      showErrorSnack(
-        message: I18n.of(context).invalid_number,
-        title: I18n.of(context).something_went_wrong,
-        context: context,
-        margin: EdgeInsets.only(
-          top: 8,
-          right: 8,
-          left: 8,
-          bottom: 120,
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
       resizeToAvoidBottomInset: false,
-      title: I18n.of(context).sign_up,
+      title: I10n.of(context).sign_up,
       body: InkWell(
         onTap: () {
-          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+          WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
         },
         child: Container(
           child: Column(
@@ -86,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      I18n.of(context).enter_phone_number,
+                      I10n.of(context).enter_phone_number,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
@@ -106,14 +86,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             context: context,
                             builder: (BuildContext context) => SignUpDialog(),
                           );
-                          Segment.track(
-                            eventName:
-                                "Wallet: opened modal - why do we need this",
-                          );
                         },
                         child: Center(
                           child: Text(
-                            I18n.of(context).why_do_we_need_this,
+                            I10n.of(context).why_do_we_need_this,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -154,14 +130,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         setState(() {
                                           countryCode = _countryCode;
                                         });
-                                        Segment.track(
-                                            eventName:
-                                                'Wallet: country code selected',
-                                            properties: Map.from({
-                                              'Dial code':
-                                                  _countryCode.dialCode,
-                                              'County code': _countryCode.code,
-                                            }));
                                       },
                                       searchDecoration: InputDecoration(
                                         border: UnderlineInputBorder(
@@ -188,6 +156,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                         ),
                                       ),
+                                      dialogSize: Size(
+                                          MediaQuery.of(context).size.width *
+                                              .9,
+                                          MediaQuery.of(context).size.height *
+                                              0.85),
                                       searchStyle: TextStyle(
                                         fontSize: 18,
                                         color: Theme.of(context)
@@ -197,6 +170,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       showFlag: true,
                                       initialSelection: countryCode.code,
                                       showCountryOnly: false,
+                                      dialogTextStyle: TextStyle(
+                                        fontSize: 18,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
                                       textStyle: TextStyle(
                                         fontSize: 18,
                                         color: Theme.of(context)
@@ -220,9 +199,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       controller: phoneController,
                                       keyboardType: TextInputType.number,
                                       autofocus: true,
-                                      validator: (String value) => value.isEmpty
-                                          ? "Please enter mobile number"
-                                          : null,
+                                      validator: (String? value) =>
+                                          value!.isEmpty
+                                              ? "Please enter mobile number"
+                                              : null,
                                       style: TextStyle(
                                           fontSize: 18,
                                           color: Theme.of(context)
@@ -233,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           vertical: 20,
                                           horizontal: 10,
                                         ),
-                                        hintText: I18n.of(context).phoneNumber,
+                                        hintText: I10n.of(context).phoneNumber,
                                         border: InputBorder.none,
                                         fillColor:
                                             Theme.of(context).backgroundColor,
@@ -252,31 +232,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(height: 40.0),
                           StoreConnector<AppState, OnboardViewModel>(
                             distinct: true,
-                            onWillChange: (previousViewModel, newViewModel) {
-                              if (previousViewModel.signupErrorMessage !=
-                                  newViewModel.signupErrorMessage) {
-                                showErrorSnack(
-                                  title: I18n.of(context).oops,
-                                  message: newViewModel.signupErrorMessage,
-                                  context: context,
-                                  margin: EdgeInsets.only(
-                                      top: 8, right: 8, left: 8, bottom: 120),
-                                );
-                                // Future.delayed(
-                                //     Duration(seconds: Variables.INTERVAL_SECONDS),
-                                //     () {
-                                //   newViewModel.resetErrors();
-                                // });
-                              }
-                            },
                             converter: OnboardViewModel.fromStore,
                             builder: (_, viewModel) => Center(
                               child: PrimaryButton(
-                                label: I18n.of(context).next_button,
-                                onPressed: () {
-                                  onPressed(viewModel.signUp);
-                                },
+                                label: I10n.of(context).next_button,
                                 preload: viewModel.isLoginRequest,
+                                onPressed: () {
+                                  final String phoneNumber =
+                                      '${countryCode.dialCode}${phoneController.text}';
+                                  phoneNumberUtil.parse(phoneNumber).then(
+                                      (value) {
+                                    viewModel.signUp(
+                                      countryCode,
+                                      value,
+                                      () {
+                                        showErrorSnack(
+                                          message:
+                                              I10n.of(context).invalid_number,
+                                          title: I10n.of(context)
+                                              .something_went_wrong,
+                                          context: context,
+                                          margin: EdgeInsets.only(
+                                            top: 8,
+                                            right: 8,
+                                            left: 8,
+                                            bottom: 120,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }, onError: (e) {
+                                    showErrorSnack(
+                                      message: I10n.of(context).invalid_number,
+                                      title:
+                                          I10n.of(context).something_went_wrong,
+                                      context: context,
+                                      margin: EdgeInsets.only(
+                                        top: 8,
+                                        right: 8,
+                                        left: 8,
+                                        bottom: 120,
+                                      ),
+                                    );
+                                  });
+                                },
                               ),
                             ),
                           ),

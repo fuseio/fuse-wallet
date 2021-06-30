@@ -3,11 +3,14 @@ import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/string.dart';
 
+final String wethTokenAddress = '0xa722c13135930332eb3d749b2f0906559d2c5b99';
+final String wbtcTokenAddress = '0x33284f95ccb7b948d9d352e1439561cf83d8d00d';
+final String wfuseTokenAddress = '0x0be9e53fd7edac9f859882afdda116645287c629';
+
 final Token fuseToken = Token(
   name: 'Fuse',
   symbol: 'FUSE',
-  imageUrl:
-      'https://assets.coingecko.com/coins/images/10347/small/vUXKHEe.png?1601523640',
+  imageUrl: 'https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-token.png',
   decimals: 18,
   address: Addresses.ZERO_ADDRESS,
   originNetwork: 'fuse',

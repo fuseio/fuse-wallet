@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:fusecash/features/shared/widgets/silver_app_bar.dart';
 
 class ListHeader extends StatelessWidget {
   final String title;
-  const ListHeader({Key key, this.title}) : super(key: key);
+  const ListHeader({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

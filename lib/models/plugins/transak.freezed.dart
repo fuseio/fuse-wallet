@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
 part of 'transak.dart';
 
@@ -8,6 +8,10 @@ part of 'transak.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
 TransakPlugin _$TransakPluginFromJson(Map<String, dynamic> json) {
   return _TransakPlugin.fromJson(json);
 }
@@ -16,10 +20,9 @@ TransakPlugin _$TransakPluginFromJson(Map<String, dynamic> json) {
 class _$TransakPluginTearOff {
   const _$TransakPluginTearOff();
 
-// ignore: unused_element
   _TransakPlugin call(
-      {String name,
-      String widgetUrl,
+      {String name = 'transak',
+      String? widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
     return _TransakPlugin(
@@ -30,26 +33,25 @@ class _$TransakPluginTearOff {
     );
   }
 
-// ignore: unused_element
   TransakPlugin fromJson(Map<String, Object> json) {
     return TransakPlugin.fromJson(json);
   }
 }
 
 /// @nodoc
-// ignore: unused_element
 const $TransakPlugin = _$TransakPluginTearOff();
 
 /// @nodoc
 mixin _$TransakPlugin {
-  String get name;
-  String get widgetUrl;
-  String get type;
-  bool get isActive;
+  String get name => throw _privateConstructorUsedError;
+  String? get widgetUrl => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
+  bool get isActive => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TransakPluginCopyWith<TransakPlugin> get copyWith;
+  $TransakPluginCopyWith<TransakPlugin> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -57,7 +59,7 @@ abstract class $TransakPluginCopyWith<$Res> {
   factory $TransakPluginCopyWith(
           TransakPlugin value, $Res Function(TransakPlugin) then) =
       _$TransakPluginCopyWithImpl<$Res>;
-  $Res call({String name, String widgetUrl, String type, bool isActive});
+  $Res call({String name, String? widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -71,16 +73,28 @@ class _$TransakPluginCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object name = freezed,
-    Object widgetUrl = freezed,
-    Object type = freezed,
-    Object isActive = freezed,
+    Object? name = freezed,
+    Object? widgetUrl = freezed,
+    Object? type = freezed,
+    Object? isActive = freezed,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed ? _value.name : name as String,
-      widgetUrl: widgetUrl == freezed ? _value.widgetUrl : widgetUrl as String,
-      type: type == freezed ? _value.type : type as String,
-      isActive: isActive == freezed ? _value.isActive : isActive as bool,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      widgetUrl: widgetUrl == freezed
+          ? _value.widgetUrl
+          : widgetUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -92,7 +106,7 @@ abstract class _$TransakPluginCopyWith<$Res>
           _TransakPlugin value, $Res Function(_TransakPlugin) then) =
       __$TransakPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String widgetUrl, String type, bool isActive});
+  $Res call({String name, String? widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -108,37 +122,51 @@ class __$TransakPluginCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object name = freezed,
-    Object widgetUrl = freezed,
-    Object type = freezed,
-    Object isActive = freezed,
+    Object? name = freezed,
+    Object? widgetUrl = freezed,
+    Object? type = freezed,
+    Object? isActive = freezed,
   }) {
     return _then(_TransakPlugin(
-      name: name == freezed ? _value.name : name as String,
-      widgetUrl: widgetUrl == freezed ? _value.widgetUrl : widgetUrl as String,
-      type: type == freezed ? _value.type : type as String,
-      isActive: isActive == freezed ? _value.isActive : isActive as bool,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      widgetUrl: widgetUrl == freezed
+          ? _value.widgetUrl
+          : widgetUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      isActive: isActive == freezed
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
+/// @nodoc
+
 @Implements(Plugin)
 @JsonSerializable()
-
-/// @nodoc
-class _$_TransakPlugin implements _TransakPlugin {
+class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
   _$_TransakPlugin(
-      {this.name, this.widgetUrl, this.type = 'deposit', this.isActive = false})
-      : assert(type != null),
-        assert(isActive != null);
+      {this.name = 'transak',
+      this.widgetUrl,
+      this.type = 'deposit',
+      this.isActive = false});
 
   factory _$_TransakPlugin.fromJson(Map<String, dynamic> json) =>
       _$_$_TransakPluginFromJson(json);
 
+  @JsonKey(defaultValue: 'transak')
   @override
   final String name;
   @override
-  final String widgetUrl;
+  final String? widgetUrl;
   @JsonKey(defaultValue: 'deposit')
   @override
   final String type;
@@ -147,8 +175,19 @@ class _$_TransakPlugin implements _TransakPlugin {
   final bool isActive;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TransakPlugin(name: $name, widgetUrl: $widgetUrl, type: $type, isActive: $isActive)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TransakPlugin'))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('widgetUrl', widgetUrl))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('isActive', isActive));
   }
 
   @override
@@ -189,7 +228,7 @@ class _$_TransakPlugin implements _TransakPlugin {
 abstract class _TransakPlugin implements TransakPlugin, Plugin {
   factory _TransakPlugin(
       {String name,
-      String widgetUrl,
+      String? widgetUrl,
       String type,
       bool isActive}) = _$_TransakPlugin;
 
@@ -197,14 +236,15 @@ abstract class _TransakPlugin implements TransakPlugin, Plugin {
       _$_TransakPlugin.fromJson;
 
   @override
-  String get name;
+  String get name => throw _privateConstructorUsedError;
   @override
-  String get widgetUrl;
+  String? get widgetUrl => throw _privateConstructorUsedError;
   @override
-  String get type;
+  String get type => throw _privateConstructorUsedError;
   @override
-  bool get isActive;
+  bool get isActive => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$TransakPluginCopyWith<_TransakPlugin> get copyWith;
+  _$TransakPluginCopyWith<_TransakPlugin> get copyWith =>
+      throw _privateConstructorUsedError;
 }

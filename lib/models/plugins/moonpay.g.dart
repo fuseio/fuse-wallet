@@ -8,10 +8,10 @@ part of 'moonpay.dart';
 
 _$_MoonpayPlugin _$_$_MoonpayPluginFromJson(Map<String, dynamic> json) {
   return _$_MoonpayPlugin(
-    name: json['name'] as String,
-    widgetUrl: json['widgetUrl'] as String,
-    type: json['type'] as String ?? 'deposit',
-    isActive: json['isActive'] as bool ?? false,
+    name: json['name'] as String? ?? 'moonpay',
+    widgetUrl: json['widgetUrl'] as String?,
+    type: json['type'] as String? ?? 'deposit',
+    isActive: json['isActive'] as bool? ?? false,
   );
 }
 

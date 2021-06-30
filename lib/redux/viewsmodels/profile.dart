@@ -13,21 +13,20 @@ class ProfileViewModel extends Equatable {
   final void Function(ImageSource source) editAvatar;
 
   ProfileViewModel({
-    this.phone,
-    this.walletAddress,
-    this.displayName,
-    this.editAvatar,
-    this.avatarUrl,
-    this.updateDisplayName,
+    required this.phone,
+    required this.walletAddress,
+    required this.displayName,
+    required this.editAvatar,
+    required this.avatarUrl,
+    required this.updateDisplayName,
   });
 
   static ProfileViewModel fromStore(Store<AppState> store) {
     return ProfileViewModel(
-      displayName: store.state.userState.displayName ?? '',
+      displayName: store.state.userState.displayName,
       phone: store.state.userState.phoneNumber,
       avatarUrl: store.state.userState.avatarUrl,
-      walletAddress:
-          store.state.userState?.walletAddress?.replaceFirst('x', 'f'),
+      walletAddress: store.state.userState.walletAddress.replaceFirst('x', 'f'),
       editAvatar: (source) {
         store.dispatch(updateUserAvatarCall(source));
       },

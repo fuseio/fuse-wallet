@@ -30,12 +30,16 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, DepositBannerShowed>(_depositBannerShowed),
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
+  TypedReducer<UserState, UpdateLocale>(_updateLocale),
 ]);
+
+UserState _updateLocale(UserState state, UpdateLocale action) {
+  return state.copyWith(locale: action.locale);
+}
 
 UserState _updateCurrency(UserState state, UpdateCurrency action) {
   return state.copyWith(currency: action.currency);
 }
-
 
 UserState _receiveBackupDialogShowed(
     UserState state, ReceiveBackupDialogShowed action) {
@@ -75,7 +79,9 @@ UserState _reLoginUser(UserState state, ReLogin action) {
 }
 
 UserState _createNewWalletSuccess(
-    UserState state, CreateLocalAccountSuccess action,) {
+  UserState state,
+  CreateLocalAccountSuccess action,
+) {
   return UserState(
     isLoggedOut: false,
     mnemonic: action.mnemonic,
@@ -86,8 +92,8 @@ UserState _createNewWalletSuccess(
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
-    countryCode: action.countryCode.dialCode,
-    isoCode: action.countryCode.code,
+    countryCode: action.countryCode.dialCode!,
+    isoCode: action.countryCode.code!,
     phoneNumber: action.phoneNumber,
   );
 }

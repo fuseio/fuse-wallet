@@ -3,31 +3,39 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_state.freezed.dart';
 part 'user_state.g.dart';
 
-String currencyJson(String currency) => currency == null ? 'usd' : currency;
+String currencyJson(String? currency) => currency == null ? 'usd' : currency;
 
-BiometricAuth authTypeFromJson(String auth) => auth == null
-    ? BiometricAuth.none
-    : EnumToString.fromString(BiometricAuth.values, auth);
+authTypeFromJson(String auth) =>
+    EnumToString.fromString(BiometricAuth.values, auth);
+
+Locale localeFromJson(Map<String, dynamic>? map) => map == null
+    ? Locale('en', 'US')
+    : Locale(map['languageCode'], map['countryCode']);
+
+Map<String, dynamic> localeToJson(Locale? locale) => locale == null
+    ? {'languageCode': 'en', 'countryCode': 'US'}
+    : {'languageCode': locale.languageCode, 'countryCode': locale.countryCode};
 
 @immutable
 @freezed
-abstract class UserState implements _$UserState {
+class UserState with _$UserState {
   const UserState._();
 
   @JsonSerializable()
   factory UserState({
-    bool isContactsSynced,
-    DateTime installedAt,
-    bool isLoggedOut,
-    bool backup,
-    bool depositBannerShowed,
-    bool homeBackupDialogShowed,
+    DateTime? installedAt,
+    @Default(null) bool? isContactsSynced,
+    @Default(false) bool isLoggedOut,
+    @Default(false) bool backup,
+    @Default(false) bool? depositBannerShowed,
+    @Default(false) bool? homeBackupDialogShowed,
     @Default('') String walletAddress,
     @Default([]) List<String> networks,
     @Default([]) List<String> mnemonic,
@@ -42,19 +50,23 @@ abstract class UserState implements _$UserState {
     @Default('Anom') String displayName,
     @Default('') String avatarUrl,
     @Default('') String email,
-    @Default('') String verificationId,
+    @Default(null) String? verificationId,
     @Default('') String identifier,
     @Default([]) List<String> syncedContacts,
     @Default({}) Map<String, String> reverseContacts,
-    @JsonKey(ignore: true) dynamic signupErrorMessage,
-    @JsonKey(ignore: true) dynamic verifyErrorMessage,
+    @Default(null) @JsonKey(ignore: true) dynamic signupErrorMessage,
+    @Default(null) @JsonKey(ignore: true) dynamic verifyErrorMessage,
     @JsonKey(fromJson: currencyJson) @Default('usd') String currency,
     @JsonKey(ignore: true) @Default(false) bool isLoginRequest,
     @JsonKey(ignore: true) @Default(false) bool isVerifyRequest,
+    @Default(BiometricAuth.none)
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
+    @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
+    @Default(null)
+        Locale? locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
-    @JsonKey(ignore: true) PhoneAuthCredential credentials,
+    @Default(null) @JsonKey(ignore: true) PhoneAuthCredential? credentials,
   }) = _UserState;
 
   factory UserState.initial() => UserState(
@@ -64,10 +76,8 @@ abstract class UserState implements _$UserState {
         syncedContacts: [],
         reverseContacts: Map<String, String>(),
         displayName: "Anom",
-        isContactsSynced: null,
         backup: false,
         authType: BiometricAuth.none,
-        installedAt: DateTime.now().toUtc(),
         receiveBackupDialogShowed: false,
         homeBackupDialogShowed: false,
         currency: 'usd',
@@ -77,13 +87,13 @@ abstract class UserState implements _$UserState {
 }
 
 class UserStateConverter
-    implements JsonConverter<UserState, Map<String, dynamic>> {
+    implements JsonConverter<UserState, Map<String, dynamic>?> {
   const UserStateConverter();
 
   @override
-  UserState fromJson(Map<String, dynamic> json) =>
+  UserState fromJson(Map<String, dynamic>? json) =>
       json != null ? UserState.fromJson(json) : UserState.initial();
 
   @override
-  Map<String, dynamic> toJson(UserState instance) => instance?.toJson();
+  Map<String, dynamic> toJson(UserState instance) => instance.toJson();
 }

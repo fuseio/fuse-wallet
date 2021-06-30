@@ -8,16 +8,16 @@ part of 'business_metadata.dart';
 
 _$_BusinessMetadata _$_$_BusinessMetadataFromJson(Map<String, dynamic> json) {
   return _$_BusinessMetadata(
-    address: json['address'] as String ?? '',
-    description: json['description'] as String ?? '',
-    image: json['image'] as String ?? '',
-    coverPhoto: json['coverPhoto'] as String ?? '',
-    type: json['type'] as String ?? '',
-    phoneNumber: json['phoneNumber'] as String ?? '',
-    website: json['website'] as String ?? '',
-    latLng: (json['latLng'] as List)
-            ?.map((e) => (e as num)?.toDouble())
-            ?.toList() ??
+    address: json['address'] as String? ?? '',
+    description: json['description'] as String? ?? '',
+    image: json['image'] as String? ?? '',
+    coverPhoto: json['coverPhoto'] as String? ?? '',
+    type: json['type'] as String? ?? '',
+    phoneNumber: json['phoneNumber'] as String? ?? '',
+    website: json['website'] as String? ?? '',
+    latLng: (json['latLng'] as List<dynamic>?)
+            ?.map((e) => (e as num).toDouble())
+            .toList() ??
         [],
   );
 }

@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ContactTile extends StatelessWidget {
-  final ImageProvider<dynamic> image;
+  final ImageProvider<Object>? image;
   final String displayName;
-  final String phoneNumber;
-  final Function onTap;
-  final Widget trailing;
+  final void Function() onTap;
+  final Widget? trailing;
   const ContactTile({
-    Key key,
+    Key? key,
     this.image,
-    this.displayName,
-    this.phoneNumber,
-    this.onTap,
+    required this.displayName,
+    required this.onTap,
     this.trailing,
   }) : super(key: key);
 

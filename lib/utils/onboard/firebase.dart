@@ -1,10 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:sentry_flutter/sentry_flutter.dart' show Sentry;
@@ -16,29 +15,30 @@ class FirebaseStrategy implements IOnBoardStrategy {
   @override
   Future login(store, phoneNumber) async {
     final PhoneVerificationCompleted verificationCompleted = (
-      AuthCredential credentials,
+      PhoneAuthCredential credentials,
     ) async {
-      store.dispatch(new SetCredentials(credentials));
+      store.dispatch(SetCredentials(credentials));
       UserCredential userCredential = await firebaseAuth.signInWithCredential(
         credentials,
       );
-      final User user = userCredential.user;
-      final User currentUser = firebaseAuth.currentUser;
-      assert(user.uid == currentUser.uid);
+      final User? user = userCredential.user;
+      final User currentUser = firebaseAuth.currentUser!;
+      assert(user?.uid == currentUser.uid);
       final String accountAddress = store.state.userState.accountAddress;
       final String identifier = store.state.userState.identifier;
-      String token = await user.getIdToken();
+      String token = await user!.getIdToken();
       String jwtToken = await api.loginWithFirebase(
         token,
         accountAddress,
         identifier,
       );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
-      store.dispatch(SetIsLoginRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
-      store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-      ExtendedNavigator.root.pushUserNameScreen();
+      Segment.track(
+        eventName: 'Sign up: VerificationCode_NextBtn_Press',
+      );
+      rootRouter.push(UserNameScreen());
     };
 
     final PhoneVerificationFailed verificationFailed = (
@@ -59,14 +59,6 @@ class FirebaseStrategy implements IOnBoardStrategy {
           message: authException.message,
         ),
       );
-      store.dispatch(
-        segmentTrackCall(
-          "PhoneVerificationFailed",
-          properties: new Map.from(
-            {"error": authException.message},
-          ),
-        ),
-      );
       await Sentry.captureException(
         authException,
         stackTrace: authException.stackTrace,
@@ -77,13 +69,13 @@ class FirebaseStrategy implements IOnBoardStrategy {
 
     final PhoneCodeSent codeSent = (
       String verificationId, [
-      int forceResendingToken,
+      int? forceResendingToken,
     ]) {
       log.info("PhoneCodeSent " + verificationId);
       store.dispatch(SetIsLoginRequest(isLoading: false));
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
-      ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
+      rootRouter.push(VerifyPhoneNumber(verificationId: verificationId));
     };
 
     await firebaseAuth.verifyPhoneNumber(
@@ -99,7 +91,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
   Future verify(store, verificationCode, onSuccess) async {
     store.dispatch(setDeviceId());
     store.dispatch(SetIsVerifyRequest(isLoading: true));
-    PhoneAuthCredential credential = store.state.userState.credentials;
+    PhoneAuthCredential? credential = store.state.userState.credentials;
     final String verificationId = store.state.userState.verificationId;
     if (credential == null) {
       credential = PhoneAuthProvider.credential(
@@ -110,11 +102,11 @@ class FirebaseStrategy implements IOnBoardStrategy {
     UserCredential userCredential = await firebaseAuth.signInWithCredential(
       credential,
     );
-    final User currentUser = firebaseAuth.currentUser;
-    assert(userCredential.user.uid == currentUser.uid);
+    final User? currentUser = firebaseAuth.currentUser;
+    assert(userCredential.user?.uid == currentUser?.uid);
     final String accountAddress = store.state.userState.accountAddress;
     final String identifier = store.state.userState.identifier;
-    String token = await userCredential.user.getIdToken();
+    String token = await userCredential.user!.getIdToken();
     final String jwtToken = await api.loginWithFirebase(
       token,
       accountAddress,

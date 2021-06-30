@@ -1,80 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/log/log.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyScreen extends StatefulWidget {
-  final String verificationId;
-  VerifyScreen({this.verificationId});
+class VerifyPhoneNumber extends StatefulWidget {
+  final String? verificationId;
+  VerifyPhoneNumber({this.verificationId});
   @override
-  _VerifyScreenState createState() => _VerifyScreenState();
+  _VerifyPhoneNumberState createState() => _VerifyPhoneNumberState();
 }
 
-class _VerifyScreenState extends State<VerifyScreen> {
+class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   String autoCode = "";
   TextEditingController codeController = TextEditingController(text: '');
   String currentText = "";
-  // StreamController<ErrorAnimationType> errorController;
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    Segment.screen(screenName: '/verify-phone-number-screen');
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // errorController.close();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).sign_up,
+      title: I10n.of(context).sign_up,
       body: StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null &&
               viewModel.verificationId != null) {
-            autoCode = viewModel.credentials.smsCode ?? "";
+            autoCode = viewModel.credentials?.smsCode ?? "";
             viewModel.verify(autoCode);
-          }
-        },
-        onWillChange: (previousViewModel, newViewModel) {
-          if (previousViewModel.verifyErrorMessage !=
-              newViewModel.verifyErrorMessage) {
-            showErrorSnack(
-              title: I18n.of(context).oops,
-              message: newViewModel.verifyErrorMessage,
-              context: context,
-              margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120),
-            );
-            // Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
-            //   newViewModel.resetErrors();
-            // });
           }
         },
         builder: (_, viewModel) {
           return Container(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: Column(
                     children: <Widget>[
                       Text(
-                        I18n.of(context).we_just_sent +
+                        I10n.of(context).we_just_sent +
                             "${viewModel.phoneNumber}" +
                             "\n",
                         textAlign: TextAlign.center,
@@ -84,7 +58,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         ),
                       ),
                       Text(
-                        I18n.of(context).enter_verification_code,
+                        I10n.of(context).enter_verification_code,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
@@ -108,7 +82,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             appContext: context,
                             enableActiveFill: true,
                             enablePinAutofill: false,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.numberWithOptions(
+                              signed: false,
+                              decimal: false,
+                            ),
                             animationType: AnimationType.fade,
                             controller: codeController,
                             autoFocus: true,
@@ -137,18 +114,15 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       SizedBox(height: 30.0),
                       Center(
                         child: PrimaryButton(
-                          label: I18n.of(context).next_button,
+                          label: I10n.of(context).next_button,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
-                            formKey.currentState.validate();
-                            // conditions for validating
-                            log.info(
-                                'currentText.length ${currentText.length}');
+                            formKey.currentState!.validate();
                             if (currentText.length != 6) {
-                              // errorController.add(ErrorAnimationType
-                              //     .shake); // Triggering error shake animation
                             } else {
-                              viewModel.verify(codeController.text);
+                              viewModel.verify(
+                                codeController.text,
+                              );
                             }
                           },
                         ),
@@ -158,16 +132,18 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            I18n.of(context).didnt_get_message,
+                            I10n.of(context).didnt_get_message,
                             style: TextStyle(fontSize: 12),
                           ),
-                          FlatButton(
-                            padding: EdgeInsets.only(right: 10),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.only(right: 10),
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              I18n.of(context).resend_code,
+                              I10n.of(context).resend_code,
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: 12,

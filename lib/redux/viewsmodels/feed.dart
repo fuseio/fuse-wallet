@@ -9,14 +9,13 @@ class FeedViewModel extends Equatable {
   final Function() refreshFeed;
 
   FeedViewModel({
-    this.refreshFeed,
-    this.walletActions,
+    required this.refreshFeed,
+    required this.walletActions,
   });
 
   static FeedViewModel fromStore(Store<AppState> store) {
     final List<WalletAction> walletActions =
-        List.from(store.state.cashWalletState?.walletActions?.list?.reversed) ??
-            [];
+        List.from(store.state.cashWalletState.walletActions!.list.reversed);
     return FeedViewModel(
       walletActions: walletActions,
       refreshFeed: () {

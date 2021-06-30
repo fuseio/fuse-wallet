@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business_metadata.freezed.dart';
@@ -7,7 +8,7 @@ part 'business_metadata.g.dart';
 
 @immutable
 @freezed
-abstract class BusinessMetadata with _$BusinessMetadata {
+class BusinessMetadata with _$BusinessMetadata {
   @JsonSerializable()
   factory BusinessMetadata({
     @Default('') String address,

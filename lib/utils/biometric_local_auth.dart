@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/generated/l10n.dart';
 import 'package:local_auth/local_auth.dart';
 
 class BiometricUtils {
@@ -17,25 +19,28 @@ class BiometricUtils {
 
   static Future<void> showDefaultPopupCheckBiometricAuth({
     String message = '',
-    Function(bool) callback,
+    required Function(bool) callback,
     bool stickyAuth = false,
   }) async {
     final localAuth = LocalAuthentication();
-    final bool result = await localAuth.authenticateWithBiometrics(
+    final bool result = await localAuth.authenticate(
       localizedReason: message,
       stickyAuth: stickyAuth,
     );
-    callback?.call(result);
+    callback.call(result);
   }
 
-  static String getBiometricString(BiometricAuth type) {
+  static String getBiometricString(
+    BuildContext context,
+    BiometricAuth type,
+  ) {
     switch (type) {
       case BiometricAuth.faceID:
-        return 'Face ID';
+        return I10n.of(context).face_id;
       case BiometricAuth.touchID:
-        return 'Touch ID';
+        return I10n.of(context).touch_id;
       default:
-        return 'Touch ID';
+        return I10n.of(context).touch_id;
     }
   }
 }
