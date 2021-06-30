@@ -12,11 +12,28 @@ class MoonpayPlugin with _$MoonpayPlugin {
   @JsonSerializable()
   factory MoonpayPlugin({
     @Default('moonpay') String name,
-    required String widgetUrl,
+    String? widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,
   }) = _MoonpayPlugin;
 
   factory MoonpayPlugin.fromJson(Map<String, dynamic> json) =>
       _$MoonpayPluginFromJson(json);
+}
+
+class MoonpayPluginConverter
+    implements JsonConverter<MoonpayPlugin?, Map<String, dynamic>?> {
+  const MoonpayPluginConverter();
+
+  @override
+  MoonpayPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return MoonpayPlugin.fromJson(json);
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(MoonpayPlugin? instance) => instance?.toJson();
 }

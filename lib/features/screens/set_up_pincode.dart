@@ -82,7 +82,10 @@ class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
                           enablePinAutofill: false,
                           autoFocus: true,
                           focusNode: textNode,
-                          keyboardType: TextInputType.phone,
+                          keyboardType: TextInputType.numberWithOptions(
+                            signed: false,
+                            decimal: false,
+                          ),
                           animationType: AnimationType.fade,
                           controller: textEditingController,
                           errorAnimationController: errorController,

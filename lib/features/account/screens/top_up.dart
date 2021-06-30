@@ -112,9 +112,9 @@ class _TopUpScreenState extends State<TopUpScreen> {
                       subtitle: 'Ramp network',
                       onTap: () {
                         String url = showTransak
-                            ? viewModel.plugins.rampInstant!.widgetUrl
+                            ? viewModel.plugins.rampInstant!.widgetUrl!
                                 .replaceAll(RegExp(r'FUSE_FUSD'), 'USDC')
-                            : viewModel.plugins.rampInstant!.widgetUrl;
+                            : viewModel.plugins.rampInstant!.widgetUrl!;
                         openDepositWebview(
                           context: context,
                           url: url,
@@ -135,7 +135,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                             subtitle: 'Ramp network',
                             onTap: () {
                               final String url =
-                                  viewModel.plugins.rampInstant!.widgetUrl;
+                                  viewModel.plugins.rampInstant!.widgetUrl!;
                               openDepositWebview(
                                 context: context,
                                 url: url,
