@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_codes.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:fusecash/features/shared/widgets/primary_button.dart';
@@ -21,32 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final fullNameController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  CountryCode countryCode = CountryCode(dialCode: '‎+1', code: 'US');
-
-  @override
-  void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback(_updateCountryCode);
-    super.initState();
-  }
-
-  _updateCountryCode(_) {
-    Locale myLocale = Localizations.localeOf(context);
-    if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere(
-        (Map code) => code['code'] == myLocale.countryCode,
-      );
-      if (mounted &&
-          localeData.containsKey('dial_code') &&
-          localeData.containsKey('code')) {
-        setState(() {
-          countryCode = CountryCode(
-            dialCode: localeData['dial_code'],
-            code: localeData['code'],
-          );
-        });
-      }
-    }
-  }
+  CountryCode countryCode = CountryCode(dialCode: '‎+599', code: 'AN');
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
         child: Container(
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 padding: EdgeInsets.all(20.0),
