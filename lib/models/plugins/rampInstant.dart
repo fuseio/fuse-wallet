@@ -5,7 +5,7 @@ import 'package:fusecash/models/plugins/plugin_base.dart';
 part 'rampInstant.freezed.dart';
 part 'rampInstant.g.dart';
 
-// @immutable
+@immutable
 @freezed
 class RampInstantPlugin with _$RampInstantPlugin {
   @Implements(Plugin)
@@ -19,4 +19,22 @@ class RampInstantPlugin with _$RampInstantPlugin {
 
   factory RampInstantPlugin.fromJson(Map<String, dynamic> json) =>
       _$RampInstantPluginFromJson(json);
+}
+
+class RampInstantPluginConverter
+    implements JsonConverter<RampInstantPlugin?, Map<String, dynamic>?> {
+  const RampInstantPluginConverter();
+
+  @override
+  RampInstantPlugin? fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      return null;
+    } else {
+      return RampInstantPlugin.fromJson(json);
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(RampInstantPlugin? instance) =>
+      instance?.toJson();
 }

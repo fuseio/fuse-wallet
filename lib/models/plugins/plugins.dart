@@ -21,9 +21,16 @@ class Plugins with _$Plugins {
   factory Plugins({
     @Default(null)
     @JsonKey(includeIfNull: false)
+    @RampInstantPluginConverter()
         RampInstantPlugin? rampInstant,
-    @Default(null) @JsonKey(includeIfNull: false) MoonpayPlugin? moonpay,
-    @Default(null) @JsonKey(includeIfNull: false) TransakPlugin? transak,
+    @Default(null)
+    @JsonKey(includeIfNull: false)
+    @MoonpayPluginConverter()
+        MoonpayPlugin? moonpay,
+    @Default(null)
+    @JsonKey(includeIfNull: false)
+    @TransakPluginConverter()
+        TransakPlugin? transak,
     @Default(null)
     @JsonKey(includeIfNull: false)
         WalletBannerPlugin? walletBanner,
@@ -40,7 +47,6 @@ class Plugins with _$Plugins {
     @InviteBonusPluginConverter()
         InviteBonusPlugin? inviteBonus,
   }) = _Plugins;
-
   factory Plugins.fromJson(dynamic json) => _$PluginsFromJson(json);
 
   List getDepositPlugins() {
@@ -81,9 +87,10 @@ class PluginsConverter
 
       dynamic services = getServicesMap(json);
       return Plugins(
-        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
-        rampInstant: RampInstantPlugin.fromJson(services["rampInstant"]),
-        transak: TransakPlugin.fromJson(services["transak"]),
+        moonpay: MoonpayPluginConverter().fromJson(services["moonpay"]),
+        rampInstant:
+            RampInstantPluginConverter().fromJson(services["rampInstant"]),
+        transak: TransakPluginConverter().fromJson(services["transak"]),
         joinBonus: JoinBonusPluginConverter().fromJson(json['joinBonus']),
         walletBanner:
             WalletBannerPluginConverter().fromJson(json['walletBanner']),
