@@ -366,7 +366,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "write_word":
             MessageLookupByLibrary.simpleMessage("Please write down words \n"),
         "write_words": MessageLookupByLibrary.simpleMessage(
-            "write down the words in order and keep safe. You won’t be able to recover your account without it."),
+            "Write down the words in order and keep safe. You won’t be able to recover your account without it."),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "you_got_a": MessageLookupByLibrary.simpleMessage("You got a"),
         "your_balance": MessageLookupByLibrary.simpleMessage("Your balance"),
