@@ -82,7 +82,10 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                             appContext: context,
                             enableActiveFill: true,
                             enablePinAutofill: false,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.numberWithOptions(
+                              signed: false,
+                              decimal: false,
+                            ),
                             animationType: AnimationType.fade,
                             controller: codeController,
                             autoFocus: true,

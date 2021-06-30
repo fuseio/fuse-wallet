@@ -78,8 +78,13 @@ class ActionDetailsScreen extends StatelessWidget {
             ? '\$' +
                 action.getAmount(
                   priceInfo: token.priceInfo,
-                )
-            : action.getAmount();
+                ) +
+                ' (' +
+                action.getAmount() +
+                ' ' +
+                symbol +
+                ')'
+            : action.getAmount() + ' $symbol';
         return MyScaffold(
           title: title,
           body: Container(
@@ -290,8 +295,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           : rowItem(
                               context,
                               I10n.of(context).amount,
-                              hasPriceInfo ? amount : '$amount $symbol',
-                              // '$amount $symbol',
+                              amount,
                             ),
                       // Padding(
                       //   padding: EdgeInsets.only(top: 25, bottom: 25),
