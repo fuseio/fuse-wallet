@@ -8,7 +8,7 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/trade_card.dart';
-import 'package:fusecash/widgets/default_logo.dart';
+import 'package:fusecash/features/shared/widgets/default_logo.dart';
 
 class TradeCard extends StatelessWidget {
   final Token? token;

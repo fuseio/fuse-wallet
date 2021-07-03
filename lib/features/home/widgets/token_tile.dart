@@ -14,7 +14,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/default_logo.dart';
+import 'package:fusecash/features/shared/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';

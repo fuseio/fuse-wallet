@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/onboard/widegts/sign_up_buttons.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/widgets/welcome_text.dart';
+import 'package:fusecash/features/shared/widgets/welcome_text.dart';
 import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

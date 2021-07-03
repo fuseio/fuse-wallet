@@ -6,11 +6,11 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/features/onboard/dialogs/signup.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
+import 'package:fusecash/features/shared/widgets/snackbars.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override

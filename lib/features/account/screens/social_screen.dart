@@ -5,7 +5,7 @@ import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/url.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class SocialScreen extends StatelessWidget {

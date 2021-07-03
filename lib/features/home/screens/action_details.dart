@@ -10,8 +10,8 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/action_details.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/snackbars.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/snackbars.dart';
 import 'package:intl/intl.dart';
 
 class ActionDetailsScreen extends StatelessWidget {

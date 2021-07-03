@@ -12,7 +12,7 @@ import 'package:fusecash/redux/viewsmodels/top_up.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/remote_config.dart';
 import 'package:fusecash/utils/webview.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 
 class CustomTile extends StatelessWidget {
