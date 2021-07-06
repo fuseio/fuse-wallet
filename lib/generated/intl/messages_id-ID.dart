@@ -234,6 +234,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar sepenuhnya dijamin oleh USD Coin (USDC) di Fuse. Diterbitkan oleh circle.com, USDC adalah stablecoin beregulasi yang sepenuhnya didukung oleh dollar dan diakui luas di dunia mata uang kripto."),
         "pending": MessageLookupByLibrary.simpleMessage("TERTUNDA"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Nomor telepon"),
+        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
+            "One of the 12 words is invalid"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("Pilih nama tampilan Anda"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(

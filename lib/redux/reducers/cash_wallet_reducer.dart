@@ -317,10 +317,11 @@ CashWalletState _fetchingBusinessListFailed(
 CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
   return state.copyWith(
-      isCommunityLoading: true,
-      communityAddress: action.communityAddress.toLowerCase(),
-      branchAddress: "",
-      isBranchDataReceived: false);
+    isCommunityLoading: true,
+    communityAddress: action.communityAddress.toLowerCase(),
+    branchAddress: "",
+    isBranchDataReceived: false,
+  );
 }
 
 CashWalletState _switchToNewCommunity(
@@ -331,16 +332,19 @@ CashWalletState _switchToNewCommunity(
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = newCommunity;
   return state.copyWith(
-      branchAddress: "",
-      isCommunityLoading: true,
-      communities: newOne,
-      isBranchDataReceived: false);
+    branchAddress: "",
+    isCommunityLoading: true,
+    communities: newOne,
+    isBranchDataReceived: false,
+  );
 }
 
 CashWalletState _branchCommunityToUpdate(
     CashWalletState state, BranchCommunityToUpdate action) {
   return state.copyWith(
-      branchAddress: action.communityAddress, isBranchDataReceived: true);
+    branchAddress: action.communityAddress,
+    isBranchDataReceived: true,
+  );
 }
 
 CashWalletState _branchListening(

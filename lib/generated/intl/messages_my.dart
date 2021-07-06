@@ -53,14 +53,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "camera": MessageLookupByLibrary.simpleMessage("ကင်မရာ"),
         "cancel": MessageLookupByLibrary.simpleMessage("ပယ်ဖျက်မည်"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
-            "သင့် wallet ကို ကာကွယ်ရန်အတွက် အောက်ပါ နည်းလမ်းများမှ ရွေးချယ်ပါ"),
+            "သင့် ပိုက်ဆံအိတ် (wallet) ကို ကာကွယ်ရန်အတွက် အောက်ပါ နည်းလမ်းများမှ ရွေးချယ်ပါ"),
         "close": MessageLookupByLibrary.simpleMessage("ပိတ်မည်"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("မကြာမှီ လာမည်"),
-        "community": MessageLookupByLibrary.simpleMessage("အဖွဲ့အစည်\'"),
-        "community_address":
-            MessageLookupByLibrary.simpleMessage("အဖွဲ့အစည်း လိပ်စာ"),
+        "community":
+            MessageLookupByLibrary.simpleMessage("အဖွဲ့အစည်း (community)"),
+        "community_address": MessageLookupByLibrary.simpleMessage(
+            "အဖွဲ့အစည်း (community) လိပ်စာ"),
         "community_webpage": MessageLookupByLibrary.simpleMessage(
-            "အဖွဲ့အစည်း အင်တာနက် စာမျက်နှာ"),
+            "အဖွဲ့အစည်း (community) အင်တာနက် စာမျက်နှာ"),
         "confirmed": MessageLookupByLibrary.simpleMessage("အတည်ပြုပြီးသော"),
         "connection": MessageLookupByLibrary.simpleMessage(
             "သင့် အင်တာနက် ကွန်နက်ရှင်ကို ပြုပြင်ပြီး ထပ်မံကြိုးစားပါ!"),
@@ -73,23 +74,23 @@ class MessageLookup extends MessageLookupByLibrary {
             "Clipboard သို့ ကူးယူလိုက်သည်"),
         "copy_to_clipboard":
             MessageLookupByLibrary.simpleMessage("Clipboard သို့ ကူးယူပါ"),
-        "create__wallet":
-            MessageLookupByLibrary.simpleMessage("wallet ပြုလုပ်မည်"),
+        "create__wallet": MessageLookupByLibrary.simpleMessage(
+            "ပိုက်ဆံအိတ် (wallet) ပြုလုပ်မည်"),
         "create_new_wallet": MessageLookupByLibrary.simpleMessage(
-            "wallet အသစ် တစ်ခု ပြုလုပ်မည်"),
+            "ပိုက်ဆံအိတ် (wallet) အသစ် တစ်ခု ပြုလုပ်မည်"),
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("သင့် pass ကုဒ်ကို ပြုလုပ်ပါ"),
         "credit_card": MessageLookupByLibrary.simpleMessage("အကြွေးဝယ်ကဒ်"),
         "crypto_deposit_bsc": MessageLookupByLibrary.simpleMessage(
-            "Mainnet သို့ BSC တွင် USDC ရှိပါက Fuse သို့ ပေါင်းကူးရန် ဤ url ကို သင့် wallet ဖွင့်ထားသော browser နှင့် သုံးပါ။"),
+            "Mainnet သို့ BSC တွင် USDC ရှိပါက Fuse သို့ ပေါင်းကူးရန် ဤ url ကို သင့် ပိုက်ဆံအိတ် (wallet) ဖွင့်ထားသော browser နှင့် သုံးပါ။"),
         "crypto_deposit_eth": MessageLookupByLibrary.simpleMessage(
-            "If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:"),
+            "USDC တွင် Etherum ရှိပါက အောက်က URL ကို desktop brower မှ တစ်ဆင့် Metamask အကောင့်ကို အသုံးပြု၍ Fuse မှာ deposit လုပ်ပါ။"),
         "crypto_deposit_risk": MessageLookupByLibrary.simpleMessage(
             "သင့်အကောင့်သို့ တိုက်ရိုက် ငွေ ပေါင်းကူးပေးမယ့် တစ်ကိုယ်ရည်သုံး link တစ်ခု ဖြစ်သည်ကို အသိအမှတ်ပြုပါ။"),
         "crypto_deposit_risk_2": MessageLookupByLibrary.simpleMessage(
             "သင့် လုပ်ဆောင်မှုများအတွက် တာဝန်ရှိစွာ အသုံးပြုပါ"),
-        "current_community":
-            MessageLookupByLibrary.simpleMessage("လက်ရှိ အဖွဲ့အစည်း"),
+        "current_community": MessageLookupByLibrary.simpleMessage(
+            "လက်ရှိ အဖွဲ့အစည်း (community)"),
         "date_and_time":
             MessageLookupByLibrary.simpleMessage("နေ့စွဲနှင့် အချိန်"),
         "deposit": MessageLookupByLibrary.simpleMessage("deposit (အပ်ငွေ)"),
@@ -119,8 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "သင့်ဖုန်း contact များသို့ ပိုက်ဆံပေးပို့နိုင်ရန် contact sync ကို ဖွင့်ထားပါ"),
         "enable_text": MessageLookupByLibrary.simpleMessage(
             "သင့် contact များကို ကျွန်ုပ်တို့ ဆာဗာတွင် သိမ်းဆည်းထားမည်မဟုတ်ဘဲ ဒီလုပ်ဆောင်မှုက သူတို့ကို message ပေးပို့ မည်မဟုတ်ပါ"),
-        "enter_community_address":
-            MessageLookupByLibrary.simpleMessage("အဖွဲ့အစည်း လိပ်စာကို ထည့်ပါ"),
+        "enter_community_address": MessageLookupByLibrary.simpleMessage(
+            "အဖွဲ့အစည်း (community) လိပ်စာကို ထည့်ပါ"),
         "enter_phone_number": MessageLookupByLibrary.simpleMessage(
             "သင့်အကောင့်ကို ပြုလုပ်ပေးရန်အတွက် ဖုန်းနံပါတ်ထည့်ပါ"),
         "enter_pincode":
@@ -150,16 +151,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
             "FuseDollar (fUSD) ဆိုသည်မှာ US Dollar နှင့် ယှဉ်တွဲ သတ်မှတ်ထားသော  stablecoin (တည်ငြိမ်သော crypto ငွေကြေးစနစ်) တစ်ခုဖြစ်ပြီး Fuse ကွန်ရက် blockchain ပေါ်မှာ ဖြစ်တည် စီးဆင်းနေပါတယ်။ Crypto ငွေကြေးများကို သာမာန် ပိုက်ဆံအဖြစ် အလွယ်တကူ အသုံးပြုလိုသူများအတွက် အခက်အခဲများ လျော့နည်းသွားစေဖို့အတွက် စတင် ပြုလုပ် ဖန်တီးခဲ့ခြင်းဖြစ်ပါတယ်။"),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
-            "QR code ကို scan ဖတ်၍ (သို့)  သင့် Asset ID (Fuse Studio မှတစ်ဆင့် ရရှိနိုင်) ကို ထည့်သွင်း၍ အခြားအဖွဲ့အစည်းအသစ်သို့ ပြောင်းနိုင်ပါသည် "),
+            "QR code ကို scan ဖတ်၍ (သို့)  သင့် Asset ID (Fuse Studio မှတစ်ဆင့် ရရှိနိုင်) ကို ထည့်သွင်း၍ အခြား အဖွဲ့အစည်း (community) အသစ်သို့ ပြောင်းနိုင်ပါသည် "),
         "future_stablecoins": MessageLookupByLibrary.simpleMessage(
             "ထပ်မံ ပါရှိလာမယ့် stablecoin (တည်ငြိမ်သော crypto ငွေကြေးစနစ်) များ"),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
         "generate_wallet_failed": MessageLookupByLibrary.simpleMessage(
-            "wallet ပြုလုပ်မှု မအောင်မြင်ပါ"),
-        "generated_wallet":
-            MessageLookupByLibrary.simpleMessage("Fuse wallet မှ ကြိုဆိုပါသည်"),
-        "generating_wallet":
-            MessageLookupByLibrary.simpleMessage("Fuse wallet ပြုလုပ်နေပါသည်"),
+            "ပိုက်ဆံအိတ် (wallet) ပြုလုပ်မှု မအောင်မြင်ပါ"),
+        "generated_wallet": MessageLookupByLibrary.simpleMessage(
+            "Fuse ပိုက်ဆံအိတ် (wallet) မှ ကြိုဆိုပါသည်"),
+        "generating_wallet": MessageLookupByLibrary.simpleMessage(
+            "Fuse ပိုက်ဆံအိတ် (wallet) ပြုလုပ်နေပါသည်"),
         "hi": MessageLookupByLibrary.simpleMessage("မင်္ဂလာပါ"),
         "home": MessageLookupByLibrary.simpleMessage("ပင်မ"),
         "how_much": MessageLookupByLibrary.simpleMessage("ဘယ်လောက်လဲ?"),
@@ -167,7 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar ကို သင်  ဘယ်လို အသုံးပြုနိုင်သလဲ?"),
         "important": MessageLookupByLibrary.simpleMessage("အရေးကြီးသည်!"),
         "initializing_wallet": MessageLookupByLibrary.simpleMessage(
-            "Fuse မှာ သင့် wallet ကို စတင်ပြုလုပ်နေပါသည်"),
+            "Fuse မှာ သင့် ပိုက်ဆံအိတ် (wallet) ကို စတင်ပြုလုပ်နေပါသည်"),
         "insufficient_fund":
             MessageLookupByLibrary.simpleMessage("ငွေမလုံလောက်ပါ"),
         "intro_text_one": MessageLookupByLibrary.simpleMessage(
@@ -185,7 +186,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invite_friend": MessageLookupByLibrary.simpleMessage(
             "သူငယ်ချင်းတစ်ယောက်ကို ဖိတ်ကြားပါ"),
         "invite_friend_text": MessageLookupByLibrary.simpleMessage(
-            "ဟေ့၊ သင့်သူငယ်ချင်းက သင့်ကို fuse cash wallet မျှဝေလိုက်ပါတယ်။"),
+            "ဟေ့၊ သင့်သူငယ်ချင်းက သင့်ကို fuse cash ပိုက်ဆံအိတ် (wallet) မျှဝေလိုက်ပါတယ်။"),
         "invite_text": m0,
         "join_bonus": MessageLookupByLibrary.simpleMessage(
             "သင်စတင် ဝင်ရောက်မှုအတွက် bonus ရရှိပါသည်"),
@@ -193,7 +194,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "joined_community": MessageLookupByLibrary.simpleMessage(""),
         "joining": MessageLookupByLibrary.simpleMessage("ဝင်ရောက်ခြင်း"),
         "joining_community": MessageLookupByLibrary.simpleMessage(
-            "အဖွဲ့အစည်းတစ်ခုသို့ ဝင်ရောက်ခြင်း"),
+            "အဖွဲ့အစည်း (community) တစ်ခုသို့ ဝင်ရောက်ခြင်း"),
         "language": MessageLookupByLibrary.simpleMessage("ဘာသာစကား"),
         "learn_about_fuse_dollar": MessageLookupByLibrary.simpleMessage(
             "Fuse Dollar အကြောင်း ထပ်မံ လေ့လာပါ"),
@@ -201,10 +202,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "legal": MessageLookupByLibrary.simpleMessage("ဥပဒေရေးရာ"),
         "lets_start":
             MessageLookupByLibrary.simpleMessage("ရပါပြီ! စလိုက်ရအောင်"),
-        "limit_discalimer":
-            MessageLookupByLibrary.simpleMessage("(for deposits above 200\$)"),
+        "limit_discalimer": MessageLookupByLibrary.simpleMessage(
+            "(ဒေါ်လာ ၂၀၀ အထက် deposit များအတွက်)"),
         "limit_offer": MessageLookupByLibrary.simpleMessage(
-            "Limited time offer! 50 \$ deposit bonus 💸"),
+            "အချိန် ကန့်သတ်ထားသော offer! ဒေါ်လာ ၅၀ deposit bonus)"),
         "login": MessageLookupByLibrary.simpleMessage("အကောင့်ဝင်မည်"),
         "logout": MessageLookupByLibrary.simpleMessage("အကောင့်ထွက်မည်"),
         "map": MessageLookupByLibrary.simpleMessage("မြေပုံ"),
@@ -238,6 +239,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar ကို Fuse မှာ USDC stablecoin နဲ့ အလုံးစုံ တန်ဖိုး အပေါင်အာမခံထားပါတယ်။ circle.com မှ ထုတ်လုပ်သော USDC မှာ USD ဖြင့် အလုံးစုံ ထောက်ပံ့ စည်းကြပ်ထားသော stablecoin တစ်ခုဖြစ်၍ Crypto ငွေကြေးနယ်ပယ်မှာ ထင်ပေါ်သော stablecoin (တည်ငြိမ်သော crypto ငွေကြေးစနစ်) တစ်ခုအဖြစ်ရှိနေပါတယ်။ "),
         "pending": MessageLookupByLibrary.simpleMessage("ဆိုင်းငံ့နေသော"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("ဖုန်းနံပါတ်"),
+        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
+            "One of the 12 words is invalid"),
         "pickup_display_name": MessageLookupByLibrary.simpleMessage(
             "သင်ဖော်ပြလိုသော နာမည်ကိုရွေးချယ်ပါ"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(
@@ -246,14 +249,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "pincode_dont_match":
             MessageLookupByLibrary.simpleMessage("ပင်ကုဒ် မတူပါ"),
         "please_choose_security": MessageLookupByLibrary.simpleMessage(
-            "သင့် Wallet သို့ဝင်ရန် အသုံးပြုလိုသည့် စနစ်ကိုရွေးပါ။"),
+            "သင့် ပိုက်ဆံအိတ် (wallet) သို့ဝင်ရန် အသုံးပြုလိုသည့် စနစ်ကိုရွေးပါ။"),
         "please_use":
             MessageLookupByLibrary.simpleMessage("ကျေးဇူးပြု၍ အသုံးပြုပါ"),
         "price": MessageLookupByLibrary.simpleMessage("နှုန်း"),
         "privacy": MessageLookupByLibrary.simpleMessage(
             "fuse.io/ကိုယ်ရေးလုံခြုံမှုဆိုင်ရာ"),
-        "protect_wallet":
-            MessageLookupByLibrary.simpleMessage("သင့် wallet ကို ကာကွယ်ပါ"),
+        "protect_wallet": MessageLookupByLibrary.simpleMessage(
+            "သင့် ပိုက်ဆံအိတ် (wallet) ကို ကာကွယ်ပါ"),
         "rate": MessageLookupByLibrary.simpleMessage("နှုန်း"),
         "rate_us": MessageLookupByLibrary.simpleMessage(
             "App Store သို့ Playstore မှာ အဆင့်သတ်မှတ်ပေးပါ။"),
@@ -275,7 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "restore_from_backup": MessageLookupByLibrary.simpleMessage(
             "အရန်သိမ်းဆည်းထားသည်မှ ပြန်လည်ရယူပါ"),
         "restore_words": MessageLookupByLibrary.simpleMessage(
-            "ဒါက သင် အရင် wallet လုပ်တုန်းက သင့်ကို ပေးထားသော ၁၂ လုံးစာစု ဖြစ်ပါတယ်"),
+            "ဒါက သင် အရင် ပိုက်ဆံအိတ် (wallet) လုပ်တုန်းက သင့်ကို ပေးထားသော ၁၂ လုံးစာစု ဖြစ်ပါတယ်"),
         "review_swap":
             MessageLookupByLibrary.simpleMessage("လဲလှယ်မှုများကို စစ်ဆေးပါ"),
         "review_trade": MessageLookupByLibrary.simpleMessage(""),
@@ -293,11 +296,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "send_to_address":
             MessageLookupByLibrary.simpleMessage("လိပ်စာတစ်ခုသို့ ပေးပို့ပါ"),
         "sending_to_ethereum": MessageLookupByLibrary.simpleMessage(
-            "သင့် Ethereum wallet သို့ ပေးပို့လိုက်သည်"),
+            "သင့် Ethereum ပိုက်ဆံအိတ် (wallet) သို့ ပေးပို့လိုက်သည်"),
         "sent_to": MessageLookupByLibrary.simpleMessage("သို့ ပို့လိုက်ပါသည်"),
         "sent_to_ethereum": MessageLookupByLibrary.simpleMessage(
             "Ethereum သို့ ပေးပို့လိုက်သည်"),
-        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "settings": MessageLookupByLibrary.simpleMessage("ဆက်တင်များ"),
         "share_button": MessageLookupByLibrary.simpleMessage("မျှဝေ"),
         "sign_up": MessageLookupByLibrary.simpleMessage("အကောင့်ပြုလုပ်ပါ"),
         "simple": MessageLookupByLibrary.simpleMessage("ရိုးရှင်း"),
@@ -310,20 +313,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code": MessageLookupByLibrary.simpleMessage(
             "ပြောင်းလဲရန် QR ကို scan ဖတ်ပါ"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "Fuse wallet က ကိုယ်ရေးကိုယ်တာ အချက်အလက်များကို device ပေါ်တွင်သာ locally သိမ်းဆည်းပါသည်။ သင့်ကို အတည်ပြုရန်နှင့် အခြား ဖုန်း contact များသို့ ငွေလွှဲတဲ့အခါ friction လျော့ချရန်အတွက်သာ ဖုန်းနံပါတ် တစ်ခုသာ အသုံးပြုပါသည်။ "),
+            "Fuse ပိုက်ဆံအိတ် (wallet) က ကိုယ်ရေးကိုယ်တာ အချက်အလက်များကို device ပေါ်တွင်သာ locally သိမ်းဆည်းပါသည်။ သင့်ကို အတည်ပြုရန်နှင့် အခြား ဖုန်း contact များသို့ ငွေလွှဲတဲ့အခါ friction လျော့ချရန်အတွက်သာ ဖုန်းနံပါတ် တစ်ခုသာ အသုံးပြုပါသည်။ "),
         "success": MessageLookupByLibrary.simpleMessage("အောင်မြင်ပါသည်"),
         "swap": MessageLookupByLibrary.simpleMessage("လဲလှယ်"),
         "swapped": MessageLookupByLibrary.simpleMessage("လဲလှယ်လိုက်သည်"),
         "swapping": MessageLookupByLibrary.simpleMessage("လဲလှယ်နေပါသည်"),
-        "switch_community":
-            MessageLookupByLibrary.simpleMessage("အဖွဲ့အစည်းပြောင်းလဲ"),
+        "switch_community": MessageLookupByLibrary.simpleMessage(
+            "အဖွဲ့အစည်း (community) ပြောင်းခြင်း"),
         "sync_contacts": MessageLookupByLibrary.simpleMessage("Sync contacts"),
         "sync_your_contacts": MessageLookupByLibrary.simpleMessage(
             "သင့် contact ကို sync လုပ်ပါ"),
         "ten_seconds": MessageLookupByLibrary.simpleMessage("(၁၀ စက္ကန့်အထိ)"),
         "to": MessageLookupByLibrary.simpleMessage("သို့"),
         "to_protect": MessageLookupByLibrary.simpleMessage(
-            "သင့် ပိုက်ဆံနှင့် wallet ကို ကာကွယ်ရန်အတွက် အခုပဲ settings သို့သွားပြီး သင့် wallet ကို လွယ်ကူသော အဆင့်အနည်းငယ်ဖြင့် အရန်သိမ်းဆည်းမှု ပြုလုပ်လိုက်ပါ။"),
+            "သင့် ပိုက်ဆံနှင့် ပိုက်ဆံအိတ် (wallet) ကို ကာကွယ်ရန်အတွက် အခုပဲ ဆက်တင်များ သို့သွားပြီး သင့် ပိုက်ဆံအိတ် (wallet) ကို လွယ်ကူသော အဆင့်အနည်းငယ်ဖြင့် အရန်သိမ်းဆည်းမှု ပြုလုပ်လိုက်ပါ။"),
         "to_unlock": MessageLookupByLibrary.simpleMessage("unlock ပြုလုပ်ရန်"),
         "token": MessageLookupByLibrary.simpleMessage("တိုကင်"),
         "top_up": MessageLookupByLibrary.simpleMessage("ဖြည့်သွင်း"),
@@ -350,16 +353,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "fuse.io သို့ ဝင်ရောက်၍ Fuse နှင့် အလုပ်လုပ်ပုံများကို ပိုမို လေ့လာကြည့်ရှုနိုင်ပါတယ်။"),
         "waiting_for_deposit": MessageLookupByLibrary.simpleMessage(
             "သင့် deposit ရောက်ရန် စောင့်ဆိုင်းနေပါသည်"),
-        "wallet": MessageLookupByLibrary.simpleMessage("Wallet"),
-        "wallet_address": MessageLookupByLibrary.simpleMessage("wallet လိပ်စာ"),
+        "wallet": MessageLookupByLibrary.simpleMessage("ပိုက်ဆံအိတ် (wallet)"),
+        "wallet_address":
+            MessageLookupByLibrary.simpleMessage("ပိုက်ဆံအိတ် (wallet) လိပ်စာ"),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
-            "သင့် fuse wallet ကို ကာကွယ်ထားပါသည်!"),
+            "သင့် fuse ပိုက်ဆံအိတ် (wallet) ကို ကာကွယ်ထားပါသည်!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
             "ကောင်းတယ်! သင့်ရဲ့ လျှို့ဝှက်စာစုကို သင်အရန်သိမ်းဆည်းလိုက်ပါပြီ။ သင့်လျှို့ဝှက်စာစုကို လုံခြုံစိတ်ချရသော နေရာတွင်သိမ်းဆည်းထားပြီး အခြားဘယ်သူ့ကိုမှ ပေးမသိပါနှဲ့။"),
         "we_just_sent": MessageLookupByLibrary.simpleMessage(
             "သို့ အခုပဲ message ပို့လိုက်ပါပြီ"),
         "we_notice": MessageLookupByLibrary.simpleMessage(
-            "သင့် wallet ကို အခုထိ အရန်သိမ်းဆည်းမှု မပြုလုပ်ရသေးသည်ကို ကျွန်ုပ်တို့ သတိပြုမိသည်။"),
+            "သင့် ပိုက်ဆံအိတ် (wallet) ကို အခုထိ အရန်သိမ်းဆည်းမှု မပြုလုပ်ရသေးသည်ကို ကျွန်ုပ်တို့ သတိပြုမိသည်။"),
         "what_is_fuse_dollar":
             MessageLookupByLibrary.simpleMessage("FuseDollar ဆိုတာဘာလဲ?"),
         "what_is_peg": MessageLookupByLibrary.simpleMessage(
@@ -384,7 +388,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("သင့် လက်ကျန်ငွေ"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("သင့်တွင် လက်ကျန်ငွေ မရှိပါ"),
-        "your_wallet_is_empty":
-            MessageLookupByLibrary.simpleMessage("သင့် wallet မှာ ဘာမှ မရှိပါ")
+        "your_wallet_is_empty": MessageLookupByLibrary.simpleMessage(
+            "သင့် ပိုက်ဆံအိတ် (wallet) မှာ ဘာမှ မရှိပါ")
       };
 }

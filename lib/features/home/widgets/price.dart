@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:number_display/number_display.dart';
+
+final Display display2 = createDisplay(
+  decimal: 6,
+);
 
 class TokenPrice extends StatelessWidget {
   final String address;
@@ -42,15 +47,15 @@ class TokenPrice extends StatelessWidget {
                 return Text('..');
               case ConnectionState.done:
                 final num quote = num.tryParse(snapshot.data!.quote)!;
+                final String price = smallNumberTest(quote)
+                    ? display2(quote)
+                    : '${display(quote)}';
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '\$' +
-                          display(
-                            quote,
-                          ),
+                      '\$' + price,
                       style: TextStyle(
                         fontSize: 15,
                       ),

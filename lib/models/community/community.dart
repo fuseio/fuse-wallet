@@ -20,7 +20,6 @@ class Community with _$Community {
     @Default(false) bool isMember,
     @JsonKey(includeIfNull: false, defaultValue: '') String? homeTokenAddress,
     @JsonKey(includeIfNull: false)
-    @JsonKey(includeIfNull: false)
     @CommunityMetadataConverter()
         CommunityMetadata? metadata,
     @JsonKey(includeIfNull: false) String? webUrl,

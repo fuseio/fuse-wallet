@@ -212,6 +212,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar는 Fuse에서 USD 코인(USDC)을 담보로 완전하게 보증됩니다. circle.com에서 발행하는 USDC는 전적으로 달러를 기반으로 하여 통제되는, 암호화화폐계에서 널리 알려진 스테이블코인입니다."),
         "pending": MessageLookupByLibrary.simpleMessage("보류 중"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("전화번호"),
+        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
+            "One of the 12 words is invalid"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("표시 이름을 고르세요"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(
