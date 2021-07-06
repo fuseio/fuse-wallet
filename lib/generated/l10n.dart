@@ -1460,6 +1460,16 @@ class I10n {
     );
   }
 
+  /// `One of the 12 words is invalid`
+  String get phrase_invaild {
+    return Intl.message(
+      'One of the 12 words is invalid',
+      name: 'phrase_invaild',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pick your display name`
   String get pickup_display_name {
     return Intl.message(

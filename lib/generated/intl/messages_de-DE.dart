@@ -236,6 +236,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar ist vollständig durch den USD Coin (USDC) auf Fuse besichert. USDC wird von circle.com herausgegeben und ist ein vollständig durch den Dollar gedeckter und regulierter Stablecoin, der im Kryptowährungsbereich allgemein anerkannt ist."),
         "pending": MessageLookupByLibrary.simpleMessage("AUSSTEHEND"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Telefonnummer"),
+        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
+            "One of the 12 words is invalid"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("Wähle deinen Anzeigename"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(

@@ -128,9 +128,13 @@ class Token with _$Token implements Comparable<Token> {
   Future<dynamic> fetchStats({
     required void Function(List<Stats>) onDone,
     required Function onError,
+    String limit = '30',
   }) async {
     try {
-      final List<Stats> stats = await fuseSwapService.stats(address);
+      final List<Stats> stats = await fuseSwapService.stats(
+        address,
+        limit: limit,
+      );
       onDone(stats);
     } catch (e, s) {
       onError(e, s);
