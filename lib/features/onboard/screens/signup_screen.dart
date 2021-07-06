@@ -6,11 +6,11 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/features/onboard/dialogs/signup.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
+import 'package:fusecash/features/shared/widgets/snackbars.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -156,6 +156,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                         ),
                                       ),
+                                      dialogSize: Size(
+                                          MediaQuery.of(context).size.width *
+                                              .9,
+                                          MediaQuery.of(context).size.height *
+                                              0.85),
                                       searchStyle: TextStyle(
                                         fontSize: 18,
                                         color: Theme.of(context)
@@ -165,6 +170,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       showFlag: true,
                                       initialSelection: countryCode.code,
                                       showCountryOnly: false,
+                                      dialogTextStyle: TextStyle(
+                                        fontSize: 18,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
                                       textStyle: TextStyle(
                                         fontSize: 18,
                                         color: Theme.of(context)

@@ -6,8 +6,8 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/utils/string.dart';
 
 class UserNameScreen extends StatelessWidget {

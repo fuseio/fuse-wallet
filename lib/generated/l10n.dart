@@ -1460,6 +1460,16 @@ class I10n {
     );
   }
 
+  /// `One of the 12 words is invalid`
+  String get phrase_invaild {
+    return Intl.message(
+      'One of the 12 words is invalid',
+      name: 'phrase_invaild',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pick your display name`
   String get pickup_display_name {
     return Intl.message(
@@ -2390,10 +2400,10 @@ class I10n {
     );
   }
 
-  /// `write down the words in order and keep safe. You won’t be able to recover your account without it.`
+  /// `Write down the words in order and keep safe. You won’t be able to recover your account without it.`
   String get write_words {
     return Intl.message(
-      'write down the words in order and keep safe. You won’t be able to recover your account without it.',
+      'Write down the words in order and keep safe. You won’t be able to recover your account without it.',
       name: 'write_words',
       desc: '',
       args: [],
@@ -2464,6 +2474,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'fr', countryCode: 'FR'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),
+      Locale.fromSubtags(languageCode: 'ko'),
       Locale.fromSubtags(languageCode: 'my'),
       Locale.fromSubtags(languageCode: 'nl', countryCode: 'NL'),
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),

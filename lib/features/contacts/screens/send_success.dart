@@ -6,7 +6,7 @@ import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
 
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendFlowArguments pageArgs;

@@ -239,6 +239,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pending": MessageLookupByLibrary.simpleMessage("EN ATTENTE"),
         "phoneNumber":
             MessageLookupByLibrary.simpleMessage("Numéro de téléphone"),
+        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
+            "One of the 12 words is invalid"),
         "pickup_display_name": MessageLookupByLibrary.simpleMessage(
             "Choisissez votre nom d\'affichage "),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(

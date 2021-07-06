@@ -282,6 +282,8 @@
   "@pending": {},
   "phoneNumber": "电话号码",
   "@phoneNumber": {},
+  "phrase_invaild": "One of the 12 words is invalid",
+  "@phrase_invaild": {},
   "pickup_display_name": "选择您要显示的名称",
   "@pickup_display_name": {},
   "pickup_display_name_text": "此名称将对给您汇款的联系人显示，以便对方确认您的账户",

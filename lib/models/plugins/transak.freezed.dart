@@ -22,7 +22,7 @@ class _$TransakPluginTearOff {
 
   _TransakPlugin call(
       {String name = 'transak',
-      required String widgetUrl,
+      String? widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
     return _TransakPlugin(
@@ -44,7 +44,7 @@ const $TransakPlugin = _$TransakPluginTearOff();
 /// @nodoc
 mixin _$TransakPlugin {
   String get name => throw _privateConstructorUsedError;
-  String get widgetUrl => throw _privateConstructorUsedError;
+  String? get widgetUrl => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
@@ -59,7 +59,7 @@ abstract class $TransakPluginCopyWith<$Res> {
   factory $TransakPluginCopyWith(
           TransakPlugin value, $Res Function(TransakPlugin) then) =
       _$TransakPluginCopyWithImpl<$Res>;
-  $Res call({String name, String widgetUrl, String type, bool isActive});
+  $Res call({String name, String? widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -86,7 +86,7 @@ class _$TransakPluginCopyWithImpl<$Res>
       widgetUrl: widgetUrl == freezed
           ? _value.widgetUrl
           : widgetUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$TransakPluginCopyWith<$Res>
           _TransakPlugin value, $Res Function(_TransakPlugin) then) =
       __$TransakPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String widgetUrl, String type, bool isActive});
+  $Res call({String name, String? widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class __$TransakPluginCopyWithImpl<$Res>
       widgetUrl: widgetUrl == freezed
           ? _value.widgetUrl
           : widgetUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ class __$TransakPluginCopyWithImpl<$Res>
 class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
   _$_TransakPlugin(
       {this.name = 'transak',
-      required this.widgetUrl,
+      this.widgetUrl,
       this.type = 'deposit',
       this.isActive = false});
 
@@ -166,7 +166,7 @@ class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
   @override
   final String name;
   @override
-  final String widgetUrl;
+  final String? widgetUrl;
   @JsonKey(defaultValue: 'deposit')
   @override
   final String type;
@@ -228,7 +228,7 @@ class _$_TransakPlugin with DiagnosticableTreeMixin implements _TransakPlugin {
 abstract class _TransakPlugin implements TransakPlugin, Plugin {
   factory _TransakPlugin(
       {String name,
-      required String widgetUrl,
+      String? widgetUrl,
       String type,
       bool isActive}) = _$_TransakPlugin;
 
@@ -238,7 +238,7 @@ abstract class _TransakPlugin implements TransakPlugin, Plugin {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  String get widgetUrl => throw _privateConstructorUsedError;
+  String? get widgetUrl => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   @override

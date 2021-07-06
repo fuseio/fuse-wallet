@@ -263,6 +263,7 @@ ThunkAction backupWalletCall() {
 ThunkAction restoreWalletCall(
   List<String> _mnemonic,
   VoidCallback successCallback,
+  VoidCallback failureCallback,
 ) {
   return (Store store) async {
     try {
@@ -270,31 +271,39 @@ ThunkAction restoreWalletCall(
       String mnemonic = _mnemonic.join(' ');
       log.info('mnemonic: $mnemonic');
       log.info('compute pk');
-      String privateKey = await compute(
-        Web3.privateKeyFromMnemonic,
-        mnemonic,
-      );
-      log.info('privateKey: $privateKey');
-      Credentials credentials = EthPrivateKey.fromHex(privateKey);
-      EthereumAddress accountAddress = await credentials.extractAddress();
-      store.dispatch(
-        CreateLocalAccountSuccess(
-          mnemonic.split(' '),
-          privateKey,
-          accountAddress.toString(),
-        ),
-      );
-      store
-          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
-      successCallback();
-      Segment.track(
-        eventName: 'Existing User: Successful Restore wallet from backup',
-      );
+      if (Web3.validateMnemonic(mnemonic)) {
+        String privateKey = await compute(
+          Web3.privateKeyFromMnemonic,
+          mnemonic,
+        );
+        log.info('privateKey: $privateKey');
+        Credentials credentials = EthPrivateKey.fromHex(privateKey);
+        EthereumAddress accountAddress = await credentials.extractAddress();
+        store.dispatch(
+          CreateLocalAccountSuccess(
+            mnemonic.split(' '),
+            privateKey,
+            accountAddress.toString(),
+          ),
+        );
+        store.dispatch(
+          SetDefaultCommunity(
+            defaultCommunityAddress.toLowerCase(),
+          ),
+        );
+        successCallback();
+        Segment.track(
+          eventName: 'Existing User: Successful Restore wallet from backup',
+        );
+      } else {
+        throw Exception('invalid mnemonic');
+      }
     } catch (e, s) {
       log.error('ERROR - restoreWalletCall $e');
       Segment.track(
         eventName: 'Existing User: Failed to restore wallet from backup',
       );
+      failureCallback();
       await Sentry.captureException(
         e,
         stackTrace: s,

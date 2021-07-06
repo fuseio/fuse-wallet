@@ -22,7 +22,7 @@ class _$MoonpayPluginTearOff {
 
   _MoonpayPlugin call(
       {String name = 'moonpay',
-      required String widgetUrl,
+      String? widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
     return _MoonpayPlugin(
@@ -44,7 +44,7 @@ const $MoonpayPlugin = _$MoonpayPluginTearOff();
 /// @nodoc
 mixin _$MoonpayPlugin {
   String get name => throw _privateConstructorUsedError;
-  String get widgetUrl => throw _privateConstructorUsedError;
+  String? get widgetUrl => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
@@ -59,7 +59,7 @@ abstract class $MoonpayPluginCopyWith<$Res> {
   factory $MoonpayPluginCopyWith(
           MoonpayPlugin value, $Res Function(MoonpayPlugin) then) =
       _$MoonpayPluginCopyWithImpl<$Res>;
-  $Res call({String name, String widgetUrl, String type, bool isActive});
+  $Res call({String name, String? widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -86,7 +86,7 @@ class _$MoonpayPluginCopyWithImpl<$Res>
       widgetUrl: widgetUrl == freezed
           ? _value.widgetUrl
           : widgetUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$MoonpayPluginCopyWith<$Res>
           _MoonpayPlugin value, $Res Function(_MoonpayPlugin) then) =
       __$MoonpayPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String widgetUrl, String type, bool isActive});
+  $Res call({String name, String? widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class __$MoonpayPluginCopyWithImpl<$Res>
       widgetUrl: widgetUrl == freezed
           ? _value.widgetUrl
           : widgetUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ class __$MoonpayPluginCopyWithImpl<$Res>
 class _$_MoonpayPlugin with DiagnosticableTreeMixin implements _MoonpayPlugin {
   _$_MoonpayPlugin(
       {this.name = 'moonpay',
-      required this.widgetUrl,
+      this.widgetUrl,
       this.type = 'deposit',
       this.isActive = false});
 
@@ -166,7 +166,7 @@ class _$_MoonpayPlugin with DiagnosticableTreeMixin implements _MoonpayPlugin {
   @override
   final String name;
   @override
-  final String widgetUrl;
+  final String? widgetUrl;
   @JsonKey(defaultValue: 'deposit')
   @override
   final String type;
@@ -228,7 +228,7 @@ class _$_MoonpayPlugin with DiagnosticableTreeMixin implements _MoonpayPlugin {
 abstract class _MoonpayPlugin implements MoonpayPlugin, Plugin {
   factory _MoonpayPlugin(
       {String name,
-      required String widgetUrl,
+      String? widgetUrl,
       String type,
       bool isActive}) = _$_MoonpayPlugin;
 
@@ -238,7 +238,7 @@ abstract class _MoonpayPlugin implements MoonpayPlugin, Plugin {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  String get widgetUrl => throw _privateConstructorUsedError;
+  String? get widgetUrl => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   @override

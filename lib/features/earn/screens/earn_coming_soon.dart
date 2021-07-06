@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/earn/dialogs/learn_more.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 
 class EarnComingSoonScreen extends StatelessWidget {
   Widget build(BuildContext context) {

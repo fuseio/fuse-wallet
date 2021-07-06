@@ -15,8 +15,8 @@ import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/send.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/preloader.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/features/shared/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
   final SendFlowArguments? pageArgs;
