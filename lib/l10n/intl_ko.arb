@@ -282,6 +282,8 @@
   "@pending": {},
   "phoneNumber": "전화번호",
   "@phoneNumber": {},
+  "phrase_invaild": "One of the 12 words is invalid",
+  "@phrase_invaild": {},
   "pickup_display_name": "표시 이름을 고르세요",
   "@pickup_display_name": {},
   "pickup_display_name_text": "내 계정을 식별할 수 있도록 돈을 보내오는 연락처에 이 이름이 표시됩니다",
