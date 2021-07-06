@@ -18,30 +18,45 @@ class Balance extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text(
-              I10n.of(context).balance,
-              style: TextStyle(
-                color: Theme.of(context).canvasColor.withAlpha(150),
-                fontSize: 13.0,
+            Flexible(
+              child: Text(
+                I10n.of(context).balance,
+                style: TextStyle(
+                  color: Theme.of(context).canvasColor.withAlpha(150),
+                  fontSize: 13.0,
+                ),
               ),
             ),
-            Flexible(
-              child: AutoSizeText(
-                '\$${viewModel.usdValue}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).canvasColor,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              mainAxisAlignment: MainAxisAlignment.start,
+              verticalDirection: VerticalDirection.down,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Flexible(
+                  child: AutoSizeText(
+                    viewModel.usdValue,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).canvasColor,
+                    ),
+                    presetFontSizes: [30, 25, 24, 23, 22],
+                    maxLines: 1,
+                  ),
                 ),
-                presetFontSizes: [
-                  30,
-                  25,
-                  22,
-                ],
-              ),
+                Flexible(
+                  child: Text(
+                    ' CURA',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).canvasColor,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );
-        // return ;
       },
     );
   }

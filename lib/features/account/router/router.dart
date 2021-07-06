@@ -7,7 +7,6 @@ import 'package:fusecash/features/account/screens/protect_your_wallet.dart';
 import 'package:fusecash/features/account/screens/settings.dart';
 import 'package:fusecash/features/account/screens/show_mnemonic.dart';
 import 'package:fusecash/features/account/screens/verify_mnemonic.dart';
-import 'package:fusecash/features/home/screens/switch_community.dart';
 
 const accountTab = AutoRoute(
   path: 'account',
@@ -19,10 +18,6 @@ const accountTab = AutoRoute(
       page: AccountScreen,
       name: 'accountScreen',
       initial: true,
-      guards: [AuthGuard],
-    ),
-    AutoRoute(
-      page: SwitchCommunityScreen,
       guards: [AuthGuard],
     ),
     AutoRoute(

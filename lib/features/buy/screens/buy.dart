@@ -77,7 +77,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
   //               );
   //             },
   //             child: CachedNetworkImage(
-  //               imageUrl: ImageUrl.getLink(vm.walletBanner!.walletBannerHash!),
+  //               imageUrl: ImageUrl.getLink(vm.walletBanner?.walletBannerHash),
   //               imageBuilder: (context, imageProvider) => Container(
   //                 width: MediaQuery.of(context).size.width,
   //                 height: 140,
@@ -114,7 +114,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
                 itemBuilder: (context, index) => businessTile(
                   vm.businesses[index],
                   vm.communityAddress,
-                  vm.token!,
+                  vm.token,
                 ),
               ),
             ),

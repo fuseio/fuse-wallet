@@ -188,13 +188,13 @@ ThunkAction loginHandler(
         ),
       );
     } catch (e, s) {
+      loginFailureCallback();
+      store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
+      log.error('ERROR - LoginRequest $e');
       Segment.track(
         eventName: 'Sign up: FAILED - Phone_NextBtn_Press',
         properties: Map.from({"error": e.toString()}),
       );
-      store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
-      loginFailureCallback();
-      log.error('ERROR - LoginRequest $e');
       await Sentry.captureException(
         e,
         stackTrace: s,
@@ -263,6 +263,7 @@ ThunkAction backupWalletCall() {
 ThunkAction restoreWalletCall(
   List<String> _mnemonic,
   VoidCallback successCallback,
+  VoidCallback failureCallback,
 ) {
   return (Store store) async {
     try {
@@ -270,31 +271,39 @@ ThunkAction restoreWalletCall(
       String mnemonic = _mnemonic.join(' ');
       log.info('mnemonic: $mnemonic');
       log.info('compute pk');
-      String privateKey = await compute(
-        Web3.privateKeyFromMnemonic,
-        mnemonic,
-      );
-      log.info('privateKey: $privateKey');
-      Credentials credentials = EthPrivateKey.fromHex(privateKey);
-      EthereumAddress accountAddress = await credentials.extractAddress();
-      store.dispatch(
-        CreateLocalAccountSuccess(
-          mnemonic.split(' '),
-          privateKey,
-          accountAddress.toString(),
-        ),
-      );
-      store
-          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
-      successCallback();
-      Segment.track(
-        eventName: 'Existing User: Successful Restore wallet from backup',
-      );
+      if (Web3.validateMnemonic(mnemonic)) {
+        String privateKey = await compute(
+          Web3.privateKeyFromMnemonic,
+          mnemonic,
+        );
+        log.info('privateKey: $privateKey');
+        Credentials credentials = EthPrivateKey.fromHex(privateKey);
+        EthereumAddress accountAddress = await credentials.extractAddress();
+        store.dispatch(
+          CreateLocalAccountSuccess(
+            mnemonic.split(' '),
+            privateKey,
+            accountAddress.toString(),
+          ),
+        );
+        store.dispatch(
+          SetDefaultCommunity(
+            defaultCommunityAddress.toLowerCase(),
+          ),
+        );
+        successCallback();
+        Segment.track(
+          eventName: 'Existing User: Successful Restore wallet from backup',
+        );
+      } else {
+        throw Exception('invalid mnemonic');
+      }
     } catch (e, s) {
       log.error('ERROR - restoreWalletCall $e');
       Segment.track(
         eventName: 'Existing User: Failed to restore wallet from backup',
       );
+      failureCallback();
       await Sentry.captureException(
         e,
         stackTrace: s,

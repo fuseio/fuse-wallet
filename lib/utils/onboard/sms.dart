@@ -1,5 +1,6 @@
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
@@ -26,6 +27,7 @@ class SmsStrategy implements IOnBoardStrategy {
       verificationCode,
       phoneNumber,
       accountAddress,
+      appName: Strings.APP_NAME,
     );
     onSuccess(jwtToken);
   }

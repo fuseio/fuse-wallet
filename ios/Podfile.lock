@@ -16,14 +16,14 @@ PODS:
   - Firebase/RemoteConfig (8.0.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 8.0.0)
-  - firebase_auth (1.4.1):
+  - firebase_auth (2.0.0):
     - Firebase/Auth (= 8.0.0)
     - firebase_core
     - Flutter
   - firebase_core (1.3.0):
     - Firebase/CoreOnly (= 8.0.0)
     - Flutter
-  - firebase_messaging (10.0.2):
+  - firebase_messaging (10.0.3):
     - Firebase/Messaging (= 8.0.0)
     - firebase_core
     - Flutter
@@ -274,9 +274,9 @@ SPEC CHECKSUMS:
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
-  firebase_auth: 6532658f5a4f76be32cd5e7518753ebedd4544d2
+  firebase_auth: 1e633b05c508081a0876749432ac742075b3f4f3
   firebase_core: cda81ae37eda6df2bc2d16027fda527987c4bd33
-  firebase_messaging: bdc64f21cd3e9e174164b1417530c723fd128958
+  firebase_messaging: 861664166bbdd527cb40396d4a381f0a1c39f61d
   firebase_remote_config: 6cf81266981ea8fe8cb3a7e01c8270b04e31f9d1
   FirebaseABTesting: 5f37131c5eceea579c471c915f7a0f8cad484d1f
   FirebaseAuth: b8cd992fca5b53dc6eec09e873a3f375f000c5a1

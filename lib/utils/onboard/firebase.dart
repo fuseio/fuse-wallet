@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -31,14 +32,14 @@ class FirebaseStrategy implements IOnBoardStrategy {
         token,
         accountAddress,
         identifier,
-        appName: 'CuraDAI',
+        appName: Strings.APP_NAME,
+      );
+      Segment.track(
+        eventName: 'Sign up: VerificationCode_NextBtn_Press',
       );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
-      Segment.track(
-        eventName: 'Sign up: VerificationCode_NextBtn_Press',
-      );
       rootRouter.push(UserNameScreen());
     };
 
@@ -112,7 +113,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
       token,
       accountAddress,
       identifier,
-      appName: 'CuraDAI',
+      appName: Strings.APP_NAME,
     );
     onSuccess(jwtToken);
   }

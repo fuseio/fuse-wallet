@@ -317,10 +317,11 @@ CashWalletState _fetchingBusinessListFailed(
 CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
   return state.copyWith(
-      isCommunityLoading: true,
-      communityAddress: action.communityAddress.toLowerCase(),
-      branchAddress: "",
-      isBranchDataReceived: false);
+    isCommunityLoading: true,
+    communityAddress: action.communityAddress.toLowerCase(),
+    branchAddress: "",
+    isBranchDataReceived: false,
+  );
 }
 
 CashWalletState _switchToNewCommunity(

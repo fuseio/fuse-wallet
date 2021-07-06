@@ -92,12 +92,12 @@ class _MyAppState extends State<MyApp> {
           ],
         ),
         localizationsDelegates: [
+          LocaleNamesLocalizationsDelegate(),
           I10n.delegate,
           CountryLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
-          LocaleNamesLocalizationsDelegate(),
         ],
         supportedLocales: I10n.delegate.supportedLocales,
         localeListResolutionCallback: (locales, supportedLocales) {
