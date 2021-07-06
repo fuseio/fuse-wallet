@@ -1,7 +1,6 @@
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -17,11 +16,7 @@ class SimpleStrategy implements IOnBoardStrategy {
     phoneNumber,
   ) async {
     final String accountAddress = store.state.userState.accountAddress;
-    final jwtToken = await api.requestToken(
-      phoneNumber,
-      accountAddress,
-      appName: Strings.appName,
-    );
+    final jwtToken = await api.requestToken(phoneNumber, accountAddress);
     log.info('jwtToken $jwtToken');
     store.dispatch(LoginVerifySuccess(jwtToken));
     store.dispatch(SetIsVerifyRequest(isLoading: false));

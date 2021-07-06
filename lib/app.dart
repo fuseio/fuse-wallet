@@ -1,13 +1,10 @@
-import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -32,7 +29,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late StreamSubscription<Map> streamSubscription;
   Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -49,31 +45,10 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void listenDynamicLinks(Store<AppState> store) async {
-    streamSubscription =
-        FlutterBranchSdk.initSession().listen((linkData) async {
-      if (linkData["~channel"] == "Facebook") {
-        Segment.track(
-          eventName: 'New user from campaign',
-          properties: {
-            'source': linkData["~channel"],
-          },
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    streamSubscription.cancel();
-    super.dispose();
-  }
-
   @override
   void initState() {
     super.initState();
     setJwtToken(widget.store);
-    listenDynamicLinks(widget.store);
     _locale = widget.store.state.userState.locale;
   }
 

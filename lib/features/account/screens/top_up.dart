@@ -12,7 +12,7 @@ import 'package:fusecash/redux/viewsmodels/top_up.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/remote_config.dart';
 import 'package:fusecash/utils/webview.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 
 class CustomTile extends StatelessWidget {
@@ -112,9 +112,9 @@ class _TopUpScreenState extends State<TopUpScreen> {
                       subtitle: 'Ramp network',
                       onTap: () {
                         String url = showTransak
-                            ? viewModel.plugins.rampInstant!.widgetUrl!
+                            ? viewModel.plugins.rampInstant!.widgetUrl
                                 .replaceAll(RegExp(r'FUSE_FUSD'), 'USDC')
-                            : viewModel.plugins.rampInstant!.widgetUrl!;
+                            : viewModel.plugins.rampInstant!.widgetUrl;
                         openDepositWebview(
                           context: context,
                           url: url,
@@ -135,7 +135,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                             subtitle: 'Ramp network',
                             onTap: () {
                               final String url =
-                                  viewModel.plugins.rampInstant!.widgetUrl!;
+                                  viewModel.plugins.rampInstant!.widgetUrl;
                               openDepositWebview(
                                 context: context,
                                 url: url,

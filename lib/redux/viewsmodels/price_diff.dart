@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 class PriceDiffViewModel extends Equatable {
   final Map<String, Token> tokens;
   final Function(
-    Token token,
+    String tokenAddress,
     String limit,
   ) fetchPriceDiff;
 
@@ -20,19 +20,13 @@ class PriceDiffViewModel extends Equatable {
     return PriceDiffViewModel(
       tokens: store.state.cashWalletState.tokens,
       fetchPriceDiff: (
-        token,
+        tokenAddress,
         limit,
       ) {
         store.dispatch(
           getTokenPriceDiffCall(
-            token.address,
+            tokenAddress,
             limit,
-          ),
-        );
-        store.dispatch(
-          getTokenStatsCall(
-            token,
-            limit: limit,
           ),
         );
       },

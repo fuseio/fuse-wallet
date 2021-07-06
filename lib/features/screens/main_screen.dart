@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:fusecash/features/shared/widgets/bottom_bar.dart';
+import 'package:fusecash/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:confetti/confetti.dart';
 

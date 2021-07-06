@@ -46,7 +46,20 @@ class _CashHeaderState extends State<CashHeader> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Balance(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          I10n.of(context).balance,
+                          style: TextStyle(
+                            color: Color(0xFF454545),
+                            fontSize: 13.0,
+                          ),
+                        ),
+                        Balance(),
+                      ],
+                    ),
                     Container(
                       width: 50,
                       height: 50,

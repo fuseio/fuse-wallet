@@ -11,7 +11,7 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/features/shared/widgets/preloader.dart';
+import 'package:fusecash/widgets/preloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 

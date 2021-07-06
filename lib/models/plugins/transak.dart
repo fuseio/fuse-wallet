@@ -12,28 +12,11 @@ class TransakPlugin with _$TransakPlugin {
   @JsonSerializable()
   factory TransakPlugin({
     @Default('transak') String name,
-    String? widgetUrl,
+    required String widgetUrl,
     @Default('deposit') String type,
     @Default(false) bool isActive,
   }) = _TransakPlugin;
 
   factory TransakPlugin.fromJson(Map<String, dynamic> json) =>
       _$TransakPluginFromJson(json);
-}
-
-class TransakPluginConverter
-    implements JsonConverter<TransakPlugin?, Map<String, dynamic>?> {
-  const TransakPluginConverter();
-
-  @override
-  TransakPlugin? fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      return null;
-    } else {
-      return TransakPlugin.fromJson(json);
-    }
-  }
-
-  @override
-  Map<String, dynamic>? toJson(TransakPlugin? instance) => instance?.toJson();
 }

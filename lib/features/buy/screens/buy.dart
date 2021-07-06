@@ -11,7 +11,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override

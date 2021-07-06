@@ -22,7 +22,7 @@ class _$RampInstantPluginTearOff {
 
   _RampInstantPlugin call(
       {String name = 'rampInstant',
-      String? widgetUrl,
+      required String widgetUrl,
       String type = 'deposit',
       bool isActive = false}) {
     return _RampInstantPlugin(
@@ -44,7 +44,7 @@ const $RampInstantPlugin = _$RampInstantPluginTearOff();
 /// @nodoc
 mixin _$RampInstantPlugin {
   String get name => throw _privateConstructorUsedError;
-  String? get widgetUrl => throw _privateConstructorUsedError;
+  String get widgetUrl => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
 
@@ -59,7 +59,7 @@ abstract class $RampInstantPluginCopyWith<$Res> {
   factory $RampInstantPluginCopyWith(
           RampInstantPlugin value, $Res Function(RampInstantPlugin) then) =
       _$RampInstantPluginCopyWithImpl<$Res>;
-  $Res call({String name, String? widgetUrl, String type, bool isActive});
+  $Res call({String name, String widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -86,7 +86,7 @@ class _$RampInstantPluginCopyWithImpl<$Res>
       widgetUrl: widgetUrl == freezed
           ? _value.widgetUrl
           : widgetUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$RampInstantPluginCopyWith<$Res>
           _RampInstantPlugin value, $Res Function(_RampInstantPlugin) then) =
       __$RampInstantPluginCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String? widgetUrl, String type, bool isActive});
+  $Res call({String name, String widgetUrl, String type, bool isActive});
 }
 
 /// @nodoc
@@ -135,7 +135,7 @@ class __$RampInstantPluginCopyWithImpl<$Res>
       widgetUrl: widgetUrl == freezed
           ? _value.widgetUrl
           : widgetUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       type: type == freezed
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ class _$_RampInstantPlugin
     implements _RampInstantPlugin {
   _$_RampInstantPlugin(
       {this.name = 'rampInstant',
-      this.widgetUrl,
+      required this.widgetUrl,
       this.type = 'deposit',
       this.isActive = false});
 
@@ -168,7 +168,7 @@ class _$_RampInstantPlugin
   @override
   final String name;
   @override
-  final String? widgetUrl;
+  final String widgetUrl;
   @JsonKey(defaultValue: 'deposit')
   @override
   final String type;
@@ -230,7 +230,7 @@ class _$_RampInstantPlugin
 abstract class _RampInstantPlugin implements RampInstantPlugin, Plugin {
   factory _RampInstantPlugin(
       {String name,
-      String? widgetUrl,
+      required String widgetUrl,
       String type,
       bool isActive}) = _$_RampInstantPlugin;
 
@@ -240,7 +240,7 @@ abstract class _RampInstantPlugin implements RampInstantPlugin, Plugin {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
-  String? get widgetUrl => throw _privateConstructorUsedError;
+  String get widgetUrl => throw _privateConstructorUsedError;
   @override
   String get type => throw _privateConstructorUsedError;
   @override

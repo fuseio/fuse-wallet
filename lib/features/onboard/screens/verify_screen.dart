@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -82,10 +82,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                             appContext: context,
                             enableActiveFill: true,
                             enablePinAutofill: false,
-                            keyboardType: TextInputType.numberWithOptions(
-                              signed: false,
-                              decimal: false,
-                            ),
+                            keyboardType: TextInputType.phone,
                             animationType: AnimationType.fade,
                             controller: codeController,
                             autoFocus: true,

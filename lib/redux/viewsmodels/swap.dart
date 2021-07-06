@@ -49,7 +49,7 @@ class SwapViewModel extends Equatable {
               element.address == wbtc.address),
       )
       ..removeWhere(
-          (token) => [null, '', 'NaN', '0'].contains(token.priceInfo?.quote));
+          (token) => [null, '', 'NaN'].contains(token.priceInfo?.quote));
 
     final List<Token> tokenList = store.state.swapState.tokens.values.toList()
       ..where(

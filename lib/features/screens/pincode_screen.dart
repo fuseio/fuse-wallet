@@ -90,10 +90,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                 enableActiveFill: true,
                                 obscureText: true,
                                 enablePinAutofill: false,
-                                keyboardType: TextInputType.numberWithOptions(
-                                  signed: false,
-                                  decimal: false,
-                                ),
+                                keyboardType: TextInputType.phone,
                                 animationType: AnimationType.fade,
                                 controller: pincodeController,
                                 // errorAnimationController: errorController,

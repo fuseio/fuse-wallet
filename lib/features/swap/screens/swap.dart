@@ -17,9 +17,9 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/preloader.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/preloader.dart';
+import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/common/router/routes.dart';
@@ -503,7 +503,7 @@ class _SwapScreenState extends State<SwapScreen> {
                                     }
                                   },
                                   isSwapped: isSwapped,
-                                  // useMaxWidget: maxButton(),
+                                  useMaxWidget: maxButton(),
                                   textEditingController: tokenOutController,
                                   token: tokenOut,
                                   title: I10n.of(context).pay_with,

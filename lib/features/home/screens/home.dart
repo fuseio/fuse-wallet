@@ -7,7 +7,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/home.dart';
 import 'package:fusecash/features/home/widgets/cash_header.dart';
 import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/features/shared/widgets/my_app_bar.dart';
+import 'package:fusecash/widgets/my_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({

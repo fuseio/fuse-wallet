@@ -6,7 +6,7 @@ import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/features/screens/set_up_pincode.dart';
 import 'package:fusecash/redux/viewsmodels/security.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/l10n.dart';

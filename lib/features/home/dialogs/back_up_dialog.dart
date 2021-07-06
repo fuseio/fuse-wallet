@@ -5,7 +5,7 @@ import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:fusecash/widgets/primary_button.dart';
 
 class BackUpDialog extends StatefulWidget {
   BackUpDialog();

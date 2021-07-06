@@ -1005,7 +1005,7 @@ ThunkAction updateTokensPrices() {
     for (Token token in tokens.values) {
       store.dispatch(getTokenPriceCall(token));
       store.dispatch(getTokenPriceChangeCall(token));
-      // store.dispatch(getTokenStatsCall(token));
+      store.dispatch(getTokenStatsCall(token));
     }
   };
 }
@@ -1077,10 +1077,7 @@ ThunkAction getTokenPriceChangeCall(Token token) {
   };
 }
 
-ThunkAction getTokenStatsCall(
-  Token token, {
-  String limit = '30',
-}) {
+ThunkAction getTokenStatsCall(Token token) {
   return (Store store) async {
     try {
       void Function(List<Stats>) onDone = (List<Stats> stats) {
@@ -1091,16 +1088,13 @@ ThunkAction getTokenStatsCall(
           ),
         );
       };
-      void Function(Object error, StackTrace stackTrace) onError = (
-        Object error,
-        StackTrace stackTrace,
-      ) {
+      void Function(Object error, StackTrace stackTrace) onError =
+          (Object error, StackTrace stackTrace) {
         log.error('Error getTokenStatsCall - ${token.name} - $error ');
       };
       await token.fetchStats(
         onDone: onDone,
         onError: onError,
-        limit: limit,
       );
     } catch (e) {
       log.error('Error getTokenStatsCall for ${token.name}');

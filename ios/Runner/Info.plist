@@ -13,7 +13,6 @@
 			<string>id_ID</string>
 			<string>it_IT</string>
 			<string>my</string>
-			<string>ko</string>
 			<string>nl_NL</string>
 			<string>pt_BR</string>
 			<string>ru_RU</string>
@@ -47,7 +46,7 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>fuse.cash</string>
+					<string>fuse</string>
 				</array>
 			</dict>
 			<dict>
@@ -138,13 +137,6 @@
 		<false/>
 		<key>NSUserTrackingUsageDescription</key>
 		<string>This identifier will be used to track errors occur to you and for our internal analytics.</string>
-		<key>branch_universal_link_domains</key>
-		<array>
-			<string>app.fuse.cash</string>
-			<string>rkno4.test-app.link</string>
-			<string>rkno4-alternate.test-app.link</string>
-			<string>kno4-alternate.app.link</string>
-		</array>
 		<key>SKAdNetworkItems</key>
 		<array>
 			<dict>

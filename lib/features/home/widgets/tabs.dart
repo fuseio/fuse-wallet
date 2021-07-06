@@ -45,10 +45,10 @@ class Tabs extends StatelessWidget {
                     ),
                     tabs: [
                       Tab(
-                        text: I10n.of(context).wallet,
+                        text: I10n.of(context).feed,
                       ),
                       Tab(
-                        text: I10n.of(context).feed,
+                        text: I10n.of(context).wallet,
                       ),
                     ],
                   ),
@@ -59,8 +59,8 @@ class Tabs extends StatelessWidget {
               padding: EdgeInsets.only(top: 10),
               child: TabBarView(
                 children: [
-                  Wallet(),
                   Feed(),
+                  Wallet(),
                 ],
               ),
             ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/shared/widgets/silver_app_bar.dart';
+import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class ListHeader extends StatelessWidget {
   final String title;

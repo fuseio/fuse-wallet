@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:fusecash/widgets/primary_button.dart';
 
 class CommunityDescription extends StatefulWidget {
   final Token token;

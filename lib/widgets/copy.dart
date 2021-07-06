@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/shared/widgets/snackbars.dart';
+import 'package:fusecash/widgets/snackbars.dart';
 
 class CopyToClipboard extends StatelessWidget {
   CopyToClipboard({

@@ -197,8 +197,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar 受 Fuse 上的 USD Coin (USDC) 完全担保。USDC 由 circle.com 发行，是一种完全受美元支持、受监管的稳定币，在加密货币领域得到广泛认可。"),
         "pending": MessageLookupByLibrary.simpleMessage("待处理"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("电话号码"),
-        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
-            "One of the 12 words is invalid"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("选择您要显示的名称"),
         "pickup_display_name_text":

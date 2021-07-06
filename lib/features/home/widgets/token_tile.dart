@@ -9,13 +9,12 @@ import 'package:fusecash/features/home/widgets/button.dart';
 import 'package:fusecash/features/home/widgets/price.dart';
 import 'package:fusecash/features/home/widgets/price_change.dart';
 import 'package:fusecash/features/home/widgets/price_diff.dart';
-import 'package:fusecash/features/home/widgets/price_line_chart.dart';
 import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/features/shared/widgets/default_logo.dart';
+import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -285,28 +284,12 @@ class _TokenTileState extends State<TokenTile> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 40,
+                PriceDiff(
+                  tokenAddress: widget.token.address,
                 ),
-                Container(
-                  padding: EdgeInsets.only(
-                    top: 30,
-                    bottom: 30,
-                  ),
-                  color: Theme.of(context).colorScheme.secondary,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      PriceDiff(
-                        tokenAddress: widget.token.address,
-                      ),
-                      PriceLineChart(
-                        tokenAddress: widget.token.address,
-                        // stats: widget.token.stats,
-                      ),
-                    ],
-                  ),
-                ),
+                // (token?.stats?.isEmpty ?? [])
+                //     ? SizedBox.shrink()
+                //     : PriceLineChart(stats: token?.stats),
                 Padding(
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: TokenActivities(

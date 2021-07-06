@@ -231,8 +231,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space."),
         "pending": MessageLookupByLibrary.simpleMessage("PENDING"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
-        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
-            "One of the 12 words is invalid"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("Pick your display name"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(
@@ -368,7 +366,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "write_word":
             MessageLookupByLibrary.simpleMessage("Please write down words \n"),
         "write_words": MessageLookupByLibrary.simpleMessage(
-            "Write down the words in order and keep safe. You won’t be able to recover your account without it."),
+            "write down the words in order and keep safe. You won’t be able to recover your account without it."),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "you_got_a": MessageLookupByLibrary.simpleMessage("You got a"),
         "your_balance": MessageLookupByLibrary.simpleMessage("Your balance"),

@@ -8,12 +8,16 @@ part of 'plugins.dart';
 
 _$_Plugins _$_$_PluginsFromJson(Map<String, dynamic> json) {
   return _$_Plugins(
-    rampInstant: const RampInstantPluginConverter()
-        .fromJson(json['rampInstant'] as Map<String, dynamic>?),
-    moonpay: const MoonpayPluginConverter()
-        .fromJson(json['moonpay'] as Map<String, dynamic>?),
-    transak: const TransakPluginConverter()
-        .fromJson(json['transak'] as Map<String, dynamic>?),
+    rampInstant: json['rampInstant'] == null
+        ? null
+        : RampInstantPlugin.fromJson(
+            json['rampInstant'] as Map<String, dynamic>),
+    moonpay: json['moonpay'] == null
+        ? null
+        : MoonpayPlugin.fromJson(json['moonpay'] as Map<String, dynamic>),
+    transak: json['transak'] == null
+        ? null
+        : TransakPlugin.fromJson(json['transak'] as Map<String, dynamic>),
     walletBanner: json['walletBanner'] == null
         ? null
         : WalletBannerPlugin.fromJson(json['walletBanner']),
@@ -35,12 +39,9 @@ Map<String, dynamic> _$_$_PluginsToJson(_$_Plugins instance) {
     }
   }
 
-  writeNotNull('rampInstant',
-      const RampInstantPluginConverter().toJson(instance.rampInstant));
-  writeNotNull(
-      'moonpay', const MoonpayPluginConverter().toJson(instance.moonpay));
-  writeNotNull(
-      'transak', const TransakPluginConverter().toJson(instance.transak));
+  writeNotNull('rampInstant', instance.rampInstant?.toJson());
+  writeNotNull('moonpay', instance.moonpay?.toJson());
+  writeNotNull('transak', instance.transak?.toJson());
   writeNotNull('walletBanner', instance.walletBanner?.toJson());
   writeNotNull(
       'joinBonus', const JoinBonusPluginConverter().toJson(instance.joinBonus));

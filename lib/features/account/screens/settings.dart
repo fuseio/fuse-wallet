@@ -8,9 +8,9 @@ import 'package:fusecash/features/account/widgets/menu_tile.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/settings.dart';
-import 'package:fusecash/features/shared/widgets/language_selector.dart';
+import 'package:fusecash/widgets/language_selector.dart';
 import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {

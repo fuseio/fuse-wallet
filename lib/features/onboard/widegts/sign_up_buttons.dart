@@ -7,9 +7,9 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/onboard/dialogs/warn_before_recreate.dart';
 import 'package:fusecash/redux/viewsmodels/splash.dart';
 import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/features/shared/widgets/show_up.dart';
-import 'package:fusecash/features/shared/widgets/transparent_button.dart';
+import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/widgets/show_up.dart';
+import 'package:fusecash/widgets/transparent_button.dart';
 
 class SignUpButtons extends StatefulWidget {
   @override

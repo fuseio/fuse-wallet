@@ -236,8 +236,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Fuse Доллар полностью привязан к USD Coin (USDC) на Fuse. Выпущенный circle.com, USDC - это регулируемая стабильная монета, полностью обеспеченная долларом и широко признанная в сфере криптовалют."),
         "pending": MessageLookupByLibrary.simpleMessage("В ОЖИДАНИИ"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Телефонный номер"),
-        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
-            "One of the 12 words is invalid"),
         "pickup_display_name": MessageLookupByLibrary.simpleMessage(
             "Выберите свое отображаемое имя"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(

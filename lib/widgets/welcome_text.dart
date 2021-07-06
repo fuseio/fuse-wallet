@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/shared/widgets/show_up.dart';
+import 'package:fusecash/widgets/show_up.dart';
 
 class WelcomeTitle extends StatelessWidget {
   const WelcomeTitle({

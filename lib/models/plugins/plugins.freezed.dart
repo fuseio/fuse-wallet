@@ -22,13 +22,10 @@ class _$PluginsTearOff {
 
   _Plugins call(
       {@JsonKey(includeIfNull: false)
-      @RampInstantPluginConverter()
           RampInstantPlugin? rampInstant = null,
       @JsonKey(includeIfNull: false)
-      @MoonpayPluginConverter()
           MoonpayPlugin? moonpay = null,
       @JsonKey(includeIfNull: false)
-      @TransakPluginConverter()
           TransakPlugin? transak = null,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner = null,
@@ -63,13 +60,10 @@ const $Plugins = _$PluginsTearOff();
 /// @nodoc
 mixin _$Plugins {
   @JsonKey(includeIfNull: false)
-  @RampInstantPluginConverter()
   RampInstantPlugin? get rampInstant => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  @MoonpayPluginConverter()
   MoonpayPlugin? get moonpay => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  @TransakPluginConverter()
   TransakPlugin? get transak => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
   WalletBannerPlugin? get walletBanner => throw _privateConstructorUsedError;
@@ -94,13 +88,10 @@ abstract class $PluginsCopyWith<$Res> {
       _$PluginsCopyWithImpl<$Res>;
   $Res call(
       {@JsonKey(includeIfNull: false)
-      @RampInstantPluginConverter()
           RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
-      @MoonpayPluginConverter()
           MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
-      @TransakPluginConverter()
           TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner,
@@ -258,13 +249,10 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
   @override
   $Res call(
       {@JsonKey(includeIfNull: false)
-      @RampInstantPluginConverter()
           RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
-      @MoonpayPluginConverter()
           MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
-      @TransakPluginConverter()
           TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner,
@@ -352,13 +340,10 @@ class __$PluginsCopyWithImpl<$Res> extends _$PluginsCopyWithImpl<$Res>
 class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
   _$_Plugins(
       {@JsonKey(includeIfNull: false)
-      @RampInstantPluginConverter()
           this.rampInstant = null,
       @JsonKey(includeIfNull: false)
-      @MoonpayPluginConverter()
           this.moonpay = null,
       @JsonKey(includeIfNull: false)
-      @TransakPluginConverter()
           this.transak = null,
       @JsonKey(includeIfNull: false)
           this.walletBanner = null,
@@ -378,15 +363,12 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
 
   @override
   @JsonKey(includeIfNull: false)
-  @RampInstantPluginConverter()
   final RampInstantPlugin? rampInstant;
   @override
   @JsonKey(includeIfNull: false)
-  @MoonpayPluginConverter()
   final MoonpayPlugin? moonpay;
   @override
   @JsonKey(includeIfNull: false)
-  @TransakPluginConverter()
   final TransakPlugin? transak;
   @override
   @JsonKey(includeIfNull: false)
@@ -475,13 +457,10 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
 abstract class _Plugins extends Plugins {
   factory _Plugins(
       {@JsonKey(includeIfNull: false)
-      @RampInstantPluginConverter()
           RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
-      @MoonpayPluginConverter()
           MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
-      @TransakPluginConverter()
           TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
           WalletBannerPlugin? walletBanner,
@@ -500,15 +479,12 @@ abstract class _Plugins extends Plugins {
 
   @override
   @JsonKey(includeIfNull: false)
-  @RampInstantPluginConverter()
   RampInstantPlugin? get rampInstant => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)
-  @MoonpayPluginConverter()
   MoonpayPlugin? get moonpay => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)
-  @TransakPluginConverter()
   TransakPlugin? get transak => throw _privateConstructorUsedError;
   @override
   @JsonKey(includeIfNull: false)
