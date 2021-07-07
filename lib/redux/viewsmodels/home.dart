@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
+// import 'package:fusecash/models/actions/wallet_action.dart';
+import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -15,15 +16,13 @@ class HomeViewModel extends Equatable {
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
-    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
-    final bool isCommunityFetched =
-        store.state.cashWalletState.isCommunityFetched;
+    CashWalletState cashWalletState = store.state.cashWalletState;
+    bool isCommunityLoading = cashWalletState.isCommunityLoading;
+    final bool isCommunityFetched = cashWalletState.isCommunityFetched;
     final String walletAddress = store.state.userState.walletAddress;
-    final List<WalletAction>? walletActions =
-        store.state.cashWalletState.walletActions?.list ?? [];
-    final WalletAction? walletAction = walletActions?.firstWhere(
-      (element) => element.map(
-        createWallet: (_) => true,
+    final bool? walletCreated = cashWalletState.walletActions?.list.any(
+      (action) => action.map(
+        createWallet: (_) => _.isConfirmed(),
         fiatDeposit: (_) => false,
         joinCommunity: (_) => false,
         bonus: (_) => false,
@@ -35,7 +34,7 @@ class HomeViewModel extends Equatable {
     final bool isDepositBanner =
         [true, null].contains(store.state.cashWalletState.isDepositBanner);
     final bool showDepositBanner =
-        (walletAction != null && walletAction.isConfirmed()) && isDepositBanner;
+        (walletCreated != null && walletCreated) && isDepositBanner;
 
     return HomeViewModel(
       showDepositBanner: showDepositBanner,

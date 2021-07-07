@@ -128,6 +128,8 @@
 		<true/>
 		<key>com.claimsforce.segment.ENABLE_AMPLITUDE_INTEGRATION</key>
 		<true/>
+		<key>branch_enable_facebook_ads</key>
+		<true/>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>https</string>

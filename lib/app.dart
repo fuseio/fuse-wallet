@@ -49,14 +49,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void listenDynamicLinks(Store<AppState> store) async {
-    streamSubscription =
-        FlutterBranchSdk.initSession().listen((linkData) async {
+  void listenDynamicLinks(Store<AppState> store) {
+    streamSubscription = FlutterBranchSdk.initSession().listen((
+      Map<dynamic, dynamic> linkData,
+    ) {
       if (linkData["~channel"] == "Facebook") {
         Segment.track(
           eventName: 'New user from campaign',
           properties: {
             'source': linkData["~channel"],
+            ...linkData,
           },
         );
       }

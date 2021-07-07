@@ -32,10 +32,11 @@ class ContactsViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddress] ??
             Community();
+    final List<Contact> contacts = store.state.userState.contacts;
     return ContactsViewModel(
       isoCode: store.state.userState.isoCode,
       businesses: community.businesses ?? [],
-      contacts: store.state.userState.contacts,
+      contacts: contacts,
       community: community,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
@@ -49,6 +50,12 @@ class ContactsViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [contacts, reverseContacts, countryCode, businesses, isoCode, community];
+  List<Object> get props => [
+        contacts,
+        reverseContacts,
+        countryCode,
+        businesses,
+        isoCode,
+        community,
+      ];
 }

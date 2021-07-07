@@ -11,7 +11,6 @@ import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
 import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/features/contacts/widgets/list_header.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/send.dart';
 import "package:ethereum_address/ethereum_address.dart";
@@ -138,8 +137,6 @@ class _ContactsListState extends State<ContactsList> {
                 : null,
             displayName: user.displayName!,
             onTap: () {
-              log.info(
-                  'widget.pageArgs?.tokenToSend ${widget.pageArgs?.tokenToSend?.name}');
               resetSearch();
               sendToContact(
                 context,
