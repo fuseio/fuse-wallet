@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">fuse.cash</string>
     <string name="facebook_app_id">538714197096202</string>
     <string name="fb_login_protocol_scheme">fb538714197096202</string>
+    <string name="facebook_client_token">b1359d73fc4c458890c15417e28d8031</string>
 </resources>

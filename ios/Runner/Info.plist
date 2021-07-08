@@ -67,6 +67,8 @@
 		</array>
 		<key>FacebookAppID</key>
 		<string>538714197096202</string>
+		<key>FacebookClientToken</key>
+		<string>b1359d73fc4c458890c15417e28d8031</string>
 		<key>FacebookDisplayName</key>
 		<string>fuse.cash</string>
 		<key>FirebaseAppDelegateProxyEnabled</key>
@@ -145,7 +147,7 @@
 			<string>app.fuse.cash</string>
 			<string>rkno4.test-app.link</string>
 			<string>rkno4-alternate.test-app.link</string>
-			<string>kno4-alternate.app.link</string>
+			<string>rkno4-alternate.app.link</string>
 		</array>
 		<key>SKAdNetworkItems</key>
 		<array>
