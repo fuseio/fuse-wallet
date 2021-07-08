@@ -12,7 +12,6 @@ class LogIt {
   void verbose(
     dynamic message, {
     dynamic error,
-    bool showInProd = false,
     StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
@@ -26,7 +25,6 @@ class LogIt {
   void debug(
     dynamic message, {
     dynamic error,
-    bool showInProd = false,
     StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
@@ -40,7 +38,6 @@ class LogIt {
   void info(
     dynamic message, {
     dynamic error,
-    bool showInProd = false,
     StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
@@ -54,7 +51,6 @@ class LogIt {
   void warn(
     dynamic message, {
     dynamic error,
-    bool showInProd = false,
     StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
@@ -68,7 +64,6 @@ class LogIt {
   void error(
     dynamic message, {
     dynamic error,
-    bool showInProd = false,
     StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {
@@ -82,7 +77,6 @@ class LogIt {
   void wtf(
     dynamic message, {
     dynamic error,
-    bool showInProd = false,
     StackTrace? stackTrace,
   }) {
     if (kReleaseMode) {

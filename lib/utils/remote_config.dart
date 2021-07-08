@@ -10,8 +10,14 @@ class RemoteConfigService {
   RemoteConfigService(RemoteConfig remoteConfig) : _remoteConfig = remoteConfig;
 
   final defaults = <String, dynamic>{
-    'onramp': {
-      "withTransak": ["Vietnam", "Indonesia", "China", "United States"],
+    "onrampOptions": {
+      "onrampFUSD": ["*"],
+      "onrampUSDC": [
+        "Vietnam",
+        "Indonesia",
+        "China",
+        "United States",
+      ],
       "withWireTransfer": [
         "United Kingdom",
         "Austria",
@@ -47,7 +53,7 @@ class RemoteConfigService {
         "Sweden",
         "Switzerland"
       ]
-    }
+    },
   };
 
   static RemoteConfigService? _instance;
@@ -66,11 +72,18 @@ class RemoteConfigService {
     return _instance!;
   }
 
-  List get getWithTransak =>
-      json.decode(_remoteConfig.getValue('onramp').asString())['withTransak'];
+  List get withOnrampUSDC =>
+      json.decode(_remoteConfig.getValue('onrampOptions').asString())['onrampUSDC'];
 
-  List get getWithWireTransfer => json
-      .decode(_remoteConfig.getValue('onramp').asString())['withWireTransfer'];
+  String get getOnrampUSDC => _remoteConfig.getValue('onrampUSDC').asString();
+
+  String get getOnrampFUSD => _remoteConfig.getValue('onrampFUSD').asString();
+
+  Map<String, dynamic> get getOnrampOptions =>
+      json.decode(_remoteConfig.getValue('onrampOptions').asString());
+
+  List get getWithWireTransfer => json.decode(
+      _remoteConfig.getValue('onrampOptions').asString())['withWireTransfer'];
 
   Future initialize() async {
     try {

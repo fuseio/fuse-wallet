@@ -66,17 +66,17 @@ class TopUpScreen extends StatefulWidget {
 
 class _TopUpScreenState extends State<TopUpScreen> {
   bool showWireTransfer = false;
-  bool showTransak = false;
+  bool showUSDC = false;
 
   onInit(store) async {
     try {
       final dio = getIt<Dio>();
-      Response response = await dio.get('http://ip-api.com/json');
-      Map countryData = Map.from(response.data);
+      final Response response = await dio.get('http://ip-api.com/json');
+      final Map countryData = Map.from(response.data);
       final String currentCountry = countryData['country'];
       setState(() {
-        showTransak = getIt<RemoteConfigService>()
-            .getWithTransak
+        showUSDC = getIt<RemoteConfigService>()
+            .withOnrampUSDC
             .any((country) => country == currentCountry);
         showWireTransfer = getIt<RemoteConfigService>()
             .getWithWireTransfer
@@ -96,6 +96,8 @@ class _TopUpScreenState extends State<TopUpScreen> {
         converter: TopUpViewModel.fromStore,
         onInit: onInit,
         builder: (_, viewModel) {
+          final String topupUrl = getIt<RemoteConfigService>().getOnrampFUSD +
+              '&userAddress=${viewModel.walletAddress}';
           return Container(
             padding: EdgeInsets.only(
               left: 20,
@@ -111,10 +113,9 @@ class _TopUpScreenState extends State<TopUpScreen> {
                       menuIcon: 'credit_card',
                       subtitle: 'Ramp network',
                       onTap: () {
-                        String url = showTransak
-                            ? viewModel.plugins.rampInstant!.widgetUrl!
-                                .replaceAll(RegExp(r'FUSE_FUSD'), 'USDC')
-                            : viewModel.plugins.rampInstant!.widgetUrl!;
+                        String url = showUSDC
+                            ? getIt<RemoteConfigService>().getOnrampUSDC
+                            : topupUrl;
                         openDepositWebview(
                           context: context,
                           url: url,
@@ -122,8 +123,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         Segment.track(
                           eventName: 'Deposit: Credit Card',
                           properties: Map.from({
-                            'provider':
-                                showTransak ? 'Ramp - USDC' : 'Ramp - FUSD'
+                            'provider': showUSDC ? 'Ramp - USDC' : 'Ramp - FUSD'
                           }),
                         );
                       },
@@ -134,11 +134,9 @@ class _TopUpScreenState extends State<TopUpScreen> {
                             menuIcon: 'credit_card',
                             subtitle: 'Ramp network',
                             onTap: () {
-                              final String url =
-                                  viewModel.plugins.rampInstant!.widgetUrl!;
                               openDepositWebview(
                                 context: context,
-                                url: url,
+                                url: topupUrl,
                               );
                               Segment.track(
                                 eventName: 'Deposit: Wire Transfer',
