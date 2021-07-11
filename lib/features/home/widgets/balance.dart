@@ -35,7 +35,9 @@ class Balance extends StatelessWidget {
               children: [
                 Flexible(
                   child: AutoSizeText(
-                    viewModel.usdValue,
+                    viewModel.token == null
+                        ? '\$${viewModel.usdValue}'
+                        : viewModel.token!.getBalance(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).canvasColor,
@@ -44,15 +46,17 @@ class Balance extends StatelessWidget {
                     maxLines: 1,
                   ),
                 ),
-                Flexible(
-                  child: Text(
-                    ' CURA',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).canvasColor,
-                    ),
-                  ),
-                ),
+                viewModel.token == null
+                    ? SizedBox.shrink()
+                    : Flexible(
+                        child: Text(
+                          ' ${viewModel.token?.symbol ?? ''}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).canvasColor,
+                          ),
+                        ),
+                      ),
               ],
             ),
           ],

@@ -20,7 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final fullNameController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  CountryCode countryCode = CountryCode(dialCode: '‎+599', code: 'AN');
+  CountryCode countryCode = CountryCode(dialCode: '+599', code: 'AN');
 
   @override
   Widget build(BuildContext context) {
