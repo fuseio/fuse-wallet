@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -55,69 +56,100 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<AppState>(
-      store: widget.store,
-      child: MaterialApp.router(
-        locale: _locale,
-        title: Strings.APP_NAME,
-        themeMode: ThemeMode.system,
-        routeInformationParser: rootRouter.defaultRouteParser(),
-        theme: FlexColorScheme.light(
-          fontFamily: 'Europa',
-          colors: FlexSchemeColor.from(
-            secondary: Color(0xFFF5F5F5),
-            secondaryVariant: Color(0xFF777777),
-            primary: Color(0xFF2A8FB5),
-            primaryVariant: Color(0xFF0E2373),
-            appBarColor: Color(0xFFFFFFFF),
-          ),
-        ).toTheme,
-        routerDelegate: rootRouter.delegate(
-          navigatorObservers: () => [
-            AutoRouteObserver(),
-            SentryNavigatorObserver(),
-          ],
-        ),
-        builder: (_, router) => ResponsiveWrapper.builder(
-          router!,
-          maxWidth: 1200,
-          minWidth: 400,
-          defaultScale: true,
-          breakpoints: [
-            ResponsiveBreakpoint.resize(480, name: MOBILE),
-            ResponsiveBreakpoint.autoScale(800, name: TABLET),
-            ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-            ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-            ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-          ],
-        ),
-        localizationsDelegates: [
-          LocaleNamesLocalizationsDelegate(),
-          I10n.delegate,
-          CountryLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: I10n.delegate.supportedLocales,
-        localeListResolutionCallback: (locales, supportedLocales) {
-          for (Locale locale in locales!) {
-            if (supportedLocales.contains(locale)) {
-              return locale;
-            }
-          }
-          return Locale('en', 'US');
-        },
-        localeResolutionCallback: (locale, supportedLocales) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale?.languageCode &&
-                supportedLocale.countryCode == locale?.countryCode) {
-              return supportedLocale;
-            }
-          }
-          return supportedLocales.first;
-        },
-      ),
+    return FutureBuilder(
+      future: getIt.allReady(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return StoreProvider<AppState>(
+            store: widget.store,
+            child: MaterialApp.router(
+              locale: _locale,
+              title: Strings.APP_NAME,
+              themeMode: ThemeMode.system,
+              routeInformationParser: rootRouter.defaultRouteParser(),
+              theme: FlexColorScheme.light(
+                fontFamily: 'Europa',
+                colors: FlexSchemeColor.from(
+                  secondary: Color(0xFFF5F5F5),
+                  secondaryVariant: Color(0xFF777777),
+                  primary: Color(0xFF2A8FB5),
+                  primaryVariant: Color(0xFF0E2373),
+                  appBarColor: Color(0xFFFFFFFF),
+                ),
+              ).toTheme,
+              routerDelegate: rootRouter.delegate(
+                navigatorObservers: () => [
+                  AutoRouteObserver(),
+                  SentryNavigatorObserver(),
+                ],
+              ),
+              builder: (_, router) => ResponsiveWrapper.builder(
+                router!,
+                maxWidth: 1200,
+                minWidth: 400,
+                defaultScale: true,
+                breakpoints: [
+                  ResponsiveBreakpoint.resize(480, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                  ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+                  ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+                  ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+                ],
+              ),
+              localizationsDelegates: [
+                I10n.delegate,
+                CountryLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                LocaleNamesLocalizationsDelegate(),
+              ],
+              supportedLocales: I10n.delegate.supportedLocales,
+              localeListResolutionCallback: (locales, supportedLocales) {
+                for (Locale locale in locales!) {
+                  if (supportedLocales.contains(locale)) {
+                    return locale;
+                  }
+                }
+                return Locale('en', 'US');
+              },
+              localeResolutionCallback: (locale, supportedLocales) {
+                for (var supportedLocale in supportedLocales) {
+                  if (supportedLocale.languageCode == locale?.languageCode &&
+                      supportedLocale.countryCode == locale?.countryCode) {
+                    return supportedLocale;
+                  }
+                }
+                return supportedLocales.first;
+              },
+            ),
+          );
+        } else {
+          return MaterialApp(
+            home: Scaffold(
+              body: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF0E2373),
+                      Color(0xFF2A8FB5),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/pincode_logo.png',
+                    width: 71,
+                    height: 61,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

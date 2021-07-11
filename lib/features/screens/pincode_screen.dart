@@ -40,8 +40,8 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Theme.of(context).primaryColorDark,
-              Theme.of(context).primaryColorLight,
+              Theme.of(context).colorScheme.primaryVariant,
+              Theme.of(context).colorScheme.primary,
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
