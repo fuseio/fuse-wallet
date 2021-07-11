@@ -18,12 +18,12 @@ import 'package:wallet_core/wallet_core.dart' as _i3;
 import '../../services/apis/explorer.dart' as _i5;
 import '../../services/apis/fuseswap.dart' as _i9;
 import '../../services/apis/market.dart' as _i12;
-import '../../utils/log/log_it.dart' as _i16;
+import '../../utils/log/log_it.dart' as _i15;
 import '../../utils/onboard/Istrategy.dart' as _i10;
-import '../../utils/remote_config.dart' as _i17;
+import '../../utils/remote_config.dart' as _i16;
 import '../network/services.dart' as _i18;
 import '../network/web3.dart' as _i25;
-import '../router/routes.dart' as _i15;
+import '../router/routes.dart' as _i17;
 import 'dio.dart' as _i19;
 import 'firebase.dart' as _i20;
 import 'logger_di.dart' as _i22;
@@ -65,7 +65,6 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
   await gh.factoryAsync<_i13.PackageInfo>(() => packageInfoDi.packageInfo,
       preResolve: true);
   gh.lazySingleton<_i14.PhoneNumberUtil>(() => phone.phoneNumberUtil);
-  gh.lazySingleton<_i15.RootRouter>(() => servicesModule.rootRouter);
   gh.factory<String>(() => web3Di.defaultCommunityAddress,
       instanceName: 'defaultCommunityAddress');
   gh.factoryParam<_i3.Web3, Map<dynamic, dynamic>?, dynamic>(
@@ -76,9 +75,10 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       (walletModules, _) => web3Di.ethereumWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
       instanceName: 'ethereumWeb3');
-  gh.lazySingleton<_i16.LogIt>(() => _i16.LogIt(get<_i11.Logger>()));
-  gh.singletonAsync<_i17.RemoteConfigService>(
-      () => _i17.RemoteConfigService.getInstance());
+  gh.lazySingleton<_i15.LogIt>(() => _i15.LogIt(get<_i11.Logger>()));
+  gh.singletonAsync<_i16.RemoteConfigService>(
+      () => _i16.RemoteConfigService.getInstance());
+  gh.singleton<_i17.RootRouter>(servicesModule.rootRouter);
   return get;
 }
 

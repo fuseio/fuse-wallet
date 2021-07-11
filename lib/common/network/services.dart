@@ -16,6 +16,6 @@ abstract class ServicesModule {
         dotenv.env['API_BASE_URL']!,
       );
 
-  @lazySingleton
+  @singleton
   RootRouter get rootRouter => RootRouter(authGuard: AuthGuard());
 }
