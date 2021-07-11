@@ -282,6 +282,8 @@
   "@pending": {},
   "phoneNumber": "Telefonnummer",
   "@phoneNumber": {},
+  "phrase_invaild": "One of the 12 words is invalid",
+  "@phrase_invaild": {},
   "pickup_display_name": "Wähle deinen Anzeigename",
   "@pickup_display_name": {},
   "pickup_display_name_text": "Dieser Name wird deinen Kontakten angezeigt, damit sie dich beim Versenden von Geld identifizieren können",

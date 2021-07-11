@@ -47,7 +47,9 @@ class CashHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Balance(),
+                    Flexible(
+                      child: Balance(),
+                    ),
                     Container(
                       width: 45,
                       height: 45,

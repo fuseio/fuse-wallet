@@ -29,7 +29,6 @@ class _$CommunityTearOff {
       @JsonKey(includeIfNull: false, defaultValue: '')
           String? homeTokenAddress,
       @JsonKey(includeIfNull: false)
-      @JsonKey(includeIfNull: false)
       @CommunityMetadataConverter()
           CommunityMetadata? metadata,
       @JsonKey(includeIfNull: false)
@@ -89,7 +88,6 @@ mixin _$Community {
   @JsonKey(includeIfNull: false, defaultValue: '')
   String? get homeTokenAddress => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  @JsonKey(includeIfNull: false)
   @CommunityMetadataConverter()
   CommunityMetadata? get metadata => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
@@ -130,7 +128,6 @@ abstract class $CommunityCopyWith<$Res> {
       bool isMember,
       @JsonKey(includeIfNull: false, defaultValue: '')
           String? homeTokenAddress,
-      @JsonKey(includeIfNull: false)
       @JsonKey(includeIfNull: false)
       @CommunityMetadataConverter()
           CommunityMetadata? metadata,
@@ -291,7 +288,6 @@ abstract class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Res> {
       @JsonKey(includeIfNull: false, defaultValue: '')
           String? homeTokenAddress,
       @JsonKey(includeIfNull: false)
-      @JsonKey(includeIfNull: false)
       @CommunityMetadataConverter()
           CommunityMetadata? metadata,
       @JsonKey(includeIfNull: false)
@@ -430,7 +426,6 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
       @JsonKey(includeIfNull: false, defaultValue: '')
           this.homeTokenAddress,
       @JsonKey(includeIfNull: false)
-      @JsonKey(includeIfNull: false)
       @CommunityMetadataConverter()
           this.metadata,
       @JsonKey(includeIfNull: false)
@@ -475,7 +470,6 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
   @JsonKey(includeIfNull: false, defaultValue: '')
   final String? homeTokenAddress;
   @override
-  @JsonKey(includeIfNull: false)
   @JsonKey(includeIfNull: false)
   @CommunityMetadataConverter()
   final CommunityMetadata? metadata;
@@ -629,7 +623,6 @@ abstract class _Community implements Community {
       @JsonKey(includeIfNull: false, defaultValue: '')
           String? homeTokenAddress,
       @JsonKey(includeIfNull: false)
-      @JsonKey(includeIfNull: false)
       @CommunityMetadataConverter()
           CommunityMetadata? metadata,
       @JsonKey(includeIfNull: false)
@@ -669,7 +662,6 @@ abstract class _Community implements Community {
   @JsonKey(includeIfNull: false, defaultValue: '')
   String? get homeTokenAddress => throw _privateConstructorUsedError;
   @override
-  @JsonKey(includeIfNull: false)
   @JsonKey(includeIfNull: false)
   @CommunityMetadataConverter()
   CommunityMetadata? get metadata => throw _privateConstructorUsedError;

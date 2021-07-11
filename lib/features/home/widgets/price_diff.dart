@@ -19,17 +19,21 @@ class PriceDiff extends StatefulWidget {
 }
 
 class _PriceDiffState extends State<PriceDiff> {
-  String limit = '1';
+  String limit = '7';
 
   Widget _limitButton(
     Token token,
-    Function(String tokenAddress, String limit) fetchPriceDiff,
+    Function(
+      Token token,
+      String limit,
+    )
+        fetchPriceDiff,
     String value,
     String l,
   ) {
     return InkWell(
       onTap: () {
-        fetchPriceDiff(widget.tokenAddress, l);
+        fetchPriceDiff(token, l);
         setState(() {
           limit = limit;
         });
@@ -43,7 +47,7 @@ class _PriceDiffState extends State<PriceDiff> {
           ),
           color: token.priceDiffLimitInDays.toString() == l
               ? Theme.of(context).colorScheme.onSurface
-              : Theme.of(context).colorScheme.secondary,
+              : Color(0xFFE6E6E6),
         ),
         alignment: Alignment.center,
         width: 47,
@@ -139,12 +143,22 @@ class _PriceDiffState extends State<PriceDiff> {
       distinct: true,
       converter: PriceDiffViewModel.fromStore,
       onInit: (store) {
+        final Token? token =
+            store.state.cashWalletState.tokens[widget.tokenAddress];
         store.dispatch(
           getTokenPriceDiffCall(
             widget.tokenAddress,
             limit,
           ),
         );
+        if (token != null) {
+          store.dispatch(
+            getTokenStatsCall(
+              token,
+              limit: limit,
+            ),
+          );
+        }
       },
       builder: (_, viewModel) {
         final Token? token = viewModel.tokens[widget.tokenAddress];
@@ -154,9 +168,6 @@ class _PriceDiffState extends State<PriceDiff> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 40,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -165,17 +176,17 @@ class _PriceDiffState extends State<PriceDiff> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        _limitButton(
-                          token!,
-                          viewModel.fetchPriceDiff,
-                          '24H',
-                          '1',
-                        ),
+                        // _limitButton(
+                        //   token!,
+                        //   viewModel.fetchPriceDiff,
+                        //   '24H',
+                        //   '1',
+                        // ),
                         SizedBox(
                           width: 10,
                         ),
                         _limitButton(
-                          token,
+                          token!,
                           viewModel.fetchPriceDiff,
                           '1W',
                           '7',

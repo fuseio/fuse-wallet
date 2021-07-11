@@ -635,14 +635,13 @@ ThunkAction sendTokenCall(
         if (fuseWeb3 == null) {
           throw 'web3 is empty';
         }
-        String tokenAddress = token.address;
 
         log.info(
-            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
+            'Sending ${token.name} $tokensAmount from $walletAddress to $receiverAddress');
         dynamic response = await api.tokenTransfer(
           fuseWeb3!,
           walletAddress,
-          tokenAddress,
+          token.address,
           receiverAddress,
           tokensAmount,
         );
@@ -847,12 +846,15 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten: isRopsten,
         ),
       );
-      store.dispatch(
-        joinCommunityCall(
-          newCommunity,
-          communityToken,
-        ),
-      );
+      if (communityAddress.toLowerCase() !=
+          defaultCommunityAddress.toLowerCase()) {
+        store.dispatch(
+          joinCommunityCall(
+            newCommunity,
+            communityToken,
+          ),
+        );
+      }
       store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
@@ -892,12 +894,15 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
           homeTokenAddress: communityToken.address,
         ),
       ));
-      store.dispatch(
-        getBusinessListCall(
-          communityAddress: communityAddress,
-          isRopsten: isRopsten,
-        ),
-      );
+      if (communityAddress.toLowerCase() !=
+          defaultCommunityAddress.toLowerCase()) {
+        store.dispatch(
+          getBusinessListCall(
+            communityAddress: communityAddress,
+            isRopsten: isRopsten,
+          ),
+        );
+      }
       store.dispatch(
         fetchCommunityMetadataCall(
           communityAddress,
@@ -1072,8 +1077,7 @@ ThunkAction getWalletActionsCall() {
         ));
       }
     } catch (e, s) {
-      log.error('ERROR - getWalletActionsCall ${e.toString()}}');
-      log.error('ERROR stack trace - getWalletActionsCall ${s.toString()}}');
+      log.error('ERROR - getWalletActionsCall ${e.toString()} ${s.toString()}');
     }
   };
 }
@@ -1084,7 +1088,7 @@ ThunkAction updateTokensPrices() {
     for (Token token in tokens.values) {
       store.dispatch(getTokenPriceCall(token));
       store.dispatch(getTokenPriceChangeCall(token));
-      store.dispatch(getTokenStatsCall(token));
+      // store.dispatch(getTokenStatsCall(token));
     }
   };
 }
@@ -1156,7 +1160,10 @@ ThunkAction getTokenPriceChangeCall(Token token) {
   };
 }
 
-ThunkAction getTokenStatsCall(Token token) {
+ThunkAction getTokenStatsCall(
+  Token token, {
+  String limit = '30',
+}) {
   return (Store store) async {
     try {
       void Function(List<Stats>) onDone = (List<Stats> stats) {
@@ -1167,13 +1174,16 @@ ThunkAction getTokenStatsCall(Token token) {
           ),
         );
       };
-      void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
+      void Function(Object error, StackTrace stackTrace) onError = (
+        Object error,
+        StackTrace stackTrace,
+      ) {
         log.error('Error getTokenStatsCall - ${token.name} - $error ');
       };
       await token.fetchStats(
         onDone: onDone,
         onError: onError,
+        limit: limit,
       );
     } catch (e) {
       log.error('Error getTokenStatsCall for ${token.name}');

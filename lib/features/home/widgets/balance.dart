@@ -18,11 +18,13 @@ class Balance extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Text(
-              I10n.of(context).balance,
-              style: TextStyle(
-                color: Color(0xFF454545),
-                fontSize: 13.0,
+            Flexible(
+              child: Text(
+                I10n.of(context).balance,
+                style: TextStyle(
+                  color: Color(0xFF454545),
+                  fontSize: 13.0,
+                ),
               ),
             ),
             Flexible(

@@ -76,7 +76,9 @@ class ImageUrl {
       ),
       joinCommunity: (value) =>
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
-      fiatDeposit: (value) => tokensImages.containsKey(value.tokenAddress)
+      fiatDeposit: (value) => getTokenByAddress(
+                  value.tokenAddress, tokensImages) !=
+              null
           ? NetworkImage(getTokenByAddress(value.tokenAddress, tokensImages)!)
           : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       bonus: (value) => AssetImage(

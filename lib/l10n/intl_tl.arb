@@ -282,6 +282,8 @@
   "@pending": {},
   "phoneNumber": "Numero ng telepono",
   "@phoneNumber": {},
+  "phrase_invaild": "One of the 12 words is invalid",
+  "@phrase_invaild": {},
   "pickup_display_name": "Piliin ang pangalan ng iyong Display",
   "@pickup_display_name": {},
   "pickup_display_name_text": "Ang pangalan na ito ay ipapakita sa mga kontak na nagpapadala sa iyo ng pera upang makilala ang iyong account",

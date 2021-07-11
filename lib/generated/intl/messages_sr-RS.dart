@@ -232,6 +232,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "FuseDollar is fully collateralized by the USD Coin (USDC) on Fuse. Issued by circle.com, USDC is a fully dollar-backed, regulated stablecoin that is widely recognized in the cryptocurrency space."),
         "pending": MessageLookupByLibrary.simpleMessage("НЕРЕШЕНО"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Број телефона"),
+        "phrase_invaild": MessageLookupByLibrary.simpleMessage(
+            "One of the 12 words is invalid"),
         "pickup_display_name":
             MessageLookupByLibrary.simpleMessage("Изабери име за приказ"),
         "pickup_display_name_text": MessageLookupByLibrary.simpleMessage(
