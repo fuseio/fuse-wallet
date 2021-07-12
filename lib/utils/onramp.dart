@@ -1,3 +1,5 @@
+import 'package:fusecash/utils/addresses.dart';
+
 final List<String> countriesWithTransak = [
   'Vietnam',
   'Indonesia',
@@ -40,3 +42,7 @@ final List<String> countriesWithWireTransfer = [
   "Sweden",
   "Switzerland",
 ];
+
+String withWebhookUrl(String url, String walletAddress) {
+  return url + '&webhookStatusUrl=https://studio.fuse.io/api/v1/deposits/ramp/$walletAddress/$defaultCommunityAddress';
+}

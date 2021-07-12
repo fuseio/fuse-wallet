@@ -10,6 +10,7 @@ import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
 import 'package:fusecash/utils/log/log.dart';
+import 'package:fusecash/utils/onramp.dart';
 import 'package:fusecash/utils/remote_config.dart';
 import 'package:fusecash/utils/webview.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
@@ -118,7 +119,10 @@ class _TopUpScreenState extends State<TopUpScreen> {
                             : topupUrl;
                         openDepositWebview(
                           context: context,
-                          url: url,
+                          url: withWebhookUrl(
+                            url,
+                            viewModel.walletAddress,
+                          ),
                         );
                         Segment.track(
                           eventName: 'Deposit: Credit Card',
@@ -136,7 +140,10 @@ class _TopUpScreenState extends State<TopUpScreen> {
                             onTap: () {
                               openDepositWebview(
                                 context: context,
-                                url: topupUrl,
+                                url: withWebhookUrl(
+                                  topupUrl,
+                                  viewModel.walletAddress,
+                                ),
                               );
                               Segment.track(
                                 eventName: 'Deposit: Wire Transfer',
