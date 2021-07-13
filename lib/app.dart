@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
@@ -77,13 +80,39 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     setJwtToken(widget.store);
     listenDynamicLinks(widget.store);
+    getIt<AppsflyerSdk>().enableFacebookDeferredApplinks(true);
+    getIt<AppsflyerSdk>().onAppOpenAttribution((res) {
+      log.info("onAppOpenAttribution res: " + res.toString());
+    });
+    getIt<AppsflyerSdk>().onInstallConversionData((res) {
+      if (kReleaseMode) {
+        Segment.track(
+          eventName: 'New user from campaign',
+          properties: {
+            ...res,
+          },
+        );
+      } else {
+        log.info("onInstallConversionData res: " + res.toString());
+      }
+    });
+    getIt<AppsflyerSdk>().onDeepLinking((res) {
+      log.info("onDeepLinking res: " + res.toString());
+    });
     _locale = widget.store.state.userState.locale;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getIt.allReady(),
+      future: Future.wait([
+        getIt<AppsflyerSdk>().initSdk(
+          registerConversionDataCallback: true,
+          registerOnAppOpenAttributionCallback: true,
+          registerOnDeepLinkingCallback: true,
+        ),
+        getIt.allReady(),
+      ]),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return StoreProvider<AppState>(

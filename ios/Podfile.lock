@@ -3,6 +3,12 @@ PODS:
   - Analytics (3.7.0)
   - app_tracking_transparency (0.0.1):
     - Flutter
+  - appsflyer_sdk (6.2.0):
+    - AppsFlyerFramework (= 6.3.2)
+    - Flutter
+  - AppsFlyerFramework (6.3.2):
+    - AppsFlyerFramework/Main (= 6.3.2)
+  - AppsFlyerFramework/Main (6.3.2)
   - Branch (1.39.3)
   - contacts_service (0.2.2):
     - Flutter
@@ -178,6 +184,7 @@ PODS:
 
 DEPENDENCIES:
   - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
+  - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - facebook_app_events (from `.symlinks/plugins/facebook_app_events/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -212,6 +219,7 @@ SPEC REPOS:
   trunk:
     - Amplitude-iOS
     - Analytics
+    - AppsFlyerFramework
     - Branch
     - FBSDKCoreKit
     - Firebase
@@ -238,6 +246,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   app_tracking_transparency:
     :path: ".symlinks/plugins/app_tracking_transparency/ios"
+  appsflyer_sdk:
+    :path: ".symlinks/plugins/appsflyer_sdk/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   facebook_app_events:
@@ -301,6 +311,8 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 46c8e6e65c49bb1ad1909a9add1a68e1f8562b3f
   Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
+  appsflyer_sdk: ca0dc5172a2bd2bdf32b3272a9729c203aa8fba7
+  AppsFlyerFramework: c66d79d965ccc2f44fd5db3df3d214428cc7665a
   Branch: 13df8e1a6985745a03389146df1eeda723645a97
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   facebook_app_events: 3f4d7bb584f5ab326f2009a1e13e69b02ba35906

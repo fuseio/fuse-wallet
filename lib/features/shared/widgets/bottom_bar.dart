@@ -9,6 +9,7 @@ import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 class BottomBar extends StatefulWidget {
   late final TabsRouter tabsRouter;
@@ -86,10 +87,10 @@ class _BottomBarState extends State<BottomBar> {
               widget.tabsRouter.setActiveIndex(activeIndex);
             }
             if (vm.isContactsSynced == null &&
-                widget.tabsRouter.activeIndex == 1 &&
+                activeIndex == 1 &&
                 !isContactSynced) {
               Future.delayed(
-                Duration.zero,
+                Duration(milliseconds: 200),
                 () => showDialog(
                   context: context,
                   builder: (_) => ContactsConfirmationScreen(),
