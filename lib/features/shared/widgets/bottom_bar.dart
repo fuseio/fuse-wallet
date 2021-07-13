@@ -9,7 +9,6 @@ import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/log/log.dart';
 
 class BottomBar extends StatefulWidget {
   late final TabsRouter tabsRouter;
