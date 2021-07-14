@@ -4,7 +4,6 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:appsflyer_sdk/appsflyer_sdk.dart' as _i16;
 import 'package:dio/dio.dart' as _i4;
 import 'package:firebase_auth/firebase_auth.dart' as _i7;
 import 'package:firebase_core/firebase_core.dart' as _i6;
@@ -21,16 +20,16 @@ import '../../services/apis/fuseswap.dart' as _i9;
 import '../../services/apis/market.dart' as _i12;
 import '../../utils/log/log_it.dart' as _i15;
 import '../../utils/onboard/Istrategy.dart' as _i10;
-import '../../utils/remote_config.dart' as _i17;
-import '../network/services.dart' as _i19;
-import '../network/web3.dart' as _i26;
-import '../router/routes.dart' as _i18;
-import 'dio.dart' as _i20;
-import 'firebase.dart' as _i21;
-import 'logger_di.dart' as _i23;
-import 'onboard.dart' as _i22;
-import 'package_info.dart' as _i24;
-import 'phone.dart' as _i25; // ignore_for_file: unnecessary_lambdas
+import '../../utils/remote_config.dart' as _i16;
+import '../network/services.dart' as _i18;
+import '../network/web3.dart' as _i25;
+import '../router/routes.dart' as _i17;
+import 'dio.dart' as _i19;
+import 'firebase.dart' as _i20;
+import 'logger_di.dart' as _i22;
+import 'onboard.dart' as _i21;
+import 'package_info.dart' as _i23;
+import 'phone.dart' as _i24; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -77,25 +76,24 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
       instanceName: 'ethereumWeb3');
   gh.lazySingleton<_i15.LogIt>(() => _i15.LogIt(get<_i11.Logger>()));
-  gh.singleton<_i16.AppsflyerSdk>(servicesModule.appsFlyer);
-  gh.singletonAsync<_i17.RemoteConfigService>(
-      () => _i17.RemoteConfigService.getInstance());
-  gh.singleton<_i18.RootRouter>(servicesModule.rootRouter);
+  gh.singletonAsync<_i16.RemoteConfigService>(
+      () => _i16.RemoteConfigService.getInstance());
+  gh.singleton<_i17.RootRouter>(servicesModule.rootRouter);
   return get;
 }
 
-class _$ServicesModule extends _i19.ServicesModule {}
+class _$ServicesModule extends _i18.ServicesModule {}
 
-class _$DioDi extends _i20.DioDi {}
+class _$DioDi extends _i19.DioDi {}
 
-class _$FirebaseInjectableModule extends _i21.FirebaseInjectableModule {}
+class _$FirebaseInjectableModule extends _i20.FirebaseInjectableModule {}
 
-class _$OnBoardStrategy extends _i22.OnBoardStrategy {}
+class _$OnBoardStrategy extends _i21.OnBoardStrategy {}
 
-class _$LoggerDi extends _i23.LoggerDi {}
+class _$LoggerDi extends _i22.LoggerDi {}
 
-class _$PackageInfoDi extends _i24.PackageInfoDi {}
+class _$PackageInfoDi extends _i23.PackageInfoDi {}
 
-class _$Phone extends _i25.Phone {}
+class _$Phone extends _i24.Phone {}
 
-class _$Web3Di extends _i26.Web3Di {}
+class _$Web3Di extends _i25.Web3Di {}

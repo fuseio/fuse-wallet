@@ -100,6 +100,26 @@ class I10n {
     );
   }
 
+  /// `Please make sure the address you are sending funds to is on the Fuse Network.`
+  String get address_on_fuse {
+    return Intl.message(
+      'Please make sure the address you are sending funds to is on the Fuse Network.',
+      name: 'address_on_fuse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To send funds between Fuse and other networks like Ethereum of BSC please use the link below:`
+  String get address_on_other {
+    return Intl.message(
+      'To send funds between Fuse and other networks like Ethereum of BSC please use the link below:',
+      name: 'address_on_other',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Amount`
   String get amount {
     return Intl.message(
@@ -370,6 +390,16 @@ class I10n {
     );
   }
 
+  /// `Continue`
+  String get continue_button {
+    return Intl.message(
+      'Continue',
+      name: 'continue_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Continue with`
   String get continue_with {
     return Intl.message(
@@ -585,6 +615,16 @@ class I10n {
     return Intl.message(
       'Dismiss',
       name: 'dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't show next time`
+  String get dont_show_next_time {
+    return Intl.message(
+      'Don\'t show next time',
+      name: 'dont_show_next_time',
       desc: '',
       args: [],
     );

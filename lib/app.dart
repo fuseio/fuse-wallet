@@ -6,6 +6,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late AppsflyerSdk _appsflyerSdk;
   late StreamSubscription<Map> streamSubscription;
   Locale? _locale;
   setLocale(Locale locale) {
@@ -79,33 +81,45 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     setJwtToken(widget.store);
     listenDynamicLinks(widget.store);
-    getIt<AppsflyerSdk>().enableFacebookDeferredApplinks(true);
-    getIt<AppsflyerSdk>().onAppOpenAttribution((res) {
+    _locale = widget.store.state.userState.locale;
+    final AppsFlyerOptions options = AppsFlyerOptions(
+      afDevKey: dotenv.env['APPS_FLYER_DEV_KEY']!,
+      appId: '1559937899',
+      showDebug: kDebugMode,
+      timeToWaitForATTUserAuthorization: 30,
+    );
+    _appsflyerSdk = AppsflyerSdk(options);
+    _appsflyerSdk.enableFacebookDeferredApplinks(true);
+    _appsflyerSdk.onAppOpenAttribution((res) {
       log.info("onAppOpenAttribution res: " + res.toString());
     });
-    getIt<AppsflyerSdk>().onInstallConversionData((res) {
-      if (kReleaseMode) {
-        Segment.track(
-          eventName: 'New user from campaign',
-          properties: {
-            ...res,
-          },
-        );
-      } else {
-        log.info("onInstallConversionData res: " + res.toString());
+    _appsflyerSdk.onInstallConversionData((res) {
+      log.info("onInstallConversionData res: " + res.toString());
+      if (res['status'] == 'success') {
+        final bool isFirstTime = res['payload']['is_first_launch'] ?? false;
+        final String? campaign = res['payload']['campaign'];
+        if (isFirstTime &&
+            campaign != null &&
+            campaign.toLowerCase() == 'facebook') {
+          Segment.track(
+            eventName: 'New user from campaign',
+            properties: {
+              ...res,
+            },
+          );
+        }
       }
     });
-    getIt<AppsflyerSdk>().onDeepLinking((res) {
+    _appsflyerSdk.onDeepLinking((res) {
       log.info("onDeepLinking res: " + res.toString());
     });
-    _locale = widget.store.state.userState.locale;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Future.wait([
-        getIt<AppsflyerSdk>().initSdk(
+        _appsflyerSdk.initSdk(
           registerConversionDataCallback: true,
           registerOnAppOpenAttributionCallback: true,
           registerOnDeepLinkingCallback: true,

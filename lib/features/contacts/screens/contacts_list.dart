@@ -114,11 +114,11 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   void resetSearch() {
-    FocusScope.of(context).unfocus();
     if (mounted) {
       setState(() {
         searchController.text = '';
       });
+      WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
     }
   }
 

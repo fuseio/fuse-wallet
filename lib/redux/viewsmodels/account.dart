@@ -20,7 +20,7 @@ class AccountViewModel extends Equatable {
       isBackup: store.state.userState.backup,
       displayName: store.state.userState.displayName,
       avatarUrl: store.state.userState.avatarUrl,
-      walletAddress: store.state.userState.walletAddress.replaceFirst('x', 'f'),
+      walletAddress: store.state.userState.walletAddress,
     );
   }
 

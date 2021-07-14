@@ -26,7 +26,7 @@ class ProfileViewModel extends Equatable {
       displayName: store.state.userState.displayName,
       phone: store.state.userState.phoneNumber,
       avatarUrl: store.state.userState.avatarUrl,
-      walletAddress: store.state.userState.walletAddress.replaceFirst('x', 'f'),
+      walletAddress: store.state.userState.walletAddress,
       editAvatar: (source) {
         store.dispatch(updateUserAvatarCall(source));
       },

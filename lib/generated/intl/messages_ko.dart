@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("활성화"),
         "activity": MessageLookupByLibrary.simpleMessage("활동"),
         "address": MessageLookupByLibrary.simpleMessage("주소"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("금액"),
         "approved": MessageLookupByLibrary.simpleMessage("승인됨"),
         "assets_and_contracts":
@@ -63,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("문의하기"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("지원 문의하기"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("계속할 방식:"),
         "copied_to_clipboard":
             MessageLookupByLibrary.simpleMessage("클립보드에 복사됨"),
@@ -95,6 +100,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("메시지를 못 받으셨나요? -"),
         "dismiss": MessageLookupByLibrary.simpleMessage("해제"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("걱정하지 마세요."),
         "earn": MessageLookupByLibrary.simpleMessage("벌기"),
         "earn_description": MessageLookupByLibrary.simpleMessage(

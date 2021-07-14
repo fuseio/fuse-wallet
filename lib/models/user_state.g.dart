@@ -32,6 +32,7 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
     phoneNumber: json['phoneNumber'] as String? ?? '',
     receiveBackupDialogShowed:
         json['receiveBackupDialogShowed'] as bool? ?? false,
+    warnSendDialogShowed: json['warnSendDialogShowed'] as bool? ?? false,
     isoCode: json['isoCode'] as String? ?? '',
     jwtToken: json['jwtToken'] as String? ?? '',
     displayName: json['displayName'] as String? ?? 'Anom',
@@ -70,6 +71,7 @@ Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
       'countryCode': instance.countryCode,
       'phoneNumber': instance.phoneNumber,
       'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
+      'warnSendDialogShowed': instance.warnSendDialogShowed,
       'isoCode': instance.isoCode,
       'jwtToken': instance.jwtToken,
       'displayName': instance.displayName,

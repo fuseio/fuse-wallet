@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("ဖွင့်မည်"),
         "activity": MessageLookupByLibrary.simpleMessage("ဖြစ်စဉ် လုပ်ရပ်များ"),
         "address": MessageLookupByLibrary.simpleMessage("လိပ်စာ"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("ပမာဏ"),
         "approved": MessageLookupByLibrary.simpleMessage("အတည်ပြုပြီး"),
         "assets_and_contracts": MessageLookupByLibrary.simpleMessage(
@@ -68,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("ဆက်သွယ်ရန်"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("အကူအညီရယူရန် ဆက်သွည်ပါ"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with":
             MessageLookupByLibrary.simpleMessage("နှင့် ရှေ့ဆက်မည်"),
         "copied_to_clipboard": MessageLookupByLibrary.simpleMessage(
@@ -109,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("message မရဘူးလား?"),
         "dismiss": MessageLookupByLibrary.simpleMessage("ပိတ်မည်"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("စိတ်မပူပါနဲ့"),
         "earn": MessageLookupByLibrary.simpleMessage("ပိုက်ဆံရှာရန်"),
         "earn_description": MessageLookupByLibrary.simpleMessage(

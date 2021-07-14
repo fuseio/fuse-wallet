@@ -1,5 +1,3 @@
-import 'package:appsflyer_sdk/appsflyer_sdk.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:fusecash/common/router/route_guards.dart';
@@ -20,14 +18,4 @@ abstract class ServicesModule {
 
   @singleton
   RootRouter get rootRouter => RootRouter(authGuard: AuthGuard());
-
-  @singleton
-  AppsflyerSdk get appsFlyer => AppsflyerSdk(
-        AppsFlyerOptions(
-          afDevKey: dotenv.env['APPS_FLYER_DEV_KEY']!,
-          appId: '1559937899',
-          showDebug: kDebugMode,
-          timeToWaitForATTUserAuthorization: 30,
-        ),
-      );
 }

@@ -10,6 +10,7 @@ import 'package:fusecash/features/shared/widgets/copy.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:fusecash/features/shared/widgets/preloader.dart';
 import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 
 class ShowMnemonic extends StatelessWidget {
   Widget wordWidget(
@@ -31,6 +32,21 @@ class ShowMnemonic extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).back_up,
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(
+            right: 20,
+          ),
+          child: GestureDetector(
+            onTap: () async {
+              await Intercom.displayArticle('5347965');
+            },
+            child: Icon(
+              Icons.help_outline,
+            ),
+          ),
+        )
+      ],
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

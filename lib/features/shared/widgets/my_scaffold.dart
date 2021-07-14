@@ -7,8 +7,10 @@ class MyScaffold extends StatelessWidget {
     required this.body,
     this.automaticallyImplyLeading = true,
     this.resizeToAvoidBottomInset = true,
+    this.actions,
   });
   final String title;
+  final List<Widget>? actions;
   final Widget body;
   final bool automaticallyImplyLeading;
   final bool resizeToAvoidBottomInset;
@@ -18,6 +20,7 @@ class MyScaffold extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: AppBar(
+        actions: actions,
         automaticallyImplyLeading: automaticallyImplyLeading,
         backgroundColor: Theme.of(context).canvasColor,
         centerTitle: true,

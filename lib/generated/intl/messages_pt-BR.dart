@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("Ativar"),
         "activity": MessageLookupByLibrary.simpleMessage("Atividade"),
         "address": MessageLookupByLibrary.simpleMessage("endereço"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("quantidade"),
         "approved": MessageLookupByLibrary.simpleMessage("Aprovado"),
         "assets_and_contracts":
@@ -70,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Entre em contato conosco"),
         "contact_us_for_support": MessageLookupByLibrary.simpleMessage(
             "Entre em contato conosco para obter suporte"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("continue com"),
         "copied_to_clipboard": MessageLookupByLibrary.simpleMessage(
             "Copiado para a área de transferência"),
@@ -109,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("Não recebeu a mensagem? -"),
         "dismiss": MessageLookupByLibrary.simpleMessage("Descartar"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("Não se preocupe"),
         "earn": MessageLookupByLibrary.simpleMessage("Ganhar"),
         "earn_description": MessageLookupByLibrary.simpleMessage(

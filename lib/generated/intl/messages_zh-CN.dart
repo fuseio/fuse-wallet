@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("激活"),
         "activity": MessageLookupByLibrary.simpleMessage("活动"),
         "address": MessageLookupByLibrary.simpleMessage("地址"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("金额"),
         "approved": MessageLookupByLibrary.simpleMessage("已批准"),
         "assets_and_contracts": MessageLookupByLibrary.simpleMessage("资产和合同"),
@@ -59,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("联系我们"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("联系我们以获取支持"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("继续"),
         "copied_to_clipboard": MessageLookupByLibrary.simpleMessage("已复制到剪贴板"),
         "copy_to_clipboard": MessageLookupByLibrary.simpleMessage("复制到剪贴板"),
@@ -88,6 +93,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("存入您的第一笔资金"),
         "didnt_get_message": MessageLookupByLibrary.simpleMessage("没收到消息？-"),
         "dismiss": MessageLookupByLibrary.simpleMessage("取消"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("别担心："),
         "earn": MessageLookupByLibrary.simpleMessage("赚取"),
         "earn_description": MessageLookupByLibrary.simpleMessage(

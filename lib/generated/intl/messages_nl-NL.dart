@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("Activeer"),
         "activity": MessageLookupByLibrary.simpleMessage("Activiteit"),
         "address": MessageLookupByLibrary.simpleMessage("Adres"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("Bedrag"),
         "approved": MessageLookupByLibrary.simpleMessage("Goedgekeurd"),
         "assets_and_contracts":
@@ -68,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("Neem contact op"),
         "contact_us_for_support": MessageLookupByLibrary.simpleMessage(
             "Contracteer ons voor ondersteuning"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("Doorgaan met"),
         "copied_to_clipboard":
             MessageLookupByLibrary.simpleMessage("Gekopieerd naar klembord"),
@@ -106,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_get_message": MessageLookupByLibrary.simpleMessage(
             "Heb je het bericht niet ontvangen? - "),
         "dismiss": MessageLookupByLibrary.simpleMessage("Afwijzen"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry":
             MessageLookupByLibrary.simpleMessage("Maak je geen zorgen:"),
         "earn": MessageLookupByLibrary.simpleMessage("Verdien"),

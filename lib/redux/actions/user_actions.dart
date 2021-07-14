@@ -39,6 +39,12 @@ class UpdateLocale {
   UpdateLocale({required this.locale});
 }
 
+
+class WarnSendDialogShowed {
+  final bool value;
+  WarnSendDialogShowed(this.value,);
+}
+
 class HomeBackupDialogShowed {
   HomeBackupDialogShowed();
 }
