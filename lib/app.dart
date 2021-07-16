@@ -87,6 +87,7 @@ class _MyAppState extends State<MyApp> {
       appId: '1559937899',
       showDebug: kDebugMode,
       timeToWaitForATTUserAuthorization: 30,
+      disableAdvertisingIdentifier: false,
     );
     _appsflyerSdk = AppsflyerSdk(options);
     _appsflyerSdk.enableFacebookDeferredApplinks(true);

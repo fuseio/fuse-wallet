@@ -71,6 +71,10 @@
 		<string>b1359d73fc4c458890c15417e28d8031</string>
 		<key>FacebookDisplayName</key>
 		<string>fuse.cash</string>
+		<key>FacebookAutoLogAppEventsEnabled</key>
+    <true/>
+    <key>FacebookAdvertiserIDCollectionEnabled</key>
+    <true/>
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
 		<key>ITSAppUsesNonExemptEncryption</key>

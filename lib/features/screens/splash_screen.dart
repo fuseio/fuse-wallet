@@ -7,6 +7,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/l10n.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
+        store.dispatch(getRewardData());
         await AppTrackingTransparency.requestTrackingAuthorization();
       }
       if (BiometricAuth.faceID == userState.authType ||

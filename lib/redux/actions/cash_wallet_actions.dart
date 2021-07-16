@@ -15,6 +15,7 @@ import 'package:fusecash/models/community/business_metadata.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:fusecash/models/reward/reward_claim.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/stats.dart';
@@ -30,6 +31,13 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
+
+class UpdateNextReward {
+  final RewardClaim rewardClaim;
+  UpdateNextReward({
+    required this.rewardClaim,
+  });
+}
 
 class AddCashTokens {
   final Map<String, Token> tokens;
@@ -1252,5 +1260,41 @@ ThunkAction refresh() {
     store.dispatch(startFetchingCall());
     store.dispatch(startFetchTokensBalances());
     store.dispatch(updateTokensPrices());
+  };
+}
+
+ThunkAction getRewardData() {
+  return (Store store) async {
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      Map<String, dynamic> response = await api.getNextReward(
+        walletAddress,
+      );
+      if (response['rewardAmount'] != null) {
+        RewardClaim rewardClaim = RewardClaim.fromJson(
+          response['rewardAmount'],
+        );
+        store.dispatch(
+          UpdateNextReward(
+            rewardClaim: rewardClaim,
+          ),
+        );
+      }
+    } catch (e, s) {
+      log.error('Error in getRewardData: ${e.toString()} ${s.toString()}');
+    }
+  };
+}
+
+ThunkAction claimUserReward() {
+  return (Store store) async {
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      Map<String, dynamic> response = await api.claimReward(
+        walletAddress,
+      );
+    } catch (e, s) {
+      log.error('Error in getRewardData: ${e.toString()} ${s.toString()}');
+    }
   };
 }
