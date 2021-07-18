@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
@@ -5,6 +8,7 @@ import 'package:fusecash/features/shared/dialogs/warn_send.dart';
 import 'package:fusecash/redux/viewsmodels/warn_send.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
@@ -49,11 +53,32 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
 
   @override
   void onCallRequestEthSendTransaction(int? id, String? result) async {
-    log.info('onCallRequestEthSendTransaction $id $result');
+    Map data = json.decode(result!);
+    log.info('a $data');
+    final String from = checksumEthereumAddress(data['from']);
+    final String to = checksumEthereumAddress(data['to']);
+    Map<String, dynamic> signedData = await fuseWeb3!.callContractOffChainV2(
+      from,
+      to,
+      BigInt.parse(data['value']),
+      data['data'].replaceFirst(
+        '0x',
+        '',
+      ),
+    );
     final WalletConnectResponse walletConnectResponse =
-        await conn.approveCallRequest(id!, result!);
+        await conn.approveCallRequest(id!, result);
     log.info(
         'onCallRequestEthSendTransaction: walletConnectResponse ${walletConnectResponse.toString()}');
+    final response = await api.multiRelay([signedData]);
+    // dynamic response = await api.callContractV2(
+    //   data['from'],
+    //   data['to'],
+    //   data['value'],
+    //   data['data'],
+    // );
+    log.info('response ${response.toString()}');
+    log.info('onCallRequestEthSendTransaction $id $result');
   }
 
   @override
@@ -85,7 +110,9 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
   @override
   void onSessionRequest(int? id, String? requestInJson) async {
     await conn.approveSession(
-      ['0x862Bd4208b2F6ed64Ce92AAdA2669d3c5CC705d9'],
+      [
+        '0x862Bd4208b2F6ed64Ce92AAdA2669d3c5CC705d9',
+      ],
       122,
     );
     log.info('onSessionRequest $requestInJson');
