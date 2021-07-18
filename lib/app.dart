@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
@@ -21,6 +22,7 @@ import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:advertising_id/advertising_id.dart';
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
@@ -90,6 +92,14 @@ class _MyAppState extends State<MyApp> {
       disableAdvertisingIdentifier: false,
     );
     _appsflyerSdk = AppsflyerSdk(options);
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      if (Platform.isAndroid) {
+        final String? advertisingId = await AdvertisingId.id(true);
+        if (advertisingId != null) {
+          _appsflyerSdk.setAndroidIdData(advertisingId);
+        }
+      }
+    });
     _appsflyerSdk.enableFacebookDeferredApplinks(true);
     _appsflyerSdk.onAppOpenAttribution((res) {
       log.info("onAppOpenAttribution res: " + res.toString());

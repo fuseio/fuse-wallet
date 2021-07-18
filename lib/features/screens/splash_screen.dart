@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
@@ -7,10 +9,10 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -48,8 +50,13 @@ class _SplashScreenState extends State<SplashScreen> {
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
-        store.dispatch(getRewardData());
-        await AppTrackingTransparency.requestTrackingAuthorization();
+        final TrackingStatus trackingStatus =
+            await AppTrackingTransparency.requestTrackingAuthorization();
+        if (trackingStatus == TrackingStatus.authorized && Platform.isIOS) {
+          final String uuid =
+              await AppTrackingTransparency.getAdvertisingIdentifier();
+          log.info('uuid $uuid');
+        }
       }
       if (BiometricAuth.faceID == userState.authType ||
           BiometricAuth.touchID == userState.authType) {

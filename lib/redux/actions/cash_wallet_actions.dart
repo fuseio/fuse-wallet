@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -381,7 +382,13 @@ ThunkAction generateWalletSuccessCall(dynamic walletData) {
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(saveUserInDB(walletAddress));
-      await AppTrackingTransparency.requestTrackingAuthorization();
+      final TrackingStatus trackingStatus =
+          await AppTrackingTransparency.requestTrackingAuthorization();
+      if (trackingStatus == TrackingStatus.authorized && Platform.isIOS) {
+        final String uuid =
+            await AppTrackingTransparency.getAdvertisingIdentifier();
+        log.error('uuid $uuid');
+      }
       store.dispatch(enablePushNotifications());
       store.dispatch(identifyCall());
     }
@@ -1290,7 +1297,7 @@ ThunkAction claimUserReward() {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      Map<String, dynamic> response = await api.claimReward(
+      await api.claimReward(
         walletAddress,
       );
     } catch (e, s) {
