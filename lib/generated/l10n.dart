@@ -300,6 +300,16 @@ class I10n {
     );
   }
 
+  /// `Claim`
+  String get claim {
+    return Intl.message(
+      'Claim',
+      name: 'claim',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Close`
   String get close {
     return Intl.message(
@@ -575,6 +585,16 @@ class I10n {
     return Intl.message(
       'Deposit from Ethereum or BSC',
       name: 'deposit_from_ethereum_or_BSC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit Fuse Dollar`
+  String get deposit_fuse_dollar {
+    return Intl.message(
+      'Deposit Fuse Dollar',
+      name: 'deposit_fuse_dollar',
       desc: '',
       args: [],
     );
@@ -1280,6 +1300,16 @@ class I10n {
     );
   }
 
+  /// `Minminal amount to claim - $0.01`
+  String get min_to_claim {
+    return Intl.message(
+      'Minminal amount to claim - \$0.01',
+      name: 'min_to_claim',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Move to`
   String get move_to {
     return Intl.message(
@@ -1335,6 +1365,16 @@ class I10n {
     return Intl.message(
       'Next',
       name: 'next_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next claim in`
+  String get next_claim {
+    return Intl.message(
+      'Next claim in',
+      name: 'next_claim',
       desc: '',
       args: [],
     );
@@ -2485,6 +2525,16 @@ class I10n {
     return Intl.message(
       'You have no balance',
       name: 'your_balance_is_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your projected balance`
+  String get your_projected_balance {
+    return Intl.message(
+      'Your projected balance',
+      name: 'your_projected_balance',
       desc: '',
       args: [],
     );

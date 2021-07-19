@@ -121,9 +121,7 @@ class _PriceDiffState extends State<PriceDiff> {
             display(priceChange) + '%',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Color(
-                0xFF38d989,
-              ),
+              color: Theme.of(context).primaryColor,
             ),
           ),
           SizedBox(

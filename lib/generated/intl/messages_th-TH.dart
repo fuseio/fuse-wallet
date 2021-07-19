@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("ยกเลิก"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "โปรดเลือกวิธีการดังต่อไปนี้ที่คุณต้องการใช้ในการปกป้องกระเป๋าเงินของคุณ"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("ปิด"),
         "coming_soon":
             MessageLookupByLibrary.simpleMessage("จะมีให้บริการในเร็ว ๆ นี้!"),
@@ -104,6 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ฝากจากอีเธอร์เรียม"),
         "deposit_from_ethereum_or_BSC":
             MessageLookupByLibrary.simpleMessage("ฝากจากอีเธอร์เรียม หรือ BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("ฝากเงินของคุณ"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("ฝากเงินดอลลาร์แรกของคุณ"),
@@ -208,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("เข้าสู่ระบบ"),
         "logout": MessageLookupByLibrary.simpleMessage("ออกจากระบบ"),
         "map": MessageLookupByLibrary.simpleMessage("แผนที่"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("ย้ายไปยัง"),
         "my_communities": MessageLookupByLibrary.simpleMessage("ชุมชนของฉัน"),
         "name": MessageLookupByLibrary.simpleMessage("ชื่อ"),
@@ -215,6 +220,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network_fee":
             MessageLookupByLibrary.simpleMessage("ค่าธรรมเนียมเครือข่าย"),
         "next_button": MessageLookupByLibrary.simpleMessage("ถัดไป"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("ไม่ใช่"),
         "no_activity": MessageLookupByLibrary.simpleMessage("ไม่มีกิจกรรม"),
         "no_businesses": MessageLookupByLibrary.simpleMessage("ไม่พบธุรกิจ"),
@@ -381,6 +387,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ยอดคงเหลือของคุณ"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("คุณไม่มียอดเงินคงเหลือ"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("กระเป๋าเงินของคุณว่างเปล่า!")
       };

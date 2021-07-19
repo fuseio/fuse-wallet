@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Annuleer"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "Kies hoe je je wallet wilt beschermen door een van de volgende methoden te selecteren"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("Sluiten"),
         "coming_soon":
             MessageLookupByLibrary.simpleMessage("Binnenkort beschikbaar"),
@@ -105,6 +106,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Stort vanuit Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "Stort vanuit Ethereum of BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Stort je"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("Stort je eerste dollars"),
@@ -213,6 +216,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "map": MessageLookupByLibrary.simpleMessage("Мапа"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("Verplaatsen naar"),
         "my_communities":
             MessageLookupByLibrary.simpleMessage("Mijn communities"),
@@ -220,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("Netwerk"),
         "network_fee": MessageLookupByLibrary.simpleMessage("Netwerkkosten"),
         "next_button": MessageLookupByLibrary.simpleMessage("Volgende"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("Nee"),
         "no_activity": MessageLookupByLibrary.simpleMessage("Geen activiteit"),
         "no_businesses":
@@ -394,6 +400,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("Je saldo"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("Je hebt geen saldo "),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("Je wallet is leeg!")
       };

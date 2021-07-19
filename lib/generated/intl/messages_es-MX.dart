@@ -59,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "Por favor, elija cómo prefiere proteger su billetera seleccionando los siguientes métodos"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("Cerrar"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("Próximamente"),
         "community": MessageLookupByLibrary.simpleMessage("comunidad"),
@@ -106,6 +107,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Depósito desde Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "Depósito desde Ethereum o BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Deposita tus"),
         "deposit_your_first_dollars": MessageLookupByLibrary.simpleMessage(
             "Deposita tus primeros dólares"),
@@ -216,6 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
         "logout": MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("Mover a"),
         "my_communities":
             MessageLookupByLibrary.simpleMessage("Mis comunidades"),
@@ -224,6 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network_fee":
             MessageLookupByLibrary.simpleMessage("Comisión de la red"),
         "next_button": MessageLookupByLibrary.simpleMessage("Siguiente"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "no_activity": MessageLookupByLibrary.simpleMessage("No hay actividad"),
         "no_businesses":
@@ -395,6 +401,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("Tu saldo"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("No tienes saldo"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("¡Tu billetera está vacía!")
       };

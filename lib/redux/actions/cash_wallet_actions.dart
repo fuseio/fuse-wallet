@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,6 +16,7 @@ import 'package:fusecash/models/community/business_metadata.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:fusecash/models/reward/reward_claim.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/stats.dart';
@@ -30,6 +32,13 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
+
+class UpdateNextReward {
+  final RewardClaim rewardClaim;
+  UpdateNextReward({
+    required this.rewardClaim,
+  });
+}
 
 class AddCashTokens {
   final Map<String, Token> tokens;
@@ -373,7 +382,13 @@ ThunkAction generateWalletSuccessCall(dynamic walletData) {
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(saveUserInDB(walletAddress));
-      await AppTrackingTransparency.requestTrackingAuthorization();
+      final TrackingStatus trackingStatus =
+          await AppTrackingTransparency.requestTrackingAuthorization();
+      if (trackingStatus == TrackingStatus.authorized && Platform.isIOS) {
+        final String uuid =
+            await AppTrackingTransparency.getAdvertisingIdentifier();
+        log.error('uuid $uuid');
+      }
       store.dispatch(enablePushNotifications());
       store.dispatch(identifyCall());
     }
@@ -1252,5 +1267,41 @@ ThunkAction refresh() {
     store.dispatch(startFetchingCall());
     store.dispatch(startFetchTokensBalances());
     store.dispatch(updateTokensPrices());
+  };
+}
+
+ThunkAction getRewardData() {
+  return (Store store) async {
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      Map<String, dynamic> response = await api.getNextReward(
+        walletAddress,
+      );
+      if (response['rewardAmount'] != null) {
+        RewardClaim rewardClaim = RewardClaim.fromJson(
+          response['rewardAmount'],
+        );
+        store.dispatch(
+          UpdateNextReward(
+            rewardClaim: rewardClaim,
+          ),
+        );
+      }
+    } catch (e, s) {
+      log.error('Error in getRewardData: ${e.toString()} ${s.toString()}');
+    }
+  };
+}
+
+ThunkAction claimUserReward() {
+  return (Store store) async {
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      await api.claimReward(
+        walletAddress,
+      );
+    } catch (e, s) {
+      log.error('Error in getRewardData: ${e.toString()} ${s.toString()}');
+    }
   };
 }

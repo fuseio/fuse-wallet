@@ -9,6 +9,9 @@ part of 'cash_wallet_state.dart';
 _$_CashWalletState _$_$_CashWalletStateFromJson(Map<String, dynamic> json) {
   return _$_CashWalletState(
     communityAddress: json['communityAddress'] as String? ?? '',
+    rewardClaim: json['rewardClaim'] == null
+        ? null
+        : RewardClaim.fromJson(json['rewardClaim'] as Map<String, dynamic>),
     isDepositBanner: json['isDepositBanner'] as bool? ?? true,
     tokens: tokensFromJson(json['tokens'] as Map<String, dynamic>?),
     communities:
@@ -21,6 +24,7 @@ _$_CashWalletState _$_$_CashWalletStateFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_CashWalletStateToJson(_$_CashWalletState instance) =>
     <String, dynamic>{
       'communityAddress': instance.communityAddress,
+      'rewardClaim': instance.rewardClaim?.toJson(),
       'isDepositBanner': instance.isDepositBanner,
       'tokens': instance.tokens.map((k, e) => MapEntry(k, e.toJson())),
       'communities':

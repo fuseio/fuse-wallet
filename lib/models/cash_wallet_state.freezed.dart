@@ -22,6 +22,7 @@ class _$CashWalletStateTearOff {
 
   _CashWalletState call(
       {String communityAddress = '',
+      RewardClaim? rewardClaim,
       bool isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens = const {},
@@ -47,6 +48,7 @@ class _$CashWalletStateTearOff {
           bool isFetchingBalances = false}) {
     return _CashWalletState(
       communityAddress: communityAddress,
+      rewardClaim: rewardClaim,
       isDepositBanner: isDepositBanner,
       tokens: tokens,
       communities: communities,
@@ -73,6 +75,7 @@ const $CashWalletState = _$CashWalletStateTearOff();
 /// @nodoc
 mixin _$CashWalletState {
   String get communityAddress => throw _privateConstructorUsedError;
+  RewardClaim? get rewardClaim => throw _privateConstructorUsedError;
   bool get isDepositBanner => throw _privateConstructorUsedError;
   @JsonKey(fromJson: tokensFromJson)
   Map<String, Token> get tokens => throw _privateConstructorUsedError;
@@ -110,6 +113,7 @@ abstract class $CashWalletStateCopyWith<$Res> {
       _$CashWalletStateCopyWithImpl<$Res>;
   $Res call(
       {String communityAddress,
+      RewardClaim? rewardClaim,
       bool isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
@@ -134,6 +138,7 @@ abstract class $CashWalletStateCopyWith<$Res> {
       @JsonKey(ignore: true)
           bool isFetchingBalances});
 
+  $RewardClaimCopyWith<$Res>? get rewardClaim;
   $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
@@ -149,6 +154,7 @@ class _$CashWalletStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? communityAddress = freezed,
+    Object? rewardClaim = freezed,
     Object? isDepositBanner = freezed,
     Object? tokens = freezed,
     Object? communities = freezed,
@@ -167,6 +173,10 @@ class _$CashWalletStateCopyWithImpl<$Res>
           ? _value.communityAddress
           : communityAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      rewardClaim: rewardClaim == freezed
+          ? _value.rewardClaim
+          : rewardClaim // ignore: cast_nullable_to_non_nullable
+              as RewardClaim?,
       isDepositBanner: isDepositBanner == freezed
           ? _value.isDepositBanner
           : isDepositBanner // ignore: cast_nullable_to_non_nullable
@@ -219,6 +229,17 @@ class _$CashWalletStateCopyWithImpl<$Res>
   }
 
   @override
+  $RewardClaimCopyWith<$Res>? get rewardClaim {
+    if (_value.rewardClaim == null) {
+      return null;
+    }
+
+    return $RewardClaimCopyWith<$Res>(_value.rewardClaim!, (value) {
+      return _then(_value.copyWith(rewardClaim: value));
+    });
+  }
+
+  @override
   $WalletActionsCopyWith<$Res>? get walletActions {
     if (_value.walletActions == null) {
       return null;
@@ -239,6 +260,7 @@ abstract class _$CashWalletStateCopyWith<$Res>
   @override
   $Res call(
       {String communityAddress,
+      RewardClaim? rewardClaim,
       bool isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
@@ -264,6 +286,8 @@ abstract class _$CashWalletStateCopyWith<$Res>
           bool isFetchingBalances});
 
   @override
+  $RewardClaimCopyWith<$Res>? get rewardClaim;
+  @override
   $WalletActionsCopyWith<$Res>? get walletActions;
 }
 
@@ -281,6 +305,7 @@ class __$CashWalletStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? communityAddress = freezed,
+    Object? rewardClaim = freezed,
     Object? isDepositBanner = freezed,
     Object? tokens = freezed,
     Object? communities = freezed,
@@ -299,6 +324,10 @@ class __$CashWalletStateCopyWithImpl<$Res>
           ? _value.communityAddress
           : communityAddress // ignore: cast_nullable_to_non_nullable
               as String,
+      rewardClaim: rewardClaim == freezed
+          ? _value.rewardClaim
+          : rewardClaim // ignore: cast_nullable_to_non_nullable
+              as RewardClaim?,
       isDepositBanner: isDepositBanner == freezed
           ? _value.isDepositBanner
           : isDepositBanner // ignore: cast_nullable_to_non_nullable
@@ -357,6 +386,7 @@ class __$CashWalletStateCopyWithImpl<$Res>
 class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   _$_CashWalletState(
       {this.communityAddress = '',
+      this.rewardClaim,
       this.isDepositBanner = true,
       @JsonKey(fromJson: tokensFromJson) this.tokens = const {},
       @JsonKey(fromJson: communitiesFromJson) this.communities = const {},
@@ -377,6 +407,8 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   @JsonKey(defaultValue: '')
   @override
   final String communityAddress;
+  @override
+  final RewardClaim? rewardClaim;
   @JsonKey(defaultValue: true)
   @override
   final bool isDepositBanner;
@@ -416,7 +448,7 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CashWalletState(communityAddress: $communityAddress, isDepositBanner: $isDepositBanner, tokens: $tokens, communities: $communities, walletActions: $walletActions, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted, isFetchingBalances: $isFetchingBalances)';
+    return 'CashWalletState(communityAddress: $communityAddress, rewardClaim: $rewardClaim, isDepositBanner: $isDepositBanner, tokens: $tokens, communities: $communities, walletActions: $walletActions, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted, isFetchingBalances: $isFetchingBalances)';
   }
 
   @override
@@ -425,6 +457,7 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'CashWalletState'))
       ..add(DiagnosticsProperty('communityAddress', communityAddress))
+      ..add(DiagnosticsProperty('rewardClaim', rewardClaim))
       ..add(DiagnosticsProperty('isDepositBanner', isDepositBanner))
       ..add(DiagnosticsProperty('tokens', tokens))
       ..add(DiagnosticsProperty('communities', communities))
@@ -449,6 +482,9 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
             (identical(other.communityAddress, communityAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.communityAddress, communityAddress)) &&
+            (identical(other.rewardClaim, rewardClaim) ||
+                const DeepCollectionEquality()
+                    .equals(other.rewardClaim, rewardClaim)) &&
             (identical(other.isDepositBanner, isDepositBanner) ||
                 const DeepCollectionEquality()
                     .equals(other.isDepositBanner, isDepositBanner)) &&
@@ -494,6 +530,7 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(communityAddress) ^
+      const DeepCollectionEquality().hash(rewardClaim) ^
       const DeepCollectionEquality().hash(isDepositBanner) ^
       const DeepCollectionEquality().hash(tokens) ^
       const DeepCollectionEquality().hash(communities) ^
@@ -521,6 +558,7 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
 abstract class _CashWalletState extends CashWalletState {
   factory _CashWalletState(
       {String communityAddress,
+      RewardClaim? rewardClaim,
       bool isDepositBanner,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
@@ -551,6 +589,8 @@ abstract class _CashWalletState extends CashWalletState {
 
   @override
   String get communityAddress => throw _privateConstructorUsedError;
+  @override
+  RewardClaim? get rewardClaim => throw _privateConstructorUsedError;
   @override
   bool get isDepositBanner => throw _privateConstructorUsedError;
   @override

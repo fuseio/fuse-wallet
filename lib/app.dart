@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/constants/strings.dart';
+import 'package:fusecash/constants/theme.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/services.dart';
@@ -21,6 +22,7 @@ import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:advertising_id/advertising_id.dart';
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
@@ -87,8 +89,17 @@ class _MyAppState extends State<MyApp> {
       appId: '1559937899',
       showDebug: kDebugMode,
       timeToWaitForATTUserAuthorization: 30,
+      disableAdvertisingIdentifier: false,
     );
     _appsflyerSdk = AppsflyerSdk(options);
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      if (Platform.isAndroid) {
+        final String? advertisingId = await AdvertisingId.id(true);
+        if (advertisingId != null) {
+          _appsflyerSdk.setAndroidIdData(advertisingId);
+        }
+      }
+    });
     _appsflyerSdk.enableFacebookDeferredApplinks(true);
     _appsflyerSdk.onAppOpenAttribution((res) {
       log.info("onAppOpenAttribution res: " + res.toString());
@@ -135,16 +146,7 @@ class _MyAppState extends State<MyApp> {
               title: Strings.APP_NAME,
               themeMode: ThemeMode.system,
               routeInformationParser: rootRouter.defaultRouteParser(),
-              theme: FlexColorScheme.light(
-                fontFamily: 'Europa',
-                colors: FlexSchemeColor.from(
-                  secondary: Color(0xFFF5F5F5),
-                  secondaryVariant: Color(0xFF777777),
-                  primary: Color(0xFF38D989),
-                  primaryVariant: Color(0xFF23B16A),
-                  appBarColor: Color(0xFFFFFFFF),
-                ),
-              ).toTheme,
+              theme: flexColorSchemeLight.toTheme,
               routerDelegate: rootRouter.delegate(
                 navigatorObservers: () => [
                   AutoRouteObserver(),
@@ -195,7 +197,7 @@ class _MyAppState extends State<MyApp> {
         } else {
           return MaterialApp(
             home: Scaffold(
-              backgroundColor: Color(0xFF38D989),
+              backgroundColor: flexColorSchemeLight.primary,
               body: Center(
                 child: Image.asset(
                   'assets/images/splash.png',
