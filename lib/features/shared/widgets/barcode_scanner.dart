@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -53,32 +53,39 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
 
   @override
   void onCallRequestEthSendTransaction(int? id, String? result) async {
+    log.info('onCallRequestEthSendTransaction $id $result');
     Map data = json.decode(result!);
     log.info('a $data');
     final String from = checksumEthereumAddress(data['from']);
     final String to = checksumEthereumAddress(data['to']);
-    Map<String, dynamic> signedData = await fuseWeb3!.callContractOffChainV2(
+    final dynamic res = await api.approveTokenAndCallContract(
+      fuseWeb3!,
       from,
+      '0x249be57637d8b013ad64785404b24aebae9b098b',
       to,
-      BigInt.parse(data['value']),
+      1,
       data['data'].replaceFirst(
         '0x',
         '',
       ),
+      network: 'fuse',
     );
-    final WalletConnectResponse walletConnectResponse =
-        await conn.approveCallRequest(id!, result);
-    log.info(
-        'onCallRequestEthSendTransaction: walletConnectResponse ${walletConnectResponse.toString()}');
-    final response = await api.multiRelay([signedData]);
-    // dynamic response = await api.callContractV2(
-    //   data['from'],
-    //   data['to'],
-    //   data['value'],
-    //   data['data'],
-    // );
-    log.info('response ${response.toString()}');
-    log.info('onCallRequestEthSendTransaction $id $result');
+    log.info('approveTokenAndCallContract: ${res.toString()}');
+    new Timer.periodic(Duration(seconds: 5), (Timer timer) async {
+      dynamic response = await api.getJob(res['job']['_id']);
+      log.info('approveTokenAndCallContract: ${res.toString()}');
+      if (response['data']['txHash'] == null) {
+        log.info('fetched job with txHash null');
+        return;
+      } else {
+        log.info('txHash ${response['data']['txHash']}');
+        final WalletConnectResponse walletConnectResponse =
+            await conn.approveCallRequest(id!, response['data']['txHash']);
+        log.info(
+            'onCallRequestEthSendTransaction: walletConnectResponse ${walletConnectResponse.toString()}');
+        timer.cancel();
+      }
+    });
   }
 
   @override
