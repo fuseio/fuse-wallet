@@ -14,6 +14,8 @@ PODS:
   - Branch (1.39.3)
   - contacts_service (0.2.2):
     - Flutter
+  - device_info (0.0.1):
+    - Flutter
   - facebook_app_events (0.0.1):
     - FBSDKCoreKit (~> 9.1.0)
     - Flutter
@@ -227,6 +229,7 @@ DEPENDENCIES:
   - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - facebook_app_events (from `.symlinks/plugins/facebook_app_events/ios`)
   - Firebase/Analytics
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -296,6 +299,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/appsflyer_sdk/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   facebook_app_events:
     :path: ".symlinks/plugins/facebook_app_events/ios"
   firebase_auth:
@@ -362,6 +367,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: c66d79d965ccc2f44fd5db3df3d214428cc7665a
   Branch: 13df8e1a6985745a03389146df1eeda723645a97
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   facebook_app_events: 3f4d7bb584f5ab326f2009a1e13e69b02ba35906
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
