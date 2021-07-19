@@ -14,7 +14,7 @@ PODS:
   - Branch (1.39.3)
   - contacts_service (0.2.2):
     - Flutter
-  - CryptoSwift (1.1.3)
+  - CryptoSwift (1.4.1)
   - facebook_app_events (0.0.1):
     - FBSDKCoreKit (~> 9.1.0)
     - Flutter
@@ -238,7 +238,7 @@ PODS:
   - url_launcher (0.0.1):
     - Flutter
   - wallet_connect_flutter (0.0.1):
-    - CryptoSwift (~> 1.1.3)
+    - CryptoSwift (~> 1.4)
     - Flutter
     - PromiseKit (~> 6.11.0)
     - Starscream (~> 3.1.1)
@@ -394,7 +394,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: c66d79d965ccc2f44fd5db3df3d214428cc7665a
   Branch: 13df8e1a6985745a03389146df1eeda723645a97
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
-  CryptoSwift: 6b6e488df0598b3e9fa49254ed1a65e8c1b1e10b
+  CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
   facebook_app_events: 3f4d7bb584f5ab326f2009a1e13e69b02ba35906
   FBSDKCoreKit: a00fe2efd780c195a5e09201bf51c56106245b40
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
@@ -449,7 +449,7 @@ SPEC CHECKSUMS:
   SwiftProtobuf: 9c85136c6ba74b0a1b84279dbf0f6db8efb714e0
   TrustWalletCore: 8a99f1d7ce5db3bec2d244dcb725d0b3ac575bf7
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  wallet_connect_flutter: 873c307389c312d4d58883c56d63eb4350810ed5
+  wallet_connect_flutter: becdd88a1891309c81185a04808861f23407f656
   webview_flutter: 3603125dfd3bcbc9d8d418c3f80aeecf331c068b
 
 PODFILE CHECKSUM: 71b874e39fb185dc2191af632e94dec599028836
