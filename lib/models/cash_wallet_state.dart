@@ -5,6 +5,7 @@ import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/reward/reward_claim.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -63,6 +64,7 @@ class CashWalletState with _$CashWalletState {
   @JsonSerializable()
   factory CashWalletState({
     @Default('') String communityAddress,
+    RewardClaim? rewardClaim,
     @Default(true) bool isDepositBanner,
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @JsonKey(fromJson: communitiesFromJson)

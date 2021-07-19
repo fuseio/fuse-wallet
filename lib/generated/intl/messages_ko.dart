@@ -56,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "다음 방식 중에서 골라 어떻게 지갑을 보호할지 선택하세요"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("닫기"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("곧 이용 가능"),
         "community": MessageLookupByLibrary.simpleMessage("커뮤니티"),
@@ -94,6 +95,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ethereum에서 예치"),
         "deposit_from_ethereum_or_BSC":
             MessageLookupByLibrary.simpleMessage("Ethereum 또는 BSC에서 예치"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("예치할 나의"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("나의 첫 Dollars를 예치하세요"),
@@ -193,12 +196,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("로그인"),
         "logout": MessageLookupByLibrary.simpleMessage("로그아웃"),
         "map": MessageLookupByLibrary.simpleMessage("지도"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("이동할 곳:"),
         "my_communities": MessageLookupByLibrary.simpleMessage("나의 커뮤니티"),
         "name": MessageLookupByLibrary.simpleMessage("이름"),
         "network": MessageLookupByLibrary.simpleMessage("네트워크"),
         "network_fee": MessageLookupByLibrary.simpleMessage("네트워크 수수료"),
         "next_button": MessageLookupByLibrary.simpleMessage("다음"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("아니요"),
         "no_activity": MessageLookupByLibrary.simpleMessage("활동 없음"),
         "no_businesses": MessageLookupByLibrary.simpleMessage("찾은 비즈니스 없음"),
@@ -348,6 +354,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("나의 잔고"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("잔고가 없습니다"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("지갑이 비었습니다!")
       };

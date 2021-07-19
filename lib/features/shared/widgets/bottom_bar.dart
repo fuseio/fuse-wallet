@@ -71,6 +71,7 @@ class _BottomBarState extends State<BottomBar> {
       child: StoreConnector<AppState, HomeScreenViewModel>(
         distinct: true,
         onInit: (store) {
+          store.dispatch(getRewardData());
           store.dispatch(fetchSwapList());
           store.dispatch(startFetchingCall());
           store.dispatch(startFetchTokensBalances());
