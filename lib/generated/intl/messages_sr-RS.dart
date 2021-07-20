@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("Активирај"),
         "activity": MessageLookupByLibrary.simpleMessage("Activity"),
         "address": MessageLookupByLibrary.simpleMessage("Адреса"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("Количина"),
         "approved": MessageLookupByLibrary.simpleMessage("Дозвољено"),
         "assets_and_contracts":
@@ -55,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Обустави"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "Молимо изаберите како желите заштитити новчаник тако што ћете изабрати следеће методе"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("Coming soon"),
         "community": MessageLookupByLibrary.simpleMessage("заједници"),
@@ -68,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("Контактирај нас"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("Contact us for support"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("Настави са"),
         "copied_to_clipboard":
             MessageLookupByLibrary.simpleMessage("Copied to clipboard"),
@@ -100,12 +106,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Deposit from Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "Deposit from Ethereum or BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Deposit your"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("Deposit your first Dollars"),
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("Нисте добили поруку? - "),
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("Не брини:"),
         "earn": MessageLookupByLibrary.simpleMessage("Earn"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
@@ -203,6 +213,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Пријава"),
         "logout": MessageLookupByLibrary.simpleMessage("Одјава"),
         "map": MessageLookupByLibrary.simpleMessage("Мапа"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("Премести"),
         "my_communities":
             MessageLookupByLibrary.simpleMessage("Моја заједница"),
@@ -210,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("Мрежа"),
         "network_fee": MessageLookupByLibrary.simpleMessage("Network Fee"),
         "next_button": MessageLookupByLibrary.simpleMessage("Следеће"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("Не"),
         "no_activity": MessageLookupByLibrary.simpleMessage("Нема активности"),
         "no_businesses":
@@ -377,6 +390,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("Your balance"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("You have no balance"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("Your wallet is empty!")
       };

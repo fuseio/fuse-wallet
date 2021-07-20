@@ -66,10 +66,8 @@ class SendAmountScreen extends StatefulWidget {
 class _SendAmountScreenState extends State<SendAmountScreen>
     with SingleTickerProviderStateMixin {
   TextEditingController textEditingController = TextEditingController();
-  bool hasBalance = true;
   late AnimationController controller;
   late Animation<Offset> offset;
-  bool isPreloading = false;
   Token? selectedToken;
   final _amountValidator = RegExInputFormatter.withRegex(
       '^\$|^(0|([1-9][0-9]{0,}))(\\.[0-9]{0,})?\$');
@@ -454,6 +452,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                           children: [
                             PrimaryButton(
                               opacity: 1,
+                              disabled: !hasFund,
                               label: hasFund
                                   ? I10n.of(context).next_button
                                   : I10n.of(context).insufficient_fund,
@@ -464,8 +463,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                 context.router
                                     .push(SendReviewScreen(pageArgs: args));
                               },
-                              preload: isPreloading,
-                              disabled: isPreloading || !hasFund,
                             ),
                           ],
                         ),

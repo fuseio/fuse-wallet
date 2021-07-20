@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/features/contacts/widgets/empty_state.dart';
-// import 'package:fusecash/features/contacts/widgets/recent_contacts.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
@@ -115,11 +114,11 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   void resetSearch() {
-    FocusScope.of(context).unfocus();
     if (mounted) {
       setState(() {
         searchController.text = '';
       });
+      WidgetsBinding.instance!.focusManager.primaryFocus?.unfocus();
     }
   }
 

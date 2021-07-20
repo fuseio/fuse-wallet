@@ -45,6 +45,7 @@ class UserState with _$UserState {
     @Default('') String countryCode,
     @Default('') String phoneNumber,
     @Default(false) bool receiveBackupDialogShowed,
+    @Default(false) bool warnSendDialogShowed,
     @Default('') String isoCode,
     @Default('') String jwtToken,
     @Default('Anom') String displayName,

@@ -58,7 +58,9 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 ]);
 
 CashWalletState _getTokenPriceDiffSuccess(
-    CashWalletState state, GetTokenPriceDiffSuccess action) {
+  CashWalletState state,
+  GetTokenPriceDiffSuccess action,
+) {
   final String tokenAddress = action.tokenAddress;
   Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
@@ -131,7 +133,10 @@ CashWalletState _getActionsSuccess(
   );
 }
 
-CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
+CashWalletState _addCashTokens(
+  CashWalletState state,
+  AddCashTokens action,
+) {
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne.removeWhere(clearTokensWithZero);
   for (String tokenAddress in action.tokens.keys) {
@@ -146,7 +151,10 @@ CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
   return state.copyWith(tokens: newOne);
 }
 
-CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
+CashWalletState _addCashToken(
+  CashWalletState state,
+  AddCashToken action,
+) {
   Token token = action.token;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne.removeWhere(clearTokensWithZero);
@@ -161,7 +169,10 @@ CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
   return state.copyWith(tokens: newOne);
 }
 
-CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
+CashWalletState _resetTokensTxs(
+  CashWalletState state,
+  ResetTokenTxs action,
+) {
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   Map<String, Token> tokens = Map<String, Token>();
   final List<String> tokenAddresses = List<String>.from(
@@ -186,7 +197,9 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
 }
 
 CashWalletState _refreshCommunityData(
-    CashWalletState state, RefreshCommunityData action) {
+  CashWalletState state,
+  RefreshCommunityData action,
+) {
   String communityAddress = action.communityAddress.toLowerCase();
   Community current = state.communities[communityAddress]!;
   Map<String, Community> newOne =
@@ -199,7 +212,9 @@ CashWalletState _refreshCommunityData(
 }
 
 CashWalletState _fetchCommunityMetadataSuccess(
-    CashWalletState state, FetchCommunityMetadataSuccess action) {
+  CashWalletState state,
+  FetchCommunityMetadataSuccess action,
+) {
   Community current = state.communities[action.communityAddress] ??
       Community(address: action.communityAddress);
   Community newCommunity = current.copyWith(metadata: action.metadata);
@@ -210,21 +225,24 @@ CashWalletState _fetchCommunityMetadataSuccess(
 }
 
 CashWalletState _setDefaultCommunity(
-    CashWalletState state, SetDefaultCommunity action) {
+  CashWalletState state,
+  SetDefaultCommunity action,
+) {
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   newOne[action.defaultCommunity] = Community(address: action.defaultCommunity);
   return state.copyWith(
     communityAddress: action.defaultCommunity,
     communities: newOne,
-    branchAddress: '',
     walletActions: WalletActions.initial(),
     isBranchDataReceived: false,
   );
 }
 
 CashWalletState _getTokenBalanceSuccess(
-    CashWalletState state, GetTokenBalanceSuccess action) {
+  CashWalletState state,
+  GetTokenBalanceSuccess action,
+) {
   final String tokenAddress = action.tokenAddress;
   Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
@@ -249,7 +267,9 @@ CashWalletState _alreadyJoinedCommunity(
 }
 
 CashWalletState _getTokenPriceChangeSuccess(
-    CashWalletState state, GetTokenPriceChangeSuccess action) {
+  CashWalletState state,
+  GetTokenPriceChangeSuccess action,
+) {
   final String tokenAddress = action.tokenAddress;
   Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
@@ -258,7 +278,9 @@ CashWalletState _getTokenPriceChangeSuccess(
 }
 
 CashWalletState _getTokenStatsSuccess(
-    CashWalletState state, GetTokenStatsSuccess action) {
+  CashWalletState state,
+  GetTokenStatsSuccess action,
+) {
   final String tokenAddress = action.tokenAddress;
   Token current = state.tokens[action.tokenAddress]!;
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
@@ -267,7 +289,9 @@ CashWalletState _getTokenStatsSuccess(
 }
 
 CashWalletState _switchCommunitySuccess(
-    CashWalletState state, SwitchCommunitySuccess action) {
+  CashWalletState state,
+  SwitchCommunitySuccess action,
+) {
   String communityAddress = action.community.address.toLowerCase();
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -281,19 +305,32 @@ CashWalletState _switchCommunitySuccess(
 }
 
 CashWalletState _switchCommunityFailed(
-    CashWalletState state, SwitchCommunityFailed action) {
+  CashWalletState state,
+  SwitchCommunityFailed action,
+) {
   Map<String, Community> newOne = Map<String, Community>.from(
-      state.communities..remove(action.communityAddress.toLowerCase()));
-  return state.copyWith(isCommunityLoading: false, communities: newOne);
+    state.communities
+      ..remove(
+        action.communityAddress.toLowerCase(),
+      ),
+  );
+  return state.copyWith(
+    isCommunityLoading: false,
+    communities: newOne,
+  );
 }
 
 CashWalletState _startFetchingBusinessList(
-    CashWalletState state, StartFetchingBusinessList action) {
+  CashWalletState state,
+  StartFetchingBusinessList action,
+) {
   return state.copyWith(isCommunityBusinessesFetched: true);
 }
 
 CashWalletState _getBusinessListSuccess(
-    CashWalletState state, GetBusinessListSuccess action) {
+  CashWalletState state,
+  GetBusinessListSuccess action,
+) {
   final String communityAddress = action.communityAddress;
   Community current = state.communities[communityAddress] ??
       Community(address: communityAddress);
@@ -305,17 +342,23 @@ CashWalletState _getBusinessListSuccess(
 }
 
 CashWalletState _fetchingBusinessListSuccess(
-    CashWalletState state, FetchingBusinessListSuccess action) {
+  CashWalletState state,
+  FetchingBusinessListSuccess action,
+) {
   return state.copyWith(isCommunityBusinessesFetched: false);
 }
 
 CashWalletState _fetchingBusinessListFailed(
-    CashWalletState state, FetchingBusinessListFailed action) {
+  CashWalletState state,
+  FetchingBusinessListFailed action,
+) {
   return state.copyWith(isCommunityBusinessesFetched: false);
 }
 
 CashWalletState _switchCommunityRequest(
-    CashWalletState state, SwitchCommunityRequested action) {
+  CashWalletState state,
+  SwitchCommunityRequested action,
+) {
   return state.copyWith(
     isCommunityLoading: true,
     communityAddress: action.communityAddress.toLowerCase(),
@@ -325,7 +368,9 @@ CashWalletState _switchCommunityRequest(
 }
 
 CashWalletState _switchToNewCommunity(
-    CashWalletState state, SwitchToNewCommunity action) {
+  CashWalletState state,
+  SwitchToNewCommunity action,
+) {
   String communityAddress = action.communityAddress.toLowerCase();
   Community newCommunity = Community(address: communityAddress);
   Map<String, Community> newOne =
@@ -358,25 +403,32 @@ CashWalletState _branchListeningStopped(
 }
 
 CashWalletState _setIsTransfersFetching(
-    CashWalletState state, SetIsTransfersFetching action) {
+  CashWalletState state,
+  SetIsTransfersFetching action,
+) {
   return state.copyWith(isTransfersFetchingStarted: action.isFetching);
 }
 
 CashWalletState _createNewWalletSuccess(
-    CashWalletState state, CreateLocalAccountSuccess action) {
+  CashWalletState state,
+  CreateLocalAccountSuccess action,
+) {
   return CashWalletState(
     isBranchDataReceived: state.isBranchDataReceived,
-    branchAddress: state.branchAddress,
   );
 }
 
 CashWalletState _setIsFetchingBalances(
-    CashWalletState state, SetIsFetchingBalances action) {
+  CashWalletState state,
+  SetIsFetchingBalances action,
+) {
   return state.copyWith(isFetchingBalances: action.isFetching);
 }
 
 CashWalletState _setShowDepositBanner(
-    CashWalletState state, SetShowDepositBanner action) {
+  CashWalletState state,
+  SetShowDepositBanner action,
+) {
   return state.copyWith(
     isDepositBanner: false,
   );

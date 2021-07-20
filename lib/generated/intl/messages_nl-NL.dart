@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("Activeer"),
         "activity": MessageLookupByLibrary.simpleMessage("Activiteit"),
         "address": MessageLookupByLibrary.simpleMessage("Adres"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("Bedrag"),
         "approved": MessageLookupByLibrary.simpleMessage("Goedgekeurd"),
         "assets_and_contracts":
@@ -54,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Annuleer"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "Kies hoe je je wallet wilt beschermen door een van de volgende methoden te selecteren"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("Sluiten"),
         "coming_soon":
             MessageLookupByLibrary.simpleMessage("Binnenkort beschikbaar"),
@@ -68,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("Neem contact op"),
         "contact_us_for_support": MessageLookupByLibrary.simpleMessage(
             "Contracteer ons voor ondersteuning"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("Doorgaan met"),
         "copied_to_clipboard":
             MessageLookupByLibrary.simpleMessage("Gekopieerd naar klembord"),
@@ -100,12 +106,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Stort vanuit Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "Stort vanuit Ethereum of BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Stort je"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("Stort je eerste dollars"),
         "didnt_get_message": MessageLookupByLibrary.simpleMessage(
             "Heb je het bericht niet ontvangen? - "),
         "dismiss": MessageLookupByLibrary.simpleMessage("Afwijzen"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry":
             MessageLookupByLibrary.simpleMessage("Maak je geen zorgen:"),
         "earn": MessageLookupByLibrary.simpleMessage("Verdien"),
@@ -206,6 +216,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "map": MessageLookupByLibrary.simpleMessage("Мапа"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("Verplaatsen naar"),
         "my_communities":
             MessageLookupByLibrary.simpleMessage("Mijn communities"),
@@ -213,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("Netwerk"),
         "network_fee": MessageLookupByLibrary.simpleMessage("Netwerkkosten"),
         "next_button": MessageLookupByLibrary.simpleMessage("Volgende"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("Nee"),
         "no_activity": MessageLookupByLibrary.simpleMessage("Geen activiteit"),
         "no_businesses":
@@ -387,6 +400,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("Je saldo"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("Je hebt geen saldo "),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("Je wallet is leeg!")
       };

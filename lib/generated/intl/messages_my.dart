@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("ဖွင့်မည်"),
         "activity": MessageLookupByLibrary.simpleMessage("ဖြစ်စဉ် လုပ်ရပ်များ"),
         "address": MessageLookupByLibrary.simpleMessage("လိပ်စာ"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("ပမာဏ"),
         "approved": MessageLookupByLibrary.simpleMessage("အတည်ပြုပြီး"),
         "assets_and_contracts": MessageLookupByLibrary.simpleMessage(
@@ -54,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("ပယ်ဖျက်မည်"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "သင့် ပိုက်ဆံအိတ် (wallet) ကို ကာကွယ်ရန်အတွက် အောက်ပါ နည်းလမ်းများမှ ရွေးချယ်ပါ"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("ပိတ်မည်"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("မကြာမှီ လာမည်"),
         "community":
@@ -68,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("ဆက်သွယ်ရန်"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("အကူအညီရယူရန် ဆက်သွည်ပါ"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with":
             MessageLookupByLibrary.simpleMessage("နှင့် ရှေ့ဆက်မည်"),
         "copied_to_clipboard": MessageLookupByLibrary.simpleMessage(
@@ -102,6 +108,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Ethereum မှ Deposit လုပ်ခြင်း"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "Ethereum သို့ BSC မှ Deposit လုပ်ပါ"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your":
             MessageLookupByLibrary.simpleMessage("သင့်ရဲ့ Deposit လုပ်ပါ"),
         "deposit_your_first_dollars": MessageLookupByLibrary.simpleMessage(
@@ -109,6 +117,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("message မရဘူးလား?"),
         "dismiss": MessageLookupByLibrary.simpleMessage("ပိတ်မည်"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("စိတ်မပူပါနဲ့"),
         "earn": MessageLookupByLibrary.simpleMessage("ပိုက်ဆံရှာရန်"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
@@ -209,6 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("အကောင့်ဝင်မည်"),
         "logout": MessageLookupByLibrary.simpleMessage("အကောင့်ထွက်မည်"),
         "map": MessageLookupByLibrary.simpleMessage("မြေပုံ"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("သို့ ပြောင်းရွှေ့ပါ"),
         "my_communities":
             MessageLookupByLibrary.simpleMessage("ကျွန်ုပ်၏ အဖွဲ့အစည်းများ"),
@@ -216,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("ကွန်ရက်"),
         "network_fee": MessageLookupByLibrary.simpleMessage("ကွန်ရက်ခ"),
         "next_button": MessageLookupByLibrary.simpleMessage("နောက်ထပ်"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("မဟုတ်ပါ"),
         "no_activity":
             MessageLookupByLibrary.simpleMessage("ဖြစ်စဉ်များမရှိပါ"),
@@ -388,6 +401,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("သင့် လက်ကျန်ငွေ"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("သင့်တွင် လက်ကျန်ငွေ မရှိပါ"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty": MessageLookupByLibrary.simpleMessage(
             "သင့် ပိုက်ဆံအိတ် (wallet) မှာ ဘာမှ မရှိပါ")
       };

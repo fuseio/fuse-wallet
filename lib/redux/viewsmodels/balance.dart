@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -8,8 +7,7 @@ import 'package:fusecash/models/app_state.dart';
 
 num combiner(num previousValue, Token token) =>
     ![null, '', '0', 0, 'NaN'].contains(token.priceInfo?.quote)
-        ? previousValue +
-            num.parse(Decimal.parse(token.getFiatBalance()).toString())
+        ? previousValue + num.parse(token.getFiatBalance())
         : previousValue + 0;
 
 class BalanceViewModel extends Equatable {
