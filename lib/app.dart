@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:fusecash/constants/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
@@ -30,7 +30,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // late StreamSubscription<Map> streamSubscription;
   Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -67,16 +66,7 @@ class _MyAppState extends State<MyApp> {
               title: Strings.APP_NAME,
               themeMode: ThemeMode.system,
               routeInformationParser: rootRouter.defaultRouteParser(),
-              theme: FlexColorScheme.light(
-                fontFamily: 'Europa',
-                colors: FlexSchemeColor.from(
-                  secondary: Color(0xFFF5F5F5),
-                  secondaryVariant: Color(0xFF777777),
-                  primary: Color(0xFF2A8FB5),
-                  primaryVariant: Color(0xFF0E2373),
-                  appBarColor: Color(0xFFFFFFFF),
-                ),
-              ).toTheme,
+              theme: flexColorSchemeLight.toTheme,
               routerDelegate: rootRouter.delegate(
                 navigatorObservers: () => [
                   AutoRouteObserver(),

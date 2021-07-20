@@ -38,6 +38,13 @@ class UpdateLocale {
   UpdateLocale({required this.locale});
 }
 
+class WarnSendDialogShowed {
+  final bool value;
+  WarnSendDialogShowed(
+    this.value,
+  );
+}
+
 class HomeBackupDialogShowed {
   HomeBackupDialogShowed();
 }
@@ -586,8 +593,7 @@ ThunkAction updateDisplayNameCall(String displayName) {
 
 ThunkAction updateUserAvatarCall(ImageSource source) {
   return (Store store) async {
-    final picker = ImagePicker();
-    final file = await picker.getImage(source: source);
+    final file = await ImagePicker().pickImage(source: source);
     try {
       final uploadResponse = await api.uploadImage(File(file!.path));
       String accountAddress = store.state.userState.accountAddress;
