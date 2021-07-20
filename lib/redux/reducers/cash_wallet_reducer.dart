@@ -10,6 +10,7 @@ import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, ResetJustClaim>(_resetJustClaim),
   TypedReducer<CashWalletState, UpdateNextReward>(_updateNextReward),
   TypedReducer<CashWalletState, GetTokenPriceDiffSuccess>(
       _getTokenPriceDiffSuccess),
@@ -50,6 +51,15 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances),
   TypedReducer<CashWalletState, SetShowDepositBanner>(_setShowDepositBanner)
 ]);
+
+CashWalletState _resetJustClaim(
+  CashWalletState state,
+  ResetJustClaim action,
+) {
+  return state.copyWith(
+    justClaimed: action.value,
+  );
+}
 
 CashWalletState _updateNextReward(
   CashWalletState state,

@@ -193,6 +193,33 @@ Map<String, dynamic> _$_$ReceiveToJson(_$Receive instance) => <String, dynamic>{
       'tokenDecimal': instance.tokenDecimal,
     };
 
+_$ClaimApy _$_$ClaimApyFromJson(Map<String, dynamic> json) {
+  return _$ClaimApy(
+    timestamp: json['timestamp'] as int? ?? 0,
+    id: json['_id'] as String,
+    name: json['name'] as String? ?? 'claimApy',
+    txHash: json['txHash'] as String?,
+    status: json['status'] as String,
+    blockNumber: json['blockNumber'] as int? ?? 0,
+    from: json['from'] as String?,
+    to: json['to'] as String?,
+    value: BigInt.parse(json['value'] as String),
+  );
+}
+
+Map<String, dynamic> _$_$ClaimApyToJson(_$ClaimApy instance) =>
+    <String, dynamic>{
+      'timestamp': instance.timestamp,
+      '_id': instance.id,
+      'name': instance.name,
+      'txHash': instance.txHash,
+      'status': instance.status,
+      'blockNumber': instance.blockNumber,
+      'from': instance.from,
+      'to': instance.to,
+      'value': instance.value.toString(),
+    };
+
 _$Swap _$_$SwapFromJson(Map<String, dynamic> json) {
   return _$Swap(
     timestamp: json['timestamp'] as int? ?? 0,

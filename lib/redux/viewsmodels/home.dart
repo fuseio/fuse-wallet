@@ -23,6 +23,7 @@ class HomeViewModel extends Equatable {
     final bool? walletCreated = cashWalletState.walletActions?.list.any(
       (action) => action.map(
         createWallet: (_) => _.isConfirmed(),
+        claimApy: (value) => false,
         fiatDeposit: (_) => false,
         joinCommunity: (_) => false,
         bonus: (_) => false,

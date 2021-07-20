@@ -24,6 +24,7 @@ class RecentContactsViewModel extends Equatable {
             .where(
               (t) =>
                   t.map(
+                    claimApy: (value) => false,
                     createWallet: (value) => false,
                     fiatDeposit: (value) => false,
                     joinCommunity: (value) => false,

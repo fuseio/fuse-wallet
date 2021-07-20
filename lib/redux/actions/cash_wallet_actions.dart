@@ -33,6 +33,11 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 
+class ResetJustClaim {
+  final bool value;
+  ResetJustClaim(this.value);
+}
+
 class UpdateNextReward {
   final RewardClaim rewardClaim;
   UpdateNextReward({
@@ -1291,13 +1296,15 @@ ThunkAction getRewardData() {
   };
 }
 
-ThunkAction claimUserReward() {
+ThunkAction claimUserReward(VoidCallback onSuccess) {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      await api.claimReward(
-        walletAddress,
-      );
+      // await api.claimReward(
+      //   walletAddress,
+      // );
+      onSuccess();
+      store.dispatch(ResetJustClaim(true));
     } catch (e, s) {
       log.error('Error in getRewardData: ${e.toString()} ${s.toString()}');
     }

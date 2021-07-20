@@ -100,6 +100,15 @@ class _MainScreenState extends State<MainScreen> {
           StoreConnector<AppState, MainScreenViewModel>(
             distinct: true,
             converter: MainScreenViewModel.fromStore,
+            onWillChange: (previousViewModel, newViewModel) {
+              if (previousViewModel?.justClaimed != newViewModel.justClaimed &&
+                  newViewModel.justClaimed) {
+                Future.delayed(Duration(milliseconds: 2500), () {
+                  _controllerBottomCenter.play();
+                  newViewModel.resetJustClaim(false);
+                });
+              }
+            },
             builder: (_, viewModel) => UpgradeAlert(
               appcastConfig: cfg,
               showIgnore: false,

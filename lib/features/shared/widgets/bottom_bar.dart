@@ -101,6 +101,10 @@ class _BottomBarState extends State<BottomBar> {
             if (widget.tabsRouter.activeIndex == 2) {
               vm.getSwapListBalances();
             }
+
+            if (widget.tabsRouter.activeIndex == 3) {
+              vm.updateReward();
+            }
           },
           selectedItemColor: Theme.of(context).colorScheme.onSurface,
           unselectedItemColor: Theme.of(context).colorScheme.onSurface,

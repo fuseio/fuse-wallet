@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/utils/constants.dart';
 
 class ImageUrl {
   static bool _isIpfsHash(String hash) => hash.length == 46;
@@ -69,6 +70,11 @@ class ImageUrl {
       return new MemoryImage(contact.avatar as Uint8List);
     }
     return action.map(
+      claimApy: (value) =>
+          getTokenByAddress(fuseDollarToken.address, tokensImages) != null
+              ? NetworkImage(
+                  getTokenByAddress(fuseDollarToken.address, tokensImages)!)
+              : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       createWallet: (value) => AssetImage(
         'assets/images/generate_wallet.png',
       ),
