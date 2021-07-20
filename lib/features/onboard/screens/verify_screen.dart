@@ -78,6 +78,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                           width: 280,
                           child: PinCodeTextField(
                             length: 6,
+                            backgroundColor: Theme.of(context).canvasColor,
                             showCursor: false,
                             appContext: context,
                             enableActiveFill: true,

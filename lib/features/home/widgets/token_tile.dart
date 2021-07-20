@@ -328,8 +328,7 @@ class _TokenTileState extends State<TokenTile> {
             ![null, '', '0', 0, 'NaN'].contains(widget.token.priceInfo?.quote);
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
-              ![null, ''].contains(element.homeTokenAddress) &&
-              element.homeTokenAddress!.toLowerCase() == widget.token.address &&
+              element.homeTokenAddress.toLowerCase() == widget.token.address &&
               ![false, null].contains(element.metadata?.isDefaultImage),
         );
         final Widget leading = Stack(

@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("Aktivasi"),
         "activity": MessageLookupByLibrary.simpleMessage("Aktivitas"),
         "address": MessageLookupByLibrary.simpleMessage("Alamat"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("Nominal"),
         "approved": MessageLookupByLibrary.simpleMessage("Disetujui"),
         "assets_and_contracts":
@@ -54,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Batal"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "Silakan pilih cara Anda melindungi dompet dengan memilih metode berikut"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("Tutup"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("Segera hadir"),
         "community": MessageLookupByLibrary.simpleMessage("komunitas"),
@@ -67,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("Hubungi kami"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("Hubungi kami untuk bantuan"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with":
             MessageLookupByLibrary.simpleMessage("Lanjutkan dengan"),
         "copied_to_clipboard":
@@ -99,12 +105,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Deposit dari Ethereum"),
         "deposit_from_ethereum_or_BSC": MessageLookupByLibrary.simpleMessage(
             "Deposit dari Ethereum atau BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("Deposit"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("Deposit Dollar pertama Anda"),
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("Tidak menerima pesan? -"),
         "dismiss": MessageLookupByLibrary.simpleMessage("Tutup"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("Jangan khawatir:"),
         "earn": MessageLookupByLibrary.simpleMessage("Hasilkan"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
@@ -204,6 +214,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Masuk"),
         "logout": MessageLookupByLibrary.simpleMessage("Keluar"),
         "map": MessageLookupByLibrary.simpleMessage("Peta"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("Pindahkan ke"),
         "my_communities":
             MessageLookupByLibrary.simpleMessage("Komunitas saya"),
@@ -211,6 +223,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("Jaringan"),
         "network_fee": MessageLookupByLibrary.simpleMessage("Biaya Jaringan"),
         "next_button": MessageLookupByLibrary.simpleMessage("Lanjut"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("Tidak"),
         "no_activity":
             MessageLookupByLibrary.simpleMessage("Tidak ada aktivitas"),
@@ -378,6 +391,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "your_balance": MessageLookupByLibrary.simpleMessage("Saldo Anda"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("Anda tidak punya saldo"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("Dompet Anda kosong!")
       };

@@ -143,7 +143,6 @@ void barcodeScannerHandler(
   BuildContext context,
   String scanResult,
 ) async {
-  log.info('scanResult $scanResult');
   try {
     PermissionStatus permission = await Permission.camera.request();
     if (permission == PermissionStatus.granted) {
@@ -153,17 +152,16 @@ void barcodeScannerHandler(
         bool expression =
             parts.length == 2 && (parts[0] == 'fuse' || parts[0] == 'ethereum');
         if (expression) {
-          final String accountAddress =
-              parts[0] == 'fuse' ? parts[1].replaceFirst('f', 'x') : parts[1];
-          if (isValidEthereumAddress(checksumEthereumAddress(accountAddress))) {
+          String accountAddress = parts[0] == 'fuse' && parts[1] == 'f'
+              ? parts[1].replaceFirst('f', 'x')
+              : parts[1];
+          if (isValidEthereumAddress(accountAddress)) {
             sendToPastedAddress(context, accountAddress);
           } else {
             throw 'ERROR';
           }
-        } else {
-          throw 'ERROR';
         }
-      } else if (isValidEthereumAddress(checksumEthereumAddress(scanResult))) {
+      } else if (isValidEthereumAddress(scanResult)) {
         sendToPastedAddress(context, scanResult);
       }
     }

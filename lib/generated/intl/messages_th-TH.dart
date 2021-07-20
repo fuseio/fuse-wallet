@@ -29,6 +29,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("เปิดใช้งาน"),
         "activity": MessageLookupByLibrary.simpleMessage("กิจกรรม"),
         "address": MessageLookupByLibrary.simpleMessage("ที่อยู่"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("จำนวน"),
         "approved": MessageLookupByLibrary.simpleMessage("ได้รับการอนุมัติ"),
         "assets_and_contracts":
@@ -54,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("ยกเลิก"),
         "choose_lock_method": MessageLookupByLibrary.simpleMessage(
             "โปรดเลือกวิธีการดังต่อไปนี้ที่คุณต้องการใช้ในการปกป้องกระเป๋าเงินของคุณ"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("ปิด"),
         "coming_soon":
             MessageLookupByLibrary.simpleMessage("จะมีให้บริการในเร็ว ๆ นี้!"),
@@ -68,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("ติดต่อเรา"),
         "contact_us_for_support": MessageLookupByLibrary.simpleMessage(
             "ติดต่อเราเพื่อรับการสนับสนุน"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with":
             MessageLookupByLibrary.simpleMessage("ดำเนินการต่อไปด้วย"),
         "copied_to_clipboard":
@@ -99,12 +105,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ฝากจากอีเธอร์เรียม"),
         "deposit_from_ethereum_or_BSC":
             MessageLookupByLibrary.simpleMessage("ฝากจากอีเธอร์เรียม หรือ BSC"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("ฝากเงินของคุณ"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("ฝากเงินดอลลาร์แรกของคุณ"),
         "didnt_get_message":
             MessageLookupByLibrary.simpleMessage("ไม่ได้รับข้อความหรือ"),
         "dismiss": MessageLookupByLibrary.simpleMessage("ไม่สนใจ"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("ไม่ต้องเป็นห่วง:"),
         "earn": MessageLookupByLibrary.simpleMessage("รับ"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
@@ -201,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("เข้าสู่ระบบ"),
         "logout": MessageLookupByLibrary.simpleMessage("ออกจากระบบ"),
         "map": MessageLookupByLibrary.simpleMessage("แผนที่"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("ย้ายไปยัง"),
         "my_communities": MessageLookupByLibrary.simpleMessage("ชุมชนของฉัน"),
         "name": MessageLookupByLibrary.simpleMessage("ชื่อ"),
@@ -208,6 +220,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network_fee":
             MessageLookupByLibrary.simpleMessage("ค่าธรรมเนียมเครือข่าย"),
         "next_button": MessageLookupByLibrary.simpleMessage("ถัดไป"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("ไม่ใช่"),
         "no_activity": MessageLookupByLibrary.simpleMessage("ไม่มีกิจกรรม"),
         "no_businesses": MessageLookupByLibrary.simpleMessage("ไม่พบธุรกิจ"),
@@ -374,6 +387,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ยอดคงเหลือของคุณ"),
         "your_balance_is_empty":
             MessageLookupByLibrary.simpleMessage("คุณไม่มียอดเงินคงเหลือ"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty":
             MessageLookupByLibrary.simpleMessage("กระเป๋าเงินของคุณว่างเปล่า!")
       };

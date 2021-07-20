@@ -118,7 +118,6 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: I10n.of(context).account,
           )
-          // bottomBarItem(I10n.of(context).account, 'account'),
         ],
       ),
     );

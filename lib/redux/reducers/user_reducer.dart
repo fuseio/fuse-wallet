@@ -29,6 +29,7 @@ final userReducers = combineReducers<UserState>([
       _receiveBackupDialogShowed),
   TypedReducer<UserState, DepositBannerShowed>(_depositBannerShowed),
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
+  TypedReducer<UserState, WarnSendDialogShowed>(_warnSendDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
   TypedReducer<UserState, UpdateLocale>(_updateLocale),
 ]);
@@ -53,6 +54,12 @@ UserState _depositBannerShowed(UserState state, DepositBannerShowed action) {
 UserState _homeBackupDialogShowed(
     UserState state, HomeBackupDialogShowed action) {
   return state.copyWith(homeBackupDialogShowed: true);
+}
+
+UserState _warnSendDialogShowed(UserState state, WarnSendDialogShowed action) {
+  return state.copyWith(
+    warnSendDialogShowed: action.value,
+  );
 }
 
 UserState _setSecurityType(UserState state, SetSecurityType action) {
