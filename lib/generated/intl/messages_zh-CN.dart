@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "activate": MessageLookupByLibrary.simpleMessage("激活"),
         "activity": MessageLookupByLibrary.simpleMessage("活动"),
         "address": MessageLookupByLibrary.simpleMessage("地址"),
+        "address_on_fuse": MessageLookupByLibrary.simpleMessage(
+            "Please make sure the address you are sending funds to is on the Fuse Network."),
+        "address_on_other": MessageLookupByLibrary.simpleMessage(
+            "To send funds between Fuse and other networks like Ethereum of BSC please use the link below:"),
         "amount": MessageLookupByLibrary.simpleMessage("金额"),
         "approved": MessageLookupByLibrary.simpleMessage("已批准"),
         "assets_and_contracts": MessageLookupByLibrary.simpleMessage("资产和合同"),
@@ -49,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "choose_lock_method":
             MessageLookupByLibrary.simpleMessage("请选择以下方法来保护您的钱包"),
+        "claim": MessageLookupByLibrary.simpleMessage("Claim"),
         "close": MessageLookupByLibrary.simpleMessage("关闭"),
         "coming_soon": MessageLookupByLibrary.simpleMessage("即将推出"),
         "community": MessageLookupByLibrary.simpleMessage("社区"),
@@ -59,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contact_us": MessageLookupByLibrary.simpleMessage("联系我们"),
         "contact_us_for_support":
             MessageLookupByLibrary.simpleMessage("联系我们以获取支持"),
+        "continue_button": MessageLookupByLibrary.simpleMessage("Continue"),
         "continue_with": MessageLookupByLibrary.simpleMessage("继续"),
         "copied_to_clipboard": MessageLookupByLibrary.simpleMessage("已复制到剪贴板"),
         "copy_to_clipboard": MessageLookupByLibrary.simpleMessage("复制到剪贴板"),
@@ -83,11 +89,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("从以太坊存入资金"),
         "deposit_from_ethereum_or_BSC":
             MessageLookupByLibrary.simpleMessage("从以太坊或 BSC 存入资金"),
+        "deposit_fuse_dollar":
+            MessageLookupByLibrary.simpleMessage("Deposit Fuse Dollar"),
         "deposit_your": MessageLookupByLibrary.simpleMessage("存入您的"),
         "deposit_your_first_dollars":
             MessageLookupByLibrary.simpleMessage("存入您的第一笔资金"),
         "didnt_get_message": MessageLookupByLibrary.simpleMessage("没收到消息？-"),
         "dismiss": MessageLookupByLibrary.simpleMessage("取消"),
+        "dont_show_next_time":
+            MessageLookupByLibrary.simpleMessage("Don\'t show next time"),
         "dont_worry": MessageLookupByLibrary.simpleMessage("别担心："),
         "earn": MessageLookupByLibrary.simpleMessage("赚取"),
         "earn_description": MessageLookupByLibrary.simpleMessage(
@@ -174,12 +184,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("登录"),
         "logout": MessageLookupByLibrary.simpleMessage("登出"),
         "map": MessageLookupByLibrary.simpleMessage("地图"),
+        "min_to_claim": MessageLookupByLibrary.simpleMessage(
+            "Minminal amount to claim - \$0.01"),
         "move_to": MessageLookupByLibrary.simpleMessage("移至"),
         "my_communities": MessageLookupByLibrary.simpleMessage("我的社区"),
         "name": MessageLookupByLibrary.simpleMessage("名称"),
         "network": MessageLookupByLibrary.simpleMessage("网络"),
         "network_fee": MessageLookupByLibrary.simpleMessage("网络费用"),
         "next_button": MessageLookupByLibrary.simpleMessage("下一步"),
+        "next_claim": MessageLookupByLibrary.simpleMessage("Next claim in"),
         "no": MessageLookupByLibrary.simpleMessage("否"),
         "no_activity": MessageLookupByLibrary.simpleMessage("没有活动"),
         "no_businesses": MessageLookupByLibrary.simpleMessage("未找到商家"),
@@ -317,6 +330,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "you_got_a": MessageLookupByLibrary.simpleMessage("您获得了"),
         "your_balance": MessageLookupByLibrary.simpleMessage("您的余额"),
         "your_balance_is_empty": MessageLookupByLibrary.simpleMessage("您没有余额"),
+        "your_projected_balance":
+            MessageLookupByLibrary.simpleMessage("Your projected balance"),
         "your_wallet_is_empty": MessageLookupByLibrary.simpleMessage("您的钱包是空的！")
       };
 }

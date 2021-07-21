@@ -49,6 +49,12 @@ class ContactsViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [contacts, reverseContacts, countryCode, businesses, isoCode, community];
+  List<Object> get props => [
+        contacts,
+        reverseContacts,
+        countryCode,
+        businesses,
+        isoCode,
+        community,
+      ];
 }

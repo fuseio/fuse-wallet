@@ -1,15 +1,15 @@
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
-class CashHeaderViewModel {
+class HeaderViewModel {
   final Function() firstName;
 
-  CashHeaderViewModel({
+  HeaderViewModel({
     required this.firstName,
   });
 
-  static CashHeaderViewModel fromStore(Store<AppState> store) {
-    return CashHeaderViewModel(
+  static HeaderViewModel fromStore(Store<AppState> store) {
+    return HeaderViewModel(
       firstName: () {
         String fullName = store.state.userState.displayName;
         return fullName.split(' ')[0];

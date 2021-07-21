@@ -32,12 +32,12 @@ class FirebaseStrategy implements IOnBoardStrategy {
         accountAddress,
         identifier,
       );
-      store.dispatch(SetIsVerifyRequest(isLoading: false));
-      log.info('jwtToken $jwtToken');
-      store.dispatch(LoginVerifySuccess(jwtToken));
       Segment.track(
         eventName: 'Sign up: VerificationCode_NextBtn_Press',
       );
+      store.dispatch(SetIsVerifyRequest(isLoading: false));
+      log.info('jwtToken $jwtToken');
+      store.dispatch(LoginVerifySuccess(jwtToken));
       rootRouter.push(UserNameScreen());
     };
 

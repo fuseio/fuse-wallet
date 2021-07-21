@@ -36,6 +36,7 @@ class _$UserStateTearOff {
       String countryCode = '',
       String phoneNumber = '',
       bool receiveBackupDialogShowed = false,
+      bool warnSendDialogShowed = false,
       String isoCode = '',
       String jwtToken = '',
       String displayName = 'Anom',
@@ -79,6 +80,7 @@ class _$UserStateTearOff {
       countryCode: countryCode,
       phoneNumber: phoneNumber,
       receiveBackupDialogShowed: receiveBackupDialogShowed,
+      warnSendDialogShowed: warnSendDialogShowed,
       isoCode: isoCode,
       jwtToken: jwtToken,
       displayName: displayName,
@@ -125,6 +127,7 @@ mixin _$UserState {
   String get countryCode => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   bool get receiveBackupDialogShowed => throw _privateConstructorUsedError;
+  bool get warnSendDialogShowed => throw _privateConstructorUsedError;
   String get isoCode => throw _privateConstructorUsedError;
   String get jwtToken => throw _privateConstructorUsedError;
   String get displayName => throw _privateConstructorUsedError;
@@ -179,6 +182,7 @@ abstract class $UserStateCopyWith<$Res> {
       String countryCode,
       String phoneNumber,
       bool receiveBackupDialogShowed,
+      bool warnSendDialogShowed,
       String isoCode,
       String jwtToken,
       String displayName,
@@ -233,6 +237,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object? countryCode = freezed,
     Object? phoneNumber = freezed,
     Object? receiveBackupDialogShowed = freezed,
+    Object? warnSendDialogShowed = freezed,
     Object? isoCode = freezed,
     Object? jwtToken = freezed,
     Object? displayName = freezed,
@@ -312,6 +317,10 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
           ? _value.receiveBackupDialogShowed
           : receiveBackupDialogShowed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      warnSendDialogShowed: warnSendDialogShowed == freezed
+          ? _value.warnSendDialogShowed
+          : warnSendDialogShowed // ignore: cast_nullable_to_non_nullable
               as bool,
       isoCode: isoCode == freezed
           ? _value.isoCode
@@ -411,6 +420,7 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       String countryCode,
       String phoneNumber,
       bool receiveBackupDialogShowed,
+      bool warnSendDialogShowed,
       String isoCode,
       String jwtToken,
       String displayName,
@@ -466,6 +476,7 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object? countryCode = freezed,
     Object? phoneNumber = freezed,
     Object? receiveBackupDialogShowed = freezed,
+    Object? warnSendDialogShowed = freezed,
     Object? isoCode = freezed,
     Object? jwtToken = freezed,
     Object? displayName = freezed,
@@ -545,6 +556,10 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
           ? _value.receiveBackupDialogShowed
           : receiveBackupDialogShowed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      warnSendDialogShowed: warnSendDialogShowed == freezed
+          ? _value.warnSendDialogShowed
+          : warnSendDialogShowed // ignore: cast_nullable_to_non_nullable
               as bool,
       isoCode: isoCode == freezed
           ? _value.isoCode
@@ -642,6 +657,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       this.countryCode = '',
       this.phoneNumber = '',
       this.receiveBackupDialogShowed = false,
+      this.warnSendDialogShowed = false,
       this.isoCode = '',
       this.jwtToken = '',
       this.displayName = 'Anom',
@@ -718,6 +734,9 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   @JsonKey(defaultValue: false)
   @override
   final bool receiveBackupDialogShowed;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool warnSendDialogShowed;
   @JsonKey(defaultValue: '')
   @override
   final String isoCode;
@@ -775,7 +794,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState(installedAt: $installedAt, isContactsSynced: $isContactsSynced, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, locale: $locale, contacts: $contacts, credentials: $credentials)';
+    return 'UserState(installedAt: $installedAt, isContactsSynced: $isContactsSynced, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, warnSendDialogShowed: $warnSendDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, locale: $locale, contacts: $contacts, credentials: $credentials)';
   }
 
   @override
@@ -800,6 +819,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
       ..add(DiagnosticsProperty(
           'receiveBackupDialogShowed', receiveBackupDialogShowed))
+      ..add(DiagnosticsProperty('warnSendDialogShowed', warnSendDialogShowed))
       ..add(DiagnosticsProperty('isoCode', isoCode))
       ..add(DiagnosticsProperty('jwtToken', jwtToken))
       ..add(DiagnosticsProperty('displayName', displayName))
@@ -869,6 +889,9 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
                 const DeepCollectionEquality().equals(
                     other.receiveBackupDialogShowed,
                     receiveBackupDialogShowed)) &&
+            (identical(other.warnSendDialogShowed, warnSendDialogShowed) ||
+                const DeepCollectionEquality().equals(
+                    other.warnSendDialogShowed, warnSendDialogShowed)) &&
             (identical(other.isoCode, isoCode) ||
                 const DeepCollectionEquality()
                     .equals(other.isoCode, isoCode)) &&
@@ -883,9 +906,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
                     .equals(other.avatarUrl, avatarUrl)) &&
             (identical(other.email, email) ||
                 const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.verificationId, verificationId) ||
-                const DeepCollectionEquality()
-                    .equals(other.verificationId, verificationId)) &&
+            (identical(other.verificationId, verificationId) || const DeepCollectionEquality().equals(other.verificationId, verificationId)) &&
             (identical(other.identifier, identifier) || const DeepCollectionEquality().equals(other.identifier, identifier)) &&
             (identical(other.syncedContacts, syncedContacts) || const DeepCollectionEquality().equals(other.syncedContacts, syncedContacts)) &&
             (identical(other.reverseContacts, reverseContacts) || const DeepCollectionEquality().equals(other.reverseContacts, reverseContacts)) &&
@@ -918,6 +939,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(countryCode) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(receiveBackupDialogShowed) ^
+      const DeepCollectionEquality().hash(warnSendDialogShowed) ^
       const DeepCollectionEquality().hash(isoCode) ^
       const DeepCollectionEquality().hash(jwtToken) ^
       const DeepCollectionEquality().hash(displayName) ^
@@ -965,6 +987,7 @@ abstract class _UserState extends UserState {
       String countryCode,
       String phoneNumber,
       bool receiveBackupDialogShowed,
+      bool warnSendDialogShowed,
       String isoCode,
       String jwtToken,
       String displayName,
@@ -1027,6 +1050,8 @@ abstract class _UserState extends UserState {
   String get phoneNumber => throw _privateConstructorUsedError;
   @override
   bool get receiveBackupDialogShowed => throw _privateConstructorUsedError;
+  @override
+  bool get warnSendDialogShowed => throw _privateConstructorUsedError;
   @override
   String get isoCode => throw _privateConstructorUsedError;
   @override
