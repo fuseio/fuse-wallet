@@ -273,17 +273,19 @@ class _EarnScreenState extends State<EarnScreen> {
                                 ),
                               ),
                               onPressed: canClaim
-                                  ? viewModel.claimReward(
-                                      () {
-                                        context.navigateTo(
-                                          HomeTab(
-                                            children: [
-                                              HomeScreen(),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    )
+                                  ? () {
+                                      viewModel.claimReward(
+                                        () {
+                                          context.navigateTo(
+                                            HomeTab(
+                                              children: [
+                                                HomeScreen(),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
                                   : null,
                             ),
                     ],
