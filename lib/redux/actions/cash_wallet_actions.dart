@@ -1300,9 +1300,9 @@ ThunkAction claimUserReward(VoidCallback onSuccess) {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      // await api.claimReward(
-      //   walletAddress,
-      // );
+      await api.claimReward(
+        walletAddress,
+      );
       onSuccess();
       store.dispatch(ResetJustClaim(true));
     } catch (e, s) {

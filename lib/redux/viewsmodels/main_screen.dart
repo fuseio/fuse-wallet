@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
@@ -11,7 +10,7 @@ class MainScreenViewModel {
     required this.countryCode,
     required this.justClaimed,
     required this.resetJustClaim,
-});
+  });
 
   static MainScreenViewModel fromStore(Store<AppState> store) {
     return MainScreenViewModel(
@@ -19,7 +18,7 @@ class MainScreenViewModel {
       justClaimed: store.state.cashWalletState.justClaimed,
       resetJustClaim: (bool value) {
         store.dispatch(ResetJustClaim(value));
-      }
+      },
     );
   }
 }
