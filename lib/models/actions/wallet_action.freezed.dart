@@ -26,6 +26,8 @@ WalletAction _$WalletActionFromJson(Map<String, dynamic> json) {
       return Send.fromJson(json);
     case 'receive':
       return Receive.fromJson(json);
+    case 'claimApy':
+      return ClaimApy.fromJson(json);
     case 'swap':
       return Swap.fromJson(json);
 
@@ -204,6 +206,29 @@ class _$WalletActionTearOff {
     );
   }
 
+  ClaimApy claimApy(
+      {int timestamp = 0,
+      @JsonKey(name: '_id') required String id,
+      String name = 'claimApy',
+      String? txHash = null,
+      required String status,
+      int? blockNumber = 0,
+      String? from,
+      String? to,
+      required BigInt value}) {
+    return ClaimApy(
+      timestamp: timestamp,
+      id: id,
+      name: name,
+      txHash: txHash,
+      status: status,
+      blockNumber: blockNumber,
+      from: from,
+      to: to,
+      value: value,
+    );
+  }
+
   Swap swap(
       {int timestamp = 0,
       @JsonKey(name: '_id') required String id,
@@ -325,6 +350,17 @@ mixin _$WalletAction {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) =>
@@ -413,6 +449,17 @@ mixin _$WalletAction {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -426,6 +473,7 @@ mixin _$WalletAction {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) =>
       throw _privateConstructorUsedError;
@@ -437,6 +485,7 @@ mixin _$WalletAction {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) =>
@@ -743,6 +792,17 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -834,6 +894,17 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -853,6 +924,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return createWallet(this);
@@ -867,6 +939,7 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {
@@ -1245,6 +1318,17 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -1337,6 +1421,17 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -1357,6 +1452,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return fiatDeposit(this);
@@ -1371,6 +1467,7 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {
@@ -1711,6 +1808,17 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -1803,6 +1911,17 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -1823,6 +1942,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return joinCommunity(this);
@@ -1837,6 +1957,7 @@ class _$JoinCommunity extends JoinCommunity with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {
@@ -2232,6 +2353,17 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -2324,6 +2456,17 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -2357,6 +2500,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return bonus(this);
@@ -2371,6 +2515,7 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {
@@ -2759,6 +2904,17 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -2851,6 +3007,17 @@ class _$Send extends Send with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -2871,6 +3038,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return send(this);
@@ -2885,6 +3053,7 @@ class _$Send extends Send with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {
@@ -3272,6 +3441,17 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -3364,6 +3544,17 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -3384,6 +3575,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return receive(this);
@@ -3398,6 +3590,7 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {
@@ -3455,6 +3648,480 @@ abstract class Receive extends WalletAction {
   @override
   @JsonKey(ignore: true)
   $ReceiveCopyWith<Receive> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ClaimApyCopyWith<$Res> implements $WalletActionCopyWith<$Res> {
+  factory $ClaimApyCopyWith(ClaimApy value, $Res Function(ClaimApy) then) =
+      _$ClaimApyCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int timestamp,
+      @JsonKey(name: '_id') String id,
+      String name,
+      String? txHash,
+      String status,
+      int? blockNumber,
+      String? from,
+      String? to,
+      BigInt value});
+}
+
+/// @nodoc
+class _$ClaimApyCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
+    implements $ClaimApyCopyWith<$Res> {
+  _$ClaimApyCopyWithImpl(ClaimApy _value, $Res Function(ClaimApy) _then)
+      : super(_value, (v) => _then(v as ClaimApy));
+
+  @override
+  ClaimApy get _value => super._value as ClaimApy;
+
+  @override
+  $Res call({
+    Object? timestamp = freezed,
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? txHash = freezed,
+    Object? status = freezed,
+    Object? blockNumber = freezed,
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? value = freezed,
+  }) {
+    return _then(ClaimApy(
+      timestamp: timestamp == freezed
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as int,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      txHash: txHash == freezed
+          ? _value.txHash
+          : txHash // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      blockNumber: blockNumber == freezed
+          ? _value.blockNumber
+          : blockNumber // ignore: cast_nullable_to_non_nullable
+              as int?,
+      from: from == freezed
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as String?,
+      to: to == freezed
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String?,
+      value: value == freezed
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable()
+class _$ClaimApy extends ClaimApy with DiagnosticableTreeMixin {
+  const _$ClaimApy(
+      {this.timestamp = 0,
+      @JsonKey(name: '_id') required this.id,
+      this.name = 'claimApy',
+      this.txHash = null,
+      required this.status,
+      this.blockNumber = 0,
+      this.from,
+      this.to,
+      required this.value})
+      : super._();
+
+  factory _$ClaimApy.fromJson(Map<String, dynamic> json) =>
+      _$_$ClaimApyFromJson(json);
+
+  @JsonKey(defaultValue: 0)
+  @override
+  final int timestamp;
+  @override
+  @JsonKey(name: '_id')
+  final String id;
+  @JsonKey(defaultValue: 'claimApy')
+  @override
+  final String name;
+  @JsonKey(defaultValue: null)
+  @override
+  final String? txHash;
+  @override
+  final String status;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int? blockNumber;
+  @override
+  final String? from;
+  @override
+  final String? to;
+  @override
+  final BigInt value;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WalletAction.claimApy(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, from: $from, to: $to, value: $value)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WalletAction.claimApy'))
+      ..add(DiagnosticsProperty('timestamp', timestamp))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('txHash', txHash))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('blockNumber', blockNumber))
+      ..add(DiagnosticsProperty('from', from))
+      ..add(DiagnosticsProperty('to', to))
+      ..add(DiagnosticsProperty('value', value));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ClaimApy &&
+            (identical(other.timestamp, timestamp) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestamp, timestamp)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.txHash, txHash) ||
+                const DeepCollectionEquality().equals(other.txHash, txHash)) &&
+            (identical(other.status, status) ||
+                const DeepCollectionEquality().equals(other.status, status)) &&
+            (identical(other.blockNumber, blockNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.blockNumber, blockNumber)) &&
+            (identical(other.from, from) ||
+                const DeepCollectionEquality().equals(other.from, from)) &&
+            (identical(other.to, to) ||
+                const DeepCollectionEquality().equals(other.to, to)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(timestamp) ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(txHash) ^
+      const DeepCollectionEquality().hash(status) ^
+      const DeepCollectionEquality().hash(blockNumber) ^
+      const DeepCollectionEquality().hash(from) ^
+      const DeepCollectionEquality().hash(to) ^
+      const DeepCollectionEquality().hash(value);
+
+  @JsonKey(ignore: true)
+  @override
+  $ClaimApyCopyWith<ClaimApy> get copyWith =>
+      _$ClaimApyCopyWithImpl<ClaimApy>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int timestamp, @JsonKey(name: '_id') String id,
+            String name, String? txHash, String status, int? blockNumber)
+        createWallet,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String? from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal)
+        fiatDeposit,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String? communityAddress,
+            String tokenAddress,
+            String? communityName)
+        joinCommunity,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String? from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal,
+            String? bonusType)
+        bonus,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal)
+        send,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal)
+        receive,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
+        swap,
+  }) {
+    return claimApy(
+        timestamp, id, name, txHash, status, blockNumber, from, to, value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int timestamp, @JsonKey(name: '_id') String id,
+            String name, String? txHash, String status, int? blockNumber)?
+        createWallet,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String? from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal)?
+        fiatDeposit,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String? communityAddress,
+            String tokenAddress,
+            String? communityName)?
+        joinCommunity,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String? from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal,
+            String? bonusType)?
+        bonus,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal)?
+        send,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String tokenAddress,
+            String from,
+            String to,
+            BigInt value,
+            String tokenName,
+            String tokenSymbol,
+            int tokenDecimal)?
+        receive,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
+            @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
+        swap,
+    required TResult orElse(),
+  }) {
+    if (claimApy != null) {
+      return claimApy(
+          timestamp, id, name, txHash, status, blockNumber, from, to, value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreateWallet value) createWallet,
+    required TResult Function(FiatDeposit value) fiatDeposit,
+    required TResult Function(JoinCommunity value) joinCommunity,
+    required TResult Function(Bonus value) bonus,
+    required TResult Function(Send value) send,
+    required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
+    required TResult Function(Swap value) swap,
+  }) {
+    return claimApy(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreateWallet value)? createWallet,
+    TResult Function(FiatDeposit value)? fiatDeposit,
+    TResult Function(JoinCommunity value)? joinCommunity,
+    TResult Function(Bonus value)? bonus,
+    TResult Function(Send value)? send,
+    TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
+    TResult Function(Swap value)? swap,
+    required TResult orElse(),
+  }) {
+    if (claimApy != null) {
+      return claimApy(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$ClaimApyToJson(this)..['runtimeType'] = 'claimApy';
+  }
+}
+
+abstract class ClaimApy extends WalletAction {
+  const factory ClaimApy(
+      {int timestamp,
+      @JsonKey(name: '_id') required String id,
+      String name,
+      String? txHash,
+      required String status,
+      int? blockNumber,
+      String? from,
+      String? to,
+      required BigInt value}) = _$ClaimApy;
+  const ClaimApy._() : super._();
+
+  factory ClaimApy.fromJson(Map<String, dynamic> json) = _$ClaimApy.fromJson;
+
+  @override
+  int get timestamp => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: '_id')
+  String get id => throw _privateConstructorUsedError;
+  @override
+  String get name => throw _privateConstructorUsedError;
+  @override
+  String? get txHash => throw _privateConstructorUsedError;
+  @override
+  String get status => throw _privateConstructorUsedError;
+  @override
+  int? get blockNumber => throw _privateConstructorUsedError;
+  String? get from => throw _privateConstructorUsedError;
+  String? get to => throw _privateConstructorUsedError;
+  BigInt get value => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $ClaimApyCopyWith<ClaimApy> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -3717,6 +4384,17 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)
+        claimApy,
+    required TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)
         swap,
   }) {
@@ -3808,6 +4486,17 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
             String? txHash,
             String status,
             int? blockNumber,
+            String? from,
+            String? to,
+            BigInt value)?
+        claimApy,
+    TResult Function(
+            int timestamp,
+            @JsonKey(name: '_id') String id,
+            String name,
+            String? txHash,
+            String status,
+            int? blockNumber,
             @JsonKey(name: 'metadata') TradeInfo? tradeInfo)?
         swap,
     required TResult orElse(),
@@ -3827,6 +4516,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
     required TResult Function(Bonus value) bonus,
     required TResult Function(Send value) send,
     required TResult Function(Receive value) receive,
+    required TResult Function(ClaimApy value) claimApy,
     required TResult Function(Swap value) swap,
   }) {
     return swap(this);
@@ -3841,6 +4531,7 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
     TResult Function(Bonus value)? bonus,
     TResult Function(Send value)? send,
     TResult Function(Receive value)? receive,
+    TResult Function(ClaimApy value)? claimApy,
     TResult Function(Swap value)? swap,
     required TResult orElse(),
   }) {

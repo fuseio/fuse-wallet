@@ -1,11 +1,15 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fusecash/features/shared/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:confetti/confetti.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/viewsmodels/main_screen.dart';
+import 'package:upgrader/upgrader.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key}) : super(key: key);
@@ -76,6 +80,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Upgrader().clearSavedSettings();
+    final AppcastConfiguration cfg = AppcastConfiguration(
+      url:
+          'https://raw.githubusercontent.com/fuseio/fuse-wallet/fusecash/appcast-fusecash.xml',
+      supportedOS: ['android'],
+    );
     return WillPopScope(
       onWillPop: () {
         if (_tabsRouter.canPopSelfOrChildren) {
@@ -87,19 +97,39 @@ class _MainScreenState extends State<MainScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          AutoTabsScaffold(
-            animationDuration: Duration(milliseconds: 0),
-            routes: [
-              HomeTab(),
-              ContactsTab(),
-              SwapTab(),
-              EarnTab(),
-              AccountTab(),
-            ],
-            bottomNavigationBuilder: (_, TabsRouter tabs) {
-              _tabsRouter = tabs;
-              return BottomBar(tabs);
+          StoreConnector<AppState, MainScreenViewModel>(
+            distinct: true,
+            converter: MainScreenViewModel.fromStore,
+            onWillChange: (previousViewModel, newViewModel) {
+              if (previousViewModel?.justClaimed != newViewModel.justClaimed &&
+                  newViewModel.justClaimed) {
+                Future.delayed(Duration(milliseconds: 2500), () {
+                  _controllerBottomCenter.play();
+                  newViewModel.resetJustClaim(false);
+                });
+              }
             },
+            builder: (_, viewModel) => UpgradeAlert(
+              appcastConfig: cfg,
+              showIgnore: false,
+              showReleaseNotes: false,
+              durationToAlertAgain: Duration(hours: 5),
+              countryCode: viewModel.countryCode,
+              child: AutoTabsScaffold(
+                animationDuration: Duration(milliseconds: 0),
+                routes: [
+                  HomeTab(),
+                  ContactsTab(),
+                  SwapTab(),
+                  EarnTab(),
+                  AccountTab(),
+                ],
+                bottomNavigationBuilder: (_, TabsRouter tabs) {
+                  _tabsRouter = tabs;
+                  return BottomBar(tabs);
+                },
+              ),
+            ),
           ),
           Positioned(
             child: ConfettiWidget(

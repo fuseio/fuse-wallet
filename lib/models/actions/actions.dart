@@ -45,7 +45,6 @@ class WalletActionFactory {
     } else if (json['name'] == 'swapTokens') {
       return Swap.fromJson(json);
     } else if (json['name'] == 'tokenBonus') {
-      log.info('json $json');
       return Bonus.fromJson(json);
     } else if (json['name'] == 'joinCommunity') {
       return JoinCommunity.fromJson(json);
@@ -55,13 +54,21 @@ class WalletActionFactory {
       return FiatDeposit.fromJson(json);
     } else if (json['name'] == 'receiveTokens') {
       return Receive.fromJson(json);
+    } else if (json['name'] == 'claimApy') {
+      return ClaimApy.fromJson(json);
     } else {
       return Receive.fromJson(json);
     }
   }
 
   static List<WalletAction> actionsFromJson(Iterable<dynamic> docs) =>
-      List<WalletAction>.from(docs.map(
-        (json) => WalletActionFactory.create(json),
-      ));
+      List.from(docs).fold<List<WalletAction>>([], (previousValue, action) {
+        try {
+          return [...previousValue, WalletActionFactory.create(action)];
+        } catch (e, s) {
+          log.info(
+              'Error while trying to add WalletAction ${e.toString()}  ${s.toString()}');
+          return previousValue;
+        }
+      });
 }

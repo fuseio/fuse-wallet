@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:advertising_id/advertising_id.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
@@ -88,8 +89,7 @@ class _MyAppState extends State<MyApp> {
       afDevKey: dotenv.env['APPS_FLYER_DEV_KEY']!,
       appId: '1559937899',
       showDebug: kDebugMode,
-      timeToWaitForATTUserAuthorization: 30,
-      disableAdvertisingIdentifier: false,
+      timeToWaitForATTUserAuthorization: 120,
     );
     _appsflyerSdk = AppsflyerSdk(options);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {

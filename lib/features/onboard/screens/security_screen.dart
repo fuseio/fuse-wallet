@@ -34,6 +34,7 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
           return MyScaffold(
             title: I10n.of(context).protect_wallet,
             body: Container(
+              height: MediaQuery.of(context).size.height * .9,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -174,7 +175,6 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                               viewModel.setSecurityType(
                                                 snapshot.requireData,
                                               );
-                                              context.router.popUntilRoot();
                                               Segment.track(
                                                 eventName:
                                                     'Sign up: Protection Done',
@@ -239,7 +239,6 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                   eventName:
                                                       'Sign up: Protection Done',
                                                 );
-                                                context.router.popUntilRoot();
                                                 context.router
                                                     .push(MainScreen());
                                               },

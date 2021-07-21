@@ -47,6 +47,7 @@ class ActionTile extends StatelessWidget {
           viewModel.countryCode,
         );
         final Community? community = action.map(
+          claimApy: (value) => null,
           createWallet: (value) => null,
           joinCommunity: (value) => viewModel.communities[
               value.communityAddress?.toLowerCase() ??
@@ -70,6 +71,8 @@ class ActionTile extends StatelessWidget {
         );
 
         final Token? token = action.map(
+          claimApy: (value) =>
+              viewModel.tokens[fuseDollarToken.address.toLowerCase()],
           createWallet: (value) => null,
           joinCommunity: (value) => null,
           fiatDeposit: (value) =>
@@ -85,6 +88,7 @@ class ActionTile extends StatelessWidget {
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(token?.priceInfo?.quote);
         final String displayName = action.map(
+          claimApy: (value) => value.getText(context),
           createWallet: (value) => value.getText(context),
           joinCommunity: (value) => value.getText(context),
           fiatDeposit: (value) => value.getText(context),
@@ -108,6 +112,7 @@ class ActionTile extends StatelessWidget {
               value.getText(context),
         );
         final String symbol = action.map(
+          claimApy: (value) => fuseDollarToken.symbol,
           createWallet: (value) => '',
           joinCommunity: (value) =>
               viewModel.tokens[value.tokenAddress.toLowerCase()]?.symbol ?? '',
@@ -308,6 +313,7 @@ class ActionTile extends StatelessWidget {
                       ),
                       Text(
                         action.map(
+                          claimApy: (value) => '',
                           createWallet: (value) => '',
                           joinCommunity: (value) => '',
                           fiatDeposit: (value) => '',
@@ -335,6 +341,7 @@ class ActionTile extends StatelessWidget {
                       ),
                       Text(
                         action.map(
+                          claimApy: (value) => '',
                           createWallet: (value) => '',
                           joinCommunity: (value) => '',
                           fiatDeposit: (value) => '',
@@ -379,6 +386,7 @@ class ActionTile extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
+                claimApy: (value) => null,
                 joinCommunity: (value) => null,
                 fiatDeposit: (value) => null,
                 bonus: (value) => Text(
@@ -392,6 +400,7 @@ class ActionTile extends StatelessWidget {
                 receive: (value) => null,
                 swap: (value) => Text(
                   action.map(
+                        claimApy: (value) => '',
                         createWallet: (value) => '',
                         joinCommunity: (value) => '',
                         fiatDeposit: (value) => '',
@@ -410,6 +419,7 @@ class ActionTile extends StatelessWidget {
                       ) +
                       ' ${I10n.of(context).to.toLowerCase()} ' +
                       action.map(
+                        claimApy: (value) => '',
                         createWallet: (value) => '',
                         joinCommunity: (value) => '',
                         fiatDeposit: (value) => '',

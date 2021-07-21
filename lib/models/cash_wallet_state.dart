@@ -64,7 +64,7 @@ class CashWalletState with _$CashWalletState {
   @JsonSerializable()
   factory CashWalletState({
     @Default('') String communityAddress,
-    RewardClaim? rewardClaim,
+    @JsonKey(ignore: true) RewardClaim? rewardClaim,
     @Default(true) bool isDepositBanner,
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @JsonKey(fromJson: communitiesFromJson)
@@ -79,6 +79,7 @@ class CashWalletState with _$CashWalletState {
     @JsonKey(ignore: true) @Default(false) bool isCommunityBusinessesFetched,
     @JsonKey(ignore: true) @Default(false) bool isJobProcessingStarted,
     @JsonKey(ignore: true) @Default(false) bool isFetchingBalances,
+    @JsonKey(ignore: true) @Default(false) bool justClaimed,
   }) = _CashWalletState;
 
   factory CashWalletState.initial() {

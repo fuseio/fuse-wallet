@@ -43,6 +43,7 @@ class ActionDetailsScreen extends StatelessWidget {
       send: (_) => I10n.of(context).to,
       receive: (value) => I10n.of(context).from,
       swap: (_) => I10n.of(context).sell,
+      claimApy: (value) => 'Earned Apy',
     );
 
     final String title = action.map(
@@ -53,6 +54,7 @@ class ActionDetailsScreen extends StatelessWidget {
       send: (_) => I10n.of(context).send,
       receive: (value) => I10n.of(context).receive,
       swap: (value) => I10n.of(context).swap,
+      claimApy: (value) => 'Earned Apy',
     );
 
     return new StoreConnector<AppState, ActionDetailsViewModel>(
@@ -68,6 +70,8 @@ class ActionDetailsScreen extends StatelessWidget {
           send: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           receive: (value) =>
               viewModel.tokens[value.tokenAddress.toLowerCase()],
+          claimApy: (value) =>
+              viewModel.tokens[fuseDollarToken.address.toLowerCase()],
           swap: (value) => viewModel.tokens.values.firstWhere(
             (element) => element.symbol == value.tradeInfo?.outputToken,
           ),
@@ -161,18 +165,19 @@ class ActionDetailsScreen extends StatelessWidget {
                             Text(name),
                             Row(
                               children: <Widget>[
-                                action.isSwapAction()
-                                    ? SizedBox.shrink()
-                                    : CircleAvatar(
-                                        backgroundColor: Color(0xFFE0E0E0),
-                                        radius: 22,
-                                        backgroundImage: image,
-                                      ),
+                                // action.isSwapAction()
+                                //     ? SizedBox.shrink()
+                                //     : CircleAvatar(
+                                //         backgroundColor: Color(0xFFE0E0E0),
+                                //         radius: 22,
+                                //         backgroundImage: image,
+                                //       ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     action.isSwapAction()
                                         ? action.map(
+                                            claimApy: (value) => '',
                                             createWallet: (value) => '',
                                             joinCommunity: (value) => '',
                                             fiatDeposit: (value) => '',
@@ -236,6 +241,7 @@ class ActionDetailsScreen extends StatelessWidget {
                               context,
                               I10n.of(context).receive,
                               action.map(
+                                claimApy: (value) => '',
                                 createWallet: (value) => '',
                                 joinCommunity: (value) => '',
                                 fiatDeposit: (value) => '',

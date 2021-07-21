@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/models/tokens/price.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 
 part 'wallet_action.freezed.dart';
@@ -26,11 +27,31 @@ class WalletAction with _$WalletAction {
     return this.map(
       createWallet: (value) => '',
       joinCommunity: (value) => '',
-      fiatDeposit: (value) =>
-          calcPrice(value.value, value.tokenDecimal, priceInfo),
-      bonus: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
-      send: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
-      receive: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
+      fiatDeposit: (value) => calcPrice(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      bonus: (value) => calcPrice(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      send: (value) => calcPrice(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      receive: (value) => calcPrice(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      claimApy: (value) => calcPrice(
+        value.value,
+        fuseDollarToken.decimals,
+        priceInfo,
+      ),
       swap: (value) {
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
@@ -53,6 +74,7 @@ class WalletAction with _$WalletAction {
       send: (value) => false,
       receive: (value) => false,
       swap: (value) => false,
+      claimApy: (value) => false,
     );
   }
 
@@ -65,6 +87,7 @@ class WalletAction with _$WalletAction {
       send: (value) => false,
       receive: (value) => false,
       swap: (value) => true,
+      claimApy: (value) => false,
     );
   }
 
@@ -77,6 +100,7 @@ class WalletAction with _$WalletAction {
       send: (value) => false,
       receive: (value) => false,
       swap: (value) => false,
+      claimApy: (value) => false,
     );
   }
 
@@ -89,6 +113,7 @@ class WalletAction with _$WalletAction {
       send: (value) => false,
       receive: (value) => false,
       swap: (value) => false,
+      claimApy: (value) => false,
     );
   }
 
@@ -119,6 +144,10 @@ class WalletAction with _$WalletAction {
         height: 14,
       ),
       swap: (value) => SvgPicture.asset(
+        'assets/images/receive_icon.svg',
+        height: 14,
+      ),
+      claimApy: (value) => SvgPicture.asset(
         'assets/images/receive_icon.svg',
         height: 14,
       ),
@@ -210,6 +239,9 @@ class WalletAction with _$WalletAction {
             ' ${value.tradeInfo!.outputToken}';
         return text;
       },
+      claimApy: (value) {
+        return 'fUSD - earned';
+      },
     );
   }
 
@@ -222,6 +254,7 @@ class WalletAction with _$WalletAction {
       send: (value) => value.to,
       receive: (value) => value.from,
       swap: (value) => '',
+      claimApy: (value) => '',
     );
   }
 
@@ -234,6 +267,7 @@ class WalletAction with _$WalletAction {
       send: (value) => value.to,
       receive: (value) => value.to,
       swap: (value) => '',
+      claimApy: (value) => '',
     );
   }
 
@@ -328,6 +362,19 @@ class WalletAction with _$WalletAction {
     required String tokenSymbol,
     required int tokenDecimal,
   }) = Receive;
+
+  @JsonSerializable()
+  const factory WalletAction.claimApy({
+    @Default(0) int timestamp,
+    @JsonKey(name: '_id') required String id,
+    @Default('claimApy') String name,
+    @Default(null) String? txHash,
+    required String status,
+    @Default(0) int? blockNumber,
+    String? from,
+    String? to,
+    required BigInt value,
+  }) = ClaimApy;
 
   @JsonSerializable()
   const factory WalletAction.swap({

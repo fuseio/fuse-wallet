@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
@@ -53,9 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
         final TrackingStatus trackingStatus =
             await AppTrackingTransparency.requestTrackingAuthorization();
         if (trackingStatus == TrackingStatus.authorized && Platform.isIOS) {
-          final String uuid =
-              await AppTrackingTransparency.getAdvertisingIdentifier();
-          log.info('uuid $uuid');
+          await AppTrackingTransparency.getAdvertisingIdentifier();
         }
       }
       if (BiometricAuth.faceID == userState.authType ||

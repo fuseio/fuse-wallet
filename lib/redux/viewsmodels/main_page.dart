@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
@@ -10,6 +11,7 @@ class HomeScreenViewModel extends Equatable {
   final bool isBackupDialogShowed;
   final Function setShowDialog;
   final Function getSwapListBalances;
+  final Function updateReward;
 
   HomeScreenViewModel({
     required this.isContactsSynced,
@@ -17,6 +19,7 @@ class HomeScreenViewModel extends Equatable {
     required this.isBackupDialogShowed,
     required this.setShowDialog,
     required this.getSwapListBalances,
+    required this.updateReward,
   });
 
   static HomeScreenViewModel fromStore(Store<AppState> store) {
@@ -29,6 +32,9 @@ class HomeScreenViewModel extends Equatable {
       },
       getSwapListBalances: () {
         store.dispatch(fetchSwapBalances());
+      },
+      updateReward: () {
+        store.dispatch(getRewardData());
       },
     );
   }
