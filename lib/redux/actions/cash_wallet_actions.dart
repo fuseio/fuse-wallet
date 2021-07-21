@@ -1277,10 +1277,10 @@ ThunkAction getRewardData() {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      Map<String, dynamic> response = await api.getNextReward(
+      /*  Map<String, dynamic> response = await api.getNextReward(
         walletAddress,
-      );
-      if (response['rewardAmount'] != null) {
+      ); */
+      /* if (response['rewardAmount'] != null) {
         RewardClaim rewardClaim = RewardClaim.fromJson(
           response['rewardAmount'],
         );
@@ -1289,7 +1289,7 @@ ThunkAction getRewardData() {
             rewardClaim: rewardClaim,
           ),
         );
-      }
+      } */
     } catch (e, s) {
       log.error('Error in getRewardData: ${e.toString()} ${s.toString()}');
     }
@@ -1300,9 +1300,9 @@ ThunkAction claimUserReward(VoidCallback onSuccess) {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      await api.claimReward(
+      /*  await api.claimReward(
         walletAddress,
-      );
+      ); */
       onSuccess();
       store.dispatch(ResetJustClaim(true));
     } catch (e, s) {

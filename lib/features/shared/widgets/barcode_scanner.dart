@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/features/screens/main_screen.dart';
 import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
 import 'package:fusecash/features/shared/dialogs/warn_send.dart';
+import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/connect_response_model.dart';
+import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wallet_connect_connect.dart';
 import 'package:fusecash/redux/viewsmodels/warn_send.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -12,6 +15,8 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
+
+import 'dapp_wallet_connect/dapp_wallet_connect_home.dart';
 
 class BarcodeScanner extends StatefulWidget {
   const BarcodeScanner({
@@ -26,7 +31,8 @@ class BarcodeScanner extends StatefulWidget {
 
 class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
   late WalletConnectFlutter conn;
-
+  String wa = "";
+  late ConnectResponse connectResponse;
   // Platform messages are asynchronous, so we initialize in an async method.
   void initPlatformState() async {
     conn = WalletConnectFlutter(handler: this);
@@ -49,6 +55,9 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
       return;
     }
     log.info('connect ${res.toString()}');
+    if (res.msg.toString() == "startConnect success")
+      await DAppWalletConnect(context, wa).showBottomSheet();
+    onSessionRequest(int.parse(wa), res.msg);
   }
 
   @override
@@ -58,10 +67,9 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
     log.info('a $data');
     final String from = checksumEthereumAddress(data['from']);
     final String to = checksumEthereumAddress(data['to']);
-    final dynamic res = await api.approveTokenAndCallContract(
+    final dynamic res = await api.callContract(
       fuseWeb3!,
       from,
-      '0x249be57637d8b013ad64785404b24aebae9b098b',
       to,
       1,
       data['data'].replaceFirst(
@@ -116,13 +124,30 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
 
   @override
   void onSessionRequest(int? id, String? requestInJson) async {
-    await conn.approveSession(
+    WalletConnectResponse res = await conn.approveSession(
       [
-        '0x862Bd4208b2F6ed64Ce92AAdA2669d3c5CC705d9',
+        '$id',
       ],
       122,
     );
+    if (res.isError()) {
+      print("#########error");
+      return;
+    }
+    log.info('connect ${res.toString()}');
     log.info('onSessionRequest $requestInJson');
+    var parse = jsonDecode(requestInJson!);
+    Meta meta = new Meta(
+        description: parse["meta"]["description"],
+        icons: parse["meta"]["icons"],
+        name: parse["meta"]["name"],
+        url: parse["meta"]["url"]);
+
+    connectResponse =
+        new ConnectResponse(id: parse["id"].toString(), meta: meta);
+
+    await DAppWalletConnectHome(context, connectResponse).showBottomSheet();
+    onSessionDisconnect("hjk");
   }
 
   @override
@@ -131,50 +156,59 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
   }
 
   @override
-  void onSessionDisconnect(String? errInJson) {
+  void onSessionDisconnect(String? errInJson) async {
+    await conn.killSession();
     log.info('onSessionDisconnect $errInJson');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainScreen(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, WarnSendDialogViewModel>(
-      distinct: true,
-      converter: WarnSendDialogViewModel.fromStore,
-      builder: (_, viewModel) => Container(
-        width: 45,
-        height: 45,
-        child: GestureDetector(
-          child: widget.child ??
-              SvgPicture.asset(
-                'assets/images/scan_black.svg',
-                width: 25.0,
-              ),
-          onTap: () async {
-            String? result = await showDialog<String>(
-              context: context,
-              builder: (context) => ScanQRDialog(),
-            );
-            if (result != null) {
-              if (result.startsWith('wc:')) {
-                handleWC(result);
-              } else {
-                if (viewModel.warnSendDialogShowed) {
-                  barcodeScannerHandler(context, result);
-                } else {
-                  final bool? isAccepted = await showDialog<bool>(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) => WarnSendDialog(),
-                  );
-                  if (isAccepted != null && isAccepted) {
-                    barcodeScannerHandler(context, result);
+        distinct: true,
+        converter: WarnSendDialogViewModel.fromStore,
+        builder: (_, viewModel) {
+          wa = viewModel.walletAddress;
+          return Container(
+            width: 45,
+            height: 45,
+            child: GestureDetector(
+              child: widget.child ??
+                  SvgPicture.asset(
+                    'assets/images/scan_black.svg',
+                    width: 25.0,
+                  ),
+              onTap: () async {
+                String? result = await showDialog<String>(
+                  context: context,
+                  builder: (context) => ScanQRDialog(),
+                );
+                if (result != null) {
+                  if (result.startsWith('wc:')) {
+                    handleWC(result);
+                  } else {
+                    if (viewModel.warnSendDialogShowed) {
+                      barcodeScannerHandler(context, result);
+                    } else {
+                      final bool? isAccepted = await showDialog<bool>(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) => WarnSendDialog(),
+                      );
+                      if (isAccepted != null && isAccepted) {
+                        barcodeScannerHandler(context, result);
+                      }
+                    }
                   }
                 }
-              }
-            }
-          },
-        ),
-      ),
-    );
+              },
+            ),
+          );
+        });
   }
 }

@@ -1386,9 +1386,11 @@ packages:
   slide_countdown_clock:
     dependency: "direct main"
     description:
-      path: "../slide_countdown_clock"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: e0a5b469441c486eb5e191569d7cd2c46ff86c0b
+      url: "https://github.com/fuseio/slide_countdown_clock.git"
+    source: git
     version: "1.0.2"
   smooth_page_indicator:
     dependency: "direct main"
@@ -1575,16 +1577,20 @@ packages:
   wallet_connect_flutter:
     dependency: "direct main"
     description:
-      path: "../wallet-connect-flutter"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: dec22dcccef518d125a3627500130ffd4d96eb7c
+      url: "https://github.com/JubiterWallet/wallet-connect-flutter.git"
+    source: git
     version: "0.0.1"
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
+      path: "."
+      ref: "feat/null-safety"
+      resolved-ref: "8a92411a27661e1af078adbf98210b46cad67d3f"
+      url: "https://github.com/fuseio/wallet_core.git"
+    source: git
     version: "0.3.0"
   watcher:
     dependency: transitive
