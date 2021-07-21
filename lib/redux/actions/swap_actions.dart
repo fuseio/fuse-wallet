@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/swap_state.dart';
@@ -8,6 +9,7 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
+import 'package:fusecash/utils/remote_config.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -59,27 +61,27 @@ ThunkAction fetchSwapList() {
       Map<String, Token> tokens = Map();
       Map<String, String> tokensImages = Map();
       for (Map token in data['tokens']) {
+        final String tokenAddress = token['address'].toLowerCase();
         final String name = formatTokenName(token["name"]);
-        if (name.startsWith('Dai')) {
-          continue;
-        }
-        if (!token.containsKey('isDeprecated')) {
+        if (!getIt<RemoteConfigService>()
+            .unexchangeableTokens
+            .containsKey(checksumEthereumAddress(tokenAddress))) {
           final String symbol = token['symbol'];
           Token newToken = Token.fromJson({
             "originNetwork": 'mainnet',
             "amount": BigInt.zero.toString(),
-            "address": token['address'].toLowerCase(),
+            "address": tokenAddress,
             "decimals": token['decimals'],
             "name": name.contains('Wrapped Fuse') ? 'Fuse' : name,
             "symbol": symbol == 'WFUSE' ? 'FUSE' : symbol,
             "imageUrl": token['logoURI'],
           });
           tokens.putIfAbsent(
-            token['address'].toLowerCase(),
+            tokenAddress,
             () => newToken,
           );
           tokensImages.putIfAbsent(
-            token['address'].toLowerCase(),
+            tokenAddress,
             () => token['logoURI'],
           );
         }

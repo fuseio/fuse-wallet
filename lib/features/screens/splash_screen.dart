@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
@@ -47,7 +48,11 @@ class _SplashScreenState extends State<SplashScreen> {
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
-        await AppTrackingTransparency.requestTrackingAuthorization();
+        final TrackingStatus trackingStatus =
+            await AppTrackingTransparency.requestTrackingAuthorization();
+        if (trackingStatus == TrackingStatus.authorized && Platform.isIOS) {
+          await AppTrackingTransparency.getAdvertisingIdentifier();
+        }
       }
       if (BiometricAuth.faceID == userState.authType ||
           BiometricAuth.touchID == userState.authType) {

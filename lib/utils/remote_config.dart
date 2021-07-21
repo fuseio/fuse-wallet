@@ -10,6 +10,10 @@ class RemoteConfigService {
   RemoteConfigService(RemoteConfig remoteConfig) : _remoteConfig = remoteConfig;
 
   final defaults = <String, dynamic>{
+    "unexchangeableTokens": {
+      "0x94Ba7A27c7A95863d1bdC7645AC2951E0cca06bA": 0,
+      "0xd8Bf72f3e163B9CF0C73dFdCC316417A5ac20670": 0
+    },
     "onrampOptions": {
       "onrampFUSD": ["*"],
       "onrampUSDC": [
@@ -72,8 +76,11 @@ class RemoteConfigService {
     return _instance!;
   }
 
-  List get withOnrampUSDC =>
-      json.decode(_remoteConfig.getValue('onrampOptions').asString())['onrampUSDC'];
+  Map<String, dynamic> get unexchangeableTokens =>
+      json.decode(_remoteConfig.getValue('unexchangeableTokens').asString());
+
+  List get withOnrampUSDC => json
+      .decode(_remoteConfig.getValue('onrampOptions').asString())['onrampUSDC'];
 
   String get getOnrampUSDC => _remoteConfig.getValue('onrampUSDC').asString();
 

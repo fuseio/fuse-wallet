@@ -61,7 +61,13 @@ class WalletActionFactory {
   }
 
   static List<WalletAction> actionsFromJson(Iterable<dynamic> docs) =>
-      List<WalletAction>.from(docs.map(
-        (json) => WalletActionFactory.create(json),
-      ));
+      List.from(docs).fold<List<WalletAction>>([], (previousValue, action) {
+        try {
+          return [...previousValue, WalletActionFactory.create(action)];
+        } catch (e, s) {
+          log.info(
+              'Error while trying to add WalletAction ${e.toString()}  ${s.toString()}');
+          return previousValue;
+        }
+      });
 }
