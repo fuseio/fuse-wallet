@@ -27,7 +27,9 @@ class DAppWalletConnect extends StatelessWidget {
             topRight: Radius.circular(20.0),
           ),
         ),
-        builder: (_) => buildConnectDialog());
+        builder: (_) {
+          return buildConnectDialog();
+        });
   }
 
   @override
@@ -49,10 +51,11 @@ class DAppWalletConnect extends StatelessWidget {
                   child: Hero(
                     child: CircleAvatar(
                       backgroundColor: Color(0xFFE0E0E0),
-                      radius: 50,
-                      backgroundImage: AssetImage('assets/images/anom.png'),
+                      radius: 35,
+                      backgroundImage:
+                          NetworkImage('${connectResponse.meta.icons[2]}'),
                     ),
-                    tag: "contactSent",
+                    tag: "walletconnect dapp",
                   ),
                 ),
                 Text(

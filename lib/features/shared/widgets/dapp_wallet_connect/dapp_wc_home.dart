@@ -45,8 +45,9 @@ class DAppWalletConnectHome extends StatelessWidget {
                   Hero(
                     child: CircleAvatar(
                       backgroundColor: Color(0xFFE0E0E0),
-                      radius: 50,
-                      backgroundImage: AssetImage('assets/images/anom.png'),
+                      radius: 35,
+                      backgroundImage:
+                          NetworkImage('${connectResponse.meta.icons[1]}'),
                     ),
                     tag: "walletconnect dapp",
                   ),
