@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/features/screens/main_screen.dart';
 import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
 import 'package:fusecash/features/shared/dialogs/warn_send.dart';
 import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/connect_response_model.dart';
-import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wallet_connect_connect.dart';
+import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wc_connect.dart';
 import 'package:fusecash/redux/viewsmodels/warn_send.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -15,8 +14,6 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
-
-import 'dapp_wallet_connect/dapp_wallet_connect_home.dart';
 
 class BarcodeScanner extends StatefulWidget {
   const BarcodeScanner({
@@ -56,8 +53,33 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
     }
     log.info('connect ${res.toString()}');
     if (res.msg.toString() == "startConnect success")
-      await DAppWalletConnect(context, wa).showBottomSheet();
-    onSessionRequest(int.parse(wa), res.msg);
+      onSessionRequest(int.tryParse(wa), res.msg);
+  }
+
+  @override
+  void onSessionRequest(int? id, String? requestInJson) async {
+    WalletConnectResponse res = await conn.approveSession(
+      [
+        '$id',
+      ],
+      122,
+    );
+    if (res.isError()) {
+      print("#########error");
+      return;
+    }
+    log.info('connect ${res.toString()}');
+    log.info('onSessionRequest $requestInJson');
+    var parse = jsonDecode(requestInJson!);
+    Meta meta = new Meta(
+        description: parse["meta"]["description"],
+        icons: parse["meta"]["icons"],
+        name: parse["meta"]["name"],
+        url: parse["meta"]["url"]);
+    connectResponse =
+        new ConnectResponse(id: parse["id"].toString(), meta: meta);
+    await DAppWalletConnect(context, wa, connectResponse, conn)
+        .showBottomSheet();
   }
 
   @override
@@ -123,48 +145,13 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
   }
 
   @override
-  void onSessionRequest(int? id, String? requestInJson) async {
-    WalletConnectResponse res = await conn.approveSession(
-      [
-        '$id',
-      ],
-      122,
-    );
-    if (res.isError()) {
-      print("#########error");
-      return;
-    }
-    log.info('connect ${res.toString()}');
-    log.info('onSessionRequest $requestInJson');
-    var parse = jsonDecode(requestInJson!);
-    Meta meta = new Meta(
-        description: parse["meta"]["description"],
-        icons: parse["meta"]["icons"],
-        name: parse["meta"]["name"],
-        url: parse["meta"]["url"]);
-
-    connectResponse =
-        new ConnectResponse(id: parse["id"].toString(), meta: meta);
-
-    await DAppWalletConnectHome(context, connectResponse).showBottomSheet();
-    onSessionDisconnect("hjk");
-  }
-
-  @override
   void onCallRequestEthSendRawTransaction(int? id, String? requestInJson) {
     log.info('onCallRequestEthSendRawTransaction $requestInJson');
   }
 
   @override
   void onSessionDisconnect(String? errInJson) async {
-    await conn.killSession();
     log.info('onSessionDisconnect $errInJson');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MainScreen(),
-      ),
-    );
   }
 
   @override

@@ -4,12 +4,15 @@ import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/connect_res
 import 'dart:core';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
 
 class DAppWalletConnectHome extends StatelessWidget {
   final BuildContext context;
   final ConnectResponse connectResponse;
+  final String wa;
+  final WalletConnectFlutter conn;
 
-  DAppWalletConnectHome(this.context, this.connectResponse);
+  DAppWalletConnectHome(this.context, this.connectResponse, this.wa, this.conn);
 
   Future<dynamic> showBottomSheet() {
     return showBarModalBottomSheet(
@@ -77,7 +80,9 @@ class DAppWalletConnectHome extends StatelessWidget {
     );
   }
 
-  Future<bool> _onDisconnectedPressed() async {
-    return true;
+  void _onDisconnectedPressed() async {
+    await conn.killSession();
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 }

@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/shared/widgets/barcode_scanner.dart';
 
 import 'dart:core';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
+
+import 'connect_response_model.dart';
+import 'dapp_wc_home.dart';
 
 class DAppWalletConnect extends StatelessWidget {
   final BuildContext context;
   final String walletAddress;
+  final ConnectResponse connectResponse;
+  final WalletConnectFlutter conn;
 
-  DAppWalletConnect(this.context, this.walletAddress);
+  DAppWalletConnect(
+      this.context, this.walletAddress, this.connectResponse, this.conn);
 
   Future<dynamic> showBottomSheet() {
     return showBarModalBottomSheet(
@@ -49,10 +55,11 @@ class DAppWalletConnect extends StatelessWidget {
                     tag: "contactSent",
                   ),
                 ),
-                Text("DApp Name would like to\n connect to your wallet"),
+                Text(
+                    "${connectResponse.meta.name} would like to\n connect to your wallet"),
                 TextButton(
                   onPressed: () {},
-                  child: Text("http://app.xxxx.com"),
+                  child: Text(connectResponse.meta.url),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +91,8 @@ class DAppWalletConnect extends StatelessWidget {
     );
   }
 
-  Future<bool> _onConnectPressed() async {
-    return true;
+  void _onConnectPressed() async {
+    await DAppWalletConnectHome(context, connectResponse, walletAddress, conn)
+        .showBottomSheet();
   }
 }
