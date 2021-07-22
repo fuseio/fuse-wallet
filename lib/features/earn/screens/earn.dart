@@ -15,7 +15,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/earn.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:slide_countdown_clock/slide_countdown_clock.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 final num MINIMUM_FOR_CLAIM = 0.01;
 
@@ -225,27 +225,21 @@ class _EarnScreenState extends State<EarnScreen> {
                           ? Row(
                               children: [
                                 Text(
-                                  // 'Next claim in ',
-                                  I10n.of(context).next_claim,
+                                  '${I10n.of(context).next_claim} ',
                                 ),
-                                SlideCountdownClock(
-                                  shouldShowDays: true,
-                                  duration: Duration(
-                                    milliseconds: nextClaimTimestamp
-                                        .diff(Jiffy())
-                                        .toInt(),
-                                  ),
-                                  slideDirection: SlideDirection.Down,
-                                  separator: ":",
+                                CountdownTimer(
+                                  endTime: viewModel
+                                          .rewardClaim!.nextClaimTimestamp
+                                          .toInt() *
+                                      1000,
                                   textStyle: TextStyle(
-                                    // fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             )
                           : SizedBox.shrink(),
-                      !hasEnoughToClaim && viewModel.rewardClaim != null
+                      !hasEnoughToClaim && nextClaimTimestamp.isBefore(Jiffy())
                           ? Row(
                               children: [
                                 Text(
@@ -322,7 +316,6 @@ class _EarnScreenState extends State<EarnScreen> {
                           ? Column(
                               children: [
                                 Text(
-                                  // 'Your projected balance',
                                   I10n.of(context).your_projected_balance,
                                   style: TextStyle(
                                     fontSize: 20,

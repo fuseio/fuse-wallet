@@ -1,13 +1,12 @@
 name: fusecash
-version: 0.1.13+128
+version: 0.1.13+129
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.12.0 <3.0.0"
 dependencies:
+  flutter_countdown_timer: ^4.1.0
   upgrader: ^3.3.1
   advertising_id: ^2.0.0
-  slide_countdown_clock:
-    path: ../slide_countdown_clock
   jiffy: ^4.1.0
   facebook_app_events: ^0.12.0
   intercom_flutter: ^5.0.0
@@ -16,14 +15,14 @@ dependencies:
   app_tracking_transparency: ^2.0.1
   rate_my_app: ^1.1.0+1
   responsive_framework: ^0.1.4
-  flutter_web_browser: ^0.14.0
+  flutter_web_browser: ^0.15.0
   modal_bottom_sheet: ^2.0.0
   grouped_list: ^4.0.0
-  fl_chart: ^0.36.2
+  fl_chart: ^0.36.3
   number_display: ^3.0.0
   auto_size_text_field: ^1.0.0-nullsafety.1
   lottie: ^1.1.0
-  pin_code_fields: ^7.2.0
+  pin_code_fields: ^7.3.0
   flex_color_scheme: ^3.0.1
   freezed_annotation: ^0.14.2
   # pretty_dio_logger: ^1.2.0-beta-1
@@ -32,12 +31,7 @@ dependencies:
   dio: ^4.0.0
   smooth_page_indicator: ^0.3.0-nullsafety.0
   font_awesome_flutter: ^9.1.0
-  # flushbar: ^1.10.4
-  # fluttertoast: ^8.0.7
-  flushbar:
-    git:
-      url: git://github.com/prasadsunny1/flushbar
-      ref: master
+  another_flushbar: ^1.10.24
   flutter_platform_widgets: ^1.9.5
   enum_to_string: ^2.0.1
   local_auth: ^1.1.6
@@ -85,7 +79,6 @@ dependencies:
       ref: master
   sentry_flutter: ^5.1.0
   image_picker: ^0.8.2
-  # flutter_segment: ^3.1.0
   flutter_segment:
     git:
       url: https://github.com/fuseio/flutter-segment.git

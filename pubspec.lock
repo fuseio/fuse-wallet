@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.0"
+  another_flushbar:
+    dependency: "direct main"
+    description:
+      name: another_flushbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.10.24"
   app_tracking_transparency:
     dependency: "direct main"
     description:
@@ -471,7 +478,7 @@ packages:
       name: fl_chart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.36.2"
+    version: "0.36.3"
   flare_flutter:
     dependency: "direct main"
     description:
@@ -486,15 +493,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  flushbar:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "39a8ad18e77fc12e9bc19aa5b4b910c6a34745eb"
-      url: "git://github.com/prasadsunny1/flushbar"
-    source: git
-    version: "2.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -521,6 +519,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  flutter_countdown_timer:
+    dependency: "direct main"
+    description:
+      name: flutter_countdown_timer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   flutter_cupertino_localizations:
     dependency: "direct main"
     description:
@@ -637,7 +642,7 @@ packages:
       name: flutter_web_browser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0"
+    version: "0.15.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1153,7 +1158,7 @@ packages:
       name: pin_code_fields
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "7.3.0"
   platform:
     dependency: transitive
     description:
@@ -1383,13 +1388,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  slide_countdown_clock:
-    dependency: "direct main"
-    description:
-      path: "../slide_countdown_clock"
-      relative: true
-    source: path
-    version: "1.0.2"
   smooth_page_indicator:
     dependency: "direct main"
     description:

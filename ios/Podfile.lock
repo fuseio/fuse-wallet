@@ -121,7 +121,7 @@ PODS:
   - flutter_udid (0.0.1):
     - Flutter
     - SAMKeychain
-  - flutter_web_browser (0.14.0):
+  - flutter_web_browser (0.15.0):
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -388,7 +388,7 @@ SPEC CHECKSUMS:
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: ed8d1215725d0b4190e28105436f253b9e092934
   flutter_udid: 0848809dbed4c055175747ae6a45a8b4f6771e1c
-  flutter_web_browser: a719eca01d00bdc9a0e13e42194f86b90a5b8729
+  flutter_web_browser: dcd4d56462dc03099dbff2f89a3e93014d8e8e06
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleAppMeasurement: de70802583dedceb0bca18172b345307e8f410b8
