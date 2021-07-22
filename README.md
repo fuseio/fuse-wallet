@@ -50,3 +50,4 @@ You can download the beta version of our app from the [Google Play](https://play
 
 ## As an enterprenuer or a community manager
 Launch your community on the [Fuse Studio](https://studio.fuse.io/), then open the community dashboard. There you can configure it and *customize your wallet* app. When you done go to "White label wallet" and send an app invite link to yourself. Visit our [docs](https://docs.fuse.io/the-fuse-studio/overview) to learn about the Fuse Studio.
+# my-fuse-wallet
