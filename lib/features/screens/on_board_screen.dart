@@ -129,7 +129,7 @@ class _OnBoardScreenState extends State<OnBoardScreen>
         child: Stack(
           children: [
             AnimatedPositioned(
-              top: animate ? 120 : 10,
+              top: animate ? MediaQuery.of(context).size.height / 6 : 10,
               width: MediaQuery.of(context).size.width,
               duration: Duration(milliseconds: 1000),
               curve: Curves.ease,

@@ -32,7 +32,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
             alignment: AlignmentDirectional.center,
             children: [
               Positioned.fill(
-                top: 400,
+                top: MediaQuery.of(context).size.height / 2.1,
                 child: ShowUp(
                   delay: 800,
                   child: Text(

@@ -197,7 +197,7 @@ PODS:
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
   - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
   - PromisesObjC (1.2.12)
-  - rate_my_app (1.1.0):
+  - rate_my_app (1.1.1):
     - Flutter
   - SAMKeychain (1.5.3)
   - scan (0.0.1):
@@ -408,7 +408,7 @@ SPEC CHECKSUMS:
   phone_number: aaf1197d6ff991ac59640e7f73472e06f2efac95
   PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  rate_my_app: b2b5847177b024ab7fcfd02ced7a84a9b67eeaf2
+  rate_my_app: 8e49687f3520c56352f974f0cb401afea07cd496
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   scan: aea35bb4aa59ccc8839c576a18cd57c7d492cc86
   Segment-Amplitude: 1b3b02a2e92f4b08a413a72bf7aa44f78566ab3b

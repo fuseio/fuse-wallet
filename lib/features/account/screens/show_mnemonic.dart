@@ -23,7 +23,10 @@ class ShowMnemonic extends StatelessWidget {
           child: Padding(
             child: Text("${index.toString()}. $word",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
-            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 0),
+            padding: EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 0,
+            ),
           ),
         ),
       );
@@ -95,10 +98,12 @@ class ShowMnemonic extends StatelessWidget {
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 10, left: 30, right: 30),
+                                  top: 10,
+                                  left: 30,
+                                  right: 30,
+                                ),
                                 child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 10, right: 10, top: 10, bottom: 10),
+                                  padding: EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       width: 2,
