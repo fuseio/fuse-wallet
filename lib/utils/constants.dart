@@ -7,6 +7,20 @@ final String wethTokenAddress = '0xa722c13135930332eb3d749b2f0906559d2c5b99';
 final String wbtcTokenAddress = '0x33284f95ccb7b948d9d352e1439561cf83d8d00d';
 final String wfuseTokenAddress = '0x0be9e53fd7edac9f859882afdda116645287c629';
 
+final Token curaDAIToken = Token(
+  name: 'CuraDAI',
+  symbol: 'CURA',
+  imageUrl:
+      'https://fuse-studio.s3.eu-central-1.amazonaws.com/fde9513135d96e90405567bc45a29441d38bd731af57bb644beb98a3e5e64b13',
+  decimals: 18,
+  address: Addresses.CURA_DAI_TOKEN_ADDRESS,
+  originNetwork: 'fuse',
+  isNative: true,
+  timestamp: 0,
+  amount: BigInt.zero,
+  walletActions: WalletActions.initial(),
+);
+
 final Token fuseToken = Token(
   name: 'Fuse',
   symbol: 'FUSE',

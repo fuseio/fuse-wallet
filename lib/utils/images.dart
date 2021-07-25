@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
+import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
 
 class ImageUrl {
@@ -63,12 +64,17 @@ class ImageUrl {
     Contact? contact,
     Community? community,
     String? accountAddress,
-    Map<String, String> tokensImages,
-  ) {
+    Map<String, String> tokensImages, {
+    Map<String, Business>? businesses,
+  }) {
     final bool hasAvatar =
         contact?.avatar != null && contact!.avatar!.isNotEmpty;
     if (hasAvatar) {
       return new MemoryImage(contact.avatar as Uint8List);
+    }
+    final String accountAddress = action.getSender();
+    if (businesses != null && businesses.containsKey(accountAddress)) {
+      return NetworkImage(businesses[accountAddress]!.metadata.image);
     }
     return action.map(
       createWallet: (value) => AssetImage(

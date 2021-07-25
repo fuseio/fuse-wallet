@@ -113,7 +113,6 @@ class _BusinessesListViewState extends State<BusinessesListView> {
                 itemCount: vm.businesses.length,
                 itemBuilder: (context, index) => businessTile(
                   vm.businesses[index],
-                  vm.communityAddress,
                   vm.token,
                 ),
               ),
@@ -123,8 +122,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
 
   ListTile businessTile(
     Business business,
-    String communityAddress,
-    Token? token,
+    Token token,
   ) {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
@@ -164,7 +162,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
       onTap: () {
         context.router.push(BusinessScreen(
           business: business,
-          token: token!,
+          token: token,
         ));
       },
       trailing: Row(
@@ -184,7 +182,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
             ),
             onTap: () {
               final SendFlowArguments args = SendFlowArguments(
-                tokenToSend: token!,
+                tokenToSend: token,
                 name: business.name,
                 accountAddress: business.account,
                 avatar: NetworkImage(

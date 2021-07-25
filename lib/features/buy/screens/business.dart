@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -91,22 +92,24 @@ class _BusinessScreenState extends State<BusinessScreen> {
                       flex: 1,
                       child: Row(
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            child: ClipOval(
-                                child: CachedNetworkImage(
-                              imageUrl: widget.business.metadata.image,
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              imageBuilder: (context, imageProvider) => Image(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                                width: 75.0,
-                                height: 75.0,
-                              ),
-                            )),
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 20, right: 10),
+                              child: ClipOval(
+                                  child: CachedNetworkImage(
+                                imageUrl: widget.business.metadata.image,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                imageBuilder: (context, imageProvider) => Image(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                  width: 75.0,
+                                  height: 75.0,
+                                ),
+                              )),
+                            ),
                           ),
                           Wrap(
                             direction: Axis.vertical,
@@ -173,18 +176,25 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                                 height: 19,
                                               ),
                                             ),
-                                            InkWell(
-                                              focusColor:
-                                                  Theme.of(context).canvasColor,
-                                              highlightColor:
-                                                  Theme.of(context).canvasColor,
-                                              onTap: () {
-                                                launchUrl(widget
-                                                    .business.metadata.website);
-                                              },
-                                              child: Text(widget
-                                                  .business.metadata.website),
-                                            ),
+                                            Flexible(
+                                              child: InkWell(
+                                                focusColor: Theme.of(context)
+                                                    .canvasColor,
+                                                highlightColor:
+                                                    Theme.of(context)
+                                                        .canvasColor,
+                                                onTap: () {
+                                                  launchUrl(
+                                                    widget.business.metadata
+                                                        .website,
+                                                  );
+                                                },
+                                                child: AutoSizeText(
+                                                  widget.business.metadata
+                                                      .website,
+                                                ),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       )
@@ -235,12 +245,13 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: SvgPicture.asset(
-                                                  'assets/images/info.svg',
-                                                  width: 19,
-                                                  height: 19,
-                                                )),
+                                              padding: EdgeInsets.all(8.0),
+                                              child: SvgPicture.asset(
+                                                'assets/images/info.svg',
+                                                width: 19,
+                                                height: 19,
+                                              ),
+                                            ),
                                             Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -250,13 +261,13 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       bottom: 5),
-                                                  child: Text(widget
-                                                              .business
-                                                              .metadata
-                                                              .description !=
-                                                          ''
-                                                      ? 'More details'
-                                                      : ''),
+                                                  child: Text(
+                                                    widget.business.metadata
+                                                                .description !=
+                                                            ''
+                                                        ? 'More details'
+                                                        : '',
+                                                  ),
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
@@ -265,9 +276,10 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                                     widget.business.metadata
                                                         .description,
                                                     style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary),
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurface,
+                                                    ),
                                                   ),
                                                 ),
                                               ],

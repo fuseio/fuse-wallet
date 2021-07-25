@@ -26,8 +26,7 @@ class TokensListViewModel extends Equatable {
         List<Token>.from(store.state.cashWalletState.tokens.values)
             .where((Token token) {
               if ([
-                Addresses.ZERO_ADDRESS,
-                Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+                Addresses.CURA_DAI_TOKEN_ADDRESS,
               ].contains(token.address)) {
                 return true;
               } else if (num.parse(token.getBalance(true)).compareTo(0) == 1) {

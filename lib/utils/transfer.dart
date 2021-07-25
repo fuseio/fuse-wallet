@@ -34,18 +34,14 @@ Contact? getContact(
 String? deducePhoneNumber(
   String? accountAddress,
   Map<String, String> reverseContacts, {
-  List<Business?>? businesses,
+  Map<String, Business>? businesses,
 }) {
   if (accountAddress == null) {
     return null;
   }
-  if (businesses != null && businesses.isNotEmpty) {
-    Business? business = businesses.firstWhere(
-      (business) => business?.account == accountAddress,
-    );
-    if (business != null) {
-      return business.name;
-    }
+  if (businesses != null && businesses.containsKey(accountAddress)) {
+    final Business business = businesses[accountAddress]!;
+    return business.name;
   }
   if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];

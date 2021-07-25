@@ -1,9 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -16,11 +15,11 @@ num combiner(num previousValue, Token token) =>
 
 class BalanceViewModel extends Equatable {
   final String usdValue;
-  final Token? token;
+  final Token token;
 
   BalanceViewModel({
     required this.usdValue,
-    this.token,
+    required this.token,
   });
 
   static BalanceViewModel fromStore(Store<AppState> store) {
@@ -31,10 +30,7 @@ class BalanceViewModel extends Equatable {
         .toList();
 
     final num value = homeTokens.fold<num>(0, combiner);
-    Community community = store.state.cashWalletState
-        .communities[defaultCommunityAddress.toLowerCase()]!;
-    Token? token =
-        store.state.cashWalletState.tokens[community.homeTokenAddress];
+    Token token = store.state.cashWalletState.tokens[curaDAIToken.address]!;
     return BalanceViewModel(
       token: token,
       usdValue: display(value),
@@ -44,5 +40,6 @@ class BalanceViewModel extends Equatable {
   @override
   List<Object> get props => [
         usdValue,
+        token,
       ];
 }

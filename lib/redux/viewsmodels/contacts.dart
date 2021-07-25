@@ -4,6 +4,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {
@@ -28,10 +29,8 @@ class ContactsViewModel extends Equatable {
   });
 
   static ContactsViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            Community();
+    Community community = store.state.cashWalletState
+        .communities[defaultCommunityAddress.toLowerCase()]!;
     return ContactsViewModel(
       isoCode: store.state.userState.isoCode,
       businesses: community.businesses ?? [],
@@ -49,6 +48,12 @@ class ContactsViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [contacts, reverseContacts, countryCode, businesses, isoCode, community];
+  List<Object> get props => [
+        contacts,
+        reverseContacts,
+        countryCode,
+        businesses,
+        isoCode,
+        community,
+      ];
 }

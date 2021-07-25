@@ -7,10 +7,8 @@ import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/transfer_tile.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/images.dart';
@@ -46,27 +44,16 @@ class ActionTile extends StatelessWidget {
           viewModel.contacts,
           viewModel.countryCode,
         );
-        final Community? community = action.map(
-          createWallet: (value) => null,
-          joinCommunity: (value) => viewModel.communities[
-              value.communityAddress?.toLowerCase() ??
-                  defaultCommunityAddress.toLowerCase()],
-          fiatDeposit: (value) =>
-              viewModel.communities[defaultCommunityAddress.toLowerCase()],
-          bonus: (value) => null,
-          send: (value) => null,
-          receive: (value) => null,
-          swap: (value) => null,
-        );
         final bool isCommunityToken = ![false, null].contains(
-          community?.metadata?.isDefaultImage,
+          viewModel.community.metadata?.isDefaultImage,
         );
         final ImageProvider<Object>? image = ImageUrl.getActionImage(
           action,
           contact,
-          community,
+          viewModel.community,
           action.getSender(),
           viewModel.tokensImages,
+          businesses: viewModel.businesses,
         );
 
         final Token? token = action.map(
@@ -95,7 +82,7 @@ class ActionTile extends StatelessWidget {
               deducePhoneNumber(
                 action.getSender(),
                 viewModel.reverseContacts,
-                businesses: community?.businesses,
+                businesses: viewModel.businesses,
               ) ??
               value.getText(context),
           receive: (value) =>
@@ -103,7 +90,7 @@ class ActionTile extends StatelessWidget {
               deducePhoneNumber(
                 action.getSender(),
                 viewModel.reverseContacts,
-                businesses: community?.businesses,
+                businesses: viewModel.businesses,
               ) ??
               value.getText(context),
         );

@@ -43,6 +43,7 @@ class _HeaderState extends State<Header> {
                   '${I10n.of(context).hi} ${viewModel.firstName()}',
                   style: TextStyle(
                     fontSize: 22,
+                    color: Theme.of(context).canvasColor,
                   ),
                 ),
               ),
@@ -51,12 +52,16 @@ class _HeaderState extends State<Header> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Balance(),
-                    BarcodeScanner(
-                      child: Image.asset(
-                        'assets/images/scan.png',
-                        width: 25.0,
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                    Flexible(
+                      child: Balance(),
+                    ),
+                    Flexible(
+                      child: BarcodeScanner(
+                        child: Image.asset(
+                          'assets/images/scan.png',
+                          width: 25.0,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
                       ),
                     ),
                   ],
