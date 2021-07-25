@@ -13,9 +13,9 @@ class DAppWalletConnect extends StatelessWidget {
   final String walletAddress;
   final ConnectResponse connectResponse;
   final WalletConnectFlutter conn;
-
-  DAppWalletConnect(
-      this.context, this.walletAddress, this.connectResponse, this.conn);
+  final dynamic approveSession;
+  DAppWalletConnect(this.context, this.walletAddress, this.connectResponse,
+      this.conn, this.approveSession);
 
   Future<dynamic> showBottomSheet() {
     return showBarModalBottomSheet(
@@ -80,14 +80,17 @@ class DAppWalletConnect extends StatelessWidget {
                     Text("View your wallet balance and activity")
                   ],
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      _onConnectPressed();
-                    },
-                    child: Text("Connect"),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color?>(
-                            Colors.green[300]))),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        _onConnectPressed();
+                      },
+                      child: Text("Connect"),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color?>(
+                              Colors.green[300]))),
+                ),
               ],
             ),
           )),
@@ -95,6 +98,8 @@ class DAppWalletConnect extends StatelessWidget {
   }
 
   void _onConnectPressed() async {
+    this.approveSession;
+    Navigator.pop(context);
     await DAppWalletConnectHome(context, connectResponse, walletAddress, conn)
         .showBottomSheet();
   }

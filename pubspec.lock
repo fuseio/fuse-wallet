@@ -1579,8 +1579,8 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: dec22dcccef518d125a3627500130ffd4d96eb7c
-      url: "https://github.com/JubiterWallet/wallet-connect-flutter.git"
+      resolved-ref: c551cbcbe510279a0b8e18cfa84fe6838283c07d
+      url: "https://github.com/fuseio/wallet-connect-flutter.git"
     source: git
     version: "0.0.1"
   wallet_core:

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
 
 import 'connect_response_model.dart';
 
@@ -11,13 +10,17 @@ class DAppWalletConnectSendTX extends StatelessWidget {
   final BuildContext context;
   final String toWalletAddress;
   final String fromWalletAddress;
-  final double amount;
+  final num amount;
 
   final ConnectResponse connectResponse;
-  final WalletConnectFlutter conn;
-
-  DAppWalletConnectSendTX(this.context, this.connectResponse, this.conn,
-      this.toWalletAddress, this.fromWalletAddress, this.amount);
+  final dynamic approveSend;
+  DAppWalletConnectSendTX(
+      this.context,
+      this.connectResponse,
+      this.toWalletAddress,
+      this.fromWalletAddress,
+      this.amount,
+      this.approveSend);
 
   Future<dynamic> showBottomSheet() {
     return showBarModalBottomSheet(
@@ -44,16 +47,24 @@ class DAppWalletConnectSendTX extends StatelessWidget {
           title: "Approve Transcation",
           body: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),
                   child: Hero(
-                    child: CircleAvatar(
-                      backgroundColor: Color(0xFFE0E0E0),
-                      radius: 50,
-                      backgroundImage: AssetImage('assets/images/anom.png'),
-                    ),
+                    child: connectResponse.meta.icons[2].isEmpty
+                        ? CircleAvatar(
+                            backgroundColor: Color(0xFFE0E0E0),
+                            radius: 35,
+                            backgroundImage:
+                                AssetImage('assets/images/anom.png'),
+                          )
+                        : CircleAvatar(
+                            backgroundColor: Color(0xFFE0E0E0),
+                            radius: 35,
+                            backgroundImage:
+                                NetworkImage(connectResponse.meta.icons[2]),
+                          ),
                     tag: "contactSent",
                   ),
                 ),
@@ -73,18 +84,28 @@ class DAppWalletConnectSendTX extends StatelessWidget {
                             color: Colors.black,
                             style: BorderStyle.none)),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: [Text("To:"), Text(toWalletAddress)],
+                          children: [
+                            Expanded(child: Text("To:")),
+                            Expanded(child: Text(toWalletAddress))
+                          ],
                         ),
                         Row(
-                          children: [Text("Amount:"), Text(amount.toString())],
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Amount:"),
+                            Text(
+                              amount.toString(),
+                            )
+                          ],
                         ),
                       ],
                     )),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                         onPressed: () {
@@ -94,6 +115,9 @@ class DAppWalletConnectSendTX extends StatelessWidget {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color?>(
                                 Colors.white))),
+                    SizedBox(
+                      width: 30,
+                    ),
                     ElevatedButton(
                         onPressed: () {
                           _onApprovePressed();
@@ -110,7 +134,10 @@ class DAppWalletConnectSendTX extends StatelessWidget {
     );
   }
 
-  void _onApprovePressed() async {}
+  void _onApprovePressed() async {
+    this.approveSend;
+    Navigator.pop(context);
+  }
 
   void _onRejectPressed() async {}
 }

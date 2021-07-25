@@ -7,6 +7,7 @@ import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
 import 'package:fusecash/features/shared/dialogs/warn_send.dart';
 import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/connect_response_model.dart';
 import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wc_connect.dart';
+import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wc_send_tx.dart';
 import 'package:fusecash/redux/viewsmodels/warn_send.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -14,6 +15,8 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:wallet_connect_flutter/wallet_connect_flutter.dart';
+
+import 'dapp_wallet_connect/dapp_wc_home.dart';
 
 class BarcodeScanner extends StatefulWidget {
   const BarcodeScanner({
@@ -29,7 +32,8 @@ class BarcodeScanner extends StatefulWidget {
 class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
   late WalletConnectFlutter conn;
   String wa = "";
-  late ConnectResponse connectResponse;
+  ConnectResponse connectResponse = new ConnectResponse(
+      id: "id", meta: Meta(description: "", icons: [], name: '', url: ''));
   // Platform messages are asynchronous, so we initialize in an async method.
   void initPlatformState() async {
     conn = WalletConnectFlutter(handler: this);
@@ -52,34 +56,26 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
       return;
     }
     log.info('connect ${res.toString()}');
-    if (res.msg.toString() == "startConnect success")
-      onSessionRequest(int.tryParse(wa), res.msg);
   }
 
   @override
   void onSessionRequest(int? id, String? requestInJson) async {
-    WalletConnectResponse res = await conn.approveSession(
-      [
-        '$id',
-      ],
-      122,
-    );
-    if (res.isError()) {
-      print("#########error");
-      return;
-    }
-    log.info('connect ${res.toString()}');
-    log.info('onSessionRequest $requestInJson');
     var parse = jsonDecode(requestInJson!);
-    Meta meta = new Meta(
+    Meta meta = await Meta(
         description: parse["meta"]["description"],
         icons: parse["meta"]["icons"],
         name: parse["meta"]["name"],
         url: parse["meta"]["url"]);
     connectResponse =
-        new ConnectResponse(id: parse["id"].toString(), meta: meta);
-    await DAppWalletConnect(context, wa, connectResponse, conn)
+        await ConnectResponse(id: parse["id"].toString(), meta: meta);
+    await DAppWalletConnect(context, wa, connectResponse, conn,
+            await approveSes(id, requestInJson))
         .showBottomSheet();
+  }
+
+  num toNum(String value) {
+    final BigInt amount = BigInt.parse(value);
+    return amount.toDouble();
   }
 
   @override
@@ -89,11 +85,13 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
     log.info('a $data');
     final String from = checksumEthereumAddress(data['from']);
     final String to = checksumEthereumAddress(data['to']);
+    final num numAmount = await toNum(data["value"]);
+    log.info(numAmount);
     final dynamic res = await api.callContract(
       fuseWeb3!,
       from,
       to,
-      1,
+      numAmount,
       data['data'].replaceFirst(
         '0x',
         '',
@@ -101,6 +99,12 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
       network: 'fuse',
     );
     log.info('approveTokenAndCallContract: ${res.toString()}');
+    await DAppWalletConnectSendTX(
+            context, connectResponse, to, wa, numAmount, approveSend(res, id!))
+        .showBottomSheet();
+  }
+
+  approveSend(dynamic res, int id) {
     new Timer.periodic(Duration(seconds: 5), (Timer timer) async {
       dynamic response = await api.getJob(res['job']['_id']);
       log.info('approveTokenAndCallContract: ${res.toString()}');
@@ -110,12 +114,27 @@ class _BarcodeScannerState extends State<BarcodeScanner> implements IWCHandler {
       } else {
         log.info('txHash ${response['data']['txHash']}');
         final WalletConnectResponse walletConnectResponse =
-            await conn.approveCallRequest(id!, response['data']['txHash']);
+            await conn.approveCallRequest(id, response['data']['txHash']);
         log.info(
             'onCallRequestEthSendTransaction: walletConnectResponse ${walletConnectResponse.toString()}');
         timer.cancel();
       }
     });
+  }
+
+  approveSes(int? id, String? requestInJson) async {
+    WalletConnectResponse res = await conn.approveSession(
+      [
+        wa,
+      ],
+      122,
+    );
+    if (res.isError()) {
+      print("#########error");
+      return;
+    }
+    log.info('connect ${res.toString()}');
+    log.info('onSessionRequest $requestInJson');
   }
 
   @override

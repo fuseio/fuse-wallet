@@ -8,7 +8,7 @@ dependencies:
 
   wallet_connect_flutter:
     git: 
-      url: https://github.com/JubiterWallet/wallet-connect-flutter.git
+      url: https://github.com/fuseio/wallet-connect-flutter.git
   upgrader: ^3.3.1
   advertising_id: ^2.0.0
   slide_countdown_clock:
