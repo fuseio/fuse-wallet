@@ -42,93 +42,158 @@ class DAppWalletConnectSendTX extends StatelessWidget {
 
   Widget buildTransactionDialog() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: MyScaffold(
           title: "Approve Transcation",
           body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Hero(
-                    child: connectResponse.meta.icons[2].isEmpty
-                        ? CircleAvatar(
-                            backgroundColor: Color(0xFFE0E0E0),
-                            radius: 35,
-                            backgroundImage:
-                                AssetImage('assets/images/anom.png'),
-                          )
-                        : CircleAvatar(
-                            backgroundColor: Color(0xFFE0E0E0),
-                            radius: 35,
-                            backgroundImage:
-                                NetworkImage(connectResponse.meta.icons[2]),
-                          ),
-                    tag: "contactSent",
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(connectResponse.meta.url),
-                ),
-                Text("would you like to approve the transcation?"),
-                Text("Transcation Details"),
-                Container(
-                    width: 250,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                            width: 2,
-                            color: Colors.black,
-                            style: BorderStyle.solid)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(child: Text("To:")),
-                            Expanded(child: Text(toWalletAddress))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Amount:"),
-                            Text(
-                              amount.toString(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Hero(
+                      child: connectResponse.meta.icons[2].isEmpty
+                          ? CircleAvatar(
+                              backgroundColor: Color(0xFFE0E0E0),
+                              radius: 35,
+                              backgroundImage:
+                                  AssetImage('assets/images/anom.png'),
                             )
+                          : CircleAvatar(
+                              backgroundColor: Color(0xFFE0E0E0),
+                              radius: 35,
+                              backgroundImage:
+                                  NetworkImage(connectResponse.meta.icons[2]),
+                            ),
+                      tag: "contactSent",
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(connectResponse.meta.url),
+                  ),
+                  Text(
+                    "would you like to approve the transcation?",
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Text(
+                      "Transcation Details",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10.0, left: 20, right: 20),
+                    child: Container(
+                        width: double.infinity,
+                        height: 150,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                                width: 2,
+                                color: Colors.black,
+                                style: BorderStyle.solid)),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 20, top: 30),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "To: ",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: Text(toWalletAddress),
+                                  ))
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 20, top: 20),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 7,
+                                    child: Text(
+                                      "Amount: ",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      amount.toString(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(
+                                  width: 1.5,
+                                  color: Colors.black,
+                                  style: BorderStyle.solid)),
+                          child: MaterialButton(
+                            onPressed: () {
+                              _onRejectPressed();
+                            },
+                            child: Text("Reject"),
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              border: Border.all(
+                                  width: 1.6,
+                                  color: Colors.black,
+                                  style: BorderStyle.solid)),
+                          child: MaterialButton(
+                            onPressed: () {
+                              _onApprovePressed();
+                            },
+                            child: Text("Approve"),
+                            color: Colors.green[300],
+                          ),
                         ),
                       ],
-                    )),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          _onRejectPressed();
-                        },
-                        child: Text("Reject"),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color?>(
-                                Colors.white))),
-                    SizedBox(
-                      width: 30,
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          _onApprovePressed();
-                        },
-                        child: Text("Approve"),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color?>(
-                                Colors.green[300]))),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           )),
     );

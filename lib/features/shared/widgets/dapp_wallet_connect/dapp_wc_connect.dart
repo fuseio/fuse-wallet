@@ -88,16 +88,12 @@ class DAppWalletConnect extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30.0),
-                  child: ElevatedButton(
+                  child: MaterialButton(
                     onPressed: () {
                       _onConnectPressed();
                     },
                     child: Text("Connect"),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color?>(
-                        Colors.green[300],
-                      ),
-                    ),
+                    color: Colors.green[300],
                   ),
                 ),
               ],

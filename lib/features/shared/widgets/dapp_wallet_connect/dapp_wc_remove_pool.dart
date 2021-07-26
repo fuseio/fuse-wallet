@@ -152,7 +152,7 @@ class DAppWalletConnectRemovePool extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                             border: Border.all(
-                                width: 1,
+                                width: 1.5,
                                 color: Colors.black,
                                 style: BorderStyle.solid)),
                         child: MaterialButton(
@@ -168,7 +168,7 @@ class DAppWalletConnectRemovePool extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                             border: Border.all(
-                                width: 1,
+                                width: 1.6,
                                 color: Colors.black,
                                 style: BorderStyle.solid)),
                         child: MaterialButton(

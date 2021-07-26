@@ -53,10 +53,10 @@ class WalletConnectHandler implements IWCHandler {
     log.info('$wa');
   }
 
-  num toNum(String value) {
+  /* num toNum(String value) {
     final BigInt amount = BigInt.parse(value);
     return amount.toDouble();
-  }
+  } */
 
   Future approveSend(dynamic res, int id) async {
     new Timer.periodic(Duration(seconds: 5), (Timer timer) async {
@@ -91,12 +91,11 @@ class WalletConnectHandler implements IWCHandler {
     log.info('onSessionRequest $requestInJson');
   }
 
-  Future approveRemovePool(int id, dynamic result) async {
-    log.info(result);
-    await conn.approveCallRequest(id, result["domain"]["chainId"]);
+  Future approveRemovePool(Map res, int id) async {
+    log.info("here:");
   }
 
-  /// Overide's ///
+  /// Override's ///
   @override
   void onSessionRequest(int? id, String? requestInJson) async {
     var parse = jsonDecode(requestInJson!);
@@ -156,13 +155,12 @@ class WalletConnectHandler implements IWCHandler {
     log.info('a $data');
     final String owner = checksumEthereumAddress(data['message']['owner']);
     final String spender = checksumEthereumAddress(data['message']['spender']);
-
     await DAppWalletConnectRemovePool(
       context,
       connectResponse,
       owner,
       spender,
-      approveRemovePool(id!, result),
+      approveRemovePool(data, id!),
     ).showBottomSheet();
   }
 
