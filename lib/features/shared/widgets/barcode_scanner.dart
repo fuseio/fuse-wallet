@@ -44,10 +44,7 @@ class _BarcodeScannerState extends State<BarcodeScanner> {
               if (result != null) {
                 if (result.startsWith('wc:')) {
                   await WalletConnectHandler()
-                      .initPlatformState(
-                        context,
-                        viewModel.walletAddress,
-                      )
+                      .initPlatformState(context, viewModel.walletAddress)
                       .then(
                         (val) async => await WalletConnectHandler().handleWC(
                           result,
