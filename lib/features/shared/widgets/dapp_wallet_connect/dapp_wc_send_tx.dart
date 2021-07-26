@@ -82,7 +82,7 @@ class DAppWalletConnectSendTX extends StatelessWidget {
                         border: Border.all(
                             width: 2,
                             color: Colors.black,
-                            style: BorderStyle.none)),
+                            style: BorderStyle.solid)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

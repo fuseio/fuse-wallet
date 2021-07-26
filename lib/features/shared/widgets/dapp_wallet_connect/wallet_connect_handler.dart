@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wc_remove_pool.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -75,7 +76,7 @@ class WalletConnectHandler implements IWCHandler {
     });
   }
 
-  Future approveSes(int? id, String? requestInJson) async {
+  Future approveCurrentSession(int? id, String? requestInJson) async {
     WalletConnectResponse res = await conn.approveSession(
       [
         wa,
@@ -90,8 +91,12 @@ class WalletConnectHandler implements IWCHandler {
     log.info('onSessionRequest $requestInJson');
   }
 
-  ///Overides///
+  Future approveRemovePool(int id, dynamic result) async {
+    log.info(result);
+    await conn.approveCallRequest(id, result["domain"]["chainId"]);
+  }
 
+  /// Overide's ///
   @override
   void onSessionRequest(int? id, String? requestInJson) async {
     var parse = jsonDecode(requestInJson!);
@@ -103,7 +108,7 @@ class WalletConnectHandler implements IWCHandler {
     connectResponse =
         await ConnectResponse(id: parse["id"].toString(), meta: meta);
     await DAppWalletConnect(context, wa, connectResponse, conn,
-            await approveSes(id, requestInJson))
+            await approveCurrentSession(id, requestInJson))
         .showBottomSheet();
   }
 
@@ -145,6 +150,30 @@ class WalletConnectHandler implements IWCHandler {
   }
 
   @override
+  void onCallRequestEthSignTypedData(int? id, String? result) async {
+    log.info('onCallRequestEthSignTypedData $result');
+    Map data = json.decode(result!);
+    log.info('a $data');
+    final String owner = checksumEthereumAddress(data['message']['owner']);
+    final String spender = checksumEthereumAddress(data['message']['spender']);
+
+    await DAppWalletConnectRemovePool(
+      context,
+      connectResponse,
+      owner,
+      spender,
+      approveRemovePool(id!, result),
+    ).showBottomSheet();
+  }
+
+  @override
+  void onSessionDisconnect(String? errInJson) async {
+    await conn.killSession();
+    log.info('onSessionDisconnect $errInJson');
+  }
+
+  /// NOT Implemented yet ///
+  @override
   void onCallRequestEthSign(int? id, String? requestInJson) {
     log.info('onCallRequestEthSign $requestInJson');
   }
@@ -152,11 +181,6 @@ class WalletConnectHandler implements IWCHandler {
   @override
   void onCallRequestEthSignTransaction(int? id, String? requestInJson) {
     log.info('onCallRequestEthSignTransaction $requestInJson');
-  }
-
-  @override
-  void onCallRequestEthSignTypedData(int? id, String? requestInJson) {
-    log.info('onCallRequestEthSignTypedData $requestInJson');
   }
 
   @override
@@ -173,10 +197,5 @@ class WalletConnectHandler implements IWCHandler {
   @override
   void onCallRequestEthSendRawTransaction(int? id, String? requestInJson) {
     log.info('onCallRequestEthSendRawTransaction $requestInJson');
-  }
-
-  @override
-  void onSessionDisconnect(String? errInJson) async {
-    log.info('onSessionDisconnect $errInJson');
   }
 }
