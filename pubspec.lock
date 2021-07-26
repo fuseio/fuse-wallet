@@ -1582,9 +1582,11 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
+      path: "."
+      ref: "feat/null-safety"
+      resolved-ref: "4015885214caaf932084f68a6d4c2e2021d2702b"
+      url: "https://github.com/fuseio/wallet_core.git"
+    source: git
     version: "0.3.0"
   watcher:
     dependency: transitive
