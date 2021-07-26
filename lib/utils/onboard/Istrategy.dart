@@ -6,8 +6,16 @@ import 'package:fusecash/utils/onboard/sms.dart';
 abstract class IOnBoardStrategy {
   final OnboardStrategy strategy;
 
-  Future<dynamic> login(store, phoneNumber);
-  Future<dynamic> verify(store, verificationCode, onSuccess);
+  Future<dynamic> login(
+    store,
+    phoneNumber,
+    void Function(dynamic) loginFailed,
+  );
+  Future<dynamic> verify(
+    store,
+    verificationCode,
+    onSuccess,
+  );
 
   IOnBoardStrategy(
     this.strategy,

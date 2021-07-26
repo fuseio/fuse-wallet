@@ -3,7 +3,7 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:dio/dio.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/variables.dart';
@@ -255,9 +255,9 @@ ThunkAction enablePushNotifications() {
       log.info("Firebase messaging token $token");
       String walletAddress = store.state.userState.walletAddress;
       await api.updateFirebaseToken(walletAddress, token);
-      await Segment.setContext({
-        'device': {'token': token},
-      });
+      // await Segment.setContext({
+      //   'device': {'token': token},
+      // });
     } catch (e, s) {
       log.error('ERROR - Enable push notifications: $e');
       await Sentry.captureException(
@@ -282,7 +282,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic>? traits) {
         store.dispatch(new JustInstalled(installedAt));
       }
       traits?["Installed At"] = installedAt.toIso8601String();
-      Segment.identify(userId: fullPhoneNumber, traits: Map.from({...?traits}));
+      // Segment.identify(userId: fullPhoneNumber, traits: Map.from({...?traits}));
     } catch (e, s) {
       log.error('ERROR - segment identify call: $e');
       await Sentry.captureException(e, stackTrace: s);

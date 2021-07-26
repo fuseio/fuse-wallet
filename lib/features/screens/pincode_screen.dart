@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
@@ -138,10 +138,10 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                 ),
                                 onCompleted: (value) {
                                   if (viewModel.pincode == value) {
-                                    Segment.track(
-                                      eventName:
-                                          'Session Start: Authentication success',
-                                    );
+                                    // Segment.track(
+                                    //   eventName:
+                                    //       'Session Start: Authentication success',
+                                    // );
                                     context.router.replaceAll([MainScreen()]);
                                     pincodeController.clear();
                                   } else {

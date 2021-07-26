@@ -10,6 +10,7 @@ import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/features/onboard/dialogs/signup.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/features/shared/widgets/snackbars.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -216,11 +217,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       (value) {
                                     viewModel.signUp(
                                       countryCode,
-                                      value,
-                                      () {
+                                      value.e164,
+                                      (dynamic error) async {
                                         showErrorSnack(
-                                          message:
-                                              I10n.of(context).invalid_number,
+                                          message: error.toString(),
                                           title: I10n.of(context)
                                               .something_went_wrong,
                                           context: context,
@@ -231,13 +231,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             bottom: 120,
                                           ),
                                         );
+                                        await Sentry.captureException(
+                                          error,
+                                          hint: 'ERROR in Login Request',
+                                        );
                                       },
                                     );
                                   }, onError: (e) {
                                     showErrorSnack(
-                                      message: I10n.of(context).invalid_number,
-                                      title:
-                                          I10n.of(context).something_went_wrong,
+                                      title: I10n.of(context).invalid_number,
+                                      duration: Duration(seconds: 3),
                                       context: context,
                                       margin: EdgeInsets.only(
                                         top: 8,

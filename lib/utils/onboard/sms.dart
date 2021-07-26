@@ -13,6 +13,7 @@ class SmsStrategy implements IOnBoardStrategy {
   Future login(
     store,
     phoneNumber,
+    void Function(dynamic) loginFailed,
   ) async {
     await api.loginWithSMS(phoneNumber);
     store.dispatch(SetIsLoginRequest(isLoading: false));

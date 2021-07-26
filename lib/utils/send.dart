@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/common/router/routes.dart';
@@ -187,7 +187,9 @@ void barcodeScannerHandler(
       ),
       backgroundColor: Theme.of(context).bottomAppBarColor,
       margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
-      borderRadius: 8,
+      borderRadius: BorderRadius.all(
+        Radius.circular(8.0),
+      ),
       icon: SvgPicture.asset(
         'assets/images/failed_icon.svg',
         width: 20,

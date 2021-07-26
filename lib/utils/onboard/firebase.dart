@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/strings.dart';
@@ -7,14 +7,18 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
-import 'package:sentry_flutter/sentry_flutter.dart' show Sentry;
+// import 'package:sentry_flutter/sentry_flutter.dart' show Sentry;
 
 class FirebaseStrategy implements IOnBoardStrategy {
   final strategy;
   FirebaseStrategy({this.strategy = OnboardStrategy.firebase});
 
   @override
-  Future login(store, phoneNumber) async {
+  Future login(
+    store,
+    phoneNumber,
+    void Function(dynamic) loginFailed,
+  ) async {
     final PhoneVerificationCompleted verificationCompleted = (
       PhoneAuthCredential credentials,
     ) async {
@@ -34,9 +38,9 @@ class FirebaseStrategy implements IOnBoardStrategy {
         identifier,
         appName: Strings.APP_NAME,
       );
-      Segment.track(
-        eventName: 'Sign up: VerificationCode_NextBtn_Press',
-      );
+      // Segment.track(
+      //   eventName: 'Sign up: VerificationCode_NextBtn_Press',
+      // );
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
@@ -54,19 +58,13 @@ class FirebaseStrategy implements IOnBoardStrategy {
           message: authException.message,
         ),
       );
-
       store.dispatch(
         SetIsVerifyRequest(
           isLoading: false,
           message: authException.message,
         ),
       );
-      await Sentry.captureException(
-        authException,
-        stackTrace: authException.stackTrace,
-        hint:
-            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}',
-      );
+      loginFailed(authException);
     };
 
     final PhoneCodeSent codeSent = (

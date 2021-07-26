@@ -1,11 +1,11 @@
 import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:phone_number/phone_number.dart';
+// import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -21,8 +21,8 @@ class OnboardViewModel extends Equatable {
   final bool isVerifyRequest;
   final Function(
     CountryCode,
-    PhoneNumber,
-    VoidCallback loginFailureCallback,
+    String,
+    void Function(dynamic) loginFailed,
   ) signUp;
   final Function(
     String code,
@@ -67,13 +67,13 @@ class OnboardViewModel extends Equatable {
         // verifyErrorMessage: store.state.userState.verifyErrorMessage,
         signUp: (
           CountryCode countryCode,
-          PhoneNumber phoneNumber,
-          VoidCallback loginFailureCallback,
+          String phoneNumber,
+          void Function(dynamic) loginFailed,
         ) {
           store.dispatch(loginHandler(
             countryCode,
             phoneNumber,
-            loginFailureCallback,
+            loginFailed,
           ));
         },
         verify: (
@@ -89,9 +89,9 @@ class OnboardViewModel extends Equatable {
         setDisplayName: (String displayName) {
           store.dispatch(SetDisplayName(displayName));
           store.dispatch(createAccountWalletCall(accountAddress));
-          Segment.track(
-            eventName: 'Sign up: User name Next button pressed',
-          );
+          // Segment.track(
+          //   eventName: 'Sign up: User name Next button pressed',
+          // );
         },
         setSecurityType: (biometricAuth) {
           store.dispatch(SetSecurityType(biometricAuth: biometricAuth));

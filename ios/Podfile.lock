@@ -1,6 +1,4 @@
 PODS:
-  - Amplitude-iOS (4.8.2)
-  - Analytics (3.7.0)
   - app_tracking_transparency (0.0.1):
     - Flutter
   - contacts_service (0.2.2):
@@ -21,6 +19,10 @@ PODS:
   - Firebase/RemoteConfig (8.3.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 8.3.0)
+  - firebase_analytics (8.2.0):
+    - Firebase/Analytics (= 8.3.0)
+    - firebase_core
+    - Flutter
   - firebase_auth (3.0.1):
     - Firebase/Auth (= 8.3.0)
     - firebase_core
@@ -91,14 +93,10 @@ PODS:
   - Flutter (1.0.0)
   - flutter_secure_storage (3.3.1):
     - Flutter
-  - flutter_segment (0.0.1):
-    - Analytics (= 3.7.0)
-    - Flutter
-    - Segment-Amplitude (= 3.0.1)
   - flutter_udid (0.0.1):
     - Flutter
     - SAMKeychain
-  - flutter_web_browser (0.14.0):
+  - flutter_web_browser (0.15.0):
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -170,14 +168,11 @@ PODS:
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.3)
   - PhoneNumberKit/PhoneNumberKitCore (3.3.3)
   - PromisesObjC (1.2.12)
-  - rate_my_app (1.1.0):
+  - rate_my_app (1.1.1):
     - Flutter
   - SAMKeychain (1.5.3)
   - scan (0.0.1):
     - Flutter
-  - Segment-Amplitude (3.0.1):
-    - Amplitude-iOS (~> 4.8.0)
-    - Analytics (~> 3.7.0)
   - Sentry (7.1.3):
     - Sentry/Core (= 7.1.3)
   - Sentry/Core (7.1.3)
@@ -201,13 +196,13 @@ DEPENDENCIES:
   - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - Firebase/Analytics
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - flutter_segment (from `.symlinks/plugins/flutter_segment/ios`)
   - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
   - flutter_web_browser (from `.symlinks/plugins/flutter_web_browser/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
@@ -229,8 +224,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Amplitude-iOS
-    - Analytics
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -250,7 +243,6 @@ SPEC REPOS:
     - PhoneNumberKit
     - PromisesObjC
     - SAMKeychain
-    - Segment-Amplitude
     - Sentry
 
 EXTERNAL SOURCES:
@@ -258,6 +250,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/app_tracking_transparency/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -270,8 +264,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  flutter_segment:
-    :path: ".symlinks/plugins/flutter_segment/ios"
   flutter_udid:
     :path: ".symlinks/plugins/flutter_udid/ios"
   flutter_web_browser:
@@ -310,11 +302,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
-  Amplitude-iOS: 46c8e6e65c49bb1ad1909a9add1a68e1f8562b3f
-  Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
+  firebase_analytics: 25a03006c041a3be10bbd8e7313f87f59b9857bf
   firebase_auth: 3b08d67bda60758347d15584fd0a7a4cf5f6496f
   firebase_core: 72374607c8c6f5a0adc0559e5c5bf57deda975e3
   firebase_messaging: 55c5b8184efd330b9d1f1765b55c4ae57e015c5e
@@ -329,9 +320,8 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 648648205dc7fd546880aeafc737bc19a2543d31
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
-  flutter_segment: ed8d1215725d0b4190e28105436f253b9e092934
   flutter_udid: 0848809dbed4c055175747ae6a45a8b4f6771e1c
-  flutter_web_browser: a719eca01d00bdc9a0e13e42194f86b90a5b8729
+  flutter_web_browser: dcd4d56462dc03099dbff2f89a3e93014d8e8e06
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleAppMeasurement: de70802583dedceb0bca18172b345307e8f410b8
@@ -349,10 +339,9 @@ SPEC CHECKSUMS:
   phone_number: aaf1197d6ff991ac59640e7f73472e06f2efac95
   PhoneNumberKit: 4ce83273551c4d2ae10b7361162f4283dd02835f
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  rate_my_app: b2b5847177b024ab7fcfd02ced7a84a9b67eeaf2
+  rate_my_app: 8e49687f3520c56352f974f0cb401afea07cd496
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   scan: aea35bb4aa59ccc8839c576a18cd57c7d492cc86
-  Segment-Amplitude: 1b3b02a2e92f4b08a413a72bf7aa44f78566ab3b
   Sentry: 6d963d64804dd06d96e778be729613f481394312
   sentry_flutter: f20d4f199442900fbdab2b8496f1d2091d8b94d9
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410

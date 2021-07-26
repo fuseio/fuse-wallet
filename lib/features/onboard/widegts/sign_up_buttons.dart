@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/features/onboard/dialogs/warn_before_recreate.dart';
@@ -44,7 +44,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                     if (context.router.canPopSelfOrChildren) {
                       context.router.popUntilRoot();
                     }
-                    context.router.replace(MainScreen());
+                    context.router.push(MainScreen());
                   } else {
                     setState(() {
                       isPrimaryPreloading = true;
@@ -53,7 +53,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                       setState(() {
                         isPrimaryPreloading = false;
                       });
-                      context.router.replace(SignUpScreen());
+                      context.router.push(SignUpScreen());
                     }, () {
                       setState(() {
                         isPrimaryPreloading = false;
@@ -73,11 +73,11 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                             fontSize: 14,
                             label: I10n.of(context).restore_backup,
                             onPressed: () {
-                              Segment.track(
-                                eventName:
-                                    'Existing User: Restore wallet from backup',
-                              );
-                              context.router.replace(RestoreFromBackupScreen());
+                              // Segment.track(
+                              //   eventName:
+                              //       'Existing User: Restore wallet from backup',
+                              // );
+                              context.router.push(RestoreFromBackupScreen());
                             },
                           ),
                           Text(
@@ -115,10 +115,10 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                         fontSize: 20,
                         label: I10n.of(context).restore_from_backup,
                         onPressed: () {
-                          Segment.track(
-                            eventName:
-                                'Existing User: Restore wallet from backup',
-                          );
+                          // Segment.track(
+                          //   eventName:
+                          //       'Existing User: Restore wallet from backup',
+                          // );
                           context.router.push(RestoreFromBackupScreen());
                         },
                       ),

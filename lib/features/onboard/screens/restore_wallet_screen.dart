@@ -141,6 +141,7 @@ class _RestoreFromBackupScreenState extends State<RestoreFromBackupScreen> {
                               context: context,
                               message: I10n.of(context).phrase_invaild,
                               title: I10n.of(context).oops,
+                              duration: Duration(seconds: 3),
                             );
                           });
                         }

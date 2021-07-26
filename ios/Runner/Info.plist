@@ -112,10 +112,6 @@
 		<string>fuseio.app.link</string>
 		<key>branch_key</key>
 		<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
-		<key>com.claimsforce.segment.WRITE_KEY</key>
-		<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
-		<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
-		<true/>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>https</string>

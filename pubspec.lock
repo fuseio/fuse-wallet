@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.0"
+  another_flushbar:
+    dependency: "direct main"
+    description:
+      name: another_flushbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.10.24"
   app_tracking_transparency:
     dependency: "direct main"
     description:
@@ -282,7 +289,7 @@ packages:
       name: decimal
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   dependency_validator:
     dependency: "direct dev"
     description:
@@ -341,6 +348,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.0"
+  firebase:
+    dependency: transitive
+    description:
+      name: firebase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.1"
+  firebase_analytics:
+    dependency: "direct main"
+    description:
+      name: firebase_analytics
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.2.0"
+  firebase_analytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_analytics_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  firebase_analytics_web:
+    dependency: transitive
+    description:
+      name: firebase_analytics_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0+1"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -431,7 +466,7 @@ packages:
       name: fl_chart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.36.2"
+    version: "0.36.3"
   flare_flutter:
     dependency: "direct main"
     description:
@@ -446,15 +481,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  flushbar:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "39a8ad18e77fc12e9bc19aa5b4b910c6a34745eb"
-      url: "git://github.com/prasadsunny1/flushbar"
-    source: git
-    version: "2.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -506,7 +532,7 @@ packages:
       name: flutter_localized_locales
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   flutter_native_splash:
     dependency: "direct dev"
     description:
@@ -549,15 +575,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.0"
-  flutter_segment:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: fbd8874c966321a7d34ed00337d91f11fcd751a7
-      url: "https://github.com/fuseio/flutter-segment.git"
-    source: git
-    version: "3.1.0"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -590,7 +607,7 @@ packages:
       name: flutter_web_browser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0"
+    version: "0.15.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -721,7 +738,7 @@ packages:
       name: grouped_list
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   hex:
     dependency: transitive
     description:
@@ -1043,7 +1060,7 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.3"
+    version: "8.1.4+1"
   permission_handler_platform_interface:
     dependency: transitive
     description:
@@ -1071,7 +1088,7 @@ packages:
       name: pin_code_fields
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "7.3.0"
   platform:
     dependency: transitive
     description:
@@ -1148,7 +1165,7 @@ packages:
       name: rate_my_app
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0+1"
+    version: "1.1.1"
   rational:
     dependency: transitive
     description:

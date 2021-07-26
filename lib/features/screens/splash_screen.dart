@@ -1,9 +1,9 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -34,15 +34,15 @@ class _SplashScreenState extends State<SplashScreen> {
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      await Segment.setContext({});
+      // await Segment.setContext({});
       context.router.replaceAll([OnBoardScreen()]);
       widget.onLoginResult?.call(false);
     } else {
       UserState userState = store.state.userState;
       if (userState.authType != BiometricAuth.none) {
-        Segment.track(
-          eventName: 'Session Start: Authentication request for existed user',
-        );
+        // Segment.track(
+        //   eventName: 'Session Start: Authentication request for existed user',
+        // );
         store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
@@ -74,9 +74,9 @@ class _SplashScreenState extends State<SplashScreen> {
       stickyAuth: true,
       callback: (bool result) {
         if (result) {
-          Segment.track(
-            eventName: 'Session Start: Authentication success',
-          );
+          // Segment.track(
+          //   eventName: 'Session Start: Authentication success',
+          // );
           context.router.replaceAll([MainScreen()]);
           widget.onLoginResult?.call(true);
         } else {

@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/foundation.dart';
@@ -174,39 +174,35 @@ class DeviceIdSuccess {
 
 ThunkAction loginHandler(
   CountryCode countryCode,
-  PhoneNumber phoneNumber,
-  VoidCallback loginFailureCallback,
+  String phoneNumber,
+  void Function(dynamic) loginFailureCallback,
 ) {
   return (Store store) async {
     try {
-      Segment.alias(alias: phoneNumber.e164);
-      Segment.track(
-        eventName: 'Sign up: Phone_NextBtn_Press',
-      );
+      // Segment.alias(alias: phoneNumber);
+      // Segment.track(
+      //   eventName: 'Sign up: Phone_NextBtn_Press',
+      // );
       store.dispatch(SetIsLoginRequest(isLoading: true));
       await onBoardStrategy.login(
         store,
-        phoneNumber.e164,
+        phoneNumber,
+        loginFailureCallback,
       );
       store.dispatch(
         LoginRequestSuccess(
           countryCode: countryCode,
-          phoneNumber: phoneNumber.e164,
+          phoneNumber: phoneNumber,
         ),
       );
     } catch (e, s) {
-      loginFailureCallback();
+      loginFailureCallback(e);
       store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
-      log.error('ERROR - LoginRequest $e');
-      Segment.track(
-        eventName: 'Sign up: FAILED - Phone_NextBtn_Press',
-        properties: Map.from({"error": e.toString()}),
-      );
-      await Sentry.captureException(
-        e,
-        stackTrace: s,
-        hint: 'ERROR in Login Request',
-      );
+      log.error('ERROR - LoginRequest ${e.toString()} ${s.toString()}');
+      // Segment.track(
+      //   eventName: 'Sign up: FAILED - Phone_NextBtn_Press',
+      //   properties: Map.from({"error": e.toString()}),
+      // );
     }
   };
 }
@@ -216,17 +212,17 @@ ThunkAction verifyHandler(
 ) {
   return (Store store) async {
     try {
-      Segment.track(
-        eventName: 'Sign up: Verify phone code next button pressed',
-      );
+      // Segment.track(
+      //   eventName: 'Sign up: Verify phone code next button pressed',
+      // );
       await onBoardStrategy.verify(
         store,
         verificationCode,
         (String jwtToken) {
           log.info('jwtToken $jwtToken');
-          Segment.track(
-            eventName: 'Sign up: VerificationCode_NextBtn_Press',
-          );
+          // Segment.track(
+          //   eventName: 'Sign up: VerificationCode_NextBtn_Press',
+          // );
           store.dispatch(LoginVerifySuccess(jwtToken));
           store.dispatch(SetIsVerifyRequest(isLoading: false));
           rootRouter.push(UserNameScreen());
@@ -238,12 +234,12 @@ ThunkAction verifyHandler(
         isLoading: false,
         message: error,
       ));
-      Segment.track(
-        eventName: 'Sign up: FAILED - VerificationCode_NextBtn_Press',
-        properties: Map.from({
-          "error": error.toString(),
-        }),
-      );
+      // Segment.track(
+      //   eventName: 'Sign up: FAILED - VerificationCode_NextBtn_Press',
+      //   properties: Map.from({
+      //     "error": error.toString(),
+      //   }),
+      // );
       await Sentry.captureException(
         error,
         stackTrace: s,
@@ -299,17 +295,17 @@ ThunkAction restoreWalletCall(
           ),
         );
         successCallback();
-        Segment.track(
-          eventName: 'Existing User: Successful Restore wallet from backup',
-        );
+        // Segment.track(
+        //   eventName: 'Existing User: Successful Restore wallet from backup',
+        // );
       } else {
         throw Exception('invalid mnemonic');
       }
     } catch (e, s) {
       log.error('ERROR - restoreWalletCall $e');
-      Segment.track(
-        eventName: 'Existing User: Failed to restore wallet from backup',
-      );
+      // Segment.track(
+      //   eventName: 'Existing User: Failed to restore wallet from backup',
+      // );
       failureCallback();
       await Sentry.captureException(
         e,
@@ -344,11 +340,14 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store
-          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
-      Segment.track(
-        eventName: 'New User: Create Wallet',
+      store.dispatch(
+        SetDefaultCommunity(
+          defaultCommunityAddress.toLowerCase(),
+        ),
       );
+      // Segment.track(
+      //   eventName: 'New User: Create Wallet',
+      // );
       successCallback();
     } catch (e, s) {
       log.error('ERROR - createLocalAccountCall $e');
@@ -452,8 +451,8 @@ ThunkAction identifyCall() {
     String displayName = userState.displayName;
     String phoneNumber = userState.phoneNumber;
     String walletAddress = userState.walletAddress;
-    String accountAddress = userState.accountAddress;
-    String identifier = userState.identifier;
+    // String accountAddress = userState.accountAddress;
+    // String identifier = userState.identifier;
     Sentry.configureScope((scope) {
       scope.setContexts(
         'user',
@@ -464,27 +463,27 @@ ThunkAction identifyCall() {
         }),
       );
     });
-    store.dispatch(segmentIdentifyCall(
-      Map<String, dynamic>.from({
-        "Phone Number": phoneNumber,
-        "Wallet Address": walletAddress,
-        "Account Address": accountAddress,
-        "Display Name": displayName,
-        "Identifier": identifier,
-      }),
-    ));
+    // store.dispatch(segmentIdentifyCall(
+    //   Map<String, dynamic>.from({
+    //     "Phone Number": phoneNumber,
+    //     "Wallet Address": walletAddress,
+    //     "Account Address": accountAddress,
+    //     "Display Name": displayName,
+    //     "Identifier": identifier,
+    //   }),
+    // ));
 
-    if (Platform.isAndroid) {
-      try {
-        final String token = (await getIt<FirebaseMessaging>().getToken())!;
-        log.info("Firebase messaging token $token");
-        await Segment.setContext({
-          'device': {'token': token},
-        });
-      } catch (e, s) {
-        log.error('Error in identifyCall: ${e.toString()} ${s.toString()}');
-      }
-    }
+    // if (Platform.isAndroid) {
+    //   try {
+    //     final String token = (await getIt<FirebaseMessaging>().getToken())!;
+    //     log.info("Firebase messaging token $token");
+    //     // await Segment.setContext({
+    //     //   'device': {'token': token},
+    //     // });
+    //   } catch (e, s) {
+    //     log.error('Error in identifyCall: ${e.toString()} ${s.toString()}');
+    //   }
+    // }
   };
 }
 

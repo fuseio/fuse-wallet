@@ -1,4 +1,4 @@
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/strings.dart';
@@ -15,6 +15,7 @@ class SimpleStrategy implements IOnBoardStrategy {
   Future login(
     store,
     phoneNumber,
+    void Function(dynamic) loginFailed,
   ) async {
     final String accountAddress = store.state.userState.accountAddress;
     final jwtToken = await api.requestToken(
@@ -25,9 +26,9 @@ class SimpleStrategy implements IOnBoardStrategy {
     log.info('jwtToken $jwtToken');
     store.dispatch(LoginVerifySuccess(jwtToken));
     store.dispatch(SetIsVerifyRequest(isLoading: false));
-    Segment.track(
-      eventName: 'Sign up: VerificationCode_NextBtn_Press',
-    );
+    // Segment.track(
+    //   eventName: 'Sign up: VerificationCode_NextBtn_Press',
+    // );
     rootRouter.push(UserNameScreen());
   }
 
