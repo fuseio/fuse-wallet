@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wc_remove_pool.dart';
+import 'package:fusecash/features/shared/widgets/dapp_wallet_connect/dapp_wc_sign_type.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -91,7 +91,7 @@ class WalletConnectHandler implements IWCHandler {
     log.info('onSessionRequest $requestInJson');
   }
 
-  Future approveRemovePool(Map res, int id) async {
+  Future approveSignType(Map res, int id) async {
     log.info("here:");
   }
 
@@ -155,18 +155,18 @@ class WalletConnectHandler implements IWCHandler {
     log.info('a $data');
     final String owner = checksumEthereumAddress(data['message']['owner']);
     final String spender = checksumEthereumAddress(data['message']['spender']);
-    await DAppWalletConnectRemovePool(
+    await DAppWalletConnectSignType(
       context,
       connectResponse,
       owner,
       spender,
-      approveRemovePool(data, id!),
+      approveSignType(data, id!),
     ).showBottomSheet();
   }
 
   @override
   void onSessionDisconnect(String? errInJson) async {
-    await conn.killSession();
+    //await conn.killSession();
     log.info('onSessionDisconnect $errInJson');
   }
 

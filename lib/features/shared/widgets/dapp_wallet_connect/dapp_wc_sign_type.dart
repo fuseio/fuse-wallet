@@ -6,15 +6,15 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'connect_response_model.dart';
 
-class DAppWalletConnectRemovePool extends StatelessWidget {
+class DAppWalletConnectSignType extends StatelessWidget {
   final BuildContext context;
   final String owner;
   final String spender;
   final ConnectResponse connectResponse;
-  final dynamic approveRemovePool;
+  final dynamic approveSignType;
 
-  DAppWalletConnectRemovePool(this.context, this.connectResponse, this.owner,
-      this.spender, this.approveRemovePool);
+  DAppWalletConnectSignType(this.context, this.connectResponse, this.owner,
+      this.spender, this.approveSignType);
 
   Future<dynamic> showBottomSheet() {
     return showBarModalBottomSheet(
@@ -188,7 +188,7 @@ class DAppWalletConnectRemovePool extends StatelessWidget {
   }
 
   void _onSignPressed() async {
-    this.approveRemovePool;
+    this.approveSignType;
     Navigator.pop(context);
   }
 
