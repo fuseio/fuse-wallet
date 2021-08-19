@@ -1,4 +1,5 @@
 import 'package:fusecash/models/actions/wallet_action.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
@@ -59,7 +60,13 @@ class WalletActionFactory {
   }
 
   static List<WalletAction> actionsFromJson(Iterable<dynamic> docs) =>
-      List<WalletAction>.from(docs.map(
-        (json) => WalletActionFactory.create(json),
-      ));
+      List.from(docs).fold<List<WalletAction>>([], (previousValue, action) {
+        try {
+          return [...previousValue, WalletActionFactory.create(action)];
+        } catch (e, s) {
+          log.info(
+              'Error while trying to add WalletAction ${e.toString()}  ${s.toString()}');
+          return previousValue;
+        }
+      });
 }
