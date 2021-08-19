@@ -36,7 +36,7 @@ class _BottomBarState extends State<BottomBar> {
     String title,
     String imgSvg,
   ) =>
-      BottomNavigationBarItem(
+      BottomNavigationBarItem(//TODO: change the nav color
         icon: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset(
@@ -93,7 +93,7 @@ class _BottomBarState extends State<BottomBar> {
         unselectedFontSize: 13,
         type: BottomNavigationBarType.fixed,
         currentIndex: widget.tabsRouter.activeIndex,
-        backgroundColor: Theme.of(context).bottomAppBarColor,
+        backgroundColor: Colors.white,//Theme.of(context).bottomAppBarColor,
         showUnselectedLabels: true,
         items: [
           bottomBarItem(I10n.of(context).home, 'home'),
