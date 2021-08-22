@@ -58,7 +58,7 @@ class CommunityCard extends StatelessWidget {
                           child: CachedNetworkImage(
                             width: 50,
                             height: 50,
-                            imageUrl: community.metadata!.getImageUri(),
+                            imageUrl: community.metadata?.getImageUri() ?? '',
                             placeholder: (context, url) =>
                                 CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -88,7 +88,7 @@ class CommunityCard extends StatelessWidget {
                               width: 3,
                             ),
                             token != null
-                                ? Text('Token: ${token!.symbol}',
+                                ? Text('Token: ${token?.symbol}',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF808080),

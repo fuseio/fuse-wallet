@@ -82,16 +82,19 @@ class SwitchCommunityScreen extends StatelessWidget {
           title: I10n.of(context).switch_community,
           body: Container(
             padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
                 Container(
-                    padding: EdgeInsets.only(left: 15, top: 20),
-                    child: Text(I10n.of(context).current_community,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 15.0, fontWeight: FontWeight.normal))),
+                  padding: EdgeInsets.only(left: 15, top: 20),
+                  child: Text(
+                    I10n.of(context).current_community,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
                 viewModel.tokens.containsKey(
                         viewModel.currentCommunity.homeTokenAddress)
                     ? SelectedCommunityCard(
@@ -103,28 +106,43 @@ class SwitchCommunityScreen extends StatelessWidget {
                     : SizedBox.shrink(),
                 Center(
                   child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 20, bottom: 20, right: 40, left: 40),
-                      child: scanQRButton(context, viewModel.switchCommunity)),
+                    padding: EdgeInsets.only(
+                      top: 20,
+                      bottom: 20,
+                      right: 40,
+                      left: 40,
+                    ),
+                    child: scanQRButton(
+                      context,
+                      viewModel.switchCommunity,
+                    ),
+                  ),
                 ),
                 viewModel.communities.length > 1
                     ? Container(
                         padding: EdgeInsets.only(left: 15, top: 20),
-                        child: Text(I10n.of(context).my_communities,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.normal)))
+                        child: Text(
+                          I10n.of(context).my_communities,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      )
                     : SizedBox.shrink(),
                 ...viewModel.communities.values
                     .where((Community community) =>
                         community.address != viewModel.currentCommunity.address)
-                    .map((Community community) {
-                  return CommunityCard(
-                    token: viewModel.tokens[community.homeTokenAddress]!,
-                    community: community,
-                    switchCommunity: viewModel.switchCommunity,
-                  );
-                }).toList()
+                    .map(
+                  (Community community) {
+                    return CommunityCard(
+                      token: viewModel.tokens[community.homeTokenAddress],
+                      community: community,
+                      switchCommunity: viewModel.switchCommunity,
+                    );
+                  },
+                ).toList()
               ],
             ),
           ),

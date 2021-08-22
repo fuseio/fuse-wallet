@@ -710,18 +710,21 @@ ThunkAction fetchCommunityMetadataCall(
           : communityURI.split('/').last;
       dynamic metadata = await api.fetchMetadata(
         hash,
-        isRopsten: isRopsten,
+        isRopsten: isRopsten || communityURI.contains('ropsten'),
       );
-      CommunityMetadata communityMetadata = CommunityMetadata.fromJson(metadata)
-        ..copyWith(
-          isDefaultImage: metadata['isDefault'] ?? false,
+      if (metadata != null) {
+        CommunityMetadata communityMetadata =
+            CommunityMetadata.fromJson(metadata)
+              ..copyWith(
+                isDefaultImage: metadata['isDefault'] ?? false,
+              );
+        store.dispatch(
+          FetchCommunityMetadataSuccess(
+            metadata: communityMetadata,
+            communityAddress: communityAddress.toLowerCase(),
+          ),
         );
-      store.dispatch(
-        FetchCommunityMetadataSuccess(
-          metadata: communityMetadata,
-          communityAddress: communityAddress.toLowerCase(),
-        ),
-      );
+      }
     } catch (e, s) {
       log.error('ERROR - fetchCommunityMetadataCall $e');
       await Sentry.captureException(
