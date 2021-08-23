@@ -2,6 +2,7 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/wallet_banner.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:equatable/equatable.dart';
@@ -15,7 +16,7 @@ class BuyViewModel extends Equatable {
 
   @override
   List<Object> get props => [
-        token,
+        // token,
         businesses,
         isCommunityBusinessesFetched,
         businesses,
@@ -33,8 +34,9 @@ class BuyViewModel extends Equatable {
     String? communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddress]!;
+
     Token token =
-        store.state.cashWalletState.tokens[community.homeTokenAddress]!;
+        store.state.cashWalletState.tokens.values.first; //todo: use the original token [community.homeTokenAddress]!;
     return BuyViewModel(
       communityAddress: communityAddress,
       token: token,

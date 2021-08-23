@@ -21,15 +21,15 @@ class _HeaderState extends State<Header> {
         return Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   begin: Alignment.topLeft,
-            //   end: Alignment.bottomRight,
-            //   colors: [
-            //     Theme.of(context).colorScheme.primaryVariant,
-            //     Theme.of(context).colorScheme.primary,
-            //   ],
-            // ),
-            color: Colors.amber[600],//TODO: get the exact hex code
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.primaryVariant,
+                Theme.of(context).colorScheme.primary,
+              ],
+            ),
+            // color: Colors.amber[600],//TODO: get the exact hex code
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
@@ -54,7 +54,7 @@ class _HeaderState extends State<Header> {
                   children: <Widget>[
                     Balance(),
                     BarcodeScanner(
-                      backgroundColor: Colors.amber[800],//todo: make it dynamically responding to the parent widget backcolor
+                      backgroundColor: Color.fromRGBO(219,126,0,1),//Colors.amber[800],//todo: make it dynamically responding to the parent widget back color
                       child: Image.asset(
                         'assets/images/scan.png',
                         width: 25.0,

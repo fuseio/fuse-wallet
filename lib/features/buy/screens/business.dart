@@ -62,11 +62,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
                             padding: EdgeInsets.only(bottom: 20),
                             child: SizedBox.expand(
                               child: CachedNetworkImage(
-                                imageUrl: ImageUrl.getLink(
-                                  widget.business.metadata.coverPhoto,
-                                ),
+                                imageUrl: widget.business.metadata.coverPhoto,
                                 placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
+                                    Center(child: SizedBox(child: CircularProgressIndicator())),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
                                 imageBuilder: (context, imageProvider) => Image(
@@ -98,11 +96,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
                             padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
-                              imageUrl: ImageUrl.getLink(
-                                widget.business.metadata.image,
-                              ),
+                              imageUrl: widget.business.metadata.image,
                               placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
+                                  Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator())),
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
                               imageBuilder: (context, imageProvider) => Image(
@@ -287,6 +283,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
                         ),
                       ),
                     ),
+                    ///
+                    /// map
+                    ///
                     Flexible(
                       fit: FlexFit.tight,
                       flex: 3,

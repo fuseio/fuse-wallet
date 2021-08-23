@@ -127,6 +127,7 @@ class _MyAppState extends State<MyApp> {
                   SentryNavigatorObserver(),
                 ],
               ),
+              debugShowCheckedModeBanner: false,
               builder: (_, router) => ResponsiveWrapper.builder(
                 router!,
                 maxWidth: 1200,

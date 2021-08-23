@@ -41,6 +41,7 @@ export 'routes.gr.dart';
         swapTab,
         // earnTab,
         accountTab,
+
       ],
     ),
     RedirectRoute(path: '*', redirectTo: '/'),

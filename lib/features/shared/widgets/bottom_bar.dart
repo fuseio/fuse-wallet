@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -5,17 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
+import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 
 class BottomBar extends StatefulWidget {
   late final TabsRouter tabsRouter;
 
-  BottomBar(
-    this.tabsRouter,
-  );
+  BottomBar(this.tabsRouter);
 
   @override
   _BottomBarState createState() => _BottomBarState();
@@ -36,7 +36,8 @@ class _BottomBarState extends State<BottomBar> {
     String title,
     String imgSvg,
   ) =>
-      BottomNavigationBarItem(//TODO: change the nav color
+      BottomNavigationBarItem(
+        //TODO: change the nav color
         icon: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset(
@@ -47,6 +48,7 @@ class _BottomBarState extends State<BottomBar> {
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset(
             'assets/images/$imgSvg\_selected.svg',
+            color: Theme.of(context).primaryColor,
             width: 26,
             height: 26,
           ),
@@ -72,9 +74,7 @@ class _BottomBarState extends State<BottomBar> {
           } else {
             widget.tabsRouter.setActiveIndex(activeIndex);
           }
-          if (vm.isContactsSynced == null &&
-              widget.tabsRouter.activeIndex == 1 &&
-              !isContactSynced) {
+          if (vm.isContactsSynced == null && widget.tabsRouter.activeIndex == 1 && !isContactSynced) {
             Future.delayed(
               Duration.zero,
               () => showDialog(
@@ -88,19 +88,18 @@ class _BottomBarState extends State<BottomBar> {
           //   vm.getSwapListBalances();
           // }
         },
-        selectedItemColor: Color(0xFF292929),
+        selectedItemColor:Colors.grey,//Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.grey,
         selectedFontSize: 13,
         unselectedFontSize: 13,
         type: BottomNavigationBarType.fixed,
         currentIndex: widget.tabsRouter.activeIndex,
-        backgroundColor: Colors.white,//Theme.of(context).bottomAppBarColor,
+        backgroundColor: Colors.white, //Theme.of(context).bottomAppBarColor,
         showUnselectedLabels: true,
         items: [
           bottomBarItem(I10n.of(context).home, 'home'),
           bottomBarItem(I10n.of(context).send_button, 'send'),
-          vm.isDefaultCommunity
-              ? bottomBarItem('Fuse Studio', 'fuse_points_tab')
-              : bottomBarItem(I10n.of(context).buy, 'buy'),
+          bottomBarItem(I10n.of(context).buy, 'buy'),
           BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 3),
@@ -114,6 +113,7 @@ class _BottomBarState extends State<BottomBar> {
               child: CircleAvatar(
                 backgroundImage: AssetImage('assets/images/anom.png'),
                 radius: 14,
+                // foregroundColor: Theme.of(context).primaryColor,
               ),
             ),
             label: I10n.of(context).account,

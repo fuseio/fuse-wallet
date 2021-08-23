@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/features/home/widgets/feed.dart';
+import 'package:fusecash/features/home/widgets/transactions.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/home.dart';
@@ -28,12 +30,12 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (_, viewModel) {
         return Scaffold(
-          backgroundColor: Colors.black,//,
+          backgroundColor: Colors.black,//todo
           appBar: MyAppBar(
             height: 156,
             child: Header(),
           ),
-          // body: Tabs(),
+          body: Container(margin: EdgeInsets.symmetric(horizontal: 15,vertical: 20),child: Feed()),
         );
       },
     );

@@ -22,7 +22,7 @@ class Balance extends StatelessWidget {
               child: Text(
                 I10n.of(context).balance,
                 style: TextStyle(
-                  color: Color(0xFF454545),
+                  // color: Color(0xFF454545),
                   fontSize: 13.0,
                 ),
               ),

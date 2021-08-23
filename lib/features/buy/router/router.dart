@@ -16,7 +16,7 @@ const buyTab = AutoRoute(
       page: BusinessScreen,
     ),
     AutoRoute(
-      page: FusePointsExplainedScreen,
+      page:  FusePointsExplainedScreen,
     ),
   ],
 );

@@ -1,18 +1,19 @@
 import 'dart:core';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/features/contacts/send_amount_arguments.dart';
+import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
+import 'package:fusecash/redux/viewsmodels/buy_page.dart';
 import 'package:fusecash/utils/images.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -25,6 +26,7 @@ class BuyScreen extends StatelessWidget {
       },
       builder: (_, viewModel) {
         return MyScaffold(
+
           title: I10n.of(context).buy,
           body: Container(
             child: BusinessesListView(),
@@ -51,7 +53,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            banner(context, vm),
+            // banner(context, vm),
             businessList(context, vm),
           ],
         ),
@@ -60,9 +62,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
   }
 
   Widget banner(BuildContext context, BuyViewModel vm) {
-    return vm.walletBanner != null &&
-            vm.walletBanner?.walletBannerHash != null &&
-            vm.walletBanner?.walletBannerHash != ''
+    return vm.walletBanner != null && vm.walletBanner?.walletBannerHash != null && vm.walletBanner?.walletBannerHash != ''
         ? Container(
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
@@ -106,13 +106,13 @@ class _BusinessesListViewState extends State<BusinessesListView> {
             ),
           )
         : Flexible(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10, bottom: 5.0),
-              child: ListView.separated(
-                separatorBuilder: (context, index) => Divider(),
-                shrinkWrap: true,
-                itemCount: vm.businesses.length,
-                itemBuilder: (context, index) => businessTile(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => Divider(),
+              shrinkWrap: true,
+              itemCount: vm.businesses.length,
+              itemBuilder: (context, index) => Padding(
+                padding: EdgeInsets.only(left: 10, bottom: 5.0),
+                child: businessTile(
                   vm.businesses[index],
                   vm.communityAddress,
                   vm.token,
@@ -122,11 +122,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           );
   }
 
-  ListTile businessTile(
-    Business business,
-    String communityAddress,
-    Token token,
-  ) {
+  ListTile businessTile(Business business, String communityAddress, Token token) {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
@@ -135,7 +131,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
         decoration: BoxDecoration(),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: ImageUrl.getLink(business.metadata.image),
+            imageUrl: business.metadata.image,
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -167,47 +163,28 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           token: token,
         ));
       },
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.all(10.0),
-              backgroundColor: Theme.of(context).buttonColor,
-              shape: CircleBorder(),
-            ),
-            child: Text(
-              I10n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button!.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
-              final SendFlowArguments args = SendFlowArguments(
-                tokenToSend: token,
-                name: business.name,
-                accountAddress: business.account,
-                avatar: NetworkImage(
-                  business.metadata.image,
-                ),
-              );
-              context.navigateTo(
-                ContactsTab(
-                  children: [
-                    ContactsList(
-                      pageArgs: args,
-                    ),
-                    SendAmountScreen(pageArgs: args),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      trailing: MaterialButton(
+          onPressed: () {
+            final SendFlowArguments args = SendFlowArguments(
+              tokenToSend: token,
+              name: business.name,
+              accountAddress: business.account,
+              avatar: NetworkImage(
+                business.metadata.image,
+              ),
+            );
+            context.navigateTo(
+              ContactsTab(
+                children: [
+                  ContactsList(
+                    pageArgs: args,
+                  ),
+                  SendAmountScreen(pageArgs: args),
+                ],
+              ),
+            );
+          },
+          child: Icon(Icons.arrow_forward_ios)),
     );
   }
 }

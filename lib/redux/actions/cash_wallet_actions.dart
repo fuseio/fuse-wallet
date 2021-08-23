@@ -1,17 +1,17 @@
 import 'dart:async';
+
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:dio/dio.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
-import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
+import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
@@ -21,18 +21,19 @@ import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 
 class AddCashTokens {
   final Map<String, Token> tokens;
+
   AddCashTokens({
     required this.tokens,
   });
@@ -40,6 +41,7 @@ class AddCashTokens {
 
 class AddCashToken {
   final Token token;
+
   AddCashToken({
     required this.token,
   });
@@ -57,11 +59,13 @@ class UpdateTokenPrice {
 
 class SetDefaultCommunity {
   String defaultCommunity;
+
   SetDefaultCommunity(this.defaultCommunity);
 }
 
 class AddCommunities {
   Map<String, Community> communities;
+
   AddCommunities({
     required this.communities,
   });
@@ -71,6 +75,7 @@ class GetWalletAddressesSuccess {
   final List<String> networks;
   final String walletAddress;
   final bool backup;
+
   GetWalletAddressesSuccess({
     required this.backup,
     required this.networks,
@@ -81,6 +86,7 @@ class GetWalletAddressesSuccess {
 class GetTokenBalanceSuccess {
   final String tokenAddress;
   final BigInt tokenBalance;
+
   GetTokenBalanceSuccess({
     required this.tokenBalance,
     required this.tokenAddress,
@@ -89,6 +95,7 @@ class GetTokenBalanceSuccess {
 
 class AlreadyJoinedCommunity {
   final String communityAddress;
+
   AlreadyJoinedCommunity(this.communityAddress);
 }
 
@@ -96,6 +103,7 @@ class GetTokenPriceDiffSuccess {
   final String tokenAddress;
   final num priceDiff;
   final int priceDiffLimitInDays;
+
   GetTokenPriceDiffSuccess({
     required this.priceDiff,
     required this.tokenAddress,
@@ -106,6 +114,7 @@ class GetTokenPriceDiffSuccess {
 class GetTokenPriceChangeSuccess {
   final String tokenAddress;
   final num priceChange;
+
   GetTokenPriceChangeSuccess({
     required this.priceChange,
     required this.tokenAddress,
@@ -115,6 +124,7 @@ class GetTokenPriceChangeSuccess {
 class GetTokenStatsSuccess {
   final String tokenAddress;
   final List<Stats> stats;
+
   GetTokenStatsSuccess({
     required this.stats,
     required this.tokenAddress,
@@ -123,16 +133,19 @@ class GetTokenStatsSuccess {
 
 class SwitchCommunityRequested {
   final String communityAddress;
+
   SwitchCommunityRequested(this.communityAddress);
 }
 
 class SwitchToNewCommunity {
   final String communityAddress;
+
   SwitchToNewCommunity(this.communityAddress);
 }
 
 class SwitchCommunitySuccess {
   final Community community;
+
   SwitchCommunitySuccess({
     required this.community,
   });
@@ -144,6 +157,7 @@ class RefreshCommunityData {
   final String? bridgeType;
   final String? bridgeDirection;
   final String? webUrl;
+
   RefreshCommunityData({
     this.bridgeDirection,
     this.bridgeType,
@@ -156,6 +170,7 @@ class RefreshCommunityData {
 class FetchCommunityMetadataSuccess {
   final String communityAddress;
   final CommunityMetadata? metadata;
+
   FetchCommunityMetadataSuccess({
     required this.communityAddress,
     this.metadata,
@@ -164,6 +179,7 @@ class FetchCommunityMetadataSuccess {
 
 class SwitchCommunityFailed {
   final String communityAddress;
+
   SwitchCommunityFailed({
     required this.communityAddress,
   });
@@ -184,6 +200,7 @@ class FetchingBusinessListFailed {
 class GetBusinessListSuccess {
   final String communityAddress;
   final List<Business> businessList;
+
   GetBusinessListSuccess({
     required this.businessList,
     required this.communityAddress,
@@ -193,6 +210,7 @@ class GetBusinessListSuccess {
 class GetActionsSuccess {
   final List<WalletAction> walletActions;
   final num updateAt;
+
   GetActionsSuccess({
     required this.updateAt,
     required this.walletActions,
@@ -203,6 +221,7 @@ class GetTokenWalletActionsSuccess {
   final Token token;
   final List<WalletAction> walletActions;
   final num updateAt;
+
   GetTokenWalletActionsSuccess({
     required this.updateAt,
     required this.walletActions,
@@ -216,6 +235,7 @@ class StartBalanceFetchingSuccess {
 
 class SetIsTransfersFetching {
   final bool isFetching;
+
   SetIsTransfersFetching({
     required this.isFetching,
   });
@@ -227,6 +247,7 @@ class ResetTokenTxs {
 
 class BranchCommunityToUpdate {
   final String communityAddress;
+
   BranchCommunityToUpdate(this.communityAddress);
 }
 
@@ -236,6 +257,7 @@ class BranchListeningStopped {}
 
 class SetIsFetchingBalances {
   final bool isFetching;
+
   SetIsFetchingBalances({
     required this.isFetching,
   });
@@ -292,15 +314,13 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic>? traits) {
 
 ThunkAction setDefaultCommunity() {
   return (Store store) async {
-    final String communityAddress =
-        store.state.cashWalletState.communityAddress;
+    final String communityAddress = store.state.cashWalletState.communityAddress;
     if ([null, ''].contains(communityAddress)) {
       final String branchAddress = store.state.cashWalletState.branchAddress;
       if (![null, ''].contains(branchAddress)) {
         store.dispatch(SetDefaultCommunity(branchAddress.toLowerCase()));
       } else {
-        store.dispatch(
-            SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
+        store.dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
       }
     }
   };
@@ -308,13 +328,11 @@ ThunkAction setDefaultCommunity() {
 
 ThunkAction startFetchTokensBalances() {
   return (Store store) async {
-    final bool isFetchingBalances =
-        store.state.cashWalletState.isFetchingBalances ?? false;
+    final bool isFetchingBalances = store.state.cashWalletState.isFetchingBalances ?? false;
     final String walletAddress = store.state.userState.walletAddress;
     if (!isFetchingBalances) {
       // log.info('Start Fetching token balances');
-      Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
-          (Timer timer) async {
+      Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS), (Timer timer) async {
         String currentWalletAddress = store.state.userState.walletAddress;
         if (currentWalletAddress != walletAddress) {
           log.error('Timer stopped - startFetchTokensBalances');
@@ -337,16 +355,14 @@ ThunkAction startFetchTokensBalances() {
 
 ThunkAction startFetchingCall() {
   return (Store store) async {
-    bool isTransfersFetchingStarted =
-        store.state.cashWalletState.isTransfersFetchingStarted ?? false;
+    bool isTransfersFetchingStarted = store.state.cashWalletState.isTransfersFetchingStarted ?? false;
     final String walletAddress = store.state.userState.walletAddress;
     if (!isTransfersFetchingStarted) {
       // log.info('Timer start - startFetchingCall');
       store.dispatch(fetchListOfTokensByAddress());
       store.dispatch(getWalletActionsCall());
       store.dispatch(SetIsTransfersFetching(isFetching: true));
-      Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS),
-          (Timer t) async {
+      Timer.periodic(Duration(seconds: Variables.INTERVAL_SECONDS), (Timer t) async {
         String currentWalletAddress = store.state.userState.walletAddress;
         if (currentWalletAddress != walletAddress) {
           log.error('Timer stopped - startFetchingCall');
@@ -375,8 +391,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         ));
       } else {
         CashWalletState cashWalletState = store.state.cashWalletState;
-        Community? community =
-            cashWalletState.communities[defaultCommunityAddress.toLowerCase()];
+        Community? community = cashWalletState.communities[defaultCommunityAddress.toLowerCase()];
         if (!cashWalletState.tokens.containsKey(community?.homeTokenAddress)) {
           final response = await api.getWallet();
           store.dispatch(generateWalletSuccessCall(response));
@@ -501,8 +516,7 @@ ThunkAction fetchListOfTokensByAddress() {
       Map<String, Token> newTokens = Map<String, Token>.from(tokensList.fold(
         {},
         (previousValue, element) {
-          if (!cashWalletState.tokens.containsKey(element.address) &&
-              num.parse(element.getBalance(true)).compareTo(0) == 1) {
+          if (!cashWalletState.tokens.containsKey(element.address) && num.parse(element.getBalance(true)).compareTo(0) == 1) {
             log.info('New token added ${element.name}');
             previousValue[element.address] = element;
           }
@@ -537,20 +551,12 @@ ThunkAction sendTokenToForeignMultiBridge(
       String tokenAddress = token.address;
       dynamic response;
       num feeAmount = 20;
-      log.info(
-          'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
+      log.info('Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
       if (fuseWeb3 == null) {
         throw 'web3 is empty';
       }
-      List transferData = await fuseWeb3!.transferTokenToForeign(
-          walletAddress,
-          receiverAddress,
-          checksumEthereumAddress(tokenAddress),
-          tokensAmount,
-          token.decimals,
-          network: 'fuse');
-      Map<String, dynamic> feeTransferData =
-          await fuseWeb3!.transferTokenOffChain(
+      List transferData = await fuseWeb3!.transferTokenToForeign(walletAddress, receiverAddress, checksumEthereumAddress(tokenAddress), tokensAmount, token.decimals, network: 'fuse');
+      Map<String, dynamic> feeTransferData = await fuseWeb3!.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,
@@ -636,8 +642,7 @@ ThunkAction sendTokenCall(
           throw 'web3 is empty';
         }
 
-        log.info(
-            'Sending ${token.name} $tokensAmount from $walletAddress to $receiverAddress');
+        log.info('Sending ${token.name} $tokensAmount from $walletAddress to $receiverAddress');
         dynamic response = await api.tokenTransfer(
           fuseWeb3!,
           walletAddress,
@@ -705,9 +710,7 @@ ThunkAction fetchCommunityMetadataCall(
 ) {
   return (Store store) async {
     try {
-      String hash = communityURI.startsWith('ipfs://')
-          ? communityURI.split('://').last
-          : communityURI.split('/').last;
+      String hash = communityURI.startsWith('ipfs://') ? communityURI.split('://').last : communityURI.split('/').last;
       dynamic metadata = await api.fetchMetadata(
         hash,
         isRopsten: isRopsten,
@@ -727,8 +730,7 @@ ThunkAction fetchCommunityMetadataCall(
       await Sentry.captureException(
         e,
         stackTrace: s,
-        hint:
-            'ERROR while trying to fetch community metadata for $communityAddress',
+        hint: 'ERROR while trying to fetch community metadata for $communityAddress',
       );
     }
   };
@@ -846,8 +848,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten: isRopsten,
         ),
       );
-      if (communityAddress.toLowerCase() !=
-          defaultCommunityAddress.toLowerCase()) {
+      if (communityAddress.toLowerCase() != defaultCommunityAddress.toLowerCase()) {
         store.dispatch(
           joinCommunityCall(
             newCommunity,
@@ -872,8 +873,7 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
       log.info('Swithcing to existing community $communityAddress');
-      String walletAddress =
-          checksumEthereumAddress(store.state.userState.walletAddress);
+      String walletAddress = checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
         checksumEthereumAddress(communityAddress),
         walletAddress,
@@ -894,8 +894,7 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
           homeTokenAddress: communityToken.address,
         ),
       ));
-      if (communityAddress.toLowerCase() !=
-          defaultCommunityAddress.toLowerCase()) {
+      if (communityAddress.toLowerCase() != defaultCommunityAddress.toLowerCase()) {
         store.dispatch(
           getBusinessListCall(
             communityAddress: communityAddress,
@@ -930,8 +929,7 @@ ThunkAction refetchCommunityData() {
     String communityAddress = store.state.cashWalletState.communityAddress;
     log.info('refetchCommunityData refetchCommunityData $communityAddress');
     String walletAddress = store.state.userState.walletAddress;
-    Community? current =
-        store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+    Community? current = store.state.cashWalletState.communities[communityAddress.toLowerCase()];
     if (current != null && current.name != '') {
       Map<String, dynamic> communityData = await getCommunityData(
         checksumEthereumAddress(communityAddress),
@@ -968,8 +966,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
     try {
       bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
       if (isLoading) return;
-      Community? current = store
-          .state.cashWalletState.communities[communityAddress.toLowerCase()];
+      Community? current = store.state.cashWalletState.communities[communityAddress.toLowerCase()];
       if (current?.name != '' && current?.isMember == true) {
         store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExistingCommunityCall(communityAddress));
@@ -995,65 +992,61 @@ ThunkAction getBusinessListCall({String? communityAddress, bool? isRopsten}) {
   return (Store store) async {
     try {
       if (communityAddress == null) {
-        communityAddress = store.state.cashWalletState.communityAddress;
+        communityAddress = defaultCommunityAddress.toLowerCase();
       }
       store.dispatch(StartFetchingBusinessList());
-      Community community =
-          store.state.cashWalletState.communities[communityAddress];
-      Token token =
-          store.state.cashWalletState.tokens[community.homeTokenAddress];
-      bool isOriginRopsten = isRopsten ??
-          (token.originNetwork != null
-              ? token.originNetwork == 'ropsten'
-              : false);
-      dynamic communityEntities =
-          await graph.getCommunityBusinesses(communityAddress!);
-      if (communityEntities != null) {
-        List<dynamic> entities = List.from(communityEntities);
-        Future<List<Business>> businesses = Future.wait(
-          entities.map(
-            (dynamic entity) async {
-              try {
-                dynamic metadata = await api.getEntityMetadata(
-                  communityAddress!,
-                  entity['address'],
-                  isRopsten: isOriginRopsten,
-                );
-                return Business(
-                  account: entity['address'],
-                  name: metadata['name'],
-                  metadata: BusinessMetadata.fromJson(
-                    metadata,
-                  ),
-                );
-              } catch (e) {
-                return Business(
-                  account: entity['address'],
-                  name: formatAddress(entity['address']),
-                  metadata: BusinessMetadata().copyWith(
-                    address: entity['address'],
-                  ),
-                );
-              }
-            },
-          ),
-        );
-        List<Business> result = await businesses;
-        result..toList();
-        store.dispatch(GetBusinessListSuccess(
-          businessList: result,
+      final Response response = await getIt<Dio>().get(
+        'https://api.airtable.com/v0/appsNpalD79zYmAcn/Table%201',
+        options: Options(
+          headers: {
+            "Authorization": "Bearer keywI4WPG7mJVm2XU",
+          },
+        ),
+      );
+      List<Business> businessList = (response.data['records'] as List<dynamic>).fold(
+        [],
+        (previousValue, record) {
+          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
+            dynamic data = record['fields'];
+            final image = data['image'] != null ? data['image'][0]['url'] : '';
+            final coverPhoto = data['coverPhoto'] != null ? data['coverPhoto'][0]['url'] : '';
+            final Business business = Business.fromJson(
+              Map.from(
+                {
+                  'name': data['name'] ?? '',
+                  'account': data['account'] ?? '',
+                  'metadata': {
+                    'image': image,
+                    "coverPhoto": coverPhoto,
+                    'address': data['address'] ?? '',
+                    'description': data['description'] ?? '',
+                    'phoneNumber': data['phoneNumber'] ?? '',
+                    'website': data['website'] ?? '',
+                    'type': data['type'] ?? '',
+                    'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
+                  }
+                },
+              ),
+            );
+            return [business, ...previousValue];
+          }
+          return previousValue;
+        },
+      );
+      store.dispatch(
+        GetBusinessListSuccess(
+          businessList: businessList,
           communityAddress: communityAddress!,
-        ));
-        store.dispatch(FetchingBusinessListSuccess());
-      }
+        ),
+      );
+      store.dispatch(FetchingBusinessListSuccess());
     } catch (e, s) {
       log.error('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());
       await Sentry.captureException(
         e,
         stackTrace: s,
-        hint:
-            'ERROR while trying to fetch community businesses $communityAddress',
+        hint: 'ERROR while trying to fetch community businesses $communityAddress',
       );
     }
   };
@@ -1104,8 +1097,7 @@ ThunkAction getTokenPriceCall(Token token) {
           ),
         );
       };
-      void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
+      void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
         log.error('Fetch token price error for - ${token.name} - $error ');
       };
       await token.fetchLatestPrice(
@@ -1145,8 +1137,7 @@ ThunkAction getTokenPriceChangeCall(Token token) {
           ),
         );
       };
-      void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
+      void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
         log.error('Error getTokenPriceChangeCall - ${token.name} - $error ');
       };
       // log.info('Fetching token price change ${token.name}');
@@ -1292,8 +1283,7 @@ ThunkAction swapHandler(
       String swapJobId = response['job']['_id'];
       log.info('Job $swapJobId for swap');
     } catch (error, stackTrace) {
-      log.error(
-          'Error in Get swapHandler ${error.toString()} ${stackTrace.toString()}');
+      log.error('Error in Get swapHandler ${error.toString()} ${stackTrace.toString()}');
       sendFailureCallback();
     }
   };
@@ -1302,9 +1292,7 @@ ThunkAction swapHandler(
 ThunkAction getFuseBalance() {
   return (Store store) async {
     try {
-      BigInt fuseBalance =
-          store.state.cashWalletState.tokens[fuseToken.address]?.amount ??
-              BigInt.zero;
+      BigInt fuseBalance = store.state.cashWalletState.tokens[fuseToken.address]?.amount ?? BigInt.zero;
       String walletAddress = store.state.userState.walletAddress;
       if (fuseWeb3 == null) {
         throw 'web3 is empty';
