@@ -53,7 +53,6 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            // banner(context, vm),
             businessList(context, vm),
           ],
         ),

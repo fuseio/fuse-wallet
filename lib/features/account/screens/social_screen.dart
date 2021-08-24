@@ -15,7 +15,7 @@ class SocialScreen extends StatelessWidget {
     minLaunches: 1,
     remindDays: 1,
     remindLaunches: 1,
-    googlePlayIdentifier: 'io.fuse.fusecash',
+    googlePlayIdentifier: 'io.fuse.sapta',
     appStoreIdentifier: '1559937899',
   );
   Widget build(BuildContext context) {

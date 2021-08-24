@@ -116,21 +116,11 @@ class _BottomBarState extends State<BottomBar> {
             ),
             activeIcon: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 3),
-              child: ColorFiltered(
-                colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
-                child: Container(
-                  decoration: BoxDecoration(shape: BoxShape.circle),
-                  height: 28,
-                  child: Image.asset('assets/images/anom.png'),
-                ),
+              child: CircleAvatar(
+                backgroundImage: AssetImage('assets/images/anom.png'),
+                radius: 14,
+                // foregroundColor: Theme.of(context).primaryColor,
               ),
-              // CircleAvatar(
-              //   foregroundColor: Theme.of(context).primaryColor,
-              //   backgroundColor: Theme.of(context).primaryColor,
-              //   backgroundImage: AssetImage('assets/images/anom.png'),
-              //   radius: 14,
-              //   // foregroundColor: Theme.of(context).primaryColor,
-              // ),
             ),
             label: I10n.of(context).account,
           )

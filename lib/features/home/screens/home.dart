@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             height: 156,
             child: Header(),
           ),
-          body: Transactions(),
+          body: Tabs(),
         );
       },
     );

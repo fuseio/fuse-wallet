@@ -41,7 +41,7 @@ class Tabs extends StatelessWidget {
                     ),
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Color(0xFFF4F4F4),
+                      color: Theme.of(context).primaryColor,
                     ),
                     tabs: [
                       Tab(
