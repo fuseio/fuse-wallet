@@ -30,12 +30,11 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (_, viewModel) {
         return Scaffold(
-          backgroundColor: Colors.black,//todo
           appBar: MyAppBar(
             height: 156,
             child: Header(),
           ),
-          body: Container(margin: EdgeInsets.symmetric(horizontal: 15,vertical: 20),child: Feed()),
+          body: Transactions(),
         );
       },
     );

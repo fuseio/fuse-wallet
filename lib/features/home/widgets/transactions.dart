@@ -9,17 +9,19 @@ class Transactions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Transactions'),
+        Container(
+          margin: EdgeInsets.only(top: 30, left: 10),
+          child: Text('Transactions'),
+        ), //todo: add it as a l10n
         SizedBox(height: 10),
-        Flexible(
-          child: Feed()
-          // ListView.separated(
-          //   shrinkWrap: true,
-          //   itemBuilder: (context, index) => Container(height: 100),
-          //   separatorBuilder: (context, index) => Divider(),
-          //   itemCount: 10,
-          // ),
-        )
+        Flexible(child: Feed()
+            // ListView.separated(
+            //   shrinkWrap: true,
+            //   itemBuilder: (context, index) => Container(height: 100),
+            //   separatorBuilder: (context, index) => Divider(),
+            //   itemCount: 10,
+            // ),
+            )
       ],
     );
   }

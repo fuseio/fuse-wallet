@@ -47,7 +47,9 @@ class _BottomBarState extends State<BottomBar> {
         activeIcon: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset(
+            //            colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
             'assets/images/$imgSvg\_selected.svg',
+            colorBlendMode: BlendMode.dst,
             color: Theme.of(context).primaryColor,
             width: 26,
             height: 26,
@@ -74,7 +76,9 @@ class _BottomBarState extends State<BottomBar> {
           } else {
             widget.tabsRouter.setActiveIndex(activeIndex);
           }
-          if (vm.isContactsSynced == null && widget.tabsRouter.activeIndex == 1 && !isContactSynced) {
+          if (vm.isContactsSynced == null &&
+              widget.tabsRouter.activeIndex == 1 &&
+              !isContactSynced) {
             Future.delayed(
               Duration.zero,
               () => showDialog(
@@ -88,13 +92,15 @@ class _BottomBarState extends State<BottomBar> {
           //   vm.getSwapListBalances();
           // }
         },
-        selectedItemColor:Colors.grey,//Theme.of(context).primaryColor,
+        selectedItemColor: Colors.grey,
+        //Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
         selectedFontSize: 13,
         unselectedFontSize: 13,
         type: BottomNavigationBarType.fixed,
         currentIndex: widget.tabsRouter.activeIndex,
-        backgroundColor: Colors.white, //Theme.of(context).bottomAppBarColor,
+        backgroundColor: Colors.white,
+        //Theme.of(context).bottomAppBarColor,
         showUnselectedLabels: true,
         items: [
           bottomBarItem(I10n.of(context).home, 'home'),
@@ -110,11 +116,21 @@ class _BottomBarState extends State<BottomBar> {
             ),
             activeIcon: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 3),
-              child: CircleAvatar(
-                backgroundImage: AssetImage('assets/images/anom.png'),
-                radius: 14,
-                // foregroundColor: Theme.of(context).primaryColor,
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.modulate),
+                child: Container(
+                  decoration: BoxDecoration(shape: BoxShape.circle),
+                  height: 28,
+                  child: Image.asset('assets/images/anom.png'),
+                ),
               ),
+              // CircleAvatar(
+              //   foregroundColor: Theme.of(context).primaryColor,
+              //   backgroundColor: Theme.of(context).primaryColor,
+              //   backgroundImage: AssetImage('assets/images/anom.png'),
+              //   radius: 14,
+              //   // foregroundColor: Theme.of(context).primaryColor,
+              // ),
             ),
             label: I10n.of(context).account,
           )

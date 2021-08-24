@@ -54,13 +54,13 @@ class _AccountScreenState extends State<AccountScreen> {
                                 context.router.push(SettingsScreen());
                               },
                             ),
-                            MenuTile(
-                              label: I10n.of(context).switch_community,
-                              menuIcon: 'switch_icon.svg',
-                              onTap: () {
-                                context.router.push(SwitchCommunityScreen());
-                              },
-                            ),
+                            // MenuTile(
+                            //   label: I10n.of(context).switch_community,
+                            //   menuIcon: 'switch_icon.svg',
+                            //   onTap: () {
+                            //     context.router.push(SwitchCommunityScreen());
+                            //   },
+                            // ),
                             MenuTile(
                               label: I10n.of(context).protect_wallet,
                               menuIcon: 'protect_wallet.svg',

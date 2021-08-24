@@ -43,6 +43,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final Color description_icon_color = Colors.white;
+
     return Scaffold(
       key: scaffoldState,
       body: Container(
@@ -54,6 +57,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    ///
+                    /// business image
+                    ///
                     Expanded(
                       flex: 3,
                       child: Stack(
@@ -88,6 +94,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
                         ],
                       ),
                     ),
+                    ///
+                    /// business profile & info
+                    ///
                     Expanded(
                       flex: 1,
                       child: Row(
@@ -148,6 +157,9 @@ class _BusinessScreenState extends State<BusinessScreen> {
                         ],
                       ),
                     ),
+                    ///
+                    /// business info
+                    ///
                     Flexible(
                       flex: 3,
                       fit: FlexFit.tight,
@@ -172,6 +184,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                                 'assets/images/geography.svg',
                                                 width: 19,
                                                 height: 19,
+                                                color: description_icon_color,
                                               ),
                                             ),
                                             InkWell(
@@ -202,6 +215,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                                 'assets/images/phone.svg',
                                                 width: 19,
                                                 height: 19,
+                                                color: description_icon_color,
                                               ),
                                             ),
                                             InkWell(
@@ -241,6 +255,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                                                   'assets/images/info.svg',
                                                   width: 19,
                                                   height: 19,
+                                                  color: description_icon_color,
                                                 )),
                                             Column(
                                               crossAxisAlignment:
