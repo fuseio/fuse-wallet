@@ -126,6 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: <Widget>[
                                   Container(
                                     child: CountryCodePicker(
+
                                       onChanged: (_countryCode) {
                                         setState(() {
                                           countryCode = _countryCode;
@@ -172,15 +173,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       showCountryOnly: false,
                                       dialogTextStyle: TextStyle(
                                         fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                        color: Colors.black,
                                       ),
                                       textStyle: TextStyle(
                                         fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                       ),
                                       alignLeft: false,
                                     ),

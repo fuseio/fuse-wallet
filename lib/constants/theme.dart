@@ -6,8 +6,8 @@ final FlexColorScheme flexColorSchemeLight = FlexColorScheme.dark(
   colors: FlexSchemeColor.from(
     secondary: Color.fromRGBO(230, 160, 65, 1),
     secondaryVariant: Color(0xFF777777),
-    primary: Color.fromRGBO(230, 160, 65, 1),//Color(0xE6A041),//Color(0xFFB1FDC0),
-    primaryVariant: Color.fromRGBO(230, 160, 65, 1),//Color(0xE6A041),//Color(0xFFFEFD86),
+    primary: Color.fromRGBO(230, 160, 65, 1),
+    primaryVariant: Color.fromRGBO(230, 160, 65, 1),
     appBarColor: Color(0xFFFFFFFF),
   ),
 );

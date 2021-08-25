@@ -137,6 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 0),
                         child: TextFormField(
                           autofocus: false,
+                          enabled: false,
                           style: TextStyle(
                               fontSize: 20,
                               color: Theme.of(context).colorScheme.onSurface),
@@ -165,10 +166,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: Colors.transparent,
                                 width: 2,
                               ),
-                            ),
-                            suffixIcon: Icon(
-                              Icons.edit,
-                              color: Colors.grey,
                             ),
                           ),
                         ),

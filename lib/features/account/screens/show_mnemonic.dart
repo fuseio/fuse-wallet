@@ -21,7 +21,7 @@ class ShowMnemonic extends StatelessWidget {
         child: Center(
           child: Padding(
             child: Text("${index.toString()}. $word",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black)),
             padding: EdgeInsets.symmetric(vertical: 25, horizontal: 0),
           ),
         ),

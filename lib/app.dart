@@ -176,10 +176,8 @@ class _MyAppState extends State<MyApp> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      ///todo: should the colors here needs to be switched?
-                      Color(0xFFB1FDC0),
-                      Color(0xFFE6FD99),
-                      Color(0xFFFEFD86)
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor,
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,

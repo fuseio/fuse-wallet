@@ -135,8 +135,8 @@ class FusePointsExplainedScreen extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0xFFB1FDC0),
-                      Color(0xFFFEFD86),
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor,
                     ],
                   ),
                   borderRadius: BorderRadius.all(

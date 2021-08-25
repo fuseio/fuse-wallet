@@ -29,7 +29,6 @@ class _HeaderState extends State<Header> {
                 Theme.of(context).colorScheme.primary,
               ],
             ),
-            // color: Colors.amber[600],//TODO: get the exact hex code
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
@@ -54,7 +53,7 @@ class _HeaderState extends State<Header> {
                   children: <Widget>[
                     Balance(),
                     BarcodeScanner(
-                      backgroundColor: Color.fromRGBO(219,126,0,1),//Colors.amber[800],//todo: make it dynamically responding to the parent widget back color
+                      backgroundColor: Color.fromRGBO(219,126,0,1),
                       child: Image.asset(
                         'assets/images/scan.png',
                         width: 25.0,

@@ -213,7 +213,7 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(11.0)),
-                                          color: Color(0xFFF7F7F7),
+                                          color: Colors.black,
                                           shape: BoxShape.rectangle,
                                         ),
                                         child: Row(children: [
