@@ -29,7 +29,7 @@ You can download the beta version of our app from the [Google Play](https://play
 
 ## Getting Started
 
-### Setup -
+### Setup
 
 #### Set up flutter environment
 - Set up a Flutter environment on your machine ([You can get started here](https://flutter.dev/docs/get-started/install)).
@@ -49,7 +49,7 @@ Clone the project using git commands.
 
       flutter run lib\main_prod.dart
 
-### Config -
+### Config
 #### UI customization
 1. themes:
 open the theme.dart file. that file located in lib\constants.
@@ -64,16 +64,41 @@ open the splash_screen.dart file. that file located in lib\features\screens. thi
 #### wallet configuration [optional]
 1. Create your own community in [Fuse Studio](https://studio.fuse.io/). Then copy and paste the community address of your community and replace it in the `.env` file, DEFAULT_COMMUNITY_CONTRACT_ADDRESS.
 
-2. right now 'sign up with SMS' is default. Setup your onboarding option. We have an option for firebase or AWS SMS. If you choose the AWS SMS option change the ON_BOARDING_STRATEGY=sms. If you choose the firebase option, read the following document, guide. For easy setup use sms provider (we pay for SMS for now),
+2. therer are 2 option for signup. sign up with firebase and signup with sms. right now 'sign up with SMS' is default.
+if you would like to change the signup option Setup your onboarding option in the env file. We have an option for firebase or AWS SMS. If you choose the AWS SMS option change the ON_BOARDING_STRATEGY=sms. If you choose the firebase option change the ON_BOARDING_STRATEGY=firebase and make all the steps to deploy to the app store (the instructions are at the end of the read me file).
+For easy setup we highly recommand to use sms provider (we pay for SMS for now),
 
 #### Development environment
 [optional] Setup your error monitoring with sentry.  Sign up for a Sentry.io account and get a DSN at http://sentry.io. After creating your account and flutter project copy & paste the DNS and replace it in `.env` file SENTRY_DSN.
 
 ### Deploy to the app stores
-1. open firebase - integrate this https://docs.google.com/document/d/1XQapH8B4EnqoTD9T3xC5lZQ7I9NzxL9VeUtneN9Yxl8/edit#
-2. replace the google_services.json file with the new .json file you just downloaded.
-3. replace the current bundle id (io.fuse.fusecash) with a new bundle id (choose your own name). replace the bundle id where ever it's appear excepts the google_services files.
-you can press  ctrl+shift+f  and replace it manualy.
+1. replace the current bundle id (io.fuse.fusecash) with your unique bundle id (choose your own name). replace the bundle id where-ever it's appear excepts the google_services files.
+you can press  search all (ctrl+shift+f)  and replace it manualy.
+2. Create a firebase account: https://firebase.google.com/
+3. Create firebase mobile apps (android and ios) and save the google-services file for later:
+Ios (steps 1-3): https://firebase.google.com/docs/ios/setup
+Android (Option 1, steps 1-3): https://firebase.google.com/docs/android/setup
+4. Add phone authentication to your firebase project:
+Step 1 only: https://firebase.google.com/docs/auth/android/phone-auth
+
+steps 5,6 are the same steps as the setup environment steps you allready done before
+
+5. Create production signing keys:
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+6. Add your keys to the project:
+Create a key.properties file in the android directory with the following properties:
+storePassword=PASSWORD
+keyPassword=PASSWORD
+keyAlias=alias_name
+storeFile=my-release-key.keystore
+7. Add firebase your debug and production keys sha1:
+https://stackoverflow.com/questions/39144629/how-to-add-sha-1-to-android-application
+8. Send us your bundle id and admin keys:
+To generate a private key file for your service account:
+In the Firebase console, open Settings > Service Accounts.
+Click Generate New Private Key, then confirm by clicking Generate Key.
+9. replace the google_services.json file with the new .json file you saved before.
+
 
 
 ## As an enterprenuer or a community manager
