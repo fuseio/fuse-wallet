@@ -100,9 +100,10 @@ class _MainScreenState extends State<MainScreen> {
                 ContactsTab(),
                 BuyTab(
                   children: [
-                    vm.isDefaultCommunity
-                        ? FusePointsExplainedScreen()
-                        : BuyScreen(),
+                    // vm.isDefaultCommunity
+                    //     ? FusePointsExplainedScreen()
+                    //     :
+                    BuyScreen(),
                   ],
                 ),
                 AccountTab(),

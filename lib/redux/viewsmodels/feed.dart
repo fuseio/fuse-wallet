@@ -15,7 +15,7 @@ class FeedViewModel extends Equatable {
 
   static FeedViewModel fromStore(Store<AppState> store) {
     final List<WalletAction> walletActions =
-        List.from(store.state.cashWalletState.walletActions!.list.reversed);
+        List.from((store.state.cashWalletState.walletActions?.list ?? []).reversed);
     return FeedViewModel(
       walletActions: walletActions,
       refreshFeed: () {

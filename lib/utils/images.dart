@@ -19,7 +19,7 @@ class ImageUrl {
         return getS3ImageUrl(hash);
       }
     }
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+    return hash ?? 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }
 
   static ImageProvider getContactImage(

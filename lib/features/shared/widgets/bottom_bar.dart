@@ -98,9 +98,10 @@ class _BottomBarState extends State<BottomBar> {
         items: [
           bottomBarItem(I10n.of(context).home, 'home'),
           bottomBarItem(I10n.of(context).send_button, 'send'),
-          vm.isDefaultCommunity
-              ? bottomBarItem('Fuse Studio', 'fuse_points_tab')
-              : bottomBarItem(I10n.of(context).buy, 'buy'),
+          // vm.isDefaultCommunity
+          //     ? bottomBarItem('Fuse Studio', 'fuse_points_tab')
+          //     :
+          bottomBarItem(I10n.of(context).buy, 'buy'),
           BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 3),
