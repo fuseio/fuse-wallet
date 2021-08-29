@@ -107,9 +107,10 @@ class _OnBoardScreenState extends State<OnBoardScreen>
                             controller: _pageController,
                             count: 4,
                             effect: JumpingDotEffect(
-                                dotWidth: 9.0,
-                                dotHeight: 9.0,
-                                activeDotColor: Color(0xFF696B6D)),
+                              dotWidth: 9.0,
+                              dotHeight: 9.0,
+                              activeDotColor: Color(0xFF696B6D),
+                            ),
                             onDotClicked: gotoPage,
                           ),
                         ),

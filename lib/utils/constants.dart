@@ -14,7 +14,7 @@ final Token curaDAIToken = Token(
       'https://fuse-studio.s3.eu-central-1.amazonaws.com/fde9513135d96e90405567bc45a29441d38bd731af57bb644beb98a3e5e64b13',
   decimals: 18,
   address: Addresses.CURA_DAI_TOKEN_ADDRESS,
-  originNetwork: 'fuse',
+  originNetwork: 'mainnet',
   isNative: true,
   timestamp: 0,
   amount: BigInt.zero,

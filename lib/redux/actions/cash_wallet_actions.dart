@@ -890,6 +890,12 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
+      store.dispatch(
+        joinCommunityCall(
+          newCommunity,
+          communityToken,
+        ),
+      );
       store.dispatch(getTokenPriceCall(communityToken));
     } catch (e, s) {
       log.error('ERROR - switchToExistingCommunityCall $e');
@@ -934,6 +940,12 @@ ThunkAction refetchCommunityData() {
           communityAddress.toLowerCase(),
           communityData['communityURI'],
           isRopsten,
+        ),
+      );
+      store.dispatch(
+        joinCommunityCall(
+          current,
+          curaDAIToken,
         ),
       );
     } else {
