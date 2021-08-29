@@ -942,12 +942,6 @@ ThunkAction refetchCommunityData() {
           isRopsten,
         ),
       );
-      store.dispatch(
-        joinCommunityCall(
-          current,
-          curaDAIToken,
-        ),
-      );
     } else {
       store.dispatch(switchCommunityCall(communityAddress));
     }
