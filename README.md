@@ -64,7 +64,7 @@ open the splash_screen.dart file. that file located in lib\features\screens. thi
 #### wallet configuration [optional]
 1. Create your own community in [Fuse Studio](https://studio.fuse.io/). Then copy and paste the community address of your community and replace it in the `.env` file, DEFAULT_COMMUNITY_CONTRACT_ADDRESS.
 
-2. therer are 2 option for signup. sign up with firebase and signup with sms. right now 'sign up with SMS' is default.
+2. there are 2 option for signup. sign up with firebase and signup with sms. right now 'sign up with SMS' is default.
 if you would like to change the signup option Setup your onboarding option in the env file. We have an option for firebase or AWS SMS. If you choose the AWS SMS option change the ON_BOARDING_STRATEGY=sms. If you choose the firebase option change the ON_BOARDING_STRATEGY=firebase and make all the steps to deploy to the app store (the instructions are at the end of the read me file).
 For easy setup we highly recommand to use sms provider (we pay for SMS for now),
 
@@ -73,7 +73,6 @@ For easy setup we highly recommand to use sms provider (we pay for SMS for now),
 
 ### Deploy to the app stores
 1. replace the current bundle id (io.fuse.fusecash) with your unique bundle id (choose your own name). replace the bundle id where-ever it's appear excepts the google_services files.
-you can press  search all (ctrl+shift+f)  and replace it manualy.
 2. Create a firebase account: https://firebase.google.com/
 3. Create firebase mobile apps (android and ios) and save the google-services file for later:
 Ios (steps 1-3): https://firebase.google.com/docs/ios/setup
@@ -81,7 +80,7 @@ Android (Option 1, steps 1-3): https://firebase.google.com/docs/android/setup
 4. Add phone authentication to your firebase project:
 Step 1 only: https://firebase.google.com/docs/auth/android/phone-auth
 
-steps 5,6 are the same steps as the setup environment steps you allready done before
+steps 5,6 are the same steps as the setup environment steps you all ready done before
 
 5. Create production signing keys:
 keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
