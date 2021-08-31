@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/constants/styling.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
@@ -129,14 +130,7 @@ class FusePointsExplainedScreen extends StatelessWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFFB1FDC0),
-                      Color(0xFFFEFD86),
-                    ],
-                  ),
+                  gradient: appLinearGradient,
                   borderRadius: BorderRadius.all(
                     Radius.circular(15.0),
                   ),

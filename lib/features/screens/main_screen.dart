@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fusecash/constants/styling.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/bottom_bar.dart';
 import 'package:fusecash/features/shared/widgets/bottom_bar.dart';
@@ -100,10 +101,7 @@ class _MainScreenState extends State<MainScreen> {
                 ContactsTab(),
                 BuyTab(
                   children: [
-                    // vm.isDefaultCommunity
-                    //     ? FusePointsExplainedScreen()
-                    //     :
-                    BuyScreen(),
+                    vm.isDefaultCommunity ? FusePointsExplainedScreen() : BuyScreen(),
                   ],
                 ),
                 AccountTab(),

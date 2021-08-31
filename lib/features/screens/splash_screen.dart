@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/constants/styling.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
@@ -126,15 +127,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return Scaffold(
           body: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFB1FDC0),
-                  Color(0xFFE6FD99),
-                  Color(0xFFFEFD86)
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
+              gradient: appLinearGradient,
             ),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/constants/styling.dart';
 import 'package:fusecash/features/home/widgets/balance.dart';
 import 'package:fusecash/features/shared/widgets/barcode_scanner.dart';
 import 'package:fusecash/generated/l10n.dart';
@@ -21,14 +22,7 @@ class _HeaderState extends State<Header> {
         return Container(
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).colorScheme.primaryVariant,
-                Theme.of(context).colorScheme.primary,
-              ],
-            ),
+            gradient: appLinearGradient,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),

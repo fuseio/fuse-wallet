@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
+import 'package:fusecash/constants/styling.dart';
 import 'package:fusecash/constants/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
@@ -173,15 +174,7 @@ class _MyAppState extends State<MyApp> {
             home: Scaffold(
               body: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFFB1FDC0),
-                      Color(0xFFE6FD99),
-                      Color(0xFFFEFD86)
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
+                  gradient: appLinearGradient,
                 ),
                 child: Center(
                   child: Image.asset(

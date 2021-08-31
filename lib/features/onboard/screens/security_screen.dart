@@ -3,6 +3,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/constants/styling.dart';
 import 'package:fusecash/features/screens/set_up_pincode.dart';
 import 'package:fusecash/redux/viewsmodels/security.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
@@ -94,18 +95,7 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                   .width *
                                               .8,
                                           decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              colors: [
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryVariant,
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ],
-                                            ),
+                                            gradient: appLinearGradient,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(11.0)),
                                             shape: BoxShape.rectangle,
