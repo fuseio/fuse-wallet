@@ -213,43 +213,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onPressed: () {
                                   final String phoneNumber =
                                       '${countryCode.dialCode}${phoneController.text}';
-                                  phoneNumberUtil.parse(phoneNumber).then(
-                                      (value) {
-                                    viewModel.signUp(
-                                      countryCode,
-                                      value.e164,
-                                      (dynamic error) async {
-                                        showErrorSnack(
-                                          message: error.toString(),
-                                          title: I10n.of(context)
-                                              .something_went_wrong,
-                                          context: context,
-                                          margin: EdgeInsets.only(
-                                            top: 8,
-                                            right: 8,
-                                            left: 8,
-                                            bottom: 120,
-                                          ),
-                                        );
-                                        await Sentry.captureException(
-                                          error,
-                                          hint: 'ERROR in Login Request',
-                                        );
-                                      },
-                                    );
-                                  }, onError: (e) {
-                                    showErrorSnack(
-                                      title: I10n.of(context).invalid_number,
-                                      duration: Duration(seconds: 3),
-                                      context: context,
-                                      margin: EdgeInsets.only(
-                                        top: 8,
-                                        right: 8,
-                                        left: 8,
-                                        bottom: 120,
-                                      ),
-                                    );
-                                  });
+                                  viewModel.signUp(
+                                    countryCode,
+                                    phoneNumber,
+                                    (dynamic error) async {
+                                      showErrorSnack(
+                                        message: error.toString(),
+                                        title: I10n.of(context)
+                                            .something_went_wrong,
+                                        context: context,
+                                        margin: EdgeInsets.only(
+                                          top: 8,
+                                          right: 8,
+                                          left: 8,
+                                          bottom: 120,
+                                        ),
+                                      );
+                                      await Sentry.captureException(
+                                        error,
+                                        hint: 'ERROR in Login Request',
+                                      );
+                                    },
+                                  );
                                 },
                               ),
                             ),
