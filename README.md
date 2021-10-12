@@ -29,24 +29,76 @@ You can download the beta version of our app from the [Google Play](https://play
 
 ## Getting Started
 
-## As a developer
-- Set up a Flutter environment on your machine.
-   - [You can get started here](https://flutter.dev/docs/get-started/install).
-   - Make sure to also [create a keystore as described here](https://flutter.dev/docs/deployment/android).
-- Connect a phone or run a simulator.
-- Clone the project.
+### Setup
+
+#### Set up flutter environment
+- Set up a Flutter environment on your machine ([You can get started here](https://flutter.dev/docs/get-started/install)).
+- Make sure to also [create a keystore as described here](https://flutter.dev/docs/deployment/android).
+- Connect a phone or run a simulator
+
+#### Clone the project
+Clone the project using git commands.
 
       git clone https://github.com/fuseio/fuse-wallet.git
       cd fuse-wallet
 
-### Configuring the environment
-
-1. Make a copy of `.env_example` named `.env` - `cd environment && cp .env_example .env`
-
+#### Set up the project environment & run the project
+- Make a copy of `.env_example` named `.env` - `cd environment && cp .env_example .env`
 - For Android development, create a file at `./android/key.properties`, [as described here](https://flutter.dev/docs/deployment/android), containing the keystore path and passwords, as set up earlier.
-- Run the app.
+- Run the app using:
 
-      flutter run
+      flutter run lib\main_prod.dart
+
+### Config
+#### UI customization
+1. themes:
+open the theme.dart file. that file located in lib\constants.
+you will be able to change the theme of the project (such as colors, font family etc).
+2. splash screen:
+open the splash_screen.dart file. that file located in lib\features\screens. this is the initial screen of the app.
+    - the function onInit detect if the user is logged in or not and direct the user to the relevant screen
+    - in the build function of the splash screen you can design the specific UI for your app
+3. icon - we are using the [flutter_launcher_icons package](https://pub.dev/packages/flutter_launcher_icons)  to set the icon app. follow the guide to change the launcher icon.
+4. onboarding screen - in lib\features\onboard you can find the onboarding feature.
+
+#### wallet configuration [optional]
+1. Create your own community in [Fuse Studio](https://studio.fuse.io/). Then copy and paste the community address of your community and replace it in the `.env` file, DEFAULT_COMMUNITY_CONTRACT_ADDRESS.
+
+2. there are 2 option for signup. sign up with firebase and signup with sms. right now 'sign up with SMS' is default.
+if you would like to change the signup option Setup your onboarding option in the env file. We have an option for firebase or AWS SMS. If you choose the AWS SMS option change the ON_BOARDING_STRATEGY=sms. If you choose the firebase option change the ON_BOARDING_STRATEGY=firebase and make all the steps to deploy to the app store (the instructions are at the end of the read me file).
+For easy setup we highly recommand to use sms provider (we pay for SMS for now),
+
+#### Development environment
+[optional] Setup your error monitoring with sentry.  Sign up for a Sentry.io account and get a DSN at http://sentry.io. After creating your account and flutter project copy & paste the DNS and replace it in `.env` file SENTRY_DSN.
+
+### Deploy to the app stores
+1. replace the current bundle id (io.fuse.fusecash) with your unique bundle id (choose your own name). replace the bundle id where-ever it's appear excepts the google_services files.
+2. Create a firebase account: https://firebase.google.com/
+3. Create firebase mobile apps (android and ios) and save the google-services file for later:
+Ios (steps 1-3): https://firebase.google.com/docs/ios/setup
+Android (Option 1, steps 1-3): https://firebase.google.com/docs/android/setup
+4. Add phone authentication to your firebase project:
+Step 1 only: https://firebase.google.com/docs/auth/android/phone-auth
+
+steps 5,6 are the same steps as the setup environment steps you all ready done before
+
+5. Create production signing keys:
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+6. Add your keys to the project:
+Create a key.properties file in the android directory with the following properties:
+storePassword=PASSWORD
+keyPassword=PASSWORD
+keyAlias=alias_name
+storeFile=my-release-key.keystore
+7. Add firebase your debug and production keys sha1:
+https://stackoverflow.com/questions/39144629/how-to-add-sha-1-to-android-application
+8. Send us your bundle id and admin keys:
+To generate a private key file for your service account:
+In the Firebase console, open Settings > Service Accounts.
+Click Generate New Private Key, then confirm by clicking Generate Key.
+9. replace the google_services.json file with the new .json file you saved before.
+
+
 
 ## As an enterprenuer or a community manager
 Launch your community on the [Fuse Studio](https://studio.fuse.io/), then open the community dashboard. There you can configure it and *customize your wallet* app. When you done go to "White label wallet" and send an app invite link to yourself. Visit our [docs](https://docs.fuse.io/the-fuse-studio/overview) to learn about the Fuse Studio.
