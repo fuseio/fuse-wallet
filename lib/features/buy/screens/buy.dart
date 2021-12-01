@@ -175,7 +175,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           TextButton(
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(10.0),
-              backgroundColor: Theme.of(context).buttonColor,
+              backgroundColor: Theme.of(context).primaryColor,
               shape: CircleBorder(),
             ),
             child: Text(

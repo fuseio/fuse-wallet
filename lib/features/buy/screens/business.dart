@@ -308,7 +308,7 @@ class _BusinessScreenState extends State<BusinessScreen> {
                             padding: EdgeInsets.only(bottom: 20.0),
                             child: ElevatedButton(
                               style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).buttonColor,
+                                backgroundColor: Theme.of(context).primaryColor,
                                 padding: EdgeInsets.only(
                                     left: 100, right: 100, top: 15, bottom: 15),
                                 shape: RoundedRectangleBorder(
