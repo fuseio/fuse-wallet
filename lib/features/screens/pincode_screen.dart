@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:supervecina/constants/strings.dart';
 import 'package:supervecina/generated/l10n.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:supervecina/redux/viewsmodels/backup.dart';
@@ -65,10 +66,14 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Image.asset(
-                          'assets/images/pincode_logo.png',
-                          width: 71,
-                          height: 61,
+                        Text(
+                          Strings.appTitle,
+                          style: TextStyle(
+                            fontFamily: 'Eras',
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 20,
+                          ),
                         ),
                       ],
                     ),
@@ -84,7 +89,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                           I10n.of(context).enter_pincode,
                           style: TextStyle(
                             fontSize: 25,
-                            color: Color(0xFF575757),
+                            color: Theme.of(context).canvasColor,
                           ),
                         ),
                         SizedBox(
@@ -119,7 +124,7 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                         : null,
                                 textStyle: TextStyle(
                                   fontSize: 30,
-                                  color: Color(0xFF575757),
+                                  color: Theme.of(context).canvasColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 pinTheme: PinTheme(
@@ -127,9 +132,9 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                   borderWidth: 4,
                                   fieldWidth: 35,
                                   shape: PinCodeFieldShape.underline,
-                                  inactiveColor: Color(0xFF575757),
-                                  selectedColor: Color(0xFF575757),
-                                  activeColor: Color(0xFF575757),
+                                  inactiveColor: Theme.of(context).canvasColor,
+                                  selectedColor: Theme.of(context).canvasColor,
+                                  activeColor: Theme.of(context).canvasColor,
                                   inactiveFillColor: Colors.transparent,
                                   selectedFillColor: Colors.transparent,
                                   disabledColor: Colors.transparent,
