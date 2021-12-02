@@ -3,15 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/action_details.dart';
-import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/snackbars.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/actions/wallet_action.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/viewsmodels/action_details.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/snackbars.dart';
 import 'package:intl/intl.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
@@ -55,15 +54,14 @@ class ActionDetailsScreen extends StatelessWidget {
       swap: (value) => I10n.of(context).swap,
     );
 
-    return new StoreConnector<AppState, ActionDetailsViewModel>(
+    return StoreConnector<AppState, ActionDetailsViewModel>(
       distinct: true,
       converter: ActionDetailsViewModel.fromStore,
       builder: (_, viewModel) {
         final Token? token = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) => null,
-          fiatDeposit: (value) =>
-              viewModel.tokens[fuseDollarToken.address.toLowerCase()],
+          fiatDeposit: (value) => viewModel.tokens.values.first,
           bonus: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           send: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           receive: (value) =>
@@ -72,19 +70,7 @@ class ActionDetailsScreen extends StatelessWidget {
             (element) => element.symbol == value.tradeInfo?.outputToken,
           ),
         );
-        final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(token!.priceInfo!.quote);
-        final String amount = hasPriceInfo
-            ? '\$' +
-                action.getAmount(
-                  priceInfo: token.priceInfo,
-                ) +
-                ' (' +
-                action.getAmount() +
-                ' ' +
-                symbol +
-                ')'
-            : action.getAmount() + ' $symbol';
+        final String amount = action.getAmount() + ' $symbol';
         return MyScaffold(
           title: title,
           body: Container(
@@ -251,8 +237,10 @@ class ActionDetailsScreen extends StatelessWidget {
                                           value.tradeInfo!.outputAmount));
 
                                   double val = double.parse(
-                                          value.tradeInfo!.outputAmount) *
-                                      double.parse(token.priceInfo!.quote);
+                                          value.tradeInfo?.outputAmount ??
+                                              '0') *
+                                      double.parse(
+                                          token?.priceInfo?.quote ?? '0');
                                   return '${amount + ' ' + value.tradeInfo!.outputToken} (\$${display(num.tryParse(val.toString()))})';
                                 },
                               ),

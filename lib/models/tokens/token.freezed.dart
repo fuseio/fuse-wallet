@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'token.dart';
 
@@ -28,11 +29,11 @@ class _$TokenTearOff {
       required int decimals,
       bool isNative = false,
       String? imageUrl,
-      @JsonKey(ignore: true) String? subtitle = null,
-      int? timestamp = null,
-      Price? priceInfo = null,
-      String? communityAddress = null,
-      String? originNetwork = null,
+      @JsonKey(ignore: true) String? subtitle,
+      int? timestamp,
+      Price? priceInfo,
+      String? communityAddress,
+      String? originNetwork,
       num priceChange = 0,
       @JsonKey(ignore: true) num priceDiff = 0,
       @JsonKey(ignore: true) int priceDiffLimitInDays = 0,
@@ -59,7 +60,7 @@ class _$TokenTearOff {
     );
   }
 
-  Token fromJson(Map<String, Object> json) {
+  Token fromJson(Map<String, Object?> json) {
     return Token.fromJson(json);
   }
 }
@@ -391,11 +392,11 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       required this.decimals,
       this.isNative = false,
       this.imageUrl,
-      @JsonKey(ignore: true) this.subtitle = null,
-      this.timestamp = null,
-      this.priceInfo = null,
-      this.communityAddress = null,
-      this.originNetwork = null,
+      @JsonKey(ignore: true) this.subtitle,
+      this.timestamp,
+      this.priceInfo,
+      this.communityAddress,
+      this.originNetwork,
       this.priceChange = 0,
       @JsonKey(ignore: true) this.priceDiff = 0,
       @JsonKey(ignore: true) this.priceDiffLimitInDays = 0,
@@ -404,7 +405,7 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
       : super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
-      _$_$_TokenFromJson(json);
+      _$$_TokenFromJson(json);
 
   @override
   final String address;
@@ -424,16 +425,12 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
   @override
   @JsonKey(ignore: true)
   final String? subtitle;
-  @JsonKey(defaultValue: null)
   @override
   final int? timestamp;
-  @JsonKey(defaultValue: null)
   @override
   final Price? priceInfo;
-  @JsonKey(defaultValue: null)
   @override
   final String? communityAddress;
-  @JsonKey(defaultValue: null)
   @override
   final String? originNetwork;
   @JsonKey(defaultValue: 0)
@@ -484,76 +481,59 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Token &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.symbol, symbol) ||
-                const DeepCollectionEquality().equals(other.symbol, symbol)) &&
-            (identical(other.amount, amount) ||
-                const DeepCollectionEquality().equals(other.amount, amount)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Token &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.decimals, decimals) ||
-                const DeepCollectionEquality()
-                    .equals(other.decimals, decimals)) &&
+                other.decimals == decimals) &&
             (identical(other.isNative, isNative) ||
-                const DeepCollectionEquality()
-                    .equals(other.isNative, isNative)) &&
+                other.isNative == isNative) &&
             (identical(other.imageUrl, imageUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.imageUrl, imageUrl)) &&
+                other.imageUrl == imageUrl) &&
             (identical(other.subtitle, subtitle) ||
-                const DeepCollectionEquality()
-                    .equals(other.subtitle, subtitle)) &&
+                other.subtitle == subtitle) &&
             (identical(other.timestamp, timestamp) ||
-                const DeepCollectionEquality()
-                    .equals(other.timestamp, timestamp)) &&
+                other.timestamp == timestamp) &&
             (identical(other.priceInfo, priceInfo) ||
-                const DeepCollectionEquality()
-                    .equals(other.priceInfo, priceInfo)) &&
+                other.priceInfo == priceInfo) &&
             (identical(other.communityAddress, communityAddress) ||
-                const DeepCollectionEquality()
-                    .equals(other.communityAddress, communityAddress)) &&
+                other.communityAddress == communityAddress) &&
             (identical(other.originNetwork, originNetwork) ||
-                const DeepCollectionEquality()
-                    .equals(other.originNetwork, originNetwork)) &&
+                other.originNetwork == originNetwork) &&
             (identical(other.priceChange, priceChange) ||
-                const DeepCollectionEquality()
-                    .equals(other.priceChange, priceChange)) &&
+                other.priceChange == priceChange) &&
             (identical(other.priceDiff, priceDiff) ||
-                const DeepCollectionEquality()
-                    .equals(other.priceDiff, priceDiff)) &&
+                other.priceDiff == priceDiff) &&
             (identical(other.priceDiffLimitInDays, priceDiffLimitInDays) ||
-                const DeepCollectionEquality().equals(
-                    other.priceDiffLimitInDays, priceDiffLimitInDays)) &&
-            (identical(other.stats, stats) ||
-                const DeepCollectionEquality().equals(other.stats, stats)) &&
+                other.priceDiffLimitInDays == priceDiffLimitInDays) &&
+            const DeepCollectionEquality().equals(other.stats, stats) &&
             (identical(other.walletActions, walletActions) ||
-                const DeepCollectionEquality()
-                    .equals(other.walletActions, walletActions)));
+                other.walletActions == walletActions));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(symbol) ^
-      const DeepCollectionEquality().hash(amount) ^
-      const DeepCollectionEquality().hash(decimals) ^
-      const DeepCollectionEquality().hash(isNative) ^
-      const DeepCollectionEquality().hash(imageUrl) ^
-      const DeepCollectionEquality().hash(subtitle) ^
-      const DeepCollectionEquality().hash(timestamp) ^
-      const DeepCollectionEquality().hash(priceInfo) ^
-      const DeepCollectionEquality().hash(communityAddress) ^
-      const DeepCollectionEquality().hash(originNetwork) ^
-      const DeepCollectionEquality().hash(priceChange) ^
-      const DeepCollectionEquality().hash(priceDiff) ^
-      const DeepCollectionEquality().hash(priceDiffLimitInDays) ^
-      const DeepCollectionEquality().hash(stats) ^
-      const DeepCollectionEquality().hash(walletActions);
+  int get hashCode => Object.hash(
+      runtimeType,
+      address,
+      name,
+      symbol,
+      amount,
+      decimals,
+      isNative,
+      imageUrl,
+      subtitle,
+      timestamp,
+      priceInfo,
+      communityAddress,
+      originNetwork,
+      priceChange,
+      priceDiff,
+      priceDiffLimitInDays,
+      const DeepCollectionEquality().hash(stats),
+      walletActions);
 
   @JsonKey(ignore: true)
   @override
@@ -562,7 +542,7 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_TokenToJson(this);
+    return _$$_TokenToJson(this);
   }
 }
 
@@ -595,44 +575,44 @@ abstract class _Token extends Token {
   factory _Token.fromJson(Map<String, dynamic> json) = _$_Token.fromJson;
 
   @override
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get symbol => throw _privateConstructorUsedError;
+  String get symbol;
   @override
-  BigInt get amount => throw _privateConstructorUsedError;
+  BigInt get amount;
   @override
-  int get decimals => throw _privateConstructorUsedError;
+  int get decimals;
   @override
-  bool get isNative => throw _privateConstructorUsedError;
+  bool get isNative;
   @override
-  String? get imageUrl => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  String? get subtitle => throw _privateConstructorUsedError;
-  @override
-  int? get timestamp => throw _privateConstructorUsedError;
-  @override
-  Price? get priceInfo => throw _privateConstructorUsedError;
-  @override
-  String? get communityAddress => throw _privateConstructorUsedError;
-  @override
-  String? get originNetwork => throw _privateConstructorUsedError;
-  @override
-  num get priceChange => throw _privateConstructorUsedError;
+  String? get imageUrl;
   @override
   @JsonKey(ignore: true)
-  num get priceDiff => throw _privateConstructorUsedError;
+  String? get subtitle;
+  @override
+  int? get timestamp;
+  @override
+  Price? get priceInfo;
+  @override
+  String? get communityAddress;
+  @override
+  String? get originNetwork;
+  @override
+  num get priceChange;
   @override
   @JsonKey(ignore: true)
-  int get priceDiffLimitInDays => throw _privateConstructorUsedError;
+  num get priceDiff;
   @override
   @JsonKey(ignore: true)
-  List<Stats> get stats => throw _privateConstructorUsedError;
+  int get priceDiffLimitInDays;
+  @override
+  @JsonKey(ignore: true)
+  List<Stats> get stats;
   @override
   @JsonKey(fromJson: walletActionsFromJson)
-  WalletActions? get walletActions => throw _privateConstructorUsedError;
+  WalletActions? get walletActions;
   @override
   @JsonKey(ignore: true)
   _$TokenCopyWith<_Token> get copyWith => throw _privateConstructorUsedError;

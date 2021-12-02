@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/routes.dart';
+import 'package:supervecina/common/router/routes.dart';
 
 bool isAuthenticated = false;
 

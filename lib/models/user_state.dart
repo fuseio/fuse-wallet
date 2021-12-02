@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/constants/enums.dart';
+import 'package:supervecina/constants/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:supervecina/models/wallet/wallet_modules.dart';
 
 part 'user_state.freezed.dart';
 part 'user_state.g.dart';
 
-String currencyJson(String? currency) => currency == null ? 'usd' : currency;
+String currencyJson(String? currency) => currency ?? 'usd';
 
 authTypeFromJson(String auth) =>
     EnumToString.fromString(BiometricAuth.values, auth);
@@ -30,8 +31,9 @@ class UserState with _$UserState {
 
   @JsonSerializable()
   factory UserState({
+    WalletModules? walletModules,
     DateTime? installedAt,
-    @Default(null) bool? isContactsSynced,
+    bool? isContactsSynced,
     @Default(false) bool isLoggedOut,
     @Default(false) bool backup,
     @Default(false) bool? depositBannerShowed,
@@ -51,23 +53,18 @@ class UserState with _$UserState {
     @Default('Anom') String displayName,
     @Default('') String avatarUrl,
     @Default('') String email,
-    @Default(null) String? verificationId,
+    String? verificationId,
     @Default('') String identifier,
     @Default([]) List<String> syncedContacts,
     @Default({}) Map<String, String> reverseContacts,
-    @Default(null) @JsonKey(ignore: true) dynamic signupErrorMessage,
-    @Default(null) @JsonKey(ignore: true) dynamic verifyErrorMessage,
-    @JsonKey(fromJson: currencyJson) @Default('usd') String currency,
-    @JsonKey(ignore: true) @Default(false) bool isLoginRequest,
-    @JsonKey(ignore: true) @Default(false) bool isVerifyRequest,
+    @Default('usd') String currency,
+    @JsonKey(ignore: true) @Default(false) bool hasUpgrade,
     @Default(BiometricAuth.none)
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
-    @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-    @Default(null)
-        Locale? locale,
+    @JsonKey(fromJson: localeFromJson, toJson: localeToJson) Locale? locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
-    @Default(null) @JsonKey(ignore: true) PhoneAuthCredential? credentials,
+    @JsonKey(ignore: true) PhoneAuthCredential? credentials,
   }) = _UserState;
 
   factory UserState.initial() => UserState(
@@ -75,7 +72,7 @@ class UserState with _$UserState {
         mnemonic: [],
         contacts: [],
         syncedContacts: [],
-        reverseContacts: Map<String, String>(),
+        reverseContacts: {},
         displayName: "Anom",
         backup: false,
         authType: BiometricAuth.none,

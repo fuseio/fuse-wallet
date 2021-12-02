@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'business.dart';
 
@@ -24,16 +25,18 @@ class _$BusinessTearOff {
       {required BusinessMetadata metadata,
       String account = '',
       String id = '',
+      int area = 0,
       String name = ''}) {
     return _Business(
       metadata: metadata,
       account: account,
       id: id,
+      area: area,
       name: name,
     );
   }
 
-  Business fromJson(Map<String, Object> json) {
+  Business fromJson(Map<String, Object?> json) {
     return Business.fromJson(json);
   }
 }
@@ -46,6 +49,7 @@ mixin _$Business {
   BusinessMetadata get metadata => throw _privateConstructorUsedError;
   String get account => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  int get area => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +63,11 @@ abstract class $BusinessCopyWith<$Res> {
   factory $BusinessCopyWith(Business value, $Res Function(Business) then) =
       _$BusinessCopyWithImpl<$Res>;
   $Res call(
-      {BusinessMetadata metadata, String account, String id, String name});
+      {BusinessMetadata metadata,
+      String account,
+      String id,
+      int area,
+      String name});
 
   $BusinessMetadataCopyWith<$Res> get metadata;
 }
@@ -77,6 +85,7 @@ class _$BusinessCopyWithImpl<$Res> implements $BusinessCopyWith<$Res> {
     Object? metadata = freezed,
     Object? account = freezed,
     Object? id = freezed,
+    Object? area = freezed,
     Object? name = freezed,
   }) {
     return _then(_value.copyWith(
@@ -92,6 +101,10 @@ class _$BusinessCopyWithImpl<$Res> implements $BusinessCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      area: area == freezed
+          ? _value.area
+          : area // ignore: cast_nullable_to_non_nullable
+              as int,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -113,7 +126,11 @@ abstract class _$BusinessCopyWith<$Res> implements $BusinessCopyWith<$Res> {
       __$BusinessCopyWithImpl<$Res>;
   @override
   $Res call(
-      {BusinessMetadata metadata, String account, String id, String name});
+      {BusinessMetadata metadata,
+      String account,
+      String id,
+      int area,
+      String name});
 
   @override
   $BusinessMetadataCopyWith<$Res> get metadata;
@@ -133,6 +150,7 @@ class __$BusinessCopyWithImpl<$Res> extends _$BusinessCopyWithImpl<$Res>
     Object? metadata = freezed,
     Object? account = freezed,
     Object? id = freezed,
+    Object? area = freezed,
     Object? name = freezed,
   }) {
     return _then(_Business(
@@ -148,6 +166,10 @@ class __$BusinessCopyWithImpl<$Res> extends _$BusinessCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      area: area == freezed
+          ? _value.area
+          : area // ignore: cast_nullable_to_non_nullable
+              as int,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -164,10 +186,11 @@ class _$_Business with DiagnosticableTreeMixin implements _Business {
       {required this.metadata,
       this.account = '',
       this.id = '',
+      this.area = 0,
       this.name = ''});
 
   factory _$_Business.fromJson(Map<String, dynamic> json) =>
-      _$_$_BusinessFromJson(json);
+      _$$_BusinessFromJson(json);
 
   @override
   final BusinessMetadata metadata;
@@ -177,13 +200,16 @@ class _$_Business with DiagnosticableTreeMixin implements _Business {
   @JsonKey(defaultValue: '')
   @override
   final String id;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int area;
   @JsonKey(defaultValue: '')
   @override
   final String name;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Business(metadata: $metadata, account: $account, id: $id, name: $name)';
+    return 'Business(metadata: $metadata, account: $account, id: $id, area: $area, name: $name)';
   }
 
   @override
@@ -194,32 +220,26 @@ class _$_Business with DiagnosticableTreeMixin implements _Business {
       ..add(DiagnosticsProperty('metadata', metadata))
       ..add(DiagnosticsProperty('account', account))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('area', area))
       ..add(DiagnosticsProperty('name', name));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Business &&
+        (other.runtimeType == runtimeType &&
+            other is _Business &&
             (identical(other.metadata, metadata) ||
-                const DeepCollectionEquality()
-                    .equals(other.metadata, metadata)) &&
-            (identical(other.account, account) ||
-                const DeepCollectionEquality()
-                    .equals(other.account, account)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)));
+                other.metadata == metadata) &&
+            (identical(other.account, account) || other.account == account) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.area, area) || other.area == area) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(metadata) ^
-      const DeepCollectionEquality().hash(account) ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(name);
+      Object.hash(runtimeType, metadata, account, id, area, name);
 
   @JsonKey(ignore: true)
   @override
@@ -228,7 +248,7 @@ class _$_Business with DiagnosticableTreeMixin implements _Business {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_BusinessToJson(this);
+    return _$$_BusinessToJson(this);
   }
 }
 
@@ -237,18 +257,21 @@ abstract class _Business implements Business {
       {required BusinessMetadata metadata,
       String account,
       String id,
+      int area,
       String name}) = _$_Business;
 
   factory _Business.fromJson(Map<String, dynamic> json) = _$_Business.fromJson;
 
   @override
-  BusinessMetadata get metadata => throw _privateConstructorUsedError;
+  BusinessMetadata get metadata;
   @override
-  String get account => throw _privateConstructorUsedError;
+  String get account;
   @override
-  String get id => throw _privateConstructorUsedError;
+  String get id;
   @override
-  String get name => throw _privateConstructorUsedError;
+  int get area;
+  @override
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$BusinessCopyWith<_Business> get copyWith =>

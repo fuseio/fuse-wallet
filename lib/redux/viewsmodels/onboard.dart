@@ -1,115 +1,55 @@
-import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/user_state.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/models/user_state.dart';
 
-class OnboardViewModel extends Equatable {
+class VerifyOnboardViewModel extends Equatable {
   final String countryCode;
   final String phoneNumber;
-  final String accountAddress;
   final String? verificationId;
   final PhoneAuthCredential? credentials;
-  final bool isLoginRequest;
-  final bool isVerifyRequest;
-  final Function(
-    CountryCode,
-    PhoneNumber,
-    VoidCallback loginFailureCallback,
-  ) signUp;
   final Function(
     String code,
+    Function onSuccess,
+    Function(dynamic error) onError,
   ) verify;
-  final Function(String) setPincode;
-  final Function(String) setDisplayName;
-  final Function(BiometricAuth) setSecurityType;
-  // final dynamic verifyErrorMessage;
-  // final dynamic signupErrorMessage;
-  final Function resetErrors;
 
-  OnboardViewModel({
-    required this.setSecurityType,
+  VerifyOnboardViewModel({
     required this.countryCode,
     required this.phoneNumber,
-    required this.accountAddress,
     required this.verificationId,
     required this.credentials,
-    required this.signUp,
     required this.verify,
-    required this.setPincode,
-    required this.setDisplayName,
-    required this.isLoginRequest,
-    required this.isVerifyRequest,
-    // required this.verifyErrorMessage,
-    // required this.signupErrorMessage,
-    required this.resetErrors,
   });
 
-  static OnboardViewModel fromStore(Store<AppState> store) {
+  static VerifyOnboardViewModel fromStore(Store<AppState> store) {
     UserState userState = store.state.userState;
-    final String accountAddress = store.state.userState.accountAddress;
-    return OnboardViewModel(
-        countryCode: store.state.userState.countryCode,
-        phoneNumber: store.state.userState.phoneNumber,
-        accountAddress: accountAddress,
-        verificationId: store.state.userState.verificationId,
-        credentials: userState.credentials,
-        isVerifyRequest: store.state.userState.isVerifyRequest,
-        isLoginRequest: store.state.userState.isLoginRequest,
-        // signupErrorMessage: store.state.userState.signupErrorMessage,
-        // verifyErrorMessage: store.state.userState.verifyErrorMessage,
-        signUp: (
-          CountryCode countryCode,
-          PhoneNumber phoneNumber,
-          VoidCallback loginFailureCallback,
-        ) {
-          store.dispatch(loginHandler(
-            countryCode,
-            phoneNumber,
-            loginFailureCallback,
-          ));
-        },
-        verify: (
-          String verificationCode,
-        ) {
-          store.dispatch(verifyHandler(
+    return VerifyOnboardViewModel(
+      countryCode: store.state.userState.countryCode,
+      phoneNumber: store.state.userState.phoneNumber,
+      verificationId: store.state.userState.verificationId,
+      credentials: userState.credentials,
+      verify: (
+        String verificationCode,
+        Function onSuccess,
+        Function(dynamic error) onError,
+      ) {
+        store.dispatch(
+          verifyHandler(
             verificationCode,
-          ));
-        },
-        setPincode: (pincode) {
-          store.dispatch(SetPincodeSuccess(pincode));
-        },
-        setDisplayName: (String displayName) {
-          store.dispatch(SetDisplayName(displayName));
-          store.dispatch(createAccountWalletCall(accountAddress));
-          Segment.track(
-            eventName: 'Sign up: User name Next button pressed',
-          );
-        },
-        setSecurityType: (biometricAuth) {
-          store.dispatch(SetSecurityType(biometricAuth: biometricAuth));
-        },
-        resetErrors: () {
-          store.dispatch(SetIsVerifyRequest(message: '', isLoading: false));
-          store.dispatch(SetIsLoginRequest(message: '', isLoading: false));
-        });
+            onSuccess,
+            onError,
+          ),
+        );
+      },
+    );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         countryCode,
         phoneNumber,
-        accountAddress,
-        isVerifyRequest,
-        isLoginRequest,
-        // verifyErrorMessage,
-        // signupErrorMessage
       ];
 }

@@ -1,37 +1,40 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
 import 'package:redux/redux.dart';
+import 'package:supervecina/utils/addresses.dart';
 
 class TransferTileViewModel extends Equatable {
   final Map<String, String> reverseContacts;
   final List<Contact> contacts;
   final String countryCode;
-  final Map<String, Token> erc20Tokens;
   final Map<String, Token> tokens;
   final Map<String, Community> communitiesMap;
   final Map<String, Community> communities;
   final Map<String, String> tokensImages;
+  final Community community;
+  final Map<String, Business> businesses;
 
   TransferTileViewModel({
     required this.reverseContacts,
     required this.countryCode,
-    required this.erc20Tokens,
     required this.tokens,
     required this.contacts,
     required this.tokensImages,
     required this.communities,
     required this.communitiesMap,
+    required this.community,
+    required this.businesses,
   });
 
   static TransferTileViewModel fromStore(Store<AppState> store) {
+    Community community = store.state.cashWalletState
+        .communities[defaultCommunityAddress.toLowerCase()]!;
     List<Community> communities =
         store.state.cashWalletState.communities.values.toList();
-    List<Token> foreignTokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .toList();
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .map((Token token) => token.copyWith(
             imageUrl: store.state.cashWalletState.communities
@@ -41,28 +44,36 @@ class TransferTileViewModel extends Equatable {
                     ?.getImageUri()
                 : null))
         .toList();
-    Map<String, Token> tokens =
-        [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
+    Map<String, Token> tokens = [
+      ...homeTokens,
+    ].fold({}, (previousValue, element) {
       previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
       return previousValue;
     });
 
     Map<String, Community> communitiesMap =
-        communities.fold(Map(), (previousValue, element) {
+        communities.fold({}, (previousValue, element) {
       if (element.homeTokenAddress != null) {
         previousValue.putIfAbsent(element.homeTokenAddress!, () => element);
       }
       return previousValue;
     });
+
+    Map<String, Business> businesses =
+        (community.businesses ?? []).fold({}, (previousValue, element) {
+      return previousValue..putIfAbsent(element.account, () => element);
+    });
+
     return TransferTileViewModel(
+      businesses: businesses,
+      community: community,
       tokens: tokens,
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       countryCode: store.state.userState.countryCode,
-      erc20Tokens: store.state.proWalletState.erc20Tokens!,
       communitiesMap: communitiesMap,
       communities: store.state.cashWalletState.communities,
-      tokensImages: store.state.swapState.tokensImages,
+      tokensImages: {}, //store.state.swapState.tokensImages,
     );
   }
 
@@ -72,9 +83,9 @@ class TransferTileViewModel extends Equatable {
         reverseContacts,
         countryCode,
         contacts,
-        erc20Tokens,
         tokens,
         communitiesMap,
-        tokensImages
+        tokensImages,
+        businesses
       ];
 }

@@ -1,5 +1,6 @@
 class Strings {
   Strings._();
 
-  static const String APP_NAME = 'Fuse wallet';
+  static const String appTitle = 'Comunitaria';
+  static const String appName = 'Supervecina';
 }

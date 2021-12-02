@@ -1,32 +1,35 @@
 import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/common/di/di.dart';
+import 'package:supervecina/common/di/di.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/constants/variables.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/contacts.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/constants/enums.dart';
+import 'package:supervecina/constants/urls.dart';
+import 'package:supervecina/constants/variables.dart';
+import 'package:supervecina/models/user_state.dart';
+import 'package:supervecina/models/wallet/wallet_modules.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/utils/addresses.dart';
+import 'package:supervecina/utils/contacts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wallet_core/wallet_core.dart';
-import 'package:fusecash/services.dart';
+import 'package:supervecina/services.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:supervecina/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
-import 'package:fusecash/utils/log/log.dart';
+import 'package:supervecina/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show Web3;
+
+Future<bool> approvalCallback() async {
+  return true;
+}
 
 class UpdateCurrency {
   final String currency;
@@ -175,35 +178,41 @@ class DeviceIdSuccess {
 ThunkAction loginHandler(
   CountryCode countryCode,
   PhoneNumber phoneNumber,
-  VoidCallback loginFailureCallback,
+  Function onSuccess,
+  Function(dynamic error) onError,
 ) {
   return (Store store) async {
     try {
-      Segment.alias(alias: phoneNumber.e164);
-      Segment.track(
-        eventName: 'Sign up: Phone_NextBtn_Press',
-      );
-      store.dispatch(SetIsLoginRequest(isLoading: true));
+      store.dispatch(setDeviceId());
       await onBoardStrategy.login(
         store,
         phoneNumber.e164,
-      );
-      store.dispatch(
-        LoginRequestSuccess(
-          countryCode: countryCode,
-          phoneNumber: phoneNumber.e164,
-        ),
+        () {
+          store.dispatch(
+            LoginRequestSuccess(
+              countryCode: countryCode,
+              phoneNumber: phoneNumber.e164,
+            ),
+          );
+          onSuccess();
+        },
+        (e) async {
+          onError(e.toString());
+          await Sentry.captureException(
+            Exception('Error in login with phone number: ${e.toString()}'),
+            hint: 'ERROR in Login Request',
+          );
+        },
       );
     } catch (e, s) {
-      loginFailureCallback();
-      store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
-      log.error('ERROR - LoginRequest $e');
-      Segment.track(
-        eventName: 'Sign up: FAILED - Phone_NextBtn_Press',
-        properties: Map.from({"error": e.toString()}),
+      log.error(
+        'ERROR - Login Request',
+        error: e,
+        stackTrace: s,
       );
+      onError(e);
       await Sentry.captureException(
-        e,
+        Exception('Error in login with phone number: ${e.toString()}'),
         stackTrace: s,
         hint: 'ERROR in Login Request',
       );
@@ -213,38 +222,30 @@ ThunkAction loginHandler(
 
 ThunkAction verifyHandler(
   String verificationCode,
+  Function onSuccess,
+  Function(dynamic error) onError,
 ) {
   return (Store store) async {
     try {
-      Segment.track(
-        eventName: 'Sign up: Verify phone code next button pressed',
-      );
       await onBoardStrategy.verify(
         store,
         verificationCode,
         (String jwtToken) {
           log.info('jwtToken $jwtToken');
-          Segment.track(
-            eventName: 'Sign up: VerificationCode_NextBtn_Press',
-          );
           store.dispatch(LoginVerifySuccess(jwtToken));
-          store.dispatch(SetIsVerifyRequest(isLoading: false));
+          onSuccess();
           rootRouter.push(UserNameScreen());
         },
       );
     } catch (error, s) {
-      store.dispatch(SetIsVerifyRequest(
-        isLoading: false,
-        message: error,
-      ));
-      Segment.track(
-        eventName: 'Sign up: FAILED - VerificationCode_NextBtn_Press',
-        properties: Map.from({
-          "error": error.toString(),
-        }),
+      log.error(
+        'ERROR - verifyHandler',
+        error: error,
+        stackTrace: s,
       );
+      onError(error.toString());
       await Sentry.captureException(
-        error,
+        Exception('Error in verify phone number: ${error.toString()}'),
         stackTrace: s,
         hint: 'Error while phone number verification',
       );
@@ -256,9 +257,8 @@ ThunkAction backupWalletCall() {
   return (Store store) async {
     if (store.state.userState.backup) return;
     try {
-      String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(BackupRequest());
-      await api.backupWallet(communityAddress: communityAddress);
+      await walletApi.backupWallet(communityAddress: defaultCommunityAddress);
       store.dispatch(BackupSuccess());
     } catch (e) {
       store.dispatch(BackupSuccess());
@@ -277,37 +277,36 @@ ThunkAction restoreWalletCall(
       String mnemonic = _mnemonic.join(' ');
       log.info('mnemonic: $mnemonic');
       log.info('compute pk');
-      if (Web3.validateMnemonic(mnemonic)) {
-        String privateKey = await compute(
-          Web3.privateKeyFromMnemonic,
-          mnemonic,
-        );
-        log.info('privateKey: $privateKey');
-        Credentials credentials = EthPrivateKey.fromHex(privateKey);
-        EthereumAddress accountAddress = await credentials.extractAddress();
-        store.dispatch(
-          CreateLocalAccountSuccess(
-            mnemonic.split(' '),
-            privateKey,
-            accountAddress.toString(),
-          ),
-        );
-        store.dispatch(setDefaultCommunity());
-        successCallback();
-        Segment.track(
-          eventName: 'Existing User: Successful Restore wallet from backup',
-        );
-      } else {
-        throw Exception('invalid mnemonic');
-      }
+      String privateKey = await compute(
+        Web3.privateKeyFromMnemonic,
+        mnemonic,
+      );
+      Credentials credentials = EthPrivateKey.fromHex(privateKey);
+      EthereumAddress accountAddress = await credentials.extractAddress();
+      log.info('privateKey: $privateKey');
+      log.info('accountAddress: ${accountAddress.toString()}');
+      store.dispatch(
+        CreateLocalAccountSuccess(
+          mnemonic.split(' '),
+          privateKey,
+          accountAddress.toString(),
+        ),
+      );
+      store.dispatch(
+        SetDefaultCommunity(
+          defaultCommunityAddress.toLowerCase(),
+        ),
+      );
+      successCallback();
     } catch (e, s) {
-      log.error('ERROR - restoreWalletCall $e');
-      Segment.track(
-        eventName: 'Existing User: Failed to restore wallet from backup',
+      log.error(
+        'ERROR - restoreWalletCall',
+        error: e,
+        stackTrace: s,
       );
       failureCallback();
       await Sentry.captureException(
-        e,
+        Exception('Error in restore mnemonic: ${e.toString()}'),
         stackTrace: s,
         hint: 'ERROR in restore wallet',
       );
@@ -339,10 +338,8 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(setDefaultCommunity());
-      Segment.track(
-        eventName: 'New User: Create Wallet',
-      );
+      store
+          .dispatch(SetDefaultCommunity(defaultCommunityAddress.toLowerCase()));
       successCallback();
     } catch (e, s) {
       log.error('ERROR - createLocalAccountCall $e');
@@ -412,19 +409,19 @@ ThunkAction syncContactsCall() {
         }
       }
       if (newPhones.length == 0) {
-        dynamic response = await api.syncContacts(newPhones);
+        dynamic response = await walletApi.syncContacts(newPhones);
         store.dispatch(SyncContactsProgress(newPhones,
             List<Map<String, dynamic>>.from(response['newContacts'])));
-        await api.ackSync(response['nonce']);
+        await walletApi.ackSync(response['nonce']);
       } else {
         int limit = 100;
         List<String> partial = newPhones.take(limit).toList();
         while (partial.length > 0) {
-          dynamic response = await api.syncContacts(partial);
+          dynamic response = await walletApi.syncContacts(partial);
           store.dispatch(SyncContactsProgress(partial,
               List<Map<String, dynamic>>.from(response['newContacts'])));
 
-          await api.ackSync(response['nonce']);
+          await walletApi.ackSync(response['nonce']);
           newPhones = newPhones.sublist(partial.length);
           partial = newPhones.take(limit).toList();
         }
@@ -440,12 +437,12 @@ ThunkAction syncContactsCall() {
   };
 }
 
-ThunkAction identifyCall() {
+ThunkAction identifyCall({String? wallet}) {
   return (Store store) async {
     UserState userState = store.state.userState;
     String displayName = userState.displayName;
     String phoneNumber = userState.phoneNumber;
-    String walletAddress = userState.walletAddress;
+    String walletAddress = wallet ?? userState.walletAddress;
     String accountAddress = userState.accountAddress;
     String identifier = userState.identifier;
     Sentry.configureScope((scope) {
@@ -467,25 +464,21 @@ ThunkAction identifyCall() {
         "Identifier": identifier,
       }),
     ));
-
-    if (Platform.isAndroid) {
-      try {
-        final String token = (await getIt<FirebaseMessaging>().getToken())!;
-        log.info("Firebase messaging token $token");
-        await Segment.setContext({
-          'device': {'token': token},
-        });
-      } catch (e, s) {
-        log.error('Error in identifyCall: ${e.toString()} ${s.toString()}');
-      }
-    }
   };
 }
 
-ThunkAction saveUserInDB(walletAddress) {
+ThunkAction saveUserProfile(walletAddress) {
   return (Store store) async {
     String displayName = store.state.userState.displayName;
     try {
+      Map<String, dynamic> userProfile =
+          await walletApi.getUserProfile(walletAddress);
+      if (userProfile.isNotEmpty) {
+        if (userProfile.containsKey('avatarHash')) {
+          store.dispatch(SetUserAvatar(userProfile['imageUri']));
+        }
+      }
+    } catch (e) {
       Map user = {
         "accountAddress": walletAddress,
         "email": 'wallet-user@fuse.io',
@@ -494,11 +487,7 @@ ThunkAction saveUserInDB(walletAddress) {
         "source": 'wallet-v2',
         "displayName": displayName
       };
-      await api.saveUserToDb(user);
-      log.info('save user $walletAddress');
-    } catch (e, s) {
-      log.error('user $walletAddress already saved');
-      await Sentry.captureException(e, stackTrace: s);
+      await walletApi.saveUserProfile(user);
     }
   };
 }
@@ -521,37 +510,50 @@ ThunkAction loadContacts() {
   };
 }
 
-ThunkAction setupWalletCall(walletData) {
+ThunkAction setupWalletCall(Map<String, dynamic> walletData) {
   return (Store store) async {
     try {
-      List<String> networks = List<String>.from(walletData['networks']);
-      String walletAddress = walletData['walletAddress'];
-      bool backup = walletData['backup'] ?? false;
-      fuseWeb3 = getIt<Web3>(instanceName: 'fuseWeb3', param1: walletData);
+      final List<String> networks = List<String>.from(walletData['networks']);
+      final String walletAddress = walletData['walletAddress'];
       final String privateKey = store.state.userState.privateKey;
-      fuseWeb3!.setCredentials(privateKey);
-      store.dispatch(GetWalletAddressesSuccess(
-        backup: backup,
-        walletAddress: walletAddress,
-        networks: networks,
-      ));
-      if (networks.contains(foreignNetwork)) {
-        ethereumWeb3 =
-            getIt<Web3>(instanceName: 'ethereumWeb3', param1: walletData);
-        ethereumWeb3!.setCredentials(privateKey);
-        Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
-          store.dispatch(startListenToTransferEvents());
-          store.dispatch(startFetchBalancesOnForeign());
-          store.dispatch(fetchTokensBalances());
-          store.dispatch(startFetchTokensLatestPrices());
-        });
+      final bool backup =
+          walletData.containsKey('backup') ? walletData['backup'] : false;
+      final WalletModules walletModules = WalletModules.fromJson(
+        walletData['walletModules'],
+      );
+      store.dispatch(
+        GetWalletDataSuccess(
+          backup: backup,
+          walletAddress: walletAddress,
+          networks: networks,
+          walletModules: walletModules,
+        ),
+      );
+      if (!getIt.isRegistered<Web3>(instanceName: 'fuseWeb3')) {
+        getIt.registerSingleton<Web3>(
+          Web3(
+            approveCb: approvalCallback,
+            url: UrlConstants.fuseRPCUrl,
+            networkId: Variables.fuseChainId,
+            defaultCommunityAddress: defaultCommunityAddress,
+            communityManagerAddress: walletModules.communityManager,
+            transferManagerAddress: walletModules.transferManager,
+            daiPointsManagerAddress: walletModules.daiPointsManager,
+          ),
+          instanceName: 'fuseWeb3',
+        );
+        getIt<Web3>(instanceName: 'fuseWeb3').setCredentials(privateKey);
       }
     } catch (e, s) {
-      log.error('ERROR - setupWalletCall $e');
-      await Sentry.captureException(
-        e,
+      log.error(
+        'ERROR - setupWalletCall',
+        error: e,
         stackTrace: s,
-        hint: 'ERROR - setupWalletCall $e',
+      );
+      await Sentry.captureException(
+        Exception('Error in setup wallet call: ${e.toString()}'),
+        stackTrace: s,
+        hint: 'ERROR - setupWalletCall',
       );
     }
   };
@@ -560,14 +562,21 @@ ThunkAction setupWalletCall(walletData) {
 ThunkAction getWalletAddressesCall() {
   return (Store store) async {
     try {
-      dynamic walletData = await api.getWallet();
-      store.dispatch(setupWalletCall(walletData));
+      final dynamic walletData = await walletApi.getWallet();
+      final Map<String, dynamic> data = Map<String, dynamic>.from({
+        ...walletData,
+      });
+      store.dispatch(setupWalletCall(data));
     } catch (e, s) {
-      log.error('ERROR - getWalletAddressCall $e');
-      await Sentry.captureException(
-        e,
+      log.error(
+        'ERROR - getWalletAddressCall',
+        error: e,
         stackTrace: s,
-        hint: 'ERROR - getWalletAddressCall $e',
+      );
+      await Sentry.captureException(
+        Exception('Error in get wallet info: ${e.toString()}'),
+        stackTrace: s,
+        hint: 'ERROR - getWalletAddressCall',
       );
     }
   };
@@ -576,11 +585,19 @@ ThunkAction getWalletAddressesCall() {
 ThunkAction updateDisplayNameCall(String displayName) {
   return (Store store) async {
     try {
-      String accountAddress = store.state.userState.accountAddress;
-      await api.updateDisplayName(accountAddress, displayName);
+      String walletAddress = store.state.userState.walletAddress;
+      await walletApi.updateDisplayName(walletAddress, displayName);
       store.dispatch(SetDisplayName(displayName));
     } catch (e, s) {
-      await Sentry.captureException(e, stackTrace: s);
+      log.error(
+        'ERROR - updateDisplayNameCall',
+        error: e,
+        stackTrace: s,
+      );
+      await Sentry.captureException(
+        Exception('Error in update user profile name: ${e.toString()}'),
+        stackTrace: s,
+      );
     }
   };
 }
@@ -590,11 +607,19 @@ ThunkAction updateUserAvatarCall(ImageSource source) {
     final file = await ImagePicker().pickImage(source: source);
     try {
       final uploadResponse = await api.uploadImage(File(file!.path));
-      String accountAddress = store.state.userState.accountAddress;
-      await api.updateAvatar(accountAddress, uploadResponse['hash']);
+      String walletAddress = store.state.userState.walletAddress;
+      await walletApi.updateAvatar(walletAddress, uploadResponse['hash']);
       store.dispatch(SetUserAvatar(uploadResponse['uri']));
     } catch (e, s) {
-      await Sentry.captureException(e, stackTrace: s);
+      log.error(
+        'ERROR - updateUserAvatarCall',
+        error: e,
+        stackTrace: s,
+      );
+      await Sentry.captureException(
+        Exception('Error in update user profile image: ${e.toString()}'),
+        stackTrace: s,
+      );
     }
   };
 }

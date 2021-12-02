@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com</string>
+	<string>909520260586-iimbgveoamhqd8uq9flaakjd0v55ck5h.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+	<string>com.googleusercontent.apps.909520260586-iimbgveoamhqd8uq9flaakjd0v55ck5h</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>863692183597-0colm33bu1u8hbtacstdpv33pvdjsr8a.apps.googleusercontent.com</string>
+	<string>909520260586-7m4l97lfbse0qkhfvpjd3p02feha62l0.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC1DHZQFPrNZo-dgm68PSaABIeGIc16nbY</string>
+	<string>AIzaSyAhZZvwgfgAAhBM4bhUFUJPqG9n_rGhOss</string>
 	<key>GCM_SENDER_ID</key>
-	<string>863692183597</string>
+	<string>909520260586</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.fusecash</string>
+	<string>io.fuse.supervecina</string>
 	<key>PROJECT_ID</key>
-	<string>fuse-2-0</string>
+	<string>supervecina-a6a9e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fuse-2-0.appspot.com</string>
+	<string>supervecina-a6a9e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:863692183597:ios:91186a513b10fab59b80a4</string>
+	<string>1:909520260586:ios:b4c3ccd5f9f4d9ab9fb693</string>
 	<key>DATABASE_URL</key>
-	<string>https://fuse-2-0.firebaseio.com</string>
+	<string>https://supervecina-a6a9e.firebaseio.com</string>
 </dict>
 </plist>

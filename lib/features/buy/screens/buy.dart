@@ -2,17 +2,16 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/images.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/viewsmodels/buy_page.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -41,60 +40,122 @@ class BusinessesListView extends StatefulWidget {
 }
 
 class _BusinessesListViewState extends State<BusinessesListView> {
+  final List<String> areas = ['La Oliva Sevilla', 'Los Pajaritos Sevilla'];
+  Map<int, List<Business>> businessesMap = {};
+
+  Widget _buildCategories(BuyViewModel vm) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, bottom: 5.0),
+            child: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                color: Color(0xFFE8E8E8),
+              ),
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: areas.length,
+              itemBuilder: (context, index) => ListTile(
+                contentPadding: EdgeInsets.only(left: 20, right: 20),
+                // leading: Container(
+                //   width: 50,
+                //   height: 50,
+                //   decoration: BoxDecoration(),
+                //   child: ClipOval(
+                //     child: CachedNetworkImage(
+                //       imageUrl: business.metadata.image,
+                //       placeholder: (context, url) => CircularProgressIndicator(),
+                //       errorWidget: (context, url, error) => Icon(Icons.error),
+                //       imageBuilder: (context, imageProvider) => Image(
+                //         image: imageProvider,
+                //         fit: BoxFit.cover,
+                //         width: 50.0,
+                //         height: 50.0,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                title: Text(
+                  areas[index],
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                onTap: () {
+                  context.router.push(
+                    BusinessesListScreen(
+                      businesses: businessesMap[index]!,
+                      token: vm.token,
+                      title: areas[index],
+                    ),
+                  );
+                },
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    InkWell(
+                      child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Image.asset(
+                            'assets/images/go.png',
+                            fit: BoxFit.fill,
+                            width: 25,
+                            height: 25,
+                          )),
+                      onTap: () {
+                        context.router.push(
+                          BusinessesListScreen(
+                            businesses: businessesMap[index]!,
+                            token: vm.token,
+                            title: areas[index],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BuyViewModel>(
       distinct: true,
       converter: BuyViewModel.fromStore,
+      onWillChange: (previousViewModel, newViewModel) {
+        if (previousViewModel?.businesses != newViewModel.businesses) {
+          List<int> area =
+              newViewModel.businesses.map((e) => e.area).toSet().toList();
+          setState(() {
+            businessesMap = area.fold({}, (previousValue, areaId) {
+              List<Business> businesses = newViewModel.businesses
+                  .where((element) => element.area == areaId)
+                  .toList();
+              previousValue[areaId] = businesses;
+              return previousValue;
+            });
+          });
+        }
+      },
       builder: (_, vm) => Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            banner(context, vm),
-            businessList(context, vm),
-          ],
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[_buildCategories(vm)],
         ),
       ),
     );
-  }
-
-  Widget banner(BuildContext context, BuyViewModel vm) {
-    return vm.walletBanner != null &&
-            vm.walletBanner?.walletBannerHash != null &&
-            vm.walletBanner?.walletBannerHash != ''
-        ? Container(
-            constraints: BoxConstraints(maxHeight: 140),
-            padding: EdgeInsets.all(10),
-            child: InkWell(
-              focusColor: Theme.of(context).canvasColor,
-              highlightColor: Theme.of(context).canvasColor,
-              onTap: () {
-                context.router.push(
-                  Webview(
-                    url: vm.walletBanner?.link ?? '',
-                    title: '',
-                  ),
-                );
-              },
-              child: CachedNetworkImage(
-                imageUrl: ImageUrl.getLink(vm.walletBanner!.walletBannerHash!),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: imageProvider,
-                    ),
-                  ),
-                ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ),
-          )
-        : SizedBox.shrink();
   }
 
   Widget businessList(context, BuyViewModel vm) {
@@ -114,7 +175,6 @@ class _BusinessesListViewState extends State<BusinessesListView> {
                 itemCount: vm.businesses.length,
                 itemBuilder: (context, index) => businessTile(
                   vm.businesses[index],
-                  vm.communityAddress,
                   vm.token,
                 ),
               ),
@@ -124,7 +184,6 @@ class _BusinessesListViewState extends State<BusinessesListView> {
 
   ListTile businessTile(
     Business business,
-    String communityAddress,
     Token token,
   ) {
     return ListTile(
@@ -135,7 +194,8 @@ class _BusinessesListViewState extends State<BusinessesListView> {
         decoration: BoxDecoration(),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: ImageUrl.getLink(business.metadata.image),
+            imageUrl: business
+                .metadata.image, //ImageUrl.getLink(business.metadata.image),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -172,20 +232,17 @@ class _BusinessesListViewState extends State<BusinessesListView> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.all(10.0),
-              backgroundColor: Theme.of(context).primaryColor,
-              shape: CircleBorder(),
+          InkWell(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                'assets/images/go.png',
+                fit: BoxFit.fill,
+                width: 25,
+                height: 25,
+              ),
             ),
-            child: Text(
-              I10n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button!.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+            onTap: () {
               final SendFlowArguments args = SendFlowArguments(
                 tokenToSend: token,
                 name: business.name,

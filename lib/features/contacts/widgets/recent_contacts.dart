@@ -2,17 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/recent_contacts.dart';
-import 'package:fusecash/utils/images.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transfer.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/actions/wallet_action.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/features/contacts/widgets/contact_tile.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/viewsmodels/recent_contacts.dart';
+import 'package:supervecina/utils/images.dart';
+import 'package:supervecina/utils/send.dart';
+import 'package:supervecina/utils/transfer.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numofRecentToShow;
@@ -24,7 +24,7 @@ class RecentContacts extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, RecentContactsViewModel>(
+    return StoreConnector<AppState, RecentContactsViewModel>(
       distinct: true,
       converter: RecentContactsViewModel.fromStore,
       builder: (_, viewModel) {

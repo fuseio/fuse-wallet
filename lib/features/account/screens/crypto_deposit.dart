@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/features/shared/widgets/snackbars.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/backup.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/features/shared/widgets/snackbars.dart';
 
 class CryptoDepositScreen extends StatelessWidget {
   final String link;

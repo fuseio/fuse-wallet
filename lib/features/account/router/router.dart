@@ -1,14 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/route_guards.dart';
-import 'package:fusecash/features/account/screens/account_screen.dart';
-import 'package:fusecash/features/account/screens/done_backup_screen.dart';
-import 'package:fusecash/features/account/screens/profile.dart';
-import 'package:fusecash/features/account/screens/protect_your_wallet.dart';
-import 'package:fusecash/features/account/screens/settings.dart';
-import 'package:fusecash/features/account/screens/show_mnemonic.dart';
-import 'package:fusecash/features/account/screens/social_screen.dart';
-import 'package:fusecash/features/account/screens/verify_mnemonic.dart';
-import 'package:fusecash/features/home/screens/switch_community.dart';
+import 'package:supervecina/common/router/route_guards.dart';
+import 'package:supervecina/features/account/screens/account_screen.dart';
+import 'package:supervecina/features/account/screens/done_backup_screen.dart';
+import 'package:supervecina/features/account/screens/profile.dart';
+import 'package:supervecina/features/account/screens/protect_your_wallet.dart';
+import 'package:supervecina/features/account/screens/settings.dart';
+import 'package:supervecina/features/account/screens/show_mnemonic.dart';
+import 'package:supervecina/features/account/screens/verify_mnemonic.dart';
 
 const accountTab = AutoRoute(
   path: 'account',
@@ -20,10 +18,6 @@ const accountTab = AutoRoute(
       page: AccountScreen,
       name: 'accountScreen',
       initial: true,
-      guards: [AuthGuard],
-    ),
-    AutoRoute(
-      page: SwitchCommunityScreen,
       guards: [AuthGuard],
     ),
     AutoRoute(
@@ -48,10 +42,6 @@ const accountTab = AutoRoute(
     ),
     AutoRoute(
       page: ProfileScreen,
-      guards: [AuthGuard],
-    ),
-    AutoRoute(
-      page: SocialScreen,
       guards: [AuthGuard],
     ),
   ],

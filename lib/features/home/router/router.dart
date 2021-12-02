@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/route_guards.dart';
-import 'package:fusecash/features/home/screens/action_details.dart';
-import 'package:fusecash/features/home/screens/home.dart';
+import 'package:supervecina/common/router/route_guards.dart';
+import 'package:supervecina/features/home/screens/action_details.dart';
+import 'package:supervecina/features/home/screens/home.dart';
 
 const homeTab = AutoRoute(
   path: 'home',

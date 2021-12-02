@@ -1,7 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/models/actions/wallet_action.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:redux/redux.dart';
 
 class RecentContactsViewModel extends Equatable {

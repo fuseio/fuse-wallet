@@ -3,15 +3,15 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/features/shared/widgets/preloader.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/log/log.dart';
+import 'package:supervecina/utils/phone.dart';
+import 'package:supervecina/features/shared/widgets/preloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 
@@ -25,7 +25,7 @@ Future<Map> fetchWalletByPhone(
       phone,
       regionCode: isoCode,
     );
-    Map? wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
+    Map? wallet = await walletApi.getWalletByPhoneNumber(phoneNumber.e164);
     String? walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
     return {
       'phoneNumber': phoneNumber.e164,
@@ -39,7 +39,7 @@ Future<Map> fetchWalletByPhone(
         formatted,
         regionCode: isoCode,
       );
-      Map? wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
+      Map? wallet = await walletApi.getWalletByPhoneNumber(phoneNumber.e164);
       String? walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
         'phoneNumber': phoneNumber.e164,
@@ -193,6 +193,6 @@ void barcodeScannerHandler(
         width: 20,
         height: 20,
       ),
-    )..show(context);
+    ).show(context);
   }
 }

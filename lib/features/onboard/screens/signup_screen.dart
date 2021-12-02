@@ -1,16 +1,26 @@
+import 'package:carrier_info/carrier_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:phone_number/phone_number.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/features/onboard/dialogs/signup.dart';
-import 'package:fusecash/redux/viewsmodels/onboard.dart';
-import 'package:fusecash/features/shared/widgets/snackbars.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/features/onboard/dialogs/signup.dart';
+import 'package:supervecina/features/shared/widgets/snackbars.dart';
+import 'package:supervecina/utils/log/log.dart';
+
+typedef SignUp = void Function(
+  CountryCode,
+  PhoneNumber,
+  Function onSuccess,
+  Function(dynamic error) onError,
+);
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -21,30 +31,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final fullNameController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  CountryCode countryCode = CountryCode(dialCode: '+1', code: 'US');
+  CountryCode countryCode = CountryCode(dialCode: '+34', code: 'ES');
+  bool isPreloading = false;
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback(_updateCountryCode);
     super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback(_updateCountryCode);
   }
 
-  _updateCountryCode(_) {
-    Locale myLocale = Localizations.localeOf(context);
-    if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere(
-        (Map code) => code['code'] == myLocale.countryCode,
-      );
-      if (mounted &&
-          localeData.containsKey('dial_code') &&
-          localeData.containsKey('code')) {
-        setState(() {
-          countryCode = CountryCode(
-            dialCode: localeData['dial_code'],
-            code: localeData['code'],
-          );
-        });
+  _updateCountryCode(_) async {
+    try {
+      String? currentCountryCode = await CarrierInfo.isoCountryCode;
+      if (currentCountryCode != null) {
+        Map localeData = codes.firstWhere(
+          (Map code) =>
+              code['code'].toString().toLowerCase() ==
+              currentCountryCode.toLowerCase(),
+        );
+        if (mounted &&
+            localeData.containsKey('dial_code') &&
+            localeData.containsKey('code')) {
+          setState(() {
+            countryCode = CountryCode(
+              dialCode: localeData['dial_code'],
+              code: localeData['code'],
+            );
+          });
+        }
       }
+    } catch (e) {
+      log.error('Failed to deduce sim country code: ${e.toString()}');
     }
   }
 
@@ -124,66 +141,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  Container(
-                                    child: CountryCodePicker(
-                                      onChanged: (_countryCode) {
-                                        setState(() {
-                                          countryCode = _countryCode;
-                                        });
-                                      },
-                                      searchDecoration: InputDecoration(
-                                        border: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                          ),
-                                        ),
-                                        fillColor:
-                                            Theme.of(context).canvasColor,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                          ),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                          ),
+                                  CountryCodePicker(
+                                    onChanged: (_countryCode) {
+                                      setState(() {
+                                        countryCode = _countryCode;
+                                      });
+                                    },
+                                    searchDecoration: InputDecoration(
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
                                         ),
                                       ),
-                                      dialogSize: Size(
-                                          MediaQuery.of(context).size.width *
-                                              .9,
-                                          MediaQuery.of(context).size.height *
-                                              0.85),
-                                      searchStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                      fillColor: Theme.of(context).canvasColor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
                                       ),
-                                      showFlag: true,
-                                      initialSelection: countryCode.code,
-                                      showCountryOnly: false,
-                                      dialogTextStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
                                       ),
-                                      textStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                      alignLeft: false,
                                     ),
+                                    dialogSize: Size(
+                                        MediaQuery.of(context).size.width * .9,
+                                        MediaQuery.of(context).size.height *
+                                            0.85),
+                                    searchStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                                    showFlag: true,
+                                    initialSelection: countryCode.code,
+                                    showCountryOnly: false,
+                                    dialogTextStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                                    textStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
+                                    alignLeft: false,
                                   ),
                                   Icon(Icons.arrow_drop_down),
                                   Container(
@@ -218,7 +231,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         fillColor:
                                             Theme.of(context).backgroundColor,
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide.none),
+                                          borderSide: BorderSide.none,
+                                        ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide.none,
                                         ),
@@ -230,22 +244,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           SizedBox(height: 40.0),
-                          StoreConnector<AppState, OnboardViewModel>(
+                          StoreConnector<AppState, SignUp>(
                             distinct: true,
-                            converter: OnboardViewModel.fromStore,
-                            builder: (_, viewModel) => Center(
+                            converter: (store) => (
+                              CountryCode countryCode,
+                              PhoneNumber phoneNumber,
+                              Function onSuccess,
+                              dynamic Function(dynamic) onError,
+                            ) =>
+                                store.dispatch(
+                                  loginHandler(
+                                    countryCode,
+                                    phoneNumber,
+                                    onSuccess,
+                                    onError,
+                                  ),
+                                ),
+                            builder: (_, signUp) => Center(
                               child: PrimaryButton(
                                 label: I10n.of(context).next_button,
-                                preload: viewModel.isLoginRequest,
+                                preload: isPreloading,
+                                disabled: isPreloading,
                                 onPressed: () {
                                   final String phoneNumber =
                                       '${countryCode.dialCode}${phoneController.text}';
+                                  setState(() {
+                                    isPreloading = true;
+                                  });
                                   phoneNumberUtil.parse(phoneNumber).then(
                                       (value) {
-                                    viewModel.signUp(
+                                    signUp(
                                       countryCode,
                                       value,
                                       () {
+                                        setState(() {
+                                          isPreloading = false;
+                                        });
+                                      },
+                                      (error) {
+                                        setState(() {
+                                          isPreloading = false;
+                                        });
                                         showErrorSnack(
                                           message:
                                               I10n.of(context).invalid_number,

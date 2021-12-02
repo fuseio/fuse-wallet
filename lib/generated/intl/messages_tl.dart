@@ -322,7 +322,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code":
             MessageLookupByLibrary.simpleMessage("Scan QR para mag switch"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "Ang fuse wallet ay nagtatago ng mga pribadong impormasyon nang lokal sa device. Numero lang ng telepono ang ginagamit upang maberipika ang iyong pagkakakilanlan at mabawasan ang alitan kapag nagpapadala ng pera sa mga kontak sa telepono."),
+            "Ang Comunitaria ay nagtatago ng mga pribadong impormasyon nang lokal sa device. Numero lang ng telepono ang ginagamit upang maberipika ang iyong pagkakakilanlan at mabawasan ang alitan kapag nagpapadala ng pera sa mga kontak sa telepono."),
         "success": MessageLookupByLibrary.simpleMessage("Tagumpay"),
         "swap": MessageLookupByLibrary.simpleMessage("Ipagpalit"),
         "swapped": MessageLookupByLibrary.simpleMessage("Ipinagpalit"),
@@ -370,7 +370,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wallet_address":
             MessageLookupByLibrary.simpleMessage("Address ng wallet "),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
-            "Ang iyong fuse wallet ay protektado!"),
+            "Ang iyong Comunitaria ay protektado!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
             "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao."),
         "we_just_sent": MessageLookupByLibrary.simpleMessage(

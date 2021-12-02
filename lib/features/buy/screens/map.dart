@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/buy_page.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/buy_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
@@ -13,8 +13,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  final Completer<GoogleMapController> _controller = Completer();
+  static const LatLng _center = LatLng(45.521563, -122.677433);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
+    return StoreConnector<AppState, BuyViewModel>(
       distinct: true,
       converter: BuyViewModel.fromStore,
       builder: (_, viewModel) {

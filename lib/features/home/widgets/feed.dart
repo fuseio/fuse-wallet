@@ -1,16 +1,16 @@
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/features/home/widgets/action_tile.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/features/home/widgets/action_tile.dart';
+import 'package:supervecina/models/actions/wallet_action.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/viewsmodels/feed.dart';
+import 'package:supervecina/redux/viewsmodels/feed.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 
 class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, FeedViewModel>(
+    return StoreConnector<AppState, FeedViewModel>(
       converter: FeedViewModel.fromStore,
       distinct: true,
       builder: (_, viewModel) {

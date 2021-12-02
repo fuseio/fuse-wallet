@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/redux/viewsmodels/onboard.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/redux/viewsmodels/onboard.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyPhoneNumber extends StatefulWidget {
@@ -19,6 +19,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   TextEditingController codeController = TextEditingController(text: '');
   String currentText = "";
   final formKey = GlobalKey<FormState>();
+  bool isPreloading = false;
 
   @override
   void initState() {
@@ -29,14 +30,22 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).sign_up,
-      body: StoreConnector<AppState, OnboardViewModel>(
+      body: StoreConnector<AppState, VerifyOnboardViewModel>(
         distinct: true,
-        converter: OnboardViewModel.fromStore,
+        converter: VerifyOnboardViewModel.fromStore,
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null &&
               viewModel.verificationId != null) {
             autoCode = viewModel.credentials?.smsCode ?? "";
-            viewModel.verify(autoCode);
+            viewModel.verify(autoCode, () {
+              setState(() {
+                isPreloading = false;
+              });
+            }, (error) {
+              setState(() {
+                isPreloading = false;
+              });
+            });
           }
         },
         builder: (_, viewModel) {
@@ -49,7 +58,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                     children: <Widget>[
                       Text(
                         I10n.of(context).we_just_sent +
-                            "${viewModel.phoneNumber}" +
+                            viewModel.phoneNumber +
                             "\n",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -116,14 +125,29 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                       Center(
                         child: PrimaryButton(
                           label: I10n.of(context).next_button,
-                          preload: viewModel.isVerifyRequest,
+                          preload: isPreloading,
+                          disabled: isPreloading,
                           onPressed: () {
-                            formKey.currentState!.validate();
                             if (currentText.length != 6) {
                             } else {
-                              viewModel.verify(
-                                codeController.text,
-                              );
+                              if (formKey.currentState!.validate()) {
+                                setState(() {
+                                  isPreloading = true;
+                                });
+                                viewModel.verify(
+                                  codeController.text,
+                                  () {
+                                    setState(() {
+                                      isPreloading = false;
+                                    });
+                                  },
+                                  (dynamic error) {
+                                    setState(() {
+                                      isPreloading = false;
+                                    });
+                                  },
+                                );
+                              }
                             }
                           },
                         ),

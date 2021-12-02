@@ -3,23 +3,23 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 // import 'package:flutter_segment/flutter_segment.dart';
-// import 'package:fusecash/features/account/screens/top_up.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/features/home/widgets/button.dart';
-import 'package:fusecash/features/home/widgets/price.dart';
-import 'package:fusecash/features/home/widgets/price_change.dart';
-import 'package:fusecash/features/home/widgets/price_diff.dart';
-import 'package:fusecash/features/home/widgets/price_line_chart.dart';
-import 'package:fusecash/features/home/widgets/token_activities.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/redux/viewsmodels/token_tile.dart';
-// import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/features/shared/widgets/default_logo.dart';
+// import 'package:supervecina/features/account/screens/top_up.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/features/home/widgets/button.dart';
+import 'package:supervecina/features/home/widgets/price.dart';
+import 'package:supervecina/features/home/widgets/price_change.dart';
+// import 'package:supervecina/features/home/widgets/price_diff.dart';
+// import 'package:supervecina/features/home/widgets/price_line_chart.dart';
+import 'package:supervecina/features/home/widgets/token_activities.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/redux/viewsmodels/token_tile.dart';
+// import 'package:supervecina/utils/constants.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/features/shared/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/common/router/routes.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/common/router/routes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TokenTile extends StatefulWidget {
@@ -213,32 +213,7 @@ class _TokenTileState extends State<TokenTile> {
                   padding: EdgeInsets.only(left: 20, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    // mainAxisAlignment: isSwappable || isFUSD
-                    //     ? MainAxisAlignment.spaceBetween
-                    //     : MainAxisAlignment.start,
                     children: [
-                      // isSwappable
-                      //     ? Button(
-                      //         width: isFUSD
-                      //             ? MediaQuery.of(context).size.width * .285
-                      //             : null,
-                      //         text: I10n.of(context).swap,
-                      //         icon: 'swap_action',
-                      //         onPressed: () {
-                      //           viewModel.getSwapListBalances();
-                      //           context.router.pop();
-                      //           context.navigateTo(
-                      //             SwapTab(
-                      //               children: [
-                      //                 SwapScreen(
-                      //                   primaryToken: widget.token,
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           );
-                      //         },
-                      //       )
-                      //     : SizedBox.shrink(),
                       Button(
                         text: I10n.of(context).send_button,
                         icon: 'send_action',
@@ -258,51 +233,11 @@ class _TokenTileState extends State<TokenTile> {
                           );
                         },
                       ),
-                      // isFUSD
-                      //     ? Button(
-                      //         text: I10n.of(context).buy,
-                      //         icon: 'buy_fUSD',
-                      //         width: MediaQuery.of(context).size.width * .285,
-                      //         onPressed: () {
-                      //           Navigator.of(context).pop();
-                      //           Segment.track(
-                      //             eventName: 'Top up Button Press',
-                      //             properties: Map.from(
-                      //                 {"fromScreen": 'fuseDollarScreen'}),
-                      //           );
-                      //           Navigator.push(
-                      //             context,
-                      //             MaterialPageRoute(
-                      //               builder: (context) => TopUpScreen(),
-                      //             ),
-                      //           );
-                      //         },
-                      //       )
-                      //     : SizedBox.shrink(),
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 40,
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                    top: 30,
-                    bottom: 30,
-                  ),
-                  color: Theme.of(context).colorScheme.secondary,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      PriceDiff(
-                        tokenAddress: widget.token.address,
-                      ),
-                      PriceLineChart(
-                        tokenAddress: widget.token.address,
-                        // stats: widget.token.stats,
-                      ),
-                    ],
-                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 20, right: 20),
@@ -479,13 +414,11 @@ class _TokenTileState extends State<TokenTile> {
             left: 15,
             right: 15,
           ),
-          onTap: widget.onTap != null
-              ? widget.onTap
-              : () {
-                  viewModel.fetchTokenPrice(widget.token);
-                  viewModel.fetchTokenAction(widget.token);
-                  showBottomMenu(viewModel, context, hasPriceInfo);
-                },
+          onTap: widget.onTap ??
+              () {
+                viewModel.fetchTokenAction(widget.token);
+                showBottomMenu(viewModel, context, hasPriceInfo);
+              },
         );
       },
     );

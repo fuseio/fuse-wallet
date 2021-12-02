@@ -1,7 +1,7 @@
-import 'package:fusecash/utils/addresses.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 
 class HomeViewModel {
   final Function() onStart;

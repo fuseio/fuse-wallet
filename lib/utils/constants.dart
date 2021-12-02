@@ -1,18 +1,43 @@
-import 'package:fusecash/constants/addresses.dart';
-import 'package:fusecash/models/actions/actions.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/string.dart';
+import 'package:supervecina/constants/addresses.dart';
+import 'package:supervecina/constants/strings.dart';
+import 'package:supervecina/models/actions/actions.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/utils/string.dart';
 
 final String wethTokenAddress = '0xa722c13135930332eb3d749b2f0906559d2c5b99';
 final String wbtcTokenAddress = '0x33284f95ccb7b948d9d352e1439561cf83d8d00d';
 final String wfuseTokenAddress = '0x0be9e53fd7edac9f859882afdda116645287c629';
 
-final Token fuseToken = Token(
-  name: 'Fuse',
-  symbol: 'FUSE',
-  imageUrl: 'https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-token.png',
+final Map<String, Map<String, String>> donors = Map.from({
+  '0xed0bd7f319cd03539cbd3b5c592cae91a349dbae': {
+    'image': 'comunitaria.jpeg',
+    'name': Strings.appTitle
+  },
+  '0x615334c6256cd8dd94eed368cebedcf07a36a5ae': {
+    'image': 'caritas.png',
+    'name': 'Cáritas'
+  },
+  '0xfab6afa92671b319499384435c9df0ff11252b6c': {
+    'image': 'banco_de_alimentos.jpeg',
+    'name': 'Banco de Alimentos'
+  },
+  '0xa86696defccd53bbc5b6c80fd6b9824e453cd16d': {
+    'image': 'barrios.jpg',
+    'name': 'Asociación Tres Barrios'
+  },
+  '0x0c9b8c54634301350a0a5059cadcc828afd4b246': {
+    'image': 'barrios.jpg',
+    'name': 'Asociación Tres Barrios'
+  }
+});
+
+final Token illaToken = Token(
+  name: Strings.appTitle,
+  symbol: 'ILLA',
+  imageUrl:
+      'https://fuse-studio.s3.eu-central-1.amazonaws.com/748bbbd19008eb3a1ac91a21e02b4d708d1552c0dba4c687bc8a451684cd9b18',
   decimals: 18,
-  address: Addresses.ZERO_ADDRESS,
+  address: Addresses.ILLA_ADDRESS,
   originNetwork: 'fuse',
   isNative: true,
   timestamp: 0,
@@ -20,13 +45,14 @@ final Token fuseToken = Token(
   walletActions: WalletActions.initial(),
 );
 
-final Token fuseDollarToken = Token(
-  name: 'Fuse Dollar',
-  symbol: 'fUSD',
-  imageUrl: "https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-dollar.png",
+final Token fuseToken = Token(
+  name: 'Fuse',
+  symbol: 'FUSE',
+  imageUrl: 'https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-token.png',
   decimals: 18,
-  address: Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+  address: Addresses.NATIVE_ADDRESS,
   originNetwork: 'fuse',
+  isNative: true,
   timestamp: 0,
   amount: BigInt.zero,
   walletActions: WalletActions.initial(),
@@ -38,7 +64,7 @@ String toShortName(networkType) =>
 String getBridgeMediator(
     {String networkType = 'mainnet', String bridgeType = 'foreign'}) {
   return bridgeType == 'foreign'
-      ? bridgeAddresses['${toShortName(networkType)}']['MultiBridgeMediator}']
+      ? bridgeAddresses[toShortName(networkType)]['MultiBridgeMediator}']
       : bridgeAddresses['fuse']
           ['MultiBridgeMediator${toShortName(networkType).capitalize()}'];
 }

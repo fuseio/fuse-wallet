@@ -1,15 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/redux/viewsmodels/send_amount.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/redux/viewsmodels/send_amount.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendReviewScreen extends StatefulWidget {
@@ -40,7 +39,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         vsync: this, duration: Duration(milliseconds: 2000));
 
     offset = Tween<double>(begin: 1, end: 3).animate(
-        new CurvedAnimation(parent: controller, curve: Curves.easeInOutQuad))
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutQuad))
       ..addListener(() {
         setState(() {});
       });
@@ -49,114 +48,38 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   void send(
     SendAmountViewModel viewModel,
     SendFlowArguments args,
-    String transferNote,
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback,
   ) {
-    final bool isFuseToken =
-        ![null, ''].contains(args.tokenToSend!.originNetwork);
-    if (args.useBridge && args.isMultiBridge) {
-      if (isFuseToken) {
-        viewModel.sendToForeignMultiBridge(
-          args.tokenToSend!,
-          args.accountAddress!,
-          args.amount!,
-          sendSuccessCallback,
-          sendFailureCallback,
-        );
-      } else {
-        viewModel.sendToHomeMultiBridge(
-          args.tokenToSend!,
-          args.accountAddress!,
-          args.amount!,
-          sendSuccessCallback,
-          sendFailureCallback,
-        );
-      }
+    if (args.accountAddress == null ||
+        args.accountAddress == '' && args.phoneNumber != null) {
+      viewModel.sendToContact(
+        args.tokenToSend!,
+        args.phoneNumber!,
+        args.amount!,
+        sendSuccessCallback,
+        sendFailureCallback,
+      );
     } else {
-      if (!isFuseToken) {
-        if (args.accountAddress == null ||
-            args.accountAddress == '' && args.phoneNumber != null) {
-          viewModel.sendERC20ToContact(
-            args.tokenToSend!,
-            args.name!,
-            args.phoneNumber!,
-            args.amount!,
-            sendSuccessCallback,
-            sendFailureCallback,
-            receiverName: args.name!,
-            transferNote: transferNote,
-          );
-        } else {
-          viewModel.sendToErc20Token(
-            args.tokenToSend!,
-            args.accountAddress!,
-            args.amount!,
-            sendSuccessCallback,
-            sendFailureCallback,
-          );
-        }
-      } else {
-        if (args.accountAddress == null ||
-            args.accountAddress == '' && args.phoneNumber != null) {
-          viewModel.sendToContact(
-            args.tokenToSend!,
-            args.phoneNumber!,
-            args.amount!,
-            sendSuccessCallback,
-            sendFailureCallback,
-            receiverName: args.name!,
-            transferNote: transferNote,
-          );
-        } else {
-          viewModel.sendToAccountAddress(
-            args.tokenToSend!,
-            args.accountAddress!,
-            args.amount!,
-            sendSuccessCallback,
-            sendFailureCallback,
-            receiverName: args.name!,
-            transferNote: transferNote,
-          );
-        }
-      }
+      viewModel.sendToAccountAddress(
+        args.tokenToSend!,
+        args.accountAddress!,
+        args.amount!,
+        sendSuccessCallback,
+        sendFailureCallback,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final SendFlowArguments args = this.widget.pageArgs;
+    final SendFlowArguments args = widget.pageArgs;
     return MyScaffold(
       title: I10n.of(context).review_transfer,
       body: StoreConnector<AppState, SendAmountViewModel>(
         converter: SendAmountViewModel.fromStore,
         builder: (_, viewModel) {
           final String symbol = args.tokenToSend!.symbol;
-          final bool withFee = args.isMultiBridge ||
-              args.useBridge ||
-              (fees.containsKey(symbol) &&
-                  args.tokenToSend?.originNetwork == null) ||
-              (viewModel.communities.any((element) =>
-                  (args.accountAddress != null &&
-                      args.accountAddress?.toLowerCase() ==
-                          element.homeBridgeAddress?.toLowerCase()) ||
-                  (args.accountAddress != null &&
-                      args.accountAddress?.toLowerCase() ==
-                          element.foreignBridgeAddress?.toLowerCase()) ||
-                  args.tokenToSend?.address != null &&
-                      args.tokenToSend?.address.toLowerCase() ==
-                          element.foreignTokenAddress?.toLowerCase()));
-          final num feeAmount =
-              (withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0)!;
-          final bool hasFund =
-              (Decimal.tryParse((args.amount! + feeAmount).toString()) ??
-                          Decimal.zero)
-                      .compareTo(
-                    Decimal.parse(
-                      args.tokenToSend!.getBalance(true),
-                    ),
-                  ) <=
-                  0;
           return Container(
             padding: EdgeInsets.only(
               top: 20,
@@ -312,68 +235,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             ],
                           ),
                         ),
-                        withFee
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    I10n.of(context).fee_amount +
-                                        ' ${feeAmount.toStringAsFixed(1)} $symbol',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondaryVariant,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                      I10n.of(context).total_amount +
-                                          ' ${(args.amount! + feeAmount).toStringAsFixed(1)} $symbol',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14)),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  !hasFund
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.error,
-                                              color: Colors.red,
-                                              size: 16,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 7),
-                                              child: Text(
-                                                I10n.of(context)
-                                                    .not_enough_balance,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.red,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : SizedBox.shrink(),
-                                ],
-                              )
-                            : SizedBox.shrink(),
                         args.tokenToSend?.originNetwork == null
                             ? SizedBox.shrink()
                             : (args.accountAddress == null ||
@@ -403,25 +264,25 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     Center(
                       child: PrimaryButton(
                         label: I10n.of(context).send_button,
-                        disabled: isPreloading || !hasFund,
+                        disabled: isPreloading,
                         preload: isPreloading,
                         onPressed: () {
-                          if (withFee && !hasFund) return;
-                          send(viewModel, args, transferNoteController.text,
-                              () {
-                            context.router.push(
-                              SendSuccessScreen(
-                                pageArgs: args,
-                              ),
-                            );
-                          }, () {
+                          if (!isPreloading) {
                             setState(() {
-                              isPreloading = false;
+                              isPreloading = true;
                             });
-                          });
-                          setState(() {
-                            isPreloading = true;
-                          });
+                            send(viewModel, args, () {
+                              context.router.push(
+                                SendSuccessScreen(
+                                  pageArgs: args,
+                                ),
+                              );
+                            }, () {
+                              setState(() {
+                                isPreloading = false;
+                              });
+                            });
+                          }
                         },
                       ),
                     ),

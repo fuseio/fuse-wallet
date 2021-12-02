@@ -324,7 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code":
             MessageLookupByLibrary.simpleMessage("Scan QR code om te wisselen"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "De Fuse wallet bewaard privé informatie direct op je apparaat. Het telefoonnummer wordt alleen gebruikt om je identiteit te kunnen verifiëren en frictie te verminderen bij het verzenden van geld naar contacten in je telefoon. "),
+            "De Comunitaria bewaard privé informatie direct op je apparaat. Het telefoonnummer wordt alleen gebruikt om je identiteit te kunnen verifiëren en frictie te verminderen bij het verzenden van geld naar contacten in je telefoon. "),
         "success": MessageLookupByLibrary.simpleMessage("Succes"),
         "swap": MessageLookupByLibrary.simpleMessage("Wisselen"),
         "swapped": MessageLookupByLibrary.simpleMessage("Gewisseld"),

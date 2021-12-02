@@ -2,11 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/backup.dart';
+import 'package:supervecina/common/router/routes.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PinCodeScreen extends StatefulWidget {
@@ -40,9 +39,8 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86),
+              Color(0xFF003399),
+              Color(0xFFA0D28B),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -139,10 +137,6 @@ class _PinCodeScreenState extends State<PinCodeScreen> {
                                 ),
                                 onCompleted: (value) {
                                   if (viewModel.pincode == value) {
-                                    Segment.track(
-                                      eventName:
-                                          'Session Start: Authentication success',
-                                    );
                                     context.router.replaceAll([MainScreen()]);
                                     pincodeController.clear();
                                   } else {

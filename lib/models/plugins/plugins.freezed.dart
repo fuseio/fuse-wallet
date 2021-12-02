@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'plugins.dart';
 
@@ -23,24 +24,24 @@ class _$PluginsTearOff {
   _Plugins call(
       {@JsonKey(includeIfNull: false)
       @RampInstantPluginConverter()
-          RampInstantPlugin? rampInstant = null,
+          RampInstantPlugin? rampInstant,
       @JsonKey(includeIfNull: false)
       @MoonpayPluginConverter()
-          MoonpayPlugin? moonpay = null,
+          MoonpayPlugin? moonpay,
       @JsonKey(includeIfNull: false)
       @TransakPluginConverter()
-          TransakPlugin? transak = null,
+          TransakPlugin? transak,
       @JsonKey(includeIfNull: false)
-          WalletBannerPlugin? walletBanner = null,
+          WalletBannerPlugin? walletBanner,
       @JsonKey(includeIfNull: false)
       @JoinBonusPluginConverter()
-          JoinBonusPlugin? joinBonus = null,
+          JoinBonusPlugin? joinBonus,
       @JsonKey(includeIfNull: false)
       @BackupBonusPluginConverter()
-          BackupBonusPlugin? backupBonus = null,
+          BackupBonusPlugin? backupBonus,
       @JsonKey(includeIfNull: false)
       @InviteBonusPluginConverter()
-          InviteBonusPlugin? inviteBonus = null}) {
+          InviteBonusPlugin? inviteBonus}) {
     return _Plugins(
       rampInstant: rampInstant,
       moonpay: moonpay,
@@ -52,7 +53,7 @@ class _$PluginsTearOff {
     );
   }
 
-  Plugins fromJson(Map<String, Object> json) {
+  Plugins fromJson(Map<String, Object?> json) {
     return Plugins.fromJson(json);
   }
 }
@@ -353,28 +354,28 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
   _$_Plugins(
       {@JsonKey(includeIfNull: false)
       @RampInstantPluginConverter()
-          this.rampInstant = null,
+          this.rampInstant,
       @JsonKey(includeIfNull: false)
       @MoonpayPluginConverter()
-          this.moonpay = null,
+          this.moonpay,
       @JsonKey(includeIfNull: false)
       @TransakPluginConverter()
-          this.transak = null,
+          this.transak,
       @JsonKey(includeIfNull: false)
-          this.walletBanner = null,
+          this.walletBanner,
       @JsonKey(includeIfNull: false)
       @JoinBonusPluginConverter()
-          this.joinBonus = null,
+          this.joinBonus,
       @JsonKey(includeIfNull: false)
       @BackupBonusPluginConverter()
-          this.backupBonus = null,
+          this.backupBonus,
       @JsonKey(includeIfNull: false)
       @InviteBonusPluginConverter()
-          this.inviteBonus = null})
+          this.inviteBonus})
       : super._();
 
   factory _$_Plugins.fromJson(Map<String, dynamic> json) =>
-      _$_$_PluginsFromJson(json);
+      _$$_PluginsFromJson(json);
 
   @override
   @JsonKey(includeIfNull: false)
@@ -426,40 +427,25 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Plugins &&
+        (other.runtimeType == runtimeType &&
+            other is _Plugins &&
             (identical(other.rampInstant, rampInstant) ||
-                const DeepCollectionEquality()
-                    .equals(other.rampInstant, rampInstant)) &&
-            (identical(other.moonpay, moonpay) ||
-                const DeepCollectionEquality()
-                    .equals(other.moonpay, moonpay)) &&
-            (identical(other.transak, transak) ||
-                const DeepCollectionEquality()
-                    .equals(other.transak, transak)) &&
+                other.rampInstant == rampInstant) &&
+            (identical(other.moonpay, moonpay) || other.moonpay == moonpay) &&
+            (identical(other.transak, transak) || other.transak == transak) &&
             (identical(other.walletBanner, walletBanner) ||
-                const DeepCollectionEquality()
-                    .equals(other.walletBanner, walletBanner)) &&
+                other.walletBanner == walletBanner) &&
             (identical(other.joinBonus, joinBonus) ||
-                const DeepCollectionEquality()
-                    .equals(other.joinBonus, joinBonus)) &&
+                other.joinBonus == joinBonus) &&
             (identical(other.backupBonus, backupBonus) ||
-                const DeepCollectionEquality()
-                    .equals(other.backupBonus, backupBonus)) &&
+                other.backupBonus == backupBonus) &&
             (identical(other.inviteBonus, inviteBonus) ||
-                const DeepCollectionEquality()
-                    .equals(other.inviteBonus, inviteBonus)));
+                other.inviteBonus == inviteBonus));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(rampInstant) ^
-      const DeepCollectionEquality().hash(moonpay) ^
-      const DeepCollectionEquality().hash(transak) ^
-      const DeepCollectionEquality().hash(walletBanner) ^
-      const DeepCollectionEquality().hash(joinBonus) ^
-      const DeepCollectionEquality().hash(backupBonus) ^
-      const DeepCollectionEquality().hash(inviteBonus);
+  int get hashCode => Object.hash(runtimeType, rampInstant, moonpay, transak,
+      walletBanner, joinBonus, backupBonus, inviteBonus);
 
   @JsonKey(ignore: true)
   @override
@@ -468,7 +454,7 @@ class _$_Plugins extends _Plugins with DiagnosticableTreeMixin {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_PluginsToJson(this);
+    return _$$_PluginsToJson(this);
   }
 }
 
@@ -501,30 +487,30 @@ abstract class _Plugins extends Plugins {
   @override
   @JsonKey(includeIfNull: false)
   @RampInstantPluginConverter()
-  RampInstantPlugin? get rampInstant => throw _privateConstructorUsedError;
+  RampInstantPlugin? get rampInstant;
   @override
   @JsonKey(includeIfNull: false)
   @MoonpayPluginConverter()
-  MoonpayPlugin? get moonpay => throw _privateConstructorUsedError;
+  MoonpayPlugin? get moonpay;
   @override
   @JsonKey(includeIfNull: false)
   @TransakPluginConverter()
-  TransakPlugin? get transak => throw _privateConstructorUsedError;
+  TransakPlugin? get transak;
   @override
   @JsonKey(includeIfNull: false)
-  WalletBannerPlugin? get walletBanner => throw _privateConstructorUsedError;
+  WalletBannerPlugin? get walletBanner;
   @override
   @JsonKey(includeIfNull: false)
   @JoinBonusPluginConverter()
-  JoinBonusPlugin? get joinBonus => throw _privateConstructorUsedError;
+  JoinBonusPlugin? get joinBonus;
   @override
   @JsonKey(includeIfNull: false)
   @BackupBonusPluginConverter()
-  BackupBonusPlugin? get backupBonus => throw _privateConstructorUsedError;
+  BackupBonusPlugin? get backupBonus;
   @override
   @JsonKey(includeIfNull: false)
   @InviteBonusPluginConverter()
-  InviteBonusPlugin? get inviteBonus => throw _privateConstructorUsedError;
+  InviteBonusPlugin? get inviteBonus;
   @override
   @JsonKey(ignore: true)
   _$PluginsCopyWith<_Plugins> get copyWith =>

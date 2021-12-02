@@ -3,9 +3,10 @@ import 'dart:typed_data';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/constants/addresses.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:supervecina/constants/addresses.dart';
+import 'package:supervecina/models/actions/wallet_action.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/community/community.dart';
 
 class ImageUrl {
   static bool _isIpfsHash(String hash) => hash.length == 46;
@@ -26,9 +27,9 @@ class ImageUrl {
     Contact? contact,
   ) {
     if (contact?.avatar != null) {
-      return new MemoryImage(contact?.avatar as Uint8List);
+      return MemoryImage(contact?.avatar as Uint8List);
     }
-    return new AssetImage('assets/images/anom.png');
+    return AssetImage('assets/images/anom.png');
   }
 
   static String getIPFSImageUrl(String? image) {
@@ -63,12 +64,17 @@ class ImageUrl {
     Contact? contact,
     Community? community,
     String? accountAddress,
-    Map<String, String> tokensImages,
-  ) {
+    Map<String, String> tokensImages, {
+    Map<String, Business>? businesses,
+  }) {
     final bool hasAvatar =
         contact?.avatar != null && contact!.avatar!.isNotEmpty;
     if (hasAvatar) {
-      return new MemoryImage(contact.avatar as Uint8List);
+      return MemoryImage(contact.avatar as Uint8List);
+    }
+    final String accountAddress = action.getSender();
+    if (businesses != null && businesses.containsKey(accountAddress)) {
+      return NetworkImage(businesses[accountAddress]!.metadata.image);
     }
     return action.map(
       createWallet: (value) => AssetImage(
@@ -76,9 +82,7 @@ class ImageUrl {
       ),
       joinCommunity: (value) =>
           NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
-      fiatDeposit: (value) => getTokenByAddress(
-                  value.tokenAddress, tokensImages) !=
-              null
+      fiatDeposit: (value) => tokensImages.containsKey(value.tokenAddress)
           ? NetworkImage(getTokenByAddress(value.tokenAddress, tokensImages)!)
           : NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
       bonus: (value) => AssetImage(

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/generated/l10n.dart';
 import 'dart:core';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/warn_send.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/warn_send.dart';
 
 class WarnSendDialog extends StatefulWidget {
   WarnSendDialog();
 
   @override
-  createState() => new WarnSendDialogState();
+  createState() => WarnSendDialogState();
 }
 
 class WarnSendDialogState extends State<WarnSendDialog>
@@ -45,7 +45,7 @@ class WarnSendDialogState extends State<WarnSendDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

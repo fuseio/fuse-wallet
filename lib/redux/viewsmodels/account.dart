@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class AccountViewModel extends Equatable {
   final String walletAddress;
@@ -11,7 +10,6 @@ class AccountViewModel extends Equatable {
   final String displayName;
   final Plugins plugins;
   final bool isBackup;
-  final bool isFuseDollarCommunity;
 
   AccountViewModel({
     required this.plugins,
@@ -19,7 +17,6 @@ class AccountViewModel extends Equatable {
     required this.avatarUrl,
     required this.displayName,
     required this.isBackup,
-    required this.isFuseDollarCommunity,
   });
 
   static AccountViewModel fromStore(Store<AppState> store) {
@@ -32,7 +29,6 @@ class AccountViewModel extends Equatable {
       displayName: store.state.userState.displayName,
       avatarUrl: store.state.userState.avatarUrl,
       walletAddress: store.state.userState.walletAddress.replaceFirst('x', 'f'),
-      isFuseDollarCommunity: util.isFuseDollarCommunity(communityAddress),
     );
   }
 

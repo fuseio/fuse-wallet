@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'rampInstant.dart';
 
@@ -33,7 +34,7 @@ class _$RampInstantPluginTearOff {
     );
   }
 
-  RampInstantPlugin fromJson(Map<String, Object> json) {
+  RampInstantPlugin fromJson(Map<String, Object?> json) {
     return RampInstantPlugin.fromJson(json);
   }
 }
@@ -150,7 +151,7 @@ class __$RampInstantPluginCopyWithImpl<$Res>
 
 /// @nodoc
 
-@Implements(Plugin)
+@Implements<Plugin>()
 @JsonSerializable()
 class _$_RampInstantPlugin
     with DiagnosticableTreeMixin
@@ -162,7 +163,7 @@ class _$_RampInstantPlugin
       this.isActive = false});
 
   factory _$_RampInstantPlugin.fromJson(Map<String, dynamic> json) =>
-      _$_$_RampInstantPluginFromJson(json);
+      _$$_RampInstantPluginFromJson(json);
 
   @JsonKey(defaultValue: 'rampInstant')
   @override
@@ -195,26 +196,18 @@ class _$_RampInstantPlugin
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _RampInstantPlugin &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+        (other.runtimeType == runtimeType &&
+            other is _RampInstantPlugin &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.widgetUrl, widgetUrl) ||
-                const DeepCollectionEquality()
-                    .equals(other.widgetUrl, widgetUrl)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
+                other.widgetUrl == widgetUrl) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.isActive, isActive) ||
-                const DeepCollectionEquality()
-                    .equals(other.isActive, isActive)));
+                other.isActive == isActive));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(widgetUrl) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(isActive);
+  int get hashCode => Object.hash(runtimeType, name, widgetUrl, type, isActive);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +216,7 @@ class _$_RampInstantPlugin
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_RampInstantPluginToJson(this);
+    return _$$_RampInstantPluginToJson(this);
   }
 }
 
@@ -238,13 +231,13 @@ abstract class _RampInstantPlugin implements RampInstantPlugin, Plugin {
       _$_RampInstantPlugin.fromJson;
 
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String? get widgetUrl => throw _privateConstructorUsedError;
+  String? get widgetUrl;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
-  bool get isActive => throw _privateConstructorUsedError;
+  bool get isActive;
   @override
   @JsonKey(ignore: true)
   _$RampInstantPluginCopyWith<_RampInstantPlugin> get copyWith =>

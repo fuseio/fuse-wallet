@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/contacts.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/contacts.dart';
+import 'package:supervecina/utils/contacts.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
 
   @override
   Widget build(BuildContext _context) {
-    return new StoreConnector<AppState, ContactsViewModel>(
+    return StoreConnector<AppState, ContactsViewModel>(
       distinct: true,
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {

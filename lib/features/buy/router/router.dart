@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/features/buy/screens/business.dart';
-import 'package:fusecash/features/buy/screens/buy.dart';
-import 'package:fusecash/features/screens/fuse_studio_explained.dart';
+import 'package:supervecina/features/buy/screens/business.dart';
+import 'package:supervecina/features/buy/screens/businesses_list_page.dart';
+import 'package:supervecina/features/buy/screens/buy.dart';
 
 const buyTab = AutoRoute(
   path: 'buy',
@@ -13,10 +13,10 @@ const buyTab = AutoRoute(
       page: BuyScreen,
     ),
     AutoRoute(
-      page: BusinessScreen,
+      page: BusinessesListScreen,
     ),
     AutoRoute(
-      page: FusePointsExplainedScreen,
+      page: BusinessScreen,
     ),
   ],
 );

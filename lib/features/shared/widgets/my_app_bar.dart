@@ -6,7 +6,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     required this.child,
     this.height = 350.0,
-    this.backgroundColor: Colors.white,
+    this.backgroundColor = Colors.white,
   }) : super(key: key);
 
   final double height;

@@ -2,20 +2,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/features/contacts/widgets/empty_state.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/contacts.dart';
-import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
-import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/features/contacts/widgets/list_header.dart';
-import 'package:fusecash/features/contacts/widgets/search_panel.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/features/contacts/widgets/empty_state.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/contacts.dart';
+import 'package:supervecina/features/contacts/widgets/send_to_account.dart';
+import 'package:supervecina/features/contacts/widgets/contact_tile.dart';
+import 'package:supervecina/features/contacts/widgets/list_header.dart';
+import 'package:supervecina/features/contacts/widgets/search_panel.dart';
+import 'package:supervecina/utils/phone.dart';
+import 'package:supervecina/utils/send.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/preloader.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
   final SendFlowArguments? pageArgs;
@@ -33,7 +33,7 @@ class _ContactsListState extends State<ContactsList> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ContactsViewModel>(
+    return StoreConnector<AppState, ContactsViewModel>(
       distinct: true,
       onInitialBuild: (viewModel) {
         refreshContacts(viewModel.contacts);
@@ -106,7 +106,7 @@ class _ContactsListState extends State<ContactsList> {
           .contains(searchController.text.toLowerCase()));
     }
 
-    if (this.mounted) {
+    if (mounted) {
       setState(() {
         filteredUsers = users;
       });
@@ -180,7 +180,7 @@ class _ContactsListState extends State<ContactsList> {
         ),
       );
     } else {
-      Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
+      Map<String, List<Contact>> groups = {};
       for (Contact c in filteredUsers) {
         String groupName = c.displayName![0];
         if (!groups.containsKey(groupName)) {

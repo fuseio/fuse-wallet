@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
 
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendFlowArguments pageArgs;
@@ -46,7 +46,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
             child: CircleAvatar(
               backgroundColor: Color(0xFFE0E0E0),
               radius: 100,
-              backgroundImage: this.widget.pageArgs.avatar ??
+              backgroundImage: widget.pageArgs.avatar ??
                   AssetImage('assets/images/anom.png'),
               child: Transform.scale(
                 scale: 6,

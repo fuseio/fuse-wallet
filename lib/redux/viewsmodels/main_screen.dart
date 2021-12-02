@@ -1,4 +1,4 @@
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:redux/redux.dart';
 
 class MainScreenViewModel {

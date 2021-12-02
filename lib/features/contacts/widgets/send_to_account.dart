@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/features/shared/dialogs/warn_send.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/warn_send.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:supervecina/features/shared/dialogs/warn_send.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/features/contacts/widgets/contact_tile.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/viewsmodels/warn_send.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/send.dart';
 
 class SendToAccount extends StatelessWidget {
   final String accountAddress;

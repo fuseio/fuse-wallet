@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/shared/widgets/barcode_scanner.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/shared/widgets/silver_app_bar.dart';
+import 'package:supervecina/features/shared/widgets/barcode_scanner.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/features/shared/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
   SearchPanel({

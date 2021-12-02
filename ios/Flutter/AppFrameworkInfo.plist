@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>App</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.fuse.fusecash.app</string>
+	<string>io.fuse.supervecina.app</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

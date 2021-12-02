@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/viewsmodels/price_diff.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/viewsmodels/price_diff.dart';
 import 'package:number_display/number_display.dart';
 
 class PriceDiff extends StatefulWidget {

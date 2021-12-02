@@ -1,161 +1,122 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "909520260586",
+    "firebase_url": "https://supervecina-a6a9e.firebaseio.com",
+    "project_id": "supervecina-a6a9e",
+    "storage_bucket": "supervecina-a6a9e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:909520260586:android:7e1b50e82c1b109e9fb693",
         "android_client_info": {
-          "package_name": "io.fuse.fusecash"
+          "package_name": "io.fuse.supervecina"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-0colm33bu1u8hbtacstdpv33pvdjsr8a.apps.googleusercontent.com",
+          "client_id": "909520260586-7m4l97lfbse0qkhfvpjd3p02feha62l0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "94d411f90e46768df0c189cce054bdb6155a8029"
           }
         },
         {
-          "client_id": "863692183597-96ci1vejre7gbchosj6bi9bikeql7k3d.apps.googleusercontent.com",
+          "client_id": "909520260586-9fbpfr4d9v5cukjj6lle9la7cke82ffl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
-          }
-        },
-        {
-          "client_id": "863692183597-9t3daf04670l84ji45a074c0lfvmecme.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "479de07a50c426ee26964b8a9b329dbcfa048709"
-          }
-        },
-        {
-          "client_id": "863692183597-c190dhq9ofre5amk1b839g41gat45p0b.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "b6f9d7ace44cc1d1f6dac158e9034578997add2e"
-          }
-        },
-        {
-          "client_id": "863692183597-cf76bvoiijsg89md3bchamoi836v679f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "d90efd38eb51a5a3f3e2ab70428ed905114493b6"
-          }
-        },
-        {
-          "client_id": "863692183597-fn662npvu4ahu0o5ug447hqgf2f65776.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "95d8d1ae548adce008ccf0c39c6db82717779ee2"
-          }
-        },
-        {
-          "client_id": "863692183597-ghp3g6bstu25nisfa68gh9gbfbev9p3s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "b92762248a1ebcafafccfd35aa4bc64ce304e617"
-          }
-        },
-        {
-          "client_id": "863692183597-h1hh7srktcl6rfqljnfijh49315aoukb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "baa00b565ad7fd16e3aa1d1f6f0b1c44e687a3f8"
-          }
-        },
-        {
-          "client_id": "863692183597-kvvf7m4s5eq5rtrp6gh3fkpgqqarksao.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "dbd3625c35d0bd272a4a9512acd5ed5403a6583a"
-          }
-        },
-        {
-          "client_id": "863692183597-m1mhaqj8arh752jqe28a1fsm4067f1qg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "02db4cf57f1130f54b438acf6cc474bb4f412004"
-          }
-        },
-        {
-          "client_id": "863692183597-og3u57tdevtklljckaoe43qh56pbo8fr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "c254c1416666adecafac3edfa2254cc714b724ba"
-          }
-        },
-        {
-          "client_id": "863692183597-rbpgu4mu9kfls2hp3lc17qt8ebi9jhgr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
-          }
-        },
-        {
-          "client_id": "863692183597-savs35gl40ni0l0ckcshdtrlr4v42sci.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
-          }
-        },
-        {
-          "client_id": "863692183597-ssmm7hel6ir48caqft69d8j5pik8tu4r.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
-            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
-          }
-        },
-        {
-          "client_id": "863692183597-t7bep8kjqk72pl3rng5nf996ffebf4jd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.fusecash",
+            "package_name": "io.fuse.supervecina",
             "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
           }
         },
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "909520260586-d9huc8li8l97tso7rn7rn2teaciml2rh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "8839ad249d2be25c04ee4de73731fdf67f5bcf08"
+          }
+        },
+        {
+          "client_id": "909520260586-lmplsbsku631iehavsabrqdrqe2qncki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "909520260586-ohtqnu4hi469si2ge0c2lcesmeg8hau4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "caa5f08fc478fcc46310ce9921693fec4d5ecfb3"
+          }
+        },
+        {
+          "client_id": "909520260586-om0h6fmclver0rcsjsi750679tf5h2n6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
+        {
+          "client_id": "909520260586-qn2mn3tip0rbhu8kr2evvsfh97tq6mfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "909520260586-rulifcfuu2nunt3ibqcebdn00gguco1b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "909520260586-s5vtgrqr7psdvritq3r6jki2ea1mo31r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "909520260586-v5b7ke30sug47gf2dbaouq20mvr9ofsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.supervecina",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "909520260586-7cqrrv9pn0241bsdvor8a5b02em9qprs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyCePU9tCRc1kU2RPZT1OTIR3A__AGoao7w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "909520260586-7cqrrv9pn0241bsdvor8a5b02em9qprs.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
+              "client_id": "909520260586-iimbgveoamhqd8uq9flaakjd0v55ck5h.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.fuse.fusecash"
+                "bundle_id": "io.fuse.supervecina",
+                "app_store_id": "1509481908"
               }
             }
           ]

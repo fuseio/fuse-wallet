@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/services.dart';
+import 'package:supervecina/services.dart';
 import 'package:number_display/number_display.dart';
 
 class TokenPriceChange extends StatelessWidget {

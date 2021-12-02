@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 
 class BackUpDialog extends StatefulWidget {
   BackUpDialog();
 
   @override
-  createState() => new BackUpDialogState();
+  createState() => BackUpDialogState();
 }
 
 class BackUpDialogState extends State<BackUpDialog>
@@ -45,7 +45,7 @@ class BackUpDialogState extends State<BackUpDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

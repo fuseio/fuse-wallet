@@ -1,6 +1,6 @@
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 
 class SettingsViewModel {
   final Function() logout;

@@ -157,7 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
             "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. "),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
-            "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"),
+            "You can switch to a community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"),
         "future_stablecoins":
             MessageLookupByLibrary.simpleMessage("Future stablecoins"),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
@@ -275,7 +275,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommended": MessageLookupByLibrary.simpleMessage("Препоручено"),
         "resend_code": MessageLookupByLibrary.simpleMessage("Пошаљи поново"),
         "reset_account": MessageLookupByLibrary.simpleMessage(
-            "Creating a new account will reset your existing account - are you sure you want to continue?"),
+            "Creating a account will reset your existing account - are you sure you want to continue?"),
         "restore_backup":
             MessageLookupByLibrary.simpleMessage("Врати резервну копију"),
         "restore_from_backup":
@@ -315,7 +315,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code":
             MessageLookupByLibrary.simpleMessage("Скенирај QR за промену"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
+            "The Comunitaria stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
         "success": MessageLookupByLibrary.simpleMessage("Успешно"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "swapped": MessageLookupByLibrary.simpleMessage("Swapped"),

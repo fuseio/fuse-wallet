@@ -6,16 +6,15 @@ part of 'invite_bonus.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_InviteBonusPlugin _$_$_InviteBonusPluginFromJson(Map<String, dynamic> json) {
-  return _$_InviteBonusPlugin(
-    type: json['type'] as String? ?? 'inviteBonus',
-    amount: json['amount'] as String?,
-    name: json['name'] as String?,
-    isActive: json['isActive'] as bool? ?? false,
-  );
-}
+_$_InviteBonusPlugin _$$_InviteBonusPluginFromJson(Map<String, dynamic> json) =>
+    _$_InviteBonusPlugin(
+      type: json['type'] as String? ?? 'inviteBonus',
+      amount: json['amount'] as String?,
+      name: json['name'] as String?,
+      isActive: json['isActive'] as bool? ?? false,
+    );
 
-Map<String, dynamic> _$_$_InviteBonusPluginToJson(
+Map<String, dynamic> _$$_InviteBonusPluginToJson(
         _$_InviteBonusPlugin instance) =>
     <String, dynamic>{
       'type': instance.type,

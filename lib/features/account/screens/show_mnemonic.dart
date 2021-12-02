@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/redux/viewsmodels/backup.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/redux/viewsmodels/backup.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/features/shared/widgets/copy.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/preloader.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/features/shared/widgets/copy.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/preloader.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   Widget wordWidget(

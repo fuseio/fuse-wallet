@@ -2,19 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/send_amount.dart';
-import 'package:fusecash/features/home/widgets/token_tile.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/numeric_keyboard.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/viewsmodels/send_amount.dart';
+import 'package:supervecina/features/home/widgets/token_tile.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/features/contacts/send_amount_arguments.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/log/log.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/numeric_keyboard.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/services.dart';
 
@@ -240,10 +240,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendFlowArguments args = this.widget.pageArgs;
+    final SendFlowArguments args = widget.pageArgs;
     String title =
-        "${I10n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
-    return new StoreConnector<AppState, SendAmountViewModel>(
+        "${I10n.of(context).send_to} ${args.name ?? formatAddress(args.accountAddress)}";
+    return StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
         if (args.tokenToSend != null) {

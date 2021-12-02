@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
+import 'package:supervecina/models/community/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.freezed.dart';
@@ -14,6 +14,7 @@ class Business with _$Business {
     required BusinessMetadata metadata,
     @Default('') String account,
     @Default('') String id,
+    @Default(0) int area,
     @Default('') String name,
   }) = _Business;
 

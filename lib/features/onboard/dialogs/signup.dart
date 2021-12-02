@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/common/router/routes.gr.dart';
+import 'package:supervecina/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 
 class SignUpDialog extends StatefulWidget {
   SignUpDialog();
 
   @override
-  createState() => new SignUpDialogState();
+  createState() => SignUpDialogState();
 }
 
 class SignUpDialogState extends State<SignUpDialog>
@@ -44,7 +44,7 @@ class SignUpDialogState extends State<SignUpDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

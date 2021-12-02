@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 import 'package:scan/scan.dart';
 
 class ScanQRDialog extends StatefulWidget {

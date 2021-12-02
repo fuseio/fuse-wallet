@@ -3,19 +3,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/actions/wallet_action.dart';
+import 'package:supervecina/models/actions/wallet_action.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/viewsmodels/transfer_tile.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/images.dart';
-import 'package:fusecash/utils/transfer.dart';
-import 'package:fusecash/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/viewsmodels/transfer_tile.dart';
+import 'package:supervecina/utils/addresses.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/images.dart';
+import 'package:supervecina/utils/transfer.dart';
+import 'package:supervecina/common/router/routes.dart';
 import 'package:intl/intl.dart';
 
 class ActionTile extends StatelessWidget {
@@ -36,7 +35,7 @@ class ActionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateTime dateTime =
         DateTime.fromMillisecondsSinceEpoch(action.timestamp);
-    return new StoreConnector<AppState, TransferTileViewModel>(
+    return StoreConnector<AppState, TransferTileViewModel>(
       distinct: true,
       converter: TransferTileViewModel.fromStore,
       builder: (_, viewModel) {
@@ -67,13 +66,13 @@ class ActionTile extends StatelessWidget {
           community,
           action.getSender(),
           viewModel.tokensImages,
+          businesses: viewModel.businesses,
         );
 
         final Token? token = action.map(
           createWallet: (value) => null,
           joinCommunity: (value) => null,
-          fiatDeposit: (value) =>
-              viewModel.tokens[fuseDollarToken.address.toLowerCase()],
+          fiatDeposit: (value) => viewModel.tokens.values.first,
           bonus: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           send: (value) => viewModel.tokens[value.tokenAddress.toLowerCase()],
           receive: (value) =>
@@ -111,10 +110,10 @@ class ActionTile extends StatelessWidget {
           createWallet: (value) => '',
           joinCommunity: (value) =>
               viewModel.tokens[value.tokenAddress]?.symbol ?? '',
-          fiatDeposit: (value) => value.tokenSymbol ?? '',
-          bonus: (value) => value.tokenSymbol ?? '',
-          send: (value) => value.tokenSymbol ?? '',
-          receive: (value) => value.tokenSymbol ?? '',
+          fiatDeposit: (value) => value.tokenSymbol,
+          bonus: (value) => value.tokenSymbol,
+          send: (value) => value.tokenSymbol,
+          receive: (value) => value.tokenSymbol,
           swap: (value) => value.tradeInfo?.outputToken ?? '',
         );
 

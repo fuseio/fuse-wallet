@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/main_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/swap_actions.dart';
-import 'package:fusecash/utils/contacts.dart';
+import 'package:supervecina/features/contacts/dialogs/enable_contacts.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/main_page.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/utils/contacts.dart';
 
 class BottomBar extends StatefulWidget {
   late final TabsRouter tabsRouter;
@@ -60,10 +59,9 @@ class _BottomBarState extends State<BottomBar> {
       distinct: true,
       converter: HomeScreenViewModel.fromStore,
       onInit: (store) {
-        store.dispatch(fetchSwapList());
         store.dispatch(startFetchingCall());
         store.dispatch(startFetchTokensBalances());
-        store.dispatch(updateTokensPrices());
+        // store.dispatch(updateTokensPrices());
       },
       builder: (_, vm) => BottomNavigationBar(
         onTap: (int activeIndex) {
@@ -98,9 +96,7 @@ class _BottomBarState extends State<BottomBar> {
         items: [
           bottomBarItem(I10n.of(context).home, 'home'),
           bottomBarItem(I10n.of(context).send_button, 'send'),
-          vm.isDefaultCommunity
-              ? bottomBarItem('Fuse Studio', 'fuse_points_tab')
-              : bottomBarItem(I10n.of(context).buy, 'buy'),
+          bottomBarItem(I10n.of(context).buy, 'buy'),
           BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.only(top: 5, bottom: 3),

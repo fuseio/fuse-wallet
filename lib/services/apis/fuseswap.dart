@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 // import 'package:flutter/foundation.dart';
-import 'package:fusecash/constants/urls.dart';
-import 'package:fusecash/models/swap/swap.dart';
-import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/models/tokens/stats.dart';
+import 'package:supervecina/constants/urls.dart';
+import 'package:supervecina/models/swap/swap.dart';
+import 'package:supervecina/models/tokens/price.dart';
+import 'package:supervecina/models/tokens/stats.dart';
 import 'package:injectable/injectable.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -13,7 +13,7 @@ class FuseSwapService {
   final Dio dio;
 
   FuseSwapService(this.dio) {
-    dio.options.baseUrl = UrlConstants.FUSESWAP_SERVICE_API;
+    dio.options.baseUrl = UrlConstants.fuseExplorerApi;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
     // if (kDebugMode) {
@@ -82,7 +82,7 @@ class FuseSwapService {
     String tokenAddress,
     String days,
   ) async {
-        Response response = await dio.post(
+    Response response = await dio.post(
       '/pricechange/$tokenAddress',
       data: Map.from({
         "duration": {

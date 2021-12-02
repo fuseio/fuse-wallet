@@ -3,15 +3,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/features/account/widgets/avatar.dart';
-import 'package:fusecash/features/account/widgets/menu_tile.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/account.dart';
-import 'package:fusecash/utils/webview.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/common/router/routes.gr.dart';
+import 'package:supervecina/features/account/widgets/avatar.dart';
+import 'package:supervecina/features/account/widgets/menu_tile.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/account.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -55,13 +54,6 @@ class _AccountScreenState extends State<AccountScreen> {
                               },
                             ),
                             MenuTile(
-                              label: I10n.of(context).switch_community,
-                              menuIcon: 'switch_icon.svg',
-                              onTap: () {
-                                context.router.push(SwitchCommunityScreen());
-                              },
-                            ),
-                            MenuTile(
                               label: I10n.of(context).protect_wallet,
                               menuIcon: 'protect_wallet.svg',
                               onTap: () {
@@ -102,34 +94,15 @@ class _AccountScreenState extends State<AccountScreen> {
                                     menuIcon: 'top_up_icon.svg',
                                     onTap: () {
                                       String url = depositPlugins[0].widgetUrl;
-                                      if (viewModel.isFuseDollarCommunity) {
-                                        openDepositWebview(
-                                          context: context,
+                                      context.router.push(
+                                        Webview(
                                           url: url,
-                                        );
-                                      } else {
-                                        context.router.push(
-                                          Webview(
-                                            url: url,
-                                            title: I10n.of(context).top_up,
-                                          ),
-                                        );
-                                      }
+                                          title: I10n.of(context).top_up,
+                                        ),
+                                      );
                                     },
                                   )
                                 : SizedBox.shrink(),
-                            MenuTile(
-                              label: I10n.of(context).legal,
-                              menuIcon: 'legal_icon.svg',
-                              onTap: () {
-                                context.router.root.push(
-                                  Webview(
-                                    title: I10n.of(context).legal,
-                                    url: 'https://fuse.cash/privacy',
-                                  ),
-                                );
-                              },
-                            ),
                           ],
                         ),
                       ),

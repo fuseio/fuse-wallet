@@ -6,16 +6,15 @@ part of 'rampInstant.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_RampInstantPlugin _$_$_RampInstantPluginFromJson(Map<String, dynamic> json) {
-  return _$_RampInstantPlugin(
-    name: json['name'] as String? ?? 'rampInstant',
-    widgetUrl: json['widgetUrl'] as String?,
-    type: json['type'] as String? ?? 'deposit',
-    isActive: json['isActive'] as bool? ?? false,
-  );
-}
+_$_RampInstantPlugin _$$_RampInstantPluginFromJson(Map<String, dynamic> json) =>
+    _$_RampInstantPlugin(
+      name: json['name'] as String? ?? 'rampInstant',
+      widgetUrl: json['widgetUrl'] as String?,
+      type: json['type'] as String? ?? 'deposit',
+      isActive: json['isActive'] as bool? ?? false,
+    );
 
-Map<String, dynamic> _$_$_RampInstantPluginToJson(
+Map<String, dynamic> _$$_RampInstantPluginToJson(
         _$_RampInstantPlugin instance) =>
     <String, dynamic>{
       'name': instance.name,

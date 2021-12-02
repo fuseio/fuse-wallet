@@ -254,7 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "resend_code":
             MessageLookupByLibrary.simpleMessage("Ipadala muli ang code"),
         "reset_account": MessageLookupByLibrary.simpleMessage(
-            "Creating a new account will reset your existing account - are you sure you want to continue?"),
+            "Creating a account will reset your existing account - are you sure you want to continue?"),
         "restore_backup": MessageLookupByLibrary.simpleMessage("Mag backup"),
         "restore_from_backup":
             MessageLookupByLibrary.simpleMessage("i-Restore mula sa backup"),
@@ -293,7 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code":
             MessageLookupByLibrary.simpleMessage("Scan QR para mag switch"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
+            "The Comunitaria stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
         "success": MessageLookupByLibrary.simpleMessage("Tagumpay"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "swapped": MessageLookupByLibrary.simpleMessage("Swapped"),
@@ -339,7 +339,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wallet_address":
             MessageLookupByLibrary.simpleMessage("Wallet address"),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
-            "Ang iyong fuse wallet ay protektado!"),
+            "Ang iyong Comunitaria ay protektado!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
             "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao."),
         "we_just_sent": MessageLookupByLibrary.simpleMessage(

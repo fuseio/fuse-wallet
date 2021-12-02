@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/models/plugins/plugin_base.dart';
+import 'package:supervecina/models/plugins/plugin_base.dart';
 
 part 'moonpay.freezed.dart';
 part 'moonpay.g.dart';
@@ -8,7 +8,7 @@ part 'moonpay.g.dart';
 @immutable
 @freezed
 class MoonpayPlugin with _$MoonpayPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory MoonpayPlugin({
     @Default('moonpay') String name,

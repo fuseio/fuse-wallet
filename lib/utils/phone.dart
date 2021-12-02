@@ -9,8 +9,8 @@ String formatPhoneNumber(String phoneNumber, String myCountryCode) {
       ? phoneNumber.replaceFirst(myCountryCode, '')
       : phoneNumber;
   phoneNumber =
-      phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
-  phoneNumber = phoneNumber.replaceFirst(new RegExp('^0+'), '');
+      phoneNumber.replaceAll(RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
+  phoneNumber = phoneNumber.replaceFirst(RegExp('^0+'), '');
   if (!phoneNumber.startsWith('+')) {
     if (myCountryCode.contains('+')) {
       phoneNumber = myCountryCode + phoneNumber;
@@ -23,9 +23,9 @@ String formatPhoneNumber(String phoneNumber, String myCountryCode) {
 }
 
 String removeUnicodes(String value) {
-  return value.replaceAll(new RegExp(r"[^\s\w]"), '');
+  return value.replaceAll(RegExp(r"[^\s\w]"), '');
 }
 
 String clearNotNumbersAndPlusSymbol(String phoneNumber) {
-  return phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
+  return phoneNumber.replaceAll(RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
 }

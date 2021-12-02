@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/shared/widgets/snackbars.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/features/shared/widgets/snackbars.dart';
 
 class CopyToClipboard extends StatelessWidget {
   CopyToClipboard({
@@ -19,7 +19,7 @@ class CopyToClipboard extends StatelessWidget {
       child: Text(
         I10n.of(context).copy_to_clipboard,
         style: TextStyle(
-          color: this.textColor ?? Theme.of(context).colorScheme.onSurface,
+          color: textColor ?? Theme.of(context).colorScheme.onSurface,
           fontSize: 18,
           fontWeight: FontWeight.w500,
         ),

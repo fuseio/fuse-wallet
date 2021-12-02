@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/swap/swap.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/swap/swap.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 

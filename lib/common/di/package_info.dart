@@ -1,4 +1,4 @@
-import 'package:fusecash/common/di/di.dart';
+import 'package:supervecina/common/di/di.dart';
 import 'package:injectable/injectable.dart';
 import 'package:package_info/package_info.dart';
 

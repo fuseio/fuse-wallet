@@ -6,8 +6,13 @@ final FlexColorScheme flexColorSchemeLight = FlexColorScheme.light(
   colors: FlexSchemeColor.from(
     secondary: Color(0xFFF5F5F5),
     secondaryVariant: Color(0xFF777777),
-    primary: Color(0xFFB1FDC0),
-    primaryVariant: Color(0xFFFEFD86),
+    primary: Color(0xFFA0D28B),
+    primaryVariant: Color(0xFF003399),
     appBarColor: Color(0xFFFFFFFF),
   ),
 );
+
+final List<Color> gradientColors = [
+  Color(0xFFA0D28B),
+  Color(0xFF003399),
+];

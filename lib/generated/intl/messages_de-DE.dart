@@ -165,7 +165,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "generate_wallet_failed": MessageLookupByLibrary.simpleMessage(
             "Erstellung der Wallet fehlgeschlagen"),
         "generated_wallet":
-            MessageLookupByLibrary.simpleMessage("Willkommen bei Fuse Wallet"),
+            MessageLookupByLibrary.simpleMessage("Willkommen bei Comunitaria"),
         "generating_wallet":
             MessageLookupByLibrary.simpleMessage("Wallet wird erstellt"),
         "hi": MessageLookupByLibrary.simpleMessage("Hallo"),
@@ -323,7 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code": MessageLookupByLibrary.simpleMessage(
             "QR-Code scannen um zu wechseln"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "Die Fuse Wallet speichert private Informationen lokal auf dem Gerät. Die Telefonnummer wird nur verwendet, um deine Identität überprüfen zu können und das Senden von Geld an Telefonkontakte zu vereinfachen.\n"),
+            "Die Comunitaria speichert private Informationen lokal auf dem Gerät. Die Telefonnummer wird nur verwendet, um deine Identität überprüfen zu können und das Senden von Geld an Telefonkontakte zu vereinfachen.\n"),
         "success": MessageLookupByLibrary.simpleMessage("Erfolg"),
         "swap": MessageLookupByLibrary.simpleMessage("Tauschen"),
         "swapped": MessageLookupByLibrary.simpleMessage("Getauscht"),
@@ -369,7 +369,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wallet_address":
             MessageLookupByLibrary.simpleMessage("Wallet Adresse"),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
-            "Dein Fuse Wallet ist jetzt geschützt!"),
+            "Dein Comunitaria ist jetzt geschützt!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
             "Sehr gut, Du hast Deinen Sicherheits-Satz gespeichert. Bewahre diesen Satz an einem sicheren Ort auf und gebe Ihn niemals weiter."),
         "we_just_sent": MessageLookupByLibrary.simpleMessage(

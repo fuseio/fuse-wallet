@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:supervecina/constants/enums.dart';
+import 'package:supervecina/models/tokens/token.dart';
 
 class SendFlowArguments {
   String? name;

@@ -1,7 +1,8 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/utils/constants.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/phone.dart';
 
 Contact? getContact(
   String? accountAddress,
@@ -38,6 +39,10 @@ String? deducePhoneNumber(
 }) {
   if (accountAddress == null) {
     return null;
+  }
+  if (donors.containsKey(accountAddress.toLowerCase())) {
+    Map<String, String> donor = donors[accountAddress.toLowerCase()]!;
+    return donor['name'];
   }
   if (businesses != null && businesses.isNotEmpty) {
     Business? business = businesses.firstWhere(

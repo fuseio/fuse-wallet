@@ -1,11 +1,10 @@
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/user_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
-  TypedReducer<UserState, GetWalletAddressesSuccess>(
-      _getWalletAddressesSuccess),
+  TypedReducer<UserState, GetWalletDataSuccess>(_getWalletAddressesSuccess),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
@@ -21,8 +20,6 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetCredentials>(_setCredentials),
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
-  TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
-  TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
   TypedReducer<UserState, ReceiveBackupDialogShowed>(
@@ -69,11 +66,12 @@ UserState _setSecurityType(UserState state, SetSecurityType action) {
 }
 
 UserState _getWalletAddressesSuccess(
-    UserState state, GetWalletAddressesSuccess action) {
+    UserState state, GetWalletDataSuccess action) {
   return state.copyWith(
     backup: action.backup,
     networks: action.networks,
     walletAddress: action.walletAddress,
+    walletModules: action.walletModules,
   );
 }
 
@@ -143,7 +141,7 @@ UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
     state.reverseContacts,
   );
   Iterable<MapEntry<String, String>> entries = action.newContacts.map(
-    (entry) => new MapEntry(
+    (entry) => MapEntry(
       entry['walletAddress'].toString().toLowerCase(),
       entry['phoneNumber'],
     ),
@@ -171,20 +169,6 @@ UserState _setCredentials(UserState state, SetCredentials action) {
 
 UserState _justInstalled(UserState state, JustInstalled action) {
   return state.copyWith(installedAt: action.installedAt);
-}
-
-UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
-  return state.copyWith(
-    isLoginRequest: action.isLoading,
-    signupErrorMessage: action.message,
-  );
-}
-
-UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
-  return state.copyWith(
-    isVerifyRequest: action.isLoading,
-    verifyErrorMessage: action.message,
-  );
 }
 
 UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {

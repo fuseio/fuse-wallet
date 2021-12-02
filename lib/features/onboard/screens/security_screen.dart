@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/common/router/routes.dart';
+import 'package:supervecina/constants/enums.dart';
+import 'package:supervecina/common/router/routes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/features/screens/set_up_pincode.dart';
-import 'package:fusecash/redux/viewsmodels/security.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/screens/set_up_pincode.dart';
+import 'package:supervecina/redux/viewsmodels/security.dart';
+import 'package:supervecina/utils/biometric_local_auth.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
 
 class ChooseSecurityOption extends StatefulWidget {
   @override
@@ -94,18 +93,8 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                   .width *
                                               .8,
                                           decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              colors: [
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primaryVariant,
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ],
-                                            ),
+                                            color:
+                                                Theme.of(context).primaryColor,
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(11.0)),
                                             shape: BoxShape.rectangle,
@@ -117,9 +106,12 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                               Row(
                                                 children: <Widget>[
                                                   SvgPicture.asset(
-                                                      'assets/images/${BiometricAuth.faceID == {
-                                                            snapshot.requireData
-                                                          } ? 'face_id' : 'fingerprint'}.svg'),
+                                                    'assets/images/${BiometricAuth.faceID == {
+                                                          snapshot.requireData
+                                                        } ? 'face_id' : 'fingerprint'}.svg',
+                                                    color: Theme.of(context)
+                                                        .canvasColor,
+                                                  ),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
@@ -130,10 +122,10 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                       snapshot.requireData,
                                                     ),
                                                     style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSurface),
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .canvasColor,
+                                                    ),
                                                   )
                                                 ],
                                               ),
@@ -143,6 +135,8 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                 children: <Widget>[
                                                   SvgPicture.asset(
                                                     'assets/images/info_black.svg',
+                                                    color: Theme.of(context)
+                                                        .canvasColor,
                                                   ),
                                                   SizedBox(
                                                     width: 3,
@@ -151,10 +145,10 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                                     I10n.of(context)
                                                         .recommended,
                                                     style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSurface),
+                                                      fontSize: 12,
+                                                      color: Theme.of(context)
+                                                          .canvasColor,
+                                                    ),
                                                   ),
                                                 ],
                                               )
@@ -173,21 +167,8 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                               '${I10n.of(context).please_use} $biometric ${I10n.of(context).to_unlock}',
                                           callback: (bool result) {
                                             if (result) {
-                                              Segment.track(
-                                                eventName:
-                                                    'Sign up: Choose Protection Type',
-                                                properties: Map.from(
-                                                  {
-                                                    "protectionType": biometric,
-                                                  },
-                                                ),
-                                              );
                                               viewModel.setSecurityType(
                                                 snapshot.requireData,
-                                              );
-                                              Segment.track(
-                                                eventName:
-                                                    'Sign up: Protection Done',
                                               );
                                               context.router
                                                   .replace(MainScreen());
@@ -234,21 +215,12 @@ class _ChooseSecurityOptionState extends State<ChooseSecurityOption> {
                                         ]),
                                       ),
                                       onTap: () {
-                                        Segment.track(
-                                            eventName:
-                                                'Sign up: Choose Protection Type',
-                                            properties: Map.from(
-                                                {"protectionType": 'PinCode'}));
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 SetUpPinCodeScreen(
                                               onSuccess: () {
-                                                Segment.track(
-                                                  eventName:
-                                                      'Sign up: Protection Done',
-                                                );
                                                 context.router
                                                     .push(MainScreen());
                                               },

@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/features/account/widgets/menu_tile.dart';
-import 'package:fusecash/features/screens/set_up_pincode.dart';
-import 'package:fusecash/redux/viewsmodels/security.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/constants/enums.dart';
+import 'package:supervecina/features/account/widgets/menu_tile.dart';
+import 'package:supervecina/features/screens/set_up_pincode.dart';
+import 'package:supervecina/redux/viewsmodels/security.dart';
+import 'package:supervecina/utils/biometric_local_auth.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
 
 class ProtectYourWallet extends StatelessWidget {
   @override

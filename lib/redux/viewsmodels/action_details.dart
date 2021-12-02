@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/tokens/token.dart';
 import 'package:redux/redux.dart';
 
 class ActionDetailsViewModel extends Equatable {
@@ -15,7 +15,7 @@ class ActionDetailsViewModel extends Equatable {
   static ActionDetailsViewModel fromStore(Store<AppState> store) {
     return ActionDetailsViewModel(
       tokens: store.state.cashWalletState.tokens,
-      tokensImages: store.state.swapState.tokensImages,
+      tokensImages: {}, //store.state.swapState.tokensImages,
     );
   }
 

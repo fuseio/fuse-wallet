@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/models/actions/actions.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/models/tokens/stats.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:supervecina/common/di/di.dart';
+import 'package:supervecina/models/actions/actions.dart';
+import 'package:supervecina/models/cash_wallet_state.dart';
+import 'package:supervecina/models/tokens/price.dart';
+import 'package:supervecina/models/tokens/stats.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
@@ -21,7 +22,7 @@ class Token with _$Token implements Comparable<Token> {
   @override
   int compareTo(Token? other) {
     if (other == null) return 1;
-    return num.parse(this.getBalance(true))
+    return num.parse(getBalance(true))
         .compareTo(num.parse(other.getBalance(true)));
   }
 
@@ -34,11 +35,11 @@ class Token with _$Token implements Comparable<Token> {
     required int decimals,
     @Default(false) bool isNative,
     String? imageUrl,
-    @JsonKey(ignore: true) @Default(null) String? subtitle,
-    @Default(null) int? timestamp,
-    @Default(null) Price? priceInfo,
-    @Default(null) String? communityAddress,
-    @Default(null) String? originNetwork,
+    @JsonKey(ignore: true) String? subtitle,
+    int? timestamp,
+    Price? priceInfo,
+    String? communityAddress,
+    String? originNetwork,
     @Default(0) num priceChange,
     @JsonKey(ignore: true) @Default(0) num priceDiff,
     @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
@@ -70,12 +71,9 @@ class Token with _$Token implements Comparable<Token> {
     if ([null, ''].contains(accountAddress) || [null, ''].contains(address))
       return;
     if (isNative) {
-      Web3? web3 = originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
-      if (web3 == null) {
-        throw 'web3 is empty';
-      }
       try {
-        EtherAmount balance = await web3.getBalance(
+        EtherAmount balance =
+            await getIt<Web3>(instanceName: 'fuseWeb3').getBalance(
           address: accountAddress,
         );
         if (amount.compareTo(balance.getInWei) != 0) {
@@ -86,8 +84,8 @@ class Token with _$Token implements Comparable<Token> {
       }
     } else {
       try {
-        Web3? web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
-        final BigInt balance = await web3!.getTokenBalance(
+        final BigInt balance =
+            await getIt<Web3>(instanceName: 'fuseWeb3').getTokenBalance(
           address,
           address: accountAddress,
         );

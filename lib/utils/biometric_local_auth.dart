@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/constants/enums.dart';
+import 'package:supervecina/generated/l10n.dart';
 import 'package:local_auth/local_auth.dart';
 
 class BiometricUtils {

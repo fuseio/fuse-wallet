@@ -396,7 +396,7 @@
   "@something_went_wrong": {},
   "sqan_qr_code": "Scan QR code om te wisselen",
   "@sqan_qr_code": {},
-  "stores_private": "De Fuse wallet bewaard privé informatie direct op je apparaat. Het telefoonnummer wordt alleen gebruikt om je identiteit te kunnen verifiëren en frictie te verminderen bij het verzenden van geld naar contacten in je telefoon. ",
+  "stores_private": "De Comunitaria bewaard privé informatie direct op je apparaat. Het telefoonnummer wordt alleen gebruikt om je identiteit te kunnen verifiëren en frictie te verminderen bij het verzenden van geld naar contacten in je telefoon. ",
   "@stores_private": {},
   "success": "Succes",
   "@success": {},

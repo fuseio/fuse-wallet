@@ -80,7 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Copy to clipboard"),
         "create__wallet": MessageLookupByLibrary.simpleMessage("Create wallet"),
         "create_new_wallet":
-            MessageLookupByLibrary.simpleMessage("Create a new wallet"),
+            MessageLookupByLibrary.simpleMessage("Create a wallet"),
         "create_passcode":
             MessageLookupByLibrary.simpleMessage("Create your passcode"),
         "credit_card": MessageLookupByLibrary.simpleMessage("Credit Card"),
@@ -155,16 +155,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "fuse_dollar_explain": MessageLookupByLibrary.simpleMessage(
             "FuseDollar (fUSD) is a US Dollar-pegged stablecoin that is minted on the Fuse Network blockchain. It was created to make cryptocurrencies and DeFi simple for everyday people. "),
         "fuse_studio": MessageLookupByLibrary.simpleMessage(
-            "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"),
+            "You can switch to a community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"),
         "future_stablecoins":
             MessageLookupByLibrary.simpleMessage("Future stablecoins"),
         "gallery": MessageLookupByLibrary.simpleMessage("Gallery"),
         "generate_wallet_failed":
             MessageLookupByLibrary.simpleMessage("Generate wallet failed"),
         "generated_wallet":
-            MessageLookupByLibrary.simpleMessage("Welcome to Fuse wallet"),
+            MessageLookupByLibrary.simpleMessage("Welcome to Comunitaria"),
         "generating_wallet":
-            MessageLookupByLibrary.simpleMessage("Generating fuse wallet"),
+            MessageLookupByLibrary.simpleMessage("Generating Comunitaria"),
         "hi": MessageLookupByLibrary.simpleMessage("Hello"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "how_much": MessageLookupByLibrary.simpleMessage("How much?"),
@@ -274,7 +274,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommended": MessageLookupByLibrary.simpleMessage("Recommended"),
         "resend_code": MessageLookupByLibrary.simpleMessage("Resend code"),
         "reset_account": MessageLookupByLibrary.simpleMessage(
-            "Creating a new account will reset your existing account - are you sure you want to continue?"),
+            "Creating a account will reset your existing account - are you sure you want to continue?"),
         "restore_backup":
             MessageLookupByLibrary.simpleMessage("Restore backup"),
         "restore_from_backup":
@@ -314,7 +314,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sqan_qr_code":
             MessageLookupByLibrary.simpleMessage("Scan QR to switch"),
         "stores_private": MessageLookupByLibrary.simpleMessage(
-            "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
+            "The Comunitaria stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "swapped": MessageLookupByLibrary.simpleMessage("Swapped"),
@@ -358,7 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wallet_address":
             MessageLookupByLibrary.simpleMessage("Wallet address"),
         "wallet_protected": MessageLookupByLibrary.simpleMessage(
-            "Your fuse wallet is protected!"),
+            "Your Comunitaria is protected!"),
         "wallet_protected_text": MessageLookupByLibrary.simpleMessage(
             "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."),
         "we_just_sent": MessageLookupByLibrary.simpleMessage(

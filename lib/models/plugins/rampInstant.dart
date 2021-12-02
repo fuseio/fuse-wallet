@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/models/plugins/plugin_base.dart';
+import 'package:supervecina/models/plugins/plugin_base.dart';
 
 part 'rampInstant.freezed.dart';
 part 'rampInstant.g.dart';
@@ -8,7 +8,7 @@ part 'rampInstant.g.dart';
 @immutable
 @freezed
 class RampInstantPlugin with _$RampInstantPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory RampInstantPlugin({
     @Default('rampInstant') String name,

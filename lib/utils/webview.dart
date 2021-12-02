@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
 
 void openDepositWebview({
   required BuildContext context,

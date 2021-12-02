@@ -440,10 +440,10 @@ class I10n {
     );
   }
 
-  /// `Create a new wallet`
+  /// `Create a wallet`
   String get create_new_wallet {
     return Intl.message(
-      'Create a new wallet',
+      'Create a wallet',
       name: 'create_new_wallet',
       desc: '',
       args: [],
@@ -930,10 +930,10 @@ class I10n {
     );
   }
 
-  /// `You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code`
+  /// `You can switch to a community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code`
   String get fuse_studio {
     return Intl.message(
-      'You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code',
+      'You can switch to a community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code',
       name: 'fuse_studio',
       desc: '',
       args: [],
@@ -960,10 +960,10 @@ class I10n {
     );
   }
 
-  /// `Welcome to Fuse wallet`
+  /// `Welcome to Comunitaria`
   String get generated_wallet {
     return Intl.message(
-      'Welcome to Fuse wallet',
+      'Welcome to Comunitaria',
       name: 'generated_wallet',
       desc: '',
       args: [],
@@ -980,10 +980,10 @@ class I10n {
     );
   }
 
-  /// `Generating fuse wallet`
+  /// `Generating Comunitaria`
   String get generating_wallet {
     return Intl.message(
-      'Generating fuse wallet',
+      'Generating Comunitaria',
       name: 'generating_wallet',
       desc: '',
       args: [],
@@ -1730,10 +1730,10 @@ class I10n {
     );
   }
 
-  /// `Creating a new account will reset your existing account - are you sure you want to continue?`
+  /// `Creating a account will reset your existing account - are you sure you want to continue?`
   String get reset_account {
     return Intl.message(
-      'Creating a new account will reset your existing account - are you sure you want to continue?',
+      'Creating a account will reset your existing account - are you sure you want to continue?',
       name: 'reset_account',
       desc: '',
       args: [],
@@ -2030,10 +2030,10 @@ class I10n {
     );
   }
 
-  /// `The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.`
+  /// `The Comunitaria stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.`
   String get stores_private {
     return Intl.message(
-      'The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.',
+      'The Comunitaria stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.',
       name: 'stores_private',
       desc: '',
       args: [],
@@ -2350,10 +2350,10 @@ class I10n {
     );
   }
 
-  /// `Your fuse wallet is protected!`
+  /// `Your Comunitaria is protected!`
   String get wallet_protected {
     return Intl.message(
-      'Your fuse wallet is protected!',
+      'Your Comunitaria is protected!',
       name: 'wallet_protected',
       desc: '',
       args: [],

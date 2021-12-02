@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:supervecina/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ReceiveDialog extends StatefulWidget {
@@ -11,7 +11,7 @@ class ReceiveDialog extends StatefulWidget {
   );
   final String barcodeData;
   @override
-  createState() => new ReceiveDialogState();
+  createState() => ReceiveDialogState();
 }
 
 class ReceiveDialogState extends State<ReceiveDialog>
@@ -45,7 +45,7 @@ class ReceiveDialogState extends State<ReceiveDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

@@ -1,9 +1,9 @@
-import 'package:fusecash/features/home/widgets/token_tile.dart';
+import 'package:supervecina/features/home/widgets/token_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/assets.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/assets.dart';
 
 class Wallet extends StatelessWidget {
   @override

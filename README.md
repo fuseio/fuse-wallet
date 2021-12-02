@@ -25,7 +25,7 @@ We developed and deployed a set of smart contracts, which the wallet interacts w
 
 ## Download the App
 
-You can download the beta version of our app from the [Google Play](https://play.google.com/store/apps/details?id=io.fuse.fusecash&hl=en) or the [App Store](https://apps.apple.com/us/app/fuse-wallet/id1491783654?ls=1)
+You can download the beta version of our app from the [Google Play](https://play.google.com/store/apps/details?id=io.fuse.supervecina&hl=en) or the [App Store](https://apps.apple.com/us/app/fuse-wallet/id1491783654?ls=1)
 
 ## Getting Started
 
@@ -72,7 +72,7 @@ For easy setup we highly recommand to use sms provider (we pay for SMS for now),
 [optional] Setup your error monitoring with sentry.  Sign up for a Sentry.io account and get a DSN at http://sentry.io. After creating your account and flutter project copy & paste the DNS and replace it in `.env` file SENTRY_DSN.
 
 ### Deploy to the app stores
-1. replace the current bundle id (io.fuse.fusecash) with your unique bundle id (choose your own name). replace the bundle id where-ever it's appear excepts the google_services files.
+1. replace the current bundle id (io.fuse.supervecina) with your unique bundle id (choose your own name). replace the bundle id where-ever it's appear excepts the google_services files.
 2. Create a firebase account: https://firebase.google.com/
 3. Create firebase mobile apps (android and ios) and save the google-services file for later:
 Ios (steps 1-3): https://firebase.google.com/docs/ios/setup

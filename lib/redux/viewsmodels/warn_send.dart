@@ -1,7 +1,7 @@
 import 'dart:core';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 
 class WarnSendDialogViewModel {
   final Function(bool) updateWarnSendDialogShowed;

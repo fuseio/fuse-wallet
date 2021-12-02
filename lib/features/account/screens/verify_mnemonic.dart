@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:supervecina/common/router/routes.dart';
+import 'package:supervecina/generated/l10n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/viewsmodels/backup.dart';
+import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
+import 'package:supervecina/features/shared/widgets/primary_button.dart';
 
 class Word extends StatelessWidget {
   Word({
@@ -68,7 +68,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   final _formKey = GlobalKey<FormState>();
 
   List<int> getRandom3Numbers() {
-    List<int> list = new List<int>.generate(12, (int index) => index + 1);
+    List<int> list = List<int>.generate(12, (int index) => index + 1);
     list.shuffle();
     List<int> _l = list.sublist(0, 3);
     _l.sort();

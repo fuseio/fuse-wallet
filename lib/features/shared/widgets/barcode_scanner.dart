@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/features/shared/dialogs/scan_qr.dart';
-import 'package:fusecash/features/shared/dialogs/warn_send.dart';
-import 'package:fusecash/redux/viewsmodels/warn_send.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/features/shared/dialogs/scan_qr.dart';
+import 'package:supervecina/features/shared/dialogs/warn_send.dart';
+import 'package:supervecina/redux/viewsmodels/warn_send.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:supervecina/utils/send.dart';
 
 class BarcodeScanner extends StatelessWidget {
   const BarcodeScanner({
