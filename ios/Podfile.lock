@@ -1,6 +1,8 @@
 PODS:
   - app_tracking_transparency (0.0.1):
     - Flutter
+  - carrier_info (0.0.1):
+    - Flutter
   - contacts_service (0.2.2):
     - Flutter
   - Firebase/Analytics (8.9.0):
@@ -203,6 +205,7 @@ PODS:
 
 DEPENDENCIES:
   - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
+  - carrier_info (from `.symlinks/plugins/carrier_info/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - Firebase/Analytics
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -255,6 +258,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   app_tracking_transparency:
     :path: ".symlinks/plugins/app_tracking_transparency/ios"
+  carrier_info:
+    :path: ".symlinks/plugins/carrier_info/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   firebase_auth:
@@ -312,6 +317,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   app_tracking_transparency: 5b1745ef9ade815f7455cb6a0848349589afb7c5
+  carrier_info: 74da91657834617c4409e6afdb706ac4685efe66
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_auth: 0d56cc4d105ff70d1547a7fcb10ee574ad05adf5
