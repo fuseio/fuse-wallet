@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/enums.dart';
@@ -6,15 +7,20 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
-import 'package:sentry_flutter/sentry_flutter.dart' show Sentry;
 
 class FirebaseStrategy implements IOnBoardStrategy {
+  @override
   final strategy;
   FirebaseStrategy({this.strategy = OnboardStrategy.firebase});
 
   @override
-  Future login(store, phoneNumber) async {
-    final PhoneVerificationCompleted verificationCompleted = (
+  Future login(
+    store,
+    phoneNumber,
+    VoidCallback onSuccess,
+    Function(dynamic error) onError,
+  ) async {
+    void verificationCompleted(
       PhoneAuthCredential credentials,
     ) async {
       store.dispatch(SetCredentials(credentials));
@@ -27,56 +33,42 @@ class FirebaseStrategy implements IOnBoardStrategy {
       final String accountAddress = store.state.userState.accountAddress;
       final String identifier = store.state.userState.identifier;
       String token = await user!.getIdToken();
-      String jwtToken = await api.loginWithFirebase(
-        token,
-        accountAddress,
-        identifier,
-      );
-      Segment.track(
-        eventName: 'Sign up: VerificationCode_NextBtn_Press',
-      );
-      store.dispatch(SetIsVerifyRequest(isLoading: false));
-      log.info('jwtToken $jwtToken');
-      store.dispatch(LoginVerifySuccess(jwtToken));
-      rootRouter.push(UserNameScreen());
-    };
+      try {
+        String jwtToken = await walletApi.loginWithFirebase(
+          token,
+          accountAddress,
+          identifier,
+        );
+        Segment.track(
+          eventName: 'Sign up: VerificationCode_NextBtn_Press',
+        );
+        log.info('jwtToken $jwtToken');
+        onSuccess();
+        store.dispatch(LoginVerifySuccess(jwtToken));
+        api.setJwtToken(jwtToken);
+        walletApi.setJwtToken(jwtToken);
+        rootRouter.push(UserNameScreen());
+      } catch (e) {
+        onError(e.toString());
+      }
+    }
 
-    final PhoneVerificationFailed verificationFailed = (
-      FirebaseAuthException authException,
-    ) async {
+    void verificationFailed(FirebaseAuthException authException) async {
       log.info(
           'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
-      store.dispatch(
-        SetIsLoginRequest(
-          isLoading: false,
-          message: authException.message,
-        ),
-      );
+      onError(authException.message);
+    }
 
-      store.dispatch(
-        SetIsVerifyRequest(
-          isLoading: false,
-          message: authException.message,
-        ),
-      );
-      await Sentry.captureException(
-        authException,
-        stackTrace: authException.stackTrace,
-        hint:
-            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}',
-      );
-    };
-
-    final PhoneCodeSent codeSent = (
+    void codeSent(
       String verificationId, [
       int? forceResendingToken,
     ]) {
-      log.info("PhoneCodeSent " + verificationId);
-      store.dispatch(SetIsLoginRequest(isLoading: false));
+      log.info("PhoneCodeSent verificationId: $verificationId");
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
       rootRouter.push(VerifyPhoneNumber(verificationId: verificationId));
-    };
+      onSuccess();
+    }
 
     await firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
@@ -88,17 +80,17 @@ class FirebaseStrategy implements IOnBoardStrategy {
   }
 
   @override
-  Future verify(store, verificationCode, onSuccess) async {
-    store.dispatch(setDeviceId());
-    store.dispatch(SetIsVerifyRequest(isLoading: true));
+  Future verify(
+    store,
+    verificationCode,
+    onSuccess,
+  ) async {
     PhoneAuthCredential? credential = store.state.userState.credentials;
     final String verificationId = store.state.userState.verificationId;
-    if (credential == null) {
-      credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: verificationCode,
-      );
-    }
+    credential ??= PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: verificationCode,
+    );
     UserCredential userCredential = await firebaseAuth.signInWithCredential(
       credential,
     );
@@ -107,7 +99,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
     final String accountAddress = store.state.userState.accountAddress;
     final String identifier = store.state.userState.identifier;
     String token = await userCredential.user!.getIdToken();
-    final String jwtToken = await api.loginWithFirebase(
+    final String jwtToken = await walletApi.loginWithFirebase(
       token,
       accountAddress,
       identifier,

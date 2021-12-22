@@ -11,7 +11,7 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ContactsViewModel>(
+    return StoreConnector<AppState, ContactsViewModel>(
       distinct: true,
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {

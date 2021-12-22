@@ -54,7 +54,7 @@ class SendToAccount extends StatelessWidget {
             }
 
             return ContactTile(
-              displayName: formatAddress(accountAddress),
+              displayName: Formatter.formatEthAddress(accountAddress),
               onTap: handleTap,
               trailing: InkWell(
                 focusColor: Theme.of(context).canvasColor,

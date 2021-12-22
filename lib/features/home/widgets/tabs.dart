@@ -18,7 +18,7 @@ class Tabs extends StatelessWidget {
         builder: (_) {
           return Scaffold(
             appBar: AppBar(
-              toolbarHeight: 70,
+              toolbarHeight: 20,
               backgroundColor: Theme.of(context).canvasColor,
               bottom: PreferredSize(
                 preferredSize: Size(

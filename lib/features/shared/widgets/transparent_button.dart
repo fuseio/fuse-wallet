@@ -30,7 +30,7 @@ class TransparentButton extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: Text(label,
                     style: TextStyle(
-                      fontSize: this.fontSize,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.normal,
                     )),
               )

@@ -59,7 +59,7 @@ class PrimaryButton extends StatelessWidget {
                       color: disabled
                           ? Color(0xFF797979)
                           : Theme.of(context).textTheme.button!.color,
-                      fontSize: this.fontSize,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.normal,
                     ),
                     maxLines: 1,

@@ -18,6 +18,8 @@ class SocialScreen extends StatelessWidget {
     googlePlayIdentifier: 'io.fuse.fusecash',
     appStoreIdentifier: '1559937899',
   );
+
+  @override
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).social,

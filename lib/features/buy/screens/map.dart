@@ -13,8 +13,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  final Completer<GoogleMapController> _controller = Completer();
+  static const LatLng _center = LatLng(45.521563, -122.677433);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
+    return StoreConnector<AppState, BuyViewModel>(
       distinct: true,
       converter: BuyViewModel.fromStore,
       builder: (_, viewModel) {

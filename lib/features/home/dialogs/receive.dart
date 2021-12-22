@@ -11,7 +11,7 @@ class ReceiveDialog extends StatefulWidget {
   );
   final String barcodeData;
   @override
-  createState() => new ReceiveDialogState();
+  ReceiveDialogState createState() => ReceiveDialogState();
 }
 
 class ReceiveDialogState extends State<ReceiveDialog>
@@ -45,7 +45,7 @@ class ReceiveDialogState extends State<ReceiveDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

@@ -24,7 +24,7 @@ class RecentContacts extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, RecentContactsViewModel>(
+    return StoreConnector<AppState, RecentContactsViewModel>(
       distinct: true,
       converter: RecentContactsViewModel.fromStore,
       builder: (_, viewModel) {

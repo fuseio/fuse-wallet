@@ -24,7 +24,8 @@ class PriceLineChart extends StatelessWidget {
         }
         final lineBarsData = [
           LineChartBarData(
-            spots: stats
+            spots: stats.reversed
+                .toList()
                 .asMap()
                 .map(
                   (i, elem) => MapEntry(
@@ -32,7 +33,7 @@ class PriceLineChart extends StatelessWidget {
                     FlSpot(
                       i.toDouble(),
                       double.parse(
-                        double.parse(elem.price!).toStringAsFixed(2),
+                        double.parse(elem.price!).toString(),
                       ),
                     ),
                   ),
@@ -54,9 +55,10 @@ class PriceLineChart extends StatelessWidget {
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 60,
+              height: 40,
             ),
             Container(
               height: 50,
@@ -97,16 +99,17 @@ class PriceLineChart extends StatelessWidget {
                               )
                               .toList(),
                       touchTooltipData: LineTouchTooltipData(
+                        tooltipPadding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         tooltipBgColor: Theme.of(context).primaryColor,
-                        tooltipRoundedRadius: 8,
+                        tooltipRoundedRadius: 10,
                         getTooltipItems: (lineBarsSpot) => lineBarsSpot.map(
                           (lineBarSpot) {
                             return LineTooltipItem(
-                              '\$' + lineBarSpot.y.toString(),
-                              const TextStyle(
+                              '\$' + lineBarSpot.y.toStringAsFixed(2),
+                              TextStyle(
                                 color: Colors.black,
                                 fontSize: 13,
-                                // fontWeight: FontWeight.bold,
                               ),
                             );
                           },

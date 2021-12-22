@@ -21,6 +21,7 @@ import 'messages_en-US.dart' as messages_en_us;
 import 'messages_es-ES.dart' as messages_es_es;
 import 'messages_es-MX.dart' as messages_es_mx;
 import 'messages_fr-FR.dart' as messages_fr_fr;
+import 'messages_id.dart' as messages_id;
 import 'messages_id-ID.dart' as messages_id_id;
 import 'messages_it-IT.dart' as messages_it_it;
 import 'messages_ko.dart' as messages_ko;
@@ -29,8 +30,10 @@ import 'messages_nl-NL.dart' as messages_nl_nl;
 import 'messages_pt-BR.dart' as messages_pt_br;
 import 'messages_ru-RU.dart' as messages_ru_ru;
 import 'messages_sr-RS.dart' as messages_sr_rs;
+import 'messages_th.dart' as messages_th;
 import 'messages_th-TH.dart' as messages_th_th;
 import 'messages_tl.dart' as messages_tl;
+import 'messages_zh.dart' as messages_zh;
 import 'messages_zh-CN.dart' as messages_zh_cn;
 
 typedef Future<dynamic> LibraryLoader();
@@ -41,6 +44,7 @@ Map<String, LibraryLoader> _deferredLibraries = {
   'es_ES': () => new Future.value(null),
   'es_MX': () => new Future.value(null),
   'fr_FR': () => new Future.value(null),
+  'id': () => new Future.value(null),
   'id_ID': () => new Future.value(null),
   'it_IT': () => new Future.value(null),
   'ko': () => new Future.value(null),
@@ -49,8 +53,10 @@ Map<String, LibraryLoader> _deferredLibraries = {
   'pt_BR': () => new Future.value(null),
   'ru_RU': () => new Future.value(null),
   'sr_RS': () => new Future.value(null),
+  'th': () => new Future.value(null),
   'th_TH': () => new Future.value(null),
   'tl': () => new Future.value(null),
+  'zh': () => new Future.value(null),
   'zh_CN': () => new Future.value(null),
 };
 
@@ -68,6 +74,8 @@ MessageLookupByLibrary? _findExact(String localeName) {
       return messages_es_mx.messages;
     case 'fr_FR':
       return messages_fr_fr.messages;
+    case 'id':
+      return messages_id.messages;
     case 'id_ID':
       return messages_id_id.messages;
     case 'it_IT':
@@ -84,10 +92,14 @@ MessageLookupByLibrary? _findExact(String localeName) {
       return messages_ru_ru.messages;
     case 'sr_RS':
       return messages_sr_rs.messages;
+    case 'th':
+      return messages_th.messages;
     case 'th_TH':
       return messages_th_th.messages;
     case 'tl':
       return messages_tl.messages;
+    case 'zh':
+      return messages_zh.messages;
     case 'zh_CN':
       return messages_zh_cn.messages;
     default:

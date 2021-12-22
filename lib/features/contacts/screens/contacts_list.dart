@@ -13,7 +13,7 @@ import 'package:fusecash/features/contacts/widgets/list_header.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/send.dart';
-import "package:ethereum_address/ethereum_address.dart";
+import "package:ethereum_addresses/ethereum_addresses.dart";
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:fusecash/features/shared/widgets/preloader.dart';
 
@@ -33,7 +33,7 @@ class _ContactsListState extends State<ContactsList> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ContactsViewModel>(
+    return StoreConnector<AppState, ContactsViewModel>(
       distinct: true,
       onInitialBuild: (viewModel) {
         refreshContacts(viewModel.contacts);
@@ -106,7 +106,7 @@ class _ContactsListState extends State<ContactsList> {
           .contains(searchController.text.toLowerCase()));
     }
 
-    if (this.mounted) {
+    if (mounted) {
       setState(() {
         filteredUsers = users;
       });
@@ -180,7 +180,7 @@ class _ContactsListState extends State<ContactsList> {
         ),
       );
     } else {
-      Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
+      Map<String, List<Contact>> groups = {};
       for (Contact c in filteredUsers) {
         String groupName = c.displayName![0];
         if (!groups.containsKey(groupName)) {

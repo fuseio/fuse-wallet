@@ -8,7 +8,7 @@ part 'moonpay.g.dart';
 @immutable
 @freezed
 class MoonpayPlugin with _$MoonpayPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory MoonpayPlugin({
     @Default('moonpay') String name,

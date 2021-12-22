@@ -46,7 +46,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
             child: CircleAvatar(
               backgroundColor: Color(0xFFE0E0E0),
               radius: 100,
-              backgroundImage: this.widget.pageArgs.avatar ??
+              backgroundImage: widget.pageArgs.avatar ??
                   AssetImage('assets/images/anom.png'),
               child: Transform.scale(
                 scale: 6,

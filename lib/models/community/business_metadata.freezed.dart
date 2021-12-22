@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'business_metadata.dart';
 
@@ -41,7 +42,7 @@ class _$BusinessMetadataTearOff {
     );
   }
 
-  BusinessMetadata fromJson(Map<String, Object> json) {
+  BusinessMetadata fromJson(Map<String, Object?> json) {
     return BusinessMetadata.fromJson(json);
   }
 }
@@ -233,30 +234,30 @@ class _$_BusinessMetadata
       this.latLng = const []});
 
   factory _$_BusinessMetadata.fromJson(Map<String, dynamic> json) =>
-      _$_$_BusinessMetadataFromJson(json);
+      _$$_BusinessMetadataFromJson(json);
 
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String address;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String description;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String image;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String coverPhoto;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String type;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String phoneNumber;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String website;
-  @JsonKey(defaultValue: const [])
+  @JsonKey()
   @override
   final List<double> latLng;
 
@@ -283,41 +284,32 @@ class _$_BusinessMetadata
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _BusinessMetadata &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)) &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)) &&
-            (identical(other.coverPhoto, coverPhoto) ||
-                const DeepCollectionEquality()
-                    .equals(other.coverPhoto, coverPhoto)) &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                const DeepCollectionEquality()
-                    .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.website, website) ||
-                const DeepCollectionEquality()
-                    .equals(other.website, website)) &&
-            (identical(other.latLng, latLng) ||
-                const DeepCollectionEquality().equals(other.latLng, latLng)));
+        (other.runtimeType == runtimeType &&
+            other is _BusinessMetadata &&
+            const DeepCollectionEquality().equals(other.address, address) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description) &&
+            const DeepCollectionEquality().equals(other.image, image) &&
+            const DeepCollectionEquality()
+                .equals(other.coverPhoto, coverPhoto) &&
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality()
+                .equals(other.phoneNumber, phoneNumber) &&
+            const DeepCollectionEquality().equals(other.website, website) &&
+            const DeepCollectionEquality().equals(other.latLng, latLng));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(description) ^
-      const DeepCollectionEquality().hash(image) ^
-      const DeepCollectionEquality().hash(coverPhoto) ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(website) ^
-      const DeepCollectionEquality().hash(latLng);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(address),
+      const DeepCollectionEquality().hash(description),
+      const DeepCollectionEquality().hash(image),
+      const DeepCollectionEquality().hash(coverPhoto),
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(phoneNumber),
+      const DeepCollectionEquality().hash(website),
+      const DeepCollectionEquality().hash(latLng));
 
   @JsonKey(ignore: true)
   @override
@@ -326,7 +318,7 @@ class _$_BusinessMetadata
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_BusinessMetadataToJson(this);
+    return _$$_BusinessMetadataToJson(this);
   }
 }
 
@@ -345,21 +337,21 @@ abstract class _BusinessMetadata implements BusinessMetadata {
       _$_BusinessMetadata.fromJson;
 
   @override
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  String get image => throw _privateConstructorUsedError;
+  String get image;
   @override
-  String get coverPhoto => throw _privateConstructorUsedError;
+  String get coverPhoto;
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
-  String get phoneNumber => throw _privateConstructorUsedError;
+  String get phoneNumber;
   @override
-  String get website => throw _privateConstructorUsedError;
+  String get website;
   @override
-  List<double> get latLng => throw _privateConstructorUsedError;
+  List<double> get latLng;
   @override
   @JsonKey(ignore: true)
   _$BusinessMetadataCopyWith<_BusinessMetadata> get copyWith =>

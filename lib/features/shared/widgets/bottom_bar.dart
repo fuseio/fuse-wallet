@@ -68,7 +68,7 @@ class _BottomBarState extends State<BottomBar> {
       builder: (_, vm) => BottomNavigationBar(
         onTap: (int activeIndex) {
           if (activeIndex == widget.tabsRouter.activeIndex) {
-            context.router.popTop();
+            widget.tabsRouter.stackRouterOfIndex(activeIndex)?.popUntilRoot();
           } else {
             widget.tabsRouter.setActiveIndex(activeIndex);
           }
@@ -83,10 +83,6 @@ class _BottomBarState extends State<BottomBar> {
               ),
             );
           }
-
-          // if (widget.tabsRouter.activeIndex == 2) {
-          //   vm.getSwapListBalances();
-          // }
         },
         selectedItemColor: Color(0xFF292929),
         selectedFontSize: 13,

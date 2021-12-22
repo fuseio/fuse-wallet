@@ -12,12 +12,12 @@ class HouseController extends FlareController {
   late ActorAnimation _arrange;
   late FlutterActorArtboard _artboard;
   double _time = 0;
-  double _speed = 4;
-  double _startFrom = 3;
-  double _animationLength = 6;
+  final double _speed = 4;
+  final double _startFrom = 3;
+  final double _animationLength = 6;
   int step = 0;
   double step2 = 0.0;
-  double _rooms = 0;
+  final double _rooms = 0;
 
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {

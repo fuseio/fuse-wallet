@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class FusePointsExplainedScreen extends StatelessWidget {
   @override

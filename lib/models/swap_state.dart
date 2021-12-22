@@ -1,11 +1,33 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'swap_state.freezed.dart';
 part 'swap_state.g.dart';
+
+Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens.map(
+      (k, e) {
+        if (k == Addresses.zeroAddress) {
+          return MapEntry(
+            Addresses.nativeTokenAddress,
+            Token.fromJson(
+              {
+                ...e as Map<String, dynamic>,
+                'address': Addresses.nativeTokenAddress,
+              },
+            ),
+          );
+        } else {
+          return MapEntry(
+            k,
+            Token.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          );
+        }
+      },
+    );
 
 @immutable
 @freezed
@@ -14,8 +36,9 @@ class SwapState with _$SwapState {
 
   @JsonSerializable()
   factory SwapState({
-    @JsonKey(ignore: true) @Default({}) Map<String, Token> tokens,
+    @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @Default({}) Map<String, String> tokensImages,
+    @JsonKey(ignore: true) @Default(false) bool isFetching,
   }) = _SwapState;
 
   factory SwapState.initial() {

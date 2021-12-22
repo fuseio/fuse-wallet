@@ -14,12 +14,12 @@ import 'package:fusecash/features/home/widgets/token_activities.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 // import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/features/shared/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class TokenTile extends StatefulWidget {
@@ -152,7 +152,7 @@ class _TokenTileState extends State<TokenTile> {
                                     softWrap: true,
                                   ),
                                   Text(
-                                    '\$${display(num.parse(widget.token.priceInfo?.quote ?? '0'))}',
+                                    '\$${display2(num.parse(widget.token.priceInfo?.quote ?? '0'))}',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Europa',
@@ -329,7 +329,7 @@ class _TokenTileState extends State<TokenTile> {
         final bool isCommunityToken = viewModel.communities.any(
           (element) =>
               ![null, ''].contains(element.homeTokenAddress) &&
-              element.homeTokenAddress!.toLowerCase() == widget.token.address &&
+              element.homeTokenAddress.toLowerCase() == widget.token.address &&
               ![false, null].contains(element.metadata?.isDefaultImage),
         );
         final Widget leading = Stack(
@@ -479,13 +479,12 @@ class _TokenTileState extends State<TokenTile> {
             left: 15,
             right: 15,
           ),
-          onTap: widget.onTap != null
-              ? widget.onTap
-              : () {
-                  viewModel.fetchTokenPrice(widget.token);
-                  viewModel.fetchTokenAction(widget.token);
-                  showBottomMenu(viewModel, context, hasPriceInfo);
-                },
+          onTap: widget.onTap ??
+              () {
+                viewModel.fetchTokenPrice(widget.token);
+                viewModel.fetchTokenAction(widget.token);
+                showBottomMenu(viewModel, context, hasPriceInfo);
+              },
         );
       },
     );

@@ -8,12 +8,12 @@ part 'join_bonus.g.dart';
 @immutable
 @freezed
 class JoinBonusPlugin with _$JoinBonusPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory JoinBonusPlugin({
     @Default('joinBonus') String type,
-    @Default(null) String? amount,
-    @Default(null) String? name,
+    String? amount,
+    String? name,
     @Default(false) bool isActive,
   }) = _JoinBonusPlugin;
 

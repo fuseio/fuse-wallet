@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, FeedViewModel>(
+    return StoreConnector<AppState, FeedViewModel>(
       converter: FeedViewModel.fromStore,
       distinct: true,
       builder: (_, viewModel) {

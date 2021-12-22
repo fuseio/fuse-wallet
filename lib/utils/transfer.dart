@@ -50,6 +50,6 @@ String? deducePhoneNumber(
   if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];
   } else {
-    return formatAddress(accountAddress);
+    return Formatter.formatEthAddress(accountAddress);
   }
 }

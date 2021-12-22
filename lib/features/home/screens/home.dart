@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, HomeViewModel>(
+    return StoreConnector<AppState, HomeViewModel>(
       distinct: true,
       converter: HomeViewModel.fromStore,
       onInitialBuild: (viewModel) {

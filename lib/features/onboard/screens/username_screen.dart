@@ -2,10 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/redux/viewsmodels/onboard.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 import 'package:fusecash/features/shared/widgets/primary_button.dart';
 import 'package:fusecash/utils/string.dart';
@@ -17,10 +19,14 @@ class UserNameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).sign_up,
-      body: StoreConnector<AppState, OnboardViewModel>(
+      body: StoreConnector<AppState, Function(String)>(
         distinct: true,
-        converter: OnboardViewModel.fromStore,
-        builder: (_, viewModel) {
+        converter: (store) => (String displayName) {
+          isAuthenticated = true;
+          store.dispatch(SetDisplayName(displayName));
+          store.dispatch(createAccountWalletCall());
+        },
+        builder: (_, setDisplayName) {
           return Container(
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,9 +109,11 @@ class UserNameScreen extends StatelessWidget {
                       child: PrimaryButton(
                         label: I10n.of(context).next_button,
                         onPressed: () {
-                          viewModel.setDisplayName(
-                              displayNameController.text.capitalize());
-                          context.router.push(ChooseSecurityOption());
+                          if (displayNameController.text.isNotEmpty) {
+                            setDisplayName(
+                                displayNameController.text.capitalize());
+                            context.router.push(ChooseSecurityOption());
+                          }
                         },
                       ),
                     ),

@@ -7,7 +7,6 @@ import 'package:fusecash/models/plugins/moonpay.dart';
 import 'package:fusecash/models/plugins/rampInstant.dart';
 import 'package:fusecash/models/plugins/transak.dart';
 import 'package:fusecash/models/plugins/wallet_banner.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'plugins.freezed.dart';
 part 'plugins.g.dart';
@@ -19,30 +18,22 @@ class Plugins with _$Plugins {
 
   @JsonSerializable()
   factory Plugins({
-    @Default(null)
     @JsonKey(includeIfNull: false)
     @RampInstantPluginConverter()
         RampInstantPlugin? rampInstant,
-    @Default(null)
     @JsonKey(includeIfNull: false)
     @MoonpayPluginConverter()
         MoonpayPlugin? moonpay,
-    @Default(null)
     @JsonKey(includeIfNull: false)
     @TransakPluginConverter()
         TransakPlugin? transak,
-    @Default(null)
-    @JsonKey(includeIfNull: false)
-        WalletBannerPlugin? walletBanner,
-    @Default(null)
+    @JsonKey(includeIfNull: false) WalletBannerPlugin? walletBanner,
     @JsonKey(includeIfNull: false)
     @JoinBonusPluginConverter()
         JoinBonusPlugin? joinBonus,
-    @Default(null)
     @JsonKey(includeIfNull: false)
     @BackupBonusPluginConverter()
         BackupBonusPlugin? backupBonus,
-    @Default(null)
     @JsonKey(includeIfNull: false)
     @InviteBonusPluginConverter()
         InviteBonusPlugin? inviteBonus,
@@ -52,14 +43,14 @@ class Plugins with _$Plugins {
 
   List getDepositPlugins() {
     List depositPlugins = [];
-    if (this.rampInstant != null && this.rampInstant!.isActive) {
-      depositPlugins.add(this.rampInstant);
+    if (rampInstant != null && rampInstant!.isActive) {
+      depositPlugins.add(rampInstant);
     }
-    if (this.transak != null && this.transak!.isActive) {
-      depositPlugins.add(this.transak);
+    if (transak != null && transak!.isActive) {
+      depositPlugins.add(transak);
     }
-    if (this.moonpay != null && this.moonpay!.isActive) {
-      depositPlugins.add(this.moonpay);
+    if (moonpay != null && moonpay!.isActive) {
+      depositPlugins.add(moonpay);
     }
     return depositPlugins;
   }

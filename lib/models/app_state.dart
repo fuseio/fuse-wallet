@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/pro_wallet_state.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.freezed.dart';
 part 'app_state.g.dart';
@@ -18,7 +16,6 @@ class AppState with _$AppState {
   factory AppState({
     @UserStateConverter() required UserState userState,
     @CashWalletStateConverter() required CashWalletState cashWalletState,
-    @ProWalletStateConverter() required ProWalletState proWalletState,
     @SwapStateConverter() required SwapState swapState,
   }) = _AppState;
 
@@ -26,7 +23,6 @@ class AppState with _$AppState {
     return AppState(
       userState: UserState.initial(),
       cashWalletState: CashWalletState.initial(),
-      proWalletState: ProWalletState.initial(),
       swapState: SwapState.initial(),
     );
   }

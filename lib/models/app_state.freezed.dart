@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'app_state.dart';
 
@@ -23,17 +24,15 @@ class _$AppStateTearOff {
   _AppState call(
       {@UserStateConverter() required UserState userState,
       @CashWalletStateConverter() required CashWalletState cashWalletState,
-      @ProWalletStateConverter() required ProWalletState proWalletState,
       @SwapStateConverter() required SwapState swapState}) {
     return _AppState(
       userState: userState,
       cashWalletState: cashWalletState,
-      proWalletState: proWalletState,
       swapState: swapState,
     );
   }
 
-  AppState fromJson(Map<String, Object> json) {
+  AppState fromJson(Map<String, Object?> json) {
     return AppState.fromJson(json);
   }
 }
@@ -47,8 +46,6 @@ mixin _$AppState {
   UserState get userState => throw _privateConstructorUsedError;
   @CashWalletStateConverter()
   CashWalletState get cashWalletState => throw _privateConstructorUsedError;
-  @ProWalletStateConverter()
-  ProWalletState get proWalletState => throw _privateConstructorUsedError;
   @SwapStateConverter()
   SwapState get swapState => throw _privateConstructorUsedError;
 
@@ -65,12 +62,10 @@ abstract class $AppStateCopyWith<$Res> {
   $Res call(
       {@UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
-      @ProWalletStateConverter() ProWalletState proWalletState,
       @SwapStateConverter() SwapState swapState});
 
   $UserStateCopyWith<$Res> get userState;
   $CashWalletStateCopyWith<$Res> get cashWalletState;
-  $ProWalletStateCopyWith<$Res> get proWalletState;
   $SwapStateCopyWith<$Res> get swapState;
 }
 
@@ -86,7 +81,6 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
   $Res call({
     Object? userState = freezed,
     Object? cashWalletState = freezed,
-    Object? proWalletState = freezed,
     Object? swapState = freezed,
   }) {
     return _then(_value.copyWith(
@@ -98,10 +92,6 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
           ? _value.cashWalletState
           : cashWalletState // ignore: cast_nullable_to_non_nullable
               as CashWalletState,
-      proWalletState: proWalletState == freezed
-          ? _value.proWalletState
-          : proWalletState // ignore: cast_nullable_to_non_nullable
-              as ProWalletState,
       swapState: swapState == freezed
           ? _value.swapState
           : swapState // ignore: cast_nullable_to_non_nullable
@@ -124,13 +114,6 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
   }
 
   @override
-  $ProWalletStateCopyWith<$Res> get proWalletState {
-    return $ProWalletStateCopyWith<$Res>(_value.proWalletState, (value) {
-      return _then(_value.copyWith(proWalletState: value));
-    });
-  }
-
-  @override
   $SwapStateCopyWith<$Res> get swapState {
     return $SwapStateCopyWith<$Res>(_value.swapState, (value) {
       return _then(_value.copyWith(swapState: value));
@@ -146,15 +129,12 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
   $Res call(
       {@UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
-      @ProWalletStateConverter() ProWalletState proWalletState,
       @SwapStateConverter() SwapState swapState});
 
   @override
   $UserStateCopyWith<$Res> get userState;
   @override
   $CashWalletStateCopyWith<$Res> get cashWalletState;
-  @override
-  $ProWalletStateCopyWith<$Res> get proWalletState;
   @override
   $SwapStateCopyWith<$Res> get swapState;
 }
@@ -172,7 +152,6 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
   $Res call({
     Object? userState = freezed,
     Object? cashWalletState = freezed,
-    Object? proWalletState = freezed,
     Object? swapState = freezed,
   }) {
     return _then(_AppState(
@@ -184,10 +163,6 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
           ? _value.cashWalletState
           : cashWalletState // ignore: cast_nullable_to_non_nullable
               as CashWalletState,
-      proWalletState: proWalletState == freezed
-          ? _value.proWalletState
-          : proWalletState // ignore: cast_nullable_to_non_nullable
-              as ProWalletState,
       swapState: swapState == freezed
           ? _value.swapState
           : swapState // ignore: cast_nullable_to_non_nullable
@@ -203,12 +178,11 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   _$_AppState(
       {@UserStateConverter() required this.userState,
       @CashWalletStateConverter() required this.cashWalletState,
-      @ProWalletStateConverter() required this.proWalletState,
       @SwapStateConverter() required this.swapState})
       : super._();
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
-      _$_$_AppStateFromJson(json);
+      _$$_AppStateFromJson(json);
 
   @override
   @UserStateConverter()
@@ -217,15 +191,12 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   @CashWalletStateConverter()
   final CashWalletState cashWalletState;
   @override
-  @ProWalletStateConverter()
-  final ProWalletState proWalletState;
-  @override
   @SwapStateConverter()
   final SwapState swapState;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppState(userState: $userState, cashWalletState: $cashWalletState, proWalletState: $proWalletState, swapState: $swapState)';
+    return 'AppState(userState: $userState, cashWalletState: $cashWalletState, swapState: $swapState)';
   }
 
   @override
@@ -235,35 +206,26 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'AppState'))
       ..add(DiagnosticsProperty('userState', userState))
       ..add(DiagnosticsProperty('cashWalletState', cashWalletState))
-      ..add(DiagnosticsProperty('proWalletState', proWalletState))
       ..add(DiagnosticsProperty('swapState', swapState));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _AppState &&
-            (identical(other.userState, userState) ||
-                const DeepCollectionEquality()
-                    .equals(other.userState, userState)) &&
-            (identical(other.cashWalletState, cashWalletState) ||
-                const DeepCollectionEquality()
-                    .equals(other.cashWalletState, cashWalletState)) &&
-            (identical(other.proWalletState, proWalletState) ||
-                const DeepCollectionEquality()
-                    .equals(other.proWalletState, proWalletState)) &&
-            (identical(other.swapState, swapState) ||
-                const DeepCollectionEquality()
-                    .equals(other.swapState, swapState)));
+        (other.runtimeType == runtimeType &&
+            other is _AppState &&
+            const DeepCollectionEquality().equals(other.userState, userState) &&
+            const DeepCollectionEquality()
+                .equals(other.cashWalletState, cashWalletState) &&
+            const DeepCollectionEquality().equals(other.swapState, swapState));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userState) ^
-      const DeepCollectionEquality().hash(cashWalletState) ^
-      const DeepCollectionEquality().hash(proWalletState) ^
-      const DeepCollectionEquality().hash(swapState);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(userState),
+      const DeepCollectionEquality().hash(cashWalletState),
+      const DeepCollectionEquality().hash(swapState));
 
   @JsonKey(ignore: true)
   @override
@@ -272,7 +234,7 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_AppStateToJson(this);
+    return _$$_AppStateToJson(this);
   }
 }
 
@@ -280,7 +242,6 @@ abstract class _AppState extends AppState {
   factory _AppState(
       {@UserStateConverter() required UserState userState,
       @CashWalletStateConverter() required CashWalletState cashWalletState,
-      @ProWalletStateConverter() required ProWalletState proWalletState,
       @SwapStateConverter() required SwapState swapState}) = _$_AppState;
   _AppState._() : super._();
 
@@ -288,16 +249,13 @@ abstract class _AppState extends AppState {
 
   @override
   @UserStateConverter()
-  UserState get userState => throw _privateConstructorUsedError;
+  UserState get userState;
   @override
   @CashWalletStateConverter()
-  CashWalletState get cashWalletState => throw _privateConstructorUsedError;
-  @override
-  @ProWalletStateConverter()
-  ProWalletState get proWalletState => throw _privateConstructorUsedError;
+  CashWalletState get cashWalletState;
   @override
   @SwapStateConverter()
-  SwapState get swapState => throw _privateConstructorUsedError;
+  SwapState get swapState;
   @override
   @JsonKey(ignore: true)
   _$AppStateCopyWith<_AppState> get copyWith =>

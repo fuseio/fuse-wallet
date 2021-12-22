@@ -70,6 +70,76 @@ class I10n {
     );
   }
 
+  /// `Received`
+  String get action_bonus {
+    return Intl.message(
+      'Received',
+      name: 'action_bonus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Claimed`
+  String get action_claimApy {
+    return Intl.message(
+      'Claimed',
+      name: 'action_claimApy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending at Ramp.network`
+  String get action_depositInitiated {
+    return Intl.message(
+      'Pending at Ramp.network',
+      name: 'action_depositInitiated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposited`
+  String get action_fiatDeposit {
+    return Intl.message(
+      'Deposited',
+      name: 'action_fiatDeposit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Received`
+  String get action_receive {
+    return Intl.message(
+      'Received',
+      name: 'action_receive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sent`
+  String get action_send {
+    return Intl.message(
+      'Sent',
+      name: 'action_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swapped`
+  String get action_swap {
+    return Intl.message(
+      'Swapped',
+      name: 'action_swap',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Activate`
   String get activate {
     return Intl.message(
@@ -85,6 +155,16 @@ class I10n {
     return Intl.message(
       'Activity',
       name: 'activity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Cash`
+  String get add_cash {
+    return Intl.message(
+      'Add Cash',
+      name: 'add_cash',
       desc: '',
       args: [],
     );
@@ -130,11 +210,61 @@ class I10n {
     );
   }
 
+  /// `50% annual yield!`
+  String get annual_yield {
+    return Intl.message(
+      '50% annual yield!',
+      name: 'annual_yield',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approve`
+  String get approve {
+    return Intl.message(
+      'Approve',
+      name: 'approve',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Approved`
   String get approved {
     return Intl.message(
       'Approved',
       name: 'approved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Fuse Dollar earn program is a savings program for anyone who is holding a fUSD (Fuse Dollar) balance`
+  String get apy_explained_1 {
+    return Intl.message(
+      'The Fuse Dollar earn program is a savings program for anyone who is holding a fUSD (Fuse Dollar) balance',
+      name: 'apy_explained_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The earn program allows any Fuse Cash user to access DeFi yield without having to deal with minimums, fees or friction`
+  String get apy_explained_2 {
+    return Intl.message(
+      'The earn program allows any Fuse Cash user to access DeFi yield without having to deal with minimums, fees or friction',
+      name: 'apy_explained_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Once a week users are able to redeem their earnings with no lockups to start exploring crypto and DeFi!`
+  String get apy_explained_3 {
+    return Intl.message(
+      'Once a week users are able to redeem their earnings with no lockups to start exploring crypto and DeFi!',
+      name: 'apy_explained_3',
       desc: '',
       args: [],
     );
@@ -210,6 +340,16 @@ class I10n {
     );
   }
 
+  /// `Backup your wallet now and get {amount} Fuse tokens!`
+  String backup_wallet_now(Object amount) {
+    return Intl.message(
+      'Backup your wallet now and get $amount Fuse tokens!',
+      name: 'backup_wallet_now',
+      desc: '',
+      args: [amount],
+    );
+  }
+
   /// `Balance`
   String get balance {
     return Intl.message(
@@ -220,10 +360,10 @@ class I10n {
     );
   }
 
-  /// `bonus`
+  /// `Bonus`
   String get bonus {
     return Intl.message(
-      'bonus',
+      'Bonus',
       name: 'bonus',
       desc: '',
       args: [],
@@ -300,10 +440,10 @@ class I10n {
     );
   }
 
-  /// `Claim`
+  /// `Claim right now!`
   String get claim {
     return Intl.message(
-      'Claim',
+      'Claim right now!',
       name: 'claim',
       desc: '',
       args: [],
@@ -315,6 +455,26 @@ class I10n {
     return Intl.message(
       'Close',
       name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coins`
+  String get coins {
+    return Intl.message(
+      'Coins',
+      name: 'coins',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collectibles`
+  String get collectibles {
+    return Intl.message(
+      'Collectibles',
+      name: 'collectibles',
       desc: '',
       args: [],
     );
@@ -370,6 +530,26 @@ class I10n {
     );
   }
 
+  /// `You claimed successfully. The earned Fuse Dollars are on the way!`
+  String get congratulations {
+    return Intl.message(
+      'You claimed successfully. The earned Fuse Dollars are on the way!',
+      name: 'congratulations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect`
+  String get connect {
+    return Intl.message(
+      'Connect',
+      name: 'connect',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `please fix your internet connection and try again!`
   String get connection {
     return Intl.message(
@@ -380,20 +560,30 @@ class I10n {
     );
   }
 
-  /// `Contact us`
+  /// `Connect to apps`
+  String get connect_to_apps {
+    return Intl.message(
+      'Connect to apps',
+      name: 'connect_to_apps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get help`
   String get contact_us {
     return Intl.message(
-      'Contact us',
+      'Get help',
       name: 'contact_us',
       desc: '',
       args: [],
     );
   }
 
-  /// `Contact us for support`
+  /// `Get help`
   String get contact_us_for_support {
     return Intl.message(
-      'Contact us for support',
+      'Get help',
       name: 'contact_us_for_support',
       desc: '',
       args: [],
@@ -415,6 +605,16 @@ class I10n {
     return Intl.message(
       'Continue with',
       name: 'continue_with',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contract version`
+  String get contract_version {
+    return Intl.message(
+      'Contract version',
+      name: 'contract_version',
       desc: '',
       args: [],
     );
@@ -480,20 +680,20 @@ class I10n {
     );
   }
 
-  /// `If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:`
+  /// `If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below, connect your wallet using WalletConnect and bridge to Fuse:`
   String get crypto_deposit_bsc {
     return Intl.message(
-      'If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+      'If you have ETH, BNB or FUSE on Binance Smart Chain (BSC) please use the URL below, connect your wallet using WalletConnect and bridge to Fuse:',
       name: 'crypto_deposit_bsc',
       desc: '',
       args: [],
     );
   }
 
-  /// `If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:`
+  /// `If you have USDC on Ethereum please use the URL below, connect your wallet using WalletConnect and bridge to Fuse:`
   String get crypto_deposit_eth {
     return Intl.message(
-      'If you have USDC on Ethereum please use the URL below with your Metamask account on a desktop browser to deposit to Fuse:',
+      'If you have USDC on Ethereum please use the URL below, connect your wallet using WalletConnect and bridge to Fuse:',
       name: 'crypto_deposit_eth',
       desc: '',
       args: [],
@@ -540,11 +740,41 @@ class I10n {
     );
   }
 
-  /// `deposit`
+  /// `You got an fUSD deposit from Ramp`
   String get deposit {
     return Intl.message(
-      'deposit',
+      'You got an fUSD deposit from Ramp',
       name: 'deposit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit Fuse Dollars and receive 50% APR!`
+  String get deposit_and_receive_bonus {
+    return Intl.message(
+      'Deposit Fuse Dollars and receive 50% APR!',
+      name: 'deposit_and_receive_bonus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Limited time offer. Receive a 50% APR on your Fuse Dollar deposits!`
+  String get deposit_bonus_explained {
+    return Intl.message(
+      'Limited time offer. Receive a 50% APR on your Fuse Dollar deposits!',
+      name: 'deposit_bonus_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit Dollars`
+  String get deposit_dollars {
+    return Intl.message(
+      'Deposit Dollars',
+      name: 'deposit_dollars',
       desc: '',
       args: [],
     );
@@ -585,6 +815,16 @@ class I10n {
     return Intl.message(
       'Deposit from Ethereum or BSC',
       name: 'deposit_from_ethereum_or_BSC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deposit Fuse Dollar`
+  String get deposit_fusd {
+    return Intl.message(
+      'Deposit Fuse Dollar',
+      name: 'deposit_fusd',
       desc: '',
       args: [],
     );
@@ -640,6 +880,16 @@ class I10n {
     );
   }
 
+  /// `Do not close the app`
+  String get dont_close_the_app {
+    return Intl.message(
+      'Do not close the app',
+      name: 'dont_close_the_app',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Don't show next time`
   String get dont_show_next_time {
     return Intl.message(
@@ -670,11 +920,61 @@ class I10n {
     );
   }
 
-  /// `Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance.`
+  /// `Earn 50% APR`
+  String get earn_apr {
+    return Intl.message(
+      'Earn 50% APR',
+      name: 'earn_apr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Holders of Fuse Dollars are eligible to earn a yield of 50% a year just by holding those Dollars in your balance.`
   String get earn_description {
     return Intl.message(
-      'Holders of Fuse Dollars are eligible to earn a yield of 5% a year just by holding those Dollars in your balance.',
+      'Holders of Fuse Dollars are eligible to earn a yield of 50% a year just by holding those Dollars in your balance.',
       name: 'earn_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earned Apy`
+  String get earned_apy {
+    return Intl.message(
+      'Earned Apy',
+      name: 'earned_apy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earned so far`
+  String get earned_so_far {
+    return Intl.message(
+      'Earned so far',
+      name: 'earned_so_far',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Earn free dollars 💸`
+  String get earn_free_dollars {
+    return Intl.message(
+      'Earn free dollars 💸',
+      name: 'earn_free_dollars',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fuse Dollar earnings received!`
+  String get earnings_received {
+    return Intl.message(
+      'Fuse Dollar earnings received!',
+      name: 'earnings_received',
       desc: '',
       args: [],
     );
@@ -840,10 +1140,10 @@ class I10n {
     );
   }
 
-  /// `Follow us on Twitter.`
+  /// `Follow us on Twitter`
   String get follow_us_on_twitter {
     return Intl.message(
-      'Follow us on Twitter.',
+      'Follow us on Twitter',
       name: 'follow_us_on_twitter',
       desc: '',
       args: [],
@@ -930,6 +1230,16 @@ class I10n {
     );
   }
 
+  /// `Fuse network`
+  String get fuse_network {
+    return Intl.message(
+      'Fuse network',
+      name: 'fuse_network',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code`
   String get fuse_studio {
     return Intl.message(
@@ -990,6 +1300,36 @@ class I10n {
     );
   }
 
+  /// `Gift a friend`
+  String get gift_a_friend {
+    return Intl.message(
+      'Gift a friend',
+      name: 'gift_a_friend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test the new invite feature and get 5$ reward`
+  String get gift_a_friend_explained {
+    return Intl.message(
+      'Test the new invite feature and get 5\$ reward',
+      name: 'gift_a_friend_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hello {name}`
+  String greetTo(Object name) {
+    return Intl.message(
+      'Hello $name',
+      name: 'greetTo',
+      desc: '',
+      args: [name],
+    );
+  }
+
   /// `Hello`
   String get hi {
     return Intl.message(
@@ -1035,6 +1375,16 @@ class I10n {
     return Intl.message(
       'Important!',
       name: 'important',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New version!`
+  String get important_update {
+    return Intl.message(
+      'New version!',
+      name: 'important_update',
       desc: '',
       args: [],
     );
@@ -1090,6 +1440,16 @@ class I10n {
     );
   }
 
+  /// `Invalid mnemonic`
+  String get invalid_mnemonic {
+    return Intl.message(
+      'Invalid mnemonic',
+      name: 'invalid_mnemonic',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Invalid number`
   String get invalid_number {
     return Intl.message(
@@ -1120,20 +1480,100 @@ class I10n {
     );
   }
 
-  /// `Invite a friend`
+  /// `Referral program`
+  String get Invite_a_friend {
+    return Intl.message(
+      'Referral program',
+      name: 'Invite_a_friend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1. Create a new account using your referral link`
+  String get Invite_a_friend_1 {
+    return Intl.message(
+      '1. Create a new account using your referral link',
+      name: 'Invite_a_friend_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2. Top up their account by credit/debit card, wire transfer, or via the Ethereum/BSC bridge for any amount`
+  String get Invite_a_friend_2 {
+    return Intl.message(
+      '2. Top up their account by credit/debit card, wire transfer, or via the Ethereum/BSC bridge for any amount',
+      name: 'Invite_a_friend_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `*Signups using a phone number that is already connected to a Fuse account will not be accepted`
+  String get Invite_a_friend_3 {
+    return Intl.message(
+      '*Signups using a phone number that is already connected to a Fuse account will not be accepted',
+      name: 'Invite_a_friend_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `**The maximum deposit amount for which you can receive a bonus is equivalent to $500`
+  String get Invite_a_friend_4 {
+    return Intl.message(
+      '**The maximum deposit amount for which you can receive a bonus is equivalent to \$500',
+      name: 'Invite_a_friend_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `***Assets accepted in the program: fUSD; USDC; USDT; WETH; WBTC; BNB`
+  String get Invite_a_friend_5 {
+    return Intl.message(
+      '***Assets accepted in the program: fUSD; USDC; USDT; WETH; WBTC; BNB',
+      name: 'Invite_a_friend_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3. Referral bonus will be provided in Fuse token and for the first deposit only`
+  String get Invite_a_friend_6 {
+    return Intl.message(
+      '3. Referral bonus will be provided in Fuse token and for the first deposit only',
+      name: 'Invite_a_friend_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite`
+  String get Invite_a_friend_button {
+    return Intl.message(
+      'Invite',
+      name: 'Invite_a_friend_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Referral program`
   String get invite_friend {
     return Intl.message(
-      'Invite a friend',
+      'Referral program',
       name: 'invite_friend',
       desc: '',
       args: [],
     );
   }
 
-  /// `Hey, your friend shared with you the fuse.cash wallet: `
+  /// `Earn up to 50% annual yield on your deposits with Fuse Cash 💸`
   String get invite_friend_text {
     return Intl.message(
-      'Hey, your friend shared with you the fuse.cash wallet: ',
+      'Earn up to 50% annual yield on your deposits with Fuse Cash 💸',
       name: 'invite_friend_text',
       desc: '',
       args: [],
@@ -1155,6 +1595,16 @@ class I10n {
     return Intl.message(
       'You got a join bonus!',
       name: 'join_bonus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join the earn program`
+  String get join_earn_program {
+    return Intl.message(
+      'Join the earn program',
+      name: 'join_earn_program',
       desc: '',
       args: [],
     );
@@ -1195,6 +1645,16 @@ class I10n {
     return Intl.message(
       'Joining Community',
       name: 'joining_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join our referral program`
+  String get join_our_referral_program {
+    return Intl.message(
+      'Join our referral program',
+      name: 'join_our_referral_program',
       desc: '',
       args: [],
     );
@@ -1260,6 +1720,16 @@ class I10n {
     );
   }
 
+  /// `Limited time offer`
+  String get limited_time_offer {
+    return Intl.message(
+      'Limited time offer',
+      name: 'limited_time_offer',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Limited time offer! 50 $ deposit bonus 💸`
   String get limit_offer {
     return Intl.message(
@@ -1300,6 +1770,16 @@ class I10n {
     );
   }
 
+  /// `Max`
+  String get max {
+    return Intl.message(
+      'Max',
+      name: 'max',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Minminal amount to claim - $0.01`
   String get min_to_claim {
     return Intl.message(
@@ -1325,6 +1805,16 @@ class I10n {
     return Intl.message(
       'My communities',
       name: 'my_communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Referrals:`
+  String get my_referrals {
+    return Intl.message(
+      'My Referrals:',
+      name: 'my_referrals',
       desc: '',
       args: [],
     );
@@ -1360,6 +1850,16 @@ class I10n {
     );
   }
 
+  /// `New!`
+  String get new_word {
+    return Intl.message(
+      'New!',
+      name: 'new_word',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Next`
   String get next_button {
     return Intl.message(
@@ -1370,11 +1870,21 @@ class I10n {
     );
   }
 
-  /// `Next claim in`
+  /// `Next claim`
   String get next_claim {
     return Intl.message(
-      'Next claim in',
+      'Next claim',
       name: 'next_claim',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next claim on`
+  String get next_claim_on {
+    return Intl.message(
+      'Next claim on',
+      name: 'next_claim_on',
       desc: '',
       args: [],
     );
@@ -1420,11 +1930,31 @@ class I10n {
     );
   }
 
+  /// `No results found for`
+  String get no_results_found {
+    return Intl.message(
+      'No results found for',
+      name: 'no_results_found',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You don't have tokens to swap yet`
   String get no_swap_option {
     return Intl.message(
       'You don\'t have tokens to swap yet',
       name: 'no_swap_option',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get not_connected {
+    return Intl.message(
+      'No internet connection',
+      name: 'not_connected',
       desc: '',
       args: [],
     );
@@ -1485,6 +2015,16 @@ class I10n {
     return Intl.message(
       'or',
       name: 'or',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By participating in the program you automatically earn 50% yield on your Fuse Dollar balance.`
+  String get participation_explained {
+    return Intl.message(
+      'By participating in the program you automatically earn 50% yield on your Fuse Dollar balance.',
+      name: 'participation_explained',
       desc: '',
       args: [],
     );
@@ -1600,6 +2140,16 @@ class I10n {
     );
   }
 
+  /// `Please restore your wallet`
+  String get please_restore_your_wallet {
+    return Intl.message(
+      'Please restore your wallet',
+      name: 'please_restore_your_wallet',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please use`
   String get please_use {
     return Intl.message(
@@ -1660,11 +2210,31 @@ class I10n {
     );
   }
 
+  /// `Read more`
+  String get read_more {
+    return Intl.message(
+      'Read more',
+      name: 'read_more',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Receive`
   String get receive {
     return Intl.message(
       'Receive',
       name: 'receive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Received`
+  String get received {
+    return Intl.message(
+      'Received',
+      name: 'received',
       desc: '',
       args: [],
     );
@@ -1685,6 +2255,16 @@ class I10n {
     return Intl.message(
       'Receive from',
       name: 'receive_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receive Gift`
+  String get receive_gift {
+    return Intl.message(
+      'Receive Gift',
+      name: 'receive_gift',
       desc: '',
       args: [],
     );
@@ -1720,6 +2300,46 @@ class I10n {
     );
   }
 
+  /// `Referral bonus`
+  String get referral_bonus {
+    return Intl.message(
+      'Referral bonus',
+      name: 'referral_bonus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite your friends and receive a referral bonus of 5% of their deposits!`
+  String get referral_explained {
+    return Intl.message(
+      'Invite your friends and receive a referral bonus of 5% of their deposits!',
+      name: 'referral_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refer your friends`
+  String get refer_your_friends {
+    return Intl.message(
+      'Refer your friends',
+      name: 'refer_your_friends',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reject`
+  String get reject {
+    return Intl.message(
+      'Reject',
+      name: 'reject',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Resend code`
   String get resend_code {
     return Intl.message(
@@ -1735,6 +2355,16 @@ class I10n {
     return Intl.message(
       'Creating a new account will reset your existing account - are you sure you want to continue?',
       name: 'reset_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore`
+  String get restore {
+    return Intl.message(
+      'Restore',
+      name: 'restore',
       desc: '',
       args: [],
     );
@@ -1810,6 +2440,16 @@ class I10n {
     );
   }
 
+  /// `Receive 50$ rewards for 200$ deposits or more`
+  String get reward_for_deposits {
+    return Intl.message(
+      'Receive 50\$ rewards for 200\$ deposits or more',
+      name: 'reward_for_deposits',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Save`
   String get save_button {
     return Intl.message(
@@ -1820,11 +2460,31 @@ class I10n {
     );
   }
 
+  /// `Scan Fuse address QR code to send money`
+  String get scan_address {
+    return Intl.message(
+      'Scan Fuse address QR code to send money',
+      name: 'scan_address',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Scan the QR code to receive money`
   String get scan_to_receive {
     return Intl.message(
       'Scan the QR code to receive money',
       name: 'scan_to_receive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan WalletConnect QR code`
+  String get scan_wallet_connect {
+    return Intl.message(
+      'Scan WalletConnect QR code',
+      name: 'scan_wallet_connect',
       desc: '',
       args: [],
     );
@@ -1880,6 +2540,26 @@ class I10n {
     );
   }
 
+  /// `Send Funds`
+  String get send_funds {
+    return Intl.message(
+      'Send Funds',
+      name: 'send_funds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please make sure you are sending assets on the`
+  String get sending_on_fuse {
+    return Intl.message(
+      'Please make sure you are sending assets on the',
+      name: 'sending_on_fuse',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sent to your Ethereum wallet`
   String get sending_to_ethereum {
     return Intl.message(
@@ -1905,6 +2585,26 @@ class I10n {
     return Intl.message(
       'Send to an address',
       name: 'send_to_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send to your vault`
+  String get send_to_your_vault {
+    return Intl.message(
+      'Send to your vault',
+      name: 'send_to_your_vault',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sent`
+  String get sent {
+    return Intl.message(
+      'Sent',
+      name: 'sent',
       desc: '',
       args: [],
     );
@@ -2010,6 +2710,16 @@ class I10n {
     );
   }
 
+  /// `We're having issues with one of our services`
+  String get some_services_are_down {
+    return Intl.message(
+      'We\'re having issues with one of our services',
+      name: 'some_services_are_down',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Something went wrong`
   String get something_went_wrong {
     return Intl.message(
@@ -2030,6 +2740,16 @@ class I10n {
     );
   }
 
+  /// `Start Earning`
+  String get start_earning {
+    return Intl.message(
+      'Start Earning',
+      name: 'start_earning',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.`
   String get stores_private {
     return Intl.message(
@@ -2045,6 +2765,16 @@ class I10n {
     return Intl.message(
       'Success',
       name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support`
+  String get support {
+    return Intl.message(
+      'Support',
+      name: 'support',
       desc: '',
       args: [],
     );
@@ -2120,6 +2850,46 @@ class I10n {
     );
   }
 
+  /// `Click to expand Terms & Conditions`
+  String get terms_conditions {
+    return Intl.message(
+      'Click to expand Terms & Conditions',
+      name: 'terms_conditions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you`
+  String get thank_you {
+    return Intl.message(
+      'Thank you',
+      name: 'thank_you',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you for your patience`
+  String get thank_you_for_your_patience {
+    return Intl.message(
+      'Thank you for your patience',
+      name: 'thank_you_for_your_patience',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `That's it`
+  String get thats_it {
+    return Intl.message(
+      'That\'s it',
+      name: 'thats_it',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `To`
   String get to {
     return Intl.message(
@@ -2175,6 +2945,16 @@ class I10n {
     return Intl.message(
       'Total amount:',
       name: 'total_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total reward:`
+  String get total_reward {
+    return Intl.message(
+      'Total reward:',
+      name: 'total_reward',
       desc: '',
       args: [],
     );
@@ -2255,6 +3035,46 @@ class I10n {
     return Intl.message(
       'Txn',
       name: 'txn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update`
+  String get update {
+    return Intl.message(
+      'Update',
+      name: 'update',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update process...`
+  String get update_process {
+    return Intl.message(
+      'Update process...',
+      name: 'update_process',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your wallet contract needs to be updated to enable new features`
+  String get upgrade_wallet_text {
+    return Intl.message(
+      'Your wallet contract needs to be updated to enable new features',
+      name: 'upgrade_wallet_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click "update" to get it done takes about 10 seconds`
+  String get upgrade_wallet_time {
+    return Intl.message(
+      'Click "update" to get it done takes about 10 seconds',
+      name: 'upgrade_wallet_time',
       desc: '',
       args: [],
     );
@@ -2370,11 +3190,81 @@ class I10n {
     );
   }
 
+  /// `Want to earn more?`
+  String get want_to_earn_more {
+    return Intl.message(
+      'Want to earn more?',
+      name: 'want_to_earn_more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `would like to connect to your wallet`
+  String get WC_connect_to_wallet {
+    return Intl.message(
+      'would like to connect to your wallet',
+      name: 'WC_connect_to_wallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View your wallet balance and activity`
+  String get WC_desc_one {
+    return Intl.message(
+      'View your wallet balance and activity',
+      name: 'WC_desc_one',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request approval for transactions`
+  String get WC_desc_two {
+    return Intl.message(
+      'Request approval for transactions',
+      name: 'WC_desc_two',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `We just sent a message to \n`
   String get we_just_sent {
     return Intl.message(
       'We just sent a message to \n',
       name: 'we_just_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to Fuse Cash!`
+  String get welcome_to_fuse {
+    return Intl.message(
+      'Welcome to Fuse Cash!',
+      name: 'welcome_to_fuse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buy, Swap, Send and Earn on your crypto with no fees`
+  String get welcome_to_fuse_text {
+    return Intl.message(
+      'Buy, Swap, Send and Earn on your crypto with no fees',
+      name: 'welcome_to_fuse_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to fuse.cash wallet`
+  String get welcome_to_wallet {
+    return Intl.message(
+      'Welcome to fuse.cash wallet',
+      name: 'welcome_to_wallet',
       desc: '',
       args: [],
     );
@@ -2405,6 +3295,16 @@ class I10n {
     return Intl.message(
       'How the FuseDollar peg is maintained?',
       name: 'what_is_peg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Which cryptocurrencies can I use?`
+  String get which_cryptocurrencies_can_i_use {
+    return Intl.message(
+      'Which cryptocurrencies can I use?',
+      name: 'which_cryptocurrencies_can_i_use',
       desc: '',
       args: [],
     );
@@ -2460,6 +3360,16 @@ class I10n {
     );
   }
 
+  /// `Would you like to approve the transaction?`
+  String get would_you_like_to_approve_tx {
+    return Intl.message(
+      'Would you like to approve the transaction?',
+      name: 'would_you_like_to_approve_tx',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Write down your 12 words...`
   String get write_down_your_words {
     return Intl.message(
@@ -2490,11 +3400,41 @@ class I10n {
     );
   }
 
+  /// `Wrong phone number`
+  String get wrong_phone_number {
+    return Intl.message(
+      'Wrong phone number',
+      name: 'wrong_phone_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This account is registered to another phone number. Please contact Support to update your phone number.`
+  String get wrong_phone_number_explained {
+    return Intl.message(
+      'This account is registered to another phone number. Please contact Support to update your phone number.',
+      name: 'wrong_phone_number_explained',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Yes`
   String get yes {
     return Intl.message(
       'Yes',
       name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You Get`
+  String get you_get {
+    return Intl.message(
+      'You Get',
+      name: 'you_get',
       desc: '',
       args: [],
     );
@@ -2510,6 +3450,16 @@ class I10n {
     );
   }
 
+  /// `You got a new NFT!`
+  String get you_got_a_new_NFT {
+    return Intl.message(
+      'You got a new NFT!',
+      name: 'you_got_a_new_NFT',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Your balance`
   String get your_balance {
     return Intl.message(
@@ -2520,11 +3470,41 @@ class I10n {
     );
   }
 
+  /// `Your balance is`
+  String get your_balance_is {
+    return Intl.message(
+      'Your balance is',
+      name: 'your_balance_is',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You have no balance`
   String get your_balance_is_empty {
     return Intl.message(
       'You have no balance',
       name: 'your_balance_is_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your coins`
+  String get your_coins {
+    return Intl.message(
+      'Your coins',
+      name: 'your_coins',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your invited friends must:`
+  String get your_friends {
+    return Intl.message(
+      'Your invited friends must:',
+      name: 'your_friends',
       desc: '',
       args: [],
     );
@@ -2562,6 +3542,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'es', countryCode: 'ES'),
       Locale.fromSubtags(languageCode: 'es', countryCode: 'MX'),
       Locale.fromSubtags(languageCode: 'fr', countryCode: 'FR'),
+      Locale.fromSubtags(languageCode: 'id'),
       Locale.fromSubtags(languageCode: 'id', countryCode: 'ID'),
       Locale.fromSubtags(languageCode: 'it', countryCode: 'IT'),
       Locale.fromSubtags(languageCode: 'ko'),
@@ -2570,8 +3551,10 @@ class AppLocalizationDelegate extends LocalizationsDelegate<I10n> {
       Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
       Locale.fromSubtags(languageCode: 'ru', countryCode: 'RU'),
       Locale.fromSubtags(languageCode: 'sr', countryCode: 'RS'),
+      Locale.fromSubtags(languageCode: 'th'),
       Locale.fromSubtags(languageCode: 'th', countryCode: 'TH'),
       Locale.fromSubtags(languageCode: 'tl'),
+      Locale.fromSubtags(languageCode: 'zh'),
       Locale.fromSubtags(languageCode: 'zh', countryCode: 'CN'),
     ];
   }

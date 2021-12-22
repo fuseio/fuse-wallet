@@ -227,7 +227,7 @@
 //                                 ? Row(
 //                                     children: <Widget>[
 //                                       Text(
-//                                         formatAddress(viewModel.walletAddress),
+//                                         Formatter.formatEthAddress(viewModel.walletAddress),
 //                                       ),
 //                                       SizedBox(
 //                                         width: 10,

@@ -8,12 +8,12 @@ part 'backup_bonus.g.dart';
 @immutable
 @freezed
 class BackupBonusPlugin with _$BackupBonusPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory BackupBonusPlugin({
     @Default('backupBonus') String type,
-    @Default(null) String? amount,
-    @Default(null) String? name,
+    String? amount,
+    String? name,
     @Default(false) bool isActive,
   }) = _BackupBonusPlugin;
 

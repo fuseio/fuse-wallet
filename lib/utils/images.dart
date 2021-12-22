@@ -11,13 +11,11 @@ class ImageUrl {
   static bool _isIpfsHash(String hash) => hash.length == 46;
   static bool _isS3Hash(String hash) => hash.length == 64;
 
-  static String getLink(String? hash) {
-    if (hash != null) {
-      if (_isIpfsHash(hash)) {
-        return getIPFSImageUrl(hash);
-      } else if (_isS3Hash(hash)) {
-        return getS3ImageUrl(hash);
-      }
+  static String getLink(hash) {
+    if (_isIpfsHash(hash)) {
+      return getIPFSImageUrl(hash);
+    } else if (_isS3Hash(hash)) {
+      return getS3ImageUrl(hash);
     }
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }
@@ -26,9 +24,9 @@ class ImageUrl {
     Contact? contact,
   ) {
     if (contact?.avatar != null) {
-      return new MemoryImage(contact?.avatar as Uint8List);
+      return MemoryImage(contact?.avatar as Uint8List);
     }
-    return new AssetImage('assets/images/anom.png');
+    return AssetImage('assets/images/anom.png');
   }
 
   static String getIPFSImageUrl(String? image) {
@@ -46,7 +44,8 @@ class ImageUrl {
   }
 
   static String getTokenUrl(tokenAddress) {
-    return tokenAddress == Addresses.ZERO_ADDRESS
+    return tokenAddress == Addresses.zeroAddress ||
+            tokenAddress == Addresses.nativeTokenAddress
         ? 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png'
         : "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/$tokenAddress/logo.png";
   }
@@ -68,7 +67,7 @@ class ImageUrl {
     final bool hasAvatar =
         contact?.avatar != null && contact!.avatar!.isNotEmpty;
     if (hasAvatar) {
-      return new MemoryImage(contact.avatar as Uint8List);
+      return MemoryImage(contact.avatar as Uint8List);
     }
     return action.map(
       createWallet: (value) => AssetImage(

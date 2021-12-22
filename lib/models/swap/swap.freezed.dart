@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'swap.dart';
 
@@ -41,7 +42,7 @@ class _$TradeInfoTearOff {
     );
   }
 
-  TradeInfo fromJson(Map<String, Object> json) {
+  TradeInfo fromJson(Map<String, Object?> json) {
     return TradeInfo.fromJson(json);
   }
 }
@@ -226,7 +227,7 @@ class _$_TradeInfo implements _TradeInfo {
       required this.priceImpact});
 
   factory _$_TradeInfo.fromJson(Map<String, dynamic> json) =>
-      _$_$_TradeInfoFromJson(json);
+      _$$_TradeInfoFromJson(json);
 
   @override
   final String inputAmount;
@@ -253,43 +254,36 @@ class _$_TradeInfo implements _TradeInfo {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _TradeInfo &&
-            (identical(other.inputAmount, inputAmount) ||
-                const DeepCollectionEquality()
-                    .equals(other.inputAmount, inputAmount)) &&
-            (identical(other.outputAmount, outputAmount) ||
-                const DeepCollectionEquality()
-                    .equals(other.outputAmount, outputAmount)) &&
-            (identical(other.route, route) ||
-                const DeepCollectionEquality().equals(other.route, route)) &&
-            (identical(other.inputToken, inputToken) ||
-                const DeepCollectionEquality()
-                    .equals(other.inputToken, inputToken)) &&
-            (identical(other.outputToken, outputToken) ||
-                const DeepCollectionEquality()
-                    .equals(other.outputToken, outputToken)) &&
-            (identical(other.executionPrice, executionPrice) ||
-                const DeepCollectionEquality()
-                    .equals(other.executionPrice, executionPrice)) &&
-            (identical(other.nextMidPrice, nextMidPrice) ||
-                const DeepCollectionEquality()
-                    .equals(other.nextMidPrice, nextMidPrice)) &&
-            (identical(other.priceImpact, priceImpact) ||
-                const DeepCollectionEquality()
-                    .equals(other.priceImpact, priceImpact)));
+        (other.runtimeType == runtimeType &&
+            other is _TradeInfo &&
+            const DeepCollectionEquality()
+                .equals(other.inputAmount, inputAmount) &&
+            const DeepCollectionEquality()
+                .equals(other.outputAmount, outputAmount) &&
+            const DeepCollectionEquality().equals(other.route, route) &&
+            const DeepCollectionEquality()
+                .equals(other.inputToken, inputToken) &&
+            const DeepCollectionEquality()
+                .equals(other.outputToken, outputToken) &&
+            const DeepCollectionEquality()
+                .equals(other.executionPrice, executionPrice) &&
+            const DeepCollectionEquality()
+                .equals(other.nextMidPrice, nextMidPrice) &&
+            const DeepCollectionEquality()
+                .equals(other.priceImpact, priceImpact));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(inputAmount) ^
-      const DeepCollectionEquality().hash(outputAmount) ^
-      const DeepCollectionEquality().hash(route) ^
-      const DeepCollectionEquality().hash(inputToken) ^
-      const DeepCollectionEquality().hash(outputToken) ^
-      const DeepCollectionEquality().hash(executionPrice) ^
-      const DeepCollectionEquality().hash(nextMidPrice) ^
-      const DeepCollectionEquality().hash(priceImpact);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(inputAmount),
+      const DeepCollectionEquality().hash(outputAmount),
+      const DeepCollectionEquality().hash(route),
+      const DeepCollectionEquality().hash(inputToken),
+      const DeepCollectionEquality().hash(outputToken),
+      const DeepCollectionEquality().hash(executionPrice),
+      const DeepCollectionEquality().hash(nextMidPrice),
+      const DeepCollectionEquality().hash(priceImpact));
 
   @JsonKey(ignore: true)
   @override
@@ -298,7 +292,7 @@ class _$_TradeInfo implements _TradeInfo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_TradeInfoToJson(this);
+    return _$$_TradeInfoToJson(this);
   }
 }
 
@@ -317,21 +311,21 @@ abstract class _TradeInfo implements TradeInfo {
       _$_TradeInfo.fromJson;
 
   @override
-  String get inputAmount => throw _privateConstructorUsedError;
+  String get inputAmount;
   @override
-  String get outputAmount => throw _privateConstructorUsedError;
+  String get outputAmount;
   @override
-  List<String> get route => throw _privateConstructorUsedError;
+  List<String> get route;
   @override
-  String get inputToken => throw _privateConstructorUsedError;
+  String get inputToken;
   @override
-  String get outputToken => throw _privateConstructorUsedError;
+  String get outputToken;
   @override
-  String get executionPrice => throw _privateConstructorUsedError;
+  String get executionPrice;
   @override
-  String get nextMidPrice => throw _privateConstructorUsedError;
+  String get nextMidPrice;
   @override
-  String get priceImpact => throw _privateConstructorUsedError;
+  String get priceImpact;
   @override
   @JsonKey(ignore: true)
   _$TradeInfoCopyWith<_TradeInfo> get copyWith =>
@@ -359,7 +353,7 @@ class _$SwapCallParametersTearOff {
     );
   }
 
-  SwapCallParameters fromJson(Map<String, Object> json) {
+  SwapCallParameters fromJson(Map<String, Object?> json) {
     return SwapCallParameters.fromJson(json);
   }
 }
@@ -493,7 +487,7 @@ class _$_SwapCallParameters implements _SwapCallParameters {
       required this.rawTxn});
 
   factory _$_SwapCallParameters.fromJson(Map<String, dynamic> json) =>
-      _$_$_SwapCallParametersFromJson(json);
+      _$$_SwapCallParametersFromJson(json);
 
   @override
   final String methodName;
@@ -512,25 +506,22 @@ class _$_SwapCallParameters implements _SwapCallParameters {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _SwapCallParameters &&
-            (identical(other.methodName, methodName) ||
-                const DeepCollectionEquality()
-                    .equals(other.methodName, methodName)) &&
-            (identical(other.args, args) ||
-                const DeepCollectionEquality().equals(other.args, args)) &&
-            (identical(other.value, value) ||
-                const DeepCollectionEquality().equals(other.value, value)) &&
-            (identical(other.rawTxn, rawTxn) ||
-                const DeepCollectionEquality().equals(other.rawTxn, rawTxn)));
+        (other.runtimeType == runtimeType &&
+            other is _SwapCallParameters &&
+            const DeepCollectionEquality()
+                .equals(other.methodName, methodName) &&
+            const DeepCollectionEquality().equals(other.args, args) &&
+            const DeepCollectionEquality().equals(other.value, value) &&
+            const DeepCollectionEquality().equals(other.rawTxn, rawTxn));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(methodName) ^
-      const DeepCollectionEquality().hash(args) ^
-      const DeepCollectionEquality().hash(value) ^
-      const DeepCollectionEquality().hash(rawTxn);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(methodName),
+      const DeepCollectionEquality().hash(args),
+      const DeepCollectionEquality().hash(value),
+      const DeepCollectionEquality().hash(rawTxn));
 
   @JsonKey(ignore: true)
   @override
@@ -539,7 +530,7 @@ class _$_SwapCallParameters implements _SwapCallParameters {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_SwapCallParametersToJson(this);
+    return _$$_SwapCallParametersToJson(this);
   }
 }
 
@@ -554,13 +545,13 @@ abstract class _SwapCallParameters implements SwapCallParameters {
       _$_SwapCallParameters.fromJson;
 
   @override
-  String get methodName => throw _privateConstructorUsedError;
+  String get methodName;
   @override
-  List<dynamic> get args => throw _privateConstructorUsedError;
+  List<dynamic> get args;
   @override
-  String get value => throw _privateConstructorUsedError;
+  String get value;
   @override
-  Map<String, dynamic> get rawTxn => throw _privateConstructorUsedError;
+  Map<String, dynamic> get rawTxn;
   @override
   @JsonKey(ignore: true)
   _$SwapCallParametersCopyWith<_SwapCallParameters> get copyWith =>
@@ -588,7 +579,7 @@ class _$SwapRequestBodyTearOff {
     );
   }
 
-  SwapRequestBody fromJson(Map<String, Object> json) {
+  SwapRequestBody fromJson(Map<String, Object?> json) {
     return SwapRequestBody.fromJson(json);
   }
 }
@@ -722,18 +713,18 @@ class _$_SwapRequestBody implements _SwapRequestBody {
       this.recipient = ''});
 
   factory _$_SwapRequestBody.fromJson(Map<String, dynamic> json) =>
-      _$_$_SwapRequestBodyFromJson(json);
+      _$$_SwapRequestBodyFromJson(json);
 
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String currencyIn;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String currencyOut;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String amountIn;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String recipient;
 
@@ -745,28 +736,23 @@ class _$_SwapRequestBody implements _SwapRequestBody {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _SwapRequestBody &&
-            (identical(other.currencyIn, currencyIn) ||
-                const DeepCollectionEquality()
-                    .equals(other.currencyIn, currencyIn)) &&
-            (identical(other.currencyOut, currencyOut) ||
-                const DeepCollectionEquality()
-                    .equals(other.currencyOut, currencyOut)) &&
-            (identical(other.amountIn, amountIn) ||
-                const DeepCollectionEquality()
-                    .equals(other.amountIn, amountIn)) &&
-            (identical(other.recipient, recipient) ||
-                const DeepCollectionEquality()
-                    .equals(other.recipient, recipient)));
+        (other.runtimeType == runtimeType &&
+            other is _SwapRequestBody &&
+            const DeepCollectionEquality()
+                .equals(other.currencyIn, currencyIn) &&
+            const DeepCollectionEquality()
+                .equals(other.currencyOut, currencyOut) &&
+            const DeepCollectionEquality().equals(other.amountIn, amountIn) &&
+            const DeepCollectionEquality().equals(other.recipient, recipient));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(currencyIn) ^
-      const DeepCollectionEquality().hash(currencyOut) ^
-      const DeepCollectionEquality().hash(amountIn) ^
-      const DeepCollectionEquality().hash(recipient);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(currencyIn),
+      const DeepCollectionEquality().hash(currencyOut),
+      const DeepCollectionEquality().hash(amountIn),
+      const DeepCollectionEquality().hash(recipient));
 
   @JsonKey(ignore: true)
   @override
@@ -775,7 +761,7 @@ class _$_SwapRequestBody implements _SwapRequestBody {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_SwapRequestBodyToJson(this);
+    return _$$_SwapRequestBodyToJson(this);
   }
 }
 
@@ -790,13 +776,13 @@ abstract class _SwapRequestBody implements SwapRequestBody {
       _$_SwapRequestBody.fromJson;
 
   @override
-  String get currencyIn => throw _privateConstructorUsedError;
+  String get currencyIn;
   @override
-  String get currencyOut => throw _privateConstructorUsedError;
+  String get currencyOut;
   @override
-  String get amountIn => throw _privateConstructorUsedError;
+  String get amountIn;
   @override
-  String get recipient => throw _privateConstructorUsedError;
+  String get recipient;
   @override
   @JsonKey(ignore: true)
   _$SwapRequestBodyCopyWith<_SwapRequestBody> get copyWith =>
