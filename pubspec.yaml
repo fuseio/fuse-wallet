@@ -96,7 +96,6 @@ dev_dependencies:
 flutter:
   assets:
     - environment/.env
-    - environment/.env_qa
     - assets/
     - assets/images/
     - assets/fonts/
