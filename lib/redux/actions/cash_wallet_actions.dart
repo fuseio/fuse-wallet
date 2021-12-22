@@ -624,9 +624,11 @@ ThunkAction joinCommunityCall(
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
+      dynamic communityData =
+          await graph.getCommunityByAddress(community.address);
       bool isMember = await graph.isCommunityMember(
         walletAddress,
-        community.address,
+        communityData['entitiesList']['address'],
       );
       if (isMember) {
         store.dispatch(AlreadyJoinedCommunity(community.address));
@@ -819,6 +821,12 @@ ThunkAction switchToExistingCommunityCall(String communityAddress) {
         fetchCommunityMetadataCall(
           communityAddress,
           communityData['communityURI'],
+        ),
+      );
+      store.dispatch(
+        joinCommunityCall(
+          newCommunity,
+          communityToken,
         ),
       );
       store.dispatch(getTokenPriceCall(communityToken));

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,7 +10,10 @@ class ImageUrl {
   static bool _isIpfsHash(String hash) => hash.length == 46;
   static bool _isS3Hash(String hash) => hash.length == 64;
 
-  static String getLink(hash) {
+  static String getLink(String? hash) {
+    if (hash == null)
+      return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+
     if (_isIpfsHash(hash)) {
       return getIPFSImageUrl(hash);
     } else if (_isS3Hash(hash)) {
