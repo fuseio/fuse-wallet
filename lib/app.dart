@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:fusecash/constants/theme.dart';
@@ -12,7 +11,6 @@ import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/generated/l10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -31,7 +29,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late StreamSubscription<Map> streamSubscription;
   Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -46,12 +43,6 @@ class _MyAppState extends State<MyApp> {
       api.setJwtToken(jwtToken);
       walletApi.setJwtToken(jwtToken);
     }
-  }
-
-  @override
-  void dispose() {
-    streamSubscription.cancel();
-    super.dispose();
   }
 
   @override
