@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/constants/addresses.dart';
@@ -7,7 +6,6 @@ import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/constants.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'cash_wallet_state.freezed.dart';
 part 'cash_wallet_state.g.dart';
@@ -17,31 +15,40 @@ WalletActions walletActionsFromJson(Map<String, dynamic>? walletActions) =>
         ? WalletActions.initial()
         : WalletActions.fromJson(walletActions);
 
-Map<String, Token> tokensFromJson(Map<String, dynamic>? tokens) =>
-    tokens == null
-        ? Map<String, Token>()
-        : tokens.map(
-            (k, e) => MapEntry(
-              k,
-              Token.fromJson(
-                e as Map<String, dynamic>,
-              ),
+Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens.map(
+      (k, e) {
+        if (k == Addresses.zeroAddress) {
+          return MapEntry(
+            Addresses.nativeTokenAddress,
+            Token.fromJson(
+              {
+                ...e as Map<String, dynamic>,
+                'address': Addresses.nativeTokenAddress,
+              },
             ),
-          )
+          );
+        } else {
+          return MapEntry(
+            k,
+            Token.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          );
+        }
+      },
+    )
       ..putIfAbsent(
-        Addresses.ZERO_ADDRESS,
+        Addresses.nativeTokenAddress,
         () => fuseToken.copyWith(),
       )
       ..putIfAbsent(
-        Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+        Addresses.fusdTokenAddress,
         () => fuseDollarToken.copyWith(),
       );
 
-Map<String, Community> communitiesFromJson(Map<String, dynamic>? list) {
-  if (list == null) {
-    return Map<String, Community>();
-  } else if (list.containsKey('communities')) {
-    Map<String, Community> communities = Map<String, Community>();
+Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
+  if (list.containsKey('communities')) {
+    Map<String, Community> communities = {};
     Iterable<MapEntry<String, Community>> entries =
         List.from(list['communities']).map((community) => MapEntry(
             (community['address'] as String).toLowerCase(),
@@ -69,21 +76,17 @@ class CashWalletState with _$CashWalletState {
     @Default({})
         Map<String, Community> communities,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
-    @JsonKey(ignore: true) @Default(null) String? branchAddress,
     @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
     @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
     @JsonKey(ignore: true) @Default(false) bool isTransfersFetchingStarted,
-    @JsonKey(ignore: true) @Default(false) bool isListeningToBranch,
-    @JsonKey(ignore: true) @Default(false) bool isBranchDataReceived,
     @JsonKey(ignore: true) @Default(false) bool isCommunityBusinessesFetched,
-    @JsonKey(ignore: true) @Default(false) bool isJobProcessingStarted,
     @JsonKey(ignore: true) @Default(false) bool isFetchingBalances,
   }) = _CashWalletState;
 
   factory CashWalletState.initial() {
     return CashWalletState(
-      communities: Map<String, Community>(),
-      tokens: Map<String, Token>(),
+      communities: {},
+      tokens: {},
       walletActions: WalletActions().copyWith(
         list: <WalletAction>[],
         updatedAt: 0,

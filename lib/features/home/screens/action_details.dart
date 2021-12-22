@@ -1,4 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,7 +56,7 @@ class ActionDetailsScreen extends StatelessWidget {
       swap: (value) => I10n.of(context).swap,
     );
 
-    return new StoreConnector<AppState, ActionDetailsViewModel>(
+    return StoreConnector<AppState, ActionDetailsViewModel>(
       distinct: true,
       converter: ActionDetailsViewModel.fromStore,
       builder: (_, viewModel) {
@@ -72,12 +73,9 @@ class ActionDetailsScreen extends StatelessWidget {
             (element) => element.symbol == value.tradeInfo?.outputToken,
           ),
         );
-        final bool hasPriceInfo =
-            ![null, '', '0', 0, 'NaN'].contains(token!.priceInfo!.quote);
-        final String amount = hasPriceInfo
-            ? '\$' +
-                action.getAmount(
-                  priceInfo: token.priceInfo,
+        final String amount = (token?.hasPriceInfo ?? false)
+            ? action.getAmount(
+                  token?.priceInfo,
                 ) +
                 ' (' +
                 action.getAmount() +
@@ -172,13 +170,8 @@ class ActionDetailsScreen extends StatelessWidget {
                                   padding: EdgeInsets.only(left: 10),
                                   child: Text(
                                     action.isSwapAction()
-                                        ? action.map(
-                                            createWallet: (value) => '',
-                                            joinCommunity: (value) => '',
-                                            fiatDeposit: (value) => '',
-                                            bonus: (value) => '',
-                                            send: (value) => '',
-                                            receive: (value) => '',
+                                        ? action.maybeMap(
+                                            orElse: () => '',
                                             swap: (value) {
                                               final Token _token = viewModel
                                                   .tokens.values
@@ -187,14 +180,15 @@ class ActionDetailsScreen extends StatelessWidget {
                                                     element.symbol ==
                                                     value.tradeInfo!.inputToken,
                                               );
-                                              final String amount =
-                                                  smallNumberTest(num.parse(
-                                                          value.tradeInfo!
-                                                              .inputAmount))
-                                                      ? value.tradeInfo!
-                                                          .inputAmount
-                                                      : smallValuesConvertor(
-                                                          num.parse(value
+                                              final String amount = Formatter
+                                                      .isSmallThan(
+                                                          Decimal.parse(
+                                                              value.tradeInfo!
+                                                                  .inputAmount))
+                                                  ? value.tradeInfo!.inputAmount
+                                                  : Formatter
+                                                      .smallNumbersConvertor(
+                                                          Decimal.parse(value
                                                               .tradeInfo!
                                                               .inputAmount));
 
@@ -202,9 +196,8 @@ class ActionDetailsScreen extends StatelessWidget {
                                                           .tradeInfo
                                                           ?.inputAmount ??
                                                       '0') *
-                                                  double.parse(
-                                                      _token.priceInfo!.quote);
-                                              return '${amount + ' ' + value.tradeInfo!.inputToken} (\$${display(num.tryParse(a.toString()))})';
+                                                  double.parse(_token.quote);
+                                              return '${amount + ' ' + value.tradeInfo!.inputToken} (\$${display2(num.tryParse(a.toString()))})';
                                             },
                                           )
                                         : displayName,
@@ -235,25 +228,25 @@ class ActionDetailsScreen extends StatelessWidget {
                           : rowItem(
                               context,
                               I10n.of(context).receive,
-                              action.map(
-                                createWallet: (value) => '',
-                                joinCommunity: (value) => '',
-                                fiatDeposit: (value) => '',
-                                bonus: (value) => '',
-                                send: (value) => '',
-                                receive: (value) => '',
+                              action.maybeMap(
+                                orElse: () => '',
                                 swap: (value) {
-                                  final String amount = smallNumberTest(
-                                          num.parse(
-                                              value.tradeInfo!.outputAmount))
-                                      ? value.tradeInfo!.outputAmount
-                                      : smallValuesConvertor(num.parse(
-                                          value.tradeInfo!.outputAmount));
+                                  final String amount = Formatter.isSmallThan(
+                                          Decimal.parse(
+                                              value.tradeInfo?.outputAmount ??
+                                                  '0'))
+                                      ? value.tradeInfo?.outputAmount ?? '0'
+                                      : Formatter.smallNumbersConvertor(
+                                          Decimal.parse(
+                                              value.tradeInfo?.outputAmount ??
+                                                  '0'));
 
                                   double val = double.parse(
-                                          value.tradeInfo!.outputAmount) *
-                                      double.parse(token.priceInfo!.quote);
-                                  return '${amount + ' ' + value.tradeInfo!.outputToken} (\$${display(num.tryParse(val.toString()))})';
+                                          value.tradeInfo?.outputAmount ??
+                                              '0') *
+                                      double.parse(
+                                          token?.priceInfo?.quote ?? '0');
+                                  return '${amount + ' ' + (value.tradeInfo?.outputToken ?? '0')} (\$${display2(num.tryParse(val.toString()))})';
                                 },
                               ),
                             ),
@@ -271,7 +264,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           : rowItem(
                               context,
                               I10n.of(context).address,
-                              formatAddress(accountAddress),
+                              Formatter.formatEthAddress(accountAddress),
                               withCopy: true,
                               onTap: () {
                                 Clipboard.setData(
@@ -320,7 +313,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           : rowItem(
                               context,
                               I10n.of(context).txn,
-                              formatAddress(action.txHash),
+                              Formatter.formatEthAddress(action.txHash),
                               withCopy: true,
                               onTap: () {
                                 Clipboard.setData(

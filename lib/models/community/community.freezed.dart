@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'community.dart';
 
@@ -26,30 +27,17 @@ class _$CommunityTearOff {
       bool isMultiBridge = false,
       bool isClosed = false,
       bool isMember = false,
-      @JsonKey(includeIfNull: false, defaultValue: '')
-          String? homeTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @CommunityMetadataConverter()
-          CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false)
-          String? webUrl,
-      @JsonKey(includeIfNull: false)
-          String? bridgeType,
-      @JsonKey(includeIfNull: false)
-          String? bridgeDirection,
-      @JsonKey(includeIfNull: false)
-          String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @PluginsConverter()
-          Plugins? plugins,
-      @JsonKey(includeIfNull: false)
-          List<Business>? businesses,
-      @JsonKey(includeIfNull: false)
-          String? description}) {
+      @JsonKey(includeIfNull: false) String homeTokenAddress = '',
+      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false) String? webUrl,
+      @JsonKey(includeIfNull: false) String? bridgeType,
+      @JsonKey(includeIfNull: false) String? bridgeDirection,
+      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
+      @JsonKey(includeIfNull: false) List<Business>? businesses,
+      @JsonKey(includeIfNull: false) String? description}) {
     return _Community(
       name: name,
       address: address,
@@ -70,7 +58,7 @@ class _$CommunityTearOff {
     );
   }
 
-  Community fromJson(Map<String, Object> json) {
+  Community fromJson(Map<String, Object?> json) {
     return Community.fromJson(json);
   }
 }
@@ -85,10 +73,9 @@ mixin _$Community {
   bool get isMultiBridge => throw _privateConstructorUsedError;
   bool get isClosed => throw _privateConstructorUsedError;
   bool get isMember => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false, defaultValue: '')
-  String? get homeTokenAddress => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  @CommunityMetadataConverter()
+  String get homeTokenAddress => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   CommunityMetadata? get metadata => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
   String? get webUrl => throw _privateConstructorUsedError;
@@ -126,30 +113,17 @@ abstract class $CommunityCopyWith<$Res> {
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
-      @JsonKey(includeIfNull: false, defaultValue: '')
-          String? homeTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @CommunityMetadataConverter()
-          CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false)
-          String? webUrl,
-      @JsonKey(includeIfNull: false)
-          String? bridgeType,
-      @JsonKey(includeIfNull: false)
-          String? bridgeDirection,
-      @JsonKey(includeIfNull: false)
-          String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @PluginsConverter()
-          Plugins? plugins,
-      @JsonKey(includeIfNull: false)
-          List<Business>? businesses,
-      @JsonKey(includeIfNull: false)
-          String? description});
+      @JsonKey(includeIfNull: false) String homeTokenAddress,
+      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false) String? webUrl,
+      @JsonKey(includeIfNull: false) String? bridgeType,
+      @JsonKey(includeIfNull: false) String? bridgeDirection,
+      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
+      @JsonKey(includeIfNull: false) List<Business>? businesses,
+      @JsonKey(includeIfNull: false) String? description});
 
   $CommunityMetadataCopyWith<$Res>? get metadata;
   $PluginsCopyWith<$Res>? get plugins;
@@ -206,7 +180,7 @@ class _$CommunityCopyWithImpl<$Res> implements $CommunityCopyWith<$Res> {
       homeTokenAddress: homeTokenAddress == freezed
           ? _value.homeTokenAddress
           : homeTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       metadata: metadata == freezed
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -285,30 +259,17 @@ abstract class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Res> {
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
-      @JsonKey(includeIfNull: false, defaultValue: '')
-          String? homeTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @CommunityMetadataConverter()
-          CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false)
-          String? webUrl,
-      @JsonKey(includeIfNull: false)
-          String? bridgeType,
-      @JsonKey(includeIfNull: false)
-          String? bridgeDirection,
-      @JsonKey(includeIfNull: false)
-          String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @PluginsConverter()
-          Plugins? plugins,
-      @JsonKey(includeIfNull: false)
-          List<Business>? businesses,
-      @JsonKey(includeIfNull: false)
-          String? description});
+      @JsonKey(includeIfNull: false) String homeTokenAddress,
+      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false) String? webUrl,
+      @JsonKey(includeIfNull: false) String? bridgeType,
+      @JsonKey(includeIfNull: false) String? bridgeDirection,
+      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
+      @JsonKey(includeIfNull: false) List<Business>? businesses,
+      @JsonKey(includeIfNull: false) String? description});
 
   @override
   $CommunityMetadataCopyWith<$Res>? get metadata;
@@ -368,7 +329,7 @@ class __$CommunityCopyWithImpl<$Res> extends _$CommunityCopyWithImpl<$Res>
       homeTokenAddress: homeTokenAddress == freezed
           ? _value.homeTokenAddress
           : homeTokenAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       metadata: metadata == freezed
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
@@ -423,55 +384,41 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
       this.isMultiBridge = false,
       this.isClosed = false,
       this.isMember = false,
-      @JsonKey(includeIfNull: false, defaultValue: '')
-          this.homeTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @CommunityMetadataConverter()
-          this.metadata,
-      @JsonKey(includeIfNull: false)
-          this.webUrl,
-      @JsonKey(includeIfNull: false)
-          this.bridgeType,
-      @JsonKey(includeIfNull: false)
-          this.bridgeDirection,
-      @JsonKey(includeIfNull: false)
-          this.homeBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          this.foreignBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          this.foreignTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @PluginsConverter()
-          this.plugins,
-      @JsonKey(includeIfNull: false)
-          this.businesses,
-      @JsonKey(includeIfNull: false)
-          this.description});
+      @JsonKey(includeIfNull: false) this.homeTokenAddress = '',
+      @JsonKey(includeIfNull: false) this.metadata,
+      @JsonKey(includeIfNull: false) this.webUrl,
+      @JsonKey(includeIfNull: false) this.bridgeType,
+      @JsonKey(includeIfNull: false) this.bridgeDirection,
+      @JsonKey(includeIfNull: false) this.homeBridgeAddress,
+      @JsonKey(includeIfNull: false) this.foreignBridgeAddress,
+      @JsonKey(includeIfNull: false) this.foreignTokenAddress,
+      @JsonKey(includeIfNull: false) @PluginsConverter() this.plugins,
+      @JsonKey(includeIfNull: false) this.businesses,
+      @JsonKey(includeIfNull: false) this.description});
 
   factory _$_Community.fromJson(Map<String, dynamic> json) =>
-      _$_$_CommunityFromJson(json);
+      _$$_CommunityFromJson(json);
 
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String name;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String address;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isMultiBridge;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isClosed;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isMember;
   @override
-  @JsonKey(includeIfNull: false, defaultValue: '')
-  final String? homeTokenAddress;
+  @JsonKey(includeIfNull: false)
+  final String homeTokenAddress;
   @override
   @JsonKey(includeIfNull: false)
-  @CommunityMetadataConverter()
   final CommunityMetadata? metadata;
   @override
   @JsonKey(includeIfNull: false)
@@ -533,74 +480,54 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Community &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
-            (identical(other.isMultiBridge, isMultiBridge) ||
-                const DeepCollectionEquality()
-                    .equals(other.isMultiBridge, isMultiBridge)) &&
-            (identical(other.isClosed, isClosed) ||
-                const DeepCollectionEquality()
-                    .equals(other.isClosed, isClosed)) &&
-            (identical(other.isMember, isMember) ||
-                const DeepCollectionEquality()
-                    .equals(other.isMember, isMember)) &&
-            (identical(other.homeTokenAddress, homeTokenAddress) ||
-                const DeepCollectionEquality()
-                    .equals(other.homeTokenAddress, homeTokenAddress)) &&
-            (identical(other.metadata, metadata) ||
-                const DeepCollectionEquality()
-                    .equals(other.metadata, metadata)) &&
-            (identical(other.webUrl, webUrl) ||
-                const DeepCollectionEquality().equals(other.webUrl, webUrl)) &&
-            (identical(other.bridgeType, bridgeType) ||
-                const DeepCollectionEquality()
-                    .equals(other.bridgeType, bridgeType)) &&
-            (identical(other.bridgeDirection, bridgeDirection) ||
-                const DeepCollectionEquality()
-                    .equals(other.bridgeDirection, bridgeDirection)) &&
-            (identical(other.homeBridgeAddress, homeBridgeAddress) ||
-                const DeepCollectionEquality()
-                    .equals(other.homeBridgeAddress, homeBridgeAddress)) &&
-            (identical(other.foreignBridgeAddress, foreignBridgeAddress) ||
-                const DeepCollectionEquality().equals(
-                    other.foreignBridgeAddress, foreignBridgeAddress)) &&
-            (identical(other.foreignTokenAddress, foreignTokenAddress) ||
-                const DeepCollectionEquality()
-                    .equals(other.foreignTokenAddress, foreignTokenAddress)) &&
-            (identical(other.plugins, plugins) ||
-                const DeepCollectionEquality()
-                    .equals(other.plugins, plugins)) &&
-            (identical(other.businesses, businesses) ||
-                const DeepCollectionEquality()
-                    .equals(other.businesses, businesses)) &&
-            (identical(other.description, description) ||
-                const DeepCollectionEquality()
-                    .equals(other.description, description)));
+        (other.runtimeType == runtimeType &&
+            other is _Community &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality().equals(other.address, address) &&
+            const DeepCollectionEquality()
+                .equals(other.isMultiBridge, isMultiBridge) &&
+            const DeepCollectionEquality().equals(other.isClosed, isClosed) &&
+            const DeepCollectionEquality().equals(other.isMember, isMember) &&
+            const DeepCollectionEquality()
+                .equals(other.homeTokenAddress, homeTokenAddress) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata) &&
+            const DeepCollectionEquality().equals(other.webUrl, webUrl) &&
+            const DeepCollectionEquality()
+                .equals(other.bridgeType, bridgeType) &&
+            const DeepCollectionEquality()
+                .equals(other.bridgeDirection, bridgeDirection) &&
+            const DeepCollectionEquality()
+                .equals(other.homeBridgeAddress, homeBridgeAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.foreignBridgeAddress, foreignBridgeAddress) &&
+            const DeepCollectionEquality()
+                .equals(other.foreignTokenAddress, foreignTokenAddress) &&
+            const DeepCollectionEquality().equals(other.plugins, plugins) &&
+            const DeepCollectionEquality()
+                .equals(other.businesses, businesses) &&
+            const DeepCollectionEquality()
+                .equals(other.description, description));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(isMultiBridge) ^
-      const DeepCollectionEquality().hash(isClosed) ^
-      const DeepCollectionEquality().hash(isMember) ^
-      const DeepCollectionEquality().hash(homeTokenAddress) ^
-      const DeepCollectionEquality().hash(metadata) ^
-      const DeepCollectionEquality().hash(webUrl) ^
-      const DeepCollectionEquality().hash(bridgeType) ^
-      const DeepCollectionEquality().hash(bridgeDirection) ^
-      const DeepCollectionEquality().hash(homeBridgeAddress) ^
-      const DeepCollectionEquality().hash(foreignBridgeAddress) ^
-      const DeepCollectionEquality().hash(foreignTokenAddress) ^
-      const DeepCollectionEquality().hash(plugins) ^
-      const DeepCollectionEquality().hash(businesses) ^
-      const DeepCollectionEquality().hash(description);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(address),
+      const DeepCollectionEquality().hash(isMultiBridge),
+      const DeepCollectionEquality().hash(isClosed),
+      const DeepCollectionEquality().hash(isMember),
+      const DeepCollectionEquality().hash(homeTokenAddress),
+      const DeepCollectionEquality().hash(metadata),
+      const DeepCollectionEquality().hash(webUrl),
+      const DeepCollectionEquality().hash(bridgeType),
+      const DeepCollectionEquality().hash(bridgeDirection),
+      const DeepCollectionEquality().hash(homeBridgeAddress),
+      const DeepCollectionEquality().hash(foreignBridgeAddress),
+      const DeepCollectionEquality().hash(foreignTokenAddress),
+      const DeepCollectionEquality().hash(plugins),
+      const DeepCollectionEquality().hash(businesses),
+      const DeepCollectionEquality().hash(description));
 
   @JsonKey(ignore: true)
   @override
@@ -609,7 +536,7 @@ class _$_Community with DiagnosticableTreeMixin implements _Community {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_CommunityToJson(this);
+    return _$$_CommunityToJson(this);
   }
 }
 
@@ -620,79 +547,65 @@ abstract class _Community implements Community {
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
-      @JsonKey(includeIfNull: false, defaultValue: '')
-          String? homeTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @CommunityMetadataConverter()
-          CommunityMetadata? metadata,
-      @JsonKey(includeIfNull: false)
-          String? webUrl,
-      @JsonKey(includeIfNull: false)
-          String? bridgeType,
-      @JsonKey(includeIfNull: false)
-          String? bridgeDirection,
-      @JsonKey(includeIfNull: false)
-          String? homeBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignBridgeAddress,
-      @JsonKey(includeIfNull: false)
-          String? foreignTokenAddress,
-      @JsonKey(includeIfNull: false)
-      @PluginsConverter()
-          Plugins? plugins,
-      @JsonKey(includeIfNull: false)
-          List<Business>? businesses,
-      @JsonKey(includeIfNull: false)
-          String? description}) = _$_Community;
+      @JsonKey(includeIfNull: false) String homeTokenAddress,
+      @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
+      @JsonKey(includeIfNull: false) String? webUrl,
+      @JsonKey(includeIfNull: false) String? bridgeType,
+      @JsonKey(includeIfNull: false) String? bridgeDirection,
+      @JsonKey(includeIfNull: false) String? homeBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignBridgeAddress,
+      @JsonKey(includeIfNull: false) String? foreignTokenAddress,
+      @JsonKey(includeIfNull: false) @PluginsConverter() Plugins? plugins,
+      @JsonKey(includeIfNull: false) List<Business>? businesses,
+      @JsonKey(includeIfNull: false) String? description}) = _$_Community;
 
   factory _Community.fromJson(Map<String, dynamic> json) =
       _$_Community.fromJson;
 
   @override
-  String get name => throw _privateConstructorUsedError;
+  String get name;
   @override
-  String get address => throw _privateConstructorUsedError;
+  String get address;
   @override
-  bool get isMultiBridge => throw _privateConstructorUsedError;
+  bool get isMultiBridge;
   @override
-  bool get isClosed => throw _privateConstructorUsedError;
+  bool get isClosed;
   @override
-  bool get isMember => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(includeIfNull: false, defaultValue: '')
-  String? get homeTokenAddress => throw _privateConstructorUsedError;
+  bool get isMember;
   @override
   @JsonKey(includeIfNull: false)
-  @CommunityMetadataConverter()
-  CommunityMetadata? get metadata => throw _privateConstructorUsedError;
+  String get homeTokenAddress;
   @override
   @JsonKey(includeIfNull: false)
-  String? get webUrl => throw _privateConstructorUsedError;
+  CommunityMetadata? get metadata;
   @override
   @JsonKey(includeIfNull: false)
-  String? get bridgeType => throw _privateConstructorUsedError;
+  String? get webUrl;
   @override
   @JsonKey(includeIfNull: false)
-  String? get bridgeDirection => throw _privateConstructorUsedError;
+  String? get bridgeType;
   @override
   @JsonKey(includeIfNull: false)
-  String? get homeBridgeAddress => throw _privateConstructorUsedError;
+  String? get bridgeDirection;
   @override
   @JsonKey(includeIfNull: false)
-  String? get foreignBridgeAddress => throw _privateConstructorUsedError;
+  String? get homeBridgeAddress;
   @override
   @JsonKey(includeIfNull: false)
-  String? get foreignTokenAddress => throw _privateConstructorUsedError;
+  String? get foreignBridgeAddress;
+  @override
+  @JsonKey(includeIfNull: false)
+  String? get foreignTokenAddress;
   @override
   @JsonKey(includeIfNull: false)
   @PluginsConverter()
-  Plugins? get plugins => throw _privateConstructorUsedError;
+  Plugins? get plugins;
   @override
   @JsonKey(includeIfNull: false)
-  List<Business>? get businesses => throw _privateConstructorUsedError;
+  List<Business>? get businesses;
   @override
   @JsonKey(includeIfNull: false)
-  String? get description => throw _privateConstructorUsedError;
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$CommunityCopyWith<_Community> get copyWith =>

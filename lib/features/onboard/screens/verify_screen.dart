@@ -19,6 +19,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   TextEditingController codeController = TextEditingController(text: '');
   String currentText = "";
   final formKey = GlobalKey<FormState>();
+  bool isPreloading = false;
 
   @override
   void initState() {
@@ -29,14 +30,29 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).sign_up,
-      body: StoreConnector<AppState, OnboardViewModel>(
+      body: StoreConnector<AppState, VerifyOnboardViewModel>(
         distinct: true,
-        converter: OnboardViewModel.fromStore,
+        converter: VerifyOnboardViewModel.fromStore,
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null &&
               viewModel.verificationId != null) {
             autoCode = viewModel.credentials?.smsCode ?? "";
-            viewModel.verify(autoCode);
+            setState(() {
+              isPreloading = true;
+            });
+            viewModel.verify(
+              autoCode,
+              () {
+                setState(() {
+                  isPreloading = false;
+                });
+              },
+              (error) {
+                setState(() {
+                  isPreloading = false;
+                });
+              },
+            );
           }
         },
         builder: (_, viewModel) {
@@ -49,7 +65,7 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                     children: <Widget>[
                       Text(
                         I10n.of(context).we_just_sent +
-                            "${viewModel.phoneNumber}" +
+                            viewModel.phoneNumber +
                             "\n",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -116,13 +132,28 @@ class _VerifyPhoneNumberState extends State<VerifyPhoneNumber> {
                       Center(
                         child: PrimaryButton(
                           label: I10n.of(context).next_button,
-                          preload: viewModel.isVerifyRequest,
+                          width: MediaQuery.of(context).size.width * .9,
+                          preload: isPreloading,
+                          disabled: isPreloading,
                           onPressed: () {
                             formKey.currentState!.validate();
                             if (currentText.length != 6) {
                             } else {
+                              setState(() {
+                                isPreloading = true;
+                              });
                               viewModel.verify(
                                 codeController.text,
+                                () {
+                                  setState(() {
+                                    isPreloading = false;
+                                  });
+                                },
+                                (dynamic error) {
+                                  setState(() {
+                                    isPreloading = false;
+                                  });
+                                },
                               );
                             }
                           },

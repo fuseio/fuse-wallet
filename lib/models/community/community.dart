@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'community.freezed.dart';
 part 'community.g.dart';
@@ -18,10 +17,8 @@ class Community with _$Community {
     @Default(false) bool isMultiBridge,
     @Default(false) bool isClosed,
     @Default(false) bool isMember,
-    @JsonKey(includeIfNull: false, defaultValue: '') String? homeTokenAddress,
-    @JsonKey(includeIfNull: false)
-    @CommunityMetadataConverter()
-        CommunityMetadata? metadata,
+    @JsonKey(includeIfNull: false) @Default('') String homeTokenAddress,
+    @JsonKey(includeIfNull: false) CommunityMetadata? metadata,
     @JsonKey(includeIfNull: false) String? webUrl,
     @JsonKey(includeIfNull: false) String? bridgeType,
     @JsonKey(includeIfNull: false) String? bridgeDirection,

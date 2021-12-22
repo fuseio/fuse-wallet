@@ -8,7 +8,7 @@ part 'transak.g.dart';
 @immutable
 @freezed
 class TransakPlugin with _$TransakPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory TransakPlugin({
     @Default('transak') String name,

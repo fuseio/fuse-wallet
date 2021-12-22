@@ -1,6 +1,5 @@
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/utils/log/log.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -16,6 +15,7 @@ class WalletActions with _$WalletActions {
   factory WalletActions({
     @Default(<WalletAction>[]) List<WalletAction> list,
     @Default(0) num updatedAt,
+    @Default(1) int currentPage,
   }) = _WalletActions;
 
   factory WalletActions.initial() {
@@ -65,7 +65,10 @@ class WalletActionFactory {
           return [...previousValue, WalletActionFactory.create(action)];
         } catch (e, s) {
           log.info(
-              'Error while trying to add WalletAction ${e.toString()}  ${s.toString()}');
+            'Error while trying to add WalletAction',
+            error: e,
+            stackTrace: s,
+          );
           return previousValue;
         }
       });

@@ -12,7 +12,7 @@ final Token fuseToken = Token(
   symbol: 'FUSE',
   imageUrl: 'https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-token.png',
   decimals: 18,
-  address: Addresses.ZERO_ADDRESS,
+  address: Addresses.nativeTokenAddress,
   originNetwork: 'fuse',
   isNative: true,
   timestamp: 0,
@@ -25,7 +25,7 @@ final Token fuseDollarToken = Token(
   symbol: 'fUSD',
   imageUrl: "https://fuselogo.s3.eu-central-1.amazonaws.com/fuse-dollar.png",
   decimals: 18,
-  address: Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+  address: Addresses.fusdTokenAddress,
   originNetwork: 'fuse',
   timestamp: 0,
   amount: BigInt.zero,
@@ -38,7 +38,7 @@ String toShortName(networkType) =>
 String getBridgeMediator(
     {String networkType = 'mainnet', String bridgeType = 'foreign'}) {
   return bridgeType == 'foreign'
-      ? bridgeAddresses['${toShortName(networkType)}']['MultiBridgeMediator}']
+      ? bridgeAddresses['$toShortName(networkType)']['MultiBridgeMediator}']
       : bridgeAddresses['fuse']
           ['MultiBridgeMediator${toShortName(networkType).capitalize()}'];
 }

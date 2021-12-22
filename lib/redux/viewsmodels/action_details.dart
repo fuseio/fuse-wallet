@@ -15,7 +15,7 @@ class ActionDetailsViewModel extends Equatable {
   static ActionDetailsViewModel fromStore(Store<AppState> store) {
     return ActionDetailsViewModel(
       tokens: store.state.cashWalletState.tokens,
-      tokensImages: store.state.swapState.tokensImages,
+      tokensImages: {},
     );
   }
 

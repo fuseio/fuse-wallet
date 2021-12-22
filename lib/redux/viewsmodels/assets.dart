@@ -17,17 +17,12 @@ class TokensListViewModel extends Equatable {
   });
 
   static TokensListViewModel fromStore(Store<AppState> store) {
-    List<Token> foreignTokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((token) => num.parse(token.getBalance(true)).compareTo(0) == 1)
-        .toList();
-
     List<Token> homeTokens =
         List<Token>.from(store.state.cashWalletState.tokens.values)
             .where((Token token) {
               if ([
-                Addresses.ZERO_ADDRESS,
-                Addresses.FUSE_DOLLAR_TOKEN_ADDRESS,
+                Addresses.nativeTokenAddress,
+                Addresses.zeroAddress,
               ].contains(token.address)) {
                 return true;
               } else if (num.parse(token.getBalance(true)).compareTo(0) == 1) {
@@ -36,17 +31,16 @@ class TokensListViewModel extends Equatable {
               return false;
             })
             .map((Token token) => token.copyWith(
-                imageUrl: token.imageUrl != null
-                    ? token.imageUrl
-                    : store.state.cashWalletState.communities
-                            .containsKey(token.communityAddress)
-                        ? store.state.cashWalletState
-                            .communities[token.communityAddress]?.metadata
-                            ?.getImageUri()
-                        : null))
+                imageUrl: token.imageUrl ??
+                    store.state.cashWalletState
+                        .communities[token.communityAddress]?.metadata
+                        ?.getImageUri() ??
+                    ''))
             .toList();
 
-    final List<Token> tokens = [...homeTokens, ...foreignTokens]..sort();
+    final List<Token> tokens = [
+      ...homeTokens,
+    ]..sort();
 
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,

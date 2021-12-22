@@ -8,6 +8,7 @@
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'th_TH';
 
-  static String m0(name) =>
+  static String m2(name) =>
       "การส่งเงินไปยัง ${name} จะเชิญพวกเขาไปที่ fuse โดยอัตโนมัติเพื่อให้พวกเขาแลกเงินที่คุณส่ง";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -190,7 +191,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invite_friend": MessageLookupByLibrary.simpleMessage("ชวนเพื่อน"),
         "invite_friend_text": MessageLookupByLibrary.simpleMessage(
             "เฮ้ เพื่อนของคุณแชร์กระเป๋าเงิน fuse.cash กับคุณ:"),
-        "invite_text": m0,
+        "invite_text": m2,
         "join_bonus": MessageLookupByLibrary.simpleMessage(
             "คุณได้รับโบนัสจากการเข้าร่วม!"),
         "joined": MessageLookupByLibrary.simpleMessage("เข้าร่วมแล้ว"),

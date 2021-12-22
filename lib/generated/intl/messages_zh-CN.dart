@@ -8,6 +8,7 @@
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
-  static String m0(name) => "向 ${name} 发送资金会自动邀请他们加入 Fuse 并让他们赎兑您发送的资金";
+  static String m2(name) => "向 ${name} 发送资金会自动邀请他们加入 Fuse 并让他们赎兑您发送的资金";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -166,7 +167,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invite_friend": MessageLookupByLibrary.simpleMessage("邀请朋友"),
         "invite_friend_text":
             MessageLookupByLibrary.simpleMessage("嘿，您的朋友给您分享了 fuse.cash 钱包："),
-        "invite_text": m0,
+        "invite_text": m2,
         "join_bonus": MessageLookupByLibrary.simpleMessage("您获得了加入奖励！"),
         "joined": MessageLookupByLibrary.simpleMessage("已加入"),
         "joined_community": MessageLookupByLibrary.simpleMessage(""),

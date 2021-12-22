@@ -56,7 +56,7 @@ class ReceiveScreen extends StatelessWidget {
                     Container(
                       width: 220,
                       child: Text(
-                        formatAddress(viewModel.walletAddress),
+                        Formatter.formatEthAddress(viewModel.walletAddress),
                         softWrap: true,
                         textAlign: TextAlign.center,
                         style: TextStyle(

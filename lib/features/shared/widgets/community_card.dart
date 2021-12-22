@@ -161,7 +161,7 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
                         Text(
                           widget.community.isClosed
                               ? 'Closed'
-                              : 'Open' + ' community',
+                              : 'Open' ' community',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF808080),

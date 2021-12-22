@@ -8,6 +8,7 @@
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,7 +20,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en_PH';
 
-  static String m0(name) =>
+  static String m2(name) =>
       "Sending money to ${name} will automatically invite them to Fuse and let them redeem the funds you sent";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -177,7 +178,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Invite a friend"),
         "invite_friend_text": MessageLookupByLibrary.simpleMessage(
             "Hey, your friend shared with you the fuse.cash wallet: "),
-        "invite_text": m0,
+        "invite_text": m2,
         "join_bonus": MessageLookupByLibrary.simpleMessage(
             "Nakakuha ka ng bonus sa pagsali!"),
         "joined": MessageLookupByLibrary.simpleMessage("Joined"),

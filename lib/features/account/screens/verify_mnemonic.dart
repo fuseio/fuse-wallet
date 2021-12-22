@@ -68,7 +68,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   final _formKey = GlobalKey<FormState>();
 
   List<int> getRandom3Numbers() {
-    List<int> list = new List<int>.generate(12, (int index) => index + 1);
+    List<int> list = List<int>.generate(12, (int index) => index + 1);
     list.shuffle();
     List<int> _l = list.sublist(0, 3);
     _l.sort();

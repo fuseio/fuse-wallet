@@ -27,7 +27,7 @@ class BalanceViewModel extends Equatable {
     final num value = homeTokens.fold<num>(0, combiner);
 
     return BalanceViewModel(
-      usdValue: display(value),
+      usdValue: display2(value),
     );
   }
 

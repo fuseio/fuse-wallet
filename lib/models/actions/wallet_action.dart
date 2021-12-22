@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,40 +13,78 @@ part 'wallet_action.g.dart';
 
 @immutable
 @freezed
-class WalletAction with _$WalletAction {
+class WalletAction with _$WalletAction implements Comparable<WalletAction> {
   const WalletAction._();
+
+  @override
+  int compareTo(WalletAction? other) {
+    if (other == null) return 1;
+    return timestamp.compareTo(other.timestamp);
+  }
 
   factory WalletAction.fromJson(dynamic json) => _$WalletActionFromJson(json);
 
-  bool isPending() => this.status == 'PENDING' || this.status == 'STARTED';
-  bool isFailed() => this.status == 'FAILED';
-  bool isConfirmed() =>
-      this.status == 'CONFIRMED' || this.status == 'SUCCEEDED';
+  bool isPending() => status == 'PENDING' || status == 'STARTED';
+  bool isFailed() => status == 'FAILED';
+  bool isConfirmed() => status == 'CONFIRMED' || status == 'SUCCEEDED';
 
-  String getAmount({Price? priceInfo}) {
-    return this.map(
+  String getName(
+    BuildContext context,
+  ) {
+    return map(
       createWallet: (value) => '',
       joinCommunity: (value) => '',
-      fiatDeposit: (value) =>
-          calcPrice(value.value, value.tokenDecimal, priceInfo),
-      bonus: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
-      send: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
-      receive: (value) => calcPrice(value.value, value.tokenDecimal, priceInfo),
+      fiatDeposit: (value) => I10n.of(context).action_fiatDeposit,
+      bonus: (value) => I10n.of(context).action_bonus,
+      send: (value) => I10n.of(context).action_send,
+      receive: (value) => I10n.of(context).action_receive,
+      swap: (value) => I10n.of(context).action_swap,
+    );
+  }
+
+  String getAmount([Price? priceInfo]) {
+    return map(
+      createWallet: (value) => '',
+      joinCommunity: (value) => '',
+      fiatDeposit: (value) => Formatter.amountPrinter(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      bonus: (value) => Formatter.amountPrinter(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      send: (value) => Formatter.amountPrinter(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
+      receive: (value) => Formatter.amountPrinter(
+        value.value,
+        value.tokenDecimal,
+        priceInfo,
+      ),
       swap: (value) {
         final bool hasPriceInfo =
             ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
         if (hasPriceInfo) {
-          double a = double.parse(value.tradeInfo!.outputAmount) *
-              double.parse(priceInfo!.quote);
-          return display(num.tryParse(a.toString()));
+          Decimal temp = Decimal.parse(value.tradeInfo!.outputAmount) *
+              Decimal.parse(priceInfo!.quote);
+          if (Formatter.isSmallThan(Decimal.parse(temp.toString()))) {
+            return '\$' + display6(temp.toDouble());
+          } else {
+            return '\$' + display2(temp.toDouble());
+          }
         }
-        return display(num.parse(value.tradeInfo!.outputAmount));
+        return display2(num.parse(value.tradeInfo?.outputAmount ?? '0'));
       },
     );
   }
 
   bool isGenerateWallet() {
-    return this.map(
+    return map(
       createWallet: (value) => true,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
@@ -57,7 +96,7 @@ class WalletAction with _$WalletAction {
   }
 
   bool isSwapAction() {
-    return this.map(
+    return map(
       createWallet: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
@@ -69,7 +108,7 @@ class WalletAction with _$WalletAction {
   }
 
   bool isJoinBonus() {
-    return this.map(
+    return map(
       createWallet: (value) => false,
       joinCommunity: (value) => false,
       fiatDeposit: (value) => false,
@@ -81,7 +120,7 @@ class WalletAction with _$WalletAction {
   }
 
   bool isJoinCommunity() {
-    return this.map(
+    return map(
       createWallet: (value) => false,
       joinCommunity: (value) => true,
       fiatDeposit: (value) => false,
@@ -93,13 +132,13 @@ class WalletAction with _$WalletAction {
   }
 
   Widget getActionIcon() {
-    if (this.isFailed()) {
+    if (isFailed()) {
       return SvgPicture.asset(
         'assets/images/failed_icon.svg',
         height: 9,
       );
     }
-    return this.map(
+    return map(
       createWallet: (value) => Text(''),
       joinCommunity: (value) => Text(''),
       fiatDeposit: (value) => SvgPicture.asset(
@@ -125,23 +164,26 @@ class WalletAction with _$WalletAction {
     );
   }
 
-  Widget getStatusIcon() {
-    if (this.isFailed()) {
+  Widget getStatusIcon([
+    double? width = 25,
+    double? height = 25,
+  ]) {
+    if (isFailed()) {
       return Padding(
         padding: EdgeInsets.only(right: 10),
         child: SvgPicture.asset(
           'assets/images/failed_icon.svg',
-          width: 25,
-          height: 25,
+          width: width,
+          height: height,
         ),
       );
-    } else if (this.isConfirmed()) {
+    } else if (isConfirmed()) {
       return Padding(
         padding: EdgeInsets.only(right: 10),
         child: SvgPicture.asset(
           'assets/images/approve_icon.svg',
-          width: 25,
-          height: 25,
+          width: width,
+          height: height,
         ),
       );
     } else {
@@ -149,15 +191,18 @@ class WalletAction with _$WalletAction {
         padding: EdgeInsets.only(right: 10),
         child: SvgPicture.asset(
           'assets/images/pending.svg',
-          width: 25,
-          height: 25,
+          width: width,
+          height: height,
         ),
       );
     }
   }
 
-  String getText(BuildContext context) {
-    return this.map(
+  String getText(
+    BuildContext context, {
+    String? displayName,
+  }) {
+    return map(
       createWallet: (value) {
         if (value.isFailed()) {
           return I10n.of(context).generate_wallet_failed;
@@ -167,12 +212,12 @@ class WalletAction with _$WalletAction {
           return I10n.of(context).generating_wallet;
         }
       },
-      joinCommunity: (value) => value.communityName!,
+      joinCommunity: (value) => value.communityName ?? 'Fuse Dollar',
       fiatDeposit: (value) {
         if (value.isFailed()) {
           return 'fUSD - ${I10n.of(context).deposit_failed}';
         } else if (value.isConfirmed()) {
-          return 'fUSD - ${I10n.of(context).deposit}';
+          return I10n.of(context).deposit;
         } else {
           return I10n.of(context).waiting_for_deposit;
         }
@@ -187,21 +232,23 @@ class WalletAction with _$WalletAction {
         }
       },
       send: (value) {
+        final name = displayName ?? Formatter.formatEthAddress(value.to);
         if (value.isFailed()) {
-          return '${I10n.of(context).send_to} ${formatAddress(value.to)} ${I10n.of(context).failed.toLowerCase()}';
+          return '${I10n.of(context).sent} ${value.tokenSymbol} ${I10n.of(context).to.toLowerCase()} $name';
         } else if (value.isConfirmed()) {
-          return '${I10n.of(context).send_to} ${formatAddress(value.to)} ${I10n.of(context).success.toLowerCase()}';
+          return '${I10n.of(context).sent} ${value.tokenSymbol} ${I10n.of(context).to.toLowerCase()} $name';
         } else {
-          return '${I10n.of(context).send_to} ${formatAddress(value.to)} ${I10n.of(context).success.toLowerCase()}';
+          return '${I10n.of(context).sent} ${value.tokenSymbol} ${I10n.of(context).to.toLowerCase()} $name';
         }
       },
       receive: (value) {
+        final name = displayName ?? Formatter.formatEthAddress(value.to);
         if (value.isFailed()) {
-          return '${I10n.of(context).receive_from} ${formatAddress(value.from)}  ${I10n.of(context).failed.toLowerCase()}';
+          return '${I10n.of(context).received} ${value.tokenSymbol} ${I10n.of(context).from.toLowerCase()} $name';
         } else if (value.isConfirmed()) {
-          return '${I10n.of(context).receive_from} ${formatAddress(value.from)} ${I10n.of(context).success.toLowerCase()}';
+          return '${I10n.of(context).received} ${value.tokenSymbol} ${I10n.of(context).from.toLowerCase()} $name';
         } else {
-          return '${I10n.of(context).receive_from} ${formatAddress(value.from)} ${I10n.of(context).success.toLowerCase()}';
+          return '${I10n.of(context).received} ${value.tokenSymbol} ${I10n.of(context).from.toLowerCase()} $name';
         }
       },
       swap: (value) {
@@ -214,19 +261,19 @@ class WalletAction with _$WalletAction {
   }
 
   String getSender() {
-    return this.map(
+    return map(
       createWallet: (value) => '',
       joinCommunity: (value) => '',
       fiatDeposit: (value) => value.from ?? '',
       bonus: (value) => value.from ?? '',
       send: (value) => value.to,
-      receive: (value) => value.from ?? '',
+      receive: (value) => value.from,
       swap: (value) => '',
     );
   }
 
   String getRecipient() {
-    return this.map(
+    return map(
       createWallet: (value) => '',
       joinCommunity: (value) => '',
       fiatDeposit: (value) => value.to,
@@ -242,7 +289,7 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('createWallet') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
   }) = CreateWallet;
@@ -252,16 +299,16 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('fiat-deposit') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    @Default(null) String? from,
+    String? from,
     required String to,
     required BigInt value,
-    String? tokenName,
-    String? tokenSymbol,
-    @Default(18) int tokenDecimal,
+    required String tokenName,
+    required String tokenSymbol,
+    required int tokenDecimal,
   }) = FiatDeposit;
 
   @JsonSerializable()
@@ -269,12 +316,12 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('joinCommunity') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     String? communityAddress,
-    String? tokenAddress,
-    @Default(null) String? communityName,
+    required String tokenAddress,
+    String? communityName,
   }) = JoinCommunity;
 
   @JsonSerializable()
@@ -282,16 +329,16 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('tokenBonus') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    @Default(null) String? from,
+    String? from,
     required String to,
     required BigInt value,
-    String? tokenName,
-    String? tokenSymbol,
-    @Default(18) int tokenDecimal,
+    required String tokenName,
+    required String tokenSymbol,
+    required int tokenDecimal,
     String? bonusType,
   }) = Bonus;
 
@@ -300,16 +347,16 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('sendTokens') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    @Default(null) String? from,
+    required String from,
     required String to,
     required BigInt value,
-    String? tokenName,
-    String? tokenSymbol,
-    @Default(18) int tokenDecimal,
+    required String tokenName,
+    required String tokenSymbol,
+    required int tokenDecimal,
   }) = Send;
 
   @JsonSerializable()
@@ -317,16 +364,16 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('receiveTokens') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
     required String tokenAddress,
-    @Default(null) String? from,
+    required String from,
     required String to,
     required BigInt value,
-    String? tokenName,
-    String? tokenSymbol,
-    @Default(18) int tokenDecimal,
+    required String tokenName,
+    required String tokenSymbol,
+    required int tokenDecimal,
   }) = Receive;
 
   @JsonSerializable()
@@ -334,9 +381,9 @@ class WalletAction with _$WalletAction {
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
     @Default('swapTokens') String name,
-    @Default(null) String? txHash,
+    String? txHash,
     required String status,
     @Default(0) int? blockNumber,
-    @Default(null) @JsonKey(name: 'metadata') TradeInfo? tradeInfo,
+    @JsonKey(name: 'metadata') TradeInfo? tradeInfo,
   }) = Swap;
 }

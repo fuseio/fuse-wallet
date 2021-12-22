@@ -11,7 +11,7 @@ class WarnSendDialog extends StatefulWidget {
   WarnSendDialog();
 
   @override
-  createState() => new WarnSendDialogState();
+  WarnSendDialogState createState() => WarnSendDialogState();
 }
 
 class WarnSendDialogState extends State<WarnSendDialog>
@@ -45,7 +45,7 @@ class WarnSendDialogState extends State<WarnSendDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

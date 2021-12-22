@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'invite_bonus.dart';
 
@@ -22,8 +23,8 @@ class _$InviteBonusPluginTearOff {
 
   _InviteBonusPlugin call(
       {String type = 'inviteBonus',
-      String? amount = null,
-      String? name = null,
+      String? amount,
+      String? name,
       bool isActive = false}) {
     return _InviteBonusPlugin(
       type: type,
@@ -33,7 +34,7 @@ class _$InviteBonusPluginTearOff {
     );
   }
 
-  InviteBonusPlugin fromJson(Map<String, Object> json) {
+  InviteBonusPlugin fromJson(Map<String, Object?> json) {
     return InviteBonusPlugin.fromJson(json);
   }
 }
@@ -150,30 +151,28 @@ class __$InviteBonusPluginCopyWithImpl<$Res>
 
 /// @nodoc
 
-@Implements(Plugin)
+@Implements<Plugin>()
 @JsonSerializable()
 class _$_InviteBonusPlugin
     with DiagnosticableTreeMixin
     implements _InviteBonusPlugin {
   _$_InviteBonusPlugin(
       {this.type = 'inviteBonus',
-      this.amount = null,
-      this.name = null,
+      this.amount,
+      this.name,
       this.isActive = false});
 
   factory _$_InviteBonusPlugin.fromJson(Map<String, dynamic> json) =>
-      _$_$_InviteBonusPluginFromJson(json);
+      _$$_InviteBonusPluginFromJson(json);
 
-  @JsonKey(defaultValue: 'inviteBonus')
+  @JsonKey()
   @override
   final String type;
-  @JsonKey(defaultValue: null)
   @override
   final String? amount;
-  @JsonKey(defaultValue: null)
   @override
   final String? name;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isActive;
 
@@ -196,25 +195,21 @@ class _$_InviteBonusPlugin
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _InviteBonusPlugin &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.amount, amount) ||
-                const DeepCollectionEquality().equals(other.amount, amount)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.isActive, isActive) ||
-                const DeepCollectionEquality()
-                    .equals(other.isActive, isActive)));
+        (other.runtimeType == runtimeType &&
+            other is _InviteBonusPlugin &&
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality().equals(other.amount, amount) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality().equals(other.isActive, isActive));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(amount) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(isActive);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(amount),
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(isActive));
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +218,7 @@ class _$_InviteBonusPlugin
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_InviteBonusPluginToJson(this);
+    return _$$_InviteBonusPluginToJson(this);
   }
 }
 
@@ -238,13 +233,13 @@ abstract class _InviteBonusPlugin implements InviteBonusPlugin, Plugin {
       _$_InviteBonusPlugin.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
-  String? get amount => throw _privateConstructorUsedError;
+  String? get amount;
   @override
-  String? get name => throw _privateConstructorUsedError;
+  String? get name;
   @override
-  bool get isActive => throw _privateConstructorUsedError;
+  bool get isActive;
   @override
   @JsonKey(ignore: true)
   _$InviteBonusPluginCopyWith<_InviteBonusPlugin> get copyWith =>

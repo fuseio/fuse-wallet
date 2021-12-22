@@ -240,10 +240,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendFlowArguments args = this.widget.pageArgs;
+    final SendFlowArguments args = widget.pageArgs;
     String title =
-        "${I10n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
-    return new StoreConnector<AppState, SendAmountViewModel>(
+        "${I10n.of(context).send_to} ${args.name ?? Formatter.formatEthAddress(args.accountAddress)}";
+    return StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
         if (args.tokenToSend != null) {

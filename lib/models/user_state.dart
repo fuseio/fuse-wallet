@@ -5,19 +5,16 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/constants/enums.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/models/wallet/wallet_modules.dart';
 
 part 'user_state.freezed.dart';
 part 'user_state.g.dart';
 
-String currencyJson(String? currency) => currency == null ? 'usd' : currency;
+BiometricAuth authTypeFromJson(String auth) =>
+    EnumToString.fromString<BiometricAuth>(BiometricAuth.values, auth)!;
 
-authTypeFromJson(String auth) =>
-    EnumToString.fromString(BiometricAuth.values, auth);
-
-Locale localeFromJson(Map<String, dynamic>? map) => map == null
-    ? Locale('en', 'US')
-    : Locale(map['languageCode'], map['countryCode']);
+Locale localeFromJson(Map<String, dynamic> map) =>
+    Locale(map['languageCode'], map['countryCode']);
 
 Map<String, dynamic> localeToJson(Locale? locale) => locale == null
     ? {'languageCode': 'en', 'countryCode': 'US'}
@@ -30,8 +27,10 @@ class UserState with _$UserState {
 
   @JsonSerializable()
   factory UserState({
+    WalletModules? walletModules,
     DateTime? installedAt,
-    @Default(null) bool? isContactsSynced,
+    bool? isContactsSynced,
+    @Default({}) Map<String, dynamic> installConversionData,
     @Default(false) bool isLoggedOut,
     @Default(false) bool backup,
     @Default(false) bool? depositBannerShowed,
@@ -51,23 +50,18 @@ class UserState with _$UserState {
     @Default('Anom') String displayName,
     @Default('') String avatarUrl,
     @Default('') String email,
-    @Default(null) String? verificationId,
+    String? verificationId,
     @Default('') String identifier,
     @Default([]) List<String> syncedContacts,
     @Default({}) Map<String, String> reverseContacts,
-    @Default(null) @JsonKey(ignore: true) dynamic signupErrorMessage,
-    @Default(null) @JsonKey(ignore: true) dynamic verifyErrorMessage,
-    @JsonKey(fromJson: currencyJson) @Default('usd') String currency,
-    @JsonKey(ignore: true) @Default(false) bool isLoginRequest,
-    @JsonKey(ignore: true) @Default(false) bool isVerifyRequest,
+    @Default('usd') String currency,
+    @JsonKey(ignore: true) @Default(false) bool hasUpgrade,
     @Default(BiometricAuth.none)
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
-    @JsonKey(fromJson: localeFromJson, toJson: localeToJson)
-    @Default(null)
-        Locale? locale,
+    @JsonKey(fromJson: localeFromJson, toJson: localeToJson) Locale? locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
-    @Default(null) @JsonKey(ignore: true) PhoneAuthCredential? credentials,
+    @JsonKey(ignore: true) PhoneAuthCredential? credentials,
   }) = _UserState;
 
   factory UserState.initial() => UserState(
@@ -75,7 +69,7 @@ class UserState with _$UserState {
         mnemonic: [],
         contacts: [],
         syncedContacts: [],
-        reverseContacts: Map<String, String>(),
+        reverseContacts: const {},
         displayName: "Anom",
         backup: false,
         authType: BiometricAuth.none,

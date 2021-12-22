@@ -49,7 +49,7 @@ SwapState _getSwappableTokensSuccess(
 
 SwapState _getTokensImagesSuccess(
     SwapState state, GetTokensImagesSuccess action) {
-  Map<String, String> newOne = Map();
+  Map<String, String> newOne = {};
   for (String tokenAddress in action.tokensImages.keys) {
     if (!state.tokensImages.containsKey(tokenAddress)) {
       newOne[tokenAddress] = action.tokensImages[tokenAddress]!;

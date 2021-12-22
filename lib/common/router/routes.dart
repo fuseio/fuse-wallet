@@ -15,7 +15,6 @@ import 'package:fusecash/features/screens/on_board_screen.dart';
 import 'package:fusecash/features/screens/pincode_screen.dart';
 import 'package:fusecash/features/screens/splash_screen.dart';
 import 'package:fusecash/features/screens/webview_screen.dart';
-import 'package:fusecash/features/swap/router/swap_router.dart';
 
 export 'routes.gr.dart';
 
@@ -38,8 +37,6 @@ export 'routes.gr.dart';
         homeTab,
         contactsTab,
         buyTab,
-        swapTab,
-        // earnTab,
         accountTab,
       ],
     ),

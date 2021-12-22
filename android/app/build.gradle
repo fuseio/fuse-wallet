@@ -70,7 +70,9 @@ android {
 
             minifyEnabled true
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources = true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -80,7 +82,7 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+    implementation platform('com.google.firebase:firebase-bom:29.0.2')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

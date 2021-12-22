@@ -47,7 +47,7 @@ Clone the project using git commands.
 - For Android development, create a file at `./android/key.properties`, [as described here](https://flutter.dev/docs/deployment/android), containing the keystore path and passwords, as set up earlier.
 - Run the app using:
 
-      flutter run lib\main_prod.dart
+      flutter run
 
 ### Config
 #### UI customization

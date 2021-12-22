@@ -6,11 +6,19 @@ import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:wallet_core/wallet_core.dart';
+
+class SetFetchingState {
+  final bool isFetching;
+  SetFetchingState({
+    required this.isFetching,
+  });
+}
 
 class GetSwappableTokensSuccess {
   final Map<String, Token> swappableTokens;
@@ -51,56 +59,63 @@ class ResetTokenList {}
 ThunkAction fetchSwapList() {
   return (Store store) async {
     try {
-      store.dispatch(ResetTokenList());
+      store.dispatch(SetFetchingState(isFetching: true));
       final dio = getIt<Dio>();
       Response<String> response =
           await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
       Map data = jsonDecode(response.data!);
-      Map<String, Token> tokens = Map();
-      Map<String, String> tokensImages = Map();
+      Map<String, Token> tokens = {};
+      Map<String, String> tokensImages = {};
       for (Map token in data['tokens']) {
-        final String name = formatTokenName(token["name"]);
-        if (name.startsWith('Dai')) {
-          continue;
-        }
-        if (!token.containsKey('isDeprecated')) {
-          final String symbol = token['symbol'];
-          Token newToken = Token.fromJson({
-            "originNetwork": 'mainnet',
-            "amount": BigInt.zero.toString(),
-            "address": token['address'].toLowerCase(),
-            "decimals": token['decimals'],
-            "name": name.contains('Wrapped Fuse') ? 'Fuse' : name,
-            "symbol": symbol == 'WFUSE' ? 'FUSE' : symbol,
-            "imageUrl": token['logoURI'],
-          });
-          tokens.putIfAbsent(
-            token['address'].toLowerCase(),
-            () => newToken,
-          );
-          tokensImages.putIfAbsent(
-            token['address'].toLowerCase(),
-            () => token['logoURI'],
-          );
-        }
+        final String tokenAddress = token['address'].toLowerCase();
+        final String name = Formatter.formatTokenName(token["name"]);
+        final String symbol = token['symbol'];
+        Token newToken = Token.fromJson({
+          "originNetwork": 'mainnet',
+          "amount": BigInt.zero.toString(),
+          "address": tokenAddress,
+          "decimals": token['decimals'],
+          "name": name,
+          "symbol": symbol,
+          "imageUrl": token['logoURI'],
+        });
+        tokens.putIfAbsent(
+          tokenAddress,
+          () => newToken,
+        );
+        tokensImages.putIfAbsent(
+          tokenAddress,
+          () => token['logoURI'],
+        );
       }
+      tokens.addEntries([
+        MapEntry(
+          fuseToken.address.toLowerCase(),
+          fuseToken,
+        )
+      ]);
+
+      tokensImages.addEntries([
+        MapEntry(
+          fuseToken.address.toLowerCase(),
+          fuseToken.imageUrl!,
+        )
+      ]);
 
       store.dispatch(GetSwappableTokensSuccess(
         swappableTokens: tokens,
       ));
-      store.dispatch(fetchSwapBalances());
-
+      store.dispatch(fetchSwapListPrices());
       if (tokensImages.isNotEmpty) {
         store.dispatch(GetTokensImagesSuccess(
           tokensImages: tokensImages,
         ));
       }
     } catch (e, s) {
-      log.error('ERROR - fetchTokenList $e');
-      await Sentry.captureException(
-        e,
+      log.error(
+        'ERROR - fetchSwapList',
+        error: e,
         stackTrace: s,
-        hint: 'ERROR - fetchTokenList $e',
       );
     }
   };
@@ -122,12 +137,12 @@ ThunkAction fetchSwapListPrices() {
           priceInfo: result[0],
         ));
       }
+      store.dispatch(SetFetchingState(isFetching: false));
     } catch (e, s) {
-      log.error('ERROR - fetchSwapListPrices $e');
-      await Sentry.captureException(
-        e,
+      log.error(
+        'ERROR - fetchSwapListPrices',
+        error: e,
         stackTrace: s,
-        hint: 'ERROR - fetchSwapListPrices $e',
       );
     }
   };
@@ -138,22 +153,33 @@ ThunkAction fetchSwapBalances() {
     try {
       SwapState swapState = store.state.swapState;
       String walletAddress = store.state.userState.walletAddress;
-      if (fuseWeb3 == null) {
-        throw 'web3 is empty';
-      }
       for (Token token in swapState.tokens.values) {
-        final BigInt balance = await fuseWeb3!.getTokenBalance(
-          token.address,
-          address: walletAddress,
-        );
+        BigInt balance;
+        if (token.isNative) {
+          EtherAmount etherAmount =
+              await getIt<Web3>(instanceName: 'fuseWeb3').getBalance(
+            address: walletAddress,
+          );
+          balance = etherAmount.getInWei;
+        } else {
+          final BigInt tokenBalance =
+              await getIt<Web3>(instanceName: 'fuseWeb3').getTokenBalance(
+            token.address,
+            address: walletAddress,
+          );
+          balance = tokenBalance;
+        }
         store.dispatch(UpdateTokenBalance(
           tokenAddress: token.address,
           balance: balance,
         ));
       }
-      store.dispatch(fetchSwapListPrices());
     } catch (e, s) {
-      log.error('ERROR - fetchSwapBalances ${e.toString()} ${s.toString()}');
+      log.error(
+        'ERROR - fetchSwapBalances',
+        error: e,
+        stackTrace: s,
+      );
     }
   };
 }

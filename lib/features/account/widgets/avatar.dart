@@ -112,7 +112,8 @@ class Avatar extends StatelessWidget {
                               ),
                               Flexible(
                                 child: AutoSizeText(
-                                  formatAddress(viewModel.walletAddress, 4),
+                                  Formatter.formatEthAddress(
+                                      viewModel.walletAddress, 4),
                                   style: TextStyle(
                                     letterSpacing: 0.3,
                                     color:

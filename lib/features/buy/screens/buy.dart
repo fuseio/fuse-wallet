@@ -48,8 +48,8 @@ class _BusinessesListViewState extends State<BusinessesListView> {
       converter: BuyViewModel.fromStore,
       builder: (_, vm) => Container(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             banner(context, vm),
             businessList(context, vm),
@@ -175,7 +175,7 @@ class _BusinessesListViewState extends State<BusinessesListView> {
           TextButton(
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(10.0),
-              backgroundColor: Theme.of(context).buttonColor,
+              backgroundColor: Theme.of(context).primaryColor,
               shape: CircleBorder(),
             ),
             child: Text(

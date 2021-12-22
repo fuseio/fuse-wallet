@@ -10,7 +10,7 @@ class SignUpDialog extends StatefulWidget {
   SignUpDialog();
 
   @override
-  createState() => new SignUpDialogState();
+  SignUpDialogState createState() => SignUpDialogState();
 }
 
 class SignUpDialogState extends State<SignUpDialog>
@@ -44,7 +44,7 @@ class SignUpDialogState extends State<SignUpDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

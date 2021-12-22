@@ -13,6 +13,7 @@ import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I10n.of(context).settings,

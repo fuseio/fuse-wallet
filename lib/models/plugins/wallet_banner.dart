@@ -8,13 +8,13 @@ part 'wallet_banner.g.dart';
 @immutable
 @freezed
 class WalletBannerPlugin with _$WalletBannerPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory WalletBannerPlugin({
     @Default('walletBanner') String type,
-    @Default(null) String? walletBannerHash,
-    @Default(null) String? name,
-    @Default(null) String? link,
+    String? walletBannerHash,
+    String? name,
+    String? link,
     @Default(false) bool isActive,
   }) = _WalletBannerPlugin;
 

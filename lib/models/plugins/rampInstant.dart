@@ -8,7 +8,7 @@ part 'rampInstant.g.dart';
 @immutable
 @freezed
 class RampInstantPlugin with _$RampInstantPlugin {
-  @Implements(Plugin)
+  @Implements<Plugin>()
   @JsonSerializable()
   factory RampInstantPlugin({
     @Default('rampInstant') String name,

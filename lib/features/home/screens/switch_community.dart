@@ -22,7 +22,7 @@ class SwitchCommunityScreen extends StatelessWidget {
       height: 50.0,
       decoration: BoxDecoration(
         color: Color(0xFFF2F2F2),
-        borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+        borderRadius: BorderRadius.all(Radius.circular(30.0)),
       ),
       child: InkWell(
         focusColor: Theme.of(context).canvasColor,
@@ -75,7 +75,7 @@ class SwitchCommunityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, SwitchCommunityViewModel>(
+    return StoreConnector<AppState, SwitchCommunityViewModel>(
       converter: SwitchCommunityViewModel.fromStore,
       builder: (_, viewModel) {
         return MyScaffold(

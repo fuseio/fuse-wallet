@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'community_metadata.dart';
 
@@ -35,7 +36,7 @@ class _$CommunityMetadataTearOff {
     );
   }
 
-  CommunityMetadata fromJson(Map<String, Object> json) {
+  CommunityMetadata fromJson(Map<String, Object?> json) {
     return CommunityMetadata.fromJson(json);
   }
 }
@@ -185,21 +186,21 @@ class _$_CommunityMetadata extends _CommunityMetadata
       : super._();
 
   factory _$_CommunityMetadata.fromJson(Map<String, dynamic> json) =>
-      _$_$_CommunityMetadataFromJson(json);
+      _$$_CommunityMetadataFromJson(json);
 
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isDefaultImage;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String image;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String coverPhoto;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String coverPhotoUri;
-  @JsonKey(defaultValue: '')
+  @JsonKey()
   @override
   final String imageUri;
 
@@ -223,31 +224,26 @@ class _$_CommunityMetadata extends _CommunityMetadata
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _CommunityMetadata &&
-            (identical(other.isDefaultImage, isDefaultImage) ||
-                const DeepCollectionEquality()
-                    .equals(other.isDefaultImage, isDefaultImage)) &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)) &&
-            (identical(other.coverPhoto, coverPhoto) ||
-                const DeepCollectionEquality()
-                    .equals(other.coverPhoto, coverPhoto)) &&
-            (identical(other.coverPhotoUri, coverPhotoUri) ||
-                const DeepCollectionEquality()
-                    .equals(other.coverPhotoUri, coverPhotoUri)) &&
-            (identical(other.imageUri, imageUri) ||
-                const DeepCollectionEquality()
-                    .equals(other.imageUri, imageUri)));
+        (other.runtimeType == runtimeType &&
+            other is _CommunityMetadata &&
+            const DeepCollectionEquality()
+                .equals(other.isDefaultImage, isDefaultImage) &&
+            const DeepCollectionEquality().equals(other.image, image) &&
+            const DeepCollectionEquality()
+                .equals(other.coverPhoto, coverPhoto) &&
+            const DeepCollectionEquality()
+                .equals(other.coverPhotoUri, coverPhotoUri) &&
+            const DeepCollectionEquality().equals(other.imageUri, imageUri));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(isDefaultImage) ^
-      const DeepCollectionEquality().hash(image) ^
-      const DeepCollectionEquality().hash(coverPhoto) ^
-      const DeepCollectionEquality().hash(coverPhotoUri) ^
-      const DeepCollectionEquality().hash(imageUri);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(isDefaultImage),
+      const DeepCollectionEquality().hash(image),
+      const DeepCollectionEquality().hash(coverPhoto),
+      const DeepCollectionEquality().hash(coverPhotoUri),
+      const DeepCollectionEquality().hash(imageUri));
 
   @JsonKey(ignore: true)
   @override
@@ -256,7 +252,7 @@ class _$_CommunityMetadata extends _CommunityMetadata
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_CommunityMetadataToJson(this);
+    return _$$_CommunityMetadataToJson(this);
   }
 }
 
@@ -273,15 +269,15 @@ abstract class _CommunityMetadata extends CommunityMetadata {
       _$_CommunityMetadata.fromJson;
 
   @override
-  bool get isDefaultImage => throw _privateConstructorUsedError;
+  bool get isDefaultImage;
   @override
-  String get image => throw _privateConstructorUsedError;
+  String get image;
   @override
-  String get coverPhoto => throw _privateConstructorUsedError;
+  String get coverPhoto;
   @override
-  String get coverPhotoUri => throw _privateConstructorUsedError;
+  String get coverPhotoUri;
   @override
-  String get imageUri => throw _privateConstructorUsedError;
+  String get imageUri;
   @override
   @JsonKey(ignore: true)
   _$CommunityMetadataCopyWith<_CommunityMetadata> get copyWith =>

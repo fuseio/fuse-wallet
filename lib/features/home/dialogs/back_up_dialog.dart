@@ -11,7 +11,7 @@ class BackUpDialog extends StatefulWidget {
   BackUpDialog();
 
   @override
-  createState() => new BackUpDialogState();
+  BackUpDialogState createState() => BackUpDialogState();
 }
 
 class BackUpDialogState extends State<BackUpDialog>
@@ -45,7 +45,7 @@ class BackUpDialogState extends State<BackUpDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(

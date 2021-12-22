@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ethereum_address/ethereum_address.dart';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +25,7 @@ Future<Map> fetchWalletByPhone(
       phone,
       regionCode: isoCode,
     );
-    Map? wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
+    Map? wallet = await walletApi.getWalletByPhoneNumber(phoneNumber.e164);
     String? walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
     return {
       'phoneNumber': phoneNumber.e164,
@@ -39,7 +39,7 @@ Future<Map> fetchWalletByPhone(
         formatted,
         regionCode: isoCode,
       );
-      Map? wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
+      Map? wallet = await walletApi.getWalletByPhoneNumber(phoneNumber.e164);
       String? walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
         'phoneNumber': phoneNumber.e164,
@@ -122,7 +122,7 @@ void sendToPastedAddress(
   final args = SendFlowArguments(
     accountAddress: accountAddress,
     avatar: AssetImage('assets/images/anom.png'),
-    name: formatAddress(accountAddress),
+    name: Formatter.formatEthAddress(accountAddress),
     tokenToSend: token,
   );
   context.navigateTo(
@@ -193,6 +193,6 @@ void barcodeScannerHandler(
         width: 20,
         height: 20,
       ),
-    )..show(context);
+    ).show(context);
   }
 }

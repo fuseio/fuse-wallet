@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,7 +9,4 @@ abstract class FirebaseInjectableModule {
 
   @lazySingleton
   FirebaseMessaging get firebaseMessaging => FirebaseMessaging.instance;
-
-  @preResolve
-  Future<FirebaseApp> get firebaseApp => Firebase.initializeApp();
 }

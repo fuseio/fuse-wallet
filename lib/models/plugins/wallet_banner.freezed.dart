@@ -1,5 +1,6 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'wallet_banner.dart';
 
@@ -22,9 +23,9 @@ class _$WalletBannerPluginTearOff {
 
   _WalletBannerPlugin call(
       {String type = 'walletBanner',
-      String? walletBannerHash = null,
-      String? name = null,
-      String? link = null,
+      String? walletBannerHash,
+      String? name,
+      String? link,
       bool isActive = false}) {
     return _WalletBannerPlugin(
       type: type,
@@ -35,7 +36,7 @@ class _$WalletBannerPluginTearOff {
     );
   }
 
-  WalletBannerPlugin fromJson(Map<String, Object> json) {
+  WalletBannerPlugin fromJson(Map<String, Object?> json) {
     return WalletBannerPlugin.fromJson(json);
   }
 }
@@ -173,34 +174,31 @@ class __$WalletBannerPluginCopyWithImpl<$Res>
 
 /// @nodoc
 
-@Implements(Plugin)
+@Implements<Plugin>()
 @JsonSerializable()
 class _$_WalletBannerPlugin
     with DiagnosticableTreeMixin
     implements _WalletBannerPlugin {
   _$_WalletBannerPlugin(
       {this.type = 'walletBanner',
-      this.walletBannerHash = null,
-      this.name = null,
-      this.link = null,
+      this.walletBannerHash,
+      this.name,
+      this.link,
       this.isActive = false});
 
   factory _$_WalletBannerPlugin.fromJson(Map<String, dynamic> json) =>
-      _$_$_WalletBannerPluginFromJson(json);
+      _$$_WalletBannerPluginFromJson(json);
 
-  @JsonKey(defaultValue: 'walletBanner')
+  @JsonKey()
   @override
   final String type;
-  @JsonKey(defaultValue: null)
   @override
   final String? walletBannerHash;
-  @JsonKey(defaultValue: null)
   @override
   final String? name;
-  @JsonKey(defaultValue: null)
   @override
   final String? link;
-  @JsonKey(defaultValue: false)
+  @JsonKey()
   @override
   final bool isActive;
 
@@ -224,29 +222,24 @@ class _$_WalletBannerPlugin
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _WalletBannerPlugin &&
-            (identical(other.type, type) ||
-                const DeepCollectionEquality().equals(other.type, type)) &&
-            (identical(other.walletBannerHash, walletBannerHash) ||
-                const DeepCollectionEquality()
-                    .equals(other.walletBannerHash, walletBannerHash)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.link, link) ||
-                const DeepCollectionEquality().equals(other.link, link)) &&
-            (identical(other.isActive, isActive) ||
-                const DeepCollectionEquality()
-                    .equals(other.isActive, isActive)));
+        (other.runtimeType == runtimeType &&
+            other is _WalletBannerPlugin &&
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality()
+                .equals(other.walletBannerHash, walletBannerHash) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality().equals(other.link, link) &&
+            const DeepCollectionEquality().equals(other.isActive, isActive));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(type) ^
-      const DeepCollectionEquality().hash(walletBannerHash) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(link) ^
-      const DeepCollectionEquality().hash(isActive);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(walletBannerHash),
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(link),
+      const DeepCollectionEquality().hash(isActive));
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +248,7 @@ class _$_WalletBannerPlugin
 
   @override
   Map<String, dynamic> toJson() {
-    return _$_$_WalletBannerPluginToJson(this);
+    return _$$_WalletBannerPluginToJson(this);
   }
 }
 
@@ -271,15 +264,15 @@ abstract class _WalletBannerPlugin implements WalletBannerPlugin, Plugin {
       _$_WalletBannerPlugin.fromJson;
 
   @override
-  String get type => throw _privateConstructorUsedError;
+  String get type;
   @override
-  String? get walletBannerHash => throw _privateConstructorUsedError;
+  String? get walletBannerHash;
   @override
-  String? get name => throw _privateConstructorUsedError;
+  String? get name;
   @override
-  String? get link => throw _privateConstructorUsedError;
+  String? get link;
   @override
-  bool get isActive => throw _privateConstructorUsedError;
+  bool get isActive;
   @override
   @JsonKey(ignore: true)
   _$WalletBannerPluginCopyWith<_WalletBannerPlugin> get copyWith =>
