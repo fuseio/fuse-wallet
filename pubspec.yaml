@@ -1,34 +1,9 @@
 name: fusecash
-version: 1.1.64+324
+version: 1.1.65+325
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.14.0 <3.0.0"
 dependencies:
-  # firebase_analytics: ^9.0.4
-  # firebase_crashlytics: ^2.4.4
-  # ramp_flutter: ^1.0.0
-  # in_app_update: ^2.0.0
-  # mnid_dart: ^0.1.2
-  # connectivity_plus: ^2.1.0
-  # flash: ^2.0.3+1
-  # internet_connection_checker: ^0.0.1
-  # shared_preferences: ^2.0.11
-  # amplitude_flutter: ^3.8.0
-  # wallet_connect: ^1.0.2
-  # after_layout: ^1.1.0
-  # carousel_slider: ^4.0.0
-  # app_links: ^2.2.0
-  # lazy_load_scrollview: ^1.3.0
-  # flutter_fgbg: ^0.1.0
-  # keyboard_actions: ^3.4.5
-  # percent_indicator: ^3.4.0
-  # customizable_space_bar: ^0.2.0
-  # dotted_border: ^2.0.0+2
-  # animated_flip_counter: ^0.2.1
-  # flutter_countdown_timer: ^4.1.0
-  # upgrader: ^3.11.1
-  # jiffy: ^4.1.0
-  # intercom_flutter: ^5.2.0
   carrier_info: ^2.0.3
   confetti: ^0.6.0
   flutter_localized_locales: ^2.0.3
