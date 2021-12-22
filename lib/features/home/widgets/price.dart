@@ -1,8 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/services/apis/fuseswap.dart';
+import 'package:fusecash/services.dart';
 
 class TokenPrice extends StatelessWidget {
   final String address;
@@ -17,7 +16,7 @@ class TokenPrice extends StatelessWidget {
       child: Container(
         width: 100,
         child: FutureBuilder<Price>(
-          future: getIt<FuseSwapService>().price(address),
+          future: fuseSwapService.price(address),
           builder: (context, AsyncSnapshot<Price> snapshot) {
             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
             switch (snapshot.connectionState) {

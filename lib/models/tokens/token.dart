@@ -5,7 +5,7 @@ import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/stats.dart';
-import 'package:fusecash/services/apis/fuseswap.dart';
+import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
@@ -109,7 +109,7 @@ class Token with _$Token implements Comparable<Token> {
     required Function onError,
   }) async {
     try {
-      Price price = await getIt<FuseSwapService>().price(address);
+      Price price = await fuseSwapService.price(address);
       onDone(price);
     } catch (e, s) {
       onError(e, s);
@@ -121,8 +121,7 @@ class Token with _$Token implements Comparable<Token> {
     required Function onError,
   }) async {
     try {
-      final num priceChange =
-          await getIt<FuseSwapService>().priceChange(address);
+      final num priceChange = await fuseSwapService.priceChange(address);
       onDone(priceChange);
     } catch (e, s) {
       onError(e, s);
@@ -135,7 +134,7 @@ class Token with _$Token implements Comparable<Token> {
     String limit = '30',
   }) async {
     try {
-      final List<Stats> stats = await getIt<FuseSwapService>().stats(
+      final List<Stats> stats = await fuseSwapService.stats(
         address,
         limit: limit,
       );
