@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:dio/dio.dart';
-import 'package:ethereum_address/ethereum_address.dart';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:supervecina/common/di/di.dart';
 import 'package:supervecina/constants/variables.dart';
@@ -534,7 +534,7 @@ ThunkAction sendNativeTokenCall(
         getIt<Web3>(instanceName: 'fuseWeb3'),
         walletAddress,
         receiverAddress,
-        num.parse(toBigInt(tokensAmount, 18).toString()),
+        amountInWei: toBigInt(tokensAmount, 18),
         transactionBody: {
           "from": walletAddress,
           "to": receiverAddress,
@@ -594,7 +594,7 @@ ThunkAction sendTokenCall(
           walletAddress,
           token.address,
           receiverAddress,
-          tokensAmount,
+          tokensAmount.toString(),
         );
 
         dynamic jobId = response['job']['_id'];
@@ -1197,8 +1197,8 @@ ThunkAction swapHandler(
         swapRequestBody.recipient,
         swapRequestBody.currencyIn,
         swapCallParameters.rawTxn['to'],
-        num.parse(swapRequestBody.amountIn),
         swapData,
+        tokensAmount: num.parse(swapRequestBody.amountIn),
         network: 'fuse',
         transactionBody: Map.from(
           {

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:ethereum_address/ethereum_address.dart';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:supervecina/models/actions/actions.dart';
 import 'package:supervecina/models/actions/wallet_action.dart';
 import 'package:supervecina/models/community/community.dart';

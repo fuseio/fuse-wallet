@@ -8,6 +8,8 @@ import 'package:supervecina/models/actions/wallet_action.dart';
 import 'package:supervecina/models/community/business.dart';
 import 'package:supervecina/models/community/community.dart';
 
+import 'constants.dart';
+
 class ImageUrl {
   static bool _isIpfsHash(String hash) => hash.length == 46;
   static bool _isS3Hash(String hash) => hash.length == 64;
@@ -72,9 +74,14 @@ class ImageUrl {
     if (hasAvatar) {
       return MemoryImage(contact.avatar as Uint8List);
     }
-    final String accountAddress = action.getSender();
-    if (businesses != null && businesses.containsKey(accountAddress)) {
-      return NetworkImage(businesses[accountAddress]!.metadata.image);
+    if (accountAddress != null) {
+      if (donors.containsKey(accountAddress.toLowerCase())) {
+        Map<String, String> donor = donors[accountAddress.toLowerCase()]!;
+        return AssetImage('assets/images/${donor['image']}');
+      }
+      if (businesses != null && businesses.containsKey(accountAddress)) {
+        return NetworkImage(businesses[accountAddress]!.metadata.image);
+      }
     }
     return action.map(
       createWallet: (value) => AssetImage(

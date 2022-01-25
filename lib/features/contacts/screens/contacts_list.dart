@@ -13,7 +13,7 @@ import 'package:supervecina/features/contacts/widgets/list_header.dart';
 import 'package:supervecina/features/contacts/widgets/search_panel.dart';
 import 'package:supervecina/utils/phone.dart';
 import 'package:supervecina/utils/send.dart';
-import "package:ethereum_address/ethereum_address.dart";
+import "package:ethereum_addresses/ethereum_addresses.dart";
 import 'package:supervecina/features/shared/widgets/my_scaffold.dart';
 import 'package:supervecina/features/shared/widgets/preloader.dart';
 
