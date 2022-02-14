@@ -31,7 +31,7 @@ void openDepositWebview({
       url: link,
       customTabsOptions: CustomTabsOptions(
         colorScheme: CustomTabsColorScheme.light,
-        addDefaultShareMenuItem: true,
+        shareState: CustomTabsShareState.on,
         instantAppsEnabled: true,
         showTitle: true,
         urlBarHidingEnabled: true,

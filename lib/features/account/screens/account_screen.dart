@@ -125,7 +125,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 context.router.root.push(
                                   Webview(
                                     title: I10n.of(context).legal,
-                                    url: 'https://fuse.cash/privacy',
+                                    url: 'https://fuse.cash/privacy-policy',
                                   ),
                                 );
                               },
