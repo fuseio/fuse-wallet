@@ -31,7 +31,7 @@ class AccountViewModel extends Equatable {
       plugins: community?.plugins ?? Plugins(),
       displayName: store.state.userState.displayName,
       avatarUrl: store.state.userState.avatarUrl,
-      walletAddress: store.state.userState.walletAddress.replaceFirst('x', 'f'),
+      walletAddress: store.state.userState.walletAddress,
       isFuseDollarCommunity: util.isFuseDollarCommunity(communityAddress),
     );
   }

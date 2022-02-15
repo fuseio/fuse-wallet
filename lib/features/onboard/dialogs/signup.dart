@@ -98,7 +98,7 @@ class SignUpDialogState extends State<SignUpDialog>
                       AutoRouter.of(context).push(
                         Webview(
                           title: I10n.of(context).legal,
-                          url: 'https://fuse.cash/privacy',
+                          url: 'https://fuse.cash/privacy-policy',
                         ),
                       );
                     },
