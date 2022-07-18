@@ -4,50 +4,33 @@ analyzer:
     - "**/*.freezed.dart"
   errors:
     invalid_annotation_target: ignore
+
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+include: package:flutter_lints/flutter.yaml
+
 linter:
+  # The lint rules applied to this project can be customized in the
+  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
+  # included above or to enable additional rules. A list of all available lints
+  # and their documentation is published at
+  # https://dart-lang.github.io/linter/lints/index.html.
+  #
+  # Instead of disabling a lint rule for the entire project in the
+  # section below, it can also be suppressed for a single line of code
+  # or a specific dart file by using the `// ignore: name_of_lint` and
+  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # producing the lint.
   rules:
-    - always_require_non_null_named_parameters
-    - annotate_overrides
-    - avoid_function_literals_in_foreach_calls
-    - avoid_init_to_null
-    - avoid_null_checks_in_equality_operators
-    - avoid_renaming_method_parameters
-    - avoid_return_types_on_setters
-    - avoid_returning_null_for_void
-    - avoid_single_cascade_in_expression_statements
-    - control_flow_in_finally
-    - empty_constructor_bodies
-    - empty_statements
-    - exhaustive_cases
-    - implementation_imports
-    - library_names
-    - library_prefixes
-    - null_closures
-    - overridden_fields
-    - package_names
-    - prefer_adjacent_string_concatenation
-    - prefer_collection_literals
-    - prefer_conditional_assignment
-    - prefer_contains
-    - prefer_equal_for_default_values
-    - prefer_final_fields
-    - prefer_for_elements_to_map_fromIterable
-    - prefer_function_declarations_over_variables
-    - prefer_if_null_operators
-    - prefer_initializing_formals
-    - prefer_inlined_adds
-    - prefer_is_not_operator
-    - prefer_null_aware_operators
-    - prefer_void_to_null
-    - recursive_getters
-    - slash_for_doc_comments
-    - type_init_formals
-    - unnecessary_brace_in_string_interps
-    - unnecessary_const
-    - unnecessary_getters_setters
-    - unnecessary_new
-    - unnecessary_null_in_if_null_operators
-    - unnecessary_string_interpolations
-    - unnecessary_this
-    - use_function_type_syntax_for_parameters
-    - use_rethrow_when_possible
+    constant_identifier_names: false
+    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
+    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options

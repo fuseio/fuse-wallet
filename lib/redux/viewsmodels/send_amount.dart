@@ -1,9 +1,13 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
+import 'package:charge_wallet_sdk/models/models.dart';
+import 'package:equatable/equatable.dart';
+import 'package:redux/redux.dart';
+
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:redux/redux.dart';
+import 'package:fusecash/redux/actions/nft_actions.dart';
 
 class SendAmountViewModel extends Equatable {
   final List<Token> tokens;
@@ -11,15 +15,23 @@ class SendAmountViewModel extends Equatable {
   final Function(
     Token token,
     String phoneNumber,
-    num amount,
+    String amount,
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback,
   ) sendToContact;
 
   final Function(
+    Collectible collectible,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback, {
+    String? receiverAddress,
+    String? phoneNumber,
+  }) sendERC721;
+
+  final Function(
     Token token,
     String receiverAddress,
-    num amount,
+    String amount,
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback,
   ) sendToAccountAddress;
@@ -27,31 +39,41 @@ class SendAmountViewModel extends Equatable {
   @override
   List<Object?> get props => [tokens];
 
-  SendAmountViewModel({
+  const SendAmountViewModel({
     required this.tokens,
     required this.sendToContact,
     required this.sendToAccountAddress,
+    required this.sendERC721,
   });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .where((Token token) =>
             num.parse(token.getBalance(true)).compareTo(0) == 1)
-        .map((Token token) => token.copyWith(
-            imageUrl: token.imageUrl ??
-                store.state.cashWalletState.communities[token.communityAddress]
-                    ?.metadata
-                    ?.getImageUri() ??
-                ''))
         .toList();
 
     final List<Token> tokens = [...homeTokens]..sort();
     return SendAmountViewModel(
       tokens: List<Token>.from(tokens.reversed),
+      sendERC721: (
+        Collectible collectible,
+        VoidCallback sendSuccessCallback,
+        VoidCallback sendFailureCallback, {
+        String? receiverAddress,
+        String? phoneNumber,
+      }) {
+        store.dispatch(handleSendERC721(
+          collectible,
+          sendSuccessCallback,
+          sendFailureCallback,
+          phoneNumber: phoneNumber,
+          receiverAddress: receiverAddress,
+        ));
+      },
       sendToContact: (
         Token token,
         String phoneNumber,
-        num amount,
+        String amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback,
       ) {
@@ -66,7 +88,7 @@ class SendAmountViewModel extends Equatable {
       sendToAccountAddress: (
         Token token,
         String receiverAddress,
-        num amount,
+        String amount,
         VoidCallback sendSuccessCallback,
         VoidCallback sendFailureCallback,
       ) {

@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:flutter/material.dart';
+
+import 'package:fusecash/features/shared/widgets/gradient_button.dart';
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ReceiveDialog extends StatefulWidget {
-  ReceiveDialog(
-    this.barcodeData,
-  );
   final String barcodeData;
+
+  const ReceiveDialog(this.barcodeData, {Key? key}) : super(key: key);
   @override
   ReceiveDialogState createState() => ReceiveDialogState();
 }
@@ -24,8 +24,8 @@ class ReceiveDialogState extends State<ReceiveDialog>
   void initState() {
     super.initState();
 
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     opacityAnimation = Tween<double>(begin: 0.0, end: 0.4).animate(
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn));
     scaleAnimation =
@@ -49,33 +49,35 @@ class ReceiveDialogState extends State<ReceiveDialog>
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(25.0),
+          ),
+        ),
         content: Stack(
-          children: <Widget>[
+          children: [
             Container(
-              padding: EdgeInsets.all(20),
-              width: 300,
+              padding: const EdgeInsets.all(10),
+              width: 250,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       width: 200,
                       child: QrImage(
                         data: widget.barcodeData,
                       ),
                     ),
                   ),
-                  SizedBox(height: 40.0),
+                  const SizedBox(height: 20.0),
                   Center(
-                    child: PrimaryButton(
-                      label: I10n.of(context).close,
-                      onPressed: () async {
-                        Navigator.of(context).pop();
-                      },
+                    child: GradientButton(
+                      text: I10n.of(context).close,
+                      textColor: Theme.of(context).canvasColor,
+                      onPressed: Navigator.of(context).pop,
                     ),
                   )
                 ],
@@ -84,6 +86,15 @@ class ReceiveDialogState extends State<ReceiveDialog>
           ],
         ),
       ),
+    );
+  }
+}
+
+extension ReceiveDialogExtension on ReceiveDialog {
+  Future<T?> showSheet<T>(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => this,
     );
   }
 }

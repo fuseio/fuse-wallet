@@ -1,13 +1,15 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
-import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/generated/l10n.dart';
 import 'dart:core';
 
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:flutter/material.dart';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/constants/variables.dart';
+import 'package:fusecash/features/shared/widgets/gradient_button.dart';
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 
 class SignUpDialog extends StatefulWidget {
-  SignUpDialog();
+  const SignUpDialog({Key? key}) : super(key: key);
 
   @override
   SignUpDialogState createState() => SignUpDialogState();
@@ -23,8 +25,8 @@ class SignUpDialogState extends State<SignUpDialog>
   void initState() {
     super.initState();
 
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     opacityAnimation = Tween<double>(begin: 0.0, end: 0.4).animate(
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn));
     scaleAnimation =
@@ -43,53 +45,49 @@ class SignUpDialogState extends State<SignUpDialog>
     super.dispose();
   }
 
+  Widget get spacer => const SizedBox(height: 20.0);
+
   @override
   Widget build(BuildContext context) {
+    final TextStyle? runTextStyle =
+        Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontSize: 18,
+            );
     return ScaleTransition(
       scale: scaleAnimation,
       child: AlertDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         content: Stack(
-          children: <Widget>[
+          children: [
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               width: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+              child: ListView(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                primary: false,
+                children: [
                   Text(
                     I10n.of(context).why_do_we_need_this,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontSize: 18,
+                        ),
                   ),
-                  SizedBox(height: 20.0),
+                  spacer,
                   Text(
                     I10n.of(context).stores_private,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: runTextStyle,
                   ),
-                  SizedBox(height: 20.0),
+                  spacer,
                   Text(
                     I10n.of(context).will_never_share,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: runTextStyle,
                   ),
-                  SizedBox(height: 20.0),
+                  spacer,
                   Text(
                     I10n.of(context).for_more_info,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: runTextStyle,
                   ),
                   InkWell(
                     focusColor: Theme.of(context).canvasColor,
@@ -98,26 +96,25 @@ class SignUpDialogState extends State<SignUpDialog>
                       AutoRouter.of(context).push(
                         Webview(
                           title: I10n.of(context).legal,
-                          url: 'https://fuse.cash/privacy-policy',
+                          url: Variables.privacyPolicyPage,
                         ),
                       );
                     },
                     child: Text(
                       I10n.of(context).privacy,
-                      style: TextStyle(
-                        color: Color(0xFF0076FF),
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
+                      style: runTextStyle?.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                   ),
-                  SizedBox(height: 40.0),
+                  spacer,
+                  spacer,
                   Center(
-                    child: PrimaryButton(
-                      label: I10n.of(context).ok_thanks,
-                      onPressed: () async {
-                        Navigator.of(context).pop();
-                      },
+                    child: GradientButton(
+                      width: MediaQuery.of(context).size.width * .9,
+                      text: I10n.of(context).ok_thanks,
+                      textColor: Theme.of(context).canvasColor,
+                      onPressed: Navigator.of(context).pop,
                     ),
                   )
                 ],
@@ -126,6 +123,15 @@ class SignUpDialogState extends State<SignUpDialog>
           ],
         ),
       ),
+    );
+  }
+}
+
+extension SignUpDialogExtension on SignUpDialog {
+  Future<T?> showSheet<T>(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => this,
     );
   }
 }

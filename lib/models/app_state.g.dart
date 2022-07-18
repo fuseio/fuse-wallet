@@ -7,6 +7,8 @@ part of 'app_state.dart';
 // **************************************************************************
 
 _$_AppState _$$_AppStateFromJson(Map<String, dynamic> json) => _$_AppState(
+      nftsState: const NftsStateConverter()
+          .fromJson(json['nftsState'] as Map<String, dynamic>?),
       userState: const UserStateConverter()
           .fromJson(json['userState'] as Map<String, dynamic>?),
       cashWalletState: const CashWalletStateConverter()
@@ -17,6 +19,7 @@ _$_AppState _$$_AppStateFromJson(Map<String, dynamic> json) => _$_AppState(
 
 Map<String, dynamic> _$$_AppStateToJson(_$_AppState instance) =>
     <String, dynamic>{
+      'nftsState': const NftsStateConverter().toJson(instance.nftsState),
       'userState': const UserStateConverter().toJson(instance.userState),
       'cashWalletState':
           const CashWalletStateConverter().toJson(instance.cashWalletState),

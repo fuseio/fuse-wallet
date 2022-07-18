@@ -1,11 +1,12 @@
-import 'package:fusecash/models/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
+import 'package:redux/redux.dart';
+
+import 'package:fusecash/models/app_state.dart';
 
 class TradeCardViewModel extends Equatable {
   final Map<String, String> tokensImages;
 
-  TradeCardViewModel({
+  const TradeCardViewModel({
     required this.tokensImages,
   });
 
@@ -16,7 +17,7 @@ class TradeCardViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         tokensImages,
       ];
 }

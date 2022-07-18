@@ -1,22 +1,28 @@
-import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/swap_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
-class BottomBarViewModel extends Equatable {
-  final bool isDefaultCommunity;
+class BottomBarViewModel {
+  final Function getSwapListBalances;
+  final Function scrollToTop;
 
   BottomBarViewModel({
-    required this.isDefaultCommunity,
+    required this.getSwapListBalances,
+    required this.scrollToTop,
   });
 
   static BottomBarViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
     return BottomBarViewModel(
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+      getSwapListBalances: () {
+        store.dispatch(fetchSwapBalances());
+      },
+      scrollToTop: () {
+        store.dispatch(ScrollToTop(true));
+        Future.delayed(const Duration(milliseconds: 300), () {
+          store.dispatch(ScrollToTop(false));
+        });
+      },
     );
   }
-
-  @override
-  List<Object> get props => [isDefaultCommunity];
 }

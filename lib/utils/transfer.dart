@@ -1,5 +1,4 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
@@ -33,19 +32,10 @@ Contact? getContact(
 
 String? deducePhoneNumber(
   String? accountAddress,
-  Map<String, String> reverseContacts, {
-  List<Business?>? businesses,
-}) {
+  Map<String, String> reverseContacts,
+) {
   if (accountAddress == null) {
     return null;
-  }
-  if (businesses != null && businesses.isNotEmpty) {
-    Business? business = businesses.firstWhere(
-      (business) => business?.account == accountAddress,
-    );
-    if (business != null) {
-      return business.name;
-    }
   }
   if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];

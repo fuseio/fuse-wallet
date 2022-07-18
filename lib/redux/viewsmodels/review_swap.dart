@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/swap/swap.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:redux/redux.dart';
+
+import 'package:charge_wallet_sdk/models/models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:redux/redux.dart';
+
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/swap_actions.dart';
 
 class ReviewSwapViewModel extends Equatable {
   final String walletAddress;
   final Function(
-    SwapRequestBody swapRequestBody,
-    SwapCallParameters swapCallParameters,
-    TradeInfo tradeInfo,
+    TradeRequestBody swapRequestBody,
+    Trade tradeInfo,
     VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
+    void Function(dynamic) sendFailureCallback,
   ) swap;
 
-  ReviewSwapViewModel({
+  const ReviewSwapViewModel({
     required this.walletAddress,
     required this.swap,
   });
@@ -24,15 +25,13 @@ class ReviewSwapViewModel extends Equatable {
     return ReviewSwapViewModel(
       walletAddress: store.state.userState.walletAddress,
       swap: (
-        SwapRequestBody swapRequestBody,
-        SwapCallParameters swapCallParameters,
-        TradeInfo tradeInfo,
+        TradeRequestBody swapRequestBody,
+        Trade tradeInfo,
         VoidCallback sendSuccessCallback,
-        VoidCallback sendFailureCallback,
+        void Function(dynamic) sendFailureCallback,
       ) {
         store.dispatch(swapHandler(
           swapRequestBody,
-          swapCallParameters,
           tradeInfo,
           sendSuccessCallback,
           sendFailureCallback,
@@ -42,5 +41,5 @@ class ReviewSwapViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [walletAddress];
+  List<Object?> get props => [walletAddress];
 }

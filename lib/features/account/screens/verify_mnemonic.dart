@@ -1,15 +1,18 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/common/router/routes.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:fusecash/constants/analytics_events.dart';
+import 'package:fusecash/features/shared/widgets/gradient_button.dart';
+import 'package:fusecash/features/shared/widgets/inner_page.dart';
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+import 'package:fusecash/utils/analytics/analytics.dart';
 
 class Word extends StatelessWidget {
-  Word({
+  const Word({
     Key? key,
     required this.mnemonic,
     required this.wordIndex,
@@ -22,7 +25,7 @@ class Word extends StatelessWidget {
     return TextFormField(
       autofocus: false,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(0.0),
+        contentPadding: const EdgeInsets.all(0.0),
         labelText: I10n.of(context).word + wordIndex.toString(),
         border: UnderlineInputBorder(
           borderSide: BorderSide(
@@ -43,11 +46,10 @@ class Word extends StatelessWidget {
             width: 2,
           ),
         ),
-        labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
       ),
-      cursorColor: Theme.of(context).colorScheme.onSurface,
       validator: (String? value) {
         if (mnemonic[wordIndex - 1] != value?.trim()) {
           return I10n.of(context).word_not_match;
@@ -58,21 +60,23 @@ class Word extends StatelessWidget {
   }
 }
 
-class VerifyMnemonic extends StatefulWidget {
+class VerifyMnemonicPage extends StatefulWidget {
+  const VerifyMnemonicPage({Key? key}) : super(key: key);
+
   @override
-  _VerifyMnemonicState createState() => _VerifyMnemonicState();
+  State<VerifyMnemonicPage> createState() => _VerifyMnemonicPageState();
 }
 
-class _VerifyMnemonicState extends State<VerifyMnemonic> {
+class _VerifyMnemonicPageState extends State<VerifyMnemonicPage> {
   List<int> selectedWordsNum = <int>[];
   final _formKey = GlobalKey<FormState>();
 
   List<int> getRandom3Numbers() {
-    List<int> list = List<int>.generate(12, (int index) => index + 1);
+    var list = List<int>.generate(12, (int index) => index + 1);
     list.shuffle();
-    List<int> _l = list.sublist(0, 3);
-    _l.sort();
-    return _l;
+    var l = list.sublist(0, 3);
+    l.sort();
+    return l;
   }
 
   @override
@@ -84,92 +88,86 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
 
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
+    return InnerScaffold(
       title: I10n.of(context).back_up,
-      body: StoreConnector<AppState, BackupViewModel>(
-        converter: BackupViewModel.fromStore,
-        builder: (_, viewModel) {
-          return Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.only(
+                  left: 20.0,
+                  right: 20.0,
+                  bottom: 20.0,
+                  top: 20.0,
+                ),
+                child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: 20.0,
-                        right: 20.0,
-                        bottom: 20.0,
-                        top: 20.0,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            I10n.of(context).write_word +
-                                selectedWordsNum.join(", "),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
+                    Text(
+                      I10n.of(context).write_word + selectedWordsNum.join(", "),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontSize: 20,
+                          ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * .7,
+                child: Column(
+                  children: [
+                    StoreConnector<AppState, BackupViewModel>(
+                      distinct: true,
+                      converter: BackupViewModel.fromStore,
+                      builder: (_, viewModel) => Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Word(
+                              mnemonic: viewModel.userMnemonic,
+                              wordIndex: selectedWordsNum[0],
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * .7,
-                      child: Column(
-                        children: <Widget>[
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              children: <Widget>[
-                                Word(
-                                  mnemonic: viewModel.user.mnemonic,
-                                  wordIndex: selectedWordsNum[0],
-                                ),
-                                SizedBox(height: 16.0),
-                                Word(
-                                  mnemonic: viewModel.user.mnemonic,
-                                  wordIndex: selectedWordsNum[1],
-                                ),
-                                SizedBox(height: 16.0),
-                                Word(
-                                  mnemonic: viewModel.user.mnemonic,
-                                  wordIndex: selectedWordsNum[2],
-                                ),
-                              ],
+                            const SizedBox(height: 16.0),
+                            Word(
+                              mnemonic: viewModel.userMnemonic,
+                              wordIndex: selectedWordsNum[1],
                             ),
-                          )
-                        ],
+                            const SizedBox(height: 16.0),
+                            Word(
+                              mnemonic: viewModel.userMnemonic,
+                              wordIndex: selectedWordsNum[2],
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 40,
-                        bottom: 40,
-                      ),
-                      child: Center(
-                        child: PrimaryButton(
-                          label: I10n.of(context).next_button,
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              context.router.push(DoneBackup());
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+              )
+            ],
+          ),
+          Column(
+            children: [
+              Center(
+                child: GradientButton(
+                  width: MediaQuery.of(context).size.width * .9,
+                  text: I10n.of(context).next_button,
+                  textColor: Theme.of(context).canvasColor,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Analytics.track(
+                        eventName: AnalyticsEvents.protectionBackUp3,
+                      );
+                      context.router.push(const DoneBackupRoute());
+                    }
+                  },
                 ),
-              ],
-            ),
-          );
-        },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

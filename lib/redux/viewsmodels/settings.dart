@@ -1,19 +1,30 @@
+import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 
-class SettingsViewModel {
-  final Function() logout;
+class SettingsViewModel extends Equatable {
+  final String countryCode;
+  final String? contractVersion;
+  final bool hasUpgrade;
 
-  SettingsViewModel({
-    required this.logout,
+  @override
+  List<Object?> get props => [
+        countryCode,
+        hasUpgrade,
+        contractVersion,
+      ];
+
+  const SettingsViewModel({
+    required this.countryCode,
+    required this.contractVersion,
+    required this.hasUpgrade,
   });
 
   static SettingsViewModel fromStore(Store<AppState> store) {
     return SettingsViewModel(
-      logout: () {
-        store.dispatch(logoutCall());
-      },
+      contractVersion: store.state.userState.contractVersion,
+      countryCode: store.state.userState.countryCode,
+      hasUpgrade: store.state.userState.hasUpgrade,
     );
   }
 }

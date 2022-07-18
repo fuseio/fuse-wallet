@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/utils/onboard/Istrategy.dart';
+
+import 'package:fusecash/utils/onboard/base_strategy.dart';
 import 'package:injectable/injectable.dart';
 
 @module

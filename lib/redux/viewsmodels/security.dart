@@ -1,15 +1,17 @@
 import 'dart:core';
+
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
+
+import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 
 class SecurityViewModel extends Equatable {
   final Function(BiometricAuth) setSecurityType;
   final bool isBackup;
   final BiometricAuth authType;
-  SecurityViewModel({
+  const SecurityViewModel({
     required this.setSecurityType,
     required this.authType,
     required this.isBackup,

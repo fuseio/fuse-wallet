@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/generated/l10n.dart';
+
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:local_auth/local_auth.dart';
+
+import 'package:fusecash/constants/enums.dart';
 
 class BiometricUtils {
   static Future<BiometricAuth> getAvailableBiometrics({
@@ -20,12 +22,14 @@ class BiometricUtils {
   static Future<void> showDefaultPopupCheckBiometricAuth({
     String message = '',
     required Function(bool) callback,
-    bool stickyAuth = false,
+    bool stickyAuth = true,
   }) async {
     final localAuth = LocalAuthentication();
     final bool result = await localAuth.authenticate(
       localizedReason: message,
-      stickyAuth: stickyAuth,
+      options: AuthenticationOptions(
+        stickyAuth: stickyAuth,
+      ),
     );
     callback.call(result);
   }

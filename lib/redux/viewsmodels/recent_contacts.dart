@@ -10,7 +10,7 @@ class RecentContactsViewModel extends Equatable {
   final List<Contact> contacts;
   final String countryCode;
   final String isoCode;
-  RecentContactsViewModel({
+  const RecentContactsViewModel({
     required this.contacts,
     required this.isoCode,
     required this.walletActions,
@@ -23,14 +23,9 @@ class RecentContactsViewModel extends Equatable {
         List.from(store.state.cashWalletState.walletActions!.list
             .where(
               (t) =>
-                  t.map(
-                    createWallet: (value) => false,
-                    fiatDeposit: (value) => false,
-                    joinCommunity: (value) => false,
-                    bonus: (value) => false,
+                  t.maybeMap(
+                    orElse: () => false,
                     send: (value) => true,
-                    receive: (value) => false,
-                    swap: (value) => false,
                   ) &&
                   t.isConfirmed(),
             )
@@ -46,7 +41,7 @@ class RecentContactsViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         countryCode,
         isoCode,
         walletActions,

@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="io.fuse.fusecash">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -8,8 +11,20 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.AUDIO_CAPTURE" />
-    <application android:name="${applicationName}" android:label="Fuse Wallet" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAa0iA6PW7eyis0TYHxSwsF5y-SqSLklkk"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
+    <application android:name="${applicationName}" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity" android:launchMode="singleTask" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize" android:exported="true">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -20,45 +35,46 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <!-- Branch URI scheme -->
+
+            <!-- URI scheme -->
             <intent-filter>
-                <data android:scheme="fuse" android:host="joinCommunity"/>
+                <data android:scheme="fuse" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-            <!-- Branch App Links -->
+
+            <intent-filter>
+                <data android:scheme="wc" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+            <!-- Deep linking -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="fuseio.app.link" />
                 <data android:scheme="https" android:host="app.fuse.io" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
         </activity>
+
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->
         <!-- <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_stat_ic_notification" /> -->
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming notification message.  -->
         <!-- <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/splash_color" /> -->
-        <!-- Branch init -->
-        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr" />
-        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_laLuH5hCCQKQjv5eM1Kugongssgw79iU" />
-        <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
 
-        <meta-data android:name="com.claimsforce.segment.WRITE_KEY" android:value="UdBbfFPkYCntzoFaWyEiwfKRKFLtTz14" />
-        <meta-data android:name="com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS" android:value="true" />
-        <meta-data android:name="com.claimsforce.segment.ENABLE_AMPLITUDE_INTEGRATION" android:value="false" />
-        <meta-data android:name="com.claimsforce.segment.DEBUG" android:value="false" />
-
-        <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data android:name="flutterEmbedding" android:value="2" />
     </application>
 </manifest>

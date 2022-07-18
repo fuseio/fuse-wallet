@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
+
 typedef KeyboardTapCallback = void Function(String text);
 
 class NumericKeyboard extends StatefulWidget {
@@ -12,7 +14,7 @@ class NumericKeyboard extends StatefulWidget {
   final MainAxisAlignment mainAxisAlignment;
   final double? height;
 
-  NumericKeyboard({
+  const NumericKeyboard({
     Key? key,
     required this.onKeyboardTap,
     this.textColor = Colors.black,
@@ -25,7 +27,7 @@ class NumericKeyboard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _NumericKeyboardState();
+  State<NumericKeyboard> createState() => _NumericKeyboardState();
 }
 
 class _NumericKeyboardState extends State<NumericKeyboard> {
@@ -33,41 +35,41 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
   Widget build(BuildContext context) {
     return Container(
       height: widget.height,
-      padding: EdgeInsets.only(
-        left: 40,
-        right: 40,
-      ),
       alignment: Alignment.center,
       child: Column(
-        children: <Widget>[
-          ButtonBar(
-            alignment: widget.mainAxisAlignment,
-            children: <Widget>[
+        children: [
+          Row(
+            mainAxisAlignment: widget.mainAxisAlignment,
+            children: [
               _calcButton('1'),
               _calcButton('2'),
               _calcButton('3'),
             ],
           ),
-          ButtonBar(
-            alignment: widget.mainAxisAlignment,
-            children: <Widget>[
+          Row(
+            mainAxisAlignment: widget.mainAxisAlignment,
+            children: [
               _calcButton('4'),
               _calcButton('5'),
               _calcButton('6'),
             ],
           ),
-          ButtonBar(
-            alignment: widget.mainAxisAlignment,
-            children: <Widget>[
+          Row(
+            mainAxisAlignment: widget.mainAxisAlignment,
+            children: [
               _calcButton('7'),
               _calcButton('8'),
               _calcButton('9'),
             ],
           ),
-          ButtonBar(
-            alignment: widget.mainAxisAlignment,
-            children: <Widget>[
+          Row(
+            mainAxisAlignment: widget.mainAxisAlignment,
+            children: [
               InkWell(
+                splashColor: Theme.of(context).canvasColor,
+                hoverColor: Theme.of(context).canvasColor,
+                focusColor: Theme.of(context).canvasColor,
+                highlightColor: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.circular(45),
                 onTap: widget.leftButtonFn,
                 child: Container(
@@ -79,6 +81,10 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
               ),
               _calcButton('0'),
               InkWell(
+                splashColor: Theme.of(context).canvasColor,
+                hoverColor: Theme.of(context).canvasColor,
+                focusColor: Theme.of(context).canvasColor,
+                highlightColor: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.circular(45),
                 onTap: widget.rightButtonFn,
                 child: Container(
@@ -97,6 +103,10 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
 
   Widget _calcButton(String value) {
     return InkWell(
+      splashColor: Theme.of(context).canvasColor,
+      hoverColor: Theme.of(context).canvasColor,
+      focusColor: Theme.of(context).canvasColor,
+      highlightColor: Theme.of(context).canvasColor,
       borderRadius: BorderRadius.circular(45),
       onTap: () {
         widget.onKeyboardTap(value);
@@ -105,13 +115,13 @@ class _NumericKeyboardState extends State<NumericKeyboard> {
         alignment: Alignment.center,
         width: 50,
         height: 60,
-        child: Text(
+        child: AutoSizeText(
           value,
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: widget.textColor,
-          ),
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: widget.textColor,
+              ),
         ),
       ),
     );

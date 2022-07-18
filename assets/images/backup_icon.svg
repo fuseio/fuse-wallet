@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <g id="Group_2276" data-name="Group 2276" transform="translate(-23 -253)">
-    <g id="Group_2273" data-name="Group 2273">
-      <circle id="Ellipse_356" data-name="Ellipse 356" cx="10" cy="10" r="10" transform="translate(23 253)" fill="#d0d0d0"/>
-      <path id="icons8-edit_1_" data-name="icons8-edit (1)" d="M11.994,2a.581.581,0,0,0-.413.171l-1,1L12.919,5.5l1-1a.583.583,0,0,0,0-.825L12.406,2.171A.581.581,0,0,0,11.994,2ZM9.71,4.042,3,10.752v2.334H5.334l6.71-6.71Z" transform="translate(24.914 255)" fill="#fff"/>
-    </g>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" x="0" y="0" version="1.1" viewBox="0 0 13.5 11.4" xml:space="preserve"><g id="Group_4373" transform="translate(-24.434 -196.574)"><g id="Group_4190" transform="translate(-2306.219 -621.927)"><path id="Path_4262" d="M2344.1 824.3l-2.8-2.8-2.8 2.8h2.1c0 .8-.2 1.5-.6 2.2 0 0 0 .1-.1.1s-.1.1-.1.1c-.8 1.1-2.1 1.7-3.4 1.7-.5 0-.9-.1-1.3-.2-.1 0-.1 0-.2-.1-.1 0-.1-.1-.2-.1-2.1-1-3-3.5-2.1-5.6.7-1.5 2.2-2.5 3.8-2.5v-1.5c-3.2 0-5.7 2.6-5.7 5.7 0 3.2 2.6 5.7 5.7 5.7s5.7-2.5 5.7-5.7l2 .2z"/><g id="Group_4189"><path id="Path_4263" d="M2337.1 825h-3.2v-1h2.2v-2.5h1v3.5z"/></g></g></g></svg>

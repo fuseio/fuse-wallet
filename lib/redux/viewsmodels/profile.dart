@@ -12,7 +12,7 @@ class ProfileViewModel extends Equatable {
   final void Function(String displayName) updateDisplayName;
   final void Function(ImageSource source) editAvatar;
 
-  ProfileViewModel({
+  const ProfileViewModel({
     required this.phone,
     required this.walletAddress,
     required this.displayName,

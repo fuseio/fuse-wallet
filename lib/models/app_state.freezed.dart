@@ -12,37 +12,16 @@ part of 'app_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 AppState _$AppStateFromJson(Map<String, dynamic> json) {
   return _AppState.fromJson(json);
 }
 
 /// @nodoc
-class _$AppStateTearOff {
-  const _$AppStateTearOff();
-
-  _AppState call(
-      {@UserStateConverter() required UserState userState,
-      @CashWalletStateConverter() required CashWalletState cashWalletState,
-      @SwapStateConverter() required SwapState swapState}) {
-    return _AppState(
-      userState: userState,
-      cashWalletState: cashWalletState,
-      swapState: swapState,
-    );
-  }
-
-  AppState fromJson(Map<String, Object?> json) {
-    return AppState.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $AppState = _$AppStateTearOff();
-
-/// @nodoc
 mixin _$AppState {
+  @NftsStateConverter()
+  NftsState get nftsState => throw _privateConstructorUsedError;
   @UserStateConverter()
   UserState get userState => throw _privateConstructorUsedError;
   @CashWalletStateConverter()
@@ -61,10 +40,12 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res>;
   $Res call(
-      {@UserStateConverter() UserState userState,
+      {@NftsStateConverter() NftsState nftsState,
+      @UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
       @SwapStateConverter() SwapState swapState});
 
+  $NftsStateCopyWith<$Res> get nftsState;
   $UserStateCopyWith<$Res> get userState;
   $CashWalletStateCopyWith<$Res> get cashWalletState;
   $SwapStateCopyWith<$Res> get swapState;
@@ -80,11 +61,16 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? nftsState = freezed,
     Object? userState = freezed,
     Object? cashWalletState = freezed,
     Object? swapState = freezed,
   }) {
     return _then(_value.copyWith(
+      nftsState: nftsState == freezed
+          ? _value.nftsState
+          : nftsState // ignore: cast_nullable_to_non_nullable
+              as NftsState,
       userState: userState == freezed
           ? _value.userState
           : userState // ignore: cast_nullable_to_non_nullable
@@ -98,6 +84,13 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
           : swapState // ignore: cast_nullable_to_non_nullable
               as SwapState,
     ));
+  }
+
+  @override
+  $NftsStateCopyWith<$Res> get nftsState {
+    return $NftsStateCopyWith<$Res>(_value.nftsState, (value) {
+      return _then(_value.copyWith(nftsState: value));
+    });
   }
 
   @override
@@ -123,15 +116,19 @@ class _$AppStateCopyWithImpl<$Res> implements $AppStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
-  factory _$AppStateCopyWith(_AppState value, $Res Function(_AppState) then) =
-      __$AppStateCopyWithImpl<$Res>;
+abstract class _$$_AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
+  factory _$$_AppStateCopyWith(
+          _$_AppState value, $Res Function(_$_AppState) then) =
+      __$$_AppStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@UserStateConverter() UserState userState,
+      {@NftsStateConverter() NftsState nftsState,
+      @UserStateConverter() UserState userState,
       @CashWalletStateConverter() CashWalletState cashWalletState,
       @SwapStateConverter() SwapState swapState});
 
+  @override
+  $NftsStateCopyWith<$Res> get nftsState;
   @override
   $UserStateCopyWith<$Res> get userState;
   @override
@@ -141,21 +138,27 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
-    implements _$AppStateCopyWith<$Res> {
-  __$AppStateCopyWithImpl(_AppState _value, $Res Function(_AppState) _then)
-      : super(_value, (v) => _then(v as _AppState));
+class __$$_AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
+    implements _$$_AppStateCopyWith<$Res> {
+  __$$_AppStateCopyWithImpl(
+      _$_AppState _value, $Res Function(_$_AppState) _then)
+      : super(_value, (v) => _then(v as _$_AppState));
 
   @override
-  _AppState get _value => super._value as _AppState;
+  _$_AppState get _value => super._value as _$_AppState;
 
   @override
   $Res call({
+    Object? nftsState = freezed,
     Object? userState = freezed,
     Object? cashWalletState = freezed,
     Object? swapState = freezed,
   }) {
-    return _then(_AppState(
+    return _then(_$_AppState(
+      nftsState: nftsState == freezed
+          ? _value.nftsState
+          : nftsState // ignore: cast_nullable_to_non_nullable
+              as NftsState,
       userState: userState == freezed
           ? _value.userState
           : userState // ignore: cast_nullable_to_non_nullable
@@ -173,11 +176,11 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
 class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   _$_AppState(
-      {@UserStateConverter() required this.userState,
+      {@NftsStateConverter() required this.nftsState,
+      @UserStateConverter() required this.userState,
       @CashWalletStateConverter() required this.cashWalletState,
       @SwapStateConverter() required this.swapState})
       : super._();
@@ -185,6 +188,9 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$$_AppStateFromJson(json);
 
+  @override
+  @NftsStateConverter()
+  final NftsState nftsState;
   @override
   @UserStateConverter()
   final UserState userState;
@@ -197,7 +203,7 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppState(userState: $userState, cashWalletState: $cashWalletState, swapState: $swapState)';
+    return 'AppState(nftsState: $nftsState, userState: $userState, cashWalletState: $cashWalletState, swapState: $swapState)';
   }
 
   @override
@@ -205,6 +211,7 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'AppState'))
+      ..add(DiagnosticsProperty('nftsState', nftsState))
       ..add(DiagnosticsProperty('userState', userState))
       ..add(DiagnosticsProperty('cashWalletState', cashWalletState))
       ..add(DiagnosticsProperty('swapState', swapState));
@@ -214,40 +221,53 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AppState &&
+            other is _$_AppState &&
+            const DeepCollectionEquality().equals(other.nftsState, nftsState) &&
             const DeepCollectionEquality().equals(other.userState, userState) &&
             const DeepCollectionEquality()
                 .equals(other.cashWalletState, cashWalletState) &&
             const DeepCollectionEquality().equals(other.swapState, swapState));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(nftsState),
       const DeepCollectionEquality().hash(userState),
       const DeepCollectionEquality().hash(cashWalletState),
       const DeepCollectionEquality().hash(swapState));
 
   @JsonKey(ignore: true)
   @override
-  _$AppStateCopyWith<_AppState> get copyWith =>
-      __$AppStateCopyWithImpl<_AppState>(this, _$identity);
+  _$$_AppStateCopyWith<_$_AppState> get copyWith =>
+      __$$_AppStateCopyWithImpl<_$_AppState>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AppStateToJson(this);
+    return _$$_AppStateToJson(
+      this,
+    );
   }
 }
 
 abstract class _AppState extends AppState {
   factory _AppState(
-      {@UserStateConverter() required UserState userState,
-      @CashWalletStateConverter() required CashWalletState cashWalletState,
-      @SwapStateConverter() required SwapState swapState}) = _$_AppState;
+      {@NftsStateConverter()
+          required final NftsState nftsState,
+      @UserStateConverter()
+          required final UserState userState,
+      @CashWalletStateConverter()
+          required final CashWalletState cashWalletState,
+      @SwapStateConverter()
+          required final SwapState swapState}) = _$_AppState;
   _AppState._() : super._();
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
+  @override
+  @NftsStateConverter()
+  NftsState get nftsState;
   @override
   @UserStateConverter()
   UserState get userState;
@@ -259,6 +279,6 @@ abstract class _AppState extends AppState {
   SwapState get swapState;
   @override
   @JsonKey(ignore: true)
-  _$AppStateCopyWith<_AppState> get copyWith =>
+  _$$_AppStateCopyWith<_$_AppState> get copyWith =>
       throw _privateConstructorUsedError;
 }

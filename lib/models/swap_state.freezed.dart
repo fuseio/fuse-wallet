@@ -12,34 +12,11 @@ part of 'swap_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 SwapState _$SwapStateFromJson(Map<String, dynamic> json) {
   return _SwapState.fromJson(json);
 }
-
-/// @nodoc
-class _$SwapStateTearOff {
-  const _$SwapStateTearOff();
-
-  _SwapState call(
-      {@JsonKey(fromJson: tokensFromJson) Map<String, Token> tokens = const {},
-      Map<String, String> tokensImages = const {},
-      @JsonKey(ignore: true) bool isFetching = false}) {
-    return _SwapState(
-      tokens: tokens,
-      tokensImages: tokensImages,
-      isFetching: isFetching,
-    );
-  }
-
-  SwapState fromJson(Map<String, Object?> json) {
-    return SwapState.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $SwapState = _$SwapStateTearOff();
 
 /// @nodoc
 mixin _$SwapState {
@@ -97,10 +74,10 @@ class _$SwapStateCopyWithImpl<$Res> implements $SwapStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$SwapStateCopyWith<$Res> implements $SwapStateCopyWith<$Res> {
-  factory _$SwapStateCopyWith(
-          _SwapState value, $Res Function(_SwapState) then) =
-      __$SwapStateCopyWithImpl<$Res>;
+abstract class _$$_SwapStateCopyWith<$Res> implements $SwapStateCopyWith<$Res> {
+  factory _$$_SwapStateCopyWith(
+          _$_SwapState value, $Res Function(_$_SwapState) then) =
+      __$$_SwapStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {@JsonKey(fromJson: tokensFromJson) Map<String, Token> tokens,
@@ -109,13 +86,14 @@ abstract class _$SwapStateCopyWith<$Res> implements $SwapStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
-    implements _$SwapStateCopyWith<$Res> {
-  __$SwapStateCopyWithImpl(_SwapState _value, $Res Function(_SwapState) _then)
-      : super(_value, (v) => _then(v as _SwapState));
+class __$$_SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
+    implements _$$_SwapStateCopyWith<$Res> {
+  __$$_SwapStateCopyWithImpl(
+      _$_SwapState _value, $Res Function(_$_SwapState) _then)
+      : super(_value, (v) => _then(v as _$_SwapState));
 
   @override
-  _SwapState get _value => super._value as _SwapState;
+  _$_SwapState get _value => super._value as _$_SwapState;
 
   @override
   $Res call({
@@ -123,7 +101,7 @@ class __$SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
     Object? tokensImages = freezed,
     Object? isFetching = freezed,
   }) {
-    return _then(_SwapState(
+    return _then(_$_SwapState(
       tokens: tokens == freezed
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
@@ -141,7 +119,6 @@ class __$SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
 class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
   _$_SwapState(
@@ -156,8 +133,8 @@ class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
   @override
   @JsonKey(fromJson: tokensFromJson)
   final Map<String, Token> tokens;
-  @JsonKey()
   @override
+  @JsonKey()
   final Map<String, String> tokensImages;
   @override
   @JsonKey(ignore: true)
@@ -182,7 +159,7 @@ class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SwapState &&
+            other is _$_SwapState &&
             const DeepCollectionEquality().equals(other.tokens, tokens) &&
             const DeepCollectionEquality()
                 .equals(other.tokensImages, tokensImages) &&
@@ -190,6 +167,7 @@ class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
                 .equals(other.isFetching, isFetching));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -199,20 +177,22 @@ class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
 
   @JsonKey(ignore: true)
   @override
-  _$SwapStateCopyWith<_SwapState> get copyWith =>
-      __$SwapStateCopyWithImpl<_SwapState>(this, _$identity);
+  _$$_SwapStateCopyWith<_$_SwapState> get copyWith =>
+      __$$_SwapStateCopyWithImpl<_$_SwapState>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SwapStateToJson(this);
+    return _$$_SwapStateToJson(
+      this,
+    );
   }
 }
 
 abstract class _SwapState extends SwapState {
   factory _SwapState(
-      {@JsonKey(fromJson: tokensFromJson) Map<String, Token> tokens,
-      Map<String, String> tokensImages,
-      @JsonKey(ignore: true) bool isFetching}) = _$_SwapState;
+      {@JsonKey(fromJson: tokensFromJson) final Map<String, Token> tokens,
+      final Map<String, String> tokensImages,
+      @JsonKey(ignore: true) final bool isFetching}) = _$_SwapState;
   _SwapState._() : super._();
 
   factory _SwapState.fromJson(Map<String, dynamic> json) =
@@ -228,6 +208,6 @@ abstract class _SwapState extends SwapState {
   bool get isFetching;
   @override
   @JsonKey(ignore: true)
-  _$SwapStateCopyWith<_SwapState> get copyWith =>
+  _$$_SwapStateCopyWith<_$_SwapState> get copyWith =>
       throw _privateConstructorUsedError;
 }

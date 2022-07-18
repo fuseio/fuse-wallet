@@ -1,53 +1,30 @@
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/swap_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/tokens/token.dart';
+import 'package:redux/redux.dart';
 
 class TokenTileViewModel extends Equatable {
-  final List<Community> communities;
   final Map<String, String> tokensImages;
-  final Function(Token token) fetchTokenAction;
-  final Function(Token token) fetchTokenPrice;
-  final Plugins plugins;
-  final Function getSwapListBalances;
+  final Map<String, Token> tokens;
 
-  TokenTileViewModel({
-    required this.communities,
-    required this.plugins,
+  const TokenTileViewModel({
+    required this.tokens,
     required this.tokensImages,
-    required this.fetchTokenAction,
-    required this.fetchTokenPrice,
-    required this.getSwapListBalances,
   });
 
   static TokenTileViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community? community =
-        store.state.cashWalletState.communities[communityAddress];
     return TokenTileViewModel(
-      plugins: community?.plugins ?? Plugins(),
+      tokens: {
+        ...store.state.swapState.tokens,
+        ...store.state.cashWalletState.tokens
+      },
       tokensImages: store.state.swapState.tokensImages,
-      communities: store.state.cashWalletState.communities.values.toList(),
-      fetchTokenAction: (Token token) {
-        store.dispatch(getTokenWalletActionsCall(token));
-      },
-      fetchTokenPrice: (Token token) {
-        store.dispatch(getTokenPriceCall(token));
-      },
-      getSwapListBalances: () {
-        store.dispatch(fetchSwapBalances());
-      },
     );
   }
 
   @override
-  List<Object> get props => [
-        communities,
+  List<Object?> get props => [
+        tokens,
         tokensImages,
-        plugins,
       ];
 }

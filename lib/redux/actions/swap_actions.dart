@@ -1,17 +1,22 @@
 import 'dart:convert';
+
+import 'package:charge_wallet_sdk/charge_wallet_sdk.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:fusecash/common/di/di.dart';
-import 'package:fusecash/constants/urls.dart';
+import 'package:fusecash/constants/analytics_events.dart';
+import 'package:fusecash/constants/analytics_props.dart';
 import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/analytics/analytics.dart';
 import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
-import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
-import 'package:wallet_core/wallet_core.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 class SetFetchingState {
   final bool isFetching;
@@ -28,12 +33,12 @@ class GetSwappableTokensSuccess {
 }
 
 class UpdateTokenPrices {
-  final num priceChange;
-  final Price priceInfo;
+  final num? priceChange;
+  final Price? priceInfo;
   final String tokenAddress;
   UpdateTokenPrices({
-    required this.priceInfo,
-    required this.priceChange,
+    this.priceInfo,
+    this.priceChange,
     required this.tokenAddress,
   });
 }
@@ -61,8 +66,9 @@ ThunkAction fetchSwapList() {
     try {
       store.dispatch(SetFetchingState(isFetching: true));
       final dio = getIt<Dio>();
-      Response<String> response =
-          await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
+      Response<String> response = await dio.get(
+        'https://raw.githubusercontent.com/voltfinance/swap-default-token-list/master/build/voltage-swap-default.tokenlist.json',
+      );
       Map data = jsonDecode(response.data!);
       Map<String, Token> tokens = {};
       Map<String, String> tokensImages = {};
@@ -70,15 +76,14 @@ ThunkAction fetchSwapList() {
         final String tokenAddress = token['address'].toLowerCase();
         final String name = Formatter.formatTokenName(token["name"]);
         final String symbol = token['symbol'];
-        Token newToken = Token.fromJson({
-          "originNetwork": 'mainnet',
-          "amount": BigInt.zero.toString(),
-          "address": tokenAddress,
-          "decimals": token['decimals'],
-          "name": name,
-          "symbol": symbol,
-          "imageUrl": token['logoURI'],
-        });
+        Token newToken = Token(
+          amount: BigInt.zero,
+          address: tokenAddress,
+          decimals: token['decimals'],
+          name: name,
+          symbol: symbol,
+          imageUrl: token['logoURI'],
+        );
         tokens.putIfAbsent(
           tokenAddress,
           () => newToken,
@@ -106,6 +111,7 @@ ThunkAction fetchSwapList() {
         swappableTokens: tokens,
       ));
       store.dispatch(fetchSwapListPrices());
+
       if (tokensImages.isNotEmpty) {
         store.dispatch(GetTokensImagesSuccess(
           tokensImages: tokensImages,
@@ -126,16 +132,27 @@ ThunkAction fetchSwapListPrices() {
     try {
       SwapState swapState = store.state.swapState;
       for (Token token in swapState.tokens.values) {
-        Future<List<dynamic>> prices = Future.wait([
-          fuseSwapService.price(token.address),
-          fuseSwapService.priceChange(token.address)
-        ]);
-        List<dynamic> result = await prices;
-        store.dispatch(UpdateTokenPrices(
-          tokenAddress: token.address,
-          priceChange: result[1],
-          priceInfo: result[0],
-        ));
+        await token.fetchLatestPrice(
+          onDone: (Price priceInfo) {
+            if (num.parse(token.priceInfo?.quote ?? '0')
+                    .compareTo(num.parse(priceInfo.quote)) !=
+                0) {
+              store.dispatch(
+                UpdateTokenPrices(
+                  tokenAddress: token.address,
+                  priceInfo: priceInfo,
+                ),
+              );
+            }
+          },
+          onError: (e, s) {
+            log.error(
+              'ERROR - fetchLatestPrice : fetchSwapListPrices ${token.address}',
+              error: e,
+              stackTrace: s,
+            );
+          },
+        );
       }
       store.dispatch(SetFetchingState(isFetching: false));
     } catch (e, s) {
@@ -154,25 +171,19 @@ ThunkAction fetchSwapBalances() {
       SwapState swapState = store.state.swapState;
       String walletAddress = store.state.userState.walletAddress;
       for (Token token in swapState.tokens.values) {
-        BigInt balance;
-        if (token.isNative) {
-          EtherAmount etherAmount =
-              await getIt<Web3>(instanceName: 'fuseWeb3').getBalance(
-            address: walletAddress,
-          );
-          balance = etherAmount.getInWei;
-        } else {
-          final BigInt tokenBalance =
-              await getIt<Web3>(instanceName: 'fuseWeb3').getTokenBalance(
-            token.address,
-            address: walletAddress,
-          );
-          balance = tokenBalance;
-        }
-        store.dispatch(UpdateTokenBalance(
-          tokenAddress: token.address,
-          balance: balance,
-        ));
+        await token.fetchBalance(
+          walletAddress,
+          onDone: (balance) {
+            if (balance.compareTo(token.amount) != 0) {
+              store.dispatch(
+                UpdateTokenBalance(
+                  tokenAddress: token.address,
+                  balance: balance,
+                ),
+              );
+            }
+          },
+        );
       }
     } catch (e, s) {
       log.error(
@@ -180,6 +191,93 @@ ThunkAction fetchSwapBalances() {
         error: e,
         stackTrace: s,
       );
+    }
+  };
+}
+
+ThunkAction swapHandler(
+  TradeRequestBody swapRequestBody,
+  Trade tradeInfo,
+  VoidCallback sendSuccessCallback,
+  void Function(dynamic) sendFailureCallback,
+) {
+  return (Store store) async {
+    try {
+      SwapRequestParametersData swapCallParameters =
+          await chargeApi.requestParameters(swapRequestBody);
+      String swapData = swapCallParameters.rawTxn['data'].replaceFirst(
+        '0x',
+        '',
+      );
+      Map<String, dynamic> response;
+      final Map transactionBody = Map.from({
+        "to": swapRequestBody.recipient,
+        "status": 'pending',
+        "isSwap": true,
+        "tradeInfo": tradeInfo.toJson(),
+        "metadata": tradeInfo.toJson(),
+      });
+      if (swapRequestBody.currencyIn == fuseToken.address) {
+        log.info('Job callContract for swap');
+        response = await chargeApi.callContract(
+          getIt<Web3>(),
+          swapRequestBody.recipient,
+          swapCallParameters.rawTxn['to'],
+          swapData,
+          network: 'fuse',
+          amountInWei: BigInt.parse(swapCallParameters.value),
+          transactionBody: transactionBody,
+          txMetadata: {
+            "currencyOut": swapRequestBody.currencyOut,
+          },
+        );
+      } else {
+        log.info('Job approveTokenAndCallContract for swap');
+        response = await chargeApi.approveTokenAndCallContract(
+          getIt<Web3>(),
+          swapRequestBody.recipient,
+          swapRequestBody.currencyIn,
+          swapCallParameters.rawTxn['to'],
+          swapData,
+          network: 'fuse',
+          amountInWei: BigInt.parse(swapCallParameters.args.first),
+          transactionBody: transactionBody,
+          txMetadata: {
+            "currencyOut": swapRequestBody.currencyOut,
+          },
+        );
+      }
+      sendSuccessCallback();
+      String swapJobId = response['job']['_id'];
+      log.info('Job $swapJobId for swap');
+      Analytics.identify({
+        AnalyticsProps.fundSwapping: true,
+      });
+      store.dispatch(
+        fetchJobCall(
+          swapJobId,
+          (Map jobData) {
+            store.dispatch(fetchSwapBalances());
+            Analytics.track(
+              eventName: AnalyticsEvents.swapApprove,
+              properties: {
+                AnalyticsProps.status: AnalyticsProps.success,
+              },
+            );
+          },
+          (dynamic failReason) {
+            Analytics.track(
+              eventName: AnalyticsEvents.swapApprove,
+              properties: {
+                AnalyticsProps.status: AnalyticsProps.failed,
+                'failReason': failReason,
+              },
+            );
+          },
+        ),
+      );
+    } catch (error, stackTrace) {
+      sendFailureCallback({'error': error, 'stackTrace': stackTrace});
     }
   };
 }

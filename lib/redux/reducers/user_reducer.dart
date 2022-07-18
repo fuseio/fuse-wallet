@@ -1,10 +1,15 @@
+import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
+  TypedReducer<UserState, SetWalletConnectURI>(
+    _setWalletConnectURI,
+  ),
   TypedReducer<UserState, GetWalletDataSuccess>(_getWalletDataSuccess),
+  TypedReducer<UserState, ScrollToTop>(_scrollToTop),
+  TypedReducer<UserState, ToggleUpgrade>(_toggleUpgrade),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
@@ -22,14 +27,24 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, JustInstalled>(_justInstalled),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
-  TypedReducer<UserState, ReceiveBackupDialogShowed>(
-      _receiveBackupDialogShowed),
-  TypedReducer<UserState, DepositBannerShowed>(_depositBannerShowed),
-  TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, WarnSendDialogShowed>(_warnSendDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
   TypedReducer<UserState, UpdateLocale>(_updateLocale),
 ]);
+
+UserState _setWalletConnectURI(UserState state, SetWalletConnectURI action) {
+  return state.copyWith(wcURI: action.wcURI);
+}
+
+UserState _scrollToTop(UserState state, ScrollToTop action) {
+  return state.copyWith(scrollToTop: action.value);
+}
+
+UserState _toggleUpgrade(UserState state, ToggleUpgrade action) {
+  return state.copyWith(
+    hasUpgrade: action.value,
+  );
+}
 
 UserState _updateLocale(UserState state, UpdateLocale action) {
   return state.copyWith(locale: action.locale);
@@ -37,20 +52,6 @@ UserState _updateLocale(UserState state, UpdateLocale action) {
 
 UserState _updateCurrency(UserState state, UpdateCurrency action) {
   return state.copyWith(currency: action.currency);
-}
-
-UserState _receiveBackupDialogShowed(
-    UserState state, ReceiveBackupDialogShowed action) {
-  return state.copyWith(receiveBackupDialogShowed: true);
-}
-
-UserState _depositBannerShowed(UserState state, DepositBannerShowed action) {
-  return state.copyWith(depositBannerShowed: true);
-}
-
-UserState _homeBackupDialogShowed(
-    UserState state, HomeBackupDialogShowed action) {
-  return state.copyWith(homeBackupDialogShowed: true);
 }
 
 UserState _warnSendDialogShowed(UserState state, WarnSendDialogShowed action) {
@@ -70,6 +71,8 @@ UserState _getWalletDataSuccess(UserState state, GetWalletDataSuccess action) {
     backup: action.backup,
     networks: action.networks,
     walletAddress: action.walletAddress,
+    walletModules: action.walletModules,
+    contractVersion: action.contractVersion,
   );
 }
 
