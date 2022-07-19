@@ -405,15 +405,16 @@ ThunkAction fetchTokenList() {
         walletAddress,
       );
       CashWalletState cashWalletState = store.state.cashWalletState;
-      Map<String, Token> newTokens = tokensList.result.fold<Map<String, Token>>(
+      Map<String, Token> newTokens =
+          tokensList.result.whereType<ERC20>().fold<Map<String, Token>>(
         {},
-        (Map<String, Token> previousValue, TokenInfo element) {
+        (Map<String, Token> previousValue, ERC20 element) {
           final Token token = Token(
             address: element.address,
             name: element.name,
             symbol: element.symbol,
             amount: element.amount,
-            decimals: element.decimals!,
+            decimals: element.decimals,
           );
           if (!cashWalletState.tokens.containsKey(element.address) &&
               num.parse(token.getBalance(true)).compareTo(0) == 1) {

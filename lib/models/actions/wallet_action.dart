@@ -1,12 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'package:charge_wallet_sdk/models/models.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:charge_wallet_sdk/models/models.dart';
 
-import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -28,6 +31,35 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
   bool isPending() => status == 'PENDING' || status == 'STARTED';
   bool isFailed() => status == 'FAILED';
   bool isConfirmed() => status == 'CONFIRMED' || status == 'SUCCEEDED';
+
+  ImageProvider getImage(
+    Contact? contact,
+    String? accountAddress,
+    Map<String, String> tokensImages,
+  ) {
+    final bool hasAvatar =
+        contact?.avatar != null && contact!.avatar!.isNotEmpty;
+    if (hasAvatar) {
+      return MemoryImage(contact.avatar as Uint8List);
+    }
+    return map(
+      receiveNFT: (value) => const AssetImage(
+        'assets/images/recieve.png',
+      ),
+      createWallet: (value) => const AssetImage(
+        'assets/images/generate_wallet.png',
+      ),
+      fiatDeposit: (value) => const AssetImage(
+        'assets/images/deposit.png',
+      ),
+      bonus: (value) => const AssetImage(
+        'assets/images/referral_bonus.png',
+      ),
+      send: (value) => const AssetImage('assets/images/send.png'),
+      receive: (value) => const AssetImage('assets/images/recieve.png'),
+      swap: (value) => const AssetImage('assets/images/swap_logo.png'),
+    );
+  }
 
   String getSubtitle(
     BuildContext context,

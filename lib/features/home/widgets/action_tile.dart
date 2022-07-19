@@ -15,7 +15,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/viewsmodels/feed_tile.dart';
 import 'package:fusecash/utils/constants.dart';
-import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/transfer.dart';
 
 class ActionTile extends StatelessWidget {
@@ -47,8 +46,7 @@ class ActionTile extends StatelessWidget {
           viewModel.contacts,
           viewModel.countryCode,
         );
-        final ImageProvider<Object> image = ImageUrl.getActionImage(
-          action,
+        final ImageProvider<Object> image = action.getImage(
           contact,
           action.getSender(),
           viewModel.tokensImages,

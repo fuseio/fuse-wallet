@@ -266,7 +266,7 @@ packages:
       name: charge_wallet_sdk
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+6"
+    version: "0.0.1+7"
   checked_yaml:
     dependency: transitive
     description:

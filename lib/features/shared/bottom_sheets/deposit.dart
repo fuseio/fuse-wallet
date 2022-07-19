@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:fusecash/constants/addresses.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ramp_flutter/ramp_flutter.dart';
 
@@ -94,7 +95,7 @@ class DepositBottomSheet extends StatelessWidget {
     configuration.defaultAsset = showUSDC ? 'USDC' : 'FUSE_FUSD';
     configuration.swapAsset = showUSDC ? 'USDC' : 'FUSE_FUSD';
     configuration.userAddress =
-        showUSDC ? dotenv.env['FUNDER_ADDRESS'] : walletAddress;
+        showUSDC ? Addresses.userAddressOnMainnet : walletAddress;
     configuration.hostApiKey = dotenv.env['RAMP_API_KEY']!;
     configuration.webhookStatusUrl =
         '${Variables.webhookStatusUrl}/$walletAddress/$projectApiKey';
