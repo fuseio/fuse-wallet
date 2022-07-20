@@ -14,7 +14,7 @@ abstract class ServicesModule {
 
   @lazySingleton
   ChargeApi get chargeApi => ChargeApi(
-        dotenv.env['PUBLIC_API_KEY']!,
+        dotenv.env['PROJECT_API_KEY']!,
       );
 
   @lazySingleton
@@ -23,5 +23,7 @@ abstract class ServicesModule {
       );
 
   @lazySingleton
-  FuseExplorer get fuseExplorerAPI => FuseExplorer(getIt<Dio>());
+  FuseExplorer get fuseExplorerAPI => FuseExplorer(
+        getIt<Dio>(),
+      );
 }

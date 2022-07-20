@@ -17,7 +17,7 @@ dependencies:
   in_app_update: ^3.0.0
   mnid_dart: ^0.1.2
   connectivity_plus: ^2.3.5
-  flash: ^2.0.3+2
+  flash: ^2.0.3+3
   internet_connection_checker: ^0.0.1+4
   shared_preferences: ^2.0.15
   wallet_connect: ^1.0.2
@@ -67,7 +67,7 @@ dependencies:
   redux_logging: ^0.5.0
   redux_persist: ^0.9.0
   country_code_picker: ^2.0.2
-  charge_wallet_sdk: ^0.0.1+7
+  charge_wallet_sdk: ^0.0.1+8
   scan: ^1.6.0
   contacts_service: ^0.6.3
   permission_handler: ^10.0.0

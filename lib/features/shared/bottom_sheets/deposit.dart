@@ -80,7 +80,7 @@ class DepositBottomSheet extends StatelessWidget {
     walletAddress, {
     String type = 'creditCard',
   }) {
-    final String projectApiKey = dotenv.env['PUBLIC_API_KEY']!;
+    final String projectApiKey = dotenv.env['PROJECT_API_KEY']!;
     Analytics.track(
       eventName: AnalyticsEvents.deposit,
       properties: {
@@ -238,7 +238,7 @@ class DepositBottomSheet extends StatelessWidget {
                                         'https://widget.xanpool.com?isWebView=true&apiKey=${dotenv.env['XANPOOL_API_KEY']}&cryptoCurrency=FUSD&transactionType=buy&redirectUrl=https://fuse.cash/pending';
                                     if (showXanpool) {
                                       final String projectApiKey =
-                                          dotenv.env['PUBLIC_API_KEY']!;
+                                          dotenv.env['PROJECT_API_KEY']!;
                                       final String partnerData =
                                           '${viewModel.walletAddress}_$projectApiKey';
                                       Analytics.track(

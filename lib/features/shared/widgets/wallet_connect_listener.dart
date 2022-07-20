@@ -108,7 +108,6 @@ class _WCListenerState extends State<WCListener> {
             getIt<Web3>(),
             owner,
             spender,
-            network: 'fuse',
             amountInWei: BigInt.parse(value),
           );
           final String jobId = response['job']['_id'];
@@ -140,7 +139,6 @@ class _WCListenerState extends State<WCListener> {
             '0x',
             '',
           ),
-          network: 'fuse',
           amountInWei: BigInt.parse(
             ethereumTransaction.value ?? '0',
           ),
@@ -173,7 +171,6 @@ class _WCListenerState extends State<WCListener> {
             '0x',
             '',
           ),
-          network: 'fuse',
           amountInWei: BigInt.parse(
             ethereumTransaction.value ?? '0',
           ),

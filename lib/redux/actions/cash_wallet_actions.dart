@@ -539,7 +539,7 @@ ThunkAction sendTokenCall(
           walletAddress,
           token.address,
           receiverAddress,
-          tokensAmount,
+          tokensAmount: tokensAmount,
         );
         Analytics.identify({
           AnalyticsProps.fundSending: true,

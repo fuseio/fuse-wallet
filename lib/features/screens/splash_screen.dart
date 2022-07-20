@@ -119,16 +119,6 @@ class _SplashPageState extends State<SplashPage> {
       converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
-          // appBar: AppBar(
-          //   elevation: 0,
-          //   shadowColor: Theme.of(context).colorScheme.primary,
-          //   backgroundColor: Theme.of(context).colorScheme.primary,
-          //   centerTitle: true,
-          //   title: SvgPicture.asset(
-          //     'assets/images/fusecash.svg',
-          //     width: 140,
-          //   ),
-          // ),
           body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

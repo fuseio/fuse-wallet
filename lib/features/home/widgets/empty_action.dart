@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-// import 'package:fusecash/features/home/widgets/deposit_dollars_banner.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
@@ -46,7 +45,6 @@ class DepositDollarsEmptyActions extends StatelessWidget {
                     Lottie.asset(
                       'assets/lottie/home-page_rocket_background.json',
                     ),
-                    // const DepositDollarsBanner(),
                   ],
                 ),
               ),

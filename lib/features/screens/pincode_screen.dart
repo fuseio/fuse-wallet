@@ -37,19 +37,6 @@ class _PinCodePageState extends State<PinCodePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //     elevation: 0,
-      //     shadowColor: Theme.of(context).colorScheme.primary,
-      //     backgroundColor: Theme.of(context).colorScheme.primary,
-      //     centerTitle: true,
-      //     title: Text(
-      //       Strings.appTitle,
-      //       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-      //             fontWeight: FontWeight.bold,
-      //             fontSize: 25,
-      //             color: Theme.of(context).canvasColor,
-      //           ),
-      //     )),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,

@@ -224,7 +224,6 @@ ThunkAction swapHandler(
           swapRequestBody.recipient,
           swapCallParameters.rawTxn['to'],
           swapData,
-          network: 'fuse',
           amountInWei: BigInt.parse(swapCallParameters.value),
           transactionBody: transactionBody,
           txMetadata: {
@@ -239,7 +238,6 @@ ThunkAction swapHandler(
           swapRequestBody.currencyIn,
           swapCallParameters.rawTxn['to'],
           swapData,
-          network: 'fuse',
           amountInWei: BigInt.parse(swapCallParameters.args.first),
           transactionBody: transactionBody,
           txMetadata: {
