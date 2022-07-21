@@ -1,15 +1,15 @@
 # Fuse Wallet
 
-The Fuse Wallet is a white-label wallet built on top of the Charge Wallet API as a demonstration of the powers of Wallet API.
+The Fuse Wallet is a white-label wallet built on top of the Charge Wallet API as a demonstration.
 
 The Fuse Wallet built upon the [charge_wallet_SDK](https://github.com/fuseio/charge_wallet_Sdk), which provides a gateway to the Wallet API.
 
 ## Features
 
-- Create a smart wallet contact for given phone number and public key
-- Send & Receive ERC-20 & ERC-721
+- Creating a smart wallet contract for a given phone number and public key
+- Sending & Receiving ERC-20 & ERC-721
+- Trading - A gateway to [voltage.finance](https://app.voltage.finance/) DEX
 - WalletConnect
-- Trade - gateway to [voltage.finance](https://app.voltage.finance/) DEX
 
 ## Architecture
 
