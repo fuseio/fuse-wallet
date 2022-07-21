@@ -11,10 +11,19 @@ import 'package:wallet_connect/wallet_connect.dart';
 part 'cash_wallet_state.freezed.dart';
 part 'cash_wallet_state.g.dart';
 
-WalletActions walletActionsFromJson(Map<String, dynamic>? walletActions) =>
-    walletActions == null
-        ? WalletActions.initial()
-        : WalletActions.fromJson(walletActions);
+WalletActions walletActionsFromJson(Map<String, dynamic>? json) {
+  if (json == null) {
+    return WalletActions.initial();
+  } else {
+    return WalletActions(
+      list: WalletAction.actionsFromJson(
+        json['list'] as Iterable<dynamic>,
+      ),
+      updatedAt: json['updatedAt'] as num? ?? 0,
+      currentPage: json['currentPage'] as int? ?? 1,
+    );
+  }
+}
 
 Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens.map(
       (k, e) {

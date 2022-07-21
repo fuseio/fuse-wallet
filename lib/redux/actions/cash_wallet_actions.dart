@@ -602,7 +602,7 @@ ThunkAction getWalletActionsCall({
       final Iterable<dynamic> docs = response['docs'] ?? [];
       final bool hasNextPage = response['hasNextPage'];
       final int nextPage = response['nextPage'] ?? 1;
-      List<WalletAction> actions = WalletActionFactory.actionsFromJson(docs);
+      List<WalletAction> actions = WalletAction.actionsFromJson(docs);
       List<WalletAction> arr =
           walletActions.list.reversed.take(actions.length).toList();
       if (actions.isNotEmpty && !(const ListEquality().equals(actions, arr))) {
@@ -716,9 +716,8 @@ ThunkAction getTokenWalletActionsCall(Token token) {
       final Iterable<dynamic> docs = response['docs'] ?? [];
       // final bool hasNextPage = response['hasNextPage'];
       // final int nextPage = response['nextPage'] ?? 1;
-      final List<WalletAction> actions =
-          WalletActionFactory.actionsFromJson(docs)
-            ..sort(((a, b) => a.timestamp.compareTo(b.timestamp)));
+      final List<WalletAction> actions = WalletAction.actionsFromJson(docs)
+        ..sort(((a, b) => a.timestamp.compareTo(b.timestamp)));
       List<WalletAction> arr = (token.walletActions?.list.reversed
               .take(actions.length)
               .toList() ??

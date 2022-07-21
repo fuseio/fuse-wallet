@@ -16,7 +16,7 @@ import 'package:fusecash/utils/format.dart';
 part 'wallet_action.freezed.dart';
 part 'wallet_action.g.dart';
 
-@freezed
+@Freezed(unionKey: 'name')
 class WalletAction with _$WalletAction implements Comparable<WalletAction> {
   const WalletAction._();
 
@@ -25,6 +25,30 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     if (other == null) return 1;
     return timestamp.compareTo(other.timestamp);
   }
+
+  static WalletAction create(Map<String, dynamic> json) {
+    json =
+        json.containsKey('data') ? Map.from({...json, ...json['data']}) : json;
+    json['timestamp'] =
+        DateTime.parse(json['updatedAt']).millisecondsSinceEpoch;
+    json['value'] =
+        json.containsKey('value') && [null, '', 'NaN'].contains(json['value'])
+            ? '0'
+            : json['value'];
+    if (json.containsKey('status')) {
+      json['status'] = json['status']?.toUpperCase();
+    }
+    return WalletAction.fromJson(json);
+  }
+
+  static List<WalletAction> actionsFromJson(Iterable<dynamic> docs) =>
+      List.from(docs).fold<List<WalletAction>>([], (previousValue, action) {
+        try {
+          return [...previousValue, WalletAction.create(action)];
+        } catch (e) {
+          return previousValue;
+        }
+      });
 
   factory WalletAction.fromJson(dynamic json) => _$WalletActionFromJson(json);
 
@@ -128,12 +152,6 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     return maybeMap(
       orElse: () => false,
       receiveNFT: (value) => true,
-    );
-  }
-
-  bool isJoinCommunity() {
-    return maybeMap(
-      orElse: () => false,
     );
   }
 
@@ -252,6 +270,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     );
   }
 
+  @FreezedUnionValue('createWallet')
   const factory WalletAction.createWallet({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
@@ -261,6 +280,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     @Default(0) int? blockNumber,
   }) = CreateWallet;
 
+  @FreezedUnionValue('fiat-deposit')
   const factory WalletAction.fiatDeposit({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
@@ -277,6 +297,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     required int tokenDecimal,
   }) = FiatDeposit;
 
+  @FreezedUnionValue('tokenBonus')
   const factory WalletAction.bonus({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
@@ -294,6 +315,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     String? bonusType,
   }) = Bonus;
 
+  @FreezedUnionValue('sendTokens')
   const factory WalletAction.send({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
@@ -310,6 +332,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     required int tokenDecimal,
   }) = Send;
 
+  @FreezedUnionValue('receiveTokens')
   const factory WalletAction.receive({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
@@ -326,6 +349,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     required int tokenDecimal,
   }) = Receive;
 
+  @FreezedUnionValue('swapTokens')
   const factory WalletAction.swap({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,
@@ -336,6 +360,7 @@ class WalletAction with _$WalletAction implements Comparable<WalletAction> {
     @JsonKey(name: 'metadata') Trade? tradeInfo,
   }) = Swap;
 
+  @FreezedUnionValue('receiveNFT')
   const factory WalletAction.receiveNFT({
     @Default(0) int timestamp,
     @JsonKey(name: '_id') required String id,

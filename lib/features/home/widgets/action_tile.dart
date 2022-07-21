@@ -6,7 +6,6 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/constants/theme.dart';
@@ -38,8 +37,6 @@ class ActionTile extends StatelessWidget {
       distinct: true,
       converter: FeedTileViewModel.fromStore,
       builder: (_, viewModel) {
-        final DateTime dateTime =
-            DateTime.fromMillisecondsSinceEpoch(action.timestamp);
         final Contact? contact = getContact(
           action.getSender(),
           viewModel.reverseContacts,
@@ -107,73 +104,66 @@ class ActionTile extends StatelessWidget {
               ? CrossAxisAlignment.end
               : CrossAxisAlignment.center,
           children: [
-            action.isJoinCommunity()
-                ? Text(
-                    DateFormat.jm().format(dateTime),
-                    style: smallTextStyle,
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        alignment: AlignmentDirectional.bottomEnd,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: AutoSizeText.rich(
-                                  TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: amount,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: AlignmentDirectional.bottomEnd,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: AutoSizeText.rich(
+                            TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: amount,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                (token?.hasPriceInfo ?? false)
+                                    ? const TextSpan(text: '')
+                                    : TextSpan(
+                                        text: ' $symbol',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium,
                                       ),
-                                      (token?.hasPriceInfo ?? false)
-                                          ? const TextSpan(text: '')
-                                          : TextSpan(
-                                              text: ' $symbol',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium,
-                                            ),
-                                    ],
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                              ],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                          Positioned(
-                            bottom: -20,
-                            child: action.isPending()
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 10,
-                                    ),
-                                    child: Text(
-                                      I10n.of(context).pending,
-                                      style: smallTextStyle,
-                                    ),
-                                  )
-                                : const SizedBox.shrink(),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: -20,
+                      child: action.isPending()
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                              ),
+                              child: Text(
+                                I10n.of(context).pending,
+                                style: smallTextStyle,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ],
         );
 
@@ -276,20 +266,16 @@ class ActionTile extends StatelessWidget {
           title: title,
           subtitle: subtitle,
           onTap: () {
-            if (action.isJoinCommunity()) {
-              return;
-            } else {
-              context.router.push(
-                ActionDetailsRoute(
-                  action: action,
-                  displayName: displayName,
-                  accountAddress: action.getSender(),
-                  symbol: symbol,
-                  image: image,
-                  contact: contact,
-                ),
-              );
-            }
+            context.router.push(
+              ActionDetailsRoute(
+                action: action,
+                displayName: displayName,
+                accountAddress: action.getSender(),
+                symbol: symbol,
+                image: image,
+                contact: contact,
+              ),
+            );
           },
         );
       },

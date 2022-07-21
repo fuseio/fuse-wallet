@@ -15,25 +15,25 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 WalletAction _$WalletActionFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
+  switch (json['name']) {
     case 'createWallet':
       return CreateWallet.fromJson(json);
-    case 'fiatDeposit':
+    case 'fiat-deposit':
       return FiatDeposit.fromJson(json);
-    case 'bonus':
+    case 'tokenBonus':
       return Bonus.fromJson(json);
-    case 'send':
+    case 'sendTokens':
       return Send.fromJson(json);
-    case 'receive':
+    case 'receiveTokens':
       return Receive.fromJson(json);
-    case 'swap':
+    case 'swapTokens':
       return Swap.fromJson(json);
     case 'receiveNFT':
       return ReceiveNFT.fromJson(json);
 
     default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'WalletAction',
-          'Invalid union type "${json['runtimeType']}"!');
+      throw CheckedFromJsonException(json, 'name', 'WalletAction',
+          'Invalid union type "${json['name']}"!');
   }
 }
 
@@ -494,10 +494,8 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
       this.name = 'createWallet',
       this.txHash,
       required this.status,
-      this.blockNumber = 0,
-      final String? $type})
-      : $type = $type ?? 'createWallet',
-        super._();
+      this.blockNumber = 0})
+      : super._();
 
   factory _$CreateWallet.fromJson(Map<String, dynamic> json) =>
       _$$CreateWalletFromJson(json);
@@ -518,9 +516,6 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final int? blockNumber;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -1064,10 +1059,8 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
       required this.value,
       required this.tokenName,
       required this.tokenSymbol,
-      required this.tokenDecimal,
-      final String? $type})
-      : $type = $type ?? 'fiatDeposit',
-        super._();
+      required this.tokenDecimal})
+      : super._();
 
   factory _$FiatDeposit.fromJson(Map<String, dynamic> json) =>
       _$$FiatDepositFromJson(json);
@@ -1102,9 +1095,6 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   final String tokenSymbol;
   @override
   final int tokenDecimal;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -1693,10 +1683,8 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
       required this.tokenName,
       required this.tokenSymbol,
       required this.tokenDecimal,
-      this.bonusType,
-      final String? $type})
-      : $type = $type ?? 'bonus',
-        super._();
+      this.bonusType})
+      : super._();
 
   factory _$Bonus.fromJson(Map<String, dynamic> json) => _$$BonusFromJson(json);
 
@@ -1732,9 +1720,6 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   final int tokenDecimal;
   @override
   final String? bonusType;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -2345,10 +2330,8 @@ class _$Send extends Send with DiagnosticableTreeMixin {
       required this.value,
       required this.tokenName,
       required this.tokenSymbol,
-      required this.tokenDecimal,
-      final String? $type})
-      : $type = $type ?? 'send',
-        super._();
+      required this.tokenDecimal})
+      : super._();
 
   factory _$Send.fromJson(Map<String, dynamic> json) => _$$SendFromJson(json);
 
@@ -2382,9 +2365,6 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   final String tokenSymbol;
   @override
   final int tokenDecimal;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -2964,10 +2944,8 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
       required this.value,
       required this.tokenName,
       required this.tokenSymbol,
-      required this.tokenDecimal,
-      final String? $type})
-      : $type = $type ?? 'receive',
-        super._();
+      required this.tokenDecimal})
+      : super._();
 
   factory _$Receive.fromJson(Map<String, dynamic> json) =>
       _$$ReceiveFromJson(json);
@@ -3002,9 +2980,6 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   final String tokenSymbol;
   @override
   final int tokenDecimal;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -3556,10 +3531,8 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
       this.txHash,
       required this.status,
       this.blockNumber = 0,
-      @JsonKey(name: 'metadata') this.tradeInfo,
-      final String? $type})
-      : $type = $type ?? 'swap',
-        super._();
+      @JsonKey(name: 'metadata') this.tradeInfo})
+      : super._();
 
   factory _$Swap.fromJson(Map<String, dynamic> json) => _$$SwapFromJson(json);
 
@@ -3582,9 +3555,6 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
   @override
   @JsonKey(name: 'metadata')
   final Trade? tradeInfo;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -4126,10 +4096,8 @@ class _$ReceiveNFT extends ReceiveNFT with DiagnosticableTreeMixin {
       required this.to,
       required this.tokenName,
       required this.tokenSymbol,
-      required this.tokenDecimal,
-      final String? $type})
-      : $type = $type ?? 'receiveNFT',
-        super._();
+      required this.tokenDecimal})
+      : super._();
 
   factory _$ReceiveNFT.fromJson(Map<String, dynamic> json) =>
       _$$ReceiveNFTFromJson(json);
@@ -4162,9 +4130,6 @@ class _$ReceiveNFT extends ReceiveNFT with DiagnosticableTreeMixin {
   final String tokenSymbol;
   @override
   final int tokenDecimal;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {

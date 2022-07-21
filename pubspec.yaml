@@ -1,5 +1,5 @@
 name: fusecash
-version: 2.0.0+331
+version: 2.0.0+332
 description: Cross platform mobile Ethereum wallet.
 publish_to: "none"
 environment:

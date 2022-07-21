@@ -295,10 +295,7 @@ class FeedTile extends StatelessWidget {
           trailing: trailing,
           title: title,
           subtitle: subtitle,
-          onTap: () async {
-            if (action.isJoinCommunity()) {
-              return;
-            }
+          onTap: () {
             context.router.push(
               ActionDetailsRoute(
                 action: action,
