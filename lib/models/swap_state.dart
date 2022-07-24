@@ -1,5 +1,6 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
@@ -29,12 +30,10 @@ Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens.map(
       },
     );
 
-@immutable
 @freezed
 class SwapState with _$SwapState {
   const SwapState._();
 
-  @JsonSerializable()
   factory SwapState({
     @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
     @Default({}) Map<String, String> tokensImages,
@@ -43,8 +42,8 @@ class SwapState with _$SwapState {
 
   factory SwapState.initial() {
     return SwapState(
-      tokens: {},
-      tokensImages: {},
+      tokens: const {},
+      tokensImages: const {},
     );
   }
 

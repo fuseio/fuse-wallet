@@ -1,16 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/common/router/routes.dart';
+import 'package:fusecash/constants/analytics_props.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/constants/analytics_events.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/analytics/analytics.dart';
 import 'package:fusecash/utils/log/log.dart';
-import 'package:fusecash/utils/onboard/Istrategy.dart';
+import 'package:fusecash/utils/onboard/base_strategy.dart';
 
 class FirebaseStrategy implements IOnBoardStrategy {
   @override
-  final strategy;
+  OnboardStrategy strategy;
   FirebaseStrategy({this.strategy = OnboardStrategy.firebase});
 
   @override
@@ -34,20 +36,20 @@ class FirebaseStrategy implements IOnBoardStrategy {
       final String identifier = store.state.userState.identifier;
       String token = await user!.getIdToken();
       try {
-        String jwtToken = await walletApi.loginWithFirebase(
+        String jwtToken = await chargeApi.loginWithFirebase(
           token,
           accountAddress,
           identifier,
         );
-        Segment.track(
-          eventName: 'Sign up: VerificationCode_NextBtn_Press',
+        Analytics.track(
+          eventName: AnalyticsEvents.verify,
+          properties: {
+            AnalyticsProps.status: AnalyticsProps.success,
+          },
         );
-        log.info('jwtToken $jwtToken');
         onSuccess();
         store.dispatch(LoginVerifySuccess(jwtToken));
-        api.setJwtToken(jwtToken);
-        walletApi.setJwtToken(jwtToken);
-        rootRouter.push(UserNameScreen());
+        rootRouter.push(const UserNameRoute());
       } catch (e) {
         onError(e.toString());
       }
@@ -64,10 +66,10 @@ class FirebaseStrategy implements IOnBoardStrategy {
       int? forceResendingToken,
     ]) {
       log.info("PhoneCodeSent verificationId: $verificationId");
+      onSuccess();
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
-      rootRouter.push(VerifyPhoneNumber(verificationId: verificationId));
-      onSuccess();
+      rootRouter.push(VerifyPhoneNumberRoute(verificationId: verificationId));
     }
 
     await firebaseAuth.verifyPhoneNumber(
@@ -99,7 +101,7 @@ class FirebaseStrategy implements IOnBoardStrategy {
     final String accountAddress = store.state.userState.accountAddress;
     final String identifier = store.state.userState.identifier;
     String token = await userCredential.user!.getIdToken();
-    final String jwtToken = await walletApi.loginWithFirebase(
+    final String jwtToken = await chargeApi.loginWithFirebase(
       token,
       accountAddress,
       identifier,

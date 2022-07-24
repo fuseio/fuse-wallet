@@ -1,0 +1,10 @@
+# Exclude one or more paths from being scanned. Supports glob syntax.
+exclude:
+  - "app/**"
+# Ignore one or more packages.
+ignore:
+  - analyzer
+  - cupertino_icons
+  - flutter_cupertino_localizations
+  - json_annotation
+  - lint

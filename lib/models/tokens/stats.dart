@@ -1,19 +1,19 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'stats.freezed.dart';
 part 'stats.g.dart';
 
-@immutable
 @freezed
-class Stats with _$Stats {
-  @JsonSerializable()
-  factory Stats({
-    String? volume,
-    String? price,
-    int? timestamp,
-    DateTime? date,
-  }) = _Stats;
+class IntervalStats with _$IntervalStats {
+  factory IntervalStats({
+    required num timestamp,
+    required double priceChange,
+    required double previousPrice,
+    required double currentPrice,
+  }) = _IntervalStats;
 
-  factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
+  factory IntervalStats.fromJson(Map<String, dynamic> json) =>
+      _$IntervalStatsFromJson(json);
 }

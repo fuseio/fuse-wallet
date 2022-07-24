@@ -1,3 +1,1 @@
-<svg id="Component_24_95" data-name="Component 24 – 95" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <path id="Path_261" data-name="Path 261" d="M10,0,8.182,1.818,15.065,8.7H0v2.6H15.065L8.182,18.182,10,20,20,10Z" transform="translate(20 20) rotate(180)" fill="#767676"/>
-</svg>
+<svg data-name="Component 24 – 95" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path data-name="Path 261" d="M10 20l1.818-1.818L4.935 11.3H20V8.7H4.935l6.883-6.882L10 0 0 10z" fill="#767676"/></svg>

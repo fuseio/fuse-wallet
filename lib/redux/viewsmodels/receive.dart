@@ -2,20 +2,20 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:redux/redux.dart';
 
-class ReceiveModel extends Equatable {
+class ReceiveViewModel extends Equatable {
   final String walletAddress;
-  ReceiveModel({
+  const ReceiveViewModel({
     required this.walletAddress,
   });
 
-  static ReceiveModel fromStore(Store<AppState> store) {
-    return ReceiveModel(
+  static ReceiveViewModel fromStore(Store<AppState> store) {
+    return ReceiveViewModel(
       walletAddress: store.state.userState.walletAddress,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         walletAddress,
       ];
 }

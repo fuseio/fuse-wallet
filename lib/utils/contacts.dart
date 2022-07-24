@@ -32,7 +32,7 @@ class Contacts {
               (i) =>
                   i.displayName != null &&
                   i.displayName != "" &&
-                  i.phones!.length > 0,
+                  i.phones!.isNotEmpty,
             )
             .toList();
     return contacts;

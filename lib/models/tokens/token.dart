@@ -1,5 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:decimal/decimal.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:charge_wallet_sdk/charge_wallet_sdk.dart';
+
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -7,12 +11,11 @@ import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
+import 'package:fusecash/utils/log/log.dart';
 
 part 'token.freezed.dart';
 part 'token.g.dart';
 
-@immutable
 @freezed
 class Token with _$Token implements Comparable<Token> {
   const Token._();
@@ -24,7 +27,6 @@ class Token with _$Token implements Comparable<Token> {
         .compareTo(num.parse(other.getFiatBalance(true)));
   }
 
-  @JsonSerializable()
   factory Token({
     required String address,
     required String name,
@@ -33,15 +35,12 @@ class Token with _$Token implements Comparable<Token> {
     required int decimals,
     @Default(false) bool isNative,
     String? imageUrl,
-    @JsonKey(ignore: true) String? subtitle,
     int? timestamp,
     Price? priceInfo,
     String? communityAddress,
-    String? originNetwork,
+    @Default(TimeFrame.day) TimeFrame timeFrame,
     @Default(0) num priceChange,
-    @JsonKey(ignore: true) @Default(0) num priceDiff,
-    @JsonKey(ignore: true) @Default(0) int priceDiffLimitInDays,
-    @JsonKey(ignore: true) @Default([]) List<Stats> stats,
+    @Default([]) List<IntervalStats> intervalStats,
     @JsonKey(fromJson: walletActionsFromJson) WalletActions? walletActions,
   }) = _Token;
 
@@ -51,55 +50,46 @@ class Token with _$Token implements Comparable<Token> {
         withPrecision,
       );
 
-  String getFiatBalance([bool withPrecision = false]) {
-    if (num.parse(priceInfo?.quote ?? '0').compareTo(0) <= 1) {
-      return Formatter.formatValueToFiat(
-        amount,
-        decimals,
-        double.tryParse(quote) ?? 0.0,
-        withPrecision,
-      );
-    }
-    return '0';
-  }
+  String getFiatBalance([bool withPrecision = false]) => hasPriceInfo
+      ? Formatter.formatValueToFiat(
+          amount,
+          decimals,
+          double.parse(priceInfo!.quote),
+          withPrecision,
+        )
+      : '0';
 
-  bool get hasPriceInfo =>
-      ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
-
-  String get quote => priceInfo?.quoteHuman ?? '0';
+  bool get hasPriceInfo => priceInfo != null && priceInfo?.hasPriceInfo == true;
 
   Future<dynamic> fetchBalance(
     String accountAddress, {
     required Function(BigInt) onDone,
-    required Function onError,
+    Function? onError,
   }) async {
-    if ([null, ''].contains(accountAddress) || [null, ''].contains(address))
+    if ([null, ''].contains(accountAddress) || [null, ''].contains(address)) {
       return;
-    if (isNative) {
-      try {
-        EtherAmount balance =
-            await getIt<Web3>(instanceName: 'fuseWeb3').getBalance(
-          address: accountAddress,
-        );
-        if (amount.compareTo(balance.getInWei) != 0) {
-          onDone(balance.getInWei);
-        }
-      } catch (e, s) {
-        onError(e, s);
-      }
-    } else {
-      try {
-        final BigInt balance =
-            await getIt<Web3>(instanceName: 'fuseWeb3').getTokenBalance(
-          address,
-          address: accountAddress,
-        );
-        if (amount.compareTo(balance) != 0) {
-          onDone(balance);
-        }
-      } catch (e, s) {
-        onError(e, s);
-      }
+    }
+    final Function balanceFetcher =
+        isNative ? getIt<Web3>().getBalance : getIt<Web3>().getTokenBalance;
+    try {
+      final dynamic balance = isNative
+          ? await balanceFetcher(
+              address: accountAddress,
+            )
+          : await balanceFetcher(
+              address,
+              address: accountAddress,
+            );
+      final BigInt value = isNative ? balance.getInWei : balance;
+      onDone(value);
+    } catch (e, s) {
+      log.error(
+        'Error - fetch token balance $name',
+        error: e,
+        stackTrace: s,
+      );
+      onError?.call(e, s);
+      rethrow;
     }
   }
 
@@ -109,8 +99,9 @@ class Token with _$Token implements Comparable<Token> {
     required Function onError,
   }) async {
     try {
-      Price price = await fuseSwapService.price(address);
-      onDone(price);
+      String price = await chargeApi.price(address);
+
+      onDone(Price(currency: currency, quote: Decimal.parse(price).toString()));
     } catch (e, s) {
       onError(e, s);
     }
@@ -121,24 +112,25 @@ class Token with _$Token implements Comparable<Token> {
     required Function onError,
   }) async {
     try {
-      final num priceChange = await fuseSwapService.priceChange(address);
-      onDone(priceChange);
+      final String priceChange = await chargeApi.priceChange(address);
+      onDone(num.parse(Decimal.parse(priceChange).toString()));
     } catch (e, s) {
       onError(e, s);
     }
   }
 
-  Future<dynamic> fetchStats({
-    required void Function(List<Stats>) onDone,
+  Future<dynamic> fetchIntervalStats({
+    required void Function(List<IntervalStats>) onDone,
     required Function onError,
-    String limit = '30',
+    required TimeFrame timeFrame,
   }) async {
     try {
-      final List<Stats> stats = await fuseSwapService.stats(
+      final List<ChartItem> intervalStats = await chargeApi.interval(
         address,
-        limit: limit,
+        timeFrame,
       );
-      onDone(stats);
+      onDone(List<IntervalStats>.from(
+          intervalStats.map((e) => IntervalStats.fromJson(e.toJson()))));
     } catch (e, s) {
       onError(e, s);
     }

@@ -1,21 +1,39 @@
 import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final swapReducers = combineReducers<SwapState>([
+  TypedReducer<SwapState, SetFetchingState>(_setFetchingState),
   TypedReducer<SwapState, GetSwappableTokensSuccess>(
       _getSwappableTokensSuccess),
   TypedReducer<SwapState, GetTokensImagesSuccess>(_getTokensImagesSuccess),
   TypedReducer<SwapState, ResetTokenList>(_resetTokenList),
   TypedReducer<SwapState, UpdateTokenPrices>(_updateTokenPrices),
   TypedReducer<SwapState, UpdateTokenBalance>(_updateTokenBalance),
+  TypedReducer<SwapState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
 ]);
 
+SwapState _createNewWalletSuccess(
+  SwapState state,
+  CreateLocalAccountSuccess action,
+) {
+  return SwapState(
+    tokensImages: state.tokensImages,
+  );
+}
+
+SwapState _setFetchingState(SwapState state, SetFetchingState action) {
+  return state.copyWith(
+    isFetching: action.isFetching,
+  );
+}
+
 SwapState _updateTokenPrices(SwapState state, UpdateTokenPrices action) {
+  Token cur = state.tokens[action.tokenAddress]!;
   final Token token = state.tokens[action.tokenAddress]!.copyWith(
-    priceInfo: action.priceInfo,
-    priceChange: action.priceChange,
+    priceInfo: action.priceInfo ?? cur.priceInfo,
   );
   Map<String, Token> tokens = Map<String, Token>.from(state.tokens);
   tokens[action.tokenAddress] = token.copyWith();

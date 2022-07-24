@@ -11,115 +11,115 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i11;
-import 'package:contacts_service/contacts_service.dart' as _i33;
-import 'package:flutter/material.dart' as _i30;
+import 'package:charge_wallet_sdk/charge_wallet_sdk.dart' as _i35;
+import 'package:contacts_service/contacts_service.dart' as _i34;
+import 'package:flutter/material.dart' as _i31;
 
-import '../../features/account/screens/account_screen.dart' as _i21;
-import '../../features/account/screens/done_backup_screen.dart' as _i25;
-import '../../features/account/screens/profile.dart' as _i28;
-import '../../features/account/screens/protect_your_wallet.dart' as _i27;
-import '../../features/account/screens/settings.dart' as _i26;
-import '../../features/account/screens/show_mnemonic.dart' as _i23;
-import '../../features/account/screens/social_screen.dart' as _i29;
-import '../../features/account/screens/verify_mnemonic.dart' as _i24;
-import '../../features/buy/screens/business.dart' as _i19;
-import '../../features/buy/screens/buy.dart' as _i18;
-import '../../features/contacts/screens/contacts_list.dart' as _i14;
-import '../../features/contacts/screens/send_amount.dart' as _i15;
-import '../../features/contacts/screens/send_review.dart' as _i16;
-import '../../features/contacts/screens/send_success.dart' as _i17;
-import '../../features/contacts/send_amount_arguments.dart' as _i34;
+import '../../features/account/screens/account_screen.dart' as _i23;
+import '../../features/account/screens/connected_dapps.dart' as _i30;
+import '../../features/account/screens/done_backup_screen.dart' as _i26;
+import '../../features/account/screens/profile.dart' as _i29;
+import '../../features/account/screens/protect_your_wallet.dart' as _i28;
+import '../../features/account/screens/settings.dart' as _i27;
+import '../../features/account/screens/show_mnemonic.dart' as _i24;
+import '../../features/account/screens/verify_mnemonic.dart' as _i25;
 import '../../features/home/screens/action_details.dart' as _i13;
 import '../../features/home/screens/home.dart' as _i12;
-import '../../features/home/screens/switch_community.dart' as _i22;
 import '../../features/onboard/screens/restore_wallet_screen.dart' as _i4;
 import '../../features/onboard/screens/security_screen.dart' as _i2;
 import '../../features/onboard/screens/signup_screen.dart' as _i6;
 import '../../features/onboard/screens/username_screen.dart' as _i8;
 import '../../features/onboard/screens/verify_screen.dart' as _i7;
-import '../../features/screens/fuse_studio_explained.dart' as _i20;
 import '../../features/screens/main_screen.dart' as _i10;
 import '../../features/screens/on_board_screen.dart' as _i5;
 import '../../features/screens/pincode_screen.dart' as _i3;
 import '../../features/screens/splash_screen.dart' as _i1;
 import '../../features/screens/webview_screen.dart' as _i9;
-import '../../models/actions/wallet_action.dart' as _i32;
-import '../../models/community/business.dart' as _i35;
-import '../../models/tokens/token.dart' as _i36;
-import 'route_guards.dart' as _i31;
+import '../../features/swap/screens/review_swap.dart' as _i22;
+import '../../features/swap/screens/swap.dart' as _i21;
+import '../../features/wallet/screens/collectible.dart' as _i16;
+import '../../features/wallet/screens/contacts_list.dart' as _i17;
+import '../../features/wallet/screens/send_amount.dart' as _i18;
+import '../../features/wallet/screens/send_review.dart' as _i19;
+import '../../features/wallet/screens/send_success.dart' as _i20;
+import '../../features/wallet/screens/token.dart' as _i15;
+import '../../features/wallet/screens/wallet.dart' as _i14;
+import '../../features/wallet/send_amount_arguments.dart' as _i36;
+import '../../models/actions/wallet_action.dart' as _i33;
+import '../../models/tokens/token.dart' as _i37;
+import 'route_guards.dart' as _i32;
 
 class RootRouter extends _i11.RootStackRouter {
   RootRouter(
-      {_i30.GlobalKey<_i30.NavigatorState>? navigatorKey,
+      {_i31.GlobalKey<_i31.NavigatorState>? navigatorKey,
       required this.authGuard})
       : super(navigatorKey);
 
-  final _i31.AuthGuard authGuard;
+  final _i32.AuthGuard authGuard;
 
   @override
   final Map<String, _i11.PageFactory> pagesMap = {
-    SplashScreen.name: (routeData) {
-      final args = routeData.argsAs<SplashScreenArgs>(
-          orElse: () => const SplashScreenArgs());
+    SplashRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashRouteArgs>(
+          orElse: () => const SplashRouteArgs());
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i1.SplashScreen(
-              key: args.key, onLoginResult: args.onLoginResult));
+          child:
+              _i1.SplashPage(key: args.key, onLoginResult: args.onLoginResult));
     },
-    ChooseSecurityOption.name: (routeData) {
+    ChooseSecurityRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i2.ChooseSecurityOption());
+          routeData: routeData, child: const _i2.ChooseSecurityPage());
     },
-    PinCodeScreen.name: (routeData) {
+    PinCodeRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i3.PinCodeScreen());
+          routeData: routeData, child: const _i3.PinCodePage());
     },
-    RestoreFromBackupScreen.name: (routeData) {
+    RestoreWalletRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i4.RestoreFromBackupScreen());
+          routeData: routeData, child: const _i4.RestoreWalletPage());
     },
-    OnBoardScreen.name: (routeData) {
+    OnBoardingRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i5.OnBoardScreen());
+          routeData: routeData, child: const _i5.OnBoardingPage());
     },
-    SignUpScreen.name: (routeData) {
+    SignUpRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i6.SignUpScreen());
+          routeData: routeData, child: const _i6.SignUpPage());
     },
-    VerifyPhoneNumber.name: (routeData) {
-      final args = routeData.argsAs<VerifyPhoneNumberArgs>(
-          orElse: () => const VerifyPhoneNumberArgs());
+    VerifyPhoneNumberRoute.name: (routeData) {
+      final args = routeData.argsAs<VerifyPhoneNumberRouteArgs>(
+          orElse: () => const VerifyPhoneNumberRouteArgs());
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i7.VerifyPhoneNumber(verificationId: args.verificationId));
+          child: _i7.VerifyPhoneNumberPage(
+              verificationId: args.verificationId, key: args.key));
     },
-    UserNameScreen.name: (routeData) {
+    UserNameRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i8.UserNameScreen());
+          routeData: routeData, child: const _i8.UserNamePage());
     },
     Webview.name: (routeData) {
       final args = routeData.argsAs<WebviewArgs>();
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i9.WebViewScreen(args.url, args.title,
-              onPageStarted: args.onPageStarted),
+          child: _i9.WebViewPage(args.url, args.title,
+              onPageStarted: args.onPageStarted, key: args.key),
           fullscreenDialog: true);
     },
-    MainScreen.name: (routeData) {
-      final args = routeData.argsAs<MainScreenArgs>(
-          orElse: () => const MainScreenArgs());
+    MainRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i10.MainScreen(key: args.key));
+          routeData: routeData, child: const _i10.MainPage());
     },
     HomeTab.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i11.EmptyRouterPage());
     },
-    ContactsTab.name: (routeData) {
+    WalletTab.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i11.EmptyRouterPage());
     },
-    BuyTab.name: (routeData) {
+    SwapTab.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i11.EmptyRouterPage());
     },
@@ -127,15 +127,16 @@ class RootRouter extends _i11.RootStackRouter {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i11.EmptyRouterPage());
     },
-    HomeScreen.name: (routeData) {
+    HomeRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i12.HomeScreen());
+          routeData: routeData, child: const _i12.HomePage());
     },
-    ActionDetailsScreen.name: (routeData) {
-      final args = routeData.argsAs<ActionDetailsScreenArgs>();
+    ActionDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<ActionDetailsRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i13.ActionDetailsScreen(
+          child: _i13.ActionDetailsPage(
+              key: args.key,
               action: args.action,
               image: args.image,
               displayName: args.displayName,
@@ -143,189 +144,175 @@ class RootRouter extends _i11.RootStackRouter {
               symbol: args.symbol,
               contact: args.contact));
     },
-    ContactsList.name: (routeData) {
-      final args = routeData.argsAs<ContactsListArgs>(
-          orElse: () => const ContactsListArgs());
+    WalletRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i14.ContactsList(pageArgs: args.pageArgs));
+          routeData: routeData, child: const _i14.WalletPage());
     },
-    SendAmountScreen.name: (routeData) {
-      final args = routeData.argsAs<SendAmountScreenArgs>();
-      return _i11.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i15.SendAmountScreen(pageArgs: args.pageArgs));
-    },
-    SendReviewScreen.name: (routeData) {
-      final args = routeData.argsAs<SendReviewScreenArgs>();
-      return _i11.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i16.SendReviewScreen(pageArgs: args.pageArgs));
-    },
-    SendSuccessScreen.name: (routeData) {
-      final args = routeData.argsAs<SendSuccessScreenArgs>();
-      return _i11.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: _i17.SendSuccessScreen(pageArgs: args.pageArgs));
-    },
-    BuyScreen.name: (routeData) {
-      return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i18.BuyScreen());
-    },
-    BusinessScreen.name: (routeData) {
-      final args = routeData.argsAs<BusinessScreenArgs>();
+    TokenRoute.name: (routeData) {
+      final args = routeData.argsAs<TokenRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
           child:
-              _i19.BusinessScreen(business: args.business, token: args.token));
+              _i15.TokenPage(key: args.key, tokenAddress: args.tokenAddress));
     },
-    FusePointsExplainedScreen.name: (routeData) {
+    CollectibleRoute.name: (routeData) {
+      final args = routeData.argsAs<CollectibleRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i20.FusePointsExplainedScreen());
+          routeData: routeData,
+          child: _i16.CollectiblePage(
+              key: args.key, collectible: args.collectible));
     },
-    AccountScreen.name: (routeData) {
+    ContactsRoute.name: (routeData) {
+      final args = routeData.argsAs<ContactsRouteArgs>(
+          orElse: () => const ContactsRouteArgs());
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i21.AccountScreen());
+          routeData: routeData,
+          child: _i17.ContactsPage(key: args.key, pageArgs: args.pageArgs));
     },
-    SwitchCommunityScreen.name: (routeData) {
+    SendAmountRoute.name: (routeData) {
+      final args = routeData.argsAs<SendAmountRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i22.SwitchCommunityScreen());
+          routeData: routeData,
+          child: _i18.SendAmountPage(pageArgs: args.pageArgs, key: args.key));
     },
-    ShowMnemonic.name: (routeData) {
+    SendReviewRoute.name: (routeData) {
+      final args = routeData.argsAs<SendReviewRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i23.ShowMnemonic());
+          routeData: routeData,
+          child: _i19.SendReviewPage(pageArgs: args.pageArgs, key: args.key));
     },
-    VerifyMnemonic.name: (routeData) {
+    SendSuccessRoute.name: (routeData) {
+      final args = routeData.argsAs<SendSuccessRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i24.VerifyMnemonic());
+          routeData: routeData,
+          child: _i20.SendSuccessPage(pageArgs: args.pageArgs, key: args.key));
     },
-    DoneBackup.name: (routeData) {
+    SwapRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<SwapRouteArgs>(orElse: () => const SwapRouteArgs());
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i25.DoneBackup());
+          routeData: routeData,
+          child: _i21.SwapPage(key: args.key, primaryToken: args.primaryToken));
     },
-    SettingsScreen.name: (routeData) {
+    ReviewSwapRoute.name: (routeData) {
+      final args = routeData.argsAs<ReviewSwapRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i26.SettingsScreen());
+          routeData: routeData,
+          child: _i22.ReviewSwapPage(
+              rateInfo: args.rateInfo,
+              tradeInfo: args.tradeInfo,
+              swapRequestBody: args.swapRequestBody,
+              key: args.key));
     },
-    ProtectYourWallet.name: (routeData) {
+    AccountRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i27.ProtectYourWallet());
+          routeData: routeData, child: const _i23.AccountPage());
     },
-    ProfileScreen.name: (routeData) {
-      final args = routeData.argsAs<ProfileScreenArgs>(
-          orElse: () => const ProfileScreenArgs());
+    ShowMnemonicRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i28.ProfileScreen(key: args.key));
+          routeData: routeData, child: const _i24.ShowMnemonicPage());
     },
-    SocialScreen.name: (routeData) {
+    VerifyMnemonicRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i29.SocialScreen());
+          routeData: routeData, child: const _i25.VerifyMnemonicPage());
+    },
+    DoneBackupRoute.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i26.DoneBackupPage());
+    },
+    SettingsRoute.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i27.SettingsPage());
+    },
+    ProtectYourWalletRoute.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i28.ProtectYourWalletPage());
+    },
+    ProfileRoute.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i29.ProfilePage());
+    },
+    ConnectedDAppsRoute.name: (routeData) {
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i30.ConnectedDAppsPage());
     }
   };
 
   @override
   List<_i11.RouteConfig> get routes => [
-        _i11.RouteConfig(SplashScreen.name, path: '/'),
-        _i11.RouteConfig(ChooseSecurityOption.name,
-            path: '/choose-security-option'),
-        _i11.RouteConfig(PinCodeScreen.name, path: '/pin-code-screen'),
-        _i11.RouteConfig(RestoreFromBackupScreen.name,
-            path: '/restore-from-backup-screen'),
-        _i11.RouteConfig(OnBoardScreen.name, path: '/on-board-screen'),
-        _i11.RouteConfig(SignUpScreen.name, path: '/sign-up-screen'),
-        _i11.RouteConfig(VerifyPhoneNumber.name, path: '/verify-phone-number'),
-        _i11.RouteConfig(UserNameScreen.name, path: '/user-name-screen'),
-        _i11.RouteConfig(Webview.name, path: '/web-view-screen'),
-        _i11.RouteConfig(MainScreen.name, path: '/main-screen', guards: [
+        _i11.RouteConfig(SplashRoute.name, path: '/'),
+        _i11.RouteConfig(ChooseSecurityRoute.name,
+            path: '/choose-security-page'),
+        _i11.RouteConfig(PinCodeRoute.name, path: '/pin-code-page'),
+        _i11.RouteConfig(RestoreWalletRoute.name, path: '/restore-wallet-page'),
+        _i11.RouteConfig(OnBoardingRoute.name, path: '/on-boarding-page'),
+        _i11.RouteConfig(SignUpRoute.name, path: '/sign-up-page'),
+        _i11.RouteConfig(VerifyPhoneNumberRoute.name,
+            path: '/verify-phone-number-page'),
+        _i11.RouteConfig(UserNameRoute.name, path: '/user-name-page'),
+        _i11.RouteConfig(Webview.name, path: '/web-view-page'),
+        _i11.RouteConfig(MainRoute.name, path: '/main-page', guards: [
           authGuard
         ], children: [
           _i11.RouteConfig(HomeTab.name,
               path: 'home',
-              parent: MainScreen.name,
-              guards: [
-                authGuard
-              ],
+              parent: MainRoute.name,
               children: [
-                _i11.RouteConfig(HomeScreen.name,
-                    path: '', parent: HomeTab.name, guards: [authGuard]),
-                _i11.RouteConfig(ActionDetailsScreen.name,
-                    path: 'action-details-screen',
-                    parent: HomeTab.name,
-                    guards: [authGuard])
+                _i11.RouteConfig(HomeRoute.name,
+                    path: '', parent: HomeTab.name),
+                _i11.RouteConfig(ActionDetailsRoute.name,
+                    path: 'action-details', parent: HomeTab.name)
               ]),
-          _i11.RouteConfig(ContactsTab.name,
-              path: 'contacts',
-              parent: MainScreen.name,
-              guards: [
-                authGuard
-              ],
+          _i11.RouteConfig(WalletTab.name,
+              path: 'wallet',
+              parent: MainRoute.name,
               children: [
-                _i11.RouteConfig(ContactsList.name,
-                    path: '', parent: ContactsTab.name, guards: [authGuard]),
-                _i11.RouteConfig(SendAmountScreen.name,
-                    path: 'send-amount',
-                    parent: ContactsTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(SendReviewScreen.name,
-                    path: 'send-review',
-                    parent: ContactsTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(SendSuccessScreen.name,
-                    path: 'send-success',
-                    parent: ContactsTab.name,
-                    guards: [authGuard])
+                _i11.RouteConfig(WalletRoute.name,
+                    path: '', parent: WalletTab.name),
+                _i11.RouteConfig(ActionDetailsRoute.name,
+                    path: 'action-details', parent: WalletTab.name),
+                _i11.RouteConfig(TokenRoute.name,
+                    path: 'token-page', parent: WalletTab.name),
+                _i11.RouteConfig(CollectibleRoute.name,
+                    path: 'collectible-page', parent: WalletTab.name),
+                _i11.RouteConfig(ContactsRoute.name,
+                    path: 'contacts-page', parent: WalletTab.name),
+                _i11.RouteConfig(SendAmountRoute.name,
+                    path: 'send-amount', parent: WalletTab.name),
+                _i11.RouteConfig(SendReviewRoute.name,
+                    path: 'send-review', parent: WalletTab.name),
+                _i11.RouteConfig(SendSuccessRoute.name,
+                    path: 'send-success', parent: WalletTab.name)
               ]),
-          _i11.RouteConfig(BuyTab.name,
-              path: 'buy',
-              parent: MainScreen.name,
+          _i11.RouteConfig(SwapTab.name,
+              path: 'swap',
+              parent: MainRoute.name,
               children: [
-                _i11.RouteConfig(BuyScreen.name, path: '', parent: BuyTab.name),
-                _i11.RouteConfig(BusinessScreen.name,
-                    path: 'business-screen', parent: BuyTab.name),
-                _i11.RouteConfig(FusePointsExplainedScreen.name,
-                    path: 'fuse-points-explained-screen', parent: BuyTab.name)
+                _i11.RouteConfig(SwapRoute.name,
+                    path: '', parent: SwapTab.name),
+                _i11.RouteConfig(ReviewSwapRoute.name,
+                    path: 'review-swap-page', parent: SwapTab.name)
               ]),
           _i11.RouteConfig(AccountTab.name,
               path: 'account',
-              parent: MainScreen.name,
-              guards: [
-                authGuard
-              ],
+              parent: MainRoute.name,
               children: [
-                _i11.RouteConfig(AccountScreen.name,
-                    path: '', parent: AccountTab.name, guards: [authGuard]),
-                _i11.RouteConfig(SwitchCommunityScreen.name,
-                    path: 'switch-community-screen',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(ShowMnemonic.name,
-                    path: 'show-mnemonic',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(VerifyMnemonic.name,
-                    path: 'verify-mnemonic',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(DoneBackup.name,
-                    path: 'done-backup',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(SettingsScreen.name,
-                    path: 'settings-screen',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(ProtectYourWallet.name,
-                    path: 'protect-your-wallet',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(ProfileScreen.name,
-                    path: 'profile-screen',
-                    parent: AccountTab.name,
-                    guards: [authGuard]),
-                _i11.RouteConfig(SocialScreen.name,
-                    path: 'social-screen',
-                    parent: AccountTab.name,
-                    guards: [authGuard])
+                _i11.RouteConfig(AccountRoute.name,
+                    path: '', parent: AccountTab.name),
+                _i11.RouteConfig(ShowMnemonicRoute.name,
+                    path: 'show-mnemonic-page', parent: AccountTab.name),
+                _i11.RouteConfig(VerifyMnemonicRoute.name,
+                    path: 'verify-mnemonic-page', parent: AccountTab.name),
+                _i11.RouteConfig(DoneBackupRoute.name,
+                    path: 'done-backup-page', parent: AccountTab.name),
+                _i11.RouteConfig(SettingsRoute.name,
+                    path: 'settings-page', parent: AccountTab.name),
+                _i11.RouteConfig(ProtectYourWalletRoute.name,
+                    path: 'protect-your-wallet-page', parent: AccountTab.name),
+                _i11.RouteConfig(ProfileRoute.name,
+                    path: 'profile-page', parent: AccountTab.name),
+                _i11.RouteConfig(ConnectedDAppsRoute.name,
+                    path: 'connected-dapps-page', parent: AccountTab.name)
               ])
         ]),
         _i11.RouteConfig('*#redirect',
@@ -334,121 +321,128 @@ class RootRouter extends _i11.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.SplashScreen]
-class SplashScreen extends _i11.PageRouteInfo<SplashScreenArgs> {
-  SplashScreen({_i30.Key? key, void Function(bool)? onLoginResult})
-      : super(SplashScreen.name,
+/// [_i1.SplashPage]
+class SplashRoute extends _i11.PageRouteInfo<SplashRouteArgs> {
+  SplashRoute({_i31.Key? key, void Function(bool)? onLoginResult})
+      : super(SplashRoute.name,
             path: '/',
-            args: SplashScreenArgs(key: key, onLoginResult: onLoginResult));
+            args: SplashRouteArgs(key: key, onLoginResult: onLoginResult));
 
-  static const String name = 'SplashScreen';
+  static const String name = 'SplashRoute';
 }
 
-class SplashScreenArgs {
-  const SplashScreenArgs({this.key, this.onLoginResult});
+class SplashRouteArgs {
+  const SplashRouteArgs({this.key, this.onLoginResult});
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final void Function(bool)? onLoginResult;
 
   @override
   String toString() {
-    return 'SplashScreenArgs{key: $key, onLoginResult: $onLoginResult}';
+    return 'SplashRouteArgs{key: $key, onLoginResult: $onLoginResult}';
   }
 }
 
 /// generated route for
-/// [_i2.ChooseSecurityOption]
-class ChooseSecurityOption extends _i11.PageRouteInfo<void> {
-  const ChooseSecurityOption()
-      : super(ChooseSecurityOption.name, path: '/choose-security-option');
+/// [_i2.ChooseSecurityPage]
+class ChooseSecurityRoute extends _i11.PageRouteInfo<void> {
+  const ChooseSecurityRoute()
+      : super(ChooseSecurityRoute.name, path: '/choose-security-page');
 
-  static const String name = 'ChooseSecurityOption';
+  static const String name = 'ChooseSecurityRoute';
 }
 
 /// generated route for
-/// [_i3.PinCodeScreen]
-class PinCodeScreen extends _i11.PageRouteInfo<void> {
-  const PinCodeScreen() : super(PinCodeScreen.name, path: '/pin-code-screen');
+/// [_i3.PinCodePage]
+class PinCodeRoute extends _i11.PageRouteInfo<void> {
+  const PinCodeRoute() : super(PinCodeRoute.name, path: '/pin-code-page');
 
-  static const String name = 'PinCodeScreen';
+  static const String name = 'PinCodeRoute';
 }
 
 /// generated route for
-/// [_i4.RestoreFromBackupScreen]
-class RestoreFromBackupScreen extends _i11.PageRouteInfo<void> {
-  const RestoreFromBackupScreen()
-      : super(RestoreFromBackupScreen.name,
-            path: '/restore-from-backup-screen');
+/// [_i4.RestoreWalletPage]
+class RestoreWalletRoute extends _i11.PageRouteInfo<void> {
+  const RestoreWalletRoute()
+      : super(RestoreWalletRoute.name, path: '/restore-wallet-page');
 
-  static const String name = 'RestoreFromBackupScreen';
+  static const String name = 'RestoreWalletRoute';
 }
 
 /// generated route for
-/// [_i5.OnBoardScreen]
-class OnBoardScreen extends _i11.PageRouteInfo<void> {
-  const OnBoardScreen() : super(OnBoardScreen.name, path: '/on-board-screen');
+/// [_i5.OnBoardingPage]
+class OnBoardingRoute extends _i11.PageRouteInfo<void> {
+  const OnBoardingRoute()
+      : super(OnBoardingRoute.name, path: '/on-boarding-page');
 
-  static const String name = 'OnBoardScreen';
+  static const String name = 'OnBoardingRoute';
 }
 
 /// generated route for
-/// [_i6.SignUpScreen]
-class SignUpScreen extends _i11.PageRouteInfo<void> {
-  const SignUpScreen() : super(SignUpScreen.name, path: '/sign-up-screen');
+/// [_i6.SignUpPage]
+class SignUpRoute extends _i11.PageRouteInfo<void> {
+  const SignUpRoute() : super(SignUpRoute.name, path: '/sign-up-page');
 
-  static const String name = 'SignUpScreen';
+  static const String name = 'SignUpRoute';
 }
 
 /// generated route for
-/// [_i7.VerifyPhoneNumber]
-class VerifyPhoneNumber extends _i11.PageRouteInfo<VerifyPhoneNumberArgs> {
-  VerifyPhoneNumber({String? verificationId})
-      : super(VerifyPhoneNumber.name,
-            path: '/verify-phone-number',
-            args: VerifyPhoneNumberArgs(verificationId: verificationId));
+/// [_i7.VerifyPhoneNumberPage]
+class VerifyPhoneNumberRoute
+    extends _i11.PageRouteInfo<VerifyPhoneNumberRouteArgs> {
+  VerifyPhoneNumberRoute({String? verificationId, _i31.Key? key})
+      : super(VerifyPhoneNumberRoute.name,
+            path: '/verify-phone-number-page',
+            args: VerifyPhoneNumberRouteArgs(
+                verificationId: verificationId, key: key));
 
-  static const String name = 'VerifyPhoneNumber';
+  static const String name = 'VerifyPhoneNumberRoute';
 }
 
-class VerifyPhoneNumberArgs {
-  const VerifyPhoneNumberArgs({this.verificationId});
+class VerifyPhoneNumberRouteArgs {
+  const VerifyPhoneNumberRouteArgs({this.verificationId, this.key});
 
   final String? verificationId;
 
+  final _i31.Key? key;
+
   @override
   String toString() {
-    return 'VerifyPhoneNumberArgs{verificationId: $verificationId}';
+    return 'VerifyPhoneNumberRouteArgs{verificationId: $verificationId, key: $key}';
   }
 }
 
 /// generated route for
-/// [_i8.UserNameScreen]
-class UserNameScreen extends _i11.PageRouteInfo<void> {
-  const UserNameScreen()
-      : super(UserNameScreen.name, path: '/user-name-screen');
+/// [_i8.UserNamePage]
+class UserNameRoute extends _i11.PageRouteInfo<void> {
+  const UserNameRoute() : super(UserNameRoute.name, path: '/user-name-page');
 
-  static const String name = 'UserNameScreen';
+  static const String name = 'UserNameRoute';
 }
 
 /// generated route for
-/// [_i9.WebViewScreen]
+/// [_i9.WebViewPage]
 class Webview extends _i11.PageRouteInfo<WebviewArgs> {
   Webview(
       {required String url,
       required String title,
-      void Function(String)? onPageStarted})
+      void Function(String)? onPageStarted,
+      _i31.Key? key})
       : super(Webview.name,
-            path: '/web-view-screen',
+            path: '/web-view-page',
             args: WebviewArgs(
-                url: url, title: title, onPageStarted: onPageStarted));
+                url: url,
+                title: title,
+                onPageStarted: onPageStarted,
+                key: key));
 
   static const String name = 'Webview';
 }
 
 class WebviewArgs {
   const WebviewArgs(
-      {required this.url, required this.title, this.onPageStarted});
+      {required this.url, required this.title, this.onPageStarted, this.key});
 
   final String url;
 
@@ -456,33 +450,21 @@ class WebviewArgs {
 
   final void Function(String)? onPageStarted;
 
+  final _i31.Key? key;
+
   @override
   String toString() {
-    return 'WebviewArgs{url: $url, title: $title, onPageStarted: $onPageStarted}';
+    return 'WebviewArgs{url: $url, title: $title, onPageStarted: $onPageStarted, key: $key}';
   }
 }
 
 /// generated route for
-/// [_i10.MainScreen]
-class MainScreen extends _i11.PageRouteInfo<MainScreenArgs> {
-  MainScreen({_i30.Key? key, List<_i11.PageRouteInfo>? children})
-      : super(MainScreen.name,
-            path: '/main-screen',
-            args: MainScreenArgs(key: key),
-            initialChildren: children);
+/// [_i10.MainPage]
+class MainRoute extends _i11.PageRouteInfo<void> {
+  const MainRoute({List<_i11.PageRouteInfo>? children})
+      : super(MainRoute.name, path: '/main-page', initialChildren: children);
 
-  static const String name = 'MainScreen';
-}
-
-class MainScreenArgs {
-  const MainScreenArgs({this.key});
-
-  final _i30.Key? key;
-
-  @override
-  String toString() {
-    return 'MainScreenArgs{key: $key}';
-  }
+  static const String name = 'MainRoute';
 }
 
 /// generated route for
@@ -496,20 +478,20 @@ class HomeTab extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.EmptyRouterPage]
-class ContactsTab extends _i11.PageRouteInfo<void> {
-  const ContactsTab({List<_i11.PageRouteInfo>? children})
-      : super(ContactsTab.name, path: 'contacts', initialChildren: children);
+class WalletTab extends _i11.PageRouteInfo<void> {
+  const WalletTab({List<_i11.PageRouteInfo>? children})
+      : super(WalletTab.name, path: 'wallet', initialChildren: children);
 
-  static const String name = 'ContactsTab';
+  static const String name = 'WalletTab';
 }
 
 /// generated route for
 /// [_i11.EmptyRouterPage]
-class BuyTab extends _i11.PageRouteInfo<void> {
-  const BuyTab({List<_i11.PageRouteInfo>? children})
-      : super(BuyTab.name, path: 'buy', initialChildren: children);
+class SwapTab extends _i11.PageRouteInfo<void> {
+  const SwapTab({List<_i11.PageRouteInfo>? children})
+      : super(SwapTab.name, path: 'swap', initialChildren: children);
 
-  static const String name = 'BuyTab';
+  static const String name = 'SwapTab';
 }
 
 /// generated route for
@@ -522,26 +504,28 @@ class AccountTab extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.HomeScreen]
-class HomeScreen extends _i11.PageRouteInfo<void> {
-  const HomeScreen() : super(HomeScreen.name, path: '');
+/// [_i12.HomePage]
+class HomeRoute extends _i11.PageRouteInfo<void> {
+  const HomeRoute() : super(HomeRoute.name, path: '');
 
-  static const String name = 'HomeScreen';
+  static const String name = 'HomeRoute';
 }
 
 /// generated route for
-/// [_i13.ActionDetailsScreen]
-class ActionDetailsScreen extends _i11.PageRouteInfo<ActionDetailsScreenArgs> {
-  ActionDetailsScreen(
-      {required _i32.WalletAction action,
-      _i30.ImageProvider<Object>? image,
+/// [_i13.ActionDetailsPage]
+class ActionDetailsRoute extends _i11.PageRouteInfo<ActionDetailsRouteArgs> {
+  ActionDetailsRoute(
+      {_i31.Key? key,
+      required _i33.WalletAction action,
+      _i31.ImageProvider<Object>? image,
       required String displayName,
       String? accountAddress,
       required String symbol,
-      _i33.Contact? contact})
-      : super(ActionDetailsScreen.name,
-            path: 'action-details-screen',
-            args: ActionDetailsScreenArgs(
+      _i34.Contact? contact})
+      : super(ActionDetailsRoute.name,
+            path: 'action-details',
+            args: ActionDetailsRouteArgs(
+                key: key,
                 action: action,
                 image: image,
                 displayName: displayName,
@@ -549,21 +533,24 @@ class ActionDetailsScreen extends _i11.PageRouteInfo<ActionDetailsScreenArgs> {
                 symbol: symbol,
                 contact: contact));
 
-  static const String name = 'ActionDetailsScreen';
+  static const String name = 'ActionDetailsRoute';
 }
 
-class ActionDetailsScreenArgs {
-  const ActionDetailsScreenArgs(
-      {required this.action,
+class ActionDetailsRouteArgs {
+  const ActionDetailsRouteArgs(
+      {this.key,
+      required this.action,
       this.image,
       required this.displayName,
       this.accountAddress,
       required this.symbol,
       this.contact});
 
-  final _i32.WalletAction action;
+  final _i31.Key? key;
 
-  final _i30.ImageProvider<Object>? image;
+  final _i33.WalletAction action;
+
+  final _i31.ImageProvider<Object>? image;
 
   final String displayName;
 
@@ -571,226 +558,295 @@ class ActionDetailsScreenArgs {
 
   final String symbol;
 
-  final _i33.Contact? contact;
+  final _i34.Contact? contact;
 
   @override
   String toString() {
-    return 'ActionDetailsScreenArgs{action: $action, image: $image, displayName: $displayName, accountAddress: $accountAddress, symbol: $symbol, contact: $contact}';
+    return 'ActionDetailsRouteArgs{key: $key, action: $action, image: $image, displayName: $displayName, accountAddress: $accountAddress, symbol: $symbol, contact: $contact}';
   }
 }
 
 /// generated route for
-/// [_i14.ContactsList]
-class ContactsList extends _i11.PageRouteInfo<ContactsListArgs> {
-  ContactsList({_i34.SendFlowArguments? pageArgs})
-      : super(ContactsList.name,
-            path: '', args: ContactsListArgs(pageArgs: pageArgs));
+/// [_i14.WalletPage]
+class WalletRoute extends _i11.PageRouteInfo<void> {
+  const WalletRoute() : super(WalletRoute.name, path: '');
 
-  static const String name = 'ContactsList';
+  static const String name = 'WalletRoute';
 }
 
-class ContactsListArgs {
-  const ContactsListArgs({this.pageArgs});
+/// generated route for
+/// [_i15.TokenPage]
+class TokenRoute extends _i11.PageRouteInfo<TokenRouteArgs> {
+  TokenRoute({_i31.Key? key, required String tokenAddress})
+      : super(TokenRoute.name,
+            path: 'token-page',
+            args: TokenRouteArgs(key: key, tokenAddress: tokenAddress));
 
-  final _i34.SendFlowArguments? pageArgs;
+  static const String name = 'TokenRoute';
+}
+
+class TokenRouteArgs {
+  const TokenRouteArgs({this.key, required this.tokenAddress});
+
+  final _i31.Key? key;
+
+  final String tokenAddress;
 
   @override
   String toString() {
-    return 'ContactsListArgs{pageArgs: $pageArgs}';
+    return 'TokenRouteArgs{key: $key, tokenAddress: $tokenAddress}';
   }
 }
 
 /// generated route for
-/// [_i15.SendAmountScreen]
-class SendAmountScreen extends _i11.PageRouteInfo<SendAmountScreenArgs> {
-  SendAmountScreen({required _i34.SendFlowArguments pageArgs})
-      : super(SendAmountScreen.name,
+/// [_i16.CollectiblePage]
+class CollectibleRoute extends _i11.PageRouteInfo<CollectibleRouteArgs> {
+  CollectibleRoute({_i31.Key? key, required _i35.Collectible collectible})
+      : super(CollectibleRoute.name,
+            path: 'collectible-page',
+            args: CollectibleRouteArgs(key: key, collectible: collectible));
+
+  static const String name = 'CollectibleRoute';
+}
+
+class CollectibleRouteArgs {
+  const CollectibleRouteArgs({this.key, required this.collectible});
+
+  final _i31.Key? key;
+
+  final _i35.Collectible collectible;
+
+  @override
+  String toString() {
+    return 'CollectibleRouteArgs{key: $key, collectible: $collectible}';
+  }
+}
+
+/// generated route for
+/// [_i17.ContactsPage]
+class ContactsRoute extends _i11.PageRouteInfo<ContactsRouteArgs> {
+  ContactsRoute({_i31.Key? key, _i36.SendFlowArguments? pageArgs})
+      : super(ContactsRoute.name,
+            path: 'contacts-page',
+            args: ContactsRouteArgs(key: key, pageArgs: pageArgs));
+
+  static const String name = 'ContactsRoute';
+}
+
+class ContactsRouteArgs {
+  const ContactsRouteArgs({this.key, this.pageArgs});
+
+  final _i31.Key? key;
+
+  final _i36.SendFlowArguments? pageArgs;
+
+  @override
+  String toString() {
+    return 'ContactsRouteArgs{key: $key, pageArgs: $pageArgs}';
+  }
+}
+
+/// generated route for
+/// [_i18.SendAmountPage]
+class SendAmountRoute extends _i11.PageRouteInfo<SendAmountRouteArgs> {
+  SendAmountRoute({required _i36.SendFlowArguments pageArgs, _i31.Key? key})
+      : super(SendAmountRoute.name,
             path: 'send-amount',
-            args: SendAmountScreenArgs(pageArgs: pageArgs));
+            args: SendAmountRouteArgs(pageArgs: pageArgs, key: key));
 
-  static const String name = 'SendAmountScreen';
+  static const String name = 'SendAmountRoute';
 }
 
-class SendAmountScreenArgs {
-  const SendAmountScreenArgs({required this.pageArgs});
+class SendAmountRouteArgs {
+  const SendAmountRouteArgs({required this.pageArgs, this.key});
 
-  final _i34.SendFlowArguments pageArgs;
+  final _i36.SendFlowArguments pageArgs;
+
+  final _i31.Key? key;
 
   @override
   String toString() {
-    return 'SendAmountScreenArgs{pageArgs: $pageArgs}';
+    return 'SendAmountRouteArgs{pageArgs: $pageArgs, key: $key}';
   }
 }
 
 /// generated route for
-/// [_i16.SendReviewScreen]
-class SendReviewScreen extends _i11.PageRouteInfo<SendReviewScreenArgs> {
-  SendReviewScreen({required _i34.SendFlowArguments pageArgs})
-      : super(SendReviewScreen.name,
+/// [_i19.SendReviewPage]
+class SendReviewRoute extends _i11.PageRouteInfo<SendReviewRouteArgs> {
+  SendReviewRoute({required _i36.SendFlowArguments pageArgs, _i31.Key? key})
+      : super(SendReviewRoute.name,
             path: 'send-review',
-            args: SendReviewScreenArgs(pageArgs: pageArgs));
+            args: SendReviewRouteArgs(pageArgs: pageArgs, key: key));
 
-  static const String name = 'SendReviewScreen';
+  static const String name = 'SendReviewRoute';
 }
 
-class SendReviewScreenArgs {
-  const SendReviewScreenArgs({required this.pageArgs});
+class SendReviewRouteArgs {
+  const SendReviewRouteArgs({required this.pageArgs, this.key});
 
-  final _i34.SendFlowArguments pageArgs;
+  final _i36.SendFlowArguments pageArgs;
+
+  final _i31.Key? key;
 
   @override
   String toString() {
-    return 'SendReviewScreenArgs{pageArgs: $pageArgs}';
+    return 'SendReviewRouteArgs{pageArgs: $pageArgs, key: $key}';
   }
 }
 
 /// generated route for
-/// [_i17.SendSuccessScreen]
-class SendSuccessScreen extends _i11.PageRouteInfo<SendSuccessScreenArgs> {
-  SendSuccessScreen({required _i34.SendFlowArguments pageArgs})
-      : super(SendSuccessScreen.name,
+/// [_i20.SendSuccessPage]
+class SendSuccessRoute extends _i11.PageRouteInfo<SendSuccessRouteArgs> {
+  SendSuccessRoute({required _i36.SendFlowArguments pageArgs, _i31.Key? key})
+      : super(SendSuccessRoute.name,
             path: 'send-success',
-            args: SendSuccessScreenArgs(pageArgs: pageArgs));
+            args: SendSuccessRouteArgs(pageArgs: pageArgs, key: key));
 
-  static const String name = 'SendSuccessScreen';
+  static const String name = 'SendSuccessRoute';
 }
 
-class SendSuccessScreenArgs {
-  const SendSuccessScreenArgs({required this.pageArgs});
+class SendSuccessRouteArgs {
+  const SendSuccessRouteArgs({required this.pageArgs, this.key});
 
-  final _i34.SendFlowArguments pageArgs;
+  final _i36.SendFlowArguments pageArgs;
+
+  final _i31.Key? key;
 
   @override
   String toString() {
-    return 'SendSuccessScreenArgs{pageArgs: $pageArgs}';
+    return 'SendSuccessRouteArgs{pageArgs: $pageArgs, key: $key}';
   }
 }
 
 /// generated route for
-/// [_i18.BuyScreen]
-class BuyScreen extends _i11.PageRouteInfo<void> {
-  const BuyScreen() : super(BuyScreen.name, path: '');
+/// [_i21.SwapPage]
+class SwapRoute extends _i11.PageRouteInfo<SwapRouteArgs> {
+  SwapRoute({_i31.Key? key, _i37.Token? primaryToken})
+      : super(SwapRoute.name,
+            path: '',
+            args: SwapRouteArgs(key: key, primaryToken: primaryToken));
 
-  static const String name = 'BuyScreen';
+  static const String name = 'SwapRoute';
 }
 
-/// generated route for
-/// [_i19.BusinessScreen]
-class BusinessScreen extends _i11.PageRouteInfo<BusinessScreenArgs> {
-  BusinessScreen({required _i35.Business business, required _i36.Token token})
-      : super(BusinessScreen.name,
-            path: 'business-screen',
-            args: BusinessScreenArgs(business: business, token: token));
+class SwapRouteArgs {
+  const SwapRouteArgs({this.key, this.primaryToken});
 
-  static const String name = 'BusinessScreen';
-}
+  final _i31.Key? key;
 
-class BusinessScreenArgs {
-  const BusinessScreenArgs({required this.business, required this.token});
-
-  final _i35.Business business;
-
-  final _i36.Token token;
+  final _i37.Token? primaryToken;
 
   @override
   String toString() {
-    return 'BusinessScreenArgs{business: $business, token: $token}';
+    return 'SwapRouteArgs{key: $key, primaryToken: $primaryToken}';
   }
 }
 
 /// generated route for
-/// [_i20.FusePointsExplainedScreen]
-class FusePointsExplainedScreen extends _i11.PageRouteInfo<void> {
-  const FusePointsExplainedScreen()
-      : super(FusePointsExplainedScreen.name,
-            path: 'fuse-points-explained-screen');
+/// [_i22.ReviewSwapPage]
+class ReviewSwapRoute extends _i11.PageRouteInfo<ReviewSwapRouteArgs> {
+  ReviewSwapRoute(
+      {_i35.Trade? rateInfo,
+      required _i35.Trade tradeInfo,
+      required _i35.TradeRequestBody swapRequestBody,
+      _i31.Key? key})
+      : super(ReviewSwapRoute.name,
+            path: 'review-swap-page',
+            args: ReviewSwapRouteArgs(
+                rateInfo: rateInfo,
+                tradeInfo: tradeInfo,
+                swapRequestBody: swapRequestBody,
+                key: key));
 
-  static const String name = 'FusePointsExplainedScreen';
+  static const String name = 'ReviewSwapRoute';
 }
 
-/// generated route for
-/// [_i21.AccountScreen]
-class AccountScreen extends _i11.PageRouteInfo<void> {
-  const AccountScreen() : super(AccountScreen.name, path: '');
+class ReviewSwapRouteArgs {
+  const ReviewSwapRouteArgs(
+      {this.rateInfo,
+      required this.tradeInfo,
+      required this.swapRequestBody,
+      this.key});
 
-  static const String name = 'AccountScreen';
-}
+  final _i35.Trade? rateInfo;
 
-/// generated route for
-/// [_i22.SwitchCommunityScreen]
-class SwitchCommunityScreen extends _i11.PageRouteInfo<void> {
-  const SwitchCommunityScreen()
-      : super(SwitchCommunityScreen.name, path: 'switch-community-screen');
+  final _i35.Trade tradeInfo;
 
-  static const String name = 'SwitchCommunityScreen';
-}
+  final _i35.TradeRequestBody swapRequestBody;
 
-/// generated route for
-/// [_i23.ShowMnemonic]
-class ShowMnemonic extends _i11.PageRouteInfo<void> {
-  const ShowMnemonic() : super(ShowMnemonic.name, path: 'show-mnemonic');
-
-  static const String name = 'ShowMnemonic';
-}
-
-/// generated route for
-/// [_i24.VerifyMnemonic]
-class VerifyMnemonic extends _i11.PageRouteInfo<void> {
-  const VerifyMnemonic() : super(VerifyMnemonic.name, path: 'verify-mnemonic');
-
-  static const String name = 'VerifyMnemonic';
-}
-
-/// generated route for
-/// [_i25.DoneBackup]
-class DoneBackup extends _i11.PageRouteInfo<void> {
-  const DoneBackup() : super(DoneBackup.name, path: 'done-backup');
-
-  static const String name = 'DoneBackup';
-}
-
-/// generated route for
-/// [_i26.SettingsScreen]
-class SettingsScreen extends _i11.PageRouteInfo<void> {
-  const SettingsScreen() : super(SettingsScreen.name, path: 'settings-screen');
-
-  static const String name = 'SettingsScreen';
-}
-
-/// generated route for
-/// [_i27.ProtectYourWallet]
-class ProtectYourWallet extends _i11.PageRouteInfo<void> {
-  const ProtectYourWallet()
-      : super(ProtectYourWallet.name, path: 'protect-your-wallet');
-
-  static const String name = 'ProtectYourWallet';
-}
-
-/// generated route for
-/// [_i28.ProfileScreen]
-class ProfileScreen extends _i11.PageRouteInfo<ProfileScreenArgs> {
-  ProfileScreen({_i30.Key? key})
-      : super(ProfileScreen.name,
-            path: 'profile-screen', args: ProfileScreenArgs(key: key));
-
-  static const String name = 'ProfileScreen';
-}
-
-class ProfileScreenArgs {
-  const ProfileScreenArgs({this.key});
-
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   @override
   String toString() {
-    return 'ProfileScreenArgs{key: $key}';
+    return 'ReviewSwapRouteArgs{rateInfo: $rateInfo, tradeInfo: $tradeInfo, swapRequestBody: $swapRequestBody, key: $key}';
   }
 }
 
 /// generated route for
-/// [_i29.SocialScreen]
-class SocialScreen extends _i11.PageRouteInfo<void> {
-  const SocialScreen() : super(SocialScreen.name, path: 'social-screen');
+/// [_i23.AccountPage]
+class AccountRoute extends _i11.PageRouteInfo<void> {
+  const AccountRoute() : super(AccountRoute.name, path: '');
 
-  static const String name = 'SocialScreen';
+  static const String name = 'AccountRoute';
+}
+
+/// generated route for
+/// [_i24.ShowMnemonicPage]
+class ShowMnemonicRoute extends _i11.PageRouteInfo<void> {
+  const ShowMnemonicRoute()
+      : super(ShowMnemonicRoute.name, path: 'show-mnemonic-page');
+
+  static const String name = 'ShowMnemonicRoute';
+}
+
+/// generated route for
+/// [_i25.VerifyMnemonicPage]
+class VerifyMnemonicRoute extends _i11.PageRouteInfo<void> {
+  const VerifyMnemonicRoute()
+      : super(VerifyMnemonicRoute.name, path: 'verify-mnemonic-page');
+
+  static const String name = 'VerifyMnemonicRoute';
+}
+
+/// generated route for
+/// [_i26.DoneBackupPage]
+class DoneBackupRoute extends _i11.PageRouteInfo<void> {
+  const DoneBackupRoute()
+      : super(DoneBackupRoute.name, path: 'done-backup-page');
+
+  static const String name = 'DoneBackupRoute';
+}
+
+/// generated route for
+/// [_i27.SettingsPage]
+class SettingsRoute extends _i11.PageRouteInfo<void> {
+  const SettingsRoute() : super(SettingsRoute.name, path: 'settings-page');
+
+  static const String name = 'SettingsRoute';
+}
+
+/// generated route for
+/// [_i28.ProtectYourWalletPage]
+class ProtectYourWalletRoute extends _i11.PageRouteInfo<void> {
+  const ProtectYourWalletRoute()
+      : super(ProtectYourWalletRoute.name, path: 'protect-your-wallet-page');
+
+  static const String name = 'ProtectYourWalletRoute';
+}
+
+/// generated route for
+/// [_i29.ProfilePage]
+class ProfileRoute extends _i11.PageRouteInfo<void> {
+  const ProfileRoute() : super(ProfileRoute.name, path: 'profile-page');
+
+  static const String name = 'ProfileRoute';
+}
+
+/// generated route for
+/// [_i30.ConnectedDAppsPage]
+class ConnectedDAppsRoute extends _i11.PageRouteInfo<void> {
+  const ConnectedDAppsRoute()
+      : super(ConnectedDAppsRoute.name, path: 'connected-dapps-page');
+
+  static const String name = 'ConnectedDAppsRoute';
 }

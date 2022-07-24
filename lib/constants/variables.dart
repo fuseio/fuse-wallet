@@ -1,6 +1,9 @@
 class Variables {
   Variables._();
 
-  static const int INTERVAL_SECONDS = 5;
-  static const int FUSE_CHAIN_ID = 122;
+  static const String webhookStatusUrl =
+      'https://wallet.fuse.io/api/v1/deposits/ramp';
+  static const String privacyPolicyPage = 'https://fuse.cash/privacy-policy';
+  static const int intervalSeconds = 5;
+  static const int fuseChainId = 122;
 }

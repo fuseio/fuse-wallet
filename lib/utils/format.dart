@@ -1,8 +1,20 @@
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:intl/intl.dart';
+
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:number_display/number_display.dart';
+
+final NumberFormat numberFormat = NumberFormat("###,###.0#", 'en_US');
+
+num getPercentChange(num valueNow, num value24HoursAgo) {
+  final adjustedPercentChange =
+      ((valueNow - value24HoursAgo) / value24HoursAgo) * 100;
+  if (adjustedPercentChange.isNaN || !adjustedPercentChange.isFinite) {
+    return 0;
+  }
+  return adjustedPercentChange;
+}
 
 class Formatter {
   static Decimal fromWei(
@@ -26,16 +38,29 @@ class Formatter {
     return Decimal.tryParse(s) != null;
   }
 
+  static String padZeroIfNeeded(Decimal value) {
+    final formattedValue =
+        numberFormat.format(value.floor(scale: 2).toDouble());
+    if (Decimal.zero.compareTo(value) == 0) {
+      return formattedValue.padLeft(formattedValue.length + 1, '0');
+    } else if (isSmallThan(value, 1)) {
+      return formattedValue.padLeft(formattedValue.length + 1, '0');
+    } else {
+      return formattedValue;
+    }
+  }
+
   static bool isSmallThan(Decimal value, [num valueToCompareWith = 0.01]) {
-    return value.compareTo(Decimal.zero) == 1 &&
-        value.compareTo(Decimal.parse(valueToCompareWith.toString())) <= 0;
+    return num.parse(value.toString()).compareTo(valueToCompareWith) == -1;
   }
 
   static String smallNumbersConvertor(Decimal value) {
-    if (isSmallThan(value)) {
+    if (Decimal.zero.compareTo(value) == 0) {
+      return value.toString();
+    } else if (isSmallThan(value)) {
       return '< 0.01';
     }
-    return display2(value.toDouble());
+    return padZeroIfNeeded(value);
   }
 
   static String formatValue(
@@ -54,16 +79,13 @@ class Formatter {
     Price? priceInfo, [
     bool withPrecision = false,
   ]) {
-    final bool hasPriceInfo =
-        ![null, '', '0', 0, 'NaN'].contains(priceInfo?.quote);
-    if (hasPriceInfo) {
-      return '\$' +
-          formatValueToFiat(
-            value,
-            decimals,
-            double.parse(priceInfo!.quote),
-            withPrecision,
-          );
+    if (priceInfo != null && priceInfo.hasPriceInfo) {
+      return '\$${formatValueToFiat(
+        value,
+        decimals,
+        double.parse(priceInfo.quote),
+        withPrecision,
+      )}';
     } else {
       return formatValue(
         value,
@@ -106,29 +128,3 @@ class Formatter {
     return tokenName;
   }
 }
-
-final Display display1 = createDisplay(
-  decimal: 1,
-);
-
-final Display display2 = createDisplay(
-  decimal: 2,
-);
-
-final Display display4 = createDisplay(
-  decimal: 4,
-);
-
-final Display display6 = createDisplay(
-  decimal: 4,
-);
-
-final Map<String, num> fees = {
-  "DZAR": 17,
-  "DAI": 1,
-  "USDT": 1,
-  "USDC": 1,
-  "IDRT": 14442.61,
-  "EURS": 1,
-  "TUSD": 1,
-};

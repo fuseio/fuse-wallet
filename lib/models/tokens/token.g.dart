@@ -19,8 +19,13 @@ _$_Token _$$_TokenFromJson(Map<String, dynamic> json) => _$_Token(
           ? null
           : Price.fromJson(json['priceInfo'] as Map<String, dynamic>),
       communityAddress: json['communityAddress'] as String?,
-      originNetwork: json['originNetwork'] as String?,
+      timeFrame: $enumDecodeNullable(_$TimeFrameEnumMap, json['timeFrame']) ??
+          TimeFrame.day,
       priceChange: json['priceChange'] as num? ?? 0,
+      intervalStats: (json['intervalStats'] as List<dynamic>?)
+              ?.map((e) => IntervalStats.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       walletActions:
           walletActionsFromJson(json['walletActions'] as Map<String, dynamic>?),
     );
@@ -36,7 +41,16 @@ Map<String, dynamic> _$$_TokenToJson(_$_Token instance) => <String, dynamic>{
       'timestamp': instance.timestamp,
       'priceInfo': instance.priceInfo?.toJson(),
       'communityAddress': instance.communityAddress,
-      'originNetwork': instance.originNetwork,
+      'timeFrame': _$TimeFrameEnumMap[instance.timeFrame]!,
       'priceChange': instance.priceChange,
+      'intervalStats': instance.intervalStats.map((e) => e.toJson()).toList(),
       'walletActions': instance.walletActions?.toJson(),
     };
+
+const _$TimeFrameEnumMap = {
+  TimeFrame.hour: 'hour',
+  TimeFrame.day: 'day',
+  TimeFrame.week: 'week',
+  TimeFrame.month: 'month',
+  TimeFrame.all: 'all',
+};

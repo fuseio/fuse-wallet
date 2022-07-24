@@ -1,20 +1,22 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+
 import 'package:fusecash/constants/enums.dart';
-import 'package:fusecash/generated/l10n.dart';
+import 'package:fusecash/features/shared/widgets/inner_page.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class SetUpPinCodeScreen extends StatefulWidget {
   final Function onSuccess;
-  SetUpPinCodeScreen({
-    required this.onSuccess,
-  });
+  const SetUpPinCodeScreen({required this.onSuccess, Key? key})
+      : super(key: key);
   @override
-  _SetUpPinCodeScreenState createState() => _SetUpPinCodeScreenState();
+  State<SetUpPinCodeScreen> createState() => _SetUpPinCodeScreenState();
 }
 
 class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
@@ -41,46 +43,48 @@ class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
+    return InnerScaffold(
       title: I10n.of(context).pincode,
-      body: Container(
+      hasScrollBody: false,
+      body: SizedBox(
         height: MediaQuery.of(context).size.height * .5,
         width: MediaQuery.of(context).size.height * .5,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
+          children: [
+            const SizedBox(
               height: 150,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 Text(
                   isRetype
                       ? I10n.of(context).re_type_passcode
                       : I10n.of(context).create_passcode,
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontSize: 25,
+                      ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 Form(
                   key: formKey,
-                  child: Container(
+                  child: SizedBox(
                     width: 250,
                     child: PinCodeTextField(
                       length: 6,
                       showCursor: false,
+                      backgroundColor: Theme.of(context).canvasColor,
                       appContext: context,
                       enableActiveFill: true,
                       obscureText: true,
                       enablePinAutofill: false,
                       autoFocus: true,
                       focusNode: textNode,
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                         signed: false,
                         decimal: false,
                       ),
@@ -90,10 +94,10 @@ class _SetUpPinCodeScreenState extends State<SetUpPinCodeScreen> {
                       pinTheme: PinTheme(
                         borderWidth: 4,
                         shape: PinCodeFieldShape.underline,
-                        inactiveColor: Color(0xFFDDDDDD),
+                        inactiveColor: const Color(0xFFDDDDDD),
                         inactiveFillColor: Theme.of(context).canvasColor,
                         selectedFillColor: Theme.of(context).canvasColor,
-                        disabledColor: Theme.of(context).primaryColor,
+                        disabledColor: Theme.of(context).colorScheme.primary,
                         selectedColor: Theme.of(context).colorScheme.onSurface,
                         activeColor: Theme.of(context).colorScheme.onSurface,
                         activeFillColor: Theme.of(context).canvasColor,

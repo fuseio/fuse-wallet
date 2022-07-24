@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
+
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:scan/scan.dart';
 
 class ScanQRDialog extends StatefulWidget {
+  const ScanQRDialog({Key? key}) : super(key: key);
+
   @override
-  _ScanQRDialogState createState() => _ScanQRDialogState();
+  State<ScanQRDialog> createState() => _ScanQRDialogState();
 }
 
 class _ScanQRDialogState extends State<ScanQRDialog>
     with SingleTickerProviderStateMixin {
+  final BorderRadius _borderRadius = const BorderRadius.vertical(
+    top: Radius.circular(20),
+  );
+
   late AnimationController controller;
-  late Animation<double> scaleAnimatoin;
+  late Animation<double> scaleAnimation;
   bool isPreloading = false;
   ScanController scanController = ScanController();
 
@@ -25,9 +31,11 @@ class _ScanQRDialogState extends State<ScanQRDialog>
   void initState() {
     super.initState();
 
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    scaleAnimatoin =
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
@@ -38,51 +46,109 @@ class _ScanQRDialogState extends State<ScanQRDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: scaleAnimatoin,
-      child: AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20.0),
-          ),
-        ),
-        content: Stack(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(20),
-              width: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Center(
-                    child: Container(
-                      width: 250,
-                      height: 250,
-                      child: ScanView(
-                        controller: scanController,
-                        scanLineColor: Theme.of(context).primaryColor,
-                        onCapture: (data) {
-                          Navigator.of(context).pop(data);
-                        },
-                      ),
+      scale: scaleAnimation,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .8,
+                  child: ScanView(
+                    controller: scanController,
+                    scanLineColor: Theme.of(context).colorScheme.primary,
+                    onCapture: (data) => Navigator.of(context).pop(data),
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  right: 10,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                    iconSize: 40,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  width: MediaQuery.of(context).size.width,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 30,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: _borderRadius,
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            I10n.of(context).send_funds,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontSize: 18,
+                                    ),
+                          ),
+                          subtitle: Text(
+                            I10n.of(context).scan_address,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                child: Icon(
+                                  Icons.arrow_upward_rounded,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          title: Text(
+                            I10n.of(context).connect_to_apps,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontSize: 18,
+                                    ),
+                          ),
+                          subtitle: Text(
+                            I10n.of(context).scan_wallet_connect,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          leading: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: 20,
+                                child: Image.asset(
+                                  'assets/images/wallet_connect.png',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 40.0),
-                  Center(
-                    child: PrimaryButton(
-                      label: I10n.of(context).close,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

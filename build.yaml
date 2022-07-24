@@ -1,6 +1,11 @@
 targets:
   $default:
     builders:
+      freezed:
+          options:
+            union_key: runtimeType
+            union_value_case: none
+            make_collections_unmodifiable: false
       json_serializable:
         options:
           # Options configure how source code is generated for every

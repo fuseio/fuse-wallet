@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/l10n.dart';
+
+import 'package:flutter_gen/gen_l10n/I10n.dart';
 
 class WarnBeforeReCreation extends StatefulWidget {
+  const WarnBeforeReCreation({Key? key}) : super(key: key);
+
   @override
-  _WarnBeforeReCreationState createState() => _WarnBeforeReCreationState();
+  State<WarnBeforeReCreation> createState() => _WarnBeforeReCreationState();
 }
 
 class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
-  late Animation<double> scaleAnimatoin;
+  late Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override
@@ -23,9 +26,9 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
   void initState() {
     super.initState();
 
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    scaleAnimatoin =
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
+    scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
@@ -36,11 +39,11 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: scaleAnimatoin,
+      scale: scaleAnimation,
       child: AlertDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         title: Center(
           child: SvgPicture.asset(
@@ -50,17 +53,17 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
           ),
         ),
         content: Text(I10n.of(context).reset_account),
-        actions: <Widget>[
+        actions: [
           TextButton(
-            style: TextButton.styleFrom(
-              textStyle: TextStyle(
-                color: Color(0xFF009DFF),
-              ),
-            ),
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop(true);
             },
-            child: Text(I10n.of(context).yes, style: TextStyle(fontSize: 16)),
+            child: Text(
+              I10n.of(context).yes,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -68,14 +71,22 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
             },
             child: Text(
               I10n.of(context).no,
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+extension WarnBeforeReCreationExtension on WarnBeforeReCreation {
+  Future<T?> showSheet<T>(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => this,
     );
   }
 }

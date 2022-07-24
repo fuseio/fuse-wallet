@@ -12,215 +12,220 @@ part of 'stats.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Stats _$StatsFromJson(Map<String, dynamic> json) {
-  return _Stats.fromJson(json);
+IntervalStats _$IntervalStatsFromJson(Map<String, dynamic> json) {
+  return _IntervalStats.fromJson(json);
 }
 
 /// @nodoc
-class _$StatsTearOff {
-  const _$StatsTearOff();
-
-  _Stats call({String? volume, String? price, int? timestamp, DateTime? date}) {
-    return _Stats(
-      volume: volume,
-      price: price,
-      timestamp: timestamp,
-      date: date,
-    );
-  }
-
-  Stats fromJson(Map<String, Object?> json) {
-    return Stats.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Stats = _$StatsTearOff();
-
-/// @nodoc
-mixin _$Stats {
-  String? get volume => throw _privateConstructorUsedError;
-  String? get price => throw _privateConstructorUsedError;
-  int? get timestamp => throw _privateConstructorUsedError;
-  DateTime? get date => throw _privateConstructorUsedError;
+mixin _$IntervalStats {
+  num get timestamp => throw _privateConstructorUsedError;
+  double get priceChange => throw _privateConstructorUsedError;
+  double get previousPrice => throw _privateConstructorUsedError;
+  double get currentPrice => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $StatsCopyWith<Stats> get copyWith => throw _privateConstructorUsedError;
+  $IntervalStatsCopyWith<IntervalStats> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $StatsCopyWith<$Res> {
-  factory $StatsCopyWith(Stats value, $Res Function(Stats) then) =
-      _$StatsCopyWithImpl<$Res>;
-  $Res call({String? volume, String? price, int? timestamp, DateTime? date});
+abstract class $IntervalStatsCopyWith<$Res> {
+  factory $IntervalStatsCopyWith(
+          IntervalStats value, $Res Function(IntervalStats) then) =
+      _$IntervalStatsCopyWithImpl<$Res>;
+  $Res call(
+      {num timestamp,
+      double priceChange,
+      double previousPrice,
+      double currentPrice});
 }
 
 /// @nodoc
-class _$StatsCopyWithImpl<$Res> implements $StatsCopyWith<$Res> {
-  _$StatsCopyWithImpl(this._value, this._then);
+class _$IntervalStatsCopyWithImpl<$Res>
+    implements $IntervalStatsCopyWith<$Res> {
+  _$IntervalStatsCopyWithImpl(this._value, this._then);
 
-  final Stats _value;
+  final IntervalStats _value;
   // ignore: unused_field
-  final $Res Function(Stats) _then;
+  final $Res Function(IntervalStats) _then;
 
   @override
   $Res call({
-    Object? volume = freezed,
-    Object? price = freezed,
     Object? timestamp = freezed,
-    Object? date = freezed,
+    Object? priceChange = freezed,
+    Object? previousPrice = freezed,
+    Object? currentPrice = freezed,
   }) {
     return _then(_value.copyWith(
-      volume: volume == freezed
-          ? _value.volume
-          : volume // ignore: cast_nullable_to_non_nullable
-              as String?,
-      price: price == freezed
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String?,
       timestamp: timestamp == freezed
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int?,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as num,
+      priceChange: priceChange == freezed
+          ? _value.priceChange
+          : priceChange // ignore: cast_nullable_to_non_nullable
+              as double,
+      previousPrice: previousPrice == freezed
+          ? _value.previousPrice
+          : previousPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      currentPrice: currentPrice == freezed
+          ? _value.currentPrice
+          : currentPrice // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$StatsCopyWith<$Res> implements $StatsCopyWith<$Res> {
-  factory _$StatsCopyWith(_Stats value, $Res Function(_Stats) then) =
-      __$StatsCopyWithImpl<$Res>;
+abstract class _$$_IntervalStatsCopyWith<$Res>
+    implements $IntervalStatsCopyWith<$Res> {
+  factory _$$_IntervalStatsCopyWith(
+          _$_IntervalStats value, $Res Function(_$_IntervalStats) then) =
+      __$$_IntervalStatsCopyWithImpl<$Res>;
   @override
-  $Res call({String? volume, String? price, int? timestamp, DateTime? date});
+  $Res call(
+      {num timestamp,
+      double priceChange,
+      double previousPrice,
+      double currentPrice});
 }
 
 /// @nodoc
-class __$StatsCopyWithImpl<$Res> extends _$StatsCopyWithImpl<$Res>
-    implements _$StatsCopyWith<$Res> {
-  __$StatsCopyWithImpl(_Stats _value, $Res Function(_Stats) _then)
-      : super(_value, (v) => _then(v as _Stats));
+class __$$_IntervalStatsCopyWithImpl<$Res>
+    extends _$IntervalStatsCopyWithImpl<$Res>
+    implements _$$_IntervalStatsCopyWith<$Res> {
+  __$$_IntervalStatsCopyWithImpl(
+      _$_IntervalStats _value, $Res Function(_$_IntervalStats) _then)
+      : super(_value, (v) => _then(v as _$_IntervalStats));
 
   @override
-  _Stats get _value => super._value as _Stats;
+  _$_IntervalStats get _value => super._value as _$_IntervalStats;
 
   @override
   $Res call({
-    Object? volume = freezed,
-    Object? price = freezed,
     Object? timestamp = freezed,
-    Object? date = freezed,
+    Object? priceChange = freezed,
+    Object? previousPrice = freezed,
+    Object? currentPrice = freezed,
   }) {
-    return _then(_Stats(
-      volume: volume == freezed
-          ? _value.volume
-          : volume // ignore: cast_nullable_to_non_nullable
-              as String?,
-      price: price == freezed
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String?,
+    return _then(_$_IntervalStats(
       timestamp: timestamp == freezed
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int?,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as num,
+      priceChange: priceChange == freezed
+          ? _value.priceChange
+          : priceChange // ignore: cast_nullable_to_non_nullable
+              as double,
+      previousPrice: previousPrice == freezed
+          ? _value.previousPrice
+          : previousPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      currentPrice: currentPrice == freezed
+          ? _value.currentPrice
+          : currentPrice // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
-
 @JsonSerializable()
-class _$_Stats with DiagnosticableTreeMixin implements _Stats {
-  _$_Stats({this.volume, this.price, this.timestamp, this.date});
+class _$_IntervalStats with DiagnosticableTreeMixin implements _IntervalStats {
+  _$_IntervalStats(
+      {required this.timestamp,
+      required this.priceChange,
+      required this.previousPrice,
+      required this.currentPrice});
 
-  factory _$_Stats.fromJson(Map<String, dynamic> json) =>
-      _$$_StatsFromJson(json);
+  factory _$_IntervalStats.fromJson(Map<String, dynamic> json) =>
+      _$$_IntervalStatsFromJson(json);
 
   @override
-  final String? volume;
+  final num timestamp;
   @override
-  final String? price;
+  final double priceChange;
   @override
-  final int? timestamp;
+  final double previousPrice;
   @override
-  final DateTime? date;
+  final double currentPrice;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Stats(volume: $volume, price: $price, timestamp: $timestamp, date: $date)';
+    return 'IntervalStats(timestamp: $timestamp, priceChange: $priceChange, previousPrice: $previousPrice, currentPrice: $currentPrice)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'Stats'))
-      ..add(DiagnosticsProperty('volume', volume))
-      ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('type', 'IntervalStats'))
       ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('date', date));
+      ..add(DiagnosticsProperty('priceChange', priceChange))
+      ..add(DiagnosticsProperty('previousPrice', previousPrice))
+      ..add(DiagnosticsProperty('currentPrice', currentPrice));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Stats &&
-            const DeepCollectionEquality().equals(other.volume, volume) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
+            other is _$_IntervalStats &&
             const DeepCollectionEquality().equals(other.timestamp, timestamp) &&
-            const DeepCollectionEquality().equals(other.date, date));
+            const DeepCollectionEquality()
+                .equals(other.priceChange, priceChange) &&
+            const DeepCollectionEquality()
+                .equals(other.previousPrice, previousPrice) &&
+            const DeepCollectionEquality()
+                .equals(other.currentPrice, currentPrice));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(volume),
-      const DeepCollectionEquality().hash(price),
       const DeepCollectionEquality().hash(timestamp),
-      const DeepCollectionEquality().hash(date));
+      const DeepCollectionEquality().hash(priceChange),
+      const DeepCollectionEquality().hash(previousPrice),
+      const DeepCollectionEquality().hash(currentPrice));
 
   @JsonKey(ignore: true)
   @override
-  _$StatsCopyWith<_Stats> get copyWith =>
-      __$StatsCopyWithImpl<_Stats>(this, _$identity);
+  _$$_IntervalStatsCopyWith<_$_IntervalStats> get copyWith =>
+      __$$_IntervalStatsCopyWithImpl<_$_IntervalStats>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_StatsToJson(this);
+    return _$$_IntervalStatsToJson(
+      this,
+    );
   }
 }
 
-abstract class _Stats implements Stats {
-  factory _Stats(
-      {String? volume,
-      String? price,
-      int? timestamp,
-      DateTime? date}) = _$_Stats;
+abstract class _IntervalStats implements IntervalStats {
+  factory _IntervalStats(
+      {required final num timestamp,
+      required final double priceChange,
+      required final double previousPrice,
+      required final double currentPrice}) = _$_IntervalStats;
 
-  factory _Stats.fromJson(Map<String, dynamic> json) = _$_Stats.fromJson;
+  factory _IntervalStats.fromJson(Map<String, dynamic> json) =
+      _$_IntervalStats.fromJson;
 
   @override
-  String? get volume;
+  num get timestamp;
   @override
-  String? get price;
+  double get priceChange;
   @override
-  int? get timestamp;
+  double get previousPrice;
   @override
-  DateTime? get date;
+  double get currentPrice;
   @override
   @JsonKey(ignore: true)
-  _$StatsCopyWith<_Stats> get copyWith => throw _privateConstructorUsedError;
+  _$$_IntervalStatsCopyWith<_$_IntervalStats> get copyWith =>
+      throw _privateConstructorUsedError;
 }

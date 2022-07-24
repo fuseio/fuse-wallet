@@ -1,47 +1,45 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:fusecash/redux/actions/swap_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class AccountViewModel extends Equatable {
   final String walletAddress;
   final String avatarUrl;
   final String displayName;
-  final Plugins plugins;
+  final Function getSwapListBalances;
   final bool isBackup;
-  final bool isFuseDollarCommunity;
+  final bool hasPreviousSessions;
 
-  AccountViewModel({
-    required this.plugins,
+  const AccountViewModel({
     required this.walletAddress,
     required this.avatarUrl,
+    required this.getSwapListBalances,
     required this.displayName,
     required this.isBackup,
-    required this.isFuseDollarCommunity,
+    required this.hasPreviousSessions,
   });
 
   static AccountViewModel fromStore(Store<AppState> store) {
-    String? communityAddress = store.state.cashWalletState.communityAddress;
-    Community? community =
-        store.state.cashWalletState.communities[communityAddress];
     return AccountViewModel(
+      hasPreviousSessions:
+          store.state.cashWalletState.wcSessionStores.isNotEmpty,
       isBackup: store.state.userState.backup,
-      plugins: community?.plugins ?? Plugins(),
       displayName: store.state.userState.displayName,
       avatarUrl: store.state.userState.avatarUrl,
       walletAddress: store.state.userState.walletAddress,
-      isFuseDollarCommunity: util.isFuseDollarCommunity(communityAddress),
+      getSwapListBalances: () {
+        store.dispatch(fetchSwapBalances());
+      },
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         walletAddress,
         avatarUrl,
         displayName,
         isBackup,
-        plugins,
+        hasPreviousSessions,
       ];
 }

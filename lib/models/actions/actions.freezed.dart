@@ -12,34 +12,11 @@ part of 'actions.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 WalletActions _$WalletActionsFromJson(Map<String, dynamic> json) {
   return _WalletActions.fromJson(json);
 }
-
-/// @nodoc
-class _$WalletActionsTearOff {
-  const _$WalletActionsTearOff();
-
-  _WalletActions call(
-      {List<WalletAction> list = const <WalletAction>[],
-      num updatedAt = 0,
-      int currentPage = 1}) {
-    return _WalletActions(
-      list: list,
-      updatedAt: updatedAt,
-      currentPage: currentPage,
-    );
-  }
-
-  WalletActions fromJson(Map<String, Object?> json) {
-    return WalletActions.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $WalletActions = _$WalletActionsTearOff();
 
 /// @nodoc
 mixin _$WalletActions {
@@ -94,25 +71,25 @@ class _$WalletActionsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$WalletActionsCopyWith<$Res>
+abstract class _$$_WalletActionsCopyWith<$Res>
     implements $WalletActionsCopyWith<$Res> {
-  factory _$WalletActionsCopyWith(
-          _WalletActions value, $Res Function(_WalletActions) then) =
-      __$WalletActionsCopyWithImpl<$Res>;
+  factory _$$_WalletActionsCopyWith(
+          _$_WalletActions value, $Res Function(_$_WalletActions) then) =
+      __$$_WalletActionsCopyWithImpl<$Res>;
   @override
   $Res call({List<WalletAction> list, num updatedAt, int currentPage});
 }
 
 /// @nodoc
-class __$WalletActionsCopyWithImpl<$Res>
+class __$$_WalletActionsCopyWithImpl<$Res>
     extends _$WalletActionsCopyWithImpl<$Res>
-    implements _$WalletActionsCopyWith<$Res> {
-  __$WalletActionsCopyWithImpl(
-      _WalletActions _value, $Res Function(_WalletActions) _then)
-      : super(_value, (v) => _then(v as _WalletActions));
+    implements _$$_WalletActionsCopyWith<$Res> {
+  __$$_WalletActionsCopyWithImpl(
+      _$_WalletActions _value, $Res Function(_$_WalletActions) _then)
+      : super(_value, (v) => _then(v as _$_WalletActions));
 
   @override
-  _WalletActions get _value => super._value as _WalletActions;
+  _$_WalletActions get _value => super._value as _$_WalletActions;
 
   @override
   $Res call({
@@ -120,7 +97,7 @@ class __$WalletActionsCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? currentPage = freezed,
   }) {
-    return _then(_WalletActions(
+    return _then(_$_WalletActions(
       list: list == freezed
           ? _value.list
           : list // ignore: cast_nullable_to_non_nullable
@@ -138,7 +115,6 @@ class __$WalletActionsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
 class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
   _$_WalletActions(
@@ -150,14 +126,14 @@ class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
   factory _$_WalletActions.fromJson(Map<String, dynamic> json) =>
       _$$_WalletActionsFromJson(json);
 
-  @JsonKey()
   @override
+  @JsonKey()
   final List<WalletAction> list;
-  @JsonKey()
   @override
+  @JsonKey()
   final num updatedAt;
-  @JsonKey()
   @override
+  @JsonKey()
   final int currentPage;
 
   @override
@@ -179,13 +155,14 @@ class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _WalletActions &&
+            other is _$_WalletActions &&
             const DeepCollectionEquality().equals(other.list, list) &&
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
             const DeepCollectionEquality()
                 .equals(other.currentPage, currentPage));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -195,20 +172,22 @@ class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
 
   @JsonKey(ignore: true)
   @override
-  _$WalletActionsCopyWith<_WalletActions> get copyWith =>
-      __$WalletActionsCopyWithImpl<_WalletActions>(this, _$identity);
+  _$$_WalletActionsCopyWith<_$_WalletActions> get copyWith =>
+      __$$_WalletActionsCopyWithImpl<_$_WalletActions>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_WalletActionsToJson(this);
+    return _$$_WalletActionsToJson(
+      this,
+    );
   }
 }
 
 abstract class _WalletActions extends WalletActions {
   factory _WalletActions(
-      {List<WalletAction> list,
-      num updatedAt,
-      int currentPage}) = _$_WalletActions;
+      {final List<WalletAction> list,
+      final num updatedAt,
+      final int currentPage}) = _$_WalletActions;
   _WalletActions._() : super._();
 
   factory _WalletActions.fromJson(Map<String, dynamic> json) =
@@ -222,6 +201,6 @@ abstract class _WalletActions extends WalletActions {
   int get currentPage;
   @override
   @JsonKey(ignore: true)
-  _$WalletActionsCopyWith<_WalletActions> get copyWith =>
+  _$$_WalletActionsCopyWith<_$_WalletActions> get copyWith =>
       throw _privateConstructorUsedError;
 }

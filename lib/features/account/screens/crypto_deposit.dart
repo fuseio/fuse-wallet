@@ -1,143 +1,140 @@
 import 'dart:core';
-import 'package:auto_route/auto_route.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/l10n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/viewsmodels/backup.dart';
-import 'package:fusecash/features/shared/widgets/my_scaffold.dart';
-import 'package:fusecash/features/shared/widgets/primary_button.dart';
-import 'package:fusecash/features/shared/widgets/snackbars.dart';
 
-class CryptoDepositScreen extends StatelessWidget {
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter_svg/svg.dart';
+
+import 'package:fusecash/features/shared/widgets/gradient_button.dart';
+import 'package:fusecash/features/shared/widgets/inner_page.dart';
+import 'package:flutter_gen/gen_l10n/I10n.dart';
+import 'package:fusecash/utils/alerts/alerts_model.dart';
+import 'package:fusecash/widget_extends/sf_widget.dart';
+
+class CryptoDepositScreen extends StatefulWidget {
   final String link;
   final String text;
-  CryptoDepositScreen(
+
+  const CryptoDepositScreen(
     this.link,
-    this.text,
-  );
+    this.text, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<CryptoDepositScreen> createState() => _CryptoDepositScreenState();
+}
+
+class _CryptoDepositScreenState extends SfWidget<CryptoDepositScreen> {
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
+    return InnerScaffold(
+      hasScrollBody: false,
       title: I10n.of(context).top_up,
-      body: StoreConnector<AppState, BackupViewModel>(
-        converter: BackupViewModel.fromStore,
-        builder: (_, viewModal) {
-          return Container(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-            ),
-            child: Column(
+      body: Container(
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 50,
-                    ),
-                    SvgPicture.asset(
-                      'assets/images/fusedwap_topup.svg',
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      text,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: 50,
+                ),
+                SvgPicture.asset(
+                  'assets/images/fuseswap_topup.svg',
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  widget.text,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 18,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      focusColor: Theme.of(context).canvasColor,
-                      highlightColor: Theme.of(context).canvasColor,
-                      onTap: () {
-                        Clipboard.setData(
-                          ClipboardData(
-                            text: link,
-                          ),
-                        );
-                        showCopiedFlushbar(context);
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              link,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF0076FF),
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            child: Icon(
-                              Icons.copy,
-                              size: 20,
-                              color: Color(0xFF0076FF),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      I10n.of(context).crypto_deposit_risk,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color(
-                          0xFF797979,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      I10n.of(context).crypto_deposit_risk_2,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color(
-                          0xFF797979,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
-                Column(
-                  children: [
-                    Center(
-                      child: PrimaryButton(
-                        label: I10n.of(context).ok,
-                        onPressed: AutoRouter.of(context).popUntilRoot,
+                const SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  focusColor: Theme.of(context).canvasColor,
+                  highlightColor: Theme.of(context).canvasColor,
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: widget.link,
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                    );
+                    super.throwAlert(
+                      context,
+                      I10n.of(context).copied_to_clipboard,
+                      type: AlertsTypeEnum.INFO,
+                    );
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        flex: 7,
+                        child: Text(
+                          widget.link,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 4,
+                        child: Icon(
+                          Icons.copy,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  I10n.of(context).crypto_deposit_risk,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: const Color(0xFF797979),
+                      ),
+                ),
+                Text(
+                  I10n.of(context).crypto_deposit_risk_2,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: const Color(0xFF797979),
+                      ),
                 ),
               ],
             ),
-          );
-        },
+          ],
+        ),
+      ),
+      bottomContent: GradientButton(
+        width: MediaQuery.of(context).size.width * .9,
+        textColor: Theme.of(context).canvasColor,
+        text: I10n.of(context).ok,
+        onPressed: AutoRouter.of(context).pop,
       ),
     );
   }
