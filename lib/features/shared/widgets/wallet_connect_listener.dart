@@ -14,6 +14,7 @@ import 'package:fusecash/constants/analytics_props.dart';
 import 'package:fusecash/features/shared/bottom_sheets/on_session_request.dart';
 import 'package:fusecash/features/shared/bottom_sheets/on_wallet_connect_tx.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/analytics/analytics.dart';
@@ -34,6 +35,8 @@ class WCListener extends StatefulWidget {
 }
 
 class _WCListenerState extends State<WCListener> {
+  WCSessionStore? _sessionStore;
+
   @override
   void initState() {
     super.initState();
@@ -77,6 +80,11 @@ class _WCListenerState extends State<WCListener> {
     if (mounted) {
       OnSessionRequestBottomSheet(
         wcPeerMeta: peerMeta,
+        onConnect: (WCSessionStore wcSessionStore) {
+          setState(() {
+            _sessionStore = wcSessionStore;
+          });
+        },
       ).showSheet(
         context,
       );
@@ -90,7 +98,11 @@ class _WCListenerState extends State<WCListener> {
   }
 
   _onSessionClosed(int? code, String? reason) {
-    log.info('_onSessionClosed $reason');
+    if (_sessionStore != null) {
+      StoreProvider.of<AppState>(context).dispatch(
+        RemoveSession(_sessionStore!),
+      );
+    }
   }
 
   _onSign(int id, WCEthereumSignMessage ethereumSignMessage) {

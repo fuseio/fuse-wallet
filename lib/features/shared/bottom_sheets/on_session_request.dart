@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallet_connect/models/wc_peer_meta.dart';
 import 'package:wallet_connect/wc_client.dart';
+import 'package:wallet_connect/wc_session_store.dart';
 
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/analytics_events.dart';
@@ -18,9 +19,11 @@ import 'package:fusecash/utils/analytics/analytics.dart';
 
 class OnSessionRequestBottomSheet extends StatelessWidget {
   final WCPeerMeta wcPeerMeta;
+  final Function(WCSessionStore) onConnect;
   const OnSessionRequestBottomSheet({
     Key? key,
     required this.wcPeerMeta,
+    required this.onConnect,
   }) : super(key: key);
 
   @override
@@ -114,7 +117,7 @@ class OnSessionRequestBottomSheet extends StatelessWidget {
             YesOrNoActions(
               approveBtnText: I10n.of(context).connect,
               rejectBtnText: I10n.of(context).cancel,
-              onApprove: () async {
+              onApprove: () {
                 getIt<WCClient>().approveSession(
                   accounts: [
                     StoreProvider.of<AppState>(context)
@@ -124,6 +127,7 @@ class OnSessionRequestBottomSheet extends StatelessWidget {
                   ],
                   chainId: Variables.fuseChainId,
                 );
+                onConnect(getIt<WCClient>().sessionStore);
                 StoreProvider.of<AppState>(context).dispatch(
                   AddSession(
                     getIt<WCClient>().sessionStore,
@@ -141,7 +145,7 @@ class OnSessionRequestBottomSheet extends StatelessWidget {
                 });
                 AutoRouter.of(context).pop();
               },
-              onReject: () async {
+              onReject: () {
                 Analytics.track(
                   eventName: AnalyticsEvents.wcConnection,
                   properties: {
