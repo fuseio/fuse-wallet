@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:charge_wallet_sdk/constants/enum.dart';
+import 'package:charge_wallet_sdk/charge_wallet_sdk.dart';
 import 'package:decimal/decimal.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
 
 import 'package:fusecash/constants/theme.dart';
 import 'package:fusecash/features/home/widgets/price_change.dart';
-import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/utils/format.dart';
 
 class PriceLineChart extends StatefulWidget {

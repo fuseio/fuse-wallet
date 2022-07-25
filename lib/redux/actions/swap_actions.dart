@@ -203,7 +203,7 @@ ThunkAction swapHandler(
 ) {
   return (Store store) async {
     try {
-      SwapRequestParametersData swapCallParameters =
+      TradeCallParameters swapCallParameters =
           await chargeApi.requestParameters(swapRequestBody);
       String swapData = swapCallParameters.rawTxn['data'].replaceFirst(
         '0x',
