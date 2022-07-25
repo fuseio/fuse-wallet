@@ -22,7 +22,7 @@ Some of the data types (located under lib/models), were moved to the SDK or remo
 - `WalletUpgrade`
 - `Collectible`
 - `IntervalStats`
-- `TradeInfo`. Renamed to Trade
+- `TradeInfo`. Renamed to `Trade`
 - `SwapCallParameters`. Renamed to `TradeCallParameters`.
 - `SwapRequestBody`. Renamed to `TradeRequestBody`.
 
@@ -48,15 +48,15 @@ It’ll show an error that some of the function references don’t exist, it bec
 
 ### Here’s a list of them
 
-- fetchMetadata
-- getCommunityData
-- getEntityMetadata
+- `fetchMetadata`
+- `getCommunityData`
+- `getEntityMetadata`
 
 ## Graph module
 
-all the functions, except getCollectiblesByOwner, are deprecated.
+all the functions, except `getCollectiblesByOwner`, are deprecated.
 
-## FuseSwap Service (lib/services/fuseswap): (renamed to Trade API)
+## FuseSwap Service (lib/services/fuseswap): (Renamed to [Trade API](https://docs.chargeweb3.com/docs/overview-3))
 
 If you used the FuseSwapService in the fuse-wallet, we moved the functionality also to the SDK and changed the terminology to Trade, instead of Swap. Basically, all his functions and data types move to the SDK.
 
