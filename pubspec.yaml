@@ -1,5 +1,5 @@
 name: fusecash
-version: 2.0.0+332
+version: 2.0.0+333
 description: Cross platform mobile Ethereum wallet.
 publish_to: "none"
 environment:
@@ -76,11 +76,11 @@ dependencies:
   json_annotation: ^4.6.0
   flare_flutter: ^3.0.2
   decimal: ^2.2.0
-  firebase_analytics: ^9.2.1
+  firebase_analytics: ^9.3.0
   firebase_crashlytics: ^2.8.6
   firebase_remote_config: ^2.0.13
   firebase_messaging: ^12.0.1
-  firebase_auth: ^3.5.0
+  firebase_auth: ^3.5.1
   firebase_core: ^1.20.0
   firebase_performance: ^0.8.2+1
   firebase_auth_platform_interface: ^6.4.0
@@ -93,7 +93,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 dev_dependencies:
-  flutter_native_splash: ^2.2.4
+  flutter_native_splash: ^2.2.6
   freezed: ^2.1.0+1
   lint: ^1.8.2
   injectable_generator: ^1.5.4
