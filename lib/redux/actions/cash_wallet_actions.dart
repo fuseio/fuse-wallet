@@ -19,7 +19,6 @@ import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/network/network_info.dart';
 import 'package:fusecash/redux/actions/nft_actions.dart';

@@ -8,7 +8,6 @@ import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/models/tokens/stats.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -100,7 +99,6 @@ class Token with _$Token implements Comparable<Token> {
   }) async {
     try {
       String price = await chargeApi.price(address);
-
       onDone(Price(currency: currency, quote: Decimal.parse(price).toString()));
     } catch (e, s) {
       onError(e, s);
@@ -125,12 +123,11 @@ class Token with _$Token implements Comparable<Token> {
     required TimeFrame timeFrame,
   }) async {
     try {
-      final List<ChartItem> intervalStats = await chargeApi.interval(
+      final List<IntervalStats> intervalStats = await chargeApi.interval(
         address,
         timeFrame,
       );
-      onDone(List<IntervalStats>.from(
-          intervalStats.map((e) => IntervalStats.fromJson(e.toJson()))));
+      onDone(intervalStats);
     } catch (e, s) {
       onError(e, s);
     }
