@@ -76,5 +76,3 @@
 
 .vscode/
 .env
-start_qa.sh
-/lib/main_qa.dart

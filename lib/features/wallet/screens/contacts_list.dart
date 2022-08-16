@@ -1,12 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 
+import "package:ethereum_addresses/ethereum_addresses.dart";
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:customizable_space_bar/customizable_space_bar.dart';
+import 'package:darq/darq.dart';
+import 'package:flutter_gen/gen_l10n/I10n.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:phone_number/phone_number.dart';
+
 import 'package:fusecash/common/router/routes.dart';
 import 'package:fusecash/features/shared/widgets/back_btn.dart';
 import 'package:fusecash/features/wallet/send_amount_arguments.dart';
@@ -15,7 +21,6 @@ import 'package:fusecash/features/wallet/widgets/empty_state.dart';
 import 'package:fusecash/features/wallet/widgets/list_header.dart';
 import 'package:fusecash/features/wallet/widgets/search_panel.dart';
 import 'package:fusecash/features/wallet/widgets/send_to_account.dart';
-import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
@@ -24,10 +29,6 @@ import 'package:fusecash/utils/alerts/alerts_model.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/widget_extends/sf_widget.dart';
-import 'package:loader_overlay/loader_overlay.dart';
-import 'package:phone_number/phone_number.dart';
-
-import "package:ethereum_addresses/ethereum_addresses.dart";
 
 class ContactsPage extends StatefulWidget {
   final SendFlowArguments? pageArgs;
@@ -182,11 +183,13 @@ class _ContactsPageState extends SfWidget<ContactsPage> {
     List<Contact> group,
   ) {
     List<Widget> listItems = <Widget>[];
-    for (Contact user in group) {
+    for (Contact user
+        in group.distinct((Contact contact) => contact.displayName!)) {
       Iterable<Item> phones = user.phones!
           .map((e) => Item(value: clearNotNumbersAndPlusSymbol(e.value!)))
           .toSet()
-          .toList();
+          .toList()
+          .distinct();
       for (Item phone in phones) {
         listItems.add(
           ContactTile(
@@ -360,7 +363,10 @@ extension ContactsPageExtension on State<ContactsPage> {
       };
     } catch (e, s) {
       String formatted = formatPhoneNumber(phone, countryCode);
-      bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
+      bool isValid = await phoneNumberUtil.validate(
+        formatted,
+        regionCode: isoCode,
+      );
       if (isValid) {
         PhoneNumber phoneNumber = await phoneNumberUtil.parse(
           formatted,
