@@ -34,7 +34,7 @@ dependencies:
   responsive_framework: ^0.2.0
   modal_bottom_sheet: ^2.1.0
   grouped_list: ^5.1.2
-  fl_chart: ^0.55.0
+  fl_chart: ^0.55.1
   auto_size_text_field: ^2.1.0
   lottie: ^1.4.1
   pin_code_fields: ^7.4.0
