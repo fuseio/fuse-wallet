@@ -395,7 +395,10 @@ ThunkAction syncContactsCall() {
               } catch (e) {
                 String formatted = formatPhoneNumber(value, countryCode);
                 bool isValid = await phoneNumberUtil
-                    .validate(formatted, isoCode)
+                    .validate(
+                      formatted,
+                      regionCode: isoCode,
+                    )
                     .catchError(
                       (error) => false,
                     );

@@ -9,7 +9,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/features/shared/widgets/gradient_button.dart';
 import 'package:fusecash/features/shared/widgets/inner_page.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/viewsmodels/backup.dart';
 
 class DoneBackupPage extends StatelessWidget {
   const DoneBackupPage({Key? key}) : super(key: key);
@@ -19,14 +20,17 @@ class DoneBackupPage extends StatelessWidget {
     return InnerScaffold(
       hasScrollBody: false,
       title: I10n.of(context).back_up,
-      bottomContent: GradientButton(
-        width: MediaQuery.of(context).size.width * .9,
-        text: I10n.of(context).ok,
-        textColor: Theme.of(context).canvasColor,
-        onPressed: () {
-          StoreProvider.of(context).dispatch(BackupSuccess());
-          context.router.popUntilRoot();
-        },
+      bottomContent: StoreConnector<AppState, BackupViewModel>(
+        distinct: true,
+        converter: BackupViewModel.fromStore,
+        builder: (_, viewModal) => GradientButton(
+          width: MediaQuery.of(context).size.width * .9,
+          text: I10n.of(context).ok,
+          onPressed: () {
+            viewModal.backupWallet();
+            context.router.popUntilRoot();
+          },
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

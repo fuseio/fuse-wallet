@@ -34,34 +34,34 @@ PODS:
   - Firebase/RemoteConfig (9.3.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 9.3.0)
-  - firebase_analytics (9.3.0):
+  - firebase_analytics (9.3.1):
     - Firebase/Analytics (= 9.3.0)
     - firebase_core
     - Flutter
-  - firebase_auth (3.5.1):
+  - firebase_auth (3.6.3):
     - Firebase/Auth (= 9.3.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.20.0):
+  - firebase_core (1.20.1):
     - Firebase/CoreOnly (= 9.3.0)
     - Flutter
-  - firebase_crashlytics (2.8.6):
+  - firebase_crashlytics (2.8.7):
     - Firebase/Crashlytics (= 9.3.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (12.0.1):
+  - firebase_messaging (12.0.2):
     - Firebase/Messaging (= 9.3.0)
     - firebase_core
     - Flutter
-  - firebase_performance (0.8.2-1):
+  - firebase_performance (0.8.2-2):
     - Firebase/Performance (= 9.3.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (2.0.13):
+  - firebase_remote_config (2.0.14):
     - Firebase/RemoteConfig (= 9.3.0)
     - firebase_core
     - Flutter
-  - FirebaseABTesting (9.3.0):
+  - FirebaseABTesting (9.4.0):
     - FirebaseCore (~> 9.0)
   - FirebaseAnalytics (9.3.0):
     - FirebaseAnalytics/AdIdSupport (= 9.3.0)
@@ -91,12 +91,12 @@ PODS:
     - FirebaseCoreInternal (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (9.3.0):
+  - FirebaseCoreDiagnostics (9.4.0):
     - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseCoreInternal (9.3.0):
+  - FirebaseCoreInternal (9.4.0):
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
   - FirebaseCrashlytics (9.3.0):
     - FirebaseCore (~> 9.0)
@@ -113,7 +113,7 @@ PODS:
   - FirebaseFirestore/Base (9.3.0)
   - FirebaseFirestore/WithLeveldb (9.3.0):
     - FirebaseFirestore/Base
-  - FirebaseInstallations (9.3.0):
+  - FirebaseInstallations (9.4.0):
     - FirebaseCore (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
@@ -179,7 +179,7 @@ PODS:
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleDataTransport (9.1.4):
+  - GoogleDataTransport (9.2.0):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
@@ -226,7 +226,7 @@ PODS:
     - Flutter
   - permission_handler_apple (9.0.4):
     - Flutter
-  - phone_number (0.12.0):
+  - phone_number (1.0.0):
     - Flutter
     - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
   - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
@@ -416,22 +416,22 @@ SPEC CHECKSUMS:
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: ef75abb1cdbc746d5a38f4e26c422c807b189b8c
-  firebase_analytics: 8f772ccb3dad1e8968019a158823f99e63069d2b
-  firebase_auth: f6e32ca8921ff9fff94ba73745b67455fee8b22f
-  firebase_core: 96214f90497b808a2cf2a24517084c5f6de37b53
-  firebase_crashlytics: cdba3f556462dd5ee25cc7d28790ff2de2c0edcf
-  firebase_messaging: a2cd2c6dd7b5430bb9e4e50e9a474413ae3bce09
-  firebase_performance: 82d5f536250a88ad3351583df5b1878f82cfd293
-  firebase_remote_config: f3cc693a849be94ee43335f99310df75dc9edc05
-  FirebaseABTesting: d7383da017eff5dc4fccb40987fa76271fd1cdbf
+  firebase_analytics: 76a3a81b95ea32c1f8dbd900ec751b342d26d543
+  firebase_auth: 3726552033ccc757ef90f046ff2bcf5a13cd34bd
+  firebase_core: e66a443ec996cb5e364dc70b4cfc1809c32cbb2e
+  firebase_crashlytics: 95cb124fe8ba64e9cedad8816b8aee6204f8dbeb
+  firebase_messaging: b414881f438b3b0b1bf1b0dd4b6767c4cfcf4dc7
+  firebase_performance: 39e081d1a507aeac5a84dff1027a01ede988a5bd
+  firebase_remote_config: 16b065982a52fd1c6246a8980e66b5fa244cd680
+  FirebaseABTesting: e59eec91fafce74a0f5261809ed0025b7e450db1
   FirebaseAnalytics: bf46f5163f44097ce2c789de0b3e6f87f1da834a
   FirebaseAuth: 9ebc3577fe0acf9092df21ac314024b70aebf21e
   FirebaseCore: c088995ece701a021a48a1348ea0174877de2a6a
-  FirebaseCoreDiagnostics: 060eb57cc56dfaf40b1b1b5874a5c17c41ce79f8
-  FirebaseCoreInternal: 635d1c9a612a6502b6377a0c92af83758076ffff
+  FirebaseCoreDiagnostics: aaa87098082c4d4bdd1a9557b1186d18ca85ce8c
+  FirebaseCoreInternal: a13302b0088fbf5f38b79b6ece49c2af7d3e05d6
   FirebaseCrashlytics: 65a5b349e664e986e6c7486b0a9b5ed8c11d0491
   FirebaseFirestore: 033f80710e26a86fd6ecf2a41441360436e45cb9
-  FirebaseInstallations: 54b40022cb06e462740c9f2b9fbe38b5e78a825a
+  FirebaseInstallations: 61db1054e688d2bdc4e2b3f744c1b086e913b742
   FirebaseMessaging: 2f6e38b6133059eb796ec224104f09379298a8c3
   FirebasePerformance: 18bb0984808ec429fae69fb5f1da4a68f57605b1
   FirebaseRemoteConfig: 0a644c924b3339bcf3bc3ea253206f171672308e
@@ -444,7 +444,7 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   GoogleAppMeasurement: b907bdad775b6975a8108762345b2cfbf1a93c37
-  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 681175626052e03fdde7952f7e9c7a9785719506
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
@@ -457,7 +457,7 @@ SPEC CHECKSUMS:
   Passbase: 0a99aa0ff15364b6bb7b2bede91467074811d460
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
-  phone_number: 7e56d6e4e43fbe37507512a3aab3f11cf082af69
+  phone_number: ad6f917e4fd2e507a198b93dca5eadcb463ec8c2
   PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   Ramp: c522303707480a458eef7d05c96e8c9604be4840

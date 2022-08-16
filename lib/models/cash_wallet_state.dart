@@ -70,7 +70,10 @@ class CashWalletState with _$CashWalletState {
 
   factory CashWalletState.initial() {
     return CashWalletState(
-      tokens: const {},
+      tokens: Map<String, Token>.fromIterables(
+        {fuseDollarToken.address, fuseToken.address},
+        [fuseDollarToken.copyWith(), fuseToken.copyWith()],
+      ),
       walletActions: WalletActions().copyWith(
         list: <WalletAction>[],
         updatedAt: 0,
