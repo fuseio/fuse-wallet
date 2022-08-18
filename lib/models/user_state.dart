@@ -54,6 +54,7 @@ class UserState with _$UserState {
     @JsonKey(fromJson: localeFromJson, toJson: localeToJson) Locale? locale,
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
     @JsonKey(ignore: true) PhoneAuthCredential? credentials,
+    @JsonKey(ignore: true) String? did,
   }) = _UserState;
 
   factory UserState.initial() => UserState(
