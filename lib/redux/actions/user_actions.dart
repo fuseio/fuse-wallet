@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:didkit/didkit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:fusecash/constants/strings.dart';
+import 'package:fusecash/utils/did/generate_did.dart';
+import 'package:fusecash/utils/did/private_key_generation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
@@ -29,14 +35,17 @@ import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/crashlytics.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
+import 'package:bip32/bip32.dart' as bip39;
 
 class SetWalletConnectURI {
   final String wcURI;
+
   SetWalletConnectURI(this.wcURI);
 }
 
 class ScrollToTop {
   final bool value;
+
   ScrollToTop(
     this.value,
   );
@@ -44,6 +53,7 @@ class ScrollToTop {
 
 class ToggleUpgrade {
   final bool value;
+
   ToggleUpgrade({
     required this.value,
   });
@@ -51,16 +61,19 @@ class ToggleUpgrade {
 
 class UpdateCurrency {
   final String currency;
+
   UpdateCurrency({required this.currency});
 }
 
 class UpdateLocale {
   final Locale locale;
+
   UpdateLocale({required this.locale});
 }
 
 class WarnSendDialogShowed {
   final bool value;
+
   WarnSendDialogShowed(
     this.value,
   );
@@ -68,6 +81,7 @@ class WarnSendDialogShowed {
 
 class SetSecurityType {
   BiometricAuth biometricAuth;
+
   SetSecurityType({required this.biometricAuth});
 }
 
@@ -75,11 +89,20 @@ class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
   final String accountAddress;
+  final String did;
+
   CreateLocalAccountSuccess(
     this.mnemonic,
     this.privateKey,
     this.accountAddress,
+    this.did,
   );
+}
+
+class GenerateDIDSuccess {
+  final String did;
+
+  const GenerateDIDSuccess(this.did);
 }
 
 class ReLogin {
@@ -91,6 +114,7 @@ class LoginRequestSuccess {
   final String phoneNumber;
   final String? displayName;
   final String? email;
+
   LoginRequestSuccess({
     required this.countryCode,
     required this.phoneNumber,
@@ -105,12 +129,14 @@ class LogoutRequestSuccess {
 
 class LoginVerifySuccess {
   final String jwtToken;
+
   LoginVerifySuccess(this.jwtToken);
 }
 
 class SyncContactsProgress {
   List<String> contacts;
   List<Map<String, dynamic>> newContacts;
+
   SyncContactsProgress(this.contacts, this.newContacts);
 }
 
@@ -120,21 +146,25 @@ class SyncContactsRejected {
 
 class SaveContacts {
   List<Contact> contacts;
+
   SaveContacts(this.contacts);
 }
 
 class SetPincodeSuccess {
   String pincode;
+
   SetPincodeSuccess(this.pincode);
 }
 
 class SetDisplayName {
   String displayName;
+
   SetDisplayName(this.displayName);
 }
 
 class SetUserAvatar {
   String avatarUrl;
+
   SetUserAvatar(this.avatarUrl);
 }
 
@@ -148,21 +178,25 @@ class BackupSuccess {
 
 class SetCredentials {
   PhoneAuthCredential? credentials;
+
   SetCredentials(this.credentials);
 }
 
 class SetVerificationId {
   String verificationId;
+
   SetVerificationId(this.verificationId);
 }
 
 class JustInstalled {
   final DateTime installedAt;
+
   JustInstalled(this.installedAt);
 }
 
 class DeviceIdSuccess {
   final String identifier;
+
   DeviceIdSuccess(this.identifier);
 }
 
@@ -292,11 +326,18 @@ ThunkAction restoreWalletCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
+
+      final mnemonicAsString = mnemonic.join(' ');
+      final did = await generateDID(mnemonicAsString);
+
+      debugPrint("Restored did: $did");
+
       store.dispatch(
         CreateLocalAccountSuccess(
           mnemonic,
           privateKey,
           accountAddress.toString(),
+          did,
         ),
       );
       successCallback();
@@ -342,11 +383,15 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
+
+      final did = await generateDID(mnemonic);
+
       store.dispatch(
         CreateLocalAccountSuccess(
           mnemonic.split(' '),
           privateKey,
           accountAddress.toString(),
+          did,
         ),
       );
       Analytics.track(
@@ -556,6 +601,29 @@ ThunkAction loadContacts() {
         Exception('Error in load contacts: ${e.toString()}'),
         s,
         reason: 'ERROR in loadContacts',
+      );
+    }
+  };
+}
+
+ThunkAction generateDIDCall({required String mnemonic}) {
+  assert(mnemonic.isNotEmpty, "Mnemonic must not be empty");
+  return (Store store) async {
+    try {
+      final did = await generateDID(mnemonic);
+      final generateDIDSuccess = GenerateDIDSuccess(did);
+      store.dispatch(generateDIDSuccess);
+    } catch (exception, stackTrace) {
+      const errorMessage = "An error occurred while generating DID.";
+      log.error(
+        errorMessage,
+        error: exception,
+        stackTrace: stackTrace,
+      );
+      Crashlytics.recordError(
+        Exception("$errorMessage ${exception.toString()}"),
+        stackTrace,
+        reason: errorMessage,
       );
     }
   };
