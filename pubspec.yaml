@@ -94,6 +94,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   darq: ^1.2.1
+  didkit:
+    path: ../didkit/lib/flutter
+  bip39: ^1.0.6
+  secp256k1: ^0.3.0
+
 dev_dependencies:
   flutter_native_splash: ^2.2.7
   freezed: ^2.1.0+1
