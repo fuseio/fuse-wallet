@@ -1,9 +1,11 @@
+import 'package:darq/darq.dart';
 import 'package:flutter/material.dart';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/utils/did/generate_did.dart';
 import 'package:redux/redux.dart';
 
 import 'package:fusecash/common/router/routes.dart';
@@ -16,6 +18,7 @@ import 'package:fusecash/utils/biometric_local_auth.dart';
 
 class SplashPage extends StatefulWidget {
   final void Function(bool isLoggedIn)? onLoginResult;
+
   const SplashPage({
     Key? key,
     this.onLoginResult,
@@ -27,11 +30,25 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   late Flushbar flush;
+
   void onInit(Store<AppState> store) async {
     UserState userState = store.state.userState;
     String privateKey = userState.privateKey;
     String jwtToken = userState.jwtToken;
     bool isLoggedOut = userState.isLoggedOut;
+
+    final mnemonic = userState.mnemonic;
+
+    final did = userState.did;
+    final didDoesNotExist = did == null || did.isEmpty;
+
+    if (mnemonic.isNotEmpty && didDoesNotExist) {
+      final mnemonic = userState.mnemonic.join(" ");
+      store.dispatch(
+        generateDIDCall(mnemonic: mnemonic),
+      );
+    }
+
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
       context.router.replaceAll([const OnBoardingRoute()]);
       widget.onLoginResult?.call(false);
