@@ -13,8 +13,7 @@ git clone https://github.com/spruceid/credible
 git clone --recursive https://github.com/spruceid/ssi
 
 ##FLUTTER
-git clone https://github.com/flutter/flutter.git -b dev $HOME/flutter
-echo 'export PATH=$HOME/flutter/bin:"$PATH"' >> $HOME/.bashrc 
+flutter channel stable
 
 ##ANDROID SDK AND NDK
 cd $HOME
