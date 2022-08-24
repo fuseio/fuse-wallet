@@ -14,9 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_udid/flutter_udid.dart';
-import 'package:fusecash/constants/strings.dart';
-import 'package:fusecash/utils/did/generate_did.dart';
-import 'package:fusecash/utils/did/private_key_generation.dart';
+import 'package:fusecash/utils/did/did_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
@@ -328,7 +326,7 @@ ThunkAction restoreWalletCall(
       log.info('accountAddress: ${accountAddress.toString()}');
 
       final mnemonicAsString = mnemonic.join(' ');
-      final did = await generateDID(mnemonicAsString);
+      final did = await DIDService.generateDID(mnemonicAsString);
 
       debugPrint("Restored did: $did");
 
@@ -384,7 +382,7 @@ ThunkAction createLocalAccountCall(
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
 
-      final did = await generateDID(mnemonic);
+      final did = await DIDService.generateDID(mnemonic);
 
       store.dispatch(
         CreateLocalAccountSuccess(
@@ -610,7 +608,7 @@ ThunkAction generateDIDCall({required String mnemonic}) {
   assert(mnemonic.isNotEmpty, "Mnemonic must not be empty");
   return (Store store) async {
     try {
-      final did = await generateDID(mnemonic);
+      final did = await DIDService.generateDID(mnemonic);
       final generateDIDSuccess = GenerateDIDSuccess(did);
       store.dispatch(generateDIDSuccess);
     } catch (exception, stackTrace) {

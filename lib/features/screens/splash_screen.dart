@@ -1,11 +1,9 @@
-import 'package:darq/darq.dart';
 import 'package:flutter/material.dart';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/did/generate_did.dart';
 import 'package:redux/redux.dart';
 
 import 'package:fusecash/common/router/routes.dart';

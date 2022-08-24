@@ -78,6 +78,7 @@ UserState _getWalletDataSuccess(UserState state, GetWalletDataSuccess action) {
 }
 
 UserState _generateDIDSuccess(UserState state, GenerateDIDSuccess action) {
+  // TODO: Issue a VC for the user.
   return state.copyWith(did: action.did);
 }
 
