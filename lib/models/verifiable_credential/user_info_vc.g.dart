@@ -1,14 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'self_issued_credential.dart';
+part of 'user_info_vc.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SelfIssuedCredential _$SelfIssuedCredentialFromJson(
-        Map<String, dynamic> json) =>
-    SelfIssuedCredential(
+UserInfoVC _$UserInfoVCFromJson(Map<String, dynamic> json) => UserInfoVC(
       context: json['@context'] as List<dynamic>? ??
           [
             'https://www.w3.org/2018/credentials/v1',
@@ -38,8 +36,7 @@ SelfIssuedCredential _$SelfIssuedCredentialFromJson(
           json['credentialSubject'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SelfIssuedCredentialToJson(
-        SelfIssuedCredential instance) =>
+Map<String, dynamic> _$UserInfoVCToJson(UserInfoVC instance) =>
     <String, dynamic>{
       '@context': instance.context,
       'id': instance.id,

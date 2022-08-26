@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/models/verifiable_credential/user_info_credential_subject.dart';
 
-part 'self_issued_credential.g.dart';
+part 'user_info_vc.g.dart';
 
 @JsonSerializable()
 class UserInfoVC {
@@ -29,9 +29,9 @@ class UserInfoVC {
   });
 
   factory UserInfoVC.fromJson(Map<String, dynamic> json) =>
-      _$SelfIssuedCredentialFromJson(json);
+      _$UserInfoVCFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SelfIssuedCredentialToJson(this);
+  Map<String, dynamic> toJson() => _$UserInfoVCToJson(this);
 
   static const _context = <dynamic>[
     "https://www.w3.org/2018/credentials/v1",
