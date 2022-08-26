@@ -4,6 +4,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/utils/did/did_service.dart';
 import 'package:redux/redux.dart';
 
 import 'package:fusecash/common/router/routes.dart';
@@ -38,9 +39,18 @@ class _SplashPageState extends State<SplashPage> {
     final mnemonic = userState.mnemonic;
 
     final did = userState.did;
-    final didDoesNotExist = did == null || did.isEmpty;
+    final didExists = did != null && did.isNotEmpty;
 
-    if (mnemonic.isNotEmpty && didDoesNotExist) {
+    if (didExists && userState.userInfoVC == null) {
+      final privateKeyForDID = userState.privateKeyForDID;
+
+      // If did exists, the private must exist too.
+      store.dispatch(
+        issueUserInfoVCCall(privateKeyForDID: privateKeyForDID!),
+      );
+    }
+
+    if (!didExists && mnemonic.isNotEmpty) {
       final mnemonic = userState.mnemonic.join(" ");
       store.dispatch(
         generateDIDCall(mnemonic: mnemonic),

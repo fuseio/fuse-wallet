@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/utils/did/did_service.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
@@ -12,6 +14,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, ToggleUpgrade>(_toggleUpgrade),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, GenerateDIDSuccess>(_generateDIDSuccess),
+  TypedReducer<UserState, IssueUserInfoVCSuccess>(_issueUserInfoVCSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
   TypedReducer<UserState, LogoutRequestSuccess>(_logoutSuccess),
@@ -78,8 +81,17 @@ UserState _getWalletDataSuccess(UserState state, GetWalletDataSuccess action) {
 }
 
 UserState _generateDIDSuccess(UserState state, GenerateDIDSuccess action) {
-  // TODO: Issue a VC for the user.
-  return state.copyWith(did: action.did);
+  return state.copyWith(
+    did: action.did,
+    privateKeyForDID: action.privateKeyForDID,
+  );
+}
+
+UserState _issueUserInfoVCSuccess(
+  UserState state,
+  IssueUserInfoVCSuccess action,
+) {
+  return state.copyWith(userInfoVC: action.userInfoVC);
 }
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
@@ -100,6 +112,7 @@ UserState _createNewWalletSuccess(
     privateKey: action.privateKey,
     accountAddress: action.accountAddress,
     did: action.did,
+    privateKeyForDID: action.privateKeyForDID,
   );
 }
 

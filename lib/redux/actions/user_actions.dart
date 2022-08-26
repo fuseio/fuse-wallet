@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:didkit/didkit.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +16,7 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:fusecash/utils/did/did_service.dart';
+import 'package:fusecash/utils/did/private_key_generation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
@@ -33,7 +35,6 @@ import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/crashlytics.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/utils/phone.dart';
-import 'package:bip32/bip32.dart' as bip39;
 
 class SetWalletConnectURI {
   final String wcURI;
@@ -88,19 +89,31 @@ class CreateLocalAccountSuccess {
   final String privateKey;
   final String accountAddress;
   final String did;
+  final String privateKeyForDID;
 
   CreateLocalAccountSuccess(
     this.mnemonic,
     this.privateKey,
     this.accountAddress,
     this.did,
+    this.privateKeyForDID,
   );
 }
 
 class GenerateDIDSuccess {
   final String did;
 
-  const GenerateDIDSuccess(this.did);
+  /// The private key used for DID features.
+  final String privateKeyForDID;
+
+  const GenerateDIDSuccess(this.did, this.privateKeyForDID);
+}
+
+class IssueUserInfoVCSuccess {
+  /// The JSON representation of the issued [UserInfoVC].
+  final String userInfoVC;
+
+  const IssueUserInfoVCSuccess({required this.userInfoVC});
 }
 
 class ReLogin {
@@ -326,7 +339,13 @@ ThunkAction restoreWalletCall(
       log.info('accountAddress: ${accountAddress.toString()}');
 
       final mnemonicAsString = mnemonic.join(' ');
-      final did = await DIDService.generateDID(mnemonicAsString);
+
+      final privateKeyGeneration = PrivateKeyGeneration();
+      final privateKeyToForDID =
+          await privateKeyGeneration.generatePrivateKey(mnemonicAsString);
+
+      final didService = DIDService(privateKey: privateKeyToForDID);
+      final did = await didService.generateDID();
 
       debugPrint("Restored did: $did");
 
@@ -336,6 +355,7 @@ ThunkAction restoreWalletCall(
           privateKey,
           accountAddress.toString(),
           did,
+          privateKeyToForDID,
         ),
       );
       successCallback();
@@ -382,7 +402,12 @@ ThunkAction createLocalAccountCall(
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
 
-      final did = await DIDService.generateDID(mnemonic);
+      final privateKeyGeneration = PrivateKeyGeneration();
+      final privateKeyToForDID =
+          await privateKeyGeneration.generatePrivateKey(mnemonic);
+
+      final didService = DIDService(privateKey: privateKeyToForDID);
+      final did = await didService.generateDID();
 
       store.dispatch(
         CreateLocalAccountSuccess(
@@ -390,6 +415,7 @@ ThunkAction createLocalAccountCall(
           privateKey,
           accountAddress.toString(),
           did,
+          privateKeyToForDID,
         ),
       );
       Analytics.track(
@@ -608,8 +634,19 @@ ThunkAction generateDIDCall({required String mnemonic}) {
   assert(mnemonic.isNotEmpty, "Mnemonic must not be empty");
   return (Store store) async {
     try {
-      final did = await DIDService.generateDID(mnemonic);
-      final generateDIDSuccess = GenerateDIDSuccess(did);
+      final privateKeyGeneration = PrivateKeyGeneration();
+      final privateKeyToGenerateDID =
+          await privateKeyGeneration.generatePrivateKey(mnemonic);
+
+      final didService = DIDService(privateKey: privateKeyToGenerateDID);
+      final did = didService.generateDID();
+
+      store.dispatch(
+        issueUserInfoVCCall(privateKeyForDID: privateKeyToGenerateDID),
+      );
+
+      final generateDIDSuccess =
+          GenerateDIDSuccess(did, privateKeyToGenerateDID);
       store.dispatch(generateDIDSuccess);
     } catch (exception, stackTrace) {
       const errorMessage = "An error occurred while generating DID.";
@@ -624,6 +661,40 @@ ThunkAction generateDIDCall({required String mnemonic}) {
         reason: errorMessage,
       );
     }
+  };
+}
+
+ThunkAction issueUserInfoVCCall({required String privateKeyForDID}) {
+  return (Store store) async {
+    final userState = store.state.userState;
+    final didService = DIDService(privateKey: privateKeyForDID);
+
+    final userInfoVC = didService.issueUserInfoVC(
+      did: userState.did,
+      name: userState.displayName,
+      phoneNumber: userState.phoneNumber,
+    );
+
+    final verificationResultInJson = didService.verifyVC(userInfoVC);
+    final verificationResult = jsonDecode(verificationResultInJson);
+
+    debugPrint("Verification result: $verificationResultInJson");
+
+    final warnings = verificationResult["warnings"] as List<dynamic>;
+    final errors = verificationResult["errors"] as List<dynamic>;
+
+    if (warnings.isNotEmpty) {
+      log.warn("Warnings produced while verifying the VC: $warnings");
+    }
+
+    if (errors.isNotEmpty) {
+      log.error("Failed to verify VC. $errors");
+      return;
+    }
+
+    final issueUserInfoVCSuccess =
+        IssueUserInfoVCSuccess(userInfoVC: userInfoVC);
+    store.dispatch(issueUserInfoVCSuccess);
   };
 }
 
