@@ -60,7 +60,7 @@ class PrivateKeyGeneration {
       'd': d,
       'x': x,
       'y': y,
-      'alg': 'ES256K-R' // or 'alg': "ES256K" for did:key
+      'alg': 'ES256K' // or 'alg': "ES256K" for did:key
     };
     // key = {
     //   "kty": "EC",
