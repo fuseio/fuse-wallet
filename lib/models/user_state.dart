@@ -56,7 +56,7 @@ class UserState with _$UserState {
     @JsonKey(ignore: true) PhoneAuthCredential? credentials,
     String? did,
     String? privateKeyForDID,
-    String? userInfoVC,
+    String? userInfoCredential,
   }) = _UserState;
 
   factory UserState.initial() => UserState(

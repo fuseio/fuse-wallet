@@ -59,7 +59,7 @@ mixin _$UserState {
   PhoneAuthCredential? get credentials => throw _privateConstructorUsedError;
   String? get did => throw _privateConstructorUsedError;
   String? get privateKeyForDID => throw _privateConstructorUsedError;
-  String? get userInfoVC => throw _privateConstructorUsedError;
+  String? get userInfoCredential => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -106,7 +106,7 @@ abstract class $UserStateCopyWith<$Res> {
       @JsonKey(ignore: true) PhoneAuthCredential? credentials,
       String? did,
       String? privateKeyForDID,
-      String? userInfoVC});
+      String? userInfoCredential});
 
   $WalletModulesCopyWith<$Res>? get walletModules;
 }
@@ -155,7 +155,7 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object? credentials = freezed,
     Object? did = freezed,
     Object? privateKeyForDID = freezed,
-    Object? userInfoVC = freezed,
+    Object? userInfoCredential = freezed,
   }) {
     return _then(_value.copyWith(
       wcURI: wcURI == freezed
@@ -294,9 +294,9 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
           ? _value.privateKeyForDID
           : privateKeyForDID // ignore: cast_nullable_to_non_nullable
               as String?,
-      userInfoVC: userInfoVC == freezed
-          ? _value.userInfoVC
-          : userInfoVC // ignore: cast_nullable_to_non_nullable
+      userInfoCredential: userInfoCredential == freezed
+          ? _value.userInfoCredential
+          : userInfoCredential // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -354,7 +354,7 @@ abstract class _$$_UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       @JsonKey(ignore: true) PhoneAuthCredential? credentials,
       String? did,
       String? privateKeyForDID,
-      String? userInfoVC});
+      String? userInfoCredential});
 
   @override
   $WalletModulesCopyWith<$Res>? get walletModules;
@@ -406,7 +406,7 @@ class __$$_UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object? credentials = freezed,
     Object? did = freezed,
     Object? privateKeyForDID = freezed,
-    Object? userInfoVC = freezed,
+    Object? userInfoCredential = freezed,
   }) {
     return _then(_$_UserState(
       wcURI: wcURI == freezed
@@ -545,9 +545,9 @@ class __$$_UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
           ? _value.privateKeyForDID
           : privateKeyForDID // ignore: cast_nullable_to_non_nullable
               as String?,
-      userInfoVC: userInfoVC == freezed
-          ? _value.userInfoVC
-          : userInfoVC // ignore: cast_nullable_to_non_nullable
+      userInfoCredential: userInfoCredential == freezed
+          ? _value.userInfoCredential
+          : userInfoCredential // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -591,7 +591,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       @JsonKey(ignore: true) this.credentials,
       this.did,
       this.privateKeyForDID,
-      this.userInfoVC})
+      this.userInfoCredential})
       : super._();
 
   factory _$_UserState.fromJson(Map<String, dynamic> json) =>
@@ -693,11 +693,11 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   @override
   final String? privateKeyForDID;
   @override
-  final String? userInfoVC;
+  final String? userInfoCredential;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserState(wcURI: $wcURI, contractVersion: $contractVersion, walletModules: $walletModules, installedAt: $installedAt, isContactsSynced: $isContactsSynced, isLoggedOut: $isLoggedOut, backup: $backup, scrollToTop: $scrollToTop, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, warnSendDialogShowed: $warnSendDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, currency: $currency, hasUpgrade: $hasUpgrade, authType: $authType, locale: $locale, contacts: $contacts, credentials: $credentials, did: $did, privateKeyForDID: $privateKeyForDID, userInfoVC: $userInfoVC)';
+    return 'UserState(wcURI: $wcURI, contractVersion: $contractVersion, walletModules: $walletModules, installedAt: $installedAt, isContactsSynced: $isContactsSynced, isLoggedOut: $isLoggedOut, backup: $backup, scrollToTop: $scrollToTop, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, warnSendDialogShowed: $warnSendDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, currency: $currency, hasUpgrade: $hasUpgrade, authType: $authType, locale: $locale, contacts: $contacts, credentials: $credentials, did: $did, privateKeyForDID: $privateKeyForDID, userInfoCredential: $userInfoCredential)';
   }
 
   @override
@@ -739,7 +739,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('credentials', credentials))
       ..add(DiagnosticsProperty('did', did))
       ..add(DiagnosticsProperty('privateKeyForDID', privateKeyForDID))
-      ..add(DiagnosticsProperty('userInfoVC', userInfoVC));
+      ..add(DiagnosticsProperty('userInfoCredential', userInfoCredential));
   }
 
   @override
@@ -802,7 +802,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
             const DeepCollectionEquality()
                 .equals(other.privateKeyForDID, privateKeyForDID) &&
             const DeepCollectionEquality()
-                .equals(other.userInfoVC, userInfoVC));
+                .equals(other.userInfoCredential, userInfoCredential));
   }
 
   @JsonKey(ignore: true)
@@ -843,7 +843,7 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
         const DeepCollectionEquality().hash(credentials),
         const DeepCollectionEquality().hash(did),
         const DeepCollectionEquality().hash(privateKeyForDID),
-        const DeepCollectionEquality().hash(userInfoVC)
+        const DeepCollectionEquality().hash(userInfoCredential)
       ]);
 
   @JsonKey(ignore: true)
@@ -900,7 +900,7 @@ abstract class _UserState extends UserState {
           final PhoneAuthCredential? credentials,
       final String? did,
       final String? privateKeyForDID,
-      final String? userInfoVC}) = _$_UserState;
+      final String? userInfoCredential}) = _$_UserState;
   _UserState._() : super._();
 
   factory _UserState.fromJson(Map<String, dynamic> json) =
@@ -980,7 +980,7 @@ abstract class _UserState extends UserState {
   @override
   String? get privateKeyForDID;
   @override
-  String? get userInfoVC;
+  String? get userInfoCredential;
   @override
   @JsonKey(ignore: true)
   _$$_UserStateCopyWith<_$_UserState> get copyWith =>

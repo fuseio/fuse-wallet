@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:didkit/didkit.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/models/verifiable_credential/issue_credential_options.dart';
-import 'package:fusecash/models/verifiable_credential/user_info_vc.dart';
+import 'package:fusecash/models/verifiable_credential/user_info_credential.dart';
 import 'package:fusecash/models/verifiable_credential/user_info_credential_subject.dart';
 import 'package:fusecash/models/verifiable_credential/verify_credential_options.dart';
 import 'package:intl/intl.dart';
@@ -18,21 +18,26 @@ class DIDService {
     return DIDKit.keyToDID(Strings.defaultDIDMethod, privateKey);
   }
 
-  String issueUserInfoVC({
+  String issueUserInfoCredential({
     required String did,
     required String name,
     required String phoneNumber,
   }) {
-    final userInfoVCModel = _createUserInfoVCModel(did, name, phoneNumber);
-    final userInfoVCAsJson = jsonEncode(userInfoVCModel);
+    final userInfoCredentialModel =
+        _createUserInfoCredentialModel(did, name, phoneNumber);
+    final userInfoCredentialAsJson = jsonEncode(userInfoCredentialModel);
 
     final options = _createIssueCredentialOptions();
     final optionsAsJson = jsonEncode(options);
 
-    return DIDKit.issueCredential(userInfoVCAsJson, optionsAsJson, privateKey);
+    return DIDKit.issueCredential(
+      userInfoCredentialAsJson,
+      optionsAsJson,
+      privateKey,
+    );
   }
 
-  String verifyVC(String credential) {
+  String verifyCredential(String credential) {
     final optionsAsJson = _createOptionsAsJson();
     return DIDKit.verifyCredential(credential, optionsAsJson);
   }
@@ -54,7 +59,7 @@ class DIDService {
     return DIDKit.keyToVerificationMethod(Strings.defaultDIDMethod, privateKey);
   }
 
-  UserInfoVC _createUserInfoVCModel(
+  UserInfoCredential _createUserInfoCredentialModel(
     String did,
     String name,
     String phoneNumber,
@@ -68,7 +73,7 @@ class DIDService {
       phoneNumber: phoneNumber,
     );
 
-    return UserInfoVC(
+    return UserInfoCredential(
       id: id,
       issuer: did,
       issuanceDate: issuanceDate,

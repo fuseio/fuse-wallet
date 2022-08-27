@@ -12,6 +12,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:fusecash/models/verifiable_credential/user_info_credential.dart';
+import 'package:fusecash/models/verifiable_credential/verification_result.dart';
 import 'package:fusecash/utils/did/did_service.dart';
 import 'package:fusecash/utils/did/private_key_generation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -102,11 +104,11 @@ class GenerateDIDSuccess {
   const GenerateDIDSuccess(this.did, this.privateKeyForDID);
 }
 
-class IssueUserInfoVCSuccess {
-  /// The JSON representation of the issued [UserInfoVC].
-  final String userInfoVC;
+class IssueUserInfoCredentialSuccess {
+  /// The JSON representation of the issued [UserInfoCredential].
+  final String userInfoCredential;
 
-  const IssueUserInfoVCSuccess({required this.userInfoVC});
+  const IssueUserInfoCredentialSuccess({required this.userInfoCredential});
 }
 
 class ReLogin {
@@ -623,8 +625,10 @@ ThunkAction generateDIDCall({required String mnemonic}) {
       final didService = DIDService(privateKey: privateKeyToGenerateDID);
       final did = didService.generateDID();
 
+      debugPrint("did: $did");
+
       store.dispatch(
-        issueUserInfoVCCall(
+        issueUserInfoCredentialCall(
           did: did,
           privateKeyForDID: privateKeyToGenerateDID,
         ),
@@ -649,7 +653,7 @@ ThunkAction generateDIDCall({required String mnemonic}) {
   };
 }
 
-ThunkAction issueUserInfoVCCall({
+ThunkAction issueUserInfoCredentialCall({
   required String did,
   required String privateKeyForDID,
 }) {
@@ -657,32 +661,36 @@ ThunkAction issueUserInfoVCCall({
     final userState = store.state.userState;
     final didService = DIDService(privateKey: privateKeyForDID);
 
-    final userInfoVC = didService.issueUserInfoVC(
+    final userInfoCredential = didService.issueUserInfoCredential(
       did: did,
       name: userState.displayName,
       phoneNumber: userState.phoneNumber,
     );
 
-    final verificationResultInJson = didService.verifyVC(userInfoVC);
-    final verificationResult = jsonDecode(verificationResultInJson);
+    debugPrint("userInfoCredential: $userInfoCredential");
 
-    debugPrint("Verification result: $verificationResultInJson");
+    final verificationResultInJson =
+        didService.verifyCredential(userInfoCredential);
 
-    final warnings = verificationResult["warnings"] as List<dynamic>;
-    final errors = verificationResult["errors"] as List<dynamic>;
+    final verificationResultAsMap = jsonDecode(verificationResultInJson);
+    final verificationResult =
+        VerificationResult.fromJson(verificationResultAsMap);
+
+    final warnings = verificationResult.warnings;
+    final errors = verificationResult.errors;
 
     if (warnings.isNotEmpty) {
-      log.warn("Warnings produced while verifying the VC: $warnings");
+      log.warn("Warnings produced while verifying the credential: $warnings");
     }
 
     if (errors.isNotEmpty) {
-      log.error("Failed to verify VC. $errors");
+      log.error("Failed to verify credential. $errors");
       return;
     }
 
-    final issueUserInfoVCSuccess =
-        IssueUserInfoVCSuccess(userInfoVC: userInfoVC);
-    store.dispatch(issueUserInfoVCSuccess);
+    final issueUserInfoCredentialSuccess =
+        IssueUserInfoCredentialSuccess(userInfoCredential: userInfoCredential);
+    store.dispatch(issueUserInfoCredentialSuccess);
   };
 }
 

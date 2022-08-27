@@ -40,12 +40,12 @@ class _SplashPageState extends State<SplashPage> {
     final did = userState.did;
     final didExists = did != null && did.isNotEmpty;
 
-    if (didExists && userState.userInfoVC == null) {
+    if (didExists && userState.userInfoCredential == null) {
       final privateKeyForDID = userState.privateKeyForDID;
 
       // If did exists, the private must exist too.
       store.dispatch(
-        issueUserInfoVCCall(
+        issueUserInfoCredentialCall(
           did: did,
           privateKeyForDID: privateKeyForDID!,
         ),

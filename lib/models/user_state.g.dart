@@ -55,7 +55,7 @@ _$_UserState _$$_UserStateFromJson(Map<String, dynamic> json) => _$_UserState(
       locale: localeFromJson(json['locale'] as Map<String, dynamic>),
       did: json['did'] as String?,
       privateKeyForDID: json['privateKeyForDID'] as String?,
-      userInfoVC: json['userInfoVC'] as String?,
+      userInfoCredential: json['userInfoCredential'] as String?,
     );
 
 Map<String, dynamic> _$$_UserStateToJson(_$_UserState instance) =>
@@ -90,7 +90,7 @@ Map<String, dynamic> _$$_UserStateToJson(_$_UserState instance) =>
       'locale': localeToJson(instance.locale),
       'did': instance.did,
       'privateKeyForDID': instance.privateKeyForDID,
-      'userInfoVC': instance.userInfoVC,
+      'userInfoCredential': instance.userInfoCredential,
     };
 
 const _$BiometricAuthEnumMap = {
