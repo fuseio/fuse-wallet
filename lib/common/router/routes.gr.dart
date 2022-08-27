@@ -22,9 +22,8 @@ import '../../features/account/screens/profile.dart' as _i29;
 import '../../features/account/screens/protect_your_wallet.dart' as _i28;
 import '../../features/account/screens/settings.dart' as _i27;
 import '../../features/account/screens/show_mnemonic.dart' as _i24;
+import '../../features/account/screens/verify_credential.dart' as _i31;
 import '../../features/account/screens/verify_mnemonic.dart' as _i25;
-import '../../features/account/screens/verify_verifiable_credential.dart'
-    as _i31;
 import '../../features/home/screens/action_details.dart' as _i13;
 import '../../features/home/screens/home.dart' as _i12;
 import '../../features/onboard/screens/restore_wallet_screen.dart' as _i4;
@@ -238,10 +237,12 @@ class RootRouter extends _i11.RootStackRouter {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i30.ConnectedDAppsPage());
     },
-    VerifyVerifiableCredentialRoute.name: (routeData) {
+    VerifyCredentialRoute.name: (routeData) {
+      final args = routeData.argsAs<VerifyCredentialRouteArgs>();
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: const _i31.VerifyVerifiableCredentialPage());
+          child: _i31.VerifyCredentialPage(
+              key: args.key, privateKeyForDID: args.privateKeyForDID));
     }
   };
 
@@ -320,9 +321,8 @@ class RootRouter extends _i11.RootStackRouter {
                     path: 'profile-page', parent: AccountTab.name),
                 _i11.RouteConfig(ConnectedDAppsRoute.name,
                     path: 'connected-dapps-page', parent: AccountTab.name),
-                _i11.RouteConfig(VerifyVerifiableCredentialRoute.name,
-                    path: 'verify-verifiable-credential-page',
-                    parent: AccountTab.name)
+                _i11.RouteConfig(VerifyCredentialRoute.name,
+                    path: 'verify-credential-page', parent: AccountTab.name)
               ])
         ]),
         _i11.RouteConfig('*#redirect',
@@ -862,11 +862,27 @@ class ConnectedDAppsRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i31.VerifyVerifiableCredentialPage]
-class VerifyVerifiableCredentialRoute extends _i11.PageRouteInfo<void> {
-  const VerifyVerifiableCredentialRoute()
-      : super(VerifyVerifiableCredentialRoute.name,
-            path: 'verify-verifiable-credential-page');
+/// [_i31.VerifyCredentialPage]
+class VerifyCredentialRoute
+    extends _i11.PageRouteInfo<VerifyCredentialRouteArgs> {
+  VerifyCredentialRoute({_i32.Key? key, required String privateKeyForDID})
+      : super(VerifyCredentialRoute.name,
+            path: 'verify-credential-page',
+            args: VerifyCredentialRouteArgs(
+                key: key, privateKeyForDID: privateKeyForDID));
 
-  static const String name = 'VerifyVerifiableCredentialRoute';
+  static const String name = 'VerifyCredentialRoute';
+}
+
+class VerifyCredentialRouteArgs {
+  const VerifyCredentialRouteArgs({this.key, required this.privateKeyForDID});
+
+  final _i32.Key? key;
+
+  final String privateKeyForDID;
+
+  @override
+  String toString() {
+    return 'VerifyCredentialRouteArgs{key: $key, privateKeyForDID: $privateKeyForDID}';
+  }
 }
