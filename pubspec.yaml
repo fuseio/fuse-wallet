@@ -99,6 +99,7 @@ dependencies:
   bip39: ^1.0.6
   secp256k1: ^0.3.0
   uuid: ^3.0.6
+  flutter_riverpod: ^1.0.4
 
 dev_dependencies:
   flutter_native_splash: ^2.2.7

@@ -4,7 +4,7 @@ import 'package:fusecash/models/verifiable_credential/user_info_credential_subje
 part 'user_info_vc.g.dart';
 
 @JsonSerializable()
-class UserInfoVC {
+class UserInfoCredential {
   @JsonKey(name: "@context", defaultValue: _context)
   final List<dynamic> context;
 
@@ -19,7 +19,7 @@ class UserInfoVC {
   @JsonKey(name: "credentialSubject")
   final UserInfoCredentialSubject userInfoCredentialSubject;
 
-  const UserInfoVC({
+  const UserInfoCredential({
     this.context = _context,
     required this.id,
     this.type = _type,
@@ -28,7 +28,7 @@ class UserInfoVC {
     required this.userInfoCredentialSubject,
   });
 
-  factory UserInfoVC.fromJson(Map<String, dynamic> json) =>
+  factory UserInfoCredential.fromJson(Map<String, dynamic> json) =>
       _$UserInfoVCFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserInfoVCToJson(this);
