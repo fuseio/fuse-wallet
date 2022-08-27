@@ -642,7 +642,10 @@ ThunkAction generateDIDCall({required String mnemonic}) {
       final did = didService.generateDID();
 
       store.dispatch(
-        issueUserInfoVCCall(privateKeyForDID: privateKeyToGenerateDID),
+        issueUserInfoVCCall(
+          did: did,
+          privateKeyForDID: privateKeyToGenerateDID,
+        ),
       );
 
       final generateDIDSuccess =
@@ -664,13 +667,16 @@ ThunkAction generateDIDCall({required String mnemonic}) {
   };
 }
 
-ThunkAction issueUserInfoVCCall({required String privateKeyForDID}) {
+ThunkAction issueUserInfoVCCall({
+  required String did,
+  required String privateKeyForDID,
+}) {
   return (Store store) async {
     final userState = store.state.userState;
     final didService = DIDService(privateKey: privateKeyForDID);
 
     final userInfoVC = didService.issueUserInfoVC(
-      did: userState.did,
+      did: did,
       name: userState.displayName,
       phoneNumber: userState.phoneNumber,
     );

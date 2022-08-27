@@ -46,7 +46,10 @@ class _SplashPageState extends State<SplashPage> {
 
       // If did exists, the private must exist too.
       store.dispatch(
-        issueUserInfoVCCall(privateKeyForDID: privateKeyForDID!),
+        issueUserInfoVCCall(
+          did: did,
+          privateKeyForDID: privateKeyForDID!,
+        ),
       );
     }
 
