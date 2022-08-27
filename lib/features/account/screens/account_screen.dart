@@ -119,6 +119,15 @@ class _AccountPageState extends State<AccountPage> {
                         );
                       },
                     ),
+                    MenuTile(
+                      label: "Verify a Verifiable Credential",
+                      menuIcon: 'legal_icon.svg',
+                      onTap: () {
+                        context.router.push(
+                          const VerifyVerifiableCredentialRoute(),
+                        );
+                      },
+                    )
                   ],
                 );
               },
