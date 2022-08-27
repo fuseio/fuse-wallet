@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui';
 
-import 'package:didkit/didkit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -88,15 +85,11 @@ class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
   final String accountAddress;
-  final String did;
-  final String privateKeyForDID;
 
   CreateLocalAccountSuccess(
     this.mnemonic,
     this.privateKey,
     this.accountAddress,
-    this.did,
-    this.privateKeyForDID,
   );
 }
 
@@ -329,33 +322,27 @@ ThunkAction restoreWalletCall(
       log.info('restore wallet');
       log.info('mnemonic: $mnemonic');
       log.info('compute pk');
+
+      final mnemonicAsString = mnemonic.join(' ');
+
       String privateKey = await compute(
         Web3.privateKeyFromMnemonic,
-        mnemonic.join(' '),
+        mnemonicAsString,
       );
       Credentials credentials = EthPrivateKey.fromHex(privateKey);
       EthereumAddress accountAddress = await credentials.extractAddress();
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
 
-      final mnemonicAsString = mnemonic.join(' ');
-
-      final privateKeyGeneration = PrivateKeyGeneration();
-      final privateKeyToForDID =
-          await privateKeyGeneration.generatePrivateKey(mnemonicAsString);
-
-      final didService = DIDService(privateKey: privateKeyToForDID);
-      final did = await didService.generateDID();
-
-      debugPrint("Restored did: $did");
+      store.dispatch(
+        generateDIDCall(mnemonic: mnemonicAsString),
+      );
 
       store.dispatch(
         CreateLocalAccountSuccess(
           mnemonic,
           privateKey,
           accountAddress.toString(),
-          did,
-          privateKeyToForDID,
         ),
       );
       successCallback();
@@ -402,20 +389,15 @@ ThunkAction createLocalAccountCall(
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
 
-      final privateKeyGeneration = PrivateKeyGeneration();
-      final privateKeyToForDID =
-          await privateKeyGeneration.generatePrivateKey(mnemonic);
-
-      final didService = DIDService(privateKey: privateKeyToForDID);
-      final did = await didService.generateDID();
+      store.dispatch(
+        generateDIDCall(mnemonic: mnemonic),
+      );
 
       store.dispatch(
         CreateLocalAccountSuccess(
           mnemonic.split(' '),
           privateKey,
           accountAddress.toString(),
-          did,
-          privateKeyToForDID,
         ),
       );
       Analytics.track(
