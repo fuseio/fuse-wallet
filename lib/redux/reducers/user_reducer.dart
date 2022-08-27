@@ -11,6 +11,9 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, ScrollToTop>(_scrollToTop),
   TypedReducer<UserState, ToggleUpgrade>(_toggleUpgrade),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
+  TypedReducer<UserState, GenerateDIDSuccess>(_generateDIDSuccess),
+  TypedReducer<UserState, IssueUserInfoCredentialSuccess>(
+      _issueUserInfoCredentialSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
   TypedReducer<UserState, LogoutRequestSuccess>(_logoutSuccess),
@@ -74,6 +77,20 @@ UserState _getWalletDataSuccess(UserState state, GetWalletDataSuccess action) {
     walletModules: action.walletModules,
     contractVersion: action.contractVersion,
   );
+}
+
+UserState _generateDIDSuccess(UserState state, GenerateDIDSuccess action) {
+  return state.copyWith(
+    did: action.did,
+    privateKeyForDID: action.privateKeyForDID,
+  );
+}
+
+UserState _issueUserInfoCredentialSuccess(
+  UserState state,
+  IssueUserInfoCredentialSuccess action,
+) {
+  return state.copyWith(userInfoCredential: action.userInfoCredential);
 }
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {

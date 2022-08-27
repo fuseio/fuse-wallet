@@ -10,6 +10,7 @@ import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/features/account/widgets/avatar.dart';
 import 'package:fusecash/features/account/widgets/menu_tile.dart';
+import 'package:fusecash/features/account/widgets/verify_credential_menu_tile.dart';
 import 'package:fusecash/features/shared/bottom_sheets/deposit.dart';
 import 'package:fusecash/features/shared/widgets/my_new_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/I10n.dart';
@@ -119,6 +120,11 @@ class _AccountPageState extends State<AccountPage> {
                         );
                       },
                     ),
+                    viewModel.privateKeyForDID != null
+                        ? VerifyCredentialMenuTile(
+                            privateKeyForDID: viewModel.privateKeyForDID!,
+                          )
+                        : const SizedBox(),
                   ],
                 );
               },

@@ -7,6 +7,7 @@ import 'package:fusecash/features/account/screens/protect_your_wallet.dart';
 import 'package:fusecash/features/account/screens/settings.dart';
 import 'package:fusecash/features/account/screens/show_mnemonic.dart';
 import 'package:fusecash/features/account/screens/verify_mnemonic.dart';
+import 'package:fusecash/features/account/screens/verify_credential.dart';
 
 const accountTab = AutoRoute(
   path: 'account',
@@ -37,6 +38,9 @@ const accountTab = AutoRoute(
     ),
     AutoRoute(
       page: ConnectedDAppsPage,
+    ),
+    AutoRoute(
+      page: VerifyCredentialPage,
     ),
   ],
 );

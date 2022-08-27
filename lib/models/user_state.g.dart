@@ -53,6 +53,9 @@ _$_UserState _$$_UserStateFromJson(Map<String, dynamic> json) => _$_UserState(
       authType: $enumDecodeNullable(_$BiometricAuthEnumMap, json['authType']) ??
           BiometricAuth.none,
       locale: localeFromJson(json['locale'] as Map<String, dynamic>),
+      did: json['did'] as String?,
+      privateKeyForDID: json['privateKeyForDID'] as String?,
+      userInfoCredential: json['userInfoCredential'] as String?,
     );
 
 Map<String, dynamic> _$$_UserStateToJson(_$_UserState instance) =>
@@ -85,6 +88,9 @@ Map<String, dynamic> _$$_UserStateToJson(_$_UserState instance) =>
       'currency': instance.currency,
       'authType': _$BiometricAuthEnumMap[instance.authType]!,
       'locale': localeToJson(instance.locale),
+      'did': instance.did,
+      'privateKeyForDID': instance.privateKeyForDID,
+      'userInfoCredential': instance.userInfoCredential,
     };
 
 const _$BiometricAuthEnumMap = {

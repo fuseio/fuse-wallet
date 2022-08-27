@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:fusecash/models/verifiable_credential/user_info_credential.dart';
+import 'package:fusecash/models/verifiable_credential/verification_result.dart';
+import 'package:fusecash/utils/did/did_service.dart';
+import 'package:fusecash/utils/did/private_key_generation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
@@ -32,11 +37,13 @@ import 'package:fusecash/utils/phone.dart';
 
 class SetWalletConnectURI {
   final String wcURI;
+
   SetWalletConnectURI(this.wcURI);
 }
 
 class ScrollToTop {
   final bool value;
+
   ScrollToTop(
     this.value,
   );
@@ -44,6 +51,7 @@ class ScrollToTop {
 
 class ToggleUpgrade {
   final bool value;
+
   ToggleUpgrade({
     required this.value,
   });
@@ -51,16 +59,19 @@ class ToggleUpgrade {
 
 class UpdateCurrency {
   final String currency;
+
   UpdateCurrency({required this.currency});
 }
 
 class UpdateLocale {
   final Locale locale;
+
   UpdateLocale({required this.locale});
 }
 
 class WarnSendDialogShowed {
   final bool value;
+
   WarnSendDialogShowed(
     this.value,
   );
@@ -68,6 +79,7 @@ class WarnSendDialogShowed {
 
 class SetSecurityType {
   BiometricAuth biometricAuth;
+
   SetSecurityType({required this.biometricAuth});
 }
 
@@ -75,11 +87,28 @@ class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
   final String accountAddress;
+
   CreateLocalAccountSuccess(
     this.mnemonic,
     this.privateKey,
     this.accountAddress,
   );
+}
+
+class GenerateDIDSuccess {
+  final String did;
+
+  /// The private key used for DID features.
+  final String privateKeyForDID;
+
+  const GenerateDIDSuccess(this.did, this.privateKeyForDID);
+}
+
+class IssueUserInfoCredentialSuccess {
+  /// The JSON representation of the issued [UserInfoCredential].
+  final String userInfoCredential;
+
+  const IssueUserInfoCredentialSuccess({required this.userInfoCredential});
 }
 
 class ReLogin {
@@ -91,6 +120,7 @@ class LoginRequestSuccess {
   final String phoneNumber;
   final String? displayName;
   final String? email;
+
   LoginRequestSuccess({
     required this.countryCode,
     required this.phoneNumber,
@@ -105,12 +135,14 @@ class LogoutRequestSuccess {
 
 class LoginVerifySuccess {
   final String jwtToken;
+
   LoginVerifySuccess(this.jwtToken);
 }
 
 class SyncContactsProgress {
   List<String> contacts;
   List<Map<String, dynamic>> newContacts;
+
   SyncContactsProgress(this.contacts, this.newContacts);
 }
 
@@ -120,21 +152,25 @@ class SyncContactsRejected {
 
 class SaveContacts {
   List<Contact> contacts;
+
   SaveContacts(this.contacts);
 }
 
 class SetPincodeSuccess {
   String pincode;
+
   SetPincodeSuccess(this.pincode);
 }
 
 class SetDisplayName {
   String displayName;
+
   SetDisplayName(this.displayName);
 }
 
 class SetUserAvatar {
   String avatarUrl;
+
   SetUserAvatar(this.avatarUrl);
 }
 
@@ -148,21 +184,25 @@ class BackupSuccess {
 
 class SetCredentials {
   PhoneAuthCredential? credentials;
+
   SetCredentials(this.credentials);
 }
 
 class SetVerificationId {
   String verificationId;
+
   SetVerificationId(this.verificationId);
 }
 
 class JustInstalled {
   final DateTime installedAt;
+
   JustInstalled(this.installedAt);
 }
 
 class DeviceIdSuccess {
   final String identifier;
+
   DeviceIdSuccess(this.identifier);
 }
 
@@ -284,14 +324,22 @@ ThunkAction restoreWalletCall(
       log.info('restore wallet');
       log.info('mnemonic: $mnemonic');
       log.info('compute pk');
+
+      final mnemonicAsString = mnemonic.join(' ');
+
       String privateKey = await compute(
         Web3.privateKeyFromMnemonic,
-        mnemonic.join(' '),
+        mnemonicAsString,
       );
       Credentials credentials = EthPrivateKey.fromHex(privateKey);
       EthereumAddress accountAddress = await credentials.extractAddress();
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
+
+      store.dispatch(
+        generateDIDCall(mnemonic: mnemonicAsString),
+      );
+
       store.dispatch(
         CreateLocalAccountSuccess(
           mnemonic,
@@ -342,6 +390,11 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       log.info('privateKey: $privateKey');
       log.info('accountAddress: ${accountAddress.toString()}');
+
+      store.dispatch(
+        generateDIDCall(mnemonic: mnemonic),
+      );
+
       store.dispatch(
         CreateLocalAccountSuccess(
           mnemonic.split(' '),
@@ -558,6 +611,86 @@ ThunkAction loadContacts() {
         reason: 'ERROR in loadContacts',
       );
     }
+  };
+}
+
+ThunkAction generateDIDCall({required String mnemonic}) {
+  assert(mnemonic.isNotEmpty, "Mnemonic must not be empty");
+  return (Store store) async {
+    try {
+      final privateKeyGeneration = PrivateKeyGeneration();
+      final privateKeyToGenerateDID =
+          await privateKeyGeneration.generatePrivateKey(mnemonic);
+
+      final didService = DIDService(privateKey: privateKeyToGenerateDID);
+      final did = didService.generateDID();
+
+      debugPrint("did: $did");
+
+      store.dispatch(
+        issueUserInfoCredentialCall(
+          did: did,
+          privateKeyForDID: privateKeyToGenerateDID,
+        ),
+      );
+
+      final generateDIDSuccess =
+          GenerateDIDSuccess(did, privateKeyToGenerateDID);
+      store.dispatch(generateDIDSuccess);
+    } catch (exception, stackTrace) {
+      const errorMessage = "An error occurred while generating DID.";
+      log.error(
+        errorMessage,
+        error: exception,
+        stackTrace: stackTrace,
+      );
+      Crashlytics.recordError(
+        Exception("$errorMessage ${exception.toString()}"),
+        stackTrace,
+        reason: errorMessage,
+      );
+    }
+  };
+}
+
+ThunkAction issueUserInfoCredentialCall({
+  required String did,
+  required String privateKeyForDID,
+}) {
+  return (Store store) async {
+    final userState = store.state.userState;
+    final didService = DIDService(privateKey: privateKeyForDID);
+
+    final userInfoCredential = didService.issueUserInfoCredential(
+      did: did,
+      name: userState.displayName,
+      phoneNumber: userState.phoneNumber,
+    );
+
+    debugPrint("userInfoCredential: $userInfoCredential");
+
+    final verificationResultInJson =
+        didService.verifyCredential(userInfoCredential);
+
+    final verificationResultAsMap = jsonDecode(verificationResultInJson);
+    final verificationResult =
+        VerificationResult.fromJson(verificationResultAsMap);
+
+    final warnings = verificationResult.warnings;
+    final errors = verificationResult.errors;
+
+    if (warnings.isNotEmpty) {
+      log.warn("Warnings produced while verifying the credential: $warnings");
+    }
+
+    if (errors.isNotEmpty) {
+      log.error("Failed to verify credential. $errors");
+      return;
+    }
+
+    final issueUserInfoCredentialSuccess =
+        IssueUserInfoCredentialSuccess(userInfoCredential: userInfoCredential);
+    store.dispatch(issueUserInfoCredentialSuccess);
   };
 }
 

@@ -11,9 +11,9 @@
 // ignore_for_file: type=lint
 
 import 'package:auto_route/auto_route.dart' as _i11;
-import 'package:charge_wallet_sdk/charge_wallet_sdk.dart' as _i35;
-import 'package:contacts_service/contacts_service.dart' as _i34;
-import 'package:flutter/material.dart' as _i31;
+import 'package:charge_wallet_sdk/charge_wallet_sdk.dart' as _i36;
+import 'package:contacts_service/contacts_service.dart' as _i35;
+import 'package:flutter/material.dart' as _i32;
 
 import '../../features/account/screens/account_screen.dart' as _i23;
 import '../../features/account/screens/connected_dapps.dart' as _i30;
@@ -22,6 +22,7 @@ import '../../features/account/screens/profile.dart' as _i29;
 import '../../features/account/screens/protect_your_wallet.dart' as _i28;
 import '../../features/account/screens/settings.dart' as _i27;
 import '../../features/account/screens/show_mnemonic.dart' as _i24;
+import '../../features/account/screens/verify_credential.dart' as _i31;
 import '../../features/account/screens/verify_mnemonic.dart' as _i25;
 import '../../features/home/screens/action_details.dart' as _i13;
 import '../../features/home/screens/home.dart' as _i12;
@@ -44,18 +45,18 @@ import '../../features/wallet/screens/send_review.dart' as _i19;
 import '../../features/wallet/screens/send_success.dart' as _i20;
 import '../../features/wallet/screens/token.dart' as _i15;
 import '../../features/wallet/screens/wallet.dart' as _i14;
-import '../../features/wallet/send_amount_arguments.dart' as _i36;
-import '../../models/actions/wallet_action.dart' as _i33;
-import '../../models/tokens/token.dart' as _i37;
-import 'route_guards.dart' as _i32;
+import '../../features/wallet/send_amount_arguments.dart' as _i37;
+import '../../models/actions/wallet_action.dart' as _i34;
+import '../../models/tokens/token.dart' as _i38;
+import 'route_guards.dart' as _i33;
 
 class RootRouter extends _i11.RootStackRouter {
   RootRouter(
-      {_i31.GlobalKey<_i31.NavigatorState>? navigatorKey,
+      {_i32.GlobalKey<_i32.NavigatorState>? navigatorKey,
       required this.authGuard})
       : super(navigatorKey);
 
-  final _i32.AuthGuard authGuard;
+  final _i33.AuthGuard authGuard;
 
   @override
   final Map<String, _i11.PageFactory> pagesMap = {
@@ -235,6 +236,13 @@ class RootRouter extends _i11.RootStackRouter {
     ConnectedDAppsRoute.name: (routeData) {
       return _i11.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i30.ConnectedDAppsPage());
+    },
+    VerifyCredentialRoute.name: (routeData) {
+      final args = routeData.argsAs<VerifyCredentialRouteArgs>();
+      return _i11.MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: _i31.VerifyCredentialPage(
+              key: args.key, privateKeyForDID: args.privateKeyForDID));
     }
   };
 
@@ -312,7 +320,9 @@ class RootRouter extends _i11.RootStackRouter {
                 _i11.RouteConfig(ProfileRoute.name,
                     path: 'profile-page', parent: AccountTab.name),
                 _i11.RouteConfig(ConnectedDAppsRoute.name,
-                    path: 'connected-dapps-page', parent: AccountTab.name)
+                    path: 'connected-dapps-page', parent: AccountTab.name),
+                _i11.RouteConfig(VerifyCredentialRoute.name,
+                    path: 'verify-credential-page', parent: AccountTab.name)
               ])
         ]),
         _i11.RouteConfig('*#redirect',
@@ -323,7 +333,7 @@ class RootRouter extends _i11.RootStackRouter {
 /// generated route for
 /// [_i1.SplashPage]
 class SplashRoute extends _i11.PageRouteInfo<SplashRouteArgs> {
-  SplashRoute({_i31.Key? key, void Function(bool)? onLoginResult})
+  SplashRoute({_i32.Key? key, void Function(bool)? onLoginResult})
       : super(SplashRoute.name,
             path: '/',
             args: SplashRouteArgs(key: key, onLoginResult: onLoginResult));
@@ -334,7 +344,7 @@ class SplashRoute extends _i11.PageRouteInfo<SplashRouteArgs> {
 class SplashRouteArgs {
   const SplashRouteArgs({this.key, this.onLoginResult});
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   final void Function(bool)? onLoginResult;
 
@@ -391,7 +401,7 @@ class SignUpRoute extends _i11.PageRouteInfo<void> {
 /// [_i7.VerifyPhoneNumberPage]
 class VerifyPhoneNumberRoute
     extends _i11.PageRouteInfo<VerifyPhoneNumberRouteArgs> {
-  VerifyPhoneNumberRoute({String? verificationId, _i31.Key? key})
+  VerifyPhoneNumberRoute({String? verificationId, _i32.Key? key})
       : super(VerifyPhoneNumberRoute.name,
             path: '/verify-phone-number-page',
             args: VerifyPhoneNumberRouteArgs(
@@ -405,7 +415,7 @@ class VerifyPhoneNumberRouteArgs {
 
   final String? verificationId;
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   @override
   String toString() {
@@ -428,7 +438,7 @@ class Webview extends _i11.PageRouteInfo<WebviewArgs> {
       {required String url,
       required String title,
       void Function(String)? onPageStarted,
-      _i31.Key? key})
+      _i32.Key? key})
       : super(Webview.name,
             path: '/web-view-page',
             args: WebviewArgs(
@@ -450,7 +460,7 @@ class WebviewArgs {
 
   final void Function(String)? onPageStarted;
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   @override
   String toString() {
@@ -515,13 +525,13 @@ class HomeRoute extends _i11.PageRouteInfo<void> {
 /// [_i13.ActionDetailsPage]
 class ActionDetailsRoute extends _i11.PageRouteInfo<ActionDetailsRouteArgs> {
   ActionDetailsRoute(
-      {_i31.Key? key,
-      required _i33.WalletAction action,
-      _i31.ImageProvider<Object>? image,
+      {_i32.Key? key,
+      required _i34.WalletAction action,
+      _i32.ImageProvider<Object>? image,
       required String displayName,
       String? accountAddress,
       required String symbol,
-      _i34.Contact? contact})
+      _i35.Contact? contact})
       : super(ActionDetailsRoute.name,
             path: 'action-details',
             args: ActionDetailsRouteArgs(
@@ -546,11 +556,11 @@ class ActionDetailsRouteArgs {
       required this.symbol,
       this.contact});
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
-  final _i33.WalletAction action;
+  final _i34.WalletAction action;
 
-  final _i31.ImageProvider<Object>? image;
+  final _i32.ImageProvider<Object>? image;
 
   final String displayName;
 
@@ -558,7 +568,7 @@ class ActionDetailsRouteArgs {
 
   final String symbol;
 
-  final _i34.Contact? contact;
+  final _i35.Contact? contact;
 
   @override
   String toString() {
@@ -577,7 +587,7 @@ class WalletRoute extends _i11.PageRouteInfo<void> {
 /// generated route for
 /// [_i15.TokenPage]
 class TokenRoute extends _i11.PageRouteInfo<TokenRouteArgs> {
-  TokenRoute({_i31.Key? key, required String tokenAddress})
+  TokenRoute({_i32.Key? key, required String tokenAddress})
       : super(TokenRoute.name,
             path: 'token-page',
             args: TokenRouteArgs(key: key, tokenAddress: tokenAddress));
@@ -588,7 +598,7 @@ class TokenRoute extends _i11.PageRouteInfo<TokenRouteArgs> {
 class TokenRouteArgs {
   const TokenRouteArgs({this.key, required this.tokenAddress});
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   final String tokenAddress;
 
@@ -601,7 +611,7 @@ class TokenRouteArgs {
 /// generated route for
 /// [_i16.CollectiblePage]
 class CollectibleRoute extends _i11.PageRouteInfo<CollectibleRouteArgs> {
-  CollectibleRoute({_i31.Key? key, required _i35.Collectible collectible})
+  CollectibleRoute({_i32.Key? key, required _i36.Collectible collectible})
       : super(CollectibleRoute.name,
             path: 'collectible-page',
             args: CollectibleRouteArgs(key: key, collectible: collectible));
@@ -612,9 +622,9 @@ class CollectibleRoute extends _i11.PageRouteInfo<CollectibleRouteArgs> {
 class CollectibleRouteArgs {
   const CollectibleRouteArgs({this.key, required this.collectible});
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
-  final _i35.Collectible collectible;
+  final _i36.Collectible collectible;
 
   @override
   String toString() {
@@ -625,7 +635,7 @@ class CollectibleRouteArgs {
 /// generated route for
 /// [_i17.ContactsPage]
 class ContactsRoute extends _i11.PageRouteInfo<ContactsRouteArgs> {
-  ContactsRoute({_i31.Key? key, _i36.SendFlowArguments? pageArgs})
+  ContactsRoute({_i32.Key? key, _i37.SendFlowArguments? pageArgs})
       : super(ContactsRoute.name,
             path: 'contacts-page',
             args: ContactsRouteArgs(key: key, pageArgs: pageArgs));
@@ -636,9 +646,9 @@ class ContactsRoute extends _i11.PageRouteInfo<ContactsRouteArgs> {
 class ContactsRouteArgs {
   const ContactsRouteArgs({this.key, this.pageArgs});
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
-  final _i36.SendFlowArguments? pageArgs;
+  final _i37.SendFlowArguments? pageArgs;
 
   @override
   String toString() {
@@ -649,7 +659,7 @@ class ContactsRouteArgs {
 /// generated route for
 /// [_i18.SendAmountPage]
 class SendAmountRoute extends _i11.PageRouteInfo<SendAmountRouteArgs> {
-  SendAmountRoute({required _i36.SendFlowArguments pageArgs, _i31.Key? key})
+  SendAmountRoute({required _i37.SendFlowArguments pageArgs, _i32.Key? key})
       : super(SendAmountRoute.name,
             path: 'send-amount',
             args: SendAmountRouteArgs(pageArgs: pageArgs, key: key));
@@ -660,9 +670,9 @@ class SendAmountRoute extends _i11.PageRouteInfo<SendAmountRouteArgs> {
 class SendAmountRouteArgs {
   const SendAmountRouteArgs({required this.pageArgs, this.key});
 
-  final _i36.SendFlowArguments pageArgs;
+  final _i37.SendFlowArguments pageArgs;
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   @override
   String toString() {
@@ -673,7 +683,7 @@ class SendAmountRouteArgs {
 /// generated route for
 /// [_i19.SendReviewPage]
 class SendReviewRoute extends _i11.PageRouteInfo<SendReviewRouteArgs> {
-  SendReviewRoute({required _i36.SendFlowArguments pageArgs, _i31.Key? key})
+  SendReviewRoute({required _i37.SendFlowArguments pageArgs, _i32.Key? key})
       : super(SendReviewRoute.name,
             path: 'send-review',
             args: SendReviewRouteArgs(pageArgs: pageArgs, key: key));
@@ -684,9 +694,9 @@ class SendReviewRoute extends _i11.PageRouteInfo<SendReviewRouteArgs> {
 class SendReviewRouteArgs {
   const SendReviewRouteArgs({required this.pageArgs, this.key});
 
-  final _i36.SendFlowArguments pageArgs;
+  final _i37.SendFlowArguments pageArgs;
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   @override
   String toString() {
@@ -697,7 +707,7 @@ class SendReviewRouteArgs {
 /// generated route for
 /// [_i20.SendSuccessPage]
 class SendSuccessRoute extends _i11.PageRouteInfo<SendSuccessRouteArgs> {
-  SendSuccessRoute({required _i36.SendFlowArguments pageArgs, _i31.Key? key})
+  SendSuccessRoute({required _i37.SendFlowArguments pageArgs, _i32.Key? key})
       : super(SendSuccessRoute.name,
             path: 'send-success',
             args: SendSuccessRouteArgs(pageArgs: pageArgs, key: key));
@@ -708,9 +718,9 @@ class SendSuccessRoute extends _i11.PageRouteInfo<SendSuccessRouteArgs> {
 class SendSuccessRouteArgs {
   const SendSuccessRouteArgs({required this.pageArgs, this.key});
 
-  final _i36.SendFlowArguments pageArgs;
+  final _i37.SendFlowArguments pageArgs;
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   @override
   String toString() {
@@ -721,7 +731,7 @@ class SendSuccessRouteArgs {
 /// generated route for
 /// [_i21.SwapPage]
 class SwapRoute extends _i11.PageRouteInfo<SwapRouteArgs> {
-  SwapRoute({_i31.Key? key, _i37.Token? primaryToken})
+  SwapRoute({_i32.Key? key, _i38.Token? primaryToken})
       : super(SwapRoute.name,
             path: '',
             args: SwapRouteArgs(key: key, primaryToken: primaryToken));
@@ -732,9 +742,9 @@ class SwapRoute extends _i11.PageRouteInfo<SwapRouteArgs> {
 class SwapRouteArgs {
   const SwapRouteArgs({this.key, this.primaryToken});
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
-  final _i37.Token? primaryToken;
+  final _i38.Token? primaryToken;
 
   @override
   String toString() {
@@ -746,10 +756,10 @@ class SwapRouteArgs {
 /// [_i22.ReviewSwapPage]
 class ReviewSwapRoute extends _i11.PageRouteInfo<ReviewSwapRouteArgs> {
   ReviewSwapRoute(
-      {_i35.Trade? rateInfo,
-      required _i35.Trade tradeInfo,
-      required _i35.TradeRequestBody swapRequestBody,
-      _i31.Key? key})
+      {_i36.Trade? rateInfo,
+      required _i36.Trade tradeInfo,
+      required _i36.TradeRequestBody swapRequestBody,
+      _i32.Key? key})
       : super(ReviewSwapRoute.name,
             path: 'review-swap-page',
             args: ReviewSwapRouteArgs(
@@ -768,13 +778,13 @@ class ReviewSwapRouteArgs {
       required this.swapRequestBody,
       this.key});
 
-  final _i35.Trade? rateInfo;
+  final _i36.Trade? rateInfo;
 
-  final _i35.Trade tradeInfo;
+  final _i36.Trade tradeInfo;
 
-  final _i35.TradeRequestBody swapRequestBody;
+  final _i36.TradeRequestBody swapRequestBody;
 
-  final _i31.Key? key;
+  final _i32.Key? key;
 
   @override
   String toString() {
@@ -849,4 +859,30 @@ class ConnectedDAppsRoute extends _i11.PageRouteInfo<void> {
       : super(ConnectedDAppsRoute.name, path: 'connected-dapps-page');
 
   static const String name = 'ConnectedDAppsRoute';
+}
+
+/// generated route for
+/// [_i31.VerifyCredentialPage]
+class VerifyCredentialRoute
+    extends _i11.PageRouteInfo<VerifyCredentialRouteArgs> {
+  VerifyCredentialRoute({_i32.Key? key, required String privateKeyForDID})
+      : super(VerifyCredentialRoute.name,
+            path: 'verify-credential-page',
+            args: VerifyCredentialRouteArgs(
+                key: key, privateKeyForDID: privateKeyForDID));
+
+  static const String name = 'VerifyCredentialRoute';
+}
+
+class VerifyCredentialRouteArgs {
+  const VerifyCredentialRouteArgs({this.key, required this.privateKeyForDID});
+
+  final _i32.Key? key;
+
+  final String privateKeyForDID;
+
+  @override
+  String toString() {
+    return 'VerifyCredentialRouteArgs{key: $key, privateKeyForDID: $privateKeyForDID}';
+  }
 }

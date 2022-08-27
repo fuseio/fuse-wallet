@@ -16,6 +16,7 @@ import 'package:fusecash/utils/biometric_local_auth.dart';
 
 class SplashPage extends StatefulWidget {
   final void Function(bool isLoggedIn)? onLoginResult;
+
   const SplashPage({
     Key? key,
     this.onLoginResult,
@@ -27,11 +28,37 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   late Flushbar flush;
+
   void onInit(Store<AppState> store) async {
     UserState userState = store.state.userState;
     String privateKey = userState.privateKey;
     String jwtToken = userState.jwtToken;
     bool isLoggedOut = userState.isLoggedOut;
+
+    final mnemonic = userState.mnemonic;
+
+    final did = userState.did;
+    final didExists = did != null && did.isNotEmpty;
+
+    if (didExists && userState.userInfoCredential == null) {
+      final privateKeyForDID = userState.privateKeyForDID;
+
+      // If did exists, the private must exist too.
+      store.dispatch(
+        issueUserInfoCredentialCall(
+          did: did,
+          privateKeyForDID: privateKeyForDID!,
+        ),
+      );
+    }
+
+    if (!didExists && mnemonic.isNotEmpty) {
+      final mnemonic = userState.mnemonic.join(" ");
+      store.dispatch(
+        generateDIDCall(mnemonic: mnemonic),
+      );
+    }
+
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
       context.router.replaceAll([const OnBoardingRoute()]);
       widget.onLoginResult?.call(false);
