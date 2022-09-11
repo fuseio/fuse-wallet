@@ -706,13 +706,11 @@ ThunkAction checkWalletUpgrades() {
     try {
       String walletAddress = store.state.userState.walletAddress;
       if (walletAddress.isNotEmpty) {
-        final List<dynamic> response = await chargeApi.getAvailableUpgrades(
+        final List<WalletUpgrade> walletUpgrades =
+            await chargeApi.getAvailableUpgrades(
           walletAddress,
         );
-        final List<WalletUpgrade> walletUpgrades =
-            WalletUpgrade.walletUpgradesFromJson(
-          response,
-        );
+
         if (walletUpgrades.isNotEmpty) {
           store.dispatch(ToggleUpgrade(value: true));
         }
@@ -739,10 +737,8 @@ ThunkAction installWalletUpgrades(
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      final List<dynamic> response =
-          await chargeApi.getAvailableUpgrades(walletAddress);
       final List<WalletUpgrade> walletUpgrades =
-          WalletUpgrade.walletUpgradesFromJson(response);
+          await chargeApi.getAvailableUpgrades(walletAddress);
       if (walletUpgrades.isNotEmpty) {
         final WalletUpgrade walletUpgrade = walletUpgrades.first;
         final Map<String, dynamic> installUpgradeJob =
