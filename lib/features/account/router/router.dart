@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/empty_router_widgets.dart';
+
 import 'package:fusecash/features/account/screens/account_screen.dart';
 import 'package:fusecash/features/account/screens/connected_dapps.dart';
 import 'package:fusecash/features/account/screens/done_backup_screen.dart';

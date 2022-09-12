@@ -516,7 +516,7 @@ class __$$_UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserState extends _UserState with DiagnosticableTreeMixin {
+class _$_UserState extends _UserState {
   _$_UserState(
       {@JsonKey(ignore: true) this.wcURI,
       this.contractVersion,
@@ -648,47 +648,8 @@ class _$_UserState extends _UserState with DiagnosticableTreeMixin {
   final PhoneAuthCredential? credentials;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'UserState(wcURI: $wcURI, contractVersion: $contractVersion, walletModules: $walletModules, installedAt: $installedAt, isContactsSynced: $isContactsSynced, isLoggedOut: $isLoggedOut, backup: $backup, scrollToTop: $scrollToTop, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, warnSendDialogShowed: $warnSendDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, currency: $currency, hasUpgrade: $hasUpgrade, authType: $authType, locale: $locale, contacts: $contacts, credentials: $credentials)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'UserState'))
-      ..add(DiagnosticsProperty('wcURI', wcURI))
-      ..add(DiagnosticsProperty('contractVersion', contractVersion))
-      ..add(DiagnosticsProperty('walletModules', walletModules))
-      ..add(DiagnosticsProperty('installedAt', installedAt))
-      ..add(DiagnosticsProperty('isContactsSynced', isContactsSynced))
-      ..add(DiagnosticsProperty('isLoggedOut', isLoggedOut))
-      ..add(DiagnosticsProperty('backup', backup))
-      ..add(DiagnosticsProperty('scrollToTop', scrollToTop))
-      ..add(DiagnosticsProperty('walletAddress', walletAddress))
-      ..add(DiagnosticsProperty('networks', networks))
-      ..add(DiagnosticsProperty('mnemonic', mnemonic))
-      ..add(DiagnosticsProperty('privateKey', privateKey))
-      ..add(DiagnosticsProperty('pincode', pincode))
-      ..add(DiagnosticsProperty('accountAddress', accountAddress))
-      ..add(DiagnosticsProperty('countryCode', countryCode))
-      ..add(DiagnosticsProperty('phoneNumber', phoneNumber))
-      ..add(DiagnosticsProperty('warnSendDialogShowed', warnSendDialogShowed))
-      ..add(DiagnosticsProperty('isoCode', isoCode))
-      ..add(DiagnosticsProperty('jwtToken', jwtToken))
-      ..add(DiagnosticsProperty('displayName', displayName))
-      ..add(DiagnosticsProperty('avatarUrl', avatarUrl))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('verificationId', verificationId))
-      ..add(DiagnosticsProperty('identifier', identifier))
-      ..add(DiagnosticsProperty('syncedContacts', syncedContacts))
-      ..add(DiagnosticsProperty('reverseContacts', reverseContacts))
-      ..add(DiagnosticsProperty('currency', currency))
-      ..add(DiagnosticsProperty('hasUpgrade', hasUpgrade))
-      ..add(DiagnosticsProperty('authType', authType))
-      ..add(DiagnosticsProperty('locale', locale))
-      ..add(DiagnosticsProperty('contacts', contacts))
-      ..add(DiagnosticsProperty('credentials', credentials));
   }
 
   @override

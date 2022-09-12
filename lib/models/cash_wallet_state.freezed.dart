@@ -169,7 +169,7 @@ class __$$_CashWalletStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
+class _$_CashWalletState extends _CashWalletState {
   _$_CashWalletState(
       {@JsonKey(fromJson: tokensFromJson) this.tokens = const {},
       @JsonKey(fromJson: walletActionsFromJson) this.walletActions,
@@ -198,21 +198,8 @@ class _$_CashWalletState extends _CashWalletState with DiagnosticableTreeMixin {
   final List<WCSessionStore> wcSessionStores;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'CashWalletState(tokens: $tokens, walletActions: $walletActions, isTransfersFetchingStarted: $isTransfersFetchingStarted, isFetchingBalances: $isFetchingBalances, wcSessionStores: $wcSessionStores)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'CashWalletState'))
-      ..add(DiagnosticsProperty('tokens', tokens))
-      ..add(DiagnosticsProperty('walletActions', walletActions))
-      ..add(DiagnosticsProperty(
-          'isTransfersFetchingStarted', isTransfersFetchingStarted))
-      ..add(DiagnosticsProperty('isFetchingBalances', isFetchingBalances))
-      ..add(DiagnosticsProperty('wcSessionStores', wcSessionStores));
   }
 
   @override
