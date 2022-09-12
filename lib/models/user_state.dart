@@ -1,5 +1,5 @@
 import 'package:charge_wallet_sdk/models/wallet_modules/wallet_modules.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:contacts_service/contacts_service.dart';

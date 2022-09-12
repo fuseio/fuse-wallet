@@ -35,7 +35,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
   pod 'Ramp', :git => 'https://github.com/RampNetwork/ramp-sdk-ios.git', :tag => '2.0.0'
-  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '9.3.0'
+  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '9.5.0'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))

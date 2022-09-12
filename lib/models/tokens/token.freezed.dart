@@ -289,7 +289,7 @@ class __$$_TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Token extends _Token with DiagnosticableTreeMixin {
+class _$_Token extends _Token {
   _$_Token(
       {required this.address,
       required this.name,
@@ -345,29 +345,8 @@ class _$_Token extends _Token with DiagnosticableTreeMixin {
   final WalletActions? walletActions;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Token(address: $address, name: $name, symbol: $symbol, amount: $amount, decimals: $decimals, isNative: $isNative, imageUrl: $imageUrl, timestamp: $timestamp, priceInfo: $priceInfo, communityAddress: $communityAddress, timeFrame: $timeFrame, priceChange: $priceChange, intervalStats: $intervalStats, walletActions: $walletActions)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Token'))
-      ..add(DiagnosticsProperty('address', address))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('symbol', symbol))
-      ..add(DiagnosticsProperty('amount', amount))
-      ..add(DiagnosticsProperty('decimals', decimals))
-      ..add(DiagnosticsProperty('isNative', isNative))
-      ..add(DiagnosticsProperty('imageUrl', imageUrl))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('priceInfo', priceInfo))
-      ..add(DiagnosticsProperty('communityAddress', communityAddress))
-      ..add(DiagnosticsProperty('timeFrame', timeFrame))
-      ..add(DiagnosticsProperty('priceChange', priceChange))
-      ..add(DiagnosticsProperty('intervalStats', intervalStats))
-      ..add(DiagnosticsProperty('walletActions', walletActions));
   }
 
   @override

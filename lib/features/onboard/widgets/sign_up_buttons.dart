@@ -63,7 +63,7 @@ class _SignUpButtonsState extends State<SignUpButtons> {
                   if (viewModel.isLoggedOut) {
                     Analytics.track(eventName: AnalyticsEvents.login);
                     viewModel.loginAgain();
-                    if (context.router.canPopSelfOrChildren) {
+                    if (context.router.canPop()) {
                       context.router.popUntilRoot();
                     }
                     context.router.replaceAll([const MainRoute()]);

@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 
 import 'package:charge_wallet_sdk/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

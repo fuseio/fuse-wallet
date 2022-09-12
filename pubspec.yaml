@@ -28,38 +28,38 @@ dependencies:
   flutter_fgbg: ^0.2.0
   keyboard_actions: ^4.0.1
   customizable_space_bar: ^0.2.0
-  upgrader: ^4.6.0
+  upgrader: ^4.6.1
   flutter_localized_locales: ^2.0.3
   app_tracking_transparency: ^2.0.2+4
   responsive_framework: ^0.2.0
-  modal_bottom_sheet: ^2.1.0
+  modal_bottom_sheet: ^2.1.2
   grouped_list: ^5.1.2
   fl_chart: ^0.55.1
   auto_size_text_field: ^2.1.0
-  lottie: ^1.4.1
+  lottie: ^1.4.2
   pin_code_fields: ^7.4.0
-  flex_color_scheme: ^5.1.0
+  flex_color_scheme: ^6.0.0
   freezed_annotation: ^2.1.0
   pretty_dio_logger: ^1.2.0-beta-1
   get_it: ^7.2.0
   injectable: ^1.5.3
   dio: ^4.0.6
   smooth_page_indicator: ^1.0.0+2
-  font_awesome_flutter: ^10.1.0
-  another_flushbar: ^1.10.29
+  font_awesome_flutter: ^10.2.1
+  another_flushbar: ^1.12.29
   local_auth: ^2.1.2
   auto_size_text: ^3.0.0
   webview_flutter: ^3.0.4
   phone_number: ^1.0.0
-  cached_network_image: ^3.2.1
-  auto_route: ^4.2.1
+  cached_network_image: ^3.2.2
+  auto_route: ^5.0.1
   url_launcher: ^6.1.5
-  equatable: ^2.0.3
+  equatable: ^2.0.5
   package_info: ^2.0.2
   share: ^2.0.4
-  flutter_svg: ^1.1.3
+  flutter_svg: ^1.1.5
   cupertino_icons: ^1.0.4
-  flutter_secure_storage: ^5.1.0
+  flutter_secure_storage: ^6.0.0
   flutter_redux: ^0.10.0
   redux: ^5.0.0
   flutter_dotenv: ^5.0.2
@@ -67,7 +67,7 @@ dependencies:
   redux_logging: ^0.5.0
   redux_persist: ^0.9.0
   country_code_picker: ^2.0.2
-  charge_wallet_sdk: ^0.0.2
+  charge_wallet_sdk: ^0.0.2+1
   scan: ^1.6.0
   contacts_service: ^0.6.3
   permission_handler: ^10.0.0
@@ -75,16 +75,16 @@ dependencies:
   logger: ^1.1.0
   json_annotation: ^4.6.0
   flare_flutter: ^3.0.2
-  decimal: ^2.2.0
-  firebase_analytics: ^9.3.1
-  firebase_auth: ^3.6.3
-  firebase_auth_platform_interface: ^6.5.3
-  firebase_core: ^1.20.1
-  firebase_core_platform_interface: ^4.5.0
-  firebase_crashlytics: ^2.8.7
-  firebase_messaging: ^12.0.2
-  firebase_performance: ^0.8.2+2
-  firebase_remote_config: ^2.0.14
+  decimal: ^2.3.0
+  firebase_analytics: ^9.3.4
+  firebase_auth: ^3.8.0
+  firebase_auth_platform_interface: ^6.7.0
+  firebase_core: ^1.22.0
+  firebase_core_platform_interface: ^4.5.1
+  firebase_crashlytics: ^2.8.10
+  firebase_messaging: ^13.0.1
+  firebase_performance: ^0.8.3
+  firebase_remote_config: ^2.0.17
   ethereum_addresses: ^1.0.2
   image_picker: ^0.8.5+3
   flutter_cupertino_localizations: ^1.0.1
@@ -95,11 +95,11 @@ dependencies:
     sdk: flutter
   darq: ^1.2.1
 dev_dependencies:
-  flutter_native_splash: ^2.2.7
+  flutter_native_splash: ^2.2.9
   freezed: ^2.1.0+1
   lint: ^1.10.0
   injectable_generator: ^1.5.4
-  auto_route_generator: ^4.2.1
+  auto_route_generator: ^5.0.2
   dependency_validator: ^3.2.2
   flutter_launcher_icons: ^0.10.0
   build_runner: ^2.2.0

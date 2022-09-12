@@ -98,7 +98,7 @@ class __$$_PriceCopyWithImpl<$Res> extends _$PriceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Price extends _Price with DiagnosticableTreeMixin {
+class _$_Price extends _Price {
   _$_Price({this.currency = 'usd', this.quote = '0'}) : super._();
 
   factory _$_Price.fromJson(Map<String, dynamic> json) =>
@@ -112,17 +112,8 @@ class _$_Price extends _Price with DiagnosticableTreeMixin {
   final String quote;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Price(currency: $currency, quote: $quote)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Price'))
-      ..add(DiagnosticsProperty('currency', currency))
-      ..add(DiagnosticsProperty('quote', quote));
   }
 
   @override

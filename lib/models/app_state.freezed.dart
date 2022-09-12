@@ -177,7 +177,7 @@ class __$$_AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AppState extends _AppState with DiagnosticableTreeMixin {
+class _$_AppState extends _AppState {
   _$_AppState(
       {@NftsStateConverter() required this.nftsState,
       @UserStateConverter() required this.userState,
@@ -202,19 +202,8 @@ class _$_AppState extends _AppState with DiagnosticableTreeMixin {
   final SwapState swapState;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'AppState(nftsState: $nftsState, userState: $userState, cashWalletState: $cashWalletState, swapState: $swapState)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AppState'))
-      ..add(DiagnosticsProperty('nftsState', nftsState))
-      ..add(DiagnosticsProperty('userState', userState))
-      ..add(DiagnosticsProperty('cashWalletState', cashWalletState))
-      ..add(DiagnosticsProperty('swapState', swapState));
   }
 
   @override

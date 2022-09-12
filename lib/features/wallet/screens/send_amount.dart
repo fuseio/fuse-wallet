@@ -84,7 +84,7 @@ class _SendAmountPageState extends State<SendAmountPage>
     return ButtonTheme(
       child: OutlinedButton(
         style: TextButton.styleFrom(
-          primary: Theme.of(context).colorScheme.onSurface,
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
           textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 letterSpacing: 0,
                 color: Theme.of(context).colorScheme.onSurface,

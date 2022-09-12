@@ -91,7 +91,7 @@ class __$$_NftsStateCopyWithImpl<$Res> extends _$NftsStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NftsState with DiagnosticableTreeMixin implements _NftsState {
+class _$_NftsState implements _NftsState {
   _$_NftsState({this.collectibles = const {}});
 
   factory _$_NftsState.fromJson(Map<String, dynamic> json) =>
@@ -102,16 +102,8 @@ class _$_NftsState with DiagnosticableTreeMixin implements _NftsState {
   final Map<String, Map<int, Collectible>> collectibles;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'NftsState(collectibles: $collectibles)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'NftsState'))
-      ..add(DiagnosticsProperty('collectibles', collectibles));
   }
 
   @override

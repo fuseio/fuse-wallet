@@ -487,7 +487,7 @@ class __$$CreateWalletCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
+class _$CreateWallet extends CreateWallet {
   const _$CreateWallet(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -518,21 +518,8 @@ class _$CreateWallet extends CreateWallet with DiagnosticableTreeMixin {
   final int? blockNumber;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.createWallet(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.createWallet'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber));
   }
 
   @override
@@ -1045,7 +1032,7 @@ class __$$FiatDepositCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
+class _$FiatDeposit extends FiatDeposit {
   const _$FiatDeposit(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -1097,28 +1084,8 @@ class _$FiatDeposit extends FiatDeposit with DiagnosticableTreeMixin {
   final int tokenDecimal;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.fiatDeposit(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress, from: $from, to: $to, value: $value, tokenName: $tokenName, tokenSymbol: $tokenSymbol, tokenDecimal: $tokenDecimal)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.fiatDeposit'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber))
-      ..add(DiagnosticsProperty('tokenAddress', tokenAddress))
-      ..add(DiagnosticsProperty('from', from))
-      ..add(DiagnosticsProperty('to', to))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('tokenName', tokenName))
-      ..add(DiagnosticsProperty('tokenSymbol', tokenSymbol))
-      ..add(DiagnosticsProperty('tokenDecimal', tokenDecimal));
   }
 
   @override
@@ -1668,7 +1635,7 @@ class __$$BonusCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Bonus extends Bonus with DiagnosticableTreeMixin {
+class _$Bonus extends Bonus {
   const _$Bonus(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -1722,29 +1689,8 @@ class _$Bonus extends Bonus with DiagnosticableTreeMixin {
   final String? bonusType;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.bonus(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress, from: $from, to: $to, value: $value, tokenName: $tokenName, tokenSymbol: $tokenSymbol, tokenDecimal: $tokenDecimal, bonusType: $bonusType)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.bonus'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber))
-      ..add(DiagnosticsProperty('tokenAddress', tokenAddress))
-      ..add(DiagnosticsProperty('from', from))
-      ..add(DiagnosticsProperty('to', to))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('tokenName', tokenName))
-      ..add(DiagnosticsProperty('tokenSymbol', tokenSymbol))
-      ..add(DiagnosticsProperty('tokenDecimal', tokenDecimal))
-      ..add(DiagnosticsProperty('bonusType', bonusType));
   }
 
   @override
@@ -2316,7 +2262,7 @@ class __$$SendCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Send extends Send with DiagnosticableTreeMixin {
+class _$Send extends Send {
   const _$Send(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -2367,28 +2313,8 @@ class _$Send extends Send with DiagnosticableTreeMixin {
   final int tokenDecimal;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.send(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress, from: $from, to: $to, value: $value, tokenName: $tokenName, tokenSymbol: $tokenSymbol, tokenDecimal: $tokenDecimal)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.send'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber))
-      ..add(DiagnosticsProperty('tokenAddress', tokenAddress))
-      ..add(DiagnosticsProperty('from', from))
-      ..add(DiagnosticsProperty('to', to))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('tokenName', tokenName))
-      ..add(DiagnosticsProperty('tokenSymbol', tokenSymbol))
-      ..add(DiagnosticsProperty('tokenDecimal', tokenDecimal));
   }
 
   @override
@@ -2930,7 +2856,7 @@ class __$$ReceiveCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Receive extends Receive with DiagnosticableTreeMixin {
+class _$Receive extends Receive {
   const _$Receive(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -2982,28 +2908,8 @@ class _$Receive extends Receive with DiagnosticableTreeMixin {
   final int tokenDecimal;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.receive(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress, from: $from, to: $to, value: $value, tokenName: $tokenName, tokenSymbol: $tokenSymbol, tokenDecimal: $tokenDecimal)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.receive'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber))
-      ..add(DiagnosticsProperty('tokenAddress', tokenAddress))
-      ..add(DiagnosticsProperty('from', from))
-      ..add(DiagnosticsProperty('to', to))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('tokenName', tokenName))
-      ..add(DiagnosticsProperty('tokenSymbol', tokenSymbol))
-      ..add(DiagnosticsProperty('tokenDecimal', tokenDecimal));
   }
 
   @override
@@ -3523,7 +3429,7 @@ class __$$SwapCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Swap extends Swap with DiagnosticableTreeMixin {
+class _$Swap extends Swap {
   const _$Swap(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -3557,22 +3463,8 @@ class _$Swap extends Swap with DiagnosticableTreeMixin {
   final Trade? tradeInfo;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.swap(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tradeInfo: $tradeInfo)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.swap'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber))
-      ..add(DiagnosticsProperty('tradeInfo', tradeInfo));
   }
 
   @override
@@ -4083,7 +3975,7 @@ class __$$ReceiveNFTCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ReceiveNFT extends ReceiveNFT with DiagnosticableTreeMixin {
+class _$ReceiveNFT extends ReceiveNFT {
   const _$ReceiveNFT(
       {this.timestamp = 0,
       @JsonKey(name: '_id') required this.id,
@@ -4132,27 +4024,8 @@ class _$ReceiveNFT extends ReceiveNFT with DiagnosticableTreeMixin {
   final int tokenDecimal;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletAction.receiveNFT(timestamp: $timestamp, id: $id, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, tokenAddress: $tokenAddress, from: $from, to: $to, tokenName: $tokenName, tokenSymbol: $tokenSymbol, tokenDecimal: $tokenDecimal)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletAction.receiveNFT'))
-      ..add(DiagnosticsProperty('timestamp', timestamp))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('txHash', txHash))
-      ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('blockNumber', blockNumber))
-      ..add(DiagnosticsProperty('tokenAddress', tokenAddress))
-      ..add(DiagnosticsProperty('from', from))
-      ..add(DiagnosticsProperty('to', to))
-      ..add(DiagnosticsProperty('tokenName', tokenName))
-      ..add(DiagnosticsProperty('tokenSymbol', tokenSymbol))
-      ..add(DiagnosticsProperty('tokenDecimal', tokenDecimal));
   }
 
   @override

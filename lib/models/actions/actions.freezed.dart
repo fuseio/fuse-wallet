@@ -116,7 +116,7 @@ class __$$_WalletActionsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
+class _$_WalletActions extends _WalletActions {
   _$_WalletActions(
       {this.list = const <WalletAction>[],
       this.updatedAt = 0,
@@ -137,18 +137,8 @@ class _$_WalletActions extends _WalletActions with DiagnosticableTreeMixin {
   final int currentPage;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'WalletActions(list: $list, updatedAt: $updatedAt, currentPage: $currentPage)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'WalletActions'))
-      ..add(DiagnosticsProperty('list', list))
-      ..add(DiagnosticsProperty('updatedAt', updatedAt))
-      ..add(DiagnosticsProperty('currentPage', currentPage));
   }
 
   @override

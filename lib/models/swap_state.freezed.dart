@@ -120,7 +120,7 @@ class __$$_SwapStateCopyWithImpl<$Res> extends _$SwapStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
+class _$_SwapState extends _SwapState {
   _$_SwapState(
       {@JsonKey(fromJson: tokensFromJson) this.tokens = const {},
       this.tokensImages = const {},
@@ -141,18 +141,8 @@ class _$_SwapState extends _SwapState with DiagnosticableTreeMixin {
   final bool isFetching;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'SwapState(tokens: $tokens, tokensImages: $tokensImages, isFetching: $isFetching)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'SwapState'))
-      ..add(DiagnosticsProperty('tokens', tokens))
-      ..add(DiagnosticsProperty('tokensImages', tokensImages))
-      ..add(DiagnosticsProperty('isFetching', isFetching));
   }
 
   @override
